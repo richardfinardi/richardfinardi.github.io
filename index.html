@@ -16,6 +16,8 @@
             --card-bg: #1e1e24;
             --text-light: #f4f4f5;
             --text-muted: #a1a1aa;
+            --whatsapp: #25D366;
+            --whatsapp-hover: #1da851;
         }
 
         * {
@@ -23,6 +25,10 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -106,11 +112,32 @@
             font-weight: 700;
             font-size: 1.1rem;
             transition: 0.3s;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn:hover {
             background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-wsp {
+            background-color: var(--whatsapp);
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-wsp:hover {
+            background-color: var(--whatsapp-hover);
             transform: translateY(-2px);
         }
 
@@ -141,7 +168,7 @@
 
         .card:hover {
             border-color: var(--primary);
-            transform: translateY(-50px);
+            transform: translateY(-5px);
         }
 
         .card h3 {
@@ -165,6 +192,22 @@
             color: #d4d4d8;
         }
 
+        .contact-box {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #27272a;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-box p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
         footer {
             text-align: center;
             padding: 3rem;
@@ -182,7 +225,6 @@
 <body>
 
     <header>
-        <!-- Nome do arquivo de logo preta ou minimalista -->
         <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF">
         <nav>
             <a href="#sobre">Sobre</a>
@@ -194,15 +236,15 @@
     <section class="hero">
         <div class="badge">18+ Anos de Experiência</div>
         <h1>Inteligência de Dados e Rentabilidade para a <span>Sua Empresa</span></h1>
-        <p>Ajudamos indústrias e negócios a estruturarem seus custos, otimizarem seus sistemas ERP e tomarem decisões estratégicas através do Power BI.</p>
-        <a href="#contato" class="btn">Solicitar Diagnóstico</a>
+        <p>Apoio especialista para indústrias e empresas que buscam estruturar custos, otimizar sistemas ERP e tomar decisões estratégicas através do Power BI.</p>
+        <a href="https://wa.me/5511945734525?text=Ol%C3%A1%21%20Vi%20seu%20site%20e%20gostaria%20de%20um%20diagn%C3%B3stico%20para%20minha%20empresa." target="_blank" class="btn">Solicitar Diagnóstico no WhatsApp</a>
     </section>
 
     <section class="section" id="sobre">
         <h2 class="section-title">Sobre a Consultoria</h2>
         <div class="about-content">
             <p style="margin-bottom: 1.5rem;">
-                Mais de 18 anos ajudando empresas a entenderem, estruturarem e otimizarem seus custos. Pós-graduado em Gestão Empresarial e Projetos, com formação em Comunicação Social, atuo como consultor em implantação de ERP e analista de custos, com foco especial na <strong>indústria sob encomenda</strong>.
+                Mais de 18 anos ajudando empresas a entenderem, estruturarem e otimizarem seus custos. Pós-graduado em Gestão Empresarial e Projetos, com formação em Comunicação Social, atuo como consultor em implantação de ERP e analista de custos, com foco na <strong>indústria sob encomenda</strong>.
             </p>
             <p style="margin-bottom: 1.5rem;">
                 De chão de fábrica a reuniões estratégicas, já compartilhei conhecimento em workshops e mentorias por todo o Brasil. Hoje, além da bagagem em custos e sistemas de gestão, uso o <strong>Power BI</strong> para transformar números em visão de negócio, com dashboards que revelam o que realmente importa para a tomada de decisão.
@@ -222,20 +264,30 @@
             </div>
             <div class="card">
                 <h3>Implantação de ERP</h3>
-                <p>Consultoria especializada na integração de sistemas de gestão, conectando os processos do chão de fábrica à diretoria.</p>
+                <p>Consultoria técnica e estratégica para a integração de sistemas de gestão, conectando os processos do chão de fábrica à diretoria.</p>
             </div>
             <div class="card">
                 <h3>Power BI & Business Intelligence</h3>
-                <p>Criação de dashboards estratégicos e intuitivos que transformam volumes de dados operacionais em insights para decisões rápidas.</p>
+                <p>Desenvolvimento de dashboards inteligentes que transformam volumes de dados operacionais em visão clara para tomada de decisão.</p>
             </div>
             <div class="card">
                 <h3>Mentorias & Treinamentos</h3>
-                <p>Capacitação prática para equipes, promovendo a cultura de dados e gestão eficiente de processos e custos por todo o Brasil.</p>
+                <p>Capacitação prática para equipes, promovendo a cultura de dados e gestão eficiente de processos e custos.</p>
             </div>
         </div>
     </section>
 
-    <footer id="contato">
+    <section class="section" id="contato">
+        <h2 class="section-title">Vamos Conversar?</h2>
+        <div class="contact-box">
+            <p>Pronto para transformar a gestão de custos e o controle de dados da sua empresa? Entre em contato direto pelo WhatsApp para alinharmos uma conversa técnica.</p>
+            <a href="https://wa.me/5511945734525?text=Ol%C3%A1%21%20Vi%20seu%20site%20e%20gostaria%20de%20um%20diagn%C3%B3stico%20para%20minha%20empresa." target="_blank" class="btn-wsp">
+                Falar pelo WhatsApp (11) 94573-4525
+            </a>
+        </div>
+    </section>
+
+    <footer>
         <p><strong>CONSULTORIA.RF</strong> — Consultoria Estratégica & Business Intelligence</p>
         <p style="margin-top: 0.5rem;">© 2026 Todos os direitos reservados.</p>
     </footer>
