@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONSULTORIA.RF | Gestão de Custos, ERP & Power BI</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF8838;
+            --primary-hover: #e07024;
+            --dark-bg: #121214;
+            --card-bg: #1e1e24;
+            --text-light: #f4f4f5;
+            --text-muted: #a1a1aa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 8%;
+            background: rgba(18, 18, 20, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #27272a;
+        }
+
+        header img {
+            height: 40px;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            padding: 10rem 8% 6rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 1100px;
+        }
+
+        .badge {
+            background: rgba(255, 136, 56, 0.15);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--primary);
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 5rem 8%;
+            border-top: 1px solid #27272a;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid #27272a;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-50px);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .about-content {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d4d4d8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid #27272a;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- Nome do arquivo de logo preta ou minimalista -->
+        <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF">
+        <nav>
+            <a href="#sobre">Sobre</a>
+            <a href="#servicos">Atuação</a>
+            <a href="#contato">Contato</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="badge">18+ Anos de Experiência</div>
+        <h1>Inteligência de Dados e Rentabilidade para a <span>Sua Empresa</span></h1>
+        <p>Ajudamos indústrias e negócios a estruturarem seus custos, otimizarem seus sistemas ERP e tomarem decisões estratégicas através do Power BI.</p>
+        <a href="#contato" class="btn">Solicitar Diagnóstico</a>
+    </section>
+
+    <section class="section" id="sobre">
+        <h2 class="section-title">Sobre a Consultoria</h2>
+        <div class="about-content">
+            <p style="margin-bottom: 1.5rem;">
+                Mais de 18 anos ajudando empresas a entenderem, estruturarem e otimizarem seus custos. Pós-graduado em Gestão Empresarial e Projetos, com formação em Comunicação Social, atuo como consultor em implantação de ERP e analista de custos, com foco especial na <strong>indústria sob encomenda</strong>.
+            </p>
+            <p style="margin-bottom: 1.5rem;">
+                De chão de fábrica a reuniões estratégicas, já compartilhei conhecimento em workshops e mentorias por todo o Brasil. Hoje, além da bagagem em custos e sistemas de gestão, uso o <strong>Power BI</strong> para transformar números em visão de negócio, com dashboards que revelam o que realmente importa para a tomada de decisão.
+            </p>
+            <p>
+                <strong>O objetivo:</strong> Ajudar sua empresa a enxergar onde está, onde quer chegar e como fazer isso com inteligência, dados e rentabilidade.
+            </p>
+        </div>
+    </section>
+
+    <section class="section" id="servicos">
+        <h2 class="section-title">Áreas de Atuação</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Gestão & Análise de Custos</h3>
+                <p>Estruturação e otimização de custos para a indústria sob encomenda, garantindo formação de preço precisa e controle de margem.</p>
+            </div>
+            <div class="card">
+                <h3>Implantação de ERP</h3>
+                <p>Consultoria especializada na integração de sistemas de gestão, conectando os processos do chão de fábrica à diretoria.</p>
+            </div>
+            <div class="card">
+                <h3>Power BI & Business Intelligence</h3>
+                <p>Criação de dashboards estratégicos e intuitivos que transformam volumes de dados operacionais em insights para decisões rápidas.</p>
+            </div>
+            <div class="card">
+                <h3>Mentorias & Treinamentos</h3>
+                <p>Capacitação prática para equipes, promovendo a cultura de dados e gestão eficiente de processos e custos por todo o Brasil.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contato">
+        <p><strong>CONSULTORIA.RF</strong> — Consultoria Estratégica & Business Intelligence</p>
+        <p style="margin-top: 0.5rem;">© 2026 Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
