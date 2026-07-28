@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF | Gestão de Custos, ERP, BI & Sistemas Web</title>
+    
+    <!-- ================= SEO PRINCIPAL ================= -->
+    <title>CONSULTORIA.RF | Gestão de Custos Industriais, ERP, Power BI & APIs</title>
+    <meta name="description" content="Consultoria especializada para indústria sob encomenda: Análise e apuração de custos industriais, formação de preço, implantação de ERP, dashboards Power BI e aplicações web integradas via API.">
+    <meta name="keywords" content="consultoria de custos industriais, industria sob encomenda, formacao de preco industrial, implantacao de erp, power bi para industria, dashboards erp, integracao api erp, analise de custos sp">
+    <meta name="author" content="CONSULTORIA.RF">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://consultoriarf.net/">
+
+    <!-- ================= OPEN GRAPH (WhatsApp & LinkedIn Preview) ================= -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://consultoriarf.net/">
+    <meta property="og:title" content="CONSULTORIA.RF | Gestão de Custos & Sistemas para Indústria Sob Encomenda">
+    <meta property="og:description" content="Estruturação de custos industriais, organização de ERP, Power BI e desenvolvimento de sistemas web em tempo real.">
+    <meta property="og:image" content="https://consultoriarf.net/LOGO_APLICACAO_FUNDO_PRETO.png">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary: #FF8838;
@@ -90,7 +106,7 @@
 
         /* HERO SECTION */
         .hero {
-            padding: 11rem 8% 4rem;
+            padding: 11rem 8% 5rem;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -349,140 +365,41 @@
             font-size: 0.85rem;
         }
 
-        /* ===================================================
-           AJUSTES ESPECÍFICOS PARA DISPOSITIVOS MÓVEIS (CELULAR)
-           =================================================== */
+        /* RESPONSIVIDADE CELULAR */
         @media (max-width: 768px) {
-            header {
-                padding: 1rem 5%;
-            }
-
-            header img {
-                height: 28px; /* Ajuste no tamanho do topo */
-            }
-
-            nav { 
-                display: none; /* Oculta o menu de texto superior no celular */
-            }
-
-            .hero {
-                padding: 7.5rem 5% 3rem; /* Menos padding superior */
-            }
-
-            .badge {
-                font-size: 0.75rem;
-                padding: 0.3rem 0.8rem;
-                margin-bottom: 1rem;
-            }
-
-            .hero h1 {
-                font-size: 1.95rem; /* Título bem mais proporcional no celular */
-                line-height: 1.25;
-                margin-bottom: 1rem;
-                letter-spacing: normal;
-            }
-
-            .hero p {
-                font-size: 1rem;
-                margin-bottom: 1.8rem;
-                line-height: 1.5;
-            }
-
-            .hero-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .btn, .btn-outline, .btn-wsp {
-                width: 100%; /* Botões ocupam a largura da tela no celular */
-                text-align: center;
-                padding: 0.85rem 1.2rem;
-                font-size: 0.95rem;
-            }
-
-            .metrics {
-                padding: 2rem 5%;
-            }
-
-            .metrics-grid {
-                grid-template-columns: 1fr 1fr; /* 2 colunas no celular para economizar altura */
-                gap: 1.5rem;
-            }
-
-            .metric-item h2 {
-                font-size: 1.6rem;
-            }
-
-            .metric-item p {
-                font-size: 0.75rem;
-            }
-
-            .section {
-                padding: 3.5rem 5%; /* Reduz altura de seções */
-            }
-
-            .section-header {
-                margin-bottom: 2rem;
-            }
-
-            .section-title {
-                font-size: 1.6rem; /* Título ajustado no celular */
-                line-height: 1.3;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .card {
-                padding: 1.5rem; /* Reduz espaço interno dos cards */
-            }
-
-            .card h3 {
-                font-size: 1.2rem;
-            }
-
-            .card p {
-                font-size: 0.9rem;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .about-text p {
-                font-size: 0.95rem;
-                margin-bottom: 1rem;
-            }
-
-            .contact-container {
-                padding: 2rem 1.2rem; /* Corrige o bloco de contato do print */
-                border-radius: 12px;
-            }
-
-            .contact-container h2 {
-                font-size: 1.5rem; /* Evita que quebre palavra por palavra */
-                line-height: 1.3;
-                margin-bottom: 0.8rem;
-            }
-
-            .contact-container p {
-                font-size: 0.95rem;
-                margin-bottom: 1.5rem;
-            }
-
-            footer {
-                padding: 2rem 5%;
-            }
+            header { padding: 1rem 5%; }
+            header img { height: 28px; }
+            nav { display: none; }
+            .hero { padding: 7.5rem 5% 3rem; }
+            .badge { font-size: 0.75rem; padding: 0.3rem 0.8rem; margin-bottom: 1rem; }
+            .hero h1 { font-size: 1.95rem; line-height: 1.25; margin-bottom: 1rem; letter-spacing: normal; }
+            .hero p { font-size: 1rem; margin-bottom: 1.8rem; line-height: 1.5; }
+            .hero-actions { flex-direction: column; width: 100%; }
+            .btn, .btn-outline, .btn-wsp { width: 100%; text-align: center; padding: 0.85rem 1.2rem; font-size: 0.95rem; }
+            .metrics { padding: 2rem 5%; }
+            .metrics-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+            .metric-item h2 { font-size: 1.6rem; }
+            .metric-item p { font-size: 0.75rem; }
+            .section { padding: 3.5rem 5%; }
+            .section-header { margin-bottom: 2rem; }
+            .section-title { font-size: 1.6rem; line-height: 1.3; }
+            .grid { grid-template-columns: 1fr; gap: 1rem; }
+            .card { padding: 1.5rem; }
+            .card h3 { font-size: 1.2rem; }
+            .card p { font-size: 0.9rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .about-text p { font-size: 0.95rem; margin-bottom: 1rem; }
+            .contact-container { padding: 2rem 1.2rem; border-radius: 12px; }
+            .contact-container h2 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.8rem; }
+            .contact-container p { font-size: 0.95rem; margin-bottom: 1.5rem; }
+            footer { padding: 2rem 5%; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF">
+        <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF - Consultoria de Custos Industriais e ERP">
         <nav>
             <a href="#solucoes">Atuação</a>
             <a href="#empresa">A Consultoria</a>
