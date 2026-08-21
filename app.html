@@ -1,74 +1,193 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consultoria.RF - Portal do Cliente</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONSULTORIA.RF | Portal do Cliente</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS para Scaffolding Rápido -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                primary: '#FF8838',
+                hover: '#e07024',
+                dark: '#0d0d0f',
+                card: '#16161a',
+                border: '#242429',
+                muted: '#9ea0a6'
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0d0d0f;
+            color: #f4f4f5;
+        }
+    </style>
 </head>
-<body class="bg-slate-900 text-white min-h-screen flex flex-col font-sans">
+<body class="min-h-screen flex flex-col">
 
-  <!-- TELA DE LOGIN -->
-  <div id="login-screen" class="flex-1 flex items-center justify-center p-4">
-    <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 w-full max-w-md shadow-2xl">
-      <h1 class="text-2xl font-bold text-center text-blue-400 mb-2">Consultoria.RF</h1>
-      <p class="text-slate-400 text-center text-sm mb-6">Acesse seu Portal de Custos</p>
-      
-      <div class="space-y-4">
-        <div>
-          <label class="block text-xs uppercase font-bold text-slate-400 mb-1">E-mail</label>
-          <input type="email" id="email" placeholder="cliente@empresa.com" class="w-full p-3 rounded bg-slate-900 border border-slate-700 focus:border-blue-500 outline-none text-white">
+    <!-- CABEÇALHO -->
+    <header class="border-b border-brand-border bg-[#0d0d0f]/95 backdrop-blur sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-8 w-auto">
+            <span class="text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Portal do Cliente</span>
         </div>
-        <div>
-          <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Senha</label>
-          <input type="password" id="password" placeholder="••••••••" class="w-full p-3 rounded bg-slate-900 border border-slate-700 focus:border-blue-500 outline-none text-white">
+        <div id="user-menu" class="hidden flex items-center gap-4">
+            <span class="text-sm text-brand-muted">Empresa: <strong class="text-white" id="company-name">SPEED-TEC</strong></span>
+            <button onclick="deslogar()" class="text-xs bg-red-950/50 border border-red-800/50 hover:bg-red-900 text-red-200 px-3 py-1.5 rounded-lg transition font-semibold">Sair</button>
         </div>
-        <button onclick="fazerLoginTest()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded transition">Entrar no Portal</button>
-      </div>
-    </div>
-  </div>
+    </header>
 
-  <!-- PAINEL DO CLIENTE (Oculto antes do login) -->
-  <div id="dashboard" class="hidden flex-1 p-6 max-w-7xl mx-auto w-full space-y-6">
-    <!-- Cabeçalho -->
-    <div class="flex justify-between items-center bg-slate-800 p-4 rounded-xl border border-slate-700">
-      <div>
-        <h2 class="text-xl font-bold text-blue-400">Cliente: SPEED-TEC</h2>
-        <p class="text-xs text-slate-400">Análise de Custos & Custo-Hora</p>
-      </div>
-      <button onclick="deslogar()" class="text-xs bg-red-900/50 hover:bg-red-800 text-red-200 px-3 py-2 rounded">Sair</button>
+    <!-- TELA DE LOGIN -->
+    <div id="login-screen" class="flex-1 flex items-center justify-center p-4">
+        <div class="bg-brand-card p-8 rounded-2xl border border-brand-border w-full max-w-md shadow-2xl space-y-6">
+            <div class="text-center space-y-2">
+                <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-4">
+                <h1 class="text-xl font-bold text-white">Área Restrita</h1>
+                <p class="text-brand-muted text-sm">Insira suas credenciais para acessar seus indicadores de custos e DRE.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs uppercase font-bold text-brand-muted mb-1.5">E-mail de Acesso</label>
+                    <input type="email" id="email" placeholder="seuemail@empresa.com" class="w-full p-3 rounded-lg bg-[#0d0d0f] border border-brand-border focus:border-brand-primary outline-none text-white text-sm transition">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-brand-muted mb-1.5">Senha</label>
+                    <input type="password" id="password" placeholder="••••••••" class="w-full p-3 rounded-lg bg-[#0d0d0f] border border-brand-border focus:border-brand-primary outline-none text-white text-sm transition">
+                </div>
+                <button onclick="fazerLoginTest()" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-3 rounded-lg transition text-sm shadow-lg shadow-brand-primary/20">
+                    Entrar na Plataforma
+                </button>
+            </div>
+        </div>
     </div>
 
-    <!-- Cards de Resumo DRE -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-        <p class="text-xs text-slate-400">Faturamento Atual</p>
-        <p class="text-2xl font-bold text-green-400 mt-1">R$ 292.430,46</p>
-      </div>
-      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-        <p class="text-xs text-slate-400">Custo Fixo Total</p>
-        <p class="text-2xl font-bold text-red-400 mt-1">R$ 233.736,76</p>
-      </div>
-      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-        <p class="text-xs text-slate-400">Margem Contribuição</p>
-        <p class="text-2xl font-bold text-blue-400 mt-1">86,70%</p>
-      </div>
-      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-        <p class="text-xs text-slate-400">Lucro/Prejuízo</p>
-        <p class="text-2xl font-bold text-red-500 mt-1">-R$ 19.173,74</p>
-      </div>
-    </div>
-  </div>
+    <!-- PAINEL DO CLIENTE (DASHBOARD) -->
+    <div id="dashboard" class="hidden flex-1 p-6 max-w-7xl mx-auto w-full space-y-8">
+        
+        <!-- RESUMO DRE -->
+        <div>
+            <div class="mb-4">
+                <h2 class="text-xl font-bold text-white">Análise de Custo & DRE</h2>
+                <p class="text-xs text-brand-muted">Visão geral do Cenário Atual vs Objetivos estratégicos</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
+                    <p class="text-xs font-semibold text-brand-muted uppercase">Faturamento Atual</p>
+                    <p class="text-2xl font-extrabold text-white mt-2">R$ 292.430,46</p>
+                    <span class="text-[11px] text-emerald-400 font-medium">Faturamento Julho/2026</span>
+                </div>
+                <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
+                    <p class="text-xs font-semibold text-brand-muted uppercase">Custo Fixo Total</p>
+                    <p class="text-2xl font-extrabold text-red-400 mt-2">R$ 233.736,76</p>
+                    <span class="text-[11px] text-brand-muted">79,93% do Faturamento</span>
+                </div>
+                <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
+                    <p class="text-xs font-semibold text-brand-muted uppercase">Margem de Contribuição</p>
+                    <p class="text-2xl font-extrabold text-brand-primary mt-2">86,70%</p>
+                    <span class="text-[11px] text-brand-muted">R$ 253.537,85 acumulado</span>
+                </div>
+                <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
+                    <p class="text-xs font-semibold text-brand-muted uppercase">Resultado Atual</p>
+                    <p class="text-2xl font-extrabold text-red-500 mt-2">-R$ 19.173,74</p>
+                    <span class="text-[11px] text-red-400 font-medium">Margem de Lucro: -6,56%</span>
+                </div>
+            </div>
+        </div>
 
-  <script>
-    function fazerLoginTest() {
-      document.getElementById('login-screen').classList.add('hidden');
-      document.getElementById('dashboard').classList.remove('hidden');
-    }
-    function deslogar() {
-      document.getElementById('dashboard').classList.add('hidden');
-      document.getElementById('login-screen').classList.remove('hidden');
-    }
-  </script>
+        <!-- TABELA DE CUSTO-HORA -->
+        <div class="bg-brand-card border border-brand-border rounded-xl p-6">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-lg font-bold text-white">Custo Hora por Centro de Custo</h3>
+                    <p class="text-xs text-brand-muted">Apuração detalhada por tipo de equipamento / operação</p>
+                </div>
+                <span class="text-xs bg-brand-border text-brand-muted px-3 py-1 rounded-md">15 Centros de Custo</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-brand-muted">
+                    <thead class="bg-[#0d0d0f] text-xs uppercase text-white border-b border-brand-border">
+                        <tr>
+                            <th class="p-3">Centro de Custo</th>
+                            <th class="p-3">Horas / Mês</th>
+                            <th class="p-3">Custo Hora Atual</th>
+                            <th class="p-3">Custo Antigo</th>
+                            <th class="p-3">% Variação</th>
+                            <th class="p-3 text-brand-primary">Preço Hora Objetivo</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-brand-border/50">
+                        <tr class="hover:bg-brand-border/30 transition">
+                            <td class="p-3 font-semibold text-white">Torno CNC c/ Alimentador</td>
+                            <td class="p-3">748 h</td>
+                            <td class="p-3 text-white font-medium">R$ 84,82</td>
+                            <td class="p-3">R$ 68,00</td>
+                            <td class="p-3 text-emerald-400 font-bold">+24,73%</td>
+                            <td class="p-3 text-brand-primary font-bold">R$ 159,96</td>
+                        </tr>
+                        <tr class="hover:bg-brand-border/30 transition">
+                            <td class="p-3 font-semibold text-white">Torno CNC</td>
+                            <td class="p-3">748 h</td>
+                            <td class="p-3 text-white font-medium">R$ 80,23</td>
+                            <td class="p-3">R$ 68,00</td>
+                            <td class="p-3 text-emerald-400 font-bold">+17,98%</td>
+                            <td class="p-3 text-brand-primary font-bold">R$ 151,30</td>
+                        </tr>
+                        <tr class="hover:bg-brand-border/30 transition">
+                            <td class="p-3 font-semibold text-white">Centro de Usinagem</td>
+                            <td class="p-3">299 h</td>
+                            <td class="p-3 text-white font-medium">R$ 77,58</td>
+                            <td class="p-3">R$ 82,00</td>
+                            <td class="p-3 text-red-400 font-bold">-5,39%</td>
+                            <td class="p-3 text-brand-primary font-bold">R$ 146,32</td>
+                        </tr>
+                        <tr class="hover:bg-brand-border/30 transition">
+                            <td class="p-3 font-semibold text-white">Torno Automático A-25</td>
+                            <td class="p-3">449 h</td>
+                            <td class="p-3 text-white font-medium">R$ 48,91</td>
+                            <td class="p-3">R$ 32,00</td>
+                            <td class="p-3 text-emerald-400 font-bold">+52,85%</td>
+                            <td class="p-3 text-brand-primary font-bold">R$ 92,24</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LOGICA JS DE SIMULAÇÃO -->
+    <script>
+        function fazerLoginTest() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('user-menu').classList.remove('hidden');
+        }
+        function deslogar() {
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('user-menu').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
