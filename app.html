@@ -50,7 +50,7 @@
             <span class="text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Portal do Cliente</span>
         </div>
         <div id="user-menu" class="hidden flex items-center gap-4">
-            <span class="text-sm text-brand-muted">Empresa: <strong class="text-white" id="company-name">SPEED-TEC</strong></span>
+            <span class="text-sm text-brand-muted">Empresa: <strong class="text-white" id="company-name">Carregando...</strong></span>
             <button onclick="deslogar()" class="text-xs bg-red-950/50 border border-red-800/50 hover:bg-red-900 text-red-200 px-3 py-1.5 rounded-lg transition font-semibold">Sair</button>
         </div>
     </header>
@@ -60,7 +60,7 @@
         <div class="bg-brand-card p-8 rounded-2xl border border-brand-border w-full max-w-md shadow-2xl space-y-6">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-4">
-                <h1 class="text-xl font-bold text-white">Área Restrita</h1>
+                <h1 class="text-xl font-bold text-white">Área Restrita v1</h1>
                 <p class="text-brand-muted text-sm">Insira suas credenciais para acessar seus indicadores de custos e DRE.</p>
             </div>
             
@@ -93,22 +93,22 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
                     <p class="text-xs font-semibold text-brand-muted uppercase">Faturamento Atual</p>
-                    <p class="text-2xl font-extrabold text-white mt-2" id="dre-faturamento">R$ 292.430,46</p>
-                    <span class="text-[11px] text-emerald-400 font-medium" id="dre-periodo">Julho/2026</span>
+                    <p class="text-2xl font-extrabold text-white mt-2" id="dre-faturamento">R$ 0,00</p>
+                    <span class="text-[11px] text-emerald-400 font-medium" id="dre-periodo">Período</span>
                 </div>
                 <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
                     <p class="text-xs font-semibold text-brand-muted uppercase">Custo Fixo Total</p>
-                    <p class="text-2xl font-extrabold text-red-400 mt-2" id="dre-custofixo">R$ 233.736,76</p>
+                    <p class="text-2xl font-extrabold text-red-400 mt-2" id="dre-custofixo">R$ 0,00</p>
                     <span class="text-[11px] text-brand-muted">Custo Fixo Mensal</span>
                 </div>
                 <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
                     <p class="text-xs font-semibold text-brand-muted uppercase">Margem de Contribuição</p>
-                    <p class="text-2xl font-extrabold text-brand-primary mt-2" id="dre-margem">86,70%</p>
+                    <p class="text-2xl font-extrabold text-brand-primary mt-2" id="dre-margem">0%</p>
                     <span class="text-[11px] text-brand-muted">Percentual de MC</span>
                 </div>
                 <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
                     <p class="text-xs font-semibold text-brand-muted uppercase">Resultado Atual</p>
-                    <p class="text-2xl font-extrabold text-red-500 mt-2" id="dre-lucro">-R$ 19.173,74</p>
+                    <p class="text-2xl font-extrabold text-red-500 mt-2" id="dre-lucro">R$ 0,00</p>
                     <span class="text-[11px] text-red-400 font-medium">Lucro / Prejuízo Líquido</span>
                 </div>
             </div>
@@ -176,64 +176,78 @@
 
     </div>
 
-    <!-- SDK SUPABASE & LÓGICA -->
+    <!-- SDK SUPABASE & AUTENTICAÇÃO REAL -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = "https://fimxbpdgfeqhtpysspy.supabase.co";
-        // IMPORTANTE: Cole sua chave ANON que copiou no menu API Keys dentro das aspas abaixo
+        // COLE SUA PUBLISHABLE / ANON KEY DO SUPABASE AQUI ABAIXO:
         const SUPABASE_ANON_KEY = "sb_publishable_hqa-1PEsSgAMgqD-d28_eg_UmNElxYl";
 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-async function fazerLoginTest() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+        async function fazerLoginTest() {
+            const emailInput = document.getElementById('email').value.trim();
+            const passwordInput = document.getElementById('password').value.trim();
 
-    // 1. Autentica e-mail e senha no Supabase Auth
-    const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
-        email: email,
-        password: password
-    });
+            if (!emailInput || !passwordInput) {
+                alert("Por favor, informe e-mail e senha.");
+                return;
+            }
 
-    if (authError) {
-        alert("E-mail ou senha incorretos!");
-        return;
-    }
+            // 1. Tenta autenticar credenciais no Supabase Auth
+            const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
+                email: emailInput,
+                password: passwordInput
+            });
 
-    const userId = authData.user.id;
+            if (authError) {
+                alert("E-mail ou senha incorretos!");
+                console.error(authError);
+                return;
+            }
 
-    // 2. Busca qual empresa pertence a esse usuário
-    const { data: vinculacao } = await _supabase
-        .from('usuarios_empresas')
-        .select('empresa_id')
-        .eq('user_id', userId)
-        .single();
+            const userId = authData.user.id;
 
-    if (!vinculacao) {
-        alert("Nenhuma empresa vinculada a este e-mail.");
-        return;
-    }
+            // 2. Localiza a empresa vinculada a esse usuário
+            const { data: vinculacao, error: vincError } = await _supabase
+                .from('usuarios_empresas')
+                .select('empresa_id, empresas(nome)')
+                .eq('user_id', userId)
+                .single();
 
-    // 3. Carrega apenas os dados da empresa correspondente
-    const { data: dreData } = await _supabase
-        .from('dre_indicadores')
-        .select('*')
-        .eq('empresa_id', vinculacao.empresa_id)
-        .single();
+            if (vincError || !vinculacao) {
+                alert("Erro: Conta de usuário não vinculada a nenhuma empresa no sistema.");
+                return;
+            }
 
-    if (dreData) {
-        document.getElementById('dre-faturamento').innerText = "R$ " + Number(dreData.faturamento_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('dre-custofixo').innerText = "R$ " + Number(dreData.custo_fixo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-        document.getElementById('dre-margem').innerText = Number(dreData.margem_contrib_pct).toLocaleString('pt-BR') + "%";
-        document.getElementById('dre-lucro').innerText = "R$ " + Number(dreData.lucro_prejuizo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-    }
+            // Exibe o nome da empresa logada no cabeçalho
+            if (vinculacao.empresas && vinculacao.empresas.nome) {
+                document.getElementById('company-name').innerText = vinculacao.empresas.nome;
+            }
 
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('dashboard').classList.remove('hidden');
-    document.getElementById('user-menu').classList.remove('hidden');
-}
+            // 3. Busca a DRE da empresa correspondente
+            const { data: dreData, error: dreError } = await _supabase
+                .from('dre_indicadores')
+                .select('*')
+                .eq('empresa_id', vinculacao.empresa_id)
+                .single();
 
-        function deslogar() {
+            if (dreData) {
+                document.getElementById('dre-faturamento').innerText = "R$ " + Number(dreData.faturamento_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                document.getElementById('dre-custofixo').innerText = "R$ " + Number(dreData.custo_fixo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                document.getElementById('dre-margem').innerText = Number(dreData.margem_contrib_pct).toLocaleString('pt-BR') + "%";
+                document.getElementById('dre-lucro').innerText = "R$ " + Number(dreData.lucro_prejuizo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                document.getElementById('dre-periodo').innerText = dreData.periodo;
+            }
+
+            // Libera a tela
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('user-menu').classList.remove('hidden');
+        }
+
+        async function deslogar() {
+            await _supabase.auth.signOut();
             document.getElementById('dashboard').classList.add('hidden');
             document.getElementById('user-menu').classList.add('hidden');
             document.getElementById('login-screen').classList.remove('hidden');
