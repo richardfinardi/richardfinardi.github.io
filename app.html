@@ -185,27 +185,53 @@
 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        async function fazerLoginTest() {
-            // Consulta os dados gravados no banco do Supabase
-            const { data: dreData, error: dreError } = await _supabase
-                .from('dre_indicadores')
-                .select('*')
-                .limit(1)
-                .single();
+async function fazerLoginTest() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-            if (dreData) {
-                // Atualiza os valores do painel com os dados reais do banco
-                document.getElementById('dre-faturamento').innerText = "R$ " + Number(dreData.faturamento_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-                document.getElementById('dre-custofixo').innerText = "R$ " + Number(dreData.custo_fixo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-                document.getElementById('dre-margem').innerText = Number(dreData.margem_contrib_pct).toLocaleString('pt-BR') + "%";
-                document.getElementById('dre-lucro').innerText = "R$ " + Number(dreData.lucro_prejuizo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-                document.getElementById('dre-periodo').innerText = dreData.periodo;
-            }
+    // 1. Autentica e-mail e senha no Supabase Auth
+    const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
 
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('dashboard').classList.remove('hidden');
-            document.getElementById('user-menu').classList.remove('hidden');
-        }
+    if (authError) {
+        alert("E-mail ou senha incorretos!");
+        return;
+    }
+
+    const userId = authData.user.id;
+
+    // 2. Busca qual empresa pertence a esse usuário
+    const { data: vinculacao } = await _supabase
+        .from('usuarios_empresas')
+        .select('empresa_id')
+        .eq('user_id', userId)
+        .single();
+
+    if (!vinculacao) {
+        alert("Nenhuma empresa vinculada a este e-mail.");
+        return;
+    }
+
+    // 3. Carrega apenas os dados da empresa correspondente
+    const { data: dreData } = await _supabase
+        .from('dre_indicadores')
+        .select('*')
+        .eq('empresa_id', vinculacao.empresa_id)
+        .single();
+
+    if (dreData) {
+        document.getElementById('dre-faturamento').innerText = "R$ " + Number(dreData.faturamento_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('dre-custofixo').innerText = "R$ " + Number(dreData.custo_fixo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('dre-margem').innerText = Number(dreData.margem_contrib_pct).toLocaleString('pt-BR') + "%";
+        document.getElementById('dre-lucro').innerText = "R$ " + Number(dreData.lucro_prejuizo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+    }
+
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    document.getElementById('user-menu').classList.remove('hidden');
+}
 
         function deslogar() {
             document.getElementById('dashboard').classList.add('hidden');
