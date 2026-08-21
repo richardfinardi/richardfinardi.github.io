@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultoria.RF - Portal do Cliente</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col font-sans">
+
+  <!-- TELA DE LOGIN -->
+  <div id="login-screen" class="flex-1 flex items-center justify-center p-4">
+    <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 w-full max-w-md shadow-2xl">
+      <h1 class="text-2xl font-bold text-center text-blue-400 mb-2">Consultoria.RF</h1>
+      <p class="text-slate-400 text-center text-sm mb-6">Acesse seu Portal de Custos</p>
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs uppercase font-bold text-slate-400 mb-1">E-mail</label>
+          <input type="email" id="email" placeholder="cliente@empresa.com" class="w-full p-3 rounded bg-slate-900 border border-slate-700 focus:border-blue-500 outline-none text-white">
+        </div>
+        <div>
+          <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Senha</label>
+          <input type="password" id="password" placeholder="••••••••" class="w-full p-3 rounded bg-slate-900 border border-slate-700 focus:border-blue-500 outline-none text-white">
+        </div>
+        <button onclick="fazerLoginTest()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded transition">Entrar no Portal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINEL DO CLIENTE (Oculto antes do login) -->
+  <div id="dashboard" class="hidden flex-1 p-6 max-w-7xl mx-auto w-full space-y-6">
+    <!-- Cabeçalho -->
+    <div class="flex justify-between items-center bg-slate-800 p-4 rounded-xl border border-slate-700">
+      <div>
+        <h2 class="text-xl font-bold text-blue-400">Cliente: SPEED-TEC</h2>
+        <p class="text-xs text-slate-400">Análise de Custos & Custo-Hora</p>
+      </div>
+      <button onclick="deslogar()" class="text-xs bg-red-900/50 hover:bg-red-800 text-red-200 px-3 py-2 rounded">Sair</button>
+    </div>
+
+    <!-- Cards de Resumo DRE -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+        <p class="text-xs text-slate-400">Faturamento Atual</p>
+        <p class="text-2xl font-bold text-green-400 mt-1">R$ 292.430,46</p>
+      </div>
+      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+        <p class="text-xs text-slate-400">Custo Fixo Total</p>
+        <p class="text-2xl font-bold text-red-400 mt-1">R$ 233.736,76</p>
+      </div>
+      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+        <p class="text-xs text-slate-400">Margem Contribuição</p>
+        <p class="text-2xl font-bold text-blue-400 mt-1">86,70%</p>
+      </div>
+      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+        <p class="text-xs text-slate-400">Lucro/Prejuízo</p>
+        <p class="text-2xl font-bold text-red-500 mt-1">-R$ 19.173,74</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function fazerLoginTest() {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+    }
+    function deslogar() {
+      document.getElementById('dashboard').classList.add('hidden');
+      document.getElementById('login-screen').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
