@@ -179,9 +179,8 @@
     <!-- SDK SUPABASE & AUTENTICAÇÃO REAL -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = https://fimxbpdgfmeqhptysspy.supabase.co";
-        // COLE SUA PUBLISHABLE / ANON KEY DO SUPABASE DENTRO DAS ASPAS ABAIXO:
-        const SUPABASE_ANON_KEY = "sb_publishable_hqa-1PEsSgAMgqD-d28_eg_UmNElxYl";
+        const SUPABASE_URL = "https://fimxbpdgfmeqhtpysspy.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpbXhhcGRnZm1lcWh0cHlzc3B5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAxNjE0MzksImV4cCI6MjA1NTczNzQzOX0.9QkR-a4E4-Xh3U0N54xT9K3X6gX0";
 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -209,7 +208,7 @@
 
                 const userId = authData.user.id;
 
-                // 2. Busca o vínculo do usuário com a empresa
+                // 2. Busca a empresa associada ao usuário
                 const { data: vinculacao, error: vincError } = await _supabase
                     .from('usuarios_empresas')
                     .select('empresa_id')
@@ -217,7 +216,7 @@
                     .maybeSingle();
 
                 if (vincError || !vinculacao) {
-                    alert("Erro: Conta de usuário não vinculada a nenhuma empresa. Execute o SQL de vínculo no Supabase.");
+                    alert("Erro: Conta de usuário não vinculada a nenhuma empresa no banco.");
                     console.error(vincError);
                     return;
                 }
@@ -233,7 +232,7 @@
                     document.getElementById('company-name').innerText = empData.nome;
                 }
 
-                // 4. Busca a DRE da empresa logada
+                // 4. Busca os dados da DRE
                 const { data: dreData } = await _supabase
                     .from('dre_indicadores')
                     .select('*')
