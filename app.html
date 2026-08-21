@@ -180,8 +180,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = "https://fimxbpdgfeqhtpysspy.supabase.co";
-        // ATENÇÃO: Cole sua Publishable / Anon Key do Supabase dentro das aspas abaixo:
-        const SUPABASE_ANON_KEY = "COLE_AQUI_SUA_CHAVE_ANON_DO_SUPABASE";
+        // COLE SUA PUBLISHABLE / ANON KEY DO SUPABASE DENTRO DAS ASPAS ABAIXO:
+        const SUPABASE_ANON_KEY = "sb_publishable_hqa-1PEsSgAMgqD-d28_eg_UmNElxYl";
 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -194,57 +194,61 @@
                 return;
             }
 
-            // 1. Tenta autenticar no Supabase Auth
-            const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
-                email: emailInput,
-                password: passwordInput
-            });
+            try {
+                // 1. Tenta autenticar no Supabase Auth
+                const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
+                    email: emailInput,
+                    password: passwordInput
+                });
 
-            if (authError) {
-                // Exibe o motivo exato de recusa retornado pelo banco
-                alert("Erro Supabase: " + authError.message);
-                console.error(authError);
-                return;
+                if (authError) {
+                    alert("Erro Supabase: " + authError.message);
+                    console.error(authError);
+                    return;
+                }
+
+                const userId = authData.user.id;
+
+                // 2. Busca a empresa associada a esta conta de usuário
+                const { data: vinculacao, error: vincError } = await _supabase
+                    .from('usuarios_empresas')
+                    .select('empresa_id, empresas(nome)')
+                    .eq('user_id', userId)
+                    .single();
+
+                if (vincError || !vinculacao) {
+                    alert("Erro: Este usuário não tem nenhuma empresa associada no banco.");
+                    return;
+                }
+
+                if (vinculacao.empresas && vinculacao.empresas.nome) {
+                    document.getElementById('company-name').innerText = vinculacao.empresas.nome;
+                }
+
+                // 3. Busca a DRE da empresa logada
+                const { data: dreData, error: dreError } = await _supabase
+                    .from('dre_indicadores')
+                    .select('*')
+                    .eq('empresa_id', vinculacao.empresa_id)
+                    .single();
+
+                if (dreData) {
+                    document.getElementById('dre-faturamento').innerText = "R$ " + Number(dreData.faturamento_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                    document.getElementById('dre-custofixo').innerText = "R$ " + Number(dreData.custo_fixo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                    document.getElementById('dre-margem').innerText = Number(dreData.margem_contrib_pct).toLocaleString('pt-BR') + "%";
+                    document.getElementById('dre-lucro').innerText = "R$ " + Number(dreData.lucro_prejuizo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                    document.getElementById('dre-periodo').innerText = dreData.periodo;
+                }
+
+                // Libera o dashboard
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                document.getElementById('user-menu').classList.remove('hidden');
+
+            } catch (err) {
+                alert("Erro de conexão/rede: Verifique a URL do Supabase e as configurações de CORS.");
+                console.error(err);
             }
-
-            const userId = authData.user.id;
-
-            // 2. Busca a empresa associada a esta conta de usuário
-            const { data: vinculacao, error: vincError } = await _supabase
-                .from('usuarios_empresas')
-                .select('empresa_id, empresas(nome)')
-                .eq('user_id', userId)
-                .single();
-
-            if (vincError || !vinculacao) {
-                alert("Erro: Este usuário não tem nenhuma empresa associada no banco.");
-                return;
-            }
-
-            // Atualiza o nome da empresa no topo do painel
-            if (vinculacao.empresas && vinculacao.empresas.nome) {
-                document.getElementById('company-name').innerText = vinculacao.empresas.nome;
-            }
-
-            // 3. Busca a DRE da empresa logada
-            const { data: dreData, error: dreError } = await _supabase
-                .from('dre_indicadores')
-                .select('*')
-                .eq('empresa_id', vinculacao.empresa_id)
-                .single();
-
-            if (dreData) {
-                document.getElementById('dre-faturamento').innerText = "R$ " + Number(dreData.faturamento_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-                document.getElementById('dre-custofixo').innerText = "R$ " + Number(dreData.custo_fixo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-                document.getElementById('dre-margem').innerText = Number(dreData.margem_contrib_pct).toLocaleString('pt-BR') + "%";
-                document.getElementById('dre-lucro').innerText = "R$ " + Number(dreData.lucro_prejuizo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-                document.getElementById('dre-periodo').innerText = dreData.periodo;
-            }
-
-            // Libera o dashboard
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('dashboard').classList.remove('hidden');
-            document.getElementById('user-menu').classList.remove('hidden');
         }
 
         async function deslogar() {
