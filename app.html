@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS para Scaffolding Rápido -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -93,23 +93,23 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
                     <p class="text-xs font-semibold text-brand-muted uppercase">Faturamento Atual</p>
-                    <p class="text-2xl font-extrabold text-white mt-2">R$ 292.430,46</p>
-                    <span class="text-[11px] text-emerald-400 font-medium">Faturamento Julho/2026</span>
+                    <p class="text-2xl font-extrabold text-white mt-2" id="dre-faturamento">R$ 292.430,46</p>
+                    <span class="text-[11px] text-emerald-400 font-medium" id="dre-periodo">Julho/2026</span>
                 </div>
                 <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
                     <p class="text-xs font-semibold text-brand-muted uppercase">Custo Fixo Total</p>
-                    <p class="text-2xl font-extrabold text-red-400 mt-2">R$ 233.736,76</p>
-                    <span class="text-[11px] text-brand-muted">79,93% do Faturamento</span>
+                    <p class="text-2xl font-extrabold text-red-400 mt-2" id="dre-custofixo">R$ 233.736,76</p>
+                    <span class="text-[11px] text-brand-muted">Custo Fixo Mensal</span>
                 </div>
                 <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
                     <p class="text-xs font-semibold text-brand-muted uppercase">Margem de Contribuição</p>
-                    <p class="text-2xl font-extrabold text-brand-primary mt-2">86,70%</p>
-                    <span class="text-[11px] text-brand-muted">R$ 253.537,85 acumulado</span>
+                    <p class="text-2xl font-extrabold text-brand-primary mt-2" id="dre-margem">86,70%</p>
+                    <span class="text-[11px] text-brand-muted">Percentual de MC</span>
                 </div>
                 <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
                     <p class="text-xs font-semibold text-brand-muted uppercase">Resultado Atual</p>
-                    <p class="text-2xl font-extrabold text-red-500 mt-2">-R$ 19.173,74</p>
-                    <span class="text-[11px] text-red-400 font-medium">Margem de Lucro: -6,56%</span>
+                    <p class="text-2xl font-extrabold text-red-500 mt-2" id="dre-lucro">-R$ 19.173,74</p>
+                    <span class="text-[11px] text-red-400 font-medium">Lucro / Prejuízo Líquido</span>
                 </div>
             </div>
         </div>
@@ -121,7 +121,7 @@
                     <h3 class="text-lg font-bold text-white">Custo Hora por Centro de Custo</h3>
                     <p class="text-xs text-brand-muted">Apuração detalhada por tipo de equipamento / operação</p>
                 </div>
-                <span class="text-xs bg-brand-border text-brand-muted px-3 py-1 rounded-md">15 Centros de Custo</span>
+                <span class="text-xs bg-brand-border text-brand-muted px-3 py-1 rounded-md">Centros de Custo</span>
             </div>
 
             <div class="overflow-x-auto">
@@ -176,13 +176,37 @@
 
     </div>
 
-    <!-- LOGICA JS DE SIMULAÇÃO -->
+    <!-- SDK SUPABASE & LÓGICA -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        function fazerLoginTest() {
+        const SUPABASE_URL = "https://fimxbpdgfeqhtpysspy.supabase.co";
+        // IMPORTANTE: Cole sua chave ANON que copiou no menu API Keys dentro das aspas abaixo
+        const SUPABASE_ANON_KEY = "sb_publishable_hqa-1PEsSgAMgqD-d28_eg_UmNElxYl";
+
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function fazerLoginTest() {
+            // Consulta os dados gravados no banco do Supabase
+            const { data: dreData, error: dreError } = await _supabase
+                .from('dre_indicadores')
+                .select('*')
+                .limit(1)
+                .single();
+
+            if (dreData) {
+                // Atualiza os valores do painel com os dados reais do banco
+                document.getElementById('dre-faturamento').innerText = "R$ " + Number(dreData.faturamento_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                document.getElementById('dre-custofixo').innerText = "R$ " + Number(dreData.custo_fixo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                document.getElementById('dre-margem').innerText = Number(dreData.margem_contrib_pct).toLocaleString('pt-BR') + "%";
+                document.getElementById('dre-lucro').innerText = "R$ " + Number(dreData.lucro_prejuizo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                document.getElementById('dre-periodo').innerText = dreData.periodo;
+            }
+
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('dashboard').classList.remove('hidden');
             document.getElementById('user-menu').classList.remove('hidden');
         }
+
         function deslogar() {
             document.getElementById('dashboard').classList.add('hidden');
             document.getElementById('user-menu').classList.add('hidden');
