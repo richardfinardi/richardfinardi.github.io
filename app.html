@@ -179,7 +179,8 @@
     <!-- SDK SUPABASE & AUTENTICAÇÃO REAL -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = "https://fimxbpdgfeqhtpysspy.supabase.co";
+        // URL CORRIGIDA DO SEU PROJETO SUPABASE
+        const SUPABASE_URL = "https://fimxbpdgfmeqhtpysspy.supabase.co";
         // COLE SUA PUBLISHABLE / ANON KEY DO SUPABASE DENTRO DAS ASPAS ABAIXO:
         const SUPABASE_ANON_KEY = "sb_publishable_hqa-1PEsSgAMgqD-d28_eg_UmNElxYl";
 
@@ -246,7 +247,7 @@
                 document.getElementById('user-menu').classList.remove('hidden');
 
             } catch (err) {
-                alert("Erro de conexão/rede: Verifique a URL do Supabase e as configurações de CORS.");
+                alert("Erro de conexão/rede. Verifique se a chave Publishable Key está inserida corretamente.");
                 console.error(err);
             }
         }
