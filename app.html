@@ -179,10 +179,9 @@
     <!-- SDK SUPABASE & AUTENTICAÇÃO REAL -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // COPIE A URL DO SEU SUPABASE NA BARRA DE ENDEREÇO DO NAVEGADOR E COLE ABAIXO:
-        const SUPABASE_URL = "https://fimxbpdgfmeqhptysspy.supabase.co";
+        const SUPABASE_URL = "https://fimxbpdgfmeqhtpysspy.supabase.co";
         // COLE SUA PUBLISHABLE / ANON KEY DO SUPABASE DENTRO DAS ASPAS ABAIXO:
-        const SUPABASE_ANON_KEY = "sb_publishable_hqa-1PEsSgAMgqD-d28_eg_UmNElxYl";
+        const SUPABASE_ANON_KEY = "COLE_AQUI_SUA_CHAVE_ANON_DO_SUPABASE";
 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -203,35 +202,43 @@
                 });
 
                 if (authError) {
-                    alert("Erro Supabase: " + authError.message);
+                    alert("Erro de Login: " + authError.message);
                     console.error(authError);
                     return;
                 }
 
                 const userId = authData.user.id;
 
-                // 2. Busca a empresa associada a esta conta de usuário
+                // 2. Busca o vínculo do usuário com a empresa
                 const { data: vinculacao, error: vincError } = await _supabase
                     .from('usuarios_empresas')
-                    .select('empresa_id, empresas(nome)')
+                    .select('empresa_id')
                     .eq('user_id', userId)
-                    .single();
+                    .maybeSingle();
 
                 if (vincError || !vinculacao) {
-                    alert("Erro: Este usuário não tem nenhuma empresa associada no banco.");
+                    alert("Erro: Conta de usuário não vinculada a nenhuma empresa. Execute o SQL de vínculo no Supabase.");
+                    console.error(vincError);
                     return;
                 }
 
-                if (vinculacao.empresas && vinculacao.empresas.nome) {
-                    document.getElementById('company-name').innerText = vinculacao.empresas.nome;
+                // 3. Busca o nome da empresa
+                const { data: empData } = await _supabase
+                    .from('empresas')
+                    .select('nome')
+                    .eq('id', vinculacao.empresa_id)
+                    .single();
+
+                if (empData) {
+                    document.getElementById('company-name').innerText = empData.nome;
                 }
 
-                // 3. Busca a DRE da empresa logada
-                const { data: dreData, error: dreError } = await _supabase
+                // 4. Busca a DRE da empresa logada
+                const { data: dreData } = await _supabase
                     .from('dre_indicadores')
                     .select('*')
                     .eq('empresa_id', vinculacao.empresa_id)
-                    .single();
+                    .maybeSingle();
 
                 if (dreData) {
                     document.getElementById('dre-faturamento').innerText = "R$ " + Number(dreData.faturamento_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2});
@@ -247,7 +254,7 @@
                 document.getElementById('user-menu').classList.remove('hidden');
 
             } catch (err) {
-                alert("Erro ao tentar conectar na URL configurada.");
+                alert("Erro inesperado de conexão.");
                 console.error(err);
             }
         }
