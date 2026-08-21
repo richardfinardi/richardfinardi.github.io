@@ -60,7 +60,7 @@
         <div class="bg-brand-card p-8 rounded-2xl border border-brand-border w-full max-w-md shadow-2xl space-y-6">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-4">
-                <h1 class="text-xl font-bold text-white">Área Restrita v1</h1>
+                <h1 class="text-xl font-bold text-white">Área Restrita</h1>
                 <p class="text-brand-muted text-sm">Insira suas credenciais para acessar seus indicadores de custos e DRE.</p>
             </div>
             
@@ -180,8 +180,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = "https://fimxbpdgfeqhtpysspy.supabase.co";
-        // COLE SUA PUBLISHABLE / ANON KEY DO SUPABASE AQUI ABAIXO:
-        const SUPABASE_ANON_KEY = "sb_publishable_hqa-1PEsSgAMgqD-d28_eg_UmNElxYl";
+        // ATENÇÃO: Cole sua Publishable / Anon Key do Supabase dentro das aspas abaixo:
+        const SUPABASE_ANON_KEY = "COLE_AQUI_SUA_CHAVE_ANON_DO_SUPABASE";
 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -190,25 +190,26 @@
             const passwordInput = document.getElementById('password').value.trim();
 
             if (!emailInput || !passwordInput) {
-                alert("Por favor, informe e-mail e senha.");
+                alert("Por favor, preencha o e-mail e a senha.");
                 return;
             }
 
-            // 1. Tenta autenticar credenciais no Supabase Auth
+            // 1. Tenta autenticar no Supabase Auth
             const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
                 email: emailInput,
                 password: passwordInput
             });
 
             if (authError) {
-                alert("E-mail ou senha incorretos!");
+                // Exibe o motivo exato de recusa retornado pelo banco
+                alert("Erro Supabase: " + authError.message);
                 console.error(authError);
                 return;
             }
 
             const userId = authData.user.id;
 
-            // 2. Localiza a empresa vinculada a esse usuário
+            // 2. Busca a empresa associada a esta conta de usuário
             const { data: vinculacao, error: vincError } = await _supabase
                 .from('usuarios_empresas')
                 .select('empresa_id, empresas(nome)')
@@ -216,16 +217,16 @@
                 .single();
 
             if (vincError || !vinculacao) {
-                alert("Erro: Conta de usuário não vinculada a nenhuma empresa no sistema.");
+                alert("Erro: Este usuário não tem nenhuma empresa associada no banco.");
                 return;
             }
 
-            // Exibe o nome da empresa logada no cabeçalho
+            // Atualiza o nome da empresa no topo do painel
             if (vinculacao.empresas && vinculacao.empresas.nome) {
                 document.getElementById('company-name').innerText = vinculacao.empresas.nome;
             }
 
-            // 3. Busca a DRE da empresa correspondente
+            // 3. Busca a DRE da empresa logada
             const { data: dreData, error: dreError } = await _supabase
                 .from('dre_indicadores')
                 .select('*')
@@ -240,7 +241,7 @@
                 document.getElementById('dre-periodo').innerText = dreData.periodo;
             }
 
-            // Libera a tela
+            // Libera o dashboard
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('dashboard').classList.remove('hidden');
             document.getElementById('user-menu').classList.remove('hidden');
