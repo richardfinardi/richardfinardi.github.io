@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF | Gestão & Portal</title>
+    <title>CONSULTORIA.RF | Gestão Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
@@ -22,13 +22,13 @@
 <body class="min-h-screen flex flex-col">
 
     <!-- CABEÇALHO -->
-    <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-6 py-4 flex justify-between items-center">
+    <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center gap-3">
-            <span class="text-xl font-bold tracking-wider text-white">CONSULTORIA<span class="text-brand-primary">.RF</span></span>
+            <span class="text-xl font-extrabold tracking-wider text-white">CONSULTORIA<span class="text-brand-primary">.RF</span></span>
             <span id="role-badge" class="hidden text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2.5 py-1 rounded-full font-bold uppercase"></span>
         </div>
         <div id="user-menu" class="hidden flex items-center gap-4">
-            <span class="text-sm text-brand-muted"><strong class="text-white" id="user-display-name"></strong></span>
+            <span class="text-sm text-brand-muted">Olá, <strong class="text-white" id="user-display-name">---</strong></span>
             <button onclick="deslogar()" class="text-xs bg-red-950/50 border border-red-800/50 hover:bg-red-900 text-red-200 px-3 py-1.5 rounded-lg transition font-semibold">Sair</button>
         </div>
     </header>
@@ -37,180 +37,282 @@
     <div id="login-screen" class="flex-1 flex items-center justify-center p-4">
         <div class="bg-brand-card p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
-                <h1 class="text-2xl font-bold text-white">Acesso ao Sistema</h1>
-                <p class="text-brand-muted text-sm">Insira suas credenciais cadastradas na planilha</p>
+                <h1 class="text-2xl font-bold text-white">Painel de Acesso</h1>
+                <p class="text-brand-muted text-sm">Insira seu e-mail e senha cadastrados no sistema</p>
             </div>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs uppercase font-bold text-brand-muted mb-1">E-mail</label>
-                    <input type="email" id="login-email" class="w-full p-3 rounded-lg bg-[#0d0d0f] border border-brand-border text-white text-sm focus:border-brand-primary outline-none">
+                    <label class="block text-xs uppercase font-bold text-brand-muted mb-1.5">E-mail</label>
+                    <input type="email" id="login-email" placeholder="seu@email.com" class="w-full p-3 rounded-lg bg-[#0d0d0f] border border-brand-border text-white text-sm focus:border-brand-primary outline-none transition">
                 </div>
                 <div>
-                    <label class="block text-xs uppercase font-bold text-brand-muted mb-1">Senha</label>
-                    <input type="password" id="login-password" class="w-full p-3 rounded-lg bg-[#0d0d0f] border border-brand-border text-white text-sm focus:border-brand-primary outline-none">
+                    <label class="block text-xs uppercase font-bold text-brand-muted mb-1.5">Senha</label>
+                    <input type="password" id="login-password" placeholder="••••••••" class="w-full p-3 rounded-lg bg-[#0d0d0f] border border-brand-border text-white text-sm focus:border-brand-primary outline-none transition">
                 </div>
-                <button onclick="fazerLogin()" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-3 rounded-lg transition text-sm">
-                    Entrar
+                <button id="btn-login" onclick="fazerLogin()" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-3 rounded-lg transition text-sm shadow-lg shadow-brand-primary/20">
+                    Entrar no Sistema
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- NAVEGAÇÃO INTERNA -->
-    <nav id="app-nav" class="hidden bg-[#121215] border-b border-brand-border px-6 py-2 flex gap-4 text-sm">
-        <button id="nav-admin" onclick="trocarAba('admin')" class="px-3 py-1.5 rounded-md font-semibold bg-brand-primary text-white">Painel Admin</button>
-        <button id="nav-dash" onclick="trocarAba('dash')" class="px-3 py-1.5 rounded-md font-semibold text-brand-muted hover:text-white">Dashboard</button>
-    </nav>
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="flex-1 p-6 max-w-7xl mx-auto w-full">
+    <!-- CONTEÚDO PRINCIPAL PARA ADMIN/USUÁRIOS -->
+    <main id="main-content" class="hidden flex-1 p-6 max-w-7xl mx-auto w-full space-y-8">
         
-        <!-- SEÇÃO ADMIN (CADASTROS) -->
-        <div id="screen-admin" class="hidden space-y-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- PAINEL ADMIN (VISÍVEL APENAS PARA TUSUARIO_ADM === 'SIM') -->
+        <section id="section-admin" class="space-y-6">
+            <div class="border-b border-brand-border pb-4 flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-white">Gerenciamento do Sistema</h1>
+                    <p class="text-xs text-brand-muted">Cadastre empresas parceiras e libere acessos para usuários</p>
+                </div>
+                <button onclick="carregarClientesSelect()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar Clientes</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
-                <!-- Cadastrar Cliente -->
+                <!-- CADASTRO DE CLIENTE -->
                 <div class="bg-brand-card p-6 rounded-xl border border-brand-border space-y-4">
-                    <h2 class="text-lg font-bold text-white">Cadastrar Novo Cliente (Empresa)</h2>
-                    <div class="space-y-3">
-                        <input type="text" id="cli-id" placeholder="ID do Cliente (ex: CLI01)" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
-                        <input type="text" id="cli-nome" placeholder="Nome / Razão Social" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
-                        <input type="text" id="cli-cnpj" placeholder="CNPJ" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
-                        <button onclick="cadastrarCliente()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded text-sm">Salvar Cliente</button>
-                    </div>
+                    <h2 class="text-lg font-bold text-white border-b border-brand-border/50 pb-2">1. Cadastrar Cliente (Empresa)</h2>
+                    <form id="form-cliente" onsubmit="cadastrarCliente(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-xs text-brand-muted mb-1">ID do Cliente (Único)</label>
+                            <input type="text" id="cli-id" placeholder="Ex: CLI001" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-brand-muted mb-1">Nome / Razão Social</label>
+                            <input type="text" id="cli-nome" placeholder="Empresa X Ltda" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-brand-muted mb-1">CNPJ</label>
+                            <input type="text" id="cli-cnpj" placeholder="00.000.000/0001-00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        </div>
+                        <button type="submit" id="btn-salvar-cli" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded text-sm transition mt-2">
+                            Salvar Cliente
+                        </button>
+                    </form>
                 </div>
 
-                <!-- Cadastrar Usuário -->
+                <!-- CADASTRO DE USUÁRIO -->
                 <div class="bg-brand-card p-6 rounded-xl border border-brand-border space-y-4">
-                    <h2 class="text-lg font-bold text-white">Cadastrar Usuário</h2>
-                    <div class="space-y-3">
-                        <input type="text" id="usr-cli-id" placeholder="ID do Cliente Vinc. (ex: CLI01 ou ADMIN)" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
-                        <input type="text" id="usr-id" placeholder="ID do Usuário (ex: USR01)" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
-                        <input type="text" id="usr-nome" placeholder="Nome Completo" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
-                        <input type="email" id="usr-email" placeholder="E-mail" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
-                        <input type="text" id="usr-celular" placeholder="Celular" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
-                        <input type="password" id="usr-senha" placeholder="Senha de Acesso" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
-                        <button onclick="cadastrarUsuario()" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm">Salvar Usuário</button>
-                    </div>
+                    <h2 class="text-lg font-bold text-white border-b border-brand-border/50 pb-2">2. Cadastrar Usuário</h2>
+                    <form id="form-usuario" onsubmit="cadastrarUsuario(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-xs text-brand-muted mb-1">Vincular ao Cliente</label>
+                            <select id="usr-cli-id" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                                <option value="">Carregando clientes...</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs text-brand-muted mb-1">ID Usuário</label>
+                                <input type="text" id="usr-id" placeholder="Ex: USR001" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-brand-muted mb-1">É Administrador?</label>
+                                <select id="usr-adm" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                                    <option value="NAO">NÃO</option>
+                                    <option value="SIM">SIM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-brand-muted mb-1">Nome Completo</label>
+                            <input type="text" id="usr-nome" placeholder="João Silva" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-brand-muted mb-1">E-mail de Acesso</label>
+                            <input type="email" id="usr-email" placeholder="joao@empresa.com" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs text-brand-muted mb-1">Celular</label>
+                                <input type="text" id="usr-celular" placeholder="(11) 99999-9999" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-brand-muted mb-1">Senha</label>
+                                <input type="password" id="usr-senha" placeholder="••••••••" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            </div>
+                        </div>
+                        <button type="submit" id="btn-salvar-usr" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition mt-2">
+                            Salvar Usuário
+                        </button>
+                    </form>
                 </div>
 
             </div>
-        </div>
+        </section>
 
-        <!-- SEÇÃO DASHBOARD (ÁREA CLIENTE) -->
-        <div id="screen-dash" class="hidden space-y-6">
-            <h2 class="text-xl font-bold text-white">Área Restrita do Cliente</h2>
+        <!-- AREA COMUM DO CLIENTE -->
+        <section id="section-cliente" class="space-y-4">
             <div class="bg-brand-card p-6 rounded-xl border border-brand-border">
-                <p class="text-brand-muted">Bem-vindo ao portal. Dados sincronizados com o Google Sheets.</p>
+                <h2 class="text-xl font-bold text-white mb-2">Área Restrita de Indicadores</h2>
+                <p class="text-brand-muted text-sm">Bem-vindo ao Portal. Escolha no menu acima ou acompanhe suas métricas.</p>
             </div>
-        </div>
+        </section>
 
     </main>
 
     <script>
-        // SUBSTITUA PELA URL GERADA NA IMPLANTAÇÃO DO GOOGLE APPS SCRIPT
+        // COLE SUA URL DO GOOGLE APPS SCRIPT AQUI
         const API_URL = "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
-        let currentUser = null;
+        let usuarioLogado = null;
 
         async function fazerLogin() {
             const email = document.getElementById('login-email').value.trim();
             const pass = document.getElementById('login-password').value.trim();
+            const btn = document.getElementById('btn-login');
 
-            if(!email || !pass) return alert("Preencha e-mail e senha.");
+            if (!email || !pass) return alert("Por favor, informe o e-mail e a senha.");
 
             try {
-                const res = await fetch(`${API_URL}?action=TUSUARIO`);
-                const usuarios = await res.json();
-                
-                // Validação comparando com a tabela TUSUARIO
+                btn.innerText = "Verificando...";
+                btn.disabled = true;
+
+                const response = await fetch(`${API_URL}?action=TUSUARIO`);
+                const usuarios = await response.json();
+
                 const user = usuarios.find(u => 
-                    String(u.TUSUARIO_EMAIL).toLowerCase() === email.toLowerCase() && 
+                    String(u.TUSUARIO_EMAIL).toLowerCase() === email.toLowerCase() &&
                     String(u.TUSUARIO_SENHA) === pass &&
                     String(u.TUSUARIO_ATIVO).toUpperCase() === 'SIM'
                 );
 
-                if(!user) {
-                    return alert("Usuário não encontrado, inativo ou senha incorreta.");
+                if (!user) {
+                    alert("Acesso negado: E-mail/Senha incorretos ou usuário inativo.");
+                    btn.innerText = "Entrar no Sistema";
+                    btn.disabled = false;
+                    return;
                 }
 
-                currentUser = user;
+                usuarioLogado = user;
                 iniciarSessao();
-            } catch(e) {
-                alert("Erro ao conectar com a base de dados.");
-                console.error(e);
+
+            } catch (err) {
+                console.error(err);
+                alert("Erro de conexão ao validar o acesso.");
+                btn.innerText = "Entrar no Sistema";
+                btn.disabled = false;
             }
         }
 
         function iniciarSessao() {
             document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
             document.getElementById('user-menu').classList.remove('hidden');
-            document.getElementById('app-nav').classList.remove('hidden');
-            document.getElementById('user-display-name').innerText = currentUser.TUSUARIO_NOME;
+            document.getElementById('user-display-name').innerText = usuarioLogado.TUSUARIO_NOME;
 
-            const isAdmin = currentUser.TCLIENTE_ID === 'ADMIN';
-            const badge = document.getElementById('role-badge');
+            const isAdm = String(usuarioLogado.TUSUARIO_ADM).toUpperCase() === 'SIM' || String(usuarioLogado.TUSUARIO_ADM).toUpperCase() === 'TRUE';
             
-            badge.innerText = isAdmin ? "ADMINISTRADOR" : "PORTAL DO CLIENTE";
+            const badge = document.getElementById('role-badge');
             badge.classList.remove('hidden');
 
-            if(!isAdmin) {
-                document.getElementById('nav-admin').classList.add('hidden');
-                trocarAba('dash');
+            if (isAdm) {
+                badge.innerText = "ADMINISTRADOR";
+                document.getElementById('section-admin').classList.remove('hidden');
+                carregarClientesSelect();
             } else {
-                document.getElementById('nav-admin').classList.remove('hidden');
-                trocarAba('admin');
+                badge.innerText = "PORTAL CLIENTE";
+                document.getElementById('section-admin').classList.add('hidden');
             }
         }
 
-        function trocarAba(aba) {
-            document.getElementById('screen-admin').classList.add('hidden');
-            document.getElementById('screen-dash').classList.add('hidden');
+        async function carregarClientesSelect() {
+            const select = document.getElementById('usr-cli-id');
+            select.innerHTML = '<option value="">Carregando...</option>';
+
+            try {
+                const response = await fetch(`${API_URL}?action=TCLIENTE`);
+                const clientes = await response.json();
+
+                select.innerHTML = '<option value="">-- Selecione o Cliente --</option>';
+                
+                // Adiciona opção ADM se necessário
+                select.innerHTML += '<option value="ADM">SISTEMA ADMIN</option>';
+
+                clientes.forEach(c => {
+                    select.innerHTML += `<option value="${c.TCLIENTE_ID}">${c.TCLIENTE_NOME} (${c.TCLIENTE_ID})</option>`;
+                });
+            } catch (e) {
+                select.innerHTML = '<option value="">Erro ao carregar clientes</option>';
+            }
+        }
+
+        async function cadastrarCliente(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-salvar-cli');
             
-            if(aba === 'admin') document.getElementById('screen-admin').classList.remove('hidden');
-            if(aba === 'dash') document.getElementById('screen-dash').classList.remove('hidden');
+            const payload = {
+                sheet: "TCLIENTE",
+                data: [
+                    document.getElementById('cli-id').value.trim(),
+                    document.getElementById('cli-nome').value.trim(),
+                    document.getElementById('cli-cnpj').value.trim()
+                ]
+            };
+
+            try {
+                btn.innerText = "Enviando...";
+                btn.disabled = true;
+
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                alert("Cliente cadastrado com sucesso!");
+                document.getElementById('form-cliente').reset();
+                carregarClientesSelect();
+
+            } catch (err) {
+                alert("Erro ao cadastrar o cliente.");
+            } finally {
+                btn.innerText = "Salvar Cliente";
+                btn.disabled = false;
+            }
         }
 
-        async function cadastrarCliente() {
-            const data = [
-                document.getElementById('cli-id').value,
-                document.getElementById('cli-nome').value,
-                document.getElementById('cli-cnpj').value
-            ];
+        async function cadastrarUsuario(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-salvar-usr');
 
-            const payload = { sheet: "TCLIENTE", data: data };
+            const payload = {
+                sheet: "TUSUARIO",
+                data: [
+                    document.getElementById('usr-cli-id').value,
+                    document.getElementById('usr-id').value.trim(),
+                    document.getElementById('usr-nome').value.trim(),
+                    document.getElementById('usr-email').value.trim(),
+                    document.getElementById('usr-celular').value.trim(),
+                    document.getElementById('usr-senha').value.trim(),
+                    "SIM", // TUSUARIO_ATIVO
+                    document.getElementById('usr-adm').value // TUSUARIO_ADM
+                ]
+            };
 
-            await fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+            try {
+                btn.innerText = "Enviando...";
+                btn.disabled = true;
 
-            alert("Solicitação de cadastro de cliente enviada com sucesso!");
-        }
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-        async function cadastrarUsuario() {
-            const data = [
-                document.getElementById('usr-cli-id').value,
-                document.getElementById('usr-id').value,
-                document.getElementById('usr-nome').value,
-                document.getElementById('usr-email').value,
-                document.getElementById('usr-celular').value,
-                document.getElementById('usr-senha').value,
-                "SIM" // TUSUARIO_ATIVO por padrão
-            ];
+                alert("Usuário cadastrado com sucesso!");
+                document.getElementById('form-usuario').reset();
 
-            const payload = { sheet: "TUSUARIO", data: data };
-
-            await fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            alert("Solicitação de cadastro de usuário enviada com sucesso!");
+            } catch (err) {
+                alert("Erro ao cadastrar o usuário.");
+            } finally {
+                btn.innerText = "Salvar Usuário";
+                btn.disabled = false;
+            }
         }
 
         function deslogar() {
