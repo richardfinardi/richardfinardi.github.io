@@ -209,6 +209,7 @@
                             <tr>
                                 <th class="p-2 md:p-3">Nome</th>
                                 <th class="p-2 md:p-3">Tipo</th>
+                                <th class="p-2 md:p-3">Tipo Rateio</th>
                                 <th class="p-2 md:p-3">Qtd Rec.</th>
                                 <th class="p-2 md:p-3">Área (M²)</th>
                                 <th class="p-2 md:p-3">Custo Fixo (R$)</th>
@@ -221,7 +222,7 @@
                             </tr>
                         </thead>
                         <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="11" class="p-4 text-center">Carregando...</td></tr>
+                            <tr><td colspan="12" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -497,6 +498,21 @@
         let listaFuncionarios = [];
         let tabelaPadroes = [];
 
+        // AUTO-LOGIN COM LOCALSTORAGE
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedUser = localStorage.getItem('usuarioLogadoRF');
+            if (savedUser) {
+                try {
+                    usuarioLogado = JSON.parse(savedUser);
+                    buscarNomeEmpresa().then(() => {
+                        iniciarSessao();
+                    });
+                } catch(e) {
+                    localStorage.removeItem('usuarioLogadoRF');
+                }
+            }
+        });
+
         async function fazerLogin() {
             const email = document.getElementById('login-email').value.trim();
             const pass = document.getElementById('login-password').value.trim();
@@ -525,6 +541,7 @@
                 }
 
                 usuarioLogado = user;
+                localStorage.setItem('usuarioLogadoRF', JSON.stringify(user));
                 await buscarNomeEmpresa();
                 iniciarSessao();
 
@@ -668,7 +685,7 @@
             const tbody = document.getElementById('tbl-cc-body');
             const selectCCRec = document.getElementById('rec-cc-id');
             const selectCCFunc = document.getElementById('func-cc-id');
-            tbody.innerHTML = '<tr><td colspan="11" class="p-4 text-center">Buscando dados...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="12" class="p-4 text-center">Buscando dados...</td></tr>';
 
             try {
                 const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
@@ -698,33 +715,13 @@
                 });
 
                 if (listaCC.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="11" class="p-4 text-center">Nenhum Centro de Custo cadastrado.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="12" class="p-4 text-center">Nenhum Centro de Custo cadastrado.</td></tr>';
                     return;
                 }
 
-                tbody.innerHTML = '';
-                listaCC.forEach(c => {
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-2 md:p-3 text-white font-medium uppercase">${c.TCENTRO_CUSTO_NOME}</td>
-                            <td class="p-2 md:p-3 uppercase">${c.TCENTRO_CUSTO_TIPO}</td>
-                            <td class="p-2 md:p-3 text-center font-bold text-brand-primary">${c.TCENTRO_CUSTO_QTDE_RECURSOS || 0}</td>
-                            <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_AREA || 0).toFixed(2)} m²</td>
-                            <td class="p-2 md:p-3">R$ ${Number(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toFixed(2)}</td>
-                            <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_MENSAL || 0).toFixed(2)}</td>
-                            <td class="p-2 md:p-3 text-brand-primary font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO || 0).toFixed(2)}</td>
-                            <td class="p-2 md:p-3 text-white font-bold">${Number(c.TCENTRO_CUSTO_HORAS || 0).toFixed(2)} h</td>
-                            <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_PRODUTIVIDADE || 0).toFixed(2)}%</td>
-                            <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_CONSIDERAR_MINIMO === 'SIM' ? '<span class="text-emerald-400 font-bold">SIM</span>' : '-'}</td>
-                            <td class="p-2 md:p-3 text-right space-x-1">
-                                <button onclick="prepararEdicaoCC('${c.TCENTRO_CUSTO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
-                                <button onclick="excluirCC('${c.TCENTRO_CUSTO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
-                            </td>
-                        </tr>
-                    `;
-                });
+                renderizarTabelaCCLocal();
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="11" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="12" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>';
             }
         }
 
@@ -892,6 +889,8 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
+            }).then(() => {
+                setTimeout(carregarCentrosDeCusto, 1500);
             });
         }
 
@@ -1000,6 +999,8 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TFUNCIONARIO", action: "DELETE", id: id })
+            }).then(() => {
+                setTimeout(carregarCentrosDeCusto, 1500);
             });
         }
 
@@ -1262,6 +1263,8 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
+            }).then(() => {
+                setTimeout(carregarCentrosDeCusto, 1500);
             });
         }
 
@@ -1319,6 +1322,8 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TRECURSO", action: "DELETE", id: id })
+            }).then(() => {
+                setTimeout(carregarCentrosDeCusto, 1500);
             });
         }
 
@@ -1384,6 +1389,8 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
+            }).then(() => {
+                setTimeout(carregarCentrosDeCusto, 1500);
             });
         }
 
@@ -1396,6 +1403,7 @@
                     <tr class="hover:bg-brand-border/30 transition">
                         <td class="p-2 md:p-3 text-white font-medium uppercase">${c.TCENTRO_CUSTO_NOME}</td>
                         <td class="p-2 md:p-3 uppercase">${c.TCENTRO_CUSTO_TIPO}</td>
+                        <td class="p-2 md:p-3 uppercase font-semibold text-brand-primary">${c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-'}</td>
                         <td class="p-2 md:p-3 text-center font-bold text-brand-primary">${c.TCENTRO_CUSTO_QTDE_RECURSOS || 0}</td>
                         <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_AREA || 0).toFixed(2)} m²</td>
                         <td class="p-2 md:p-3">R$ ${Number(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toFixed(2)}</td>
@@ -1522,6 +1530,7 @@
         }
 
         function deslogar() {
+            localStorage.removeItem('usuarioLogadoRF');
             location.reload();
         }
     </script>
