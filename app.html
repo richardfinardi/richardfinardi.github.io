@@ -214,13 +214,14 @@
                                 <th class="p-2 md:p-3">Custo Fixo (R$)</th>
                                 <th class="p-2 md:p-3">Depreciação (R$)</th>
                                 <th class="p-2 md:p-3">Custo Func. (R$)</th>
+                                <th class="p-2 md:p-3">Horas Func.</th>
                                 <th class="p-2 md:p-3">Prod. (%)</th>
                                 <th class="p-2 md:p-3">Cons. Min.</th>
                                 <th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="10" class="p-4 text-center">Carregando...</td></tr>
+                            <tr><td colspan="11" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -368,11 +369,32 @@
                 <form id="form-func" onsubmit="salvarFuncionario(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input type="hidden" id="func-editing-id" value="">
 
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Centro de Custo</label>
-                        <select id="func-cc-id" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando...</option>
-                        </select>
+                    <!-- CONFIGURAÇÃO DE RATEIO DE CENTROS DE CUSTO -->
+                    <div class="md:col-span-3 border-b border-brand-border/50 pb-3 space-y-3">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="func-is-rateio" onchange="alternarModoRateioFuncionario()" class="w-4 h-4 accent-brand-primary rounded cursor-pointer">
+                            <label for="func-is-rateio" class="text-sm font-bold text-white cursor-pointer">É Funcionário de Rateio (Atende múltiplos Centros de Custo)?</label>
+                        </div>
+
+                        <!-- SELETOR CENTRO ÚNICO -->
+                        <div id="wrapper-func-cc-unico">
+                            <label class="block text-xs text-brand-muted mb-1">Centro de Custo Único</label>
+                            <select id="func-cc-id" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                                <option value="">Carregando...</option>
+                            </select>
+                        </div>
+
+                        <!-- GRADE DE MULTIPLOS CENTROS DE CUSTO COM % -->
+                        <div id="wrapper-func-cc-rateio" class="hidden space-y-2 bg-[#0d0d0f] p-3 rounded border border-brand-border">
+                            <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%):</label>
+                            <div id="container-rateio-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
+                                <!-- Preenchido dinamicamente via JS -->
+                            </div>
+                            <div class="flex justify-between items-center text-xs font-bold pt-1 border-t border-brand-border/50">
+                                <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct" class="text-white">0%</strong></span>
+                                <span class="text-brand-muted">Sobra de Custo Não Rateado (Coluna K): <strong id="display-sobra-custo" class="text-emerald-400">R$ 0.00</strong></span>
+                            </div>
+                        </div>
                     </div>
 
                     <div>
@@ -401,8 +423,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs text-brand-muted mb-1">Horas Mensais (se Horista)</label>
-                        <input type="number" step="0.01" id="func-horas-mes" oninput="calcularCustoFuncionario()" value="176" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <label class="block text-xs text-brand-muted mb-1">Horas Mensais</label>
+                        <input type="number" step="0.01" id="func-horas-mes" oninput="calcularCustoFuncionario()" value="176" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div class="md:col-span-2">
@@ -440,17 +462,18 @@
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Centro Custo</th>
+                                <th class="p-2 md:p-3">Centro(s) Custo</th>
                                 <th class="p-2 md:p-3">Nome</th>
-                                <th class="p-2 md:p-3">Tipo Reg.</th>
+                                <th class="p-2 md:p-3">Horas</th>
                                 <th class="p-2 md:p-3">Salário Base (R$)</th>
                                 <th class="p-2 md:p-3">Benefícios (R$)</th>
                                 <th class="p-2 md:p-3">Custo Mensal (R$)</th>
+                                <th class="p-2 md:p-3">Rateio?</th>
                                 <th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-func-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="7" class="p-4 text-center">Carregando...</td></tr>
+                            <tr><td colspan="8" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -628,7 +651,7 @@
             const tbody = document.getElementById('tbl-cc-body');
             const selectCCRec = document.getElementById('rec-cc-id');
             const selectCCFunc = document.getElementById('func-cc-id');
-            tbody.innerHTML = '<tr><td colspan="10" class="p-4 text-center">Buscando dados...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="11" class="p-4 text-center">Buscando dados...</td></tr>';
 
             try {
                 const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
@@ -639,13 +662,26 @@
                 selectCCRec.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
                 selectCCFunc.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
 
+                const containerRateioCC = document.getElementById('container-rateio-cc-list');
+                containerRateioCC.innerHTML = '';
+
                 listaCC.forEach(cc => {
                     selectCCRec.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
                     selectCCFunc.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
+
+                    containerRateioCC.innerHTML += `
+                        <div class="flex items-center justify-between gap-2 text-xs">
+                            <span class="text-white uppercase">${cc.TCENTRO_CUSTO_NOME}:</span>
+                            <div class="flex items-center gap-1">
+                                <input type="number" step="0.01" max="100" min="0" placeholder="0" data-ccid="${cc.TCENTRO_CUSTO_ID}" oninput="validarRateioPercentuais()" class="inp-rateio-pct w-20 p-1.5 rounded bg-[#16161a] border border-brand-border text-white text-right outline-none">
+                                <span class="text-brand-muted">%</span>
+                            </div>
+                        </div>
+                    `;
                 });
 
                 if (listaCC.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="10" class="p-4 text-center">Nenhum Centro de Custo cadastrado.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="11" class="p-4 text-center">Nenhum Centro de Custo cadastrado.</td></tr>';
                     return;
                 }
 
@@ -660,6 +696,7 @@
                             <td class="p-2 md:p-3">R$ ${Number(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toFixed(2)}</td>
                             <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_MENSAL || 0).toFixed(2)}</td>
                             <td class="p-2 md:p-3 text-brand-primary font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO || 0).toFixed(2)}</td>
+                            <td class="p-2 md:p-3 text-white font-bold">${Number(c.TCENTRO_CUSTO_HORAS || 0).toFixed(2)} h</td>
                             <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_PRODUTIVIDADE || 0).toFixed(2)}%</td>
                             <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_CONSIDERAR_MINIMO === 'SIM' ? '<span class="text-emerald-400 font-bold">SIM</span>' : '-'}</td>
                             <td class="p-2 md:p-3 text-right space-x-1">
@@ -670,8 +707,296 @@
                     `;
                 });
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="10" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="11" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>';
             }
+        }
+
+        function alternarModoRateioFuncionario() {
+            const isRateio = document.getElementById('func-is-rateio').checked;
+            const wrapUnico = document.getElementById('wrapper-func-cc-unico');
+            const wrapRateio = document.getElementById('wrapper-func-cc-rateio');
+
+            if (isRateio) {
+                wrapUnico.classList.add('hidden');
+                wrapRateio.classList.remove('hidden');
+            } else {
+                wrapUnico.classList.remove('hidden');
+                wrapRateio.classList.add('hidden');
+            }
+            validarRateioPercentuais();
+        }
+
+        function validarRateioPercentuais() {
+            const isRateio = document.getElementById('func-is-rateio').checked;
+            const custoTotalFunc = calcularCustoFuncionario();
+            
+            if (!isRateio) {
+                document.getElementById('display-total-pct').innerText = "100%";
+                document.getElementById('display-sobra-custo').innerText = "R$ 0.00";
+                return 100;
+            }
+
+            let somaPct = 0;
+            const inputs = document.querySelectorAll('.inp-rateio-pct');
+            
+            inputs.forEach(inp => {
+                let v = parseFloat(inp.value) || 0;
+                if (v < 0) { v = 0; inp.value = 0; }
+                somaPct += v;
+            });
+
+            if (somaPct > 100) {
+                alert("A soma dos percentuais de rateio não pode ultrapassar 100%!");
+                somaPct = 100;
+            }
+
+            const pctFaltando = 100 - somaPct;
+            const sobraCusto = (custoTotalFunc * (pctFaltando / 100));
+
+            document.getElementById('display-total-pct').innerText = somaPct.toFixed(2) + "%";
+            document.getElementById('display-sobra-custo').innerText = "R$ " + sobraCusto.toFixed(2);
+
+            return somaPct;
+        }
+
+        function calcularCustoFuncionario() {
+            const tpSalario = document.getElementById('func-tp-salario').value;
+            const tpRegistro = document.getElementById('func-tp-registro').value;
+            const salBase = parseFloat(document.getElementById('func-salario-base').value) || 0;
+            const horasMes = parseFloat(document.getElementById('func-horas-mes').value) || 176;
+            const valorBeneficios = parseFloat(document.getElementById('func-beneficios-valor').value) || 0;
+
+            let salario = (tpSalario === "HORISTA") ? (salBase * horasMes) : salBase;
+            let temRegistro = (tpRegistro !== "SEM REGISTRO");
+
+            let decimoTerceiro = temRegistro ? (salario / 12) : 0;
+            let tercoFerias = temRegistro ? ((salario / 12) / 3) : 0;
+            let feriasAdic = temRegistro ? (salario / 12) : 0;
+
+            let totalBruto = salario + decimoTerceiro + tercoFerias + feriasAdic;
+
+            let fgts = temRegistro ? (totalBruto * 0.08) : 0;
+            let multaFgts = temRegistro ? (fgts * 0.5) : 0;
+
+            let inss = (tpRegistro === "NORMAL") ? (salario * 0.20) : 0;
+            let sesc = (tpRegistro === "NORMAL") ? (salario * 0.02) : 0;
+            let senai = (tpRegistro === "NORMAL") ? (salario * 0.025) : 0;
+            let incra = (tpRegistro === "NORMAL") ? (salario * 0.033) : 0;
+
+            let custoTotal = valorBeneficios + salario + decimoTerceiro + tercoFerias + feriasAdic + fgts + multaFgts + inss + sesc + senai + incra;
+
+            document.getElementById('func-custo-mensal').value = "R$ " + custoTotal.toFixed(2);
+            
+            return custoTotal;
+        }
+
+        function salvarFuncionario(e) {
+            e.preventDefault();
+            const editingId = document.getElementById('func-editing-id').value;
+            const isRateio = document.getElementById('func-is-rateio').checked;
+            const custoCalculado = calcularCustoFuncionario();
+            const horasTotais = parseFloat(document.getElementById('func-horas-mes').value) || 176;
+
+            let ccInfo = "";
+            let somaPct = 100;
+
+            if (isRateio) {
+                somaPct = validarRateioPercentuais();
+                let rateioArr = [];
+                document.querySelectorAll('.inp-rateio-pct').forEach(inp => {
+                    let v = parseFloat(inp.value) || 0;
+                    if (v > 0) {
+                        rateioArr.push({ id: inp.getAttribute('data-ccid'), pct: v });
+                    }
+                });
+                ccInfo = JSON.stringify(rateioArr);
+            } else {
+                ccInfo = document.getElementById('func-cc-id').value;
+                if(!ccInfo) return alert("Selecione um Centro de Custo.");
+            }
+
+            const pctFaltando = 100 - somaPct;
+            const valorSobraRateio = custoCalculado * (pctFaltando / 100);
+
+            const nome = document.getElementById('func-nome').value.trim().toUpperCase();
+            const tpReg = document.getElementById('func-tp-registro').value.toUpperCase();
+            const tpSal = document.getElementById('func-tp-salario').value.toUpperCase();
+            const salBase = parseFloat(document.getElementById('func-salario-base').value) || 0;
+            const benValor = parseFloat(document.getElementById('func-beneficios-valor').value) || 0;
+
+            const tempId = editingId || "FUNC-TEMP-" + Date.now();
+
+            const objLocal = {
+                TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
+                TCENTRO_CUSTO_ID: ccInfo,
+                TFUNCIONARIO_ID: tempId,
+                TFUNCIONARIO_NOME: nome,
+                TFUNCIONARIO_TP_REGISTRO: tpReg,
+                TFUNCIONARIO_TP_SALARIO: tpSal,
+                TFUNCIONARIO_SALARIO_BASE: salBase,
+                TFUNCIONARIO_BENEFICIOS: benValor,
+                TFUNCIONARIO_CUSTO_MENSAL: custoCalculado,
+                TFUNCIONARIO_RATEIO: isRateio ? "SIM" : "NAO",
+                TFUNCIONARIO_VALOR_RATEIO: valorSobraRateio,
+                TFUNCIONARIO_HORAS: horasTotais
+            };
+
+            if (editingId) {
+                const idx = listaFuncionarios.findIndex(f => String(f.TFUNCIONARIO_ID) === String(editingId));
+                if (idx !== -1) listaFuncionarios[idx] = objLocal;
+            } else {
+                listaFuncionarios.push(objLocal);
+            }
+
+            renderizarTabelaFuncionariosLocal();
+            limparFormFunc();
+
+            const payload = {
+                sheet: "TFUNCIONARIO",
+                action: editingId ? "UPDATE" : "CREATE",
+                id: editingId,
+                data: [
+                    usuarioLogado.TCLIENTE_ID, 
+                    ccInfo, 
+                    editingId || "", 
+                    nome, 
+                    tpReg, 
+                    tpSal, 
+                    salBase, 
+                    benValor, 
+                    custoCalculado, 
+                    isRateio ? "SIM" : "NAO", 
+                    valorSobraRateio,
+                    horasTotais
+                ]
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        }
+
+        function renderizarTabelaFuncionariosLocal() {
+            const tbody = document.getElementById('tbl-func-body');
+            tbody.innerHTML = '';
+
+            listaFuncionarios.forEach(f => {
+                let ccDisplay = "";
+                if (f.TFUNCIONARIO_RATEIO === "SIM") {
+                    try {
+                        const arr = JSON.parse(f.TCENTRO_CUSTO_ID);
+                        ccDisplay = arr.map(i => {
+                            const c = listaCC.find(x => String(x.TCENTRO_CUSTO_ID) === String(i.id));
+                            return (c ? c.TCENTRO_CUSTO_NOME : i.id) + ` (${i.pct}%)`;
+                        }).join(', ');
+                    } catch(e) { ccDisplay = "RATEIO MULTIPLO"; }
+                } else {
+                    const ccRelacionado = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(f.TCENTRO_CUSTO_ID));
+                    ccDisplay = ccRelacionado ? ccRelacionado.TCENTRO_CUSTO_NOME : f.TCENTRO_CUSTO_ID;
+                }
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${ccDisplay}</td>
+                        <td class="p-2 md:p-3 text-white font-medium uppercase">${f.TFUNCIONARIO_NOME}</td>
+                        <td class="p-2 md:p-3">${Number(f.TFUNCIONARIO_HORAS || 176).toFixed(0)} h</td>
+                        <td class="p-2 md:p-3">R$ ${Number(f.TFUNCIONARIO_SALARIO_BASE || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3">R$ ${Number(f.TFUNCIONARIO_BENEFICIOS || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(f.TFUNCIONARIO_CUSTO_MENSAL || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3">${f.TFUNCIONARIO_RATEIO === "SIM" ? '<span class="text-brand-primary font-bold">SIM</span>' : 'NÃO'}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="prepararEdicaoFunc('${f.TFUNCIONARIO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
+                            <button onclick="excluirFunc('${f.TFUNCIONARIO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function carregarFuncionarios() {
+            const tbody = document.getElementById('tbl-func-body');
+            tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Buscando funcionários...</td></tr>';
+
+            try {
+                const response = await fetch(`${API_URL}?action=TFUNCIONARIO`);
+                const data = await response.json();
+
+                listaFuncionarios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+
+                if (listaFuncionarios.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Nenhum funcionário cadastrado.</td></tr>';
+                    return;
+                }
+
+                renderizarTabelaFuncionariosLocal();
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>';
+            }
+        }
+
+        function prepararEdicaoFunc(id) {
+            const item = listaFuncionarios.find(f => String(f.TFUNCIONARIO_ID) === String(id));
+            if (!item) return;
+
+            document.getElementById('func-editing-id').value = item.TFUNCIONARIO_ID;
+            document.getElementById('func-nome').value = item.TFUNCIONARIO_NOME;
+            document.getElementById('func-tp-registro').value = item.TFUNCIONARIO_TP_REGISTRO;
+            document.getElementById('func-tp-salario').value = item.TFUNCIONARIO_TP_SALARIO;
+            document.getElementById('func-salario-base').value = item.TFUNCIONARIO_SALARIO_BASE;
+            document.getElementById('func-beneficios-valor').value = item.TFUNCIONARIO_BENEFICIOS;
+            document.getElementById('func-horas-mes').value = item.TFUNCIONARIO_HORAS || 176;
+
+            const isRateio = item.TFUNCIONARIO_RATEIO === "SIM";
+            document.getElementById('func-is-rateio').checked = isRateio;
+            alternarModoRateioFuncionario();
+
+            if (isRateio) {
+                try {
+                    const arr = JSON.parse(item.TCENTRO_CUSTO_ID);
+                    document.querySelectorAll('.inp-rateio-pct').forEach(inp => {
+                        const ccid = inp.getAttribute('data-ccid');
+                        const fItem = arr.find(x => String(x.id) === String(ccid));
+                        inp.value = fItem ? fItem.pct : 0;
+                    });
+                } catch(e) {}
+            } else {
+                document.getElementById('func-cc-id').value = item.TCENTRO_CUSTO_ID;
+            }
+
+            calcularCustoFuncionario();
+            validarRateioPercentuais();
+
+            document.getElementById('func-form-title').innerText = "Editar Funcionário";
+            document.getElementById('btn-cancelar-func').classList.remove('hidden');
+        }
+
+        function excluirFunc(id) {
+            if (!confirm("Tem certeza que deseja excluir o Funcionário selecionado?")) return;
+
+            listaFuncionarios = listaFuncionarios.filter(f => String(f.TFUNCIONARIO_ID) !== String(id));
+            renderizarTabelaFuncionariosLocal();
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sheet: "TFUNCIONARIO", action: "DELETE", id: id })
+            });
+        }
+
+        function limparFormFunc() {
+            document.getElementById('form-func').reset();
+            document.getElementById('func-editing-id').value = "";
+            document.getElementById('func-custo-mensal').value = "";
+            document.getElementById('func-horas-mes').value = "176";
+            document.getElementById('func-is-rateio').checked = false;
+            alternarModoRateioFuncionario();
+            document.querySelectorAll('.inp-rateio-pct').forEach(i => i.value = "");
+            document.getElementById('func-form-title').innerText = "Cadastrar Funcionário";
+            document.getElementById('btn-cancelar-func').classList.add('hidden');
         }
 
         async function carregarBeneficios() {
@@ -725,76 +1050,7 @@
             });
             document.getElementById('func-beneficios-valor').value = soma.toFixed(2);
             calcularCustoFuncionario();
-        }
-
-        function calcularCustoFuncionario() {
-            const tpSalario = document.getElementById('func-tp-salario').value;
-            const tpRegistro = document.getElementById('func-tp-registro').value;
-            const salBase = parseFloat(document.getElementById('func-salario-base').value) || 0;
-            const horasMes = parseFloat(document.getElementById('func-horas-mes').value) || 176;
-            const valorBeneficios = parseFloat(document.getElementById('func-beneficios-valor').value) || 0;
-
-            let salario = (tpSalario === "HORISTA") ? (salBase * horasMes) : salBase;
-            let temRegistro = (tpRegistro !== "SEM REGISTRO");
-
-            let decimoTerceiro = temRegistro ? (salario / 12) : 0;
-            let tercoFerias = temRegistro ? ((salario / 12) / 3) : 0;
-            let feriasAdic = temRegistro ? (salario / 12) : 0;
-
-            let totalBruto = salario + decimoTerceiro + tercoFerias + feriasAdic;
-
-            let fgts = temRegistro ? (totalBruto * 0.08) : 0;
-            let multaFgts = temRegistro ? (fgts * 0.5) : 0;
-
-            let inss = (tpRegistro === "NORMAL") ? (salario * 0.20) : 0;
-            let sesc = (tpRegistro === "NORMAL") ? (salario * 0.02) : 0;
-            let senai = (tpRegistro === "NORMAL") ? (salario * 0.025) : 0;
-            let incra = (tpRegistro === "NORMAL") ? (salario * 0.033) : 0;
-
-            let custoTotal = valorBeneficios + salario + decimoTerceiro + tercoFerias + feriasAdic + fgts + multaFgts + inss + sesc + senai + incra;
-
-            document.getElementById('func-custo-mensal').value = "R$ " + custoTotal.toFixed(2);
-            return custoTotal;
-        }
-
-        async function carregarFuncionarios() {
-            const tbody = document.getElementById('tbl-func-body');
-            tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">Buscando funcionários...</td></tr>';
-
-            try {
-                const response = await fetch(`${API_URL}?action=TFUNCIONARIO`);
-                const data = await response.json();
-
-                listaFuncionarios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
-
-                if (listaFuncionarios.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">Nenhum funcionário cadastrado.</td></tr>';
-                    return;
-                }
-
-                tbody.innerHTML = '';
-                listaFuncionarios.forEach(f => {
-                    const ccRelacionado = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(f.TCENTRO_CUSTO_ID));
-                    const ccNome = ccRelacionado ? ccRelacionado.TCENTRO_CUSTO_NOME : f.TCENTRO_CUSTO_ID;
-
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-2 md:p-3 font-semibold text-white uppercase">${ccNome}</td>
-                            <td class="p-2 md:p-3 text-white font-medium uppercase">${f.TFUNCIONARIO_NOME}</td>
-                            <td class="p-2 md:p-3 uppercase">${f.TFUNCIONARIO_TP_REGISTRO}</td>
-                            <td class="p-2 md:p-3">R$ ${Number(f.TFUNCIONARIO_SALARIO_BASE || 0).toFixed(2)}</td>
-                            <td class="p-2 md:p-3">R$ ${Number(f.TFUNCIONARIO_BENEFICIOS || 0).toFixed(2)}</td>
-                            <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(f.TFUNCIONARIO_CUSTO_MENSAL || 0).toFixed(2)}</td>
-                            <td class="p-2 md:p-3 text-right space-x-1">
-                                <button onclick="prepararEdicaoFunc('${f.TFUNCIONARIO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
-                                <button onclick="excluirFunc('${f.TFUNCIONARIO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>';
-            }
+            validarRateioPercentuais();
         }
 
         function salvarBeneficio(e) {
@@ -805,7 +1061,6 @@
 
             const tempId = editingId || "BEN-TEMP-" + Date.now();
 
-            // 1. Atualização Instantânea no Navegador
             const objLocal = {
                 TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
                 TBENEFICIO_ID: tempId,
@@ -823,7 +1078,6 @@
             renderizarTabelaBeneficiosLocal();
             limparFormBen();
 
-            // 2. Disparo Assíncrono para o Google Sheets
             const payload = {
                 sheet: "TBENEFICIOS",
                 action: editingId ? "UPDATE" : "CREATE",
@@ -899,123 +1153,6 @@
             document.getElementById('btn-cancelar-ben').classList.add('hidden');
         }
 
-        function salvarFuncionario(e) {
-            e.preventDefault();
-            const editingId = document.getElementById('func-editing-id').value;
-            const custoCalculado = calcularCustoFuncionario();
-
-            const ccId = document.getElementById('func-cc-id').value;
-            const nome = document.getElementById('func-nome').value.trim().toUpperCase();
-            const tpReg = document.getElementById('func-tp-registro').value.toUpperCase();
-            const tpSal = document.getElementById('func-tp-salario').value.toUpperCase();
-            const salBase = parseFloat(document.getElementById('func-salario-base').value) || 0;
-            const benValor = parseFloat(document.getElementById('func-beneficios-valor').value) || 0;
-
-            const tempId = editingId || "FUNC-TEMP-" + Date.now();
-
-            const objLocal = {
-                TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
-                TCENTRO_CUSTO_ID: ccId,
-                TFUNCIONARIO_ID: tempId,
-                TFUNCIONARIO_NOME: nome,
-                TFUNCIONARIO_TP_REGISTRO: tpReg,
-                TFUNCIONARIO_TP_SALARIO: tpSal,
-                TFUNCIONARIO_SALARIO_BASE: salBase,
-                TFUNCIONARIO_BENEFICIOS: benValor,
-                TFUNCIONARIO_CUSTO_MENSAL: custoCalculado
-            };
-
-            if (editingId) {
-                const idx = listaFuncionarios.findIndex(f => String(f.TFUNCIONARIO_ID) === String(editingId));
-                if (idx !== -1) listaFuncionarios[idx] = objLocal;
-            } else {
-                listaFuncionarios.push(objLocal);
-            }
-
-            renderizarTabelaFuncionariosLocal();
-            limparFormFunc();
-
-            const payload = {
-                sheet: "TFUNCIONARIO",
-                action: editingId ? "UPDATE" : "CREATE",
-                id: editingId,
-                data: [usuarioLogado.TCLIENTE_ID, ccId, editingId || "", nome, tpReg, tpSal, salBase, benValor, custoCalculado]
-            };
-
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-        }
-
-        function renderizarTabelaFuncionariosLocal() {
-            const tbody = document.getElementById('tbl-func-body');
-            tbody.innerHTML = '';
-
-            listaFuncionarios.forEach(f => {
-                const ccRelacionado = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(f.TCENTRO_CUSTO_ID));
-                const ccNome = ccRelacionado ? ccRelacionado.TCENTRO_CUSTO_NOME : f.TCENTRO_CUSTO_ID;
-
-                tbody.innerHTML += `
-                    <tr class="hover:bg-brand-border/30 transition">
-                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${ccNome}</td>
-                        <td class="p-2 md:p-3 text-white font-medium uppercase">${f.TFUNCIONARIO_NOME}</td>
-                        <td class="p-2 md:p-3 uppercase">${f.TFUNCIONARIO_TP_REGISTRO}</td>
-                        <td class="p-2 md:p-3">R$ ${Number(f.TFUNCIONARIO_SALARIO_BASE || 0).toFixed(2)}</td>
-                        <td class="p-2 md:p-3">R$ ${Number(f.TFUNCIONARIO_BENEFICIOS || 0).toFixed(2)}</td>
-                        <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(f.TFUNCIONARIO_CUSTO_MENSAL || 0).toFixed(2)}</td>
-                        <td class="p-2 md:p-3 text-right space-x-1">
-                            <button onclick="prepararEdicaoFunc('${f.TFUNCIONARIO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
-                            <button onclick="excluirFunc('${f.TFUNCIONARIO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        function prepararEdicaoFunc(id) {
-            const item = listaFuncionarios.find(f => String(f.TFUNCIONARIO_ID) === String(id));
-            if (!item) return;
-
-            document.getElementById('func-editing-id').value = item.TFUNCIONARIO_ID;
-            document.getElementById('func-cc-id').value = item.TCENTRO_CUSTO_ID;
-            document.getElementById('func-nome').value = item.TFUNCIONARIO_NOME;
-            document.getElementById('func-tp-registro').value = item.TFUNCIONARIO_TP_REGISTRO;
-            document.getElementById('func-tp-salario').value = item.TFUNCIONARIO_TP_SALARIO;
-            document.getElementById('func-salario-base').value = item.TFUNCIONARIO_SALARIO_BASE;
-            document.getElementById('func-beneficios-valor').value = item.TFUNCIONARIO_BENEFICIOS;
-
-            calcularCustoFuncionario();
-
-            document.getElementById('func-form-title').innerText = "Editar Funcionário";
-            document.getElementById('btn-cancelar-func').classList.remove('hidden');
-        }
-
-        function excluirFunc(id) {
-            if (!confirm("Tem certeza que deseja excluir o Funcionário selecionado?")) return;
-
-            listaFuncionarios = listaFuncionarios.filter(f => String(f.TFUNCIONARIO_ID) !== String(id));
-            renderizarTabelaFuncionariosLocal();
-
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sheet: "TFUNCIONARIO", action: "DELETE", id: id })
-            });
-        }
-
-        function limparFormFunc() {
-            document.getElementById('form-func').reset();
-            document.getElementById('func-editing-id').value = "";
-            document.getElementById('func-custo-mensal').value = "";
-            document.getElementById('func-horas-mes').value = "176";
-            document.getElementById('func-form-title').innerText = "Cadastrar Funcionário";
-            document.getElementById('btn-cancelar-func').classList.add('hidden');
-        }
-
         function calcularCustoMensalRecurso() {
             const tipoSel = document.getElementById('rec-tipo').value;
             const valor = parseFloat(document.getElementById('rec-valor').value) || 0;
@@ -1054,25 +1191,7 @@
                     return;
                 }
 
-                tbody.innerHTML = '';
-                listaRecursos.forEach(r => {
-                    const ccRelacionado = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(r.TCENTRO_CUSTO_ID));
-                    const ccNome = ccRelacionado ? ccRelacionado.TCENTRO_CUSTO_NOME : r.TCENTRO_CUSTO_ID;
-
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-2 md:p-3 font-semibold text-white uppercase">${ccNome}</td>
-                            <td class="p-2 md:p-3 text-white font-medium uppercase">${r.TRECURSO_NOME}</td>
-                            <td class="p-2 md:p-3 uppercase">${r.TRECURSO_TIPO}</td>
-                            <td class="p-2 md:p-3">R$ ${Number(r.TRECURSO_VALOR || 0).toFixed(2)}</td>
-                            <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(r.TRECURSO_CUSTO_MENSAL || 0).toFixed(2)}</td>
-                            <td class="p-2 md:p-3 text-right space-x-1">
-                                <button onclick="prepararEdicaoRec('${r.TRECURSO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
-                                <button onclick="excluirRec('${r.TRECURSO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
-                            </td>
-                        </tr>
-                    `;
-                });
+                renderizarTabelaRecursosLocal();
             } catch (e) {
                 tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-400">Erro ao carregar recursos.</td></tr>';
             }
@@ -1216,7 +1335,8 @@
                 TCENTRO_CUSTO_TIPO_RATEIO_HORAS: rateio,
                 TCENTRO_CUSTO_CONSIDERAR_MINIMO: considerarMinimo,
                 TCENTRO_CUSTO_CUSTO_MENSAL: 0,
-                TCENTRO_CUSTO_CUSTO_FUNCIONARIO: 0
+                TCENTRO_CUSTO_CUSTO_FUNCIONARIO: 0,
+                TCENTRO_CUSTO_HORAS: 0
             };
 
             if (editingId) {
@@ -1233,7 +1353,7 @@
                 sheet: "TCENTRO_CUSTO",
                 action: editingId ? "UPDATE" : "CREATE",
                 id: editingId,
-                data: [usuarioLogado.TCLIENTE_ID, editingId || "", nome, tipoCC, 0, area, custoFixo, produtividade, rateio, considerarMinimo, 0, 0]
+                data: [usuarioLogado.TCLIENTE_ID, editingId || "", nome, tipoCC, 0, area, custoFixo, produtividade, rateio, considerarMinimo, 0, 0, 0]
             };
 
             fetch(API_URL, {
@@ -1258,6 +1378,7 @@
                         <td class="p-2 md:p-3">R$ ${Number(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toFixed(2)}</td>
                         <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_MENSAL || 0).toFixed(2)}</td>
                         <td class="p-2 md:p-3 text-brand-primary font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 text-white font-bold">${Number(c.TCENTRO_CUSTO_HORAS || 0).toFixed(2)} h</td>
                         <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_PRODUTIVIDADE || 0).toFixed(2)}%</td>
                         <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_CONSIDERAR_MINIMO === 'SIM' ? '<span class="text-emerald-400 font-bold">SIM</span>' : '-'}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
