@@ -70,6 +70,7 @@
             <button id="tab-btn-rec" onclick="alternarAbaCliente('rec')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Recursos</button>
             <button id="tab-btn-ben" onclick="alternarAbaCliente('ben')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Benefícios</button>
             <button id="tab-btn-func" onclick="alternarAbaCliente('func')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Funcionários</button>
+            <button id="tab-btn-plc" onclick="alternarAbaCliente('plc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Plano de Contas</button>
         </div>
 
         <!-- PAINEL ADMIN -->
@@ -485,6 +486,77 @@
             </div>
         </section>
 
+        <!-- ABA 5: PLANO DE CONTAS -->
+        <section id="section-plano-contas" class="hidden space-y-6">
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
+                    <h2 class="text-lg md:text-xl font-bold text-white" id="plc-form-title">Cadastrar Conta no Plano de Contas</h2>
+                    <span class="text-xs text-brand-muted">Empresa: <strong id="plc-client-name-display" class="text-brand-primary uppercase">---</strong></span>
+                </div>
+
+                <form id="form-plc" onsubmit="salvarPlanoConta(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="hidden" id="plc-editing-id" value="">
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Descrição / Nome da Conta</label>
+                        <input type="text" id="plc-nome" placeholder="Ex: ENERGIA ELÉTRICA / ALUGUEL" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Critério de Destino / Rateio</label>
+                        <select id="plc-criterio" onchange="verificarCriterioPlanoContas()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <option value="EXCLUSIVO">EXCLUSIVO (CENTRO DE CUSTO ÚNICO)</option>
+                            <option value="AREA">RATEIO POR ÁREA (M²)</option>
+                            <option value="RECURSOS">RATEIO POR QUANTIDADE DE RECURSOS</option>
+                            <option value="HORAS">RATEIO POR HORAS FINAIS DO CC</option>
+                        </select>
+                    </div>
+
+                    <div id="wrapper-plc-cc-exclusivo">
+                        <label class="block text-xs text-brand-muted mb-1">Centro de Custo Exclusivo</label>
+                        <select id="plc-cc-id" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <option value="">Carregando...</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Valor Mensal (R$)</label>
+                        <input type="number" step="0.01" id="plc-valor" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div class="md:col-span-2 flex justify-end gap-2 pt-2 items-end">
+                        <button type="button" id="btn-cancelar-plc" onclick="limparFormPLC()" class="hidden w-1/3 md:w-32 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                        <button type="submit" id="btn-salvar-plc" class="w-full md:w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Conta</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- TABELA PLANO DE CONTAS -->
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-base md:text-lg font-bold text-white">Contas Cadastradas</h3>
+                    <button onclick="carregarPlanoContas()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                            <tr>
+                                <th class="p-2 md:p-3">Descrição da Conta</th>
+                                <th class="p-2 md:p-3">Critério Rateio</th>
+                                <th class="p-2 md:p-3">CC Exclusivo</th>
+                                <th class="p-2 md:p-3">Valor Mensal (R$)</th>
+                                <th class="p-2 md:p-3 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-plc-body" class="divide-y divide-brand-border/50">
+                            <tr><td colspan="5" class="p-4 text-center">Carregando...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <script>
@@ -496,20 +568,16 @@
         let listaRecursos = [];
         let listaBeneficios = [];
         let listaFuncionarios = [];
+        let listaPlanoContas = [];
         let tabelaPadroes = [];
 
-        // AUTO-LOGIN COM LOCALSTORAGE
         window.addEventListener('DOMContentLoaded', () => {
             const savedUser = localStorage.getItem('usuarioLogadoRF');
             if (savedUser) {
                 try {
                     usuarioLogado = JSON.parse(savedUser);
-                    buscarNomeEmpresa().then(() => {
-                        iniciarSessao();
-                    });
-                } catch(e) {
-                    localStorage.removeItem('usuarioLogadoRF');
-                }
+                    buscarNomeEmpresa().then(() => { iniciarSessao(); });
+                } catch(e) { localStorage.removeItem('usuarioLogadoRF'); }
             }
         });
 
@@ -559,9 +627,7 @@
                 const clientes = await res.json();
                 const cli = clientes.find(c => String(c.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
                 if (cli) empresaLogadaNome = cli.TCLIENTE_NOME;
-            } catch (e) {
-                empresaLogadaNome = usuarioLogado.TCLIENTE_ID;
-            }
+            } catch (e) { empresaLogadaNome = usuarioLogado.TCLIENTE_ID; }
         }
 
         function iniciarSessao() {
@@ -588,12 +654,14 @@
             document.getElementById('rec-client-name-display').innerText = empresaLogadaNome;
             document.getElementById('ben-client-name-display').innerText = empresaLogadaNome;
             document.getElementById('func-client-name-display').innerText = empresaLogadaNome;
+            document.getElementById('plc-client-name-display').innerText = empresaLogadaNome;
             
             carregarPadroes();
             carregarCentrosDeCusto();
             carregarRecursos();
             carregarBeneficios();
             carregarFuncionarios();
+            carregarPlanoContas();
         }
 
         function alternarAbaCliente(aba) {
@@ -601,6 +669,7 @@
             document.getElementById('section-recursos').classList.add('hidden');
             document.getElementById('section-beneficios').classList.add('hidden');
             document.getElementById('section-funcionarios').classList.add('hidden');
+            document.getElementById('section-plano-contas').classList.add('hidden');
 
             const classInactive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap";
             const classActive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap";
@@ -609,6 +678,7 @@
             document.getElementById('tab-btn-rec').className = classInactive;
             document.getElementById('tab-btn-ben').className = classInactive;
             document.getElementById('tab-btn-func').className = classInactive;
+            document.getElementById('tab-btn-plc').className = classInactive;
 
             if (aba === 'cc') {
                 document.getElementById('section-centro-custo').classList.remove('hidden');
@@ -623,6 +693,9 @@
             } else if (aba === 'func') {
                 document.getElementById('section-funcionarios').classList.remove('hidden');
                 document.getElementById('tab-btn-func').className = classActive;
+            } else if (aba === 'plc') {
+                document.getElementById('section-plano-contas').classList.remove('hidden');
+                document.getElementById('tab-btn-plc').className = classActive;
             }
         }
 
@@ -647,9 +720,7 @@
                     if (p.TRECURSO_TIPO) selectTipoRec.innerHTML += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO}</option>`;
                     if (p.TFUNCIONARIO_TP_REGISTRO) selectTpRegFunc.innerHTML += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO}</option>`;
                 });
-            } catch(e) {
-                console.error("Erro ao carregar padrões", e);
-            }
+            } catch(e) { console.error("Erro ao carregar padrões", e); }
         }
 
         function verificarTipoCentroCusto() {
@@ -681,10 +752,22 @@
             }
         }
 
+        function verificarCriterioPlanoContas() {
+            const crit = document.getElementById('plc-criterio').value;
+            const wrapExclusivo = document.getElementById('wrapper-plc-cc-exclusivo');
+            if (crit === 'EXCLUSIVO') {
+                wrapExclusivo.classList.remove('hidden');
+            } else {
+                wrapExclusivo.classList.add('hidden');
+                document.getElementById('plc-cc-id').value = "";
+            }
+        }
+
         async function carregarCentrosDeCusto() {
             const tbody = document.getElementById('tbl-cc-body');
             const selectCCRec = document.getElementById('rec-cc-id');
             const selectCCFunc = document.getElementById('func-cc-id');
+            const selectCCPlc = document.getElementById('plc-cc-id');
             tbody.innerHTML = '<tr><td colspan="12" class="p-4 text-center">Buscando dados...</td></tr>';
 
             try {
@@ -695,6 +778,7 @@
 
                 selectCCRec.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
                 selectCCFunc.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
+                selectCCPlc.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
 
                 const containerRateioCC = document.getElementById('container-rateio-cc-list');
                 containerRateioCC.innerHTML = '';
@@ -702,6 +786,7 @@
                 listaCC.forEach(cc => {
                     selectCCRec.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
                     selectCCFunc.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
+                    selectCCPlc.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
 
                     containerRateioCC.innerHTML += `
                         <div class="flex items-center justify-between gap-2 text-xs">
@@ -720,9 +805,131 @@
                 }
 
                 renderizarTabelaCCLocal();
-            } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="12" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>';
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="12" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; }
+        }
+
+        async function carregarPlanoContas() {
+            const tbody = document.getElementById('tbl-plc-body');
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando contas...</td></tr>';
+
+            try {
+                const response = await fetch(`${API_URL}?action=TPLANO_CONTAS`);
+                const data = await response.json();
+
+                listaPlanoContas = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+
+                if (listaPlanoContas.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Nenhuma conta cadastrada.</td></tr>';
+                    return;
+                }
+
+                renderizarTabelaPlanoContasLocal();
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar plano de contas.</td></tr>'; }
+        }
+
+        function salvarPlanoConta(e) {
+            e.preventDefault();
+            const editingId = document.getElementById('plc-editing-id').value;
+            const nome = document.getElementById('plc-nome').value.trim().toUpperCase();
+            const crit = document.getElementById('plc-criterio').value.toUpperCase();
+            const ccId = (crit === 'EXCLUSIVO') ? document.getElementById('plc-cc-id').value : "";
+            const valor = parseFloat(document.getElementById('plc-valor').value) || 0;
+
+            const tempId = editingId || "PLC-TEMP-" + Date.now();
+
+            const objLocal = {
+                TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
+                TCENTRO_CUSTO_ID: ccId,
+                TPLANO_CONTA_ID: tempId,
+                TPLANO_CONTA_NOME: nome,
+                TPLANO_CONTA_CRITERIO: crit,
+                TPLANO_CONTA_VALOR: valor
+            };
+
+            if (editingId) {
+                const idx = listaPlanoContas.findIndex(p => String(p.TPLANO_CONTA_ID) === String(editingId));
+                if (idx !== -1) listaPlanoContas[idx] = objLocal;
+            } else {
+                listaPlanoContas.push(objLocal);
             }
+
+            renderizarTabelaPlanoContasLocal();
+            limparFormPLC();
+
+            const payload = {
+                sheet: "TPLANO_CONTAS",
+                action: editingId ? "UPDATE" : "CREATE",
+                id: editingId,
+                data: [usuarioLogado.TCLIENTE_ID, ccId, editingId || "", nome, crit, valor]
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
+        }
+
+        function renderizarTabelaPlanoContasLocal() {
+            const tbody = document.getElementById('tbl-plc-body');
+            tbody.innerHTML = '';
+
+            listaPlanoContas.forEach(p => {
+                const ccRel = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(p.TCENTRO_CUSTO_ID));
+                const ccNome = ccRel ? ccRel.TCENTRO_CUSTO_NOME : '-';
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-medium text-white uppercase">${p.TPLANO_CONTA_NOME}</td>
+                        <td class="p-2 md:p-3 font-bold text-brand-primary uppercase">${p.TPLANO_CONTA_CRITERIO}</td>
+                        <td class="p-2 md:p-3 uppercase">${p.TPLANO_CONTA_CRITERIO === 'EXCLUSIVO' ? ccNome : 'RATEIO GERAL'}</td>
+                        <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(p.TPLANO_CONTA_VALOR || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="prepararEdicaoPLC('${p.TPLANO_CONTA_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
+                            <button onclick="excluirPLC('${p.TPLANO_CONTA_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function prepararEdicaoPLC(id) {
+            const item = listaPlanoContas.find(p => String(p.TPLANO_CONTA_ID) === String(id));
+            if (!item) return;
+
+            document.getElementById('plc-editing-id').value = item.TPLANO_CONTA_ID;
+            document.getElementById('plc-nome').value = item.TPLANO_CONTA_NOME;
+            document.getElementById('plc-criterio').value = item.TPLANO_CONTA_CRITERIO;
+            verificarCriterioPlanoContas();
+            document.getElementById('plc-cc-id').value = item.TCENTRO_CUSTO_ID || "";
+            document.getElementById('plc-valor').value = item.TPLANO_CONTA_VALOR;
+
+            document.getElementById('plc-form-title').innerText = "Editar Conta";
+            document.getElementById('btn-cancelar-plc').classList.remove('hidden');
+        }
+
+        function excluirPLC(id) {
+            if (!confirm("Tem certeza que deseja excluir esta conta?")) return;
+
+            listaPlanoContas = listaPlanoContas.filter(p => String(p.TPLANO_CONTA_ID) !== String(id));
+            renderizarTabelaPlanoContasLocal();
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sheet: "TPLANO_CONTAS", action: "DELETE", id: id })
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
+        }
+
+        function limparFormPLC() {
+            document.getElementById('form-plc').reset();
+            document.getElementById('plc-editing-id').value = "";
+            document.getElementById('plc-criterio').value = "EXCLUSIVO";
+            verificarCriterioPlanoContas();
+            document.getElementById('plc-form-title').innerText = "Cadastrar Conta no Plano de Contas";
+            document.getElementById('btn-cancelar-plc').classList.add('hidden');
         }
 
         function alternarModoRateioFuncionario() {
@@ -889,9 +1096,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => {
-                setTimeout(carregarCentrosDeCusto, 1500);
-            });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
         }
 
         function renderizarTabelaFuncionariosLocal() {
@@ -947,9 +1152,7 @@
                 }
 
                 renderizarTabelaFuncionariosLocal();
-            } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>';
-            }
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>'; }
         }
 
         function prepararEdicaoFunc(id) {
@@ -999,9 +1202,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TFUNCIONARIO", action: "DELETE", id: id })
-            }).then(() => {
-                setTimeout(carregarCentrosDeCusto, 1500);
-            });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
         }
 
         function limparFormFunc() {
@@ -1034,37 +1235,14 @@
                     return;
                 }
 
-                tbody.innerHTML = '';
-                listaBeneficios.forEach(b => {
-                    containerCheckboxes.innerHTML += `
-                        <label class="flex items-center gap-1.5 text-xs text-white cursor-pointer hover:text-brand-primary">
-                            <input type="checkbox" value="${b.TBENEFICIO_VALOR}" onchange="recalcularBeneficiosCheckboxes()" class="chk-beneficio-item accent-brand-primary rounded">
-                            <span class="uppercase">${b.TBENEFICIO_NOME} (R$ ${Number(b.TBENEFICIO_VALOR || 0).toFixed(2)})</span>
-                        </label>
-                    `;
-
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-2 md:p-3 text-white font-medium uppercase">${b.TBENEFICIO_NOME}</td>
-                            <td class="p-2 md:p-3 font-bold text-emerald-400">R$ ${Number(b.TBENEFICIO_VALOR || 0).toFixed(2)}</td>
-                            <td class="p-2 md:p-3 text-right space-x-1">
-                                <button onclick="prepararEdicaoBen('${b.TBENEFICIO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
-                                <button onclick="excluirBen('${b.TBENEFICIO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar benefícios.</td></tr>';
-            }
+                renderizarTabelaBeneficiosLocal();
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar benefícios.</td></tr>'; }
         }
 
         function recalcularBeneficiosCheckboxes() {
             let soma = 0;
             const checkboxes = document.querySelectorAll('.chk-beneficio-item:checked');
-            checkboxes.forEach(c => {
-                soma += parseFloat(c.value) || 0;
-            });
+            checkboxes.forEach(c => { soma += parseFloat(c.value) || 0; });
             document.getElementById('func-beneficios-valor').value = soma.toFixed(2);
             calcularCustoFuncionario();
             validarRateioPercentuais();
@@ -1209,9 +1387,7 @@
                 }
 
                 renderizarTabelaRecursosLocal();
-            } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-400">Erro ao carregar recursos.</td></tr>';
-            }
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-400">Erro ao carregar recursos.</td></tr>'; }
         }
 
         function salvarRecurso(e) {
@@ -1263,9 +1439,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => {
-                setTimeout(carregarCentrosDeCusto, 1500);
-            });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
         }
 
         function renderizarTabelaRecursosLocal() {
@@ -1322,9 +1496,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TRECURSO", action: "DELETE", id: id })
-            }).then(() => {
-                setTimeout(carregarCentrosDeCusto, 1500);
-            });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
         }
 
         function limparFormRec() {
@@ -1389,9 +1561,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => {
-                setTimeout(carregarCentrosDeCusto, 1500);
-            });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
         }
 
         function renderizarTabelaCCLocal() {
@@ -1476,9 +1646,7 @@
                 clientes.forEach(c => {
                     select.innerHTML += `<option value="${c.TCLIENTE_ID}">${c.TCLIENTE_NOME}</option>`;
                 });
-            } catch (e) {
-                select.innerHTML = '<option value="">Erro ao carregar clientes</option>';
-            }
+            } catch (e) { select.innerHTML = '<option value="">Erro ao carregar clientes</option>'; }
         }
 
         function cadastrarCliente(e) {
