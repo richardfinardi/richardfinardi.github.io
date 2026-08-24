@@ -3,266 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF | Portal do Cliente</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
+    <title>CONSULTORIA.RF | Gestão & Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              brand: {
-                primary: '#FF8838',
-                hover: '#e07024',
-                dark: '#0d0d0f',
-                card: '#16161a',
-                border: '#242429',
-                muted: '#9ea0a6'
-              }
+              brand: { primary: '#FF8838', hover: '#e07024', dark: '#0d0d0f', card: '#16161a', border: '#242429', muted: '#9ea0a6' }
             }
           }
         }
       }
     </script>
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0d0d0f;
-            color: #f4f4f5;
-        }
-    </style>
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0d0d0f; color: #f4f4f5; }</style>
 </head>
 <body class="min-h-screen flex flex-col">
 
     <!-- CABEÇALHO -->
-    <header class="border-b border-brand-border bg-[#0d0d0f]/95 backdrop-blur sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-4">
-            <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-8 w-auto">
-            <span class="text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Portal do Cliente</span>
+    <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="text-xl font-bold tracking-wider text-white">CONSULTORIA<span class="text-brand-primary">.RF</span></span>
+            <span id="role-badge" class="hidden text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2.5 py-1 rounded-full font-bold uppercase"></span>
         </div>
         <div id="user-menu" class="hidden flex items-center gap-4">
-            <span class="text-sm text-brand-muted">Empresa: <strong class="text-white" id="company-name">Carregando...</strong></span>
+            <span class="text-sm text-brand-muted"><strong class="text-white" id="user-display-name"></strong></span>
             <button onclick="deslogar()" class="text-xs bg-red-950/50 border border-red-800/50 hover:bg-red-900 text-red-200 px-3 py-1.5 rounded-lg transition font-semibold">Sair</button>
         </div>
     </header>
 
     <!-- TELA DE LOGIN -->
     <div id="login-screen" class="flex-1 flex items-center justify-center p-4">
-        <div class="bg-brand-card p-8 rounded-2xl border border-brand-border w-full max-w-md shadow-2xl space-y-6">
+        <div class="bg-brand-card p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
-                <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-4">
-                <h1 class="text-xl font-bold text-white">Área Restrita</h1>
-                <p class="text-brand-muted text-sm">Insira suas credenciais para acessar seus indicadores de custos e DRE.</p>
+                <h1 class="text-2xl font-bold text-white">Acesso ao Sistema</h1>
+                <p class="text-brand-muted text-sm">Insira suas credenciais cadastradas na planilha</p>
             </div>
-            
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs uppercase font-bold text-brand-muted mb-1.5">E-mail de Acesso</label>
-                    <input type="email" id="email" placeholder="seuemail@empresa.com" class="w-full p-3 rounded-lg bg-[#0d0d0f] border border-brand-border focus:border-brand-primary outline-none text-white text-sm transition">
+                    <label class="block text-xs uppercase font-bold text-brand-muted mb-1">E-mail</label>
+                    <input type="email" id="login-email" class="w-full p-3 rounded-lg bg-[#0d0d0f] border border-brand-border text-white text-sm focus:border-brand-primary outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs uppercase font-bold text-brand-muted mb-1.5">Senha</label>
-                    <input type="password" id="password" placeholder="••••••••" class="w-full p-3 rounded-lg bg-[#0d0d0f] border border-brand-border focus:border-brand-primary outline-none text-white text-sm transition">
+                    <label class="block text-xs uppercase font-bold text-brand-muted mb-1">Senha</label>
+                    <input type="password" id="login-password" class="w-full p-3 rounded-lg bg-[#0d0d0f] border border-brand-border text-white text-sm focus:border-brand-primary outline-none">
                 </div>
-                <button onclick="fazerLoginTest()" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-3 rounded-lg transition text-sm shadow-lg shadow-brand-primary/20">
-                    Entrar na Plataforma
+                <button onclick="fazerLogin()" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-3 rounded-lg transition text-sm">
+                    Entrar
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- PAINEL DO CLIENTE (DASHBOARD) -->
-    <div id="dashboard" class="hidden flex-1 p-6 max-w-7xl mx-auto w-full space-y-8">
+    <!-- NAVEGAÇÃO INTERNA -->
+    <nav id="app-nav" class="hidden bg-[#121215] border-b border-brand-border px-6 py-2 flex gap-4 text-sm">
+        <button id="nav-admin" onclick="trocarAba('admin')" class="px-3 py-1.5 rounded-md font-semibold bg-brand-primary text-white">Painel Admin</button>
+        <button id="nav-dash" onclick="trocarAba('dash')" class="px-3 py-1.5 rounded-md font-semibold text-brand-muted hover:text-white">Dashboard</button>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-1 p-6 max-w-7xl mx-auto w-full">
         
-        <!-- RESUMO DRE -->
-        <div>
-            <div class="mb-4">
-                <h2 class="text-xl font-bold text-white">Análise de Custo & DRE</h2>
-                <p class="text-xs text-brand-muted">Visão geral do Cenário Atual vs Objetivos estratégicos</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
-                    <p class="text-xs font-semibold text-brand-muted uppercase">Faturamento Atual</p>
-                    <p class="text-2xl font-extrabold text-white mt-2" id="dre-faturamento">R$ 0,00</p>
-                    <span class="text-[11px] text-emerald-400 font-medium" id="dre-periodo">Período</span>
+        <!-- SEÇÃO ADMIN (CADASTROS) -->
+        <div id="screen-admin" class="hidden space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Cadastrar Cliente -->
+                <div class="bg-brand-card p-6 rounded-xl border border-brand-border space-y-4">
+                    <h2 class="text-lg font-bold text-white">Cadastrar Novo Cliente (Empresa)</h2>
+                    <div class="space-y-3">
+                        <input type="text" id="cli-id" placeholder="ID do Cliente (ex: CLI01)" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
+                        <input type="text" id="cli-nome" placeholder="Nome / Razão Social" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
+                        <input type="text" id="cli-cnpj" placeholder="CNPJ" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
+                        <button onclick="cadastrarCliente()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded text-sm">Salvar Cliente</button>
+                    </div>
                 </div>
-                <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
-                    <p class="text-xs font-semibold text-brand-muted uppercase">Custo Fixo Total</p>
-                    <p class="text-2xl font-extrabold text-red-400 mt-2" id="dre-custofixo">R$ 0,00</p>
-                    <span class="text-[11px] text-brand-muted">Custo Fixo Mensal</span>
-                </div>
-                <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
-                    <p class="text-xs font-semibold text-brand-muted uppercase">Margem de Contribuição</p>
-                    <p class="text-2xl font-extrabold text-brand-primary mt-2" id="dre-margem">0%</p>
-                    <span class="text-[11px] text-brand-muted">Percentual de MC</span>
-                </div>
-                <div class="bg-brand-card p-5 rounded-xl border border-brand-border">
-                    <p class="text-xs font-semibold text-brand-muted uppercase">Resultado Atual</p>
-                    <p class="text-2xl font-extrabold text-red-500 mt-2" id="dre-lucro">R$ 0,00</p>
-                    <span class="text-[11px] text-red-400 font-medium">Lucro / Prejuízo Líquido</span>
-                </div>
-            </div>
-        </div>
 
-        <!-- TABELA DE CUSTO-HORA -->
-        <div class="bg-brand-card border border-brand-border rounded-xl p-6">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="text-lg font-bold text-white">Custo Hora por Centro de Custo</h3>
-                    <p class="text-xs text-brand-muted">Apuração detalhada por tipo de equipamento / operação</p>
+                <!-- Cadastrar Usuário -->
+                <div class="bg-brand-card p-6 rounded-xl border border-brand-border space-y-4">
+                    <h2 class="text-lg font-bold text-white">Cadastrar Usuário</h2>
+                    <div class="space-y-3">
+                        <input type="text" id="usr-cli-id" placeholder="ID do Cliente Vinc. (ex: CLI01 ou ADMIN)" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
+                        <input type="text" id="usr-id" placeholder="ID do Usuário (ex: USR01)" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
+                        <input type="text" id="usr-nome" placeholder="Nome Completo" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
+                        <input type="email" id="usr-email" placeholder="E-mail" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
+                        <input type="text" id="usr-celular" placeholder="Celular" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
+                        <input type="password" id="usr-senha" placeholder="Senha de Acesso" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white">
+                        <button onclick="cadastrarUsuario()" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm">Salvar Usuário</button>
+                    </div>
                 </div>
-                <span class="text-xs bg-brand-border text-brand-muted px-3 py-1 rounded-md">Centros de Custo</span>
-            </div>
 
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-brand-muted">
-                    <thead class="bg-[#0d0d0f] text-xs uppercase text-white border-b border-brand-border">
-                        <tr>
-                            <th class="p-3">Centro de Custo</th>
-                            <th class="p-3">Horas / Mês</th>
-                            <th class="p-3">Custo Hora Atual</th>
-                            <th class="p-3">Custo Antigo</th>
-                            <th class="p-3">% Variação</th>
-                            <th class="p-3 text-brand-primary">Preço Hora Objetivo</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-brand-border/50">
-                        <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-3 font-semibold text-white">Torno CNC c/ Alimentador</td>
-                            <td class="p-3">748 h</td>
-                            <td class="p-3 text-white font-medium">R$ 84,82</td>
-                            <td class="p-3">R$ 68,00</td>
-                            <td class="p-3 text-emerald-400 font-bold">+24,73%</td>
-                            <td class="p-3 text-brand-primary font-bold">R$ 159,96</td>
-                        </tr>
-                        <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-3 font-semibold text-white">Torno CNC</td>
-                            <td class="p-3">748 h</td>
-                            <td class="p-3 text-white font-medium">R$ 80,23</td>
-                            <td class="p-3">R$ 68,00</td>
-                            <td class="p-3 text-emerald-400 font-bold">+17,98%</td>
-                            <td class="p-3 text-brand-primary font-bold">R$ 151,30</td>
-                        </tr>
-                        <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-3 font-semibold text-white">Centro de Usinagem</td>
-                            <td class="p-3">299 h</td>
-                            <td class="p-3 text-white font-medium">R$ 77,58</td>
-                            <td class="p-3">R$ 82,00</td>
-                            <td class="p-3 text-red-400 font-bold">-5,39%</td>
-                            <td class="p-3 text-brand-primary font-bold">R$ 146,32</td>
-                        </tr>
-                        <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-3 font-semibold text-white">Torno Automático A-25</td>
-                            <td class="p-3">449 h</td>
-                            <td class="p-3 text-white font-medium">R$ 48,91</td>
-                            <td class="p-3">R$ 32,00</td>
-                            <td class="p-3 text-emerald-400 font-bold">+52,85%</td>
-                            <td class="p-3 text-brand-primary font-bold">R$ 92,24</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
 
-    </div>
+        <!-- SEÇÃO DASHBOARD (ÁREA CLIENTE) -->
+        <div id="screen-dash" class="hidden space-y-6">
+            <h2 class="text-xl font-bold text-white">Área Restrita do Cliente</h2>
+            <div class="bg-brand-card p-6 rounded-xl border border-brand-border">
+                <p class="text-brand-muted">Bem-vindo ao portal. Dados sincronizados com o Google Sheets.</p>
+            </div>
+        </div>
 
-    <!-- SDK SUPABASE & AUTENTICAÇÃO REAL -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    </main>
+
     <script>
-        const SUPABASE_URL = "https://fimxbpdgfmeqhtpysspy.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpbXhhcGRnZm1lcWh0cHlzc3B5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAxNjE0MzksImV4cCI6MjA1NTczNzQzOX0.9QkR-a4E4-Xh3U0N54xT9K3X6gX0";
+        // SUBSTITUA PELA URL GERADA NA IMPLANTAÇÃO DO GOOGLE APPS SCRIPT
+        const API_URL = "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let currentUser = null;
 
-        async function fazerLoginTest() {
-            const emailInput = document.getElementById('email').value.trim();
-            const passwordInput = document.getElementById('password').value.trim();
+        async function fazerLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const pass = document.getElementById('login-password').value.trim();
 
-            if (!emailInput || !passwordInput) {
-                alert("Por favor, preencha o e-mail e a senha.");
-                return;
-            }
+            if(!email || !pass) return alert("Preencha e-mail e senha.");
 
             try {
-                // 1. Tenta autenticar no Supabase Auth
-                const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
-                    email: emailInput,
-                    password: passwordInput
-                });
+                const res = await fetch(`${API_URL}?action=TUSUARIO`);
+                const usuarios = await res.json();
+                
+                // Validação comparando com a tabela TUSUARIO
+                const user = usuarios.find(u => 
+                    String(u.TUSUARIO_EMAIL).toLowerCase() === email.toLowerCase() && 
+                    String(u.TUSUARIO_SENHA) === pass &&
+                    String(u.TUSUARIO_ATIVO).toUpperCase() === 'SIM'
+                );
 
-                if (authError) {
-                    alert("Erro de Login: " + authError.message);
-                    console.error(authError);
-                    return;
+                if(!user) {
+                    return alert("Usuário não encontrado, inativo ou senha incorreta.");
                 }
 
-                const userId = authData.user.id;
-
-                // 2. Busca a empresa associada ao usuário
-                const { data: vinculacao, error: vincError } = await _supabase
-                    .from('usuarios_empresas')
-                    .select('empresa_id')
-                    .eq('user_id', userId)
-                    .maybeSingle();
-
-                if (vincError || !vinculacao) {
-                    alert("Erro: Conta de usuário não vinculada a nenhuma empresa no banco.");
-                    console.error(vincError);
-                    return;
-                }
-
-                // 3. Busca o nome da empresa
-                const { data: empData } = await _supabase
-                    .from('empresas')
-                    .select('nome')
-                    .eq('id', vinculacao.empresa_id)
-                    .single();
-
-                if (empData) {
-                    document.getElementById('company-name').innerText = empData.nome;
-                }
-
-                // 4. Busca os dados da DRE
-                const { data: dreData } = await _supabase
-                    .from('dre_indicadores')
-                    .select('*')
-                    .eq('empresa_id', vinculacao.empresa_id)
-                    .maybeSingle();
-
-                if (dreData) {
-                    document.getElementById('dre-faturamento').innerText = "R$ " + Number(dreData.faturamento_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-                    document.getElementById('dre-custofixo').innerText = "R$ " + Number(dreData.custo_fixo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-                    document.getElementById('dre-margem').innerText = Number(dreData.margem_contrib_pct).toLocaleString('pt-BR') + "%";
-                    document.getElementById('dre-lucro').innerText = "R$ " + Number(dreData.lucro_prejuizo).toLocaleString('pt-BR', {minimumFractionDigits: 2});
-                    document.getElementById('dre-periodo').innerText = dreData.periodo;
-                }
-
-                // Libera o dashboard
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('dashboard').classList.remove('hidden');
-                document.getElementById('user-menu').classList.remove('hidden');
-
-            } catch (err) {
-                alert("Erro inesperado de conexão.");
-                console.error(err);
+                currentUser = user;
+                iniciarSessao();
+            } catch(e) {
+                alert("Erro ao conectar com a base de dados.");
+                console.error(e);
             }
         }
 
-        async function deslogar() {
-            await _supabase.auth.signOut();
-            document.getElementById('dashboard').classList.add('hidden');
-            document.getElementById('user-menu').classList.add('hidden');
-            document.getElementById('login-screen').classList.remove('hidden');
+        function iniciarSessao() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('user-menu').classList.remove('hidden');
+            document.getElementById('app-nav').classList.remove('hidden');
+            document.getElementById('user-display-name').innerText = currentUser.TUSUARIO_NOME;
+
+            const isAdmin = currentUser.TCLIENTE_ID === 'ADMIN';
+            const badge = document.getElementById('role-badge');
+            
+            badge.innerText = isAdmin ? "ADMINISTRADOR" : "PORTAL DO CLIENTE";
+            badge.classList.remove('hidden');
+
+            if(!isAdmin) {
+                document.getElementById('nav-admin').classList.add('hidden');
+                trocarAba('dash');
+            } else {
+                document.getElementById('nav-admin').classList.remove('hidden');
+                trocarAba('admin');
+            }
+        }
+
+        function trocarAba(aba) {
+            document.getElementById('screen-admin').classList.add('hidden');
+            document.getElementById('screen-dash').classList.add('hidden');
+            
+            if(aba === 'admin') document.getElementById('screen-admin').classList.remove('hidden');
+            if(aba === 'dash') document.getElementById('screen-dash').classList.remove('hidden');
+        }
+
+        async function cadastrarCliente() {
+            const data = [
+                document.getElementById('cli-id').value,
+                document.getElementById('cli-nome').value,
+                document.getElementById('cli-cnpj').value
+            ];
+
+            const payload = { sheet: "TCLIENTE", data: data };
+
+            await fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            alert("Solicitação de cadastro de cliente enviada com sucesso!");
+        }
+
+        async function cadastrarUsuario() {
+            const data = [
+                document.getElementById('usr-cli-id').value,
+                document.getElementById('usr-id').value,
+                document.getElementById('usr-nome').value,
+                document.getElementById('usr-email').value,
+                document.getElementById('usr-celular').value,
+                document.getElementById('usr-senha').value,
+                "SIM" // TUSUARIO_ATIVO por padrão
+            ];
+
+            const payload = { sheet: "TUSUARIO", data: data };
+
+            await fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            alert("Solicitação de cadastro de usuário enviada com sucesso!");
+        }
+
+        function deslogar() {
+            location.reload();
         }
     </script>
 </body>
