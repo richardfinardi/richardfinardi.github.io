@@ -61,10 +61,12 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main id="main-content" class="hidden flex-1 p-3 md:p-6 max-w-7xl mx-auto w-full space-y-6">
         
-        <!-- NAVEGAÇÃO DE ABAS DO CLIENTE -->
+        <!-- NAVEGAÇÃO DE ABAS CLIENTE -->
         <div id="nav-cliente-tabs" class="flex gap-2 border-b border-brand-border pb-2 overflow-x-auto">
-            <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition">Centros de Custo</button>
-            <button id="tab-btn-rec" onclick="alternarAbaCliente('rec')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition">Recursos</button>
+            <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap">Centros de Custo</button>
+            <button id="tab-btn-rec" onclick="alternarAbaCliente('rec')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Recursos</button>
+            <button id="tab-btn-ben" onclick="alternarAbaCliente('ben')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Benefícios</button>
+            <button id="tab-btn-func" onclick="alternarAbaCliente('func')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Funcionários</button>
         </div>
 
         <!-- PAINEL ADMIN -->
@@ -77,7 +79,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- CADASTRO DE CLIENTE -->
+                <!-- CADASTRO CLIENTE -->
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <h2 class="text-base md:text-lg font-bold text-white border-b border-brand-border/50 pb-2">1. Cadastrar Cliente (Empresa)</h2>
                     <form id="form-cliente" onsubmit="cadastrarCliente(event)" class="space-y-3">
@@ -89,13 +91,11 @@
                             <label class="block text-xs text-brand-muted mb-1">CNPJ</label>
                             <input type="text" id="cli-cnpj" placeholder="00.000.000/0001-00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                         </div>
-                        <button type="submit" id="btn-salvar-cli" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded text-sm transition mt-2">
-                            Salvar Cliente
-                        </button>
+                        <button type="submit" id="btn-salvar-cli" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded text-sm transition mt-2">Salvar Cliente</button>
                     </form>
                 </div>
 
-                <!-- CADASTRO DE USUÁRIO -->
+                <!-- CADASTRO USUÁRIO -->
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <h2 class="text-base md:text-lg font-bold text-white border-b border-brand-border/50 pb-2">2. Cadastrar Usuário</h2>
                     <form id="form-usuario" onsubmit="cadastrarUsuario(event)" class="space-y-3">
@@ -130,15 +130,13 @@
                                 <input type="password" id="usr-senha" placeholder="••••••••" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                             </div>
                         </div>
-                        <button type="submit" id="btn-salvar-usr" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition mt-2">
-                            Salvar Usuário
-                        </button>
+                        <button type="submit" id="btn-salvar-usr" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition mt-2">Salvar Usuário</button>
                     </form>
                 </div>
             </div>
         </section>
 
-        <!-- ABA 1: CENTROS DE CUSTO -->
+        <!-- ABA 1: CENTRO DE CUSTOS -->
         <section id="section-centro-custo" class="space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
@@ -156,7 +154,7 @@
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Tipo Centro de Custo</label>
-                        <select id="cc-tipo" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <select id="cc-tipo" onchange="verificarTipoCentroCusto()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                             <option value="">Carregando opções...</option>
                         </select>
                     </div>
@@ -173,14 +171,14 @@
                         <input type="number" step="0.01" id="cc-area" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
-                    <div>
+                    <div id="wrapper-cc-custo-fixo">
                         <label class="block text-xs text-brand-muted mb-1">Custo Fixo Direto (R$)</label>
-                        <input type="number" step="0.01" id="cc-custo-fixo" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="number" step="0.01" id="cc-custo-fixo" placeholder="0.00" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
-                    <div>
+                    <div id="wrapper-cc-produtividade">
                         <label class="block text-xs text-brand-muted mb-1">Produtividade (%)</label>
-                        <input type="number" step="0.01" id="cc-produtividade" placeholder="100.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="number" step="0.01" id="cc-produtividade" placeholder="100.00" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div class="md:col-span-2 flex items-center gap-2 pt-2">
@@ -239,7 +237,7 @@
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Centro de Custo</label>
                         <select id="rec-cc-id" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando centros de custo...</option>
+                            <option value="">Carregando...</option>
                         </select>
                     </div>
 
@@ -251,7 +249,7 @@
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Tipo de Recurso</label>
                         <select id="rec-tipo" onchange="calcularCustoMensalRecurso()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando tipos...</option>
+                            <option value="">Carregando...</option>
                         </select>
                     </div>
 
@@ -301,6 +299,160 @@
             </div>
         </section>
 
+        <!-- ABA 3: BENEFÍCIOS -->
+        <section id="section-beneficios" class="hidden space-y-6">
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
+                    <h2 class="text-lg md:text-xl font-bold text-white" id="ben-form-title">Cadastrar Benefício</h2>
+                    <span class="text-xs text-brand-muted">Empresa: <strong id="ben-client-name-display" class="text-brand-primary">---</strong></span>
+                </div>
+
+                <form id="form-ben" onsubmit="salvarBeneficio(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="hidden" id="ben-editing-id" value="">
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Descrição do Benefício</label>
+                        <input type="text" id="ben-nome" placeholder="Ex: Vale Refeição" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Valor Mensal por Funcionário (R$)</label>
+                        <input type="number" step="0.01" id="ben-valor" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div class="md:col-span-1 flex items-end">
+                        <div class="flex gap-2 w-full">
+                            <button type="button" id="btn-cancelar-ben" onclick="limparFormBen()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                            <button type="submit" id="btn-salvar-ben" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Benefício</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- TABELA BENEFÍCIOS -->
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-base md:text-lg font-bold text-white">Benefícios Cadastrados</h3>
+                    <button onclick="carregarBeneficios()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                            <tr>
+                                <th class="p-2 md:p-3">Descrição Benefício</th>
+                                <th class="p-2 md:p-3">Valor Mensal (R$)</th>
+                                <th class="p-2 md:p-3 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-ben-body" class="divide-y divide-brand-border/50">
+                            <tr><td colspan="3" class="p-4 text-center">Carregando...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 4: FUNCIONÁRIOS -->
+        <section id="section-funcionarios" class="hidden space-y-6">
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
+                    <h2 class="text-lg md:text-xl font-bold text-white" id="func-form-title">Cadastrar Funcionário</h2>
+                    <span class="text-xs text-brand-muted">Empresa: <strong id="func-client-name-display" class="text-brand-primary">---</strong></span>
+                </div>
+
+                <form id="form-func" onsubmit="salvarFuncionario(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="hidden" id="func-editing-id" value="">
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Centro de Custo</label>
+                        <select id="func-cc-id" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <option value="">Carregando...</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Nome Completo</label>
+                        <input type="text" id="func-nome" placeholder="Ex: Carlos Oliveira" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Tipo de Registro</label>
+                        <select id="func-tp-registro" onchange="calcularCustoFuncionario()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <option value="">Carregando...</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Tipo de Salário</label>
+                        <select id="func-tp-salario" onchange="calcularCustoFuncionario()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <option value="MENSALISTA">MENSALISTA</option>
+                            <option value="HORISTA">HORISTA</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Salário Base (R$)</label>
+                        <input type="number" step="0.01" id="func-salario-base" oninput="calcularCustoFuncionario()" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Horas Mensais (se Horista)</label>
+                        <input type="number" step="0.01" id="func-horas-mes" oninput="calcularCustoFuncionario()" value="220" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs text-brand-muted mb-1">Selecione Benefícios (Aba TBENEFICIOS)</label>
+                        <div id="container-beneficios-checkboxes" class="grid grid-cols-2 md:grid-cols-3 gap-2 bg-[#0d0d0f] p-3 rounded border border-brand-border max-h-32 overflow-y-auto">
+                            <span class="text-xs text-brand-muted">Carregando benefícios...</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Valor Total Benefícios (R$)</label>
+                        <input type="number" step="0.01" id="func-beneficios-valor" oninput="calcularCustoFuncionario()" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs text-brand-muted mb-1">Custo Mensal Calculado do Funcionário (R$)</label>
+                        <input type="text" id="func-custo-mensal" readonly placeholder="Calculado auto..." class="w-full p-2.5 rounded bg-[#0d0d0f]/50 border border-brand-border/50 text-base text-emerald-400 font-extrabold outline-none cursor-not-allowed">
+                    </div>
+
+                    <div class="flex gap-2 pt-2 md:items-end">
+                        <button type="button" id="btn-cancelar-func" onclick="limparFormFunc()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                        <button type="submit" id="btn-salvar-func" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Funcionário</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- TABELA FUNCIONÁRIOS -->
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-base md:text-lg font-bold text-white">Funcionários Cadastrados</h3>
+                    <button onclick="carregarFuncionarios()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                            <tr>
+                                <th class="p-2 md:p-3">Centro Custo</th>
+                                <th class="p-2 md:p-3">Nome</th>
+                                <th class="p-2 md:p-3">Tipo Reg.</th>
+                                <th class="p-2 md:p-3">Salário Base (R$)</th>
+                                <th class="p-2 md:p-3">Benefícios (R$)</th>
+                                <th class="p-2 md:p-3">Custo Mensal (R$)</th>
+                                <th class="p-2 md:p-3 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-func-body" class="divide-y divide-brand-border/50">
+                            <tr><td colspan="7" class="p-4 text-center">Carregando...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <script>
@@ -310,6 +462,8 @@
         let empresaLogadaNome = "---";
         let listaCC = [];
         let listaRecursos = [];
+        let listaBeneficios = [];
+        let listaFuncionarios = [];
         let tabelaPadroes = [];
 
         async function fazerLogin() {
@@ -384,27 +538,42 @@
 
             document.getElementById('cc-client-name-display').innerText = empresaLogadaNome;
             document.getElementById('rec-client-name-display').innerText = empresaLogadaNome;
+            document.getElementById('ben-client-name-display').innerText = empresaLogadaNome;
+            document.getElementById('func-client-name-display').innerText = empresaLogadaNome;
             
             carregarPadroes();
             carregarCentrosDeCusto();
             carregarRecursos();
+            carregarBeneficios();
+            carregarFuncionarios();
         }
 
         function alternarAbaCliente(aba) {
             document.getElementById('section-centro-custo').classList.add('hidden');
             document.getElementById('section-recursos').classList.add('hidden');
+            document.getElementById('section-beneficios').classList.add('hidden');
+            document.getElementById('section-funcionarios').classList.add('hidden');
 
-            document.getElementById('tab-btn-cc').className = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition";
-            document.getElementById('tab-btn-rec').className = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition";
+            const classInactive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap";
+            const classActive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap";
+
+            document.getElementById('tab-btn-cc').className = classInactive;
+            document.getElementById('tab-btn-rec').className = classInactive;
+            document.getElementById('tab-btn-ben').className = classInactive;
+            document.getElementById('tab-btn-func').className = classInactive;
 
             if (aba === 'cc') {
                 document.getElementById('section-centro-custo').classList.remove('hidden');
-                document.getElementById('tab-btn-cc').className = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition";
-                carregarCentrosDeCusto();
+                document.getElementById('tab-btn-cc').className = classActive;
             } else if (aba === 'rec') {
                 document.getElementById('section-recursos').classList.remove('hidden');
-                document.getElementById('tab-btn-rec').className = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition";
-                carregarRecursos();
+                document.getElementById('tab-btn-rec').className = classActive;
+            } else if (aba === 'ben') {
+                document.getElementById('section-beneficios').classList.remove('hidden');
+                document.getElementById('tab-btn-ben').className = classActive;
+            } else if (aba === 'func') {
+                document.getElementById('section-funcionarios').classList.remove('hidden');
+                document.getElementById('tab-btn-func').className = classActive;
             }
         }
 
@@ -416,24 +585,44 @@
                 const selectTipo = document.getElementById('cc-tipo');
                 const selectRateio = document.getElementById('cc-tipo-rateio');
                 const selectTipoRec = document.getElementById('rec-tipo');
+                const selectTpRegFunc = document.getElementById('func-tp-registro');
 
                 selectTipo.innerHTML = '<option value="">-- Selecione o Tipo --</option>';
                 selectRateio.innerHTML = '<option value="">-- Selecione o Tipo Rateio --</option>';
                 selectTipoRec.innerHTML = '<option value="">-- Selecione o Tipo Recurso --</option>';
+                selectTpRegFunc.innerHTML = '<option value="">-- Selecione Tipo Registro --</option>';
 
                 tabelaPadroes.forEach(p => {
                     if (p.TCENTRO_CUSTO_TIPO) selectTipo.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO}</option>`;
                     if (p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS) selectRateio.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}</option>`;
                     if (p.TRECURSO_TIPO) selectTipoRec.innerHTML += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO}</option>`;
+                    if (p.TFUNCIONARIO_TP_REGISTRO) selectTpRegFunc.innerHTML += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO}</option>`;
                 });
             } catch(e) {
                 console.error("Erro ao carregar padrões", e);
             }
         }
 
+        function verificarTipoCentroCusto() {
+            const tipo = document.getElementById('cc-tipo').value;
+            const wrapCustoFixo = document.getElementById('wrapper-cc-custo-fixo');
+            const wrapProd = document.getElementById('wrapper-cc-produtividade');
+
+            if (tipo !== "PRODUTIVO DIRETO") {
+                wrapCustoFixo.classList.add('opacity-40', 'pointer-events-none');
+                wrapProd.classList.add('opacity-40', 'pointer-events-none');
+                document.getElementById('cc-custo-fixo').value = "0";
+                document.getElementById('cc-produtividade').value = "0";
+            } else {
+                wrapCustoFixo.classList.remove('opacity-40', 'pointer-events-none');
+                wrapProd.classList.remove('opacity-40', 'pointer-events-none');
+            }
+        }
+
         async function carregarCentrosDeCusto() {
             const tbody = document.getElementById('tbl-cc-body');
             const selectCCRec = document.getElementById('rec-cc-id');
+            const selectCCFunc = document.getElementById('func-cc-id');
             tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center">Buscando dados...</td></tr>';
 
             try {
@@ -443,8 +632,11 @@
                 listaCC = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
 
                 selectCCRec.innerHTML = '<option value="">-- Selecione o Centro de Custo --</option>';
+                selectCCFunc.innerHTML = '<option value="">-- Selecione o Centro de Custo --</option>';
+
                 listaCC.forEach(cc => {
                     selectCCRec.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
+                    selectCCFunc.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
                 });
 
                 if (listaCC.length === 0) {
@@ -459,10 +651,10 @@
                             <td class="p-2 md:p-3 text-white font-medium">${c.TCENTRO_CUSTO_NOME}</td>
                             <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_TIPO}</td>
                             <td class="p-2 md:p-3 text-center font-bold text-brand-primary">${c.TCENTRO_CUSTO_QTDE_RECURSOS || 0}</td>
-                            <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_AREA} m²</td>
-                            <td class="p-2 md:p-3">R$ ${Number(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
-                            <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_MENSAL || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
-                            <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_PRODUTIVIDADE}%</td>
+                            <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_AREA || 0).toFixed(2)} m²</td>
+                            <td class="p-2 md:p-3">R$ ${Number(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toFixed(2)}</td>
+                            <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_MENSAL || 0).toFixed(2)}</td>
+                            <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_PRODUTIVIDADE || 0).toFixed(2)}%</td>
                             <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_CONSIDERAR_MINIMO === 'SIM' ? '<span class="text-emerald-400 font-bold">SIM</span>' : '-'}</td>
                             <td class="p-2 md:p-3 text-right space-x-1">
                                 <button onclick="prepararEdicaoCC('${c.TCENTRO_CUSTO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
@@ -476,19 +668,295 @@
             }
         }
 
+        async function carregarBeneficios() {
+            const tbody = document.getElementById('tbl-ben-body');
+            const containerCheckboxes = document.getElementById('container-beneficios-checkboxes');
+            tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Buscando benefícios...</td></tr>';
+
+            try {
+                const response = await fetch(`${API_URL}?action=TBENEFICIOS`);
+                const data = await response.json();
+
+                listaBeneficios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+
+                containerCheckboxes.innerHTML = '';
+                if (listaBeneficios.length === 0) {
+                    containerCheckboxes.innerHTML = '<span class="text-xs text-brand-muted">Nenhum benefício cadastrado.</span>';
+                    tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Nenhum benefício cadastrado.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                listaBeneficios.forEach(b => {
+                    containerCheckboxes.innerHTML += `
+                        <label class="flex items-center gap-1.5 text-xs text-white cursor-pointer hover:text-brand-primary">
+                            <input type="checkbox" value="${b.TBENEFICIO_VALOR}" onchange="recalcularBeneficiosCheckboxes()" class="chk-beneficio-item accent-brand-primary rounded">
+                            <span>${b.TBENEFICIO_NOME} (R$ ${Number(b.TBENEFICIO_VALOR || 0).toFixed(2)})</span>
+                        </label>
+                    `;
+
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-brand-border/30 transition">
+                            <td class="p-2 md:p-3 text-white font-medium">${b.TBENEFICIO_NOME}</td>
+                            <td class="p-2 md:p-3 font-bold text-emerald-400">R$ ${Number(b.TBENEFICIO_VALOR || 0).toFixed(2)}</td>
+                            <td class="p-2 md:p-3 text-right space-x-1">
+                                <button onclick="prepararEdicaoBen('${b.TBENEFICIO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
+                                <button onclick="excluirBen('${b.TBENEFICIO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar benefícios.</td></tr>';
+            }
+        }
+
+        function recalcularBeneficiosCheckboxes() {
+            let soma = 0;
+            const checkboxes = document.querySelectorAll('.chk-beneficio-item:checked');
+            checkboxes.forEach(c => {
+                soma += parseFloat(c.value) || 0;
+            });
+            document.getElementById('func-beneficios-valor').value = soma.toFixed(2);
+            calcularCustoFuncionario();
+        }
+
+        function calcularCustoFuncionario() {
+            const tpSalario = document.getElementById('func-tp-salario').value;
+            const tpRegistro = document.getElementById('func-tp-registro').value;
+            const salBase = parseFloat(document.getElementById('func-salario-base').value) || 0;
+            const horasMes = parseFloat(document.getElementById('func-horas-mes').value) || 220;
+            const valorBeneficios = parseFloat(document.getElementById('func-beneficios-valor').value) || 0;
+
+            let salario = (tpSalario === "HORISTA") ? (salBase * horasMes) : salBase;
+            let temRegistro = (tpRegistro !== "SEM REGISTRO");
+
+            let decimoTerceiro = temRegistro ? (salario / 12) : 0;
+            let tercoFerias = temRegistro ? ((salario / 12) / 3) : 0;
+            let feriasAdic = temRegistro ? (salario / 12) : 0;
+
+            let totalBruto = salario + decimoTerceiro + tercoFerias + feriasAdic;
+
+            let fgts = temRegistro ? (totalBruto * 0.08) : 0;
+            let multaFgts = temRegistro ? (fgts * 0.5) : 0;
+
+            let inss = (tpRegistro === "NORMAL") ? (salario * 0.20) : 0;
+            let sesc = (tpRegistro === "NORMAL") ? (salario * 0.02) : 0;
+            let senai = (tpRegistro === "NORMAL") ? (salario * 0.025) : 0;
+            let incra = (tpRegistro === "NORMAL") ? (salario * 0.033) : 0;
+
+            let custoTotal = valorBeneficios + salario + decimoTerceiro + tercoFerias + feriasAdic + fgts + multaFgts + inss + sesc + senai + incra;
+
+            document.getElementById('func-custo-mensal').value = "R$ " + custoTotal.toFixed(2);
+            return custoTotal;
+        }
+
+        async function carregarFuncionarios() {
+            const tbody = document.getElementById('tbl-func-body');
+            tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">Buscando funcionários...</td></tr>';
+
+            try {
+                const response = await fetch(`${API_URL}?action=TFUNCIONARIO`);
+                const data = await response.json();
+
+                listaFuncionarios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+
+                if (listaFuncionarios.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">Nenhum funcionário cadastrado.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                listaFuncionarios.forEach(f => {
+                    const ccRelacionado = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(f.TCENTRO_CUSTO_ID));
+                    const ccNome = ccRelacionado ? ccRelacionado.TCENTRO_CUSTO_NOME : f.TCENTRO_CUSTO_ID;
+
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-brand-border/30 transition">
+                            <td class="p-2 md:p-3 font-semibold text-white">${ccNome}</td>
+                            <td class="p-2 md:p-3 text-white font-medium">${f.TFUNCIONARIO_NOME}</td>
+                            <td class="p-2 md:p-3">${f.TFUNCIONARIO_TP_REGISTRO}</td>
+                            <td class="p-2 md:p-3">R$ ${Number(f.TFUNCIONARIO_SALARIO_BASE || 0).toFixed(2)}</td>
+                            <td class="p-2 md:p-3">R$ ${Number(f.TFUNCIONARIO_BENEFICIOS || 0).toFixed(2)}</td>
+                            <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(f.TFUNCIONARIO_CUSTO_MENSAL || 0).toFixed(2)}</td>
+                            <td class="p-2 md:p-3 text-right space-x-1">
+                                <button onclick="prepararEdicaoFunc('${f.TFUNCIONARIO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
+                                <button onclick="excluirFunc('${f.TFUNCIONARIO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>';
+            }
+        }
+
+        function salvarBeneficio(e) {
+            e.preventDefault();
+            const editingId = document.getElementById('ben-editing-id').value;
+            const btn = document.getElementById('btn-salvar-ben');
+
+            const rowArray = [
+                usuarioLogado.TCLIENTE_ID,
+                editingId || "",
+                document.getElementById('ben-nome').value.trim(),
+                parseFloat(document.getElementById('ben-valor').value) || 0
+            ];
+
+            const payload = {
+                sheet: "TBENEFICIOS",
+                action: editingId ? "UPDATE" : "CREATE",
+                id: editingId,
+                data: rowArray
+            };
+
+            btn.innerText = "Salvando...";
+            btn.disabled = true;
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert(editingId ? "Benefício atualizado!" : "Benefício cadastrado!");
+                limparFormBen();
+                btn.innerText = "Salvar Benefício";
+                btn.disabled = false;
+                setTimeout(carregarBeneficios, 1500);
+            });
+        }
+
+        function prepararEdicaoBen(id) {
+            const item = listaBeneficios.find(b => String(b.TBENEFICIO_ID) === String(id));
+            if (!item) return;
+
+            document.getElementById('ben-editing-id').value = item.TBENEFICIO_ID;
+            document.getElementById('ben-nome').value = item.TBENEFICIO_NOME;
+            document.getElementById('ben-valor').value = item.TBENEFICIO_VALOR;
+
+            document.getElementById('ben-form-title').innerText = "Editar Benefício";
+            document.getElementById('btn-cancelar-ben').classList.remove('hidden');
+        }
+
+        function excluirBen(id) {
+            if (!confirm("Tem certeza que deseja excluir o Benefício selecionado?")) return;
+
+            const payload = { sheet: "TBENEFICIOS", action: "DELETE", id: id };
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Exclusão realizada!");
+                setTimeout(carregarBeneficios, 1500);
+            });
+        }
+
+        function limparFormBen() {
+            document.getElementById('form-ben').reset();
+            document.getElementById('ben-editing-id').value = "";
+            document.getElementById('ben-form-title').innerText = "Cadastrar Benefício";
+            document.getElementById('btn-cancelar-ben').classList.add('hidden');
+        }
+
+        function salvarFuncionario(e) {
+            e.preventDefault();
+            const editingId = document.getElementById('func-editing-id').value;
+            const btn = document.getElementById('btn-salvar-func');
+            const custoCalculado = calcularCustoFuncionario();
+
+            const rowArray = [
+                usuarioLogado.TCLIENTE_ID,
+                document.getElementById('func-cc-id').value,
+                editingId || "",
+                document.getElementById('func-nome').value.trim(),
+                document.getElementById('func-tp-registro').value,
+                document.getElementById('func-tp-salario').value,
+                parseFloat(document.getElementById('func-salario-base').value) || 0,
+                parseFloat(document.getElementById('func-beneficios-valor').value) || 0,
+                custoCalculado
+            ];
+
+            const payload = {
+                sheet: "TFUNCIONARIO",
+                action: editingId ? "UPDATE" : "CREATE",
+                id: editingId,
+                data: rowArray
+            };
+
+            btn.innerText = "Salvando...";
+            btn.disabled = true;
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert(editingId ? "Funcionário atualizado!" : "Funcionário cadastrado!");
+                limparFormFunc();
+                btn.innerText = "Salvar Funcionário";
+                btn.disabled = false;
+                setTimeout(carregarFuncionarios, 1500);
+            });
+        }
+
+        function prepararEdicaoFunc(id) {
+            const item = listaFuncionarios.find(f => String(f.TFUNCIONARIO_ID) === String(id));
+            if (!item) return;
+
+            document.getElementById('func-editing-id').value = item.TFUNCIONARIO_ID;
+            document.getElementById('func-cc-id').value = item.TCENTRO_CUSTO_ID;
+            document.getElementById('func-nome').value = item.TFUNCIONARIO_NOME;
+            document.getElementById('func-tp-registro').value = item.TFUNCIONARIO_TP_REGISTRO;
+            document.getElementById('func-tp-salario').value = item.TFUNCIONARIO_TP_SALARIO;
+            document.getElementById('func-salario-base').value = item.TFUNCIONARIO_SALARIO_BASE;
+            document.getElementById('func-beneficios-valor').value = item.TFUNCIONARIO_BENEFICIOS;
+
+            calcularCustoFuncionario();
+
+            document.getElementById('func-form-title').innerText = "Editar Funcionário";
+            document.getElementById('btn-cancelar-func').classList.remove('hidden');
+        }
+
+        function excluirFunc(id) {
+            if (!confirm("Tem certeza que deseja excluir o Funcionário selecionado?")) return;
+
+            const payload = { sheet: "TFUNCIONARIO", action: "DELETE", id: id };
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Exclusão realizada!");
+                setTimeout(carregarFuncionarios, 1500);
+            });
+        }
+
+        function limparFormFunc() {
+            document.getElementById('form-func').reset();
+            document.getElementById('func-editing-id').value = "";
+            document.getElementById('func-custo-mensal').value = "";
+            document.getElementById('func-form-title').innerText = "Cadastrar Funcionário";
+            document.getElementById('btn-cancelar-func').classList.add('hidden');
+        }
+
         function calcularCustoMensalRecurso() {
             const tipoSel = document.getElementById('rec-tipo').value;
             const valor = parseFloat(document.getElementById('rec-valor').value) || 0;
             const campoResultado = document.getElementById('rec-custo-mensal');
 
             if (!tipoSel || valor <= 0) {
-                campoResultado.value = "R$ 0,00";
+                campoResultado.value = "R$ 0.00";
                 return;
             }
 
             const itemPadrao = tabelaPadroes.find(p => String(p.TRECURSO_TIPO) === String(tipoSel));
             if (!itemPadrao || !itemPadrao.TRECURSO_PERCENTUAL_DEPRECIACAO) {
-                campoResultado.value = "R$ 0,00";
+                campoResultado.value = "R$ 0.00";
                 return;
             }
 
@@ -496,7 +964,7 @@
             if (typeof pct === 'string') pct = parseFloat(pct.replace('%', '').replace(',', '.')) / 100;
 
             const custoMensal = valor * pct;
-            campoResultado.value = "R$ " + custoMensal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            campoResultado.value = "R$ " + custoMensal.toFixed(2);
         }
 
         async function carregarRecursos() {
@@ -524,8 +992,8 @@
                             <td class="p-2 md:p-3 font-semibold text-white">${ccNome}</td>
                             <td class="p-2 md:p-3 text-white font-medium">${r.TRECURSO_NOME}</td>
                             <td class="p-2 md:p-3">${r.TRECURSO_TIPO}</td>
-                            <td class="p-2 md:p-3">R$ ${Number(r.TRECURSO_VALOR || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
-                            <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(r.TRECURSO_CUSTO_MENSAL || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                            <td class="p-2 md:p-3">R$ ${Number(r.TRECURSO_VALOR || 0).toFixed(2)}</td>
+                            <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(r.TRECURSO_CUSTO_MENSAL || 0).toFixed(2)}</td>
                             <td class="p-2 md:p-3 text-right space-x-1">
                                 <button onclick="prepararEdicaoRec('${r.TRECURSO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
                                 <button onclick="excluirRec('${r.TRECURSO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
@@ -582,10 +1050,7 @@
                 limparFormRec();
                 btn.innerText = "Salvar Recurso";
                 btn.disabled = false;
-                setTimeout(() => {
-                    carregarRecursos();
-                    carregarCentrosDeCusto();
-                }, 1500);
+                setTimeout(() => { carregarRecursos(); carregarCentrosDeCusto(); }, 1500);
             });
         }
 
@@ -608,12 +1073,7 @@
         function excluirRec(id) {
             if (!confirm("Tem certeza que deseja excluir o Recurso selecionado?")) return;
 
-            const payload = {
-                sheet: "TRECURSO",
-                action: "DELETE",
-                id: id
-            };
-
+            const payload = { sheet: "TRECURSO", action: "DELETE", id: id };
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -621,10 +1081,7 @@
                 body: JSON.stringify(payload)
             }).then(() => {
                 alert("Exclusão realizada com sucesso!");
-                setTimeout(() => {
-                    carregarRecursos();
-                    carregarCentrosDeCusto();
-                }, 1500);
+                setTimeout(() => { carregarRecursos(); carregarCentrosDeCusto(); }, 1500);
             });
         }
 
@@ -641,16 +1098,20 @@
             const editingId = document.getElementById('cc-editing-id').value;
             const btn = document.getElementById('btn-salvar-cc');
             const considerarMinimo = document.getElementById('cc-considerar-minimo').checked ? "SIM" : "";
+            const tipoCC = document.getElementById('cc-tipo').value;
+
+            const custoFixo = (tipoCC === "PRODUTIVO DIRETO") ? (parseFloat(document.getElementById('cc-custo-fixo').value) || 0) : 0;
+            const produtividade = (tipoCC === "PRODUTIVO DIRETO") ? (parseFloat(document.getElementById('cc-produtividade').value) || 0) : 0;
 
             const rowArray = [
                 usuarioLogado.TCLIENTE_ID,
                 editingId || "",
                 document.getElementById('cc-nome').value.trim(),
-                document.getElementById('cc-tipo').value,
+                tipoCC,
                 0,
-                document.getElementById('cc-area').value,
-                document.getElementById('cc-custo-fixo').value,
-                document.getElementById('cc-produtividade').value,
+                parseFloat(document.getElementById('cc-area').value) || 0,
+                custoFixo,
+                produtividade,
                 document.getElementById('cc-tipo-rateio').value,
                 considerarMinimo,
                 0
@@ -693,6 +1154,8 @@
             document.getElementById('cc-produtividade').value = item.TCENTRO_CUSTO_PRODUTIVIDADE;
             document.getElementById('cc-considerar-minimo').checked = item.TCENTRO_CUSTO_CONSIDERAR_MINIMO === "SIM";
 
+            verificarTipoCentroCusto();
+
             document.getElementById('cc-form-title').innerText = "Editar Centro de Custo";
             document.getElementById('btn-cancelar-cc').classList.remove('hidden');
         }
@@ -700,19 +1163,14 @@
         function excluirCC(id) {
             if (!confirm("Tem certeza que deseja excluir o Centro de Custo selecionado?")) return;
 
-            const payload = {
-                sheet: "TCENTRO_CUSTO",
-                action: "DELETE",
-                id: id
-            };
-
+            const payload = { sheet: "TCENTRO_CUSTO", action: "DELETE", id: id };
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             }).then(() => {
-                alert("Exclusão realizada com sucesso!");
+                alert("Exclusão realizada!");
                 setTimeout(carregarCentrosDeCusto, 1500);
             });
         }
@@ -722,6 +1180,7 @@
             document.getElementById('cc-editing-id').value = "";
             document.getElementById('cc-form-title').innerText = "Cadastrar Centro de Custo";
             document.getElementById('btn-cancelar-cc').classList.add('hidden');
+            verificarTipoCentroCusto();
         }
 
         async function carregarClientesSelect() {
