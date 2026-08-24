@@ -214,7 +214,7 @@
                                 <th class="p-2 md:p-3">Custo Fixo (R$)</th>
                                 <th class="p-2 md:p-3">Depreciação (R$)</th>
                                 <th class="p-2 md:p-3">Custo Func. (R$)</th>
-                                <th class="p-2 md:p-3">Horas Func.</th>
+                                <th class="p-2 md:p-3">Horas Final</th>
                                 <th class="p-2 md:p-3">Prod. (%)</th>
                                 <th class="p-2 md:p-3">Cons. Min.</th>
                                 <th class="p-2 md:p-3 text-right">Ações</th>
@@ -241,7 +241,7 @@
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Centro de Custo</label>
-                        <select id="rec-cc-id" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <select id="rec-cc-id" onchange="verificarSelecaoCCRecurso()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                             <option value="">Carregando...</option>
                         </select>
                     </div>
@@ -268,11 +268,14 @@
                         <input type="text" id="rec-custo-mensal" readonly placeholder="Calculado auto..." class="w-full p-2.5 rounded bg-[#0d0d0f]/50 border border-brand-border/50 text-sm text-emerald-400 font-bold outline-none cursor-not-allowed">
                     </div>
 
-                    <div class="md:col-span-1 flex items-end">
-                        <div class="flex gap-2 w-full">
-                            <button type="button" id="btn-cancelar-rec" onclick="limparFormRec()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
-                            <button type="submit" id="btn-salvar-rec" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Recurso</button>
-                        </div>
+                    <div id="wrapper-rec-turnos" class="opacity-40 pointer-events-none">
+                        <label class="block text-xs text-brand-muted mb-1">Quantidade de Turnos (Produtivos Diretos)</label>
+                        <input type="number" min="1" step="1" id="rec-turnos" value="1" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div class="md:col-span-3 flex justify-end gap-2 pt-2">
+                        <button type="button" id="btn-cancelar-rec" onclick="limparFormRec()" class="hidden w-1/3 md:w-32 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                        <button type="submit" id="btn-salvar-rec" class="w-full md:w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Recurso</button>
                     </div>
                 </form>
             </div>
@@ -292,12 +295,13 @@
                                 <th class="p-2 md:p-3">Nome Recurso</th>
                                 <th class="p-2 md:p-3">Tipo</th>
                                 <th class="p-2 md:p-3">Valor (R$)</th>
+                                <th class="p-2 md:p-3">Turnos</th>
                                 <th class="p-2 md:p-3">Custo Mensal (R$)</th>
                                 <th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-rec-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="6" class="p-4 text-center">Carregando...</td></tr>
+                            <tr><td colspan="7" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -483,7 +487,6 @@
     </main>
 
     <script>
-        // COLE O NOVO LINK OBTIDO NA REIMPLANTAÇÃO AQUI ABAIXO
         const API_URL = "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
         let usuarioLogado = null;
@@ -527,7 +530,7 @@
 
             } catch (err) {
                 console.error(err);
-                alert("Erro ao conectar com a API do Google. Verifique o link de implantação.");
+                alert("Erro de conexão ao validar o acesso.");
                 btn.innerText = "Entrar no Sistema";
                 btn.disabled = false;
             }
@@ -645,6 +648,19 @@
             } else {
                 wrapCustoFixo.classList.remove('opacity-40', 'pointer-events-none');
                 wrapProd.classList.remove('opacity-40', 'pointer-events-none');
+            }
+        }
+
+        function verificarSelecaoCCRecurso() {
+            const ccId = document.getElementById('rec-cc-id').value;
+            const wrapTurnos = document.getElementById('wrapper-rec-turnos');
+            const ccSel = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(ccId));
+
+            if (ccSel && ccSel.TCENTRO_CUSTO_TIPO === "PRODUTIVO DIRETO") {
+                wrapTurnos.classList.remove('opacity-40', 'pointer-events-none');
+            } else {
+                wrapTurnos.classList.add('opacity-40', 'pointer-events-none');
+                document.getElementById('rec-turnos').value = "1";
             }
         }
 
@@ -1204,6 +1220,7 @@
             const nome = document.getElementById('rec-nome').value.trim().toUpperCase();
             const tipoSel = document.getElementById('rec-tipo').value.toUpperCase();
             const valor = parseFloat(document.getElementById('rec-valor').value) || 0;
+            const turnos = parseFloat(document.getElementById('rec-turnos').value) || 1;
 
             const itemPadrao = tabelaPadroes.find(p => String(p.TRECURSO_TIPO) === String(tipoSel));
             let pct = itemPadrao ? itemPadrao.TRECURSO_PERCENTUAL_DEPRECIACAO : 0;
@@ -1219,7 +1236,8 @@
                 TRECURSO_NOME: nome,
                 TRECURSO_VALOR: valor,
                 TRECURSO_TIPO: tipoSel,
-                TRECURSO_CUSTO_MENSAL: custoMensalNum
+                TRECURSO_CUSTO_MENSAL: custoMensalNum,
+                TRECURSO_TURNOS: turnos
             };
 
             if (editingId) {
@@ -1236,7 +1254,7 @@
                 sheet: "TRECURSO",
                 action: editingId ? "UPDATE" : "CREATE",
                 id: editingId,
-                data: [usuarioLogado.TCLIENTE_ID, ccId, editingId || "", nome, valor, tipoSel, custoMensalNum]
+                data: [usuarioLogado.TCLIENTE_ID, ccId, editingId || "", nome, valor, tipoSel, custoMensalNum, turnos]
             };
 
             fetch(API_URL, {
@@ -1261,6 +1279,7 @@
                         <td class="p-2 md:p-3 text-white font-medium uppercase">${r.TRECURSO_NOME}</td>
                         <td class="p-2 md:p-3 uppercase">${r.TRECURSO_TIPO}</td>
                         <td class="p-2 md:p-3">R$ ${Number(r.TRECURSO_VALOR || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 font-bold text-white">${r.TRECURSO_TURNOS || 1} Turno(s)</td>
                         <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(r.TRECURSO_CUSTO_MENSAL || 0).toFixed(2)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="prepararEdicaoRec('${r.TRECURSO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
@@ -1280,7 +1299,9 @@
             document.getElementById('rec-nome').value = item.TRECURSO_NOME;
             document.getElementById('rec-tipo').value = item.TRECURSO_TIPO;
             document.getElementById('rec-valor').value = item.TRECURSO_VALOR;
+            document.getElementById('rec-turnos').value = item.TRECURSO_TURNOS || 1;
             
+            verificarSelecaoCCRecurso();
             calcularCustoMensalRecurso();
 
             document.getElementById('rec-form-title').innerText = "Editar Recurso";
@@ -1305,8 +1326,10 @@
             document.getElementById('form-rec').reset();
             document.getElementById('rec-editing-id').value = "";
             document.getElementById('rec-custo-mensal').value = "";
+            document.getElementById('rec-turnos').value = "1";
             document.getElementById('rec-form-title').innerText = "Cadastrar Recurso";
             document.getElementById('btn-cancelar-rec').classList.add('hidden');
+            verificarSelecaoCCRecurso();
         }
 
         function salvarCentroCusto(e) {
