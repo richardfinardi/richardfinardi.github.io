@@ -237,43 +237,42 @@
             }
         }
 
-        async function cadastrarCliente(e) {
+        function cadastrarCliente(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-salvar-cli');
             
             const payload = {
                 sheet: "TCLIENTE",
                 data: [
-                    "", // O ID é gerado automaticamente pelo Apps Script
+                    "", // O ID é gerado no backend
                     document.getElementById('cli-nome').value.trim(),
                     document.getElementById('cli-cnpj').value.trim()
                 ]
             };
 
-            try {
-                btn.innerText = "Enviando...";
-                btn.disabled = true;
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
 
-                await fetch(API_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                alert("Cliente cadastrado com sucesso! O ID foi atribuído automaticamente na planilha.");
+            // Disparo instantâneo sem bloquear a tela esperando o timeout
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Cliente cadastrado e salvo com sucesso!");
                 document.getElementById('form-cliente').reset();
-                carregarClientesSelect();
-
-            } catch (err) {
-                alert("Erro ao cadastrar o cliente.");
-            } finally {
                 btn.innerText = "Salvar Cliente";
                 btn.disabled = false;
-            }
+                carregarClientesSelect();
+            }).catch(() => {
+                alert("Erro ao disparar cadastro de cliente.");
+                btn.innerText = "Salvar Cliente";
+                btn.disabled = false;
+            });
         }
 
-        async function cadastrarUsuario(e) {
+        function cadastrarUsuario(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-salvar-usr');
 
@@ -281,36 +280,35 @@
                 sheet: "TUSUARIO",
                 data: [
                     document.getElementById('usr-cli-id').value,
-                    "", // O ID é gerado automaticamente pelo Apps Script
+                    "", // O ID é gerado no backend
                     document.getElementById('usr-nome').value.trim(),
                     document.getElementById('usr-email').value.trim(),
                     document.getElementById('usr-celular').value.trim(),
                     document.getElementById('usr-senha').value.trim(),
-                    "SIM", // TUSUARIO_ATIVO
-                    document.getElementById('usr-adm').value // TUSUARIO_ADM
+                    "SIM", 
+                    document.getElementById('usr-adm').value
                 ]
             };
 
-            try {
-                btn.innerText = "Enviando...";
-                btn.disabled = true;
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
 
-                await fetch(API_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                alert("Usuário cadastrado com sucesso! O ID foi atribuído automaticamente na planilha.");
+            // Disparo instantâneo sem bloquear a tela
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Usuário cadastrado e salvo com sucesso!");
                 document.getElementById('form-usuario').reset();
-
-            } catch (err) {
-                alert("Erro ao cadastrar o usuário.");
-            } finally {
                 btn.innerText = "Salvar Usuário";
                 btn.disabled = false;
-            }
+            }).catch(() => {
+                alert("Erro ao disparar cadastro de usuário.");
+                btn.innerText = "Salvar Usuário";
+                btn.disabled = false;
+            });
         }
 
         function deslogar() {
