@@ -524,7 +524,21 @@
                         <input type="number" step="0.01" id="plc-valor" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
-                    <div class="md:col-span-2 flex justify-end gap-2 pt-2 items-end">
+                    <!-- CAIXA DE SELEÇÃO DE CENTROS DE CUSTO PARTICIPANTES DO RATEIO -->
+                    <div id="wrapper-plc-cc-rateio-seletivo" class="hidden md:col-span-3 bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-2">
+                        <div class="flex justify-between items-center border-b border-brand-border/50 pb-2">
+                            <label class="block text-xs font-bold text-brand-primary">Selecione os Centros de Custo que participam deste Rateio:</label>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="marcarTodosCCPlano(true)" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white">Marcar Todos</button>
+                                <button type="button" onclick="marcarTodosCCPlano(false)" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white">Desmarcar Todos</button>
+                            </div>
+                        </div>
+                        <div id="container-plc-cc-checkboxes" class="grid grid-cols-2 md:grid-cols-4 gap-2 max-h-36 overflow-y-auto pt-1">
+                            <!-- Preenchido via JS -->
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-3 flex justify-end gap-2 pt-2 items-end">
                         <button type="button" id="btn-cancelar-plc" onclick="limparFormPLC()" class="hidden w-1/3 md:w-32 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
                         <button type="submit" id="btn-salvar-plc" class="w-full md:w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Conta</button>
                     </div>
@@ -544,7 +558,7 @@
                             <tr>
                                 <th class="p-2 md:p-3">Descrição da Conta</th>
                                 <th class="p-2 md:p-3">Critério Rateio</th>
-                                <th class="p-2 md:p-3">CC Exclusivo</th>
+                                <th class="p-2 md:p-3">Participantes / Destino</th>
                                 <th class="p-2 md:p-3">Valor Mensal (R$)</th>
                                 <th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
@@ -755,12 +769,20 @@
         function verificarCriterioPlanoContas() {
             const crit = document.getElementById('plc-criterio').value;
             const wrapExclusivo = document.getElementById('wrapper-plc-cc-exclusivo');
+            const wrapSeletivo = document.getElementById('wrapper-plc-cc-rateio-seletivo');
+
             if (crit === 'EXCLUSIVO') {
                 wrapExclusivo.classList.remove('hidden');
+                wrapSeletivo.classList.add('hidden');
             } else {
                 wrapExclusivo.classList.add('hidden');
+                wrapSeletivo.classList.remove('hidden');
                 document.getElementById('plc-cc-id').value = "";
             }
+        }
+
+        function marcarTodosCCPlano(marcar) {
+            document.querySelectorAll('.chk-plc-cc-item').forEach(c => c.checked = marcar);
         }
 
         async function carregarCentrosDeCusto() {
@@ -768,6 +790,7 @@
             const selectCCRec = document.getElementById('rec-cc-id');
             const selectCCFunc = document.getElementById('func-cc-id');
             const selectCCPlc = document.getElementById('plc-cc-id');
+            const containerCCPlcCheckboxes = document.getElementById('container-plc-cc-checkboxes');
             tbody.innerHTML = '<tr><td colspan="12" class="p-4 text-center">Buscando dados...</td></tr>';
 
             try {
@@ -779,6 +802,7 @@
                 selectCCRec.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
                 selectCCFunc.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
                 selectCCPlc.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
+                containerCCPlcCheckboxes.innerHTML = '';
 
                 const containerRateioCC = document.getElementById('container-rateio-cc-list');
                 containerRateioCC.innerHTML = '';
@@ -787,6 +811,13 @@
                     selectCCRec.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
                     selectCCFunc.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
                     selectCCPlc.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
+
+                    containerCCPlcCheckboxes.innerHTML += `
+                        <label class="flex items-center gap-1.5 text-xs text-white cursor-pointer hover:text-brand-primary">
+                            <input type="checkbox" value="${cc.TCENTRO_CUSTO_ID}" checked class="chk-plc-cc-item accent-brand-primary rounded">
+                            <span class="uppercase">${cc.TCENTRO_CUSTO_NOME}</span>
+                        </label>
+                    `;
 
                     containerRateioCC.innerHTML += `
                         <div class="flex items-center justify-between gap-2 text-xs">
@@ -832,14 +863,26 @@
             const editingId = document.getElementById('plc-editing-id').value;
             const nome = document.getElementById('plc-nome').value.trim().toUpperCase();
             const crit = document.getElementById('plc-criterio').value.toUpperCase();
-            const ccId = (crit === 'EXCLUSIVO') ? document.getElementById('plc-cc-id').value : "";
             const valor = parseFloat(document.getElementById('plc-valor').value) || 0;
+
+            let ccTargetInfo = "";
+            if (crit === 'EXCLUSIVO') {
+                ccTargetInfo = document.getElementById('plc-cc-id').value;
+                if(!ccTargetInfo) return alert("Selecione um Centro de Custo Exclusivo.");
+            } else {
+                let selecionados = [];
+                document.querySelectorAll('.chk-plc-cc-item:checked').forEach(chk => {
+                    selecionados.push(chk.value);
+                });
+                if (selecionados.length === 0) return alert("Selecione ao menos um Centro de Custo para o Rateio.");
+                ccTargetInfo = JSON.stringify(selecionados);
+            }
 
             const tempId = editingId || "PLC-TEMP-" + Date.now();
 
             const objLocal = {
                 TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
-                TCENTRO_CUSTO_ID: ccId,
+                TCENTRO_CUSTO_ID: ccTargetInfo,
                 TPLANO_CONTA_ID: tempId,
                 TPLANO_CONTA_NOME: nome,
                 TPLANO_CONTA_CRITERIO: crit,
@@ -860,7 +903,7 @@
                 sheet: "TPLANO_CONTAS",
                 action: editingId ? "UPDATE" : "CREATE",
                 id: editingId,
-                data: [usuarioLogado.TCLIENTE_ID, ccId, editingId || "", nome, crit, valor]
+                data: [usuarioLogado.TCLIENTE_ID, ccTargetInfo, editingId || "", nome, crit, valor]
             };
 
             fetch(API_URL, {
@@ -876,14 +919,29 @@
             tbody.innerHTML = '';
 
             listaPlanoContas.forEach(p => {
-                const ccRel = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(p.TCENTRO_CUSTO_ID));
-                const ccNome = ccRel ? ccRel.TCENTRO_CUSTO_NOME : '-';
+                let destDisplay = "";
+                if (p.TPLANO_CONTA_CRITERIO === 'EXCLUSIVO') {
+                    const ccRel = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(p.TCENTRO_CUSTO_ID));
+                    destDisplay = ccRel ? ccRel.TCENTRO_CUSTO_NOME : p.TCENTRO_CUSTO_ID;
+                } else {
+                    try {
+                        const arr = JSON.parse(p.TCENTRO_CUSTO_ID);
+                        if(arr.length === listaCC.length) {
+                            destDisplay = "TODOS OS CENTROS";
+                        } else {
+                            destDisplay = arr.map(id => {
+                                const c = listaCC.find(x => String(x.TCENTRO_CUSTO_ID) === String(id));
+                                return c ? c.TCENTRO_CUSTO_NOME : id;
+                            }).join(', ');
+                        }
+                    } catch(e) { destDisplay = "TODOS OS CENTROS"; }
+                }
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-brand-border/30 transition">
                         <td class="p-2 md:p-3 font-medium text-white uppercase">${p.TPLANO_CONTA_NOME}</td>
                         <td class="p-2 md:p-3 font-bold text-brand-primary uppercase">${p.TPLANO_CONTA_CRITERIO}</td>
-                        <td class="p-2 md:p-3 uppercase">${p.TPLANO_CONTA_CRITERIO === 'EXCLUSIVO' ? ccNome : 'RATEIO GERAL'}</td>
+                        <td class="p-2 md:p-3 uppercase font-semibold text-white">${destDisplay}</td>
                         <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(p.TPLANO_CONTA_VALOR || 0).toFixed(2)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="prepararEdicaoPLC('${p.TPLANO_CONTA_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
@@ -902,9 +960,21 @@
             document.getElementById('plc-nome').value = item.TPLANO_CONTA_NOME;
             document.getElementById('plc-criterio').value = item.TPLANO_CONTA_CRITERIO;
             verificarCriterioPlanoContas();
-            document.getElementById('plc-cc-id').value = item.TCENTRO_CUSTO_ID || "";
-            document.getElementById('plc-valor').value = item.TPLANO_CONTA_VALOR;
 
+            if (item.TPLANO_CONTA_CRITERIO === 'EXCLUSIVO') {
+                document.getElementById('plc-cc-id').value = item.TCENTRO_CUSTO_ID || "";
+            } else {
+                try {
+                    const arr = JSON.parse(item.TCENTRO_CUSTO_ID);
+                    document.querySelectorAll('.chk-plc-cc-item').forEach(chk => {
+                        chk.checked = arr.includes(chk.value);
+                    });
+                } catch(e) {
+                    marcarTodosCCPlano(true);
+                }
+            }
+
+            document.getElementById('plc-valor').value = item.TPLANO_CONTA_VALOR;
             document.getElementById('plc-form-title').innerText = "Editar Conta";
             document.getElementById('btn-cancelar-plc').classList.remove('hidden');
         }
@@ -928,6 +998,7 @@
             document.getElementById('plc-editing-id').value = "";
             document.getElementById('plc-criterio').value = "EXCLUSIVO";
             verificarCriterioPlanoContas();
+            marcarTodosCCPlano(true);
             document.getElementById('plc-form-title').innerText = "Cadastrar Conta no Plano de Contas";
             document.getElementById('btn-cancelar-plc').classList.add('hidden');
         }
