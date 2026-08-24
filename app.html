@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF | Gestão Admin</title>
+    <title>CONSULTORIA.RF | Gestão de Custos</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script>
@@ -23,8 +25,8 @@
 
     <!-- CABEÇALHO -->
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-        <div class="flex items-center gap-3">
-            <span class="text-xl font-extrabold tracking-wider text-white">CONSULTORIA<span class="text-brand-primary">.RF</span></span>
+        <div class="flex items-center gap-4">
+            <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-8 w-auto">
             <span id="role-badge" class="hidden text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2.5 py-1 rounded-full font-bold uppercase"></span>
         </div>
         <div id="user-menu" class="hidden flex items-center gap-4">
@@ -37,8 +39,9 @@
     <div id="login-screen" class="flex-1 flex items-center justify-center p-4">
         <div class="bg-brand-card p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
+                <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-4">
                 <h1 class="text-2xl font-bold text-white">Painel de Acesso</h1>
-                <p class="text-brand-muted text-sm">Insira seu e-mail e senha cadastrados no sistema</p>
+                <p class="text-brand-muted text-sm">Insira suas credenciais cadastradas</p>
             </div>
             <div class="space-y-4">
                 <div>
@@ -59,8 +62,8 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main id="main-content" class="hidden flex-1 p-6 max-w-7xl mx-auto w-full space-y-8">
         
-        <!-- PAINEL ADMIN -->
-        <section id="section-admin" class="space-y-6">
+        <!-- PAINEL ADMIN (ADMINISTRADORES) -->
+        <section id="section-admin" class="hidden space-y-6">
             <div class="border-b border-brand-border pb-4 flex justify-between items-center">
                 <div>
                     <h1 class="text-2xl font-bold text-white">Gerenciamento do Sistema</h1>
@@ -70,14 +73,13 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                
                 <!-- CADASTRO DE CLIENTE -->
                 <div class="bg-brand-card p-6 rounded-xl border border-brand-border space-y-4">
                     <h2 class="text-lg font-bold text-white border-b border-brand-border/50 pb-2">1. Cadastrar Cliente (Empresa)</h2>
                     <form id="form-cliente" onsubmit="cadastrarCliente(event)" class="space-y-3">
                         <div>
                             <label class="block text-xs text-brand-muted mb-1">ID do Cliente</label>
-                            <input type="text" value="[Gerado Automaticamente]" readonly class="w-full p-2.5 rounded bg-[#0d0d0f]/50 border border-brand-border/50 text-sm text-brand-muted outline-none cursor-not-allowed">
+                            <input type="text" value="[Gerado Auto]" readonly class="w-full p-2.5 rounded bg-[#0d0d0f]/50 border border-brand-border/50 text-sm text-brand-muted outline-none cursor-not-allowed">
                         </div>
                         <div>
                             <label class="block text-xs text-brand-muted mb-1">Nome / Razão Social</label>
@@ -100,7 +102,7 @@
                         <div>
                             <label class="block text-xs text-brand-muted mb-1">Vincular ao Cliente</label>
                             <select id="usr-cli-id" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                                <option value="">Carregando clientes...</option>
+                                <option value="">Carregando...</option>
                             </select>
                         </div>
                         <div class="grid grid-cols-2 gap-3">
@@ -139,15 +141,95 @@
                         </button>
                     </form>
                 </div>
-
             </div>
         </section>
 
-        <!-- AREA COMUM DO CLIENTE -->
-        <section id="section-cliente" class="space-y-4">
-            <div class="bg-brand-card p-6 rounded-xl border border-brand-border">
-                <h2 class="text-xl font-bold text-white mb-2">Área Restrita de Indicadores</h2>
-                <p class="text-brand-muted text-sm">Bem-vindo ao Portal. Escolha no menu acima ou acompanhe suas métricas.</p>
+        <!-- ÁREA DO USUÁRIO: CADASTRO DE CENTRO DE CUSTOS -->
+        <section id="section-centro-custo" class="space-y-6">
+            <div class="bg-brand-card p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex justify-between items-center border-b border-brand-border/50 pb-3">
+                    <h2 class="text-xl font-bold text-white" id="cc-form-title">Cadastrar Centro de Custo</h2>
+                    <span class="text-xs text-brand-muted">Cliente ID: <strong id="cc-client-id-display" class="text-brand-primary">---</strong></span>
+                </div>
+
+                <form id="form-cc" onsubmit="salvarCentroCusto(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="hidden" id="cc-editing-id" value="">
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Nome Centro de Custo</label>
+                        <input type="text" id="cc-nome" placeholder="Ex: Torno CNC" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Tipo Centro de Custo</label>
+                        <select id="cc-tipo" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <option value="">Carregando opções...</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Tipo Rateio de Horas</label>
+                        <select id="cc-tipo-rateio" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <option value="">Carregando opções...</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Área (M²)</label>
+                        <input type="number" step="0.01" id="cc-area" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Custo Fixo Direto (R$)</label>
+                        <input type="number" step="0.01" id="cc-custo-fixo" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Produtividade (%)</label>
+                        <input type="number" step="0.01" id="cc-produtividade" placeholder="100.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div class="md:col-span-2 flex items-center gap-2 pt-2">
+                        <input type="checkbox" id="cc-considerar-minimo" class="w-4 h-4 accent-brand-primary bg-[#0d0d0f] border-brand-border rounded cursor-pointer">
+                        <label for="cc-considerar-minimo" class="text-sm text-white cursor-pointer">Considerar Mínimo (Check = SIM)</label>
+                    </div>
+
+                    <div class="flex gap-2 pt-2">
+                        <button type="button" id="btn-cancelar-cc" onclick="limparFormCC()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                        <button type="submit" id="btn-salvar-cc" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Centro de Custo</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- TABELA DE CENTROS DE CUSTO CADASTRADOS -->
+            <div class="bg-brand-card p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-white">Centros de Custos Cadastrados</h3>
+                    <button onclick="carregarCentrosDeCusto()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar Tabela</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-brand-muted">
+                        <thead class="bg-[#0d0d0f] text-xs uppercase text-white border-b border-brand-border">
+                            <tr>
+                                <th class="p-3">ID</th>
+                                <th class="p-3">Nome</th>
+                                <th class="p-3">Tipo</th>
+                                <th class="p-3">Área (M²)</th>
+                                <th class="p-3">Custo Fixo (R$)</th>
+                                <th class="p-3">Produtividade</th>
+                                <th class="p-3">Tipo Rateio</th>
+                                <th class="p-3">Cons. Mínimo</th>
+                                <th class="p-3 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
+                            <tr>
+                                <td colspan="9" class="p-4 text-center text-brand-muted">Carregando registros...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
@@ -155,16 +237,17 @@
 
     <script>
         // COLE SUA URL DO GOOGLE APPS SCRIPT AQUI
-        const API_URL = "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbwqV5C1-3MhB2R-7W3Qk8Xl9V1q1O/exec";
 
         let usuarioLogado = null;
+        let listaCC = [];
 
         async function fazerLogin() {
             const email = document.getElementById('login-email').value.trim();
             const pass = document.getElementById('login-password').value.trim();
             const btn = document.getElementById('btn-login');
 
-            if (!email || !pass) return alert("Por favor, informe o e-mail e a senha.");
+            if (!email || !pass) return alert("Por favor, informe e-mail e senha.");
 
             try {
                 btn.innerText = "Verificando...";
@@ -216,6 +299,167 @@
                 badge.innerText = "PORTAL CLIENTE";
                 document.getElementById('section-admin').classList.add('hidden');
             }
+
+            document.getElementById('cc-client-id-display').innerText = usuarioLogado.TCLIENTE_ID;
+            
+            carregarPadroes();
+            carregarCentrosDeCusto();
+        }
+
+        async function carregarPadroes() {
+            try {
+                const response = await fetch(`${API_URL}?action=PADROES`);
+                const padroes = await response.json();
+
+                const selectTipo = document.getElementById('cc-tipo');
+                const selectRateio = document.getElementById('cc-tipo-rateio');
+
+                selectTipo.innerHTML = '<option value="">-- Selecione o Tipo --</option>';
+                selectRateio.innerHTML = '<option value="">-- Selecione o Tipo Rateio --</option>';
+
+                padroes.forEach(p => {
+                    if (p.TCENTRO_CUSTO_TIPO) {
+                        selectTipo.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO}</option>`;
+                    }
+                    if (p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS) {
+                        selectRateio.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}</option>`;
+                    }
+                });
+            } catch(e) {
+                console.error("Erro ao carregar padrões", e);
+            }
+        }
+
+        async function carregarCentrosDeCusto() {
+            const tbody = document.getElementById('tbl-cc-body');
+            tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-brand-muted">Buscando dados...</td></tr>';
+
+            try {
+                const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
+                const data = await response.json();
+
+                // Filtra para o cliente logado
+                listaCC = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+
+                if (listaCC.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-brand-muted">Nenhum Centro de Custo cadastrado.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                listaCC.forEach(c => {
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-brand-border/30 transition">
+                            <td class="p-3 font-semibold text-white">${c.TCENTRO_CUSTO_ID}</td>
+                            <td class="p-3 text-white font-medium">${c.TCENTRO_CUSTO_NOME}</td>
+                            <td class="p-3">${c.TCENTRO_CUSTO_TIPO}</td>
+                            <td class="p-3">${c.TCENTRO_CUSTO_AREA} m²</td>
+                            <td class="p-3">R$ ${Number(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                            <td class="p-3">${c.TCENTRO_CUSTO_PRODUTIVIDADE}%</td>
+                            <td class="p-3">${c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}</td>
+                            <td class="p-3">${c.TCENTRO_CUSTO_CONSIDERAR_MINIMO === 'SIM' ? '<span class="text-emerald-400 font-bold">SIM</span>' : '-'}</td>
+                            <td class="p-3 text-right space-x-2">
+                                <button onclick="prepararEdicaoCC('${c.TCENTRO_CUSTO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2.5 py-1 rounded hover:bg-brand-primary/30">Editar</button>
+                                <button onclick="excluirCC('${c.TCENTRO_CUSTO_ID}')" class="text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2.5 py-1 rounded hover:bg-red-900/50">Excluir</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-red-400">Erro ao carregar registros.</td></tr>';
+            }
+        }
+
+        function salvarCentroCusto(e) {
+            e.preventDefault();
+            const editingId = document.getElementById('cc-editing-id').value;
+            const btn = document.getElementById('btn-salvar-cc');
+
+            const considerarMinimo = document.getElementById('cc-considerar-minimo').checked ? "SIM" : "";
+
+            const rowArray = [
+                usuarioLogado.TCLIENTE_ID,                             // Coluna A
+                editingId || "",                                       // Coluna B (ID mantido se edição)
+                document.getElementById('cc-nome').value.trim(),       // Coluna C
+                document.getElementById('cc-tipo').value,              // Coluna D
+                0,                                                     // Coluna E (QTDE_RECURSOS omisso = 0)
+                document.getElementById('cc-area').value,              // Coluna F
+                document.getElementById('cc-custo-fixo').value,        // Coluna G
+                document.getElementById('cc-produtividade').value,     // Coluna H
+                document.getElementById('cc-tipo-rateio').value,       // Coluna I
+                considerarMinimo                                       // Coluna J
+            ];
+
+            const payload = {
+                sheet: "TCENTRO_CUSTO",
+                action: editingId ? "UPDATE" : "CREATE",
+                id: editingId,
+                data: rowArray
+            };
+
+            btn.innerText = "Salvando...";
+            btn.disabled = true;
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert(editingId ? "Centro de custo atualizado!" : "Centro de custo cadastrado!");
+                limparFormCC();
+                btn.innerText = "Salvar Centro de Custo";
+                btn.disabled = false;
+                setTimeout(carregarCentrosDeCusto, 1000);
+            }).catch(() => {
+                alert("Erro ao salvar Centro de Custo.");
+                btn.innerText = "Salvar Centro de Custo";
+                btn.disabled = false;
+            });
+        }
+
+        function prepararEdicaoCC(id) {
+            const item = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(id));
+            if (!item) return;
+
+            document.getElementById('cc-editing-id').value = item.TCENTRO_CUSTO_ID;
+            document.getElementById('cc-nome').value = item.TCENTRO_CUSTO_NOME;
+            document.getElementById('cc-tipo').value = item.TCENTRO_CUSTO_TIPO;
+            document.getElementById('cc-tipo-rateio').value = item.TCENTRO_CUSTO_TIPO_RATEIO_HORAS;
+            document.getElementById('cc-area').value = item.TCENTRO_CUSTO_AREA;
+            document.getElementById('cc-custo-fixo').value = item.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO;
+            document.getElementById('cc-produtividade').value = item.TCENTRO_CUSTO_PRODUTIVIDADE;
+            document.getElementById('cc-considerar-minimo').checked = item.TCENTRO_CUSTO_CONSIDERAR_MINIMO === "SIM";
+
+            document.getElementById('cc-form-title').innerText = `Editar Centro de Custo (${item.TCENTRO_CUSTO_ID})`;
+            document.getElementById('btn-cancelar-cc').classList.remove('hidden');
+        }
+
+        function excluirCC(id) {
+            if (!confirm(`Tem certeza que deseja excluir o Centro de Custo ${id}?`)) return;
+
+            const payload = {
+                sheet: "TCENTRO_CUSTO",
+                action: "DELETE",
+                id: id
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Exclusão realizada com sucesso!");
+                setTimeout(carregarCentrosDeCusto, 1000);
+            });
+        }
+
+        function limparFormCC() {
+            document.getElementById('form-cc').reset();
+            document.getElementById('cc-editing-id').value = "";
+            document.getElementById('cc-form-title').innerText = "Cadastrar Centro de Custo";
+            document.getElementById('btn-cancelar-cc').classList.add('hidden');
         }
 
         async function carregarClientesSelect() {
@@ -244,7 +488,7 @@
             const payload = {
                 sheet: "TCLIENTE",
                 data: [
-                    "", // O ID é gerado no backend
+                    "",
                     document.getElementById('cli-nome').value.trim(),
                     document.getElementById('cli-cnpj').value.trim()
                 ]
@@ -253,22 +497,17 @@
             btn.innerText = "Enviando...";
             btn.disabled = true;
 
-            // Disparo instantâneo sem bloquear a tela esperando o timeout
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             }).then(() => {
-                alert("Cliente cadastrado e salvo com sucesso!");
+                alert("Cliente cadastrado com sucesso!");
                 document.getElementById('form-cliente').reset();
                 btn.innerText = "Salvar Cliente";
                 btn.disabled = false;
                 carregarClientesSelect();
-            }).catch(() => {
-                alert("Erro ao disparar cadastro de cliente.");
-                btn.innerText = "Salvar Cliente";
-                btn.disabled = false;
             });
         }
 
@@ -280,7 +519,7 @@
                 sheet: "TUSUARIO",
                 data: [
                     document.getElementById('usr-cli-id').value,
-                    "", // O ID é gerado no backend
+                    "",
                     document.getElementById('usr-nome').value.trim(),
                     document.getElementById('usr-email').value.trim(),
                     document.getElementById('usr-celular').value.trim(),
@@ -293,19 +532,14 @@
             btn.innerText = "Enviando...";
             btn.disabled = true;
 
-            // Disparo instantâneo sem bloquear a tela
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             }).then(() => {
-                alert("Usuário cadastrado e salvo com sucesso!");
+                alert("Usuário cadastrado com sucesso!");
                 document.getElementById('form-usuario').reset();
-                btn.innerText = "Salvar Usuário";
-                btn.disabled = false;
-            }).catch(() => {
-                alert("Erro ao disparar cadastro de usuário.");
                 btn.innerText = "Salvar Usuário";
                 btn.disabled = false;
             });
