@@ -22,7 +22,7 @@
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
-    <!-- CABEÇALHO RESPONSIVO -->
+    <!-- CABEÇALHO -->
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-4">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
@@ -61,7 +61,7 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main id="main-content" class="hidden flex-1 p-3 md:p-6 max-w-7xl mx-auto w-full space-y-6">
         
-        <!-- BARRA NAVEGAÇÃO DE ABAS CLIENTE -->
+        <!-- NAVEGAÇÃO DE ABAS DO CLIENTE -->
         <div id="nav-cliente-tabs" class="flex gap-2 border-b border-brand-border pb-2 overflow-x-auto">
             <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition">Centros de Custo</button>
             <button id="tab-btn-rec" onclick="alternarAbaCliente('rec')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition">Recursos</button>
@@ -81,10 +81,6 @@
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <h2 class="text-base md:text-lg font-bold text-white border-b border-brand-border/50 pb-2">1. Cadastrar Cliente (Empresa)</h2>
                     <form id="form-cliente" onsubmit="cadastrarCliente(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">ID do Cliente</label>
-                            <input type="text" value="[Gerado Auto]" readonly class="w-full p-2.5 rounded bg-[#0d0d0f]/50 border border-brand-border/50 text-sm text-brand-muted outline-none cursor-not-allowed">
-                        </div>
                         <div>
                             <label class="block text-xs text-brand-muted mb-1">Nome / Razão Social</label>
                             <input type="text" id="cli-nome" placeholder="Empresa X Ltda" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
@@ -109,18 +105,12 @@
                                 <option value="">Carregando...</option>
                             </select>
                         </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs text-brand-muted mb-1">ID Usuário</label>
-                                <input type="text" value="[Gerado Auto]" readonly class="w-full p-2.5 rounded bg-[#0d0d0f]/50 border border-brand-border/50 text-sm text-brand-muted outline-none cursor-not-allowed">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-brand-muted mb-1">É Administrador?</label>
-                                <select id="usr-adm" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                                    <option value="NAO">NÃO</option>
-                                    <option value="SIM">SIM</option>
-                                </select>
-                            </div>
+                        <div>
+                            <label class="block text-xs text-brand-muted mb-1">É Administrador?</label>
+                            <select id="usr-adm" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                                <option value="NAO">NÃO</option>
+                                <option value="SIM">SIM</option>
+                            </select>
                         </div>
                         <div>
                             <label class="block text-xs text-brand-muted mb-1">Nome Completo</label>
@@ -148,7 +138,7 @@
             </div>
         </section>
 
-        <!-- ABA 1: CENTRO DE CUSTOS -->
+        <!-- ABA 1: CENTROS DE CUSTO -->
         <section id="section-centro-custo" class="space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
@@ -216,25 +206,26 @@
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">ID</th>
                                 <th class="p-2 md:p-3">Nome</th>
                                 <th class="p-2 md:p-3">Tipo</th>
+                                <th class="p-2 md:p-3">Qtd Rec.</th>
                                 <th class="p-2 md:p-3">Área (M²)</th>
-                                <th class="p-2 md:p-3">Custo Fixo</th>
+                                <th class="p-2 md:p-3">Custo Fixo (R$)</th>
+                                <th class="p-2 md:p-3">Depreciação (R$)</th>
                                 <th class="p-2 md:p-3">Prod. (%)</th>
                                 <th class="p-2 md:p-3">Cons. Min.</th>
                                 <th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="8" class="p-4 text-center">Carregando...</td></tr>
+                            <tr><td colspan="9" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- ABA 2: CADASTRO DE RECURSOS -->
+        <!-- ABA 2: RECURSOS -->
         <section id="section-recursos" class="hidden space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
@@ -409,9 +400,11 @@
             if (aba === 'cc') {
                 document.getElementById('section-centro-custo').classList.remove('hidden');
                 document.getElementById('tab-btn-cc').className = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition";
+                carregarCentrosDeCusto();
             } else if (aba === 'rec') {
                 document.getElementById('section-recursos').classList.remove('hidden');
                 document.getElementById('tab-btn-rec').className = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition";
+                carregarRecursos();
             }
         }
 
@@ -441,7 +434,7 @@
         async function carregarCentrosDeCusto() {
             const tbody = document.getElementById('tbl-cc-body');
             const selectCCRec = document.getElementById('rec-cc-id');
-            tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Buscando dados...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center">Buscando dados...</td></tr>';
 
             try {
                 const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
@@ -449,14 +442,13 @@
 
                 listaCC = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
 
-                // Popula select da tela de Recursos
                 selectCCRec.innerHTML = '<option value="">-- Selecione o Centro de Custo --</option>';
                 listaCC.forEach(cc => {
-                    selectCCRec.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME} (${cc.TCENTRO_CUSTO_ID})</option>`;
+                    selectCCRec.innerHTML += `<option value="${cc.TCENTRO_CUSTO_ID}">${cc.TCENTRO_CUSTO_NOME}</option>`;
                 });
 
                 if (listaCC.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Nenhum Centro de Custo cadastrado.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center">Nenhum Centro de Custo cadastrado.</td></tr>';
                     return;
                 }
 
@@ -464,11 +456,12 @@
                 listaCC.forEach(c => {
                     tbody.innerHTML += `
                         <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-2 md:p-3 font-semibold text-white">${c.TCENTRO_CUSTO_ID}</td>
                             <td class="p-2 md:p-3 text-white font-medium">${c.TCENTRO_CUSTO_NOME}</td>
                             <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_TIPO}</td>
+                            <td class="p-2 md:p-3 text-center font-bold text-brand-primary">${c.TCENTRO_CUSTO_QTDE_RECURSOS || 0}</td>
                             <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_AREA} m²</td>
                             <td class="p-2 md:p-3">R$ ${Number(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                            <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_MENSAL || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
                             <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_PRODUTIVIDADE}%</td>
                             <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_CONSIDERAR_MINIMO === 'SIM' ? '<span class="text-emerald-400 font-bold">SIM</span>' : '-'}</td>
                             <td class="p-2 md:p-3 text-right space-x-1">
@@ -479,7 +472,7 @@
                     `;
                 });
             } catch (e) {
-                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>';
             }
         }
 
@@ -560,13 +553,13 @@
             const custoMensalNum = valor * pct;
 
             const rowArray = [
-                usuarioLogado.TCLIENTE_ID,                             // Coluna A
-                document.getElementById('rec-cc-id').value,            // Coluna B
-                editingId || "",                                       // Coluna C (ID mantido se edição)
-                document.getElementById('rec-nome').value.trim(),       // Coluna D
-                valor,                                                 // Coluna E
-                tipoSel,                                               // Coluna F
-                custoMensalNum                                         // Coluna G
+                usuarioLogado.TCLIENTE_ID,
+                document.getElementById('rec-cc-id').value,
+                editingId || "",
+                document.getElementById('rec-nome').value.trim(),
+                valor,
+                tipoSel,
+                custoMensalNum
             ];
 
             const payload = {
@@ -589,7 +582,10 @@
                 limparFormRec();
                 btn.innerText = "Salvar Recurso";
                 btn.disabled = false;
-                setTimeout(carregarRecursos, 1000);
+                setTimeout(() => {
+                    carregarRecursos();
+                    carregarCentrosDeCusto();
+                }, 1500);
             });
         }
 
@@ -605,12 +601,12 @@
             
             calcularCustoMensalRecurso();
 
-            document.getElementById('rec-form-title').innerText = `Editar Recurso (${item.TRECURSO_ID})`;
+            document.getElementById('rec-form-title').innerText = "Editar Recurso";
             document.getElementById('btn-cancelar-rec').classList.remove('hidden');
         }
 
         function excluirRec(id) {
-            if (!confirm(`Tem certeza que deseja excluir o Recurso ${id}?`)) return;
+            if (!confirm("Tem certeza que deseja excluir o Recurso selecionado?")) return;
 
             const payload = {
                 sheet: "TRECURSO",
@@ -625,7 +621,10 @@
                 body: JSON.stringify(payload)
             }).then(() => {
                 alert("Exclusão realizada com sucesso!");
-                setTimeout(carregarRecursos, 1000);
+                setTimeout(() => {
+                    carregarRecursos();
+                    carregarCentrosDeCusto();
+                }, 1500);
             });
         }
 
@@ -653,7 +652,8 @@
                 document.getElementById('cc-custo-fixo').value,
                 document.getElementById('cc-produtividade').value,
                 document.getElementById('cc-tipo-rateio').value,
-                considerarMinimo
+                considerarMinimo,
+                0
             ];
 
             const payload = {
@@ -676,7 +676,7 @@
                 limparFormCC();
                 btn.innerText = "Salvar Centro de Custo";
                 btn.disabled = false;
-                setTimeout(carregarCentrosDeCusto, 1000);
+                setTimeout(carregarCentrosDeCusto, 1500);
             });
         }
 
@@ -693,12 +693,12 @@
             document.getElementById('cc-produtividade').value = item.TCENTRO_CUSTO_PRODUTIVIDADE;
             document.getElementById('cc-considerar-minimo').checked = item.TCENTRO_CUSTO_CONSIDERAR_MINIMO === "SIM";
 
-            document.getElementById('cc-form-title').innerText = `Editar Centro de Custo (${item.TCENTRO_CUSTO_ID})`;
+            document.getElementById('cc-form-title').innerText = "Editar Centro de Custo";
             document.getElementById('btn-cancelar-cc').classList.remove('hidden');
         }
 
         function excluirCC(id) {
-            if (!confirm(`Tem certeza que deseja excluir o Centro de Custo ${id}?`)) return;
+            if (!confirm("Tem certeza que deseja excluir o Centro de Custo selecionado?")) return;
 
             const payload = {
                 sheet: "TCENTRO_CUSTO",
@@ -713,7 +713,7 @@
                 body: JSON.stringify(payload)
             }).then(() => {
                 alert("Exclusão realizada com sucesso!");
-                setTimeout(carregarCentrosDeCusto, 1000);
+                setTimeout(carregarCentrosDeCusto, 1500);
             });
         }
 
@@ -736,7 +736,7 @@
                 select.innerHTML += '<option value="ADM">SISTEMA ADMIN</option>';
 
                 clientes.forEach(c => {
-                    select.innerHTML += `<option value="${c.TCLIENTE_ID}">${c.TCLIENTE_NOME} (${c.TCLIENTE_ID})</option>`;
+                    select.innerHTML += `<option value="${c.TCLIENTE_ID}">${c.TCLIENTE_NOME}</option>`;
                 });
             } catch (e) {
                 select.innerHTML = '<option value="">Erro ao carregar clientes</option>';
