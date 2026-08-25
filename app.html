@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF | Gestão de Custos</title>
+    <title>CONSULTORIA.RF | Gestão de Custos V1</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -31,6 +31,16 @@
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
+
+        <!-- SELETOR GLOBAL DE PERÍODO -->
+        <div id="wrapper-periodo-global" class="hidden flex items-center gap-2 bg-[#16161a] p-1.5 rounded-lg border border-brand-border">
+            <span class="text-xs text-brand-muted pl-1">Período:</span>
+            <select id="global-periodo-select" onchange="trocarPeriodoAtivo()" class="bg-[#0d0d0f] text-white text-xs font-bold p-1.5 rounded border border-brand-border outline-none">
+                <option value="">Carregando...</option>
+            </select>
+            <button onclick="modalCriarNovoPeriodo()" class="text-xs bg-brand-primary hover:bg-brand-hover text-white px-2 py-1 rounded font-bold transition">+ Novo / Clonar</button>
+        </div>
+
         <div id="user-menu" class="hidden flex items-center gap-3">
             <span class="text-xs md:text-sm text-brand-muted"><strong class="text-white uppercase" id="user-display-name">---</strong></span>
             <button onclick="deslogar()" class="text-xs bg-red-950/50 border border-red-800/50 hover:bg-red-900 text-red-200 px-2.5 py-1 rounded-lg transition font-semibold">Sair</button>
@@ -64,6 +74,11 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main id="main-content" class="hidden flex-1 p-3 md:p-6 max-w-7xl mx-auto w-full space-y-6">
         
+        <!-- AVISO SE PERÍODO BLOQUEADO -->
+        <div id="banner-periodo-bloqueado" class="hidden bg-amber-950/40 border border-amber-800 text-amber-300 p-3 rounded-xl text-xs font-bold flex justify-between items-center">
+            <span>🔒 ESTE PERÍODO ESTÁ MARCADO COMO FECHADO. EDIÇÕES E NOVOS CADASTROS ESTÃO DESABILITADOS.</span>
+        </div>
+
         <!-- NAVEGAÇÃO DE ABAS CLIENTE -->
         <div id="nav-cliente-tabs" class="flex gap-2 border-b border-brand-border pb-2 overflow-x-auto">
             <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap">Centros de Custo</button>
@@ -579,6 +594,9 @@
 
         let usuarioLogado = null;
         let empresaLogadaNome = "---";
+        let listaPeriodos = [];
+        let periodoAtivoObj = null;
+
         let listaCC = [];
         let listaRecursos = [];
         let listaBeneficios = [];
@@ -645,10 +663,11 @@
             } catch (e) { empresaLogadaNome = usuarioLogado.TCLIENTE_ID; }
         }
 
-        function iniciarSessao() {
+        async function iniciarSessao() {
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('main-content').classList.remove('hidden');
             document.getElementById('user-menu').classList.remove('hidden');
+            document.getElementById('wrapper-periodo-global').classList.remove('hidden');
             document.getElementById('user-display-name').innerText = usuarioLogado.TUSUARIO_NOME;
 
             const isAdm = String(usuarioLogado.TUSUARIO_ADM).toUpperCase() === 'SIM' || String(usuarioLogado.TUSUARIO_ADM).toUpperCase() === 'TRUE';
@@ -661,7 +680,7 @@
                 document.getElementById('section-admin').classList.remove('hidden');
                 carregarClientesSelect();
             } else {
-                badge.innerText = "PORTAL CLIENTE";
+                badge.innerText = "PORTAL CLIENTE V1";
                 document.getElementById('section-admin').classList.add('hidden');
             }
 
@@ -671,7 +690,107 @@
             document.getElementById('func-client-name-display').innerText = empresaLogadaNome;
             document.getElementById('plc-client-name-display').innerText = empresaLogadaNome;
             
+            await carregarPeriodosDoCliente();
             carregarPadroes();
+            carregarTudoDoPeriodo();
+        }
+
+        async function carregarPeriodosDoCliente() {
+            const select = document.getElementById('global-periodo-select');
+            select.innerHTML = '<option value="">Carregando...</option>';
+
+            try {
+                const res = await fetch(`${API_URL}?action=TPERIODO`);
+                const data = await res.json();
+
+                listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+
+                if (listaPeriodos.length === 0) {
+                    const payload = {
+                        sheet: "TPERIODO",
+                        data: [usuarioLogado.TCLIENTE_ID, "", "2026.1", "ABERTO", "SIM"]
+                    };
+                    await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+                    setTimeout(carregarPeriodosDoCliente, 1500);
+                    return;
+                }
+
+                select.innerHTML = '';
+                listaPeriodos.forEach(p => {
+                    select.innerHTML += `<option value="${p.TPERIODO_ID}">${p.TPERIODO_NOME} [${p.TPERIODO_STATUS}]</option>`;
+                });
+
+                const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
+                select.value = atual.TPERIODO_ID;
+                periodoAtivoObj = atual;
+
+                verificarStatusBloqueioPeriodo();
+
+            } catch (e) { select.innerHTML = '<option value="">Erro ao carregar</option>'; }
+        }
+
+        function trocarPeriodoAtivo() {
+            const id = document.getElementById('global-periodo-select').value;
+            periodoAtivoObj = listaPeriodos.find(p => String(p.TPERIODO_ID) === String(id));
+            verificarStatusBloqueioPeriodo();
+            carregarTudoDoPeriodo();
+        }
+
+        function verificarStatusBloqueioPeriodo() {
+            const banner = document.getElementById('banner-periodo-bloqueado');
+            if (periodoAtivoObj && String(periodoAtivoObj.TPERIODO_STATUS).toUpperCase() === 'FECHADO') {
+                banner.classList.remove('hidden');
+                bloquearTodosFormularios(true);
+            } else {
+                banner.classList.add('hidden');
+                bloquearTodosFormularios(false);
+            }
+        }
+
+        function bloquearTodosFormularios(bloquear) {
+            const btns = document.querySelectorAll('button[type="submit"]');
+            btns.forEach(b => {
+                b.disabled = bloquear;
+                if(bloquear) b.classList.add('opacity-40', 'cursor-not-allowed');
+                else b.classList.remove('opacity-40', 'cursor-not-allowed');
+            });
+        }
+
+        async function modalCriarNovoPeriodo() {
+            const novoNome = prompt("Digite o Nome do Novo Período (ex: 2º SEMESTRE 2026):");
+            if (!novoNome) return;
+
+            const clonar = confirm(`Deseja COPIAR todos os cadastros e dados do período atual (${periodoAtivoObj.TPERIODO_NOME}) para o novo período (${novoNome.toUpperCase()})?`);
+
+            if (clonar) {
+                const payload = {
+                    action: "CLONE_PERIOD",
+                    clienteId: usuarioLogado.TCLIENTE_ID,
+                    periodoOrigemId: periodoAtivoObj.TPERIODO_ID,
+                    novoNomePeriodo: novoNome.toUpperCase()
+                };
+
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                alert("Novo período criado e cadastros duplicados com sucesso!");
+                setTimeout(() => { location.reload(); }, 1500);
+            } else {
+                const payload = {
+                    sheet: "TPERIODO",
+                    data: [usuarioLogado.TCLIENTE_ID, "", novoNome.toUpperCase(), "ABERTO", "SIM"]
+                };
+                await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                alert("Novo período em branco criado!");
+                setTimeout(() => { location.reload(); }, 1500);
+            }
+        }
+
+        function carregarTudoDoPeriodo() {
             carregarCentrosDeCusto();
             carregarRecursos();
             carregarBeneficios();
@@ -798,7 +917,7 @@
                 const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
                 const data = await response.json();
 
-                listaCC = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                listaCC = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
 
                 selectCCRec.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
                 selectCCFunc.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
@@ -832,7 +951,7 @@
                 });
 
                 if (listaCC.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="13" class="p-4 text-center">Nenhum Centro de Custo cadastrado.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="13" class="p-4 text-center">Nenhum Centro de Custo cadastrado neste período.</td></tr>';
                     return;
                 }
 
@@ -848,10 +967,10 @@
                 const response = await fetch(`${API_URL}?action=TPLANO_CONTAS`);
                 const data = await response.json();
 
-                listaPlanoContas = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                listaPlanoContas = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
 
                 if (listaPlanoContas.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Nenhuma conta cadastrada.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Nenhuma conta cadastrada neste período.</td></tr>';
                     return;
                 }
 
@@ -883,6 +1002,7 @@
 
             const objLocal = {
                 TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
+                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
                 TCENTRO_CUSTO_ID: ccTargetInfo,
                 TPLANO_CONTA_ID: tempId,
                 TPLANO_CONTA_NOME: nome,
@@ -904,7 +1024,9 @@
                 sheet: "TPLANO_CONTAS",
                 action: editingId ? "UPDATE" : "CREATE",
                 id: editingId,
-                data: [usuarioLogado.TCLIENTE_ID, ccTargetInfo, editingId || "", nome, crit, valor]
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTargetInfo, editingId || "", nome, crit, valor]
             };
 
             fetch(API_URL, {
@@ -990,7 +1112,7 @@
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sheet: "TPLANO_CONTAS", action: "DELETE", id: id })
+                body: JSON.stringify({ sheet: "TPLANO_CONTAS", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
             }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
         }
 
@@ -1120,6 +1242,7 @@
 
             const objLocal = {
                 TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
+                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
                 TCENTRO_CUSTO_ID: ccInfo,
                 TFUNCIONARIO_ID: tempId,
                 TFUNCIONARIO_NOME: nome,
@@ -1147,8 +1270,11 @@
                 sheet: "TFUNCIONARIO",
                 action: editingId ? "UPDATE" : "CREATE",
                 id: editingId,
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
                 data: [
                     usuarioLogado.TCLIENTE_ID, 
+                    periodoAtivoObj.TPERIODO_ID,
                     ccInfo, 
                     editingId || "", 
                     nome, 
@@ -1216,10 +1342,10 @@
                 const response = await fetch(`${API_URL}?action=TFUNCIONARIO`);
                 const data = await response.json();
 
-                listaFuncionarios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                listaFuncionarios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
 
                 if (listaFuncionarios.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Nenhum funcionário cadastrado.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Nenhum funcionário cadastrado neste período.</td></tr>';
                     return;
                 }
 
@@ -1273,7 +1399,7 @@
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sheet: "TFUNCIONARIO", action: "DELETE", id: id })
+                body: JSON.stringify({ sheet: "TFUNCIONARIO", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
             }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
         }
 
@@ -1298,12 +1424,12 @@
                 const response = await fetch(`${API_URL}?action=TBENEFICIOS`);
                 const data = await response.json();
 
-                listaBeneficios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                listaBeneficios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
 
                 containerCheckboxes.innerHTML = '';
                 if (listaBeneficios.length === 0) {
                     containerCheckboxes.innerHTML = '<span class="text-xs text-brand-muted">Nenhum benefício cadastrado.</span>';
-                    tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Nenhum benefício cadastrado.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Nenhum benefício cadastrado neste período.</td></tr>';
                     return;
                 }
 
@@ -1330,6 +1456,7 @@
 
             const objLocal = {
                 TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
+                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
                 TBENEFICIO_ID: tempId,
                 TBENEFICIO_NOME: nome,
                 TBENEFICIO_VALOR: valor
@@ -1349,7 +1476,7 @@
                 sheet: "TBENEFICIOS",
                 action: editingId ? "UPDATE" : "CREATE",
                 id: editingId,
-                data: [usuarioLogado.TCLIENTE_ID, editingId || "", nome, valor]
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, editingId || "", nome, valor]
             };
 
             fetch(API_URL, {
@@ -1451,10 +1578,10 @@
                 const response = await fetch(`${API_URL}?action=TRECURSO`);
                 const data = await response.json();
 
-                listaRecursos = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                listaRecursos = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
 
                 if (listaRecursos.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center">Nenhum recurso cadastrado.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center">Nenhum recurso cadastrado neste período.</td></tr>';
                     return;
                 }
 
@@ -1480,6 +1607,7 @@
 
             const objLocal = {
                 TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
+                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
                 TCENTRO_CUSTO_ID: ccId,
                 TRECURSO_ID: tempId,
                 TRECURSO_NOME: nome,
@@ -1503,7 +1631,9 @@
                 sheet: "TRECURSO",
                 action: editingId ? "UPDATE" : "CREATE",
                 id: editingId,
-                data: [usuarioLogado.TCLIENTE_ID, ccId, editingId || "", nome, valor, tipoSel, custoMensalNum, turnos]
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccId, editingId || "", nome, valor, tipoSel, custoMensalNum, turnos]
             };
 
             fetch(API_URL, {
@@ -1567,7 +1697,7 @@
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sheet: "TRECURSO", action: "DELETE", id: id })
+                body: JSON.stringify({ sheet: "TRECURSO", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
             }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
         }
 
@@ -1597,6 +1727,7 @@
 
             const objLocal = {
                 TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
+                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
                 TCENTRO_CUSTO_ID: tempId,
                 TCENTRO_CUSTO_NOME: nome,
                 TCENTRO_CUSTO_TIPO: tipoCC,
@@ -1626,7 +1757,9 @@
                 sheet: "TCENTRO_CUSTO",
                 action: editingId ? "UPDATE" : "CREATE",
                 id: editingId,
-                data: [usuarioLogado.TCLIENTE_ID, editingId || "", nome, tipoCC, 0, area, custoFixo, produtividade, rateio, considerarMinimo, 0, 0, 0, 0]
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, editingId || "", nome, tipoCC, 0, area, custoFixo, produtividade, rateio, considerarMinimo, 0, 0, 0, 0]
             };
 
             fetch(API_URL, {
@@ -1694,7 +1827,7 @@
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sheet: "TCENTRO_CUSTO", action: "DELETE", id: id })
+                body: JSON.stringify({ sheet: "TCENTRO_CUSTO", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
             });
         }
 
