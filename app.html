@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF | Gestão de Custos V1</title>
+    <title>CONSULTORIA.RF | Gestão de Custos V1.1</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -93,7 +93,7 @@
             <div class="border-b border-brand-border pb-4 flex justify-between items-center">
                 <div>
                     <h1 class="text-xl md:text-2xl font-bold text-white">Gerenciamento do Sistema</h1>
-                    <p class="text-xs text-brand-muted">Cadastre empresas parceiras e libere acessos para usuários</p>
+                    <p class="text-xs text-brand-muted">Cadastre empresas parceiras, bloqueie acessos e gerencie usuários</p>
                 </div>
             </div>
 
@@ -151,6 +151,27 @@
                         </div>
                         <button type="submit" id="btn-salvar-usr" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition mt-2">Salvar Usuário</button>
                     </form>
+                </div>
+            </div>
+
+            <!-- TABELA GERENCIAMENTO E BLOQUEIO DE CLIENTES -->
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <h2 class="text-base md:text-lg font-bold text-white border-b border-brand-border/50 pb-2">3. Clientes Cadastrados & Status de Acesso</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                            <tr>
+                                <th class="p-2 md:p-3">ID</th>
+                                <th class="p-2 md:p-3">Razão Social / Nome</th>
+                                <th class="p-2 md:p-3">CNPJ</th>
+                                <th class="p-2 md:p-3">Status Acesso</th>
+                                <th class="p-2 md:p-3 text-right">Ação Bloqueio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-admin-clientes-body" class="divide-y divide-brand-border/50">
+                            <tr><td colspan="5" class="p-4 text-center">Carregando clientes...</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
@@ -594,6 +615,7 @@
 
         let usuarioLogado = null;
         let empresaLogadaNome = "---";
+        let listaClientesAdmin = [];
         let listaPeriodos = [];
         let periodoAtivoObj = null;
 
@@ -641,6 +663,18 @@
                     return;
                 }
 
+                // Verifica se a empresa (Cliente) está ativa
+                const resCli = await fetch(`${API_URL}?action=TCLIENTE`);
+                const clientes = await resCli.json();
+                const empresa = clientes.find(c => String(c.TCLIENTE_ID) === String(user.TCLIENTE_ID));
+
+                if (empresa && String(empresa.TCLIENTE_ATIVO).toUpperCase() === 'NAO') {
+                    alert("ACESSO BLOQUEADO: A empresa deste usuário está inativada no sistema.");
+                    btn.innerText = "Entrar no Sistema";
+                    btn.disabled = false;
+                    return;
+                }
+
                 usuarioLogado = user;
                 localStorage.setItem('usuarioLogadoRF', JSON.stringify(user));
                 await buscarNomeEmpresa();
@@ -679,8 +713,9 @@
                 badge.innerText = "ADMINISTRADOR";
                 document.getElementById('section-admin').classList.remove('hidden');
                 carregarClientesSelect();
+                carregarTabelaClientesAdmin();
             } else {
-                badge.innerText = "PORTAL CLIENTE V1";
+                badge.innerText = "PORTAL CLIENTE";
                 document.getElementById('section-admin').classList.add('hidden');
             }
 
@@ -693,6 +728,58 @@
             await carregarPeriodosDoCliente();
             carregarPadroes();
             carregarTudoDoPeriodo();
+        }
+
+        async function carregarTabelaClientesAdmin() {
+            const tbody = document.getElementById('tbl-admin-clientes-body');
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando empresas...</td></tr>';
+
+            try {
+                const res = await fetch(`${API_URL}?action=TCLIENTE`);
+                listaClientesAdmin = await res.json();
+
+                tbody.innerHTML = '';
+                listaClientesAdmin.forEach(c => {
+                    const isAtivo = String(c.TCLIENTE_ATIVO).toUpperCase() !== 'NAO';
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-brand-border/30 transition">
+                            <td class="p-2 md:p-3 font-semibold text-white">${c.TCLIENTE_ID}</td>
+                            <td class="p-2 md:p-3 text-white font-medium uppercase">${c.TCLIENTE_NOME}</td>
+                            <td class="p-2 md:p-3">${c.TCLIENTE_CNPJ}</td>
+                            <td class="p-2 md:p-3">${isAtivo ? '<span class="text-emerald-400 font-bold">ATIVO</span>' : '<span class="text-red-500 font-bold">BLOQUEADO</span>'}</td>
+                            <td class="p-2 md:p-3 text-right">
+                                <button onclick="alternarStatusCliente('${c.TCLIENTE_ID}', '${c.TCLIENTE_NOME}', '${c.TCLIENTE_CNPJ}', ${isAtivo})" class="text-xs px-3 py-1 rounded font-bold ${isAtivo ? 'bg-red-950/60 text-red-400 border border-red-800' : 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'}">
+                                    ${isAtivo ? 'Bloquear Empresa' : 'Desbloquear Acesso'}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar clientes.</td></tr>'; }
+        }
+
+        function alternarStatusCliente(id, nome, cnpj, statusAtualAtivo) {
+            const novoStatus = statusAtualAtivo ? "NAO" : "SIM";
+            const acaoText = statusAtualAtivo ? "BLOQUEAR" : "DESBLOQUEAR";
+
+            if (!confirm(`Tem certeza que deseja ${acaoText} a empresa ${nome}?`)) return;
+
+            const payload = {
+                sheet: "TCLIENTE",
+                action: "UPDATE",
+                id: id,
+                data: [id, nome, cnpj, novoStatus]
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert(`Empresa ${nome} atualizada com sucesso!`);
+                setTimeout(carregarTabelaClientesAdmin, 1500);
+            });
         }
 
         async function carregarPeriodosDoCliente() {
@@ -1862,7 +1949,7 @@
             const nome = document.getElementById('cli-nome').value.trim().toUpperCase();
             const cnpj = document.getElementById('cli-cnpj').value.trim().toUpperCase();
 
-            const payload = { sheet: "TCLIENTE", data: ["", nome, cnpj] };
+            const payload = { sheet: "TCLIENTE", data: ["", nome, cnpj, "SIM"] };
             btn.innerText = "Enviando...";
             btn.disabled = true;
 
@@ -1873,6 +1960,7 @@
                 btn.innerText = "Salvar Cliente";
                 btn.disabled = false;
                 carregarClientesSelect();
+                carregarTabelaClientesAdmin();
             });
         }
 
