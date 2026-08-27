@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V1.7 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V1.8 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V1.7</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V1.8</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -39,6 +39,7 @@
             <select id="global-periodo-select" onchange="trocarPeriodoAtivo()" class="bg-[#0d0d0f] text-white text-xs font-bold p-1.5 rounded border border-brand-border outline-none max-w-[220px] truncate">
                 <option value="">Carregando...</option>
             </select>
+            <button onclick="modalCriarNovoPeriodo()" class="text-xs bg-brand-primary hover:bg-brand-hover text-white px-2.5 py-1 rounded font-bold transition whitespace-nowrap">+ Novo / Clonar</button>
         </div>
 
         <div id="user-menu" class="hidden flex items-center gap-3">
@@ -52,7 +53,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V1.7</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V1.8</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -178,7 +179,7 @@
             </div>
         </section>
 
-        <!-- ABA 0: CONFIG. PERÍODO (NOVA) -->
+        <!-- ABA 0: CONFIG. PERÍODO -->
         <section id="section-config-periodo" class="space-y-6">
             
             <!-- PARÂMETROS FINANCEIROS DO PERÍODO ATIVO -->
@@ -194,27 +195,27 @@
                 <form id="form-cfg-periodo" onsubmit="salvarParametrosPeriodo(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Faturamento Médio Mensal (R$)</label>
-                        <input type="number" step="0.01" id="cfg-faturamento" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="text" id="cfg-faturamento" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Alíquota Média Impostos sobre Vendas (%)</label>
-                        <input type="number" step="0.01" id="cfg-aliquota" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="number" step="0.01" id="cfg-aliquota" placeholder="0,00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Valor Total Prédio Próprio (R$)</label>
-                        <input type="number" step="0.01" id="cfg-predio" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="text" id="cfg-predio" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Rentabilidade Objetiva Meta (%)</label>
-                        <input type="number" step="0.01" id="cfg-rentabilidade" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="number" step="0.01" id="cfg-rentabilidade" placeholder="0,00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Retirada Média Mensal dos Sócios (R$)</label>
-                        <input type="number" step="0.01" id="cfg-retirada" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="text" id="cfg-retirada" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div class="flex items-end">
@@ -236,7 +237,7 @@
                         </div>
                         <div>
                             <label class="block text-xs text-brand-muted mb-1">Valor do Investimento (R$)</label>
-                            <input type="number" step="0.01" id="inv-valor" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <input type="text" id="inv-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                         </div>
                         <div class="flex gap-2 pt-1">
                             <button type="button" id="btn-cancelar-inv" onclick="limparFormInv()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-xs transition">Cancelar</button>
@@ -278,7 +279,7 @@
                                 <th class="p-2 md:p-3">ID</th>
                                 <th class="p-2 md:p-3">Nome Período</th>
                                 <th class="p-2 md:p-3">Status</th>
-                                <th class="p-2 md:p-3">Faturamento Méďio (R$)</th>
+                                <th class="p-2 md:p-3">Faturamento Média (R$)</th>
                                 <th class="p-2 md:p-3">Prédio Próprio (R$)</th>
                                 <th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
@@ -328,7 +329,7 @@
 
                     <div id="wrapper-cc-custo-fixo">
                         <label class="block text-xs text-brand-muted mb-1">Custo Fixo Direto (R$)</label>
-                        <input type="number" step="0.01" id="cc-custo-fixo" placeholder="0.00" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="text" id="cc-custo-fixo" placeholder="0,00" class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div id="wrapper-cc-produtividade">
@@ -415,7 +416,7 @@
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Valor do Recurso (R$)</label>
-                        <input type="number" step="0.01" id="rec-valor" oninput="calcularCustoMensalRecurso()" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="text" id="rec-valor" oninput="calcularCustoMensalRecurso()" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div>
@@ -481,7 +482,7 @@
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Valor Mensal por Funcionário (R$)</label>
-                        <input type="number" step="0.01" id="ben-valor" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="text" id="ben-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div class="md:col-span-1 flex items-end">
@@ -551,7 +552,7 @@
                             </div>
                             <div class="flex justify-between items-center text-xs font-bold pt-1 border-t border-brand-border/50">
                                 <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct" class="text-white">0%</strong></span>
-                                <span class="text-brand-muted">Sobra de Custo Não Rateado (Coluna K): <strong id="display-sobra-custo" class="text-emerald-400">R$ 0.00</strong></span>
+                                <span class="text-brand-muted">Sobra de Custo Não Rateado (Coluna K): <strong id="display-sobra-custo" class="text-emerald-400">R$ 0,00</strong></span>
                             </div>
                         </div>
                     </div>
@@ -578,7 +579,7 @@
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Salário Base (R$)</label>
-                        <input type="number" step="0.01" id="func-salario-base" oninput="calcularCustoFuncionario()" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="text" id="func-salario-base" oninput="calcularCustoFuncionario()" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div>
@@ -595,7 +596,7 @@
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Valor Total Benefícios (R$) (Editável)</label>
-                        <input type="number" step="0.01" id="func-beneficios-valor" oninput="calcularCustoFuncionario()" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="text" id="func-beneficios-valor" oninput="calcularCustoFuncionario()" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <div class="md:col-span-2">
@@ -676,7 +677,7 @@
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Valor Mensal (R$)</label>
-                        <input type="number" step="0.01" id="plc-valor" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        <input type="text" id="plc-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
                     <!-- CAIXA DE SELEÇÃO DE CENTROS DE CUSTO PARTICIPANTES DO RATEIO -->
@@ -749,6 +750,28 @@
         let listaPlanoContas = [];
         let tabelaPadroes = [];
 
+        function formatarMoedaBR(valor) {
+            return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function parseMoedaBR(str) {
+            if (typeof str === 'number') return str;
+            if (!str) return 0;
+            let limpo = str.replace(/[^\d,-]/g, '').replace(',', '.');
+            return parseFloat(limpo) || 0;
+        }
+
+        function aplicarMascarasMonetarias() {
+            document.querySelectorAll('.mask-money').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    let v = e.target.value.replace(/\D/g, '');
+                    if(!v) { e.target.value = ''; return; }
+                    v = (parseFloat(v) / 100).toFixed(2);
+                    e.target.value = Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                });
+            });
+        }
+
         function formatarNomePeriodoLimpo(p) {
             if (!p) return "";
             let nomeRaw = String(p.TPERIODO_NOME || "");
@@ -762,6 +785,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            aplicarMascarasMonetarias();
             const savedUser = localStorage.getItem('usuarioLogadoRF');
             if (savedUser) {
                 try {
@@ -864,6 +888,58 @@
             carregarTudoDoPeriodo();
         }
 
+        async function carregarTabelaClientesAdmin() {
+            const tbody = document.getElementById('tbl-admin-clientes-body');
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando empresas...</td></tr>';
+
+            try {
+                const res = await fetch(`${API_URL}?action=TCLIENTE`);
+                listaClientesAdmin = await res.json();
+
+                tbody.innerHTML = '';
+                listaClientesAdmin.forEach(c => {
+                    const isAtivo = String(c.TCLIENTE_ATIVO).toUpperCase() !== 'NAO';
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-brand-border/30 transition">
+                            <td class="p-2 md:p-3 font-semibold text-white">${c.TCLIENTE_ID}</td>
+                            <td class="p-2 md:p-3 text-white font-medium uppercase">${c.TCLIENTE_NOME}</td>
+                            <td class="p-2 md:p-3">${c.TCLIENTE_CNPJ}</td>
+                            <td class="p-2 md:p-3">${isAtivo ? '<span class="text-emerald-400 font-bold">ATIVO</span>' : '<span class="text-red-500 font-bold">BLOQUEADO</span>'}</td>
+                            <td class="p-2 md:p-3 text-right">
+                                <button onclick="alternarStatusCliente('${c.TCLIENTE_ID}', '${c.TCLIENTE_NOME}', '${c.TCLIENTE_CNPJ}', ${isAtivo})" class="text-xs px-3 py-1 rounded font-bold ${isAtivo ? 'bg-red-950/60 text-red-400 border border-red-800' : 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'}">
+                                    ${isAtivo ? 'Bloquear Empresa' : 'Desbloquear Acesso'}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar clientes.</td></tr>'; }
+        }
+
+        function alternarStatusCliente(id, nome, cnpj, statusAtualAtivo) {
+            const novoStatus = statusAtualAtivo ? "NAO" : "SIM";
+            const acaoText = statusAtualAtivo ? "BLOQUEAR" : "DESBLOQUEAR";
+
+            if (!confirm(`Tem certeza que deseja ${acaoText} a empresa ${nome}?`)) return;
+
+            const payload = {
+                sheet: "TCLIENTE",
+                action: "UPDATE",
+                id: id,
+                data: [id, nome, cnpj, novoStatus]
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert(`Empresa ${nome} atualizada com sucesso!`);
+                setTimeout(carregarTabelaClientesAdmin, 1500);
+            });
+        }
+
         async function carregarPeriodosDoCliente() {
             const select = document.getElementById('global-periodo-select');
             select.innerHTML = '<option value="">Carregando...</option>';
@@ -903,11 +979,12 @@
         function preencherFormularioConfigPeriodo() {
             if (!periodoAtivoObj) return;
             document.getElementById('cfg-period-name-display').innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
-            document.getElementById('cfg-faturamento').value = periodoAtivoObj.TPERIODO_FATURAMENTO || 0;
+            
+            document.getElementById('cfg-faturamento').value = (parseFloat(periodoAtivoObj.TPERIODO_FATURAMENTO) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('cfg-aliquota').value = periodoAtivoObj.TPERIODO_ALIQUOTA || 0;
-            document.getElementById('cfg-predio').value = periodoAtivoObj.TPERIODO_PREDIO || 0;
+            document.getElementById('cfg-predio').value = (parseFloat(periodoAtivoObj.TPERIODO_PREDIO) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('cfg-rentabilidade').value = periodoAtivoObj.TPERIODO_RENTABILIDADE || 0;
-            document.getElementById('cfg-retirada').value = periodoAtivoObj.TPERIODO_RETIRADA || 0;
+            document.getElementById('cfg-retirada').value = (parseFloat(periodoAtivoObj.TPERIODO_RETIRADA) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         }
 
         function renderizarTabelaPeriodosHist() {
@@ -923,8 +1000,8 @@
                         <td class="p-2 md:p-3 font-semibold text-white">${p.TPERIODO_ID}</td>
                         <td class="p-2 md:p-3 font-bold text-white uppercase">${formatarNomePeriodoLimpo(p)}</td>
                         <td class="p-2 md:p-3">${isAberto ? '<span class="text-emerald-400 font-bold">ABERTO</span>' : '<span class="text-amber-500 font-bold">FECHADO</span>'}</td>
-                        <td class="p-2 md:p-3">R$ ${Number(p.TPERIODO_FATURAMENTO || 0).toFixed(2)}</td>
-                        <td class="p-2 md:p-3">R$ ${Number(p.TPERIODO_PREDIO || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(p.TPERIODO_FATURAMENTO)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(p.TPERIODO_PREDIO)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="alternarStatusPeriodo('${p.TPERIODO_ID}', '${p.TPERIODO_STATUS}')" class="text-[10px] md:text-xs px-2.5 py-1 rounded font-bold ${isAberto ? 'bg-amber-950/60 text-amber-400 border border-amber-800' : 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'}">
                                 ${isAberto ? 'Fechar Período' : 'Reabrir Período'}
@@ -979,17 +1056,23 @@
             e.preventDefault();
             if (!periodoAtivoObj) return;
 
-            const fat = parseFloat(document.getElementById('cfg-faturamento').value) || 0;
+            const fat = parseMoedaBR(document.getElementById('cfg-faturamento').value);
             const aliq = parseFloat(document.getElementById('cfg-aliquota').value) || 0;
-            const pred = parseFloat(document.getElementById('cfg-predio').value) || 0;
+            const pred = parseMoedaBR(document.getElementById('cfg-predio').value);
             const rent = parseFloat(document.getElementById('cfg-rentabilidade').value) || 0;
-            const ret = parseFloat(document.getElementById('cfg-retirada').value) || 0;
+            const ret = parseMoedaBR(document.getElementById('cfg-retirada').value);
 
+            // Atualiza objeto em memória imediatamente sem dar F5
             periodoAtivoObj.TPERIODO_FATURAMENTO = fat;
             periodoAtivoObj.TPERIODO_ALIQUOTA = aliq;
             periodoAtivoObj.TPERIODO_PREDIO = pred;
             periodoAtivoObj.TPERIODO_RENTABILIDADE = rent;
             periodoAtivoObj.TPERIODO_RETIRADA = ret;
+
+            const idx = listaPeriodos.findIndex(p => p.TPERIODO_ID === periodoAtivoObj.TPERIODO_ID);
+            if (idx !== -1) listaPeriodos[idx] = periodoAtivoObj;
+
+            renderizarTabelaPeriodosHist();
 
             const btn = document.getElementById('btn-salvar-cfg');
             btn.innerText = "Salvando...";
@@ -1024,7 +1107,7 @@
                 alert("Parâmetros do período atualizados!");
                 btn.innerText = "Salvar Parâmetros";
                 btn.disabled = false;
-                setTimeout(carregarCentrosDeCusto, 1500);
+                setTimeout(carregarCentrosDeCusto, 1200);
             });
         }
 
@@ -1051,7 +1134,7 @@
             e.preventDefault();
             const editingId = document.getElementById('inv-editing-id').value;
             const nome = document.getElementById('inv-nome').value.trim().toUpperCase();
-            const valor = parseFloat(document.getElementById('inv-valor').value) || 0;
+            const valor = parseMoedaBR(document.getElementById('inv-valor').value);
 
             const tempId = editingId || "INV-TEMP-" + Date.now();
 
@@ -1098,7 +1181,7 @@
                 tbody.innerHTML += `
                     <tr class="hover:bg-brand-border/30 transition">
                         <td class="p-2 md:p-3 text-white font-medium uppercase">${i.TINVESTIMENTO_NOME}</td>
-                        <td class="p-2 md:p-3 font-bold text-emerald-400">R$ ${Number(i.TINVESTIMENTO_VALOR || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(i.TINVESTIMENTO_VALOR)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="prepararEdicaoInv('${i.TINVESTIMENTO_ID}')" class="text-[10px] bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
                             <button onclick="excluirInv('${i.TINVESTIMENTO_ID}')" class="text-[10px] bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
@@ -1114,7 +1197,7 @@
 
             document.getElementById('inv-editing-id').value = item.TINVESTIMENTO_ID;
             document.getElementById('inv-nome').value = item.TINVESTIMENTO_NOME;
-            document.getElementById('inv-valor').value = item.TINVESTIMENTO_VALOR;
+            document.getElementById('inv-valor').value = Number(item.TINVESTIMENTO_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
             document.getElementById('inv-form-title').innerText = "Editar Investimento";
             document.getElementById('btn-cancelar-inv').classList.remove('hidden');
@@ -1286,7 +1369,7 @@
             if (tipo !== "PRODUTIVO DIRETO") {
                 wrapCustoFixo.classList.add('opacity-40', 'pointer-events-none');
                 wrapProd.classList.add('opacity-40', 'pointer-events-none');
-                document.getElementById('cc-custo-fixo').value = "0";
+                document.getElementById('cc-custo-fixo').value = "0,00";
                 document.getElementById('cc-produtividade').value = "0";
             } else {
                 wrapCustoFixo.classList.remove('opacity-40', 'pointer-events-none');
@@ -1412,7 +1495,7 @@
             const editingId = document.getElementById('plc-editing-id').value;
             const nome = document.getElementById('plc-nome').value.trim().toUpperCase();
             const crit = document.getElementById('plc-criterio').value.toUpperCase();
-            const valor = parseFloat(document.getElementById('plc-valor').value) || 0;
+            const valor = parseMoedaBR(document.getElementById('plc-valor').value);
 
             let ccTargetInfo = "";
             if (crit === 'EXCLUSIVO') {
@@ -1498,7 +1581,7 @@
                         <td class="p-2 md:p-3 font-medium text-white uppercase">${p.TPLANO_CONTA_NOME}</td>
                         <td class="p-2 md:p-3 font-bold text-brand-primary uppercase">${p.TPLANO_CONTA_CRITERIO}</td>
                         <td class="p-2 md:p-3 uppercase font-semibold text-white">${destDisplay}</td>
-                        <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(p.TPLANO_CONTA_VALOR || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 text-emerald-400 font-bold">${formatarMoedaBR(p.TPLANO_CONTA_VALOR)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="prepararEdicaoPLC('${p.TPLANO_CONTA_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
                             <button onclick="excluirPLC('${p.TPLANO_CONTA_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
@@ -1530,7 +1613,7 @@
                 }
             }
 
-            document.getElementById('plc-valor').value = item.TPLANO_CONTA_VALOR;
+            document.getElementById('plc-valor').value = Number(item.TPLANO_CONTA_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('plc-form-title').innerText = "Editar Conta";
             document.getElementById('btn-cancelar-plc').classList.remove('hidden');
         }
@@ -1580,7 +1663,7 @@
             
             if (!isRateio) {
                 document.getElementById('display-total-pct').innerText = "100%";
-                document.getElementById('display-sobra-custo').innerText = "R$ 0.00";
+                document.getElementById('display-sobra-custo').innerText = "R$ 0,00";
                 return 100;
             }
 
@@ -1602,7 +1685,7 @@
             const sobraCusto = (custoTotalFunc * (pctFaltando / 100));
 
             document.getElementById('display-total-pct').innerText = somaPct.toFixed(2) + "%";
-            document.getElementById('display-sobra-custo').innerText = "R$ " + sobraCusto.toFixed(2);
+            document.getElementById('display-sobra-custo').innerText = formatarMoedaBR(sobraCusto);
 
             return somaPct;
         }
@@ -1610,9 +1693,9 @@
         function calcularCustoFuncionario() {
             const tpSalario = document.getElementById('func-tp-salario').value;
             const tpRegistro = document.getElementById('func-tp-registro').value;
-            const salBase = parseFloat(document.getElementById('func-salario-base').value) || 0;
+            const salBase = parseMoedaBR(document.getElementById('func-salario-base').value);
             const horasMes = parseFloat(document.getElementById('func-horas-mes').value) || 176;
-            const valorBeneficios = parseFloat(document.getElementById('func-beneficios-valor').value) || 0;
+            const valorBeneficios = parseMoedaBR(document.getElementById('func-beneficios-valor').value);
 
             let salario = (tpSalario === "HORISTA") ? (salBase * horasMes) : salBase;
             let temRegistro = (tpRegistro !== "SEM REGISTRO");
@@ -1633,7 +1716,7 @@
 
             let custoTotal = valorBeneficios + salario + decimoTerceiro + tercoFerias + feriasAdic + fgts + multaFgts + inss + sesc + senai + incra;
 
-            document.getElementById('func-custo-mensal').value = "R$ " + custoTotal.toFixed(2);
+            document.getElementById('func-custo-mensal').value = formatarMoedaBR(custoTotal);
             return custoTotal;
         }
 
@@ -1668,8 +1751,8 @@
             const nome = document.getElementById('func-nome').value.trim().toUpperCase();
             const tpReg = document.getElementById('func-tp-registro').value.toUpperCase();
             const tpSal = document.getElementById('func-tp-salario').value.toUpperCase();
-            const salBase = parseFloat(document.getElementById('func-salario-base').value) || 0;
-            const benValor = parseFloat(document.getElementById('func-beneficios-valor').value) || 0;
+            const salBase = parseMoedaBR(document.getElementById('func-salario-base').value);
+            const benValor = parseMoedaBR(document.getElementById('func-beneficios-valor').value);
 
             const tempId = editingId || "FUNC-TEMP-" + Date.now();
 
@@ -1754,9 +1837,9 @@
                         <td class="p-2 md:p-3 font-semibold text-white uppercase">${ccDisplay}</td>
                         <td class="p-2 md:p-3 text-white font-medium uppercase">${f.TFUNCIONARIO_NOME}</td>
                         <td class="p-2 md:p-3">${Number(f.TFUNCIONARIO_HORAS || 176).toFixed(0)} h</td>
-                        <td class="p-2 md:p-3">R$ ${Number(f.TFUNCIONARIO_SALARIO_BASE || 0).toFixed(2)}</td>
-                        <td class="p-2 md:p-3">R$ ${Number(f.TFUNCIONARIO_BENEFICIOS || 0).toFixed(2)}</td>
-                        <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(f.TFUNCIONARIO_CUSTO_MENSAL || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_SALARIO_BASE)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_BENEFICIOS)}</td>
+                        <td class="p-2 md:p-3 text-emerald-400 font-bold">${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL)}</td>
                         <td class="p-2 md:p-3">${f.TFUNCIONARIO_RATEIO === "SIM" ? '<span class="text-brand-primary font-bold">SIM</span>' : 'NÃO'}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="prepararEdicaoFunc('${f.TFUNCIONARIO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
@@ -1794,8 +1877,8 @@
             document.getElementById('func-nome').value = item.TFUNCIONARIO_NOME;
             document.getElementById('func-tp-registro').value = item.TFUNCIONARIO_TP_REGISTRO;
             document.getElementById('func-tp-salario').value = item.TFUNCIONARIO_TP_SALARIO;
-            document.getElementById('func-salario-base').value = item.TFUNCIONARIO_SALARIO_BASE;
-            document.getElementById('func-beneficios-valor').value = item.TFUNCIONARIO_BENEFICIOS;
+            document.getElementById('func-salario-base').value = Number(item.TFUNCIONARIO_SALARIO_BASE || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            document.getElementById('func-beneficios-valor').value = Number(item.TFUNCIONARIO_BENEFICIOS || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('func-horas-mes').value = item.TFUNCIONARIO_HORAS || 176;
 
             const isRateio = item.TFUNCIONARIO_RATEIO === "SIM";
@@ -1874,7 +1957,7 @@
             let soma = 0;
             const checkboxes = document.querySelectorAll('.chk-beneficio-item:checked');
             checkboxes.forEach(c => { soma += parseFloat(c.value) || 0; });
-            document.getElementById('func-beneficios-valor').value = soma.toFixed(2);
+            document.getElementById('func-beneficios-valor').value = Number(soma).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             calcularCustoFuncionario();
             validarRateioPercentuais();
         }
@@ -1883,7 +1966,7 @@
             e.preventDefault();
             const editingId = document.getElementById('ben-editing-id').value;
             const nome = document.getElementById('ben-nome').value.trim().toUpperCase();
-            const valor = parseFloat(document.getElementById('ben-valor').value) || 0;
+            const valor = parseMoedaBR(document.getElementById('ben-valor').value);
 
             const tempId = editingId || "BEN-TEMP-" + Date.now();
 
@@ -1930,14 +2013,14 @@
                 containerCheckboxes.innerHTML += `
                     <label class="flex items-center gap-1.5 text-xs text-white cursor-pointer hover:text-brand-primary">
                         <input type="checkbox" value="${b.TBENEFICIO_VALOR}" onchange="recalcularBeneficiosCheckboxes()" class="chk-beneficio-item accent-brand-primary rounded">
-                        <span class="uppercase">${b.TBENEFICIO_NOME} (R$ ${Number(b.TBENEFICIO_VALOR || 0).toFixed(2)})</span>
+                        <span class="uppercase">${b.TBENEFICIO_NOME} (${formatarMoedaBR(b.TBENEFICIO_VALOR)})</span>
                     </label>
                 `;
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-brand-border/30 transition">
                         <td class="p-2 md:p-3 text-white font-medium uppercase">${b.TBENEFICIO_NOME}</td>
-                        <td class="p-2 md:p-3 font-bold text-emerald-400">R$ ${Number(b.TBENEFICIO_VALOR || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(b.TBENEFICIO_VALOR)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="prepararEdicaoBen('${b.TBENEFICIO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
                             <button onclick="excluirBen('${b.TBENEFICIO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
@@ -1953,7 +2036,7 @@
 
             document.getElementById('ben-editing-id').value = item.TBENEFICIO_ID;
             document.getElementById('ben-nome').value = item.TBENEFICIO_NOME;
-            document.getElementById('ben-valor').value = item.TBENEFICIO_VALOR;
+            document.getElementById('ben-valor').value = Number(item.TBENEFICIO_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
             document.getElementById('ben-form-title').innerText = "Editar Benefício";
             document.getElementById('btn-cancelar-ben').classList.remove('hidden');
@@ -1982,17 +2065,17 @@
 
         function calcularCustoMensalRecurso() {
             const tipoSel = document.getElementById('rec-tipo').value;
-            const valor = parseFloat(document.getElementById('rec-valor').value) || 0;
+            const valor = parseMoedaBR(document.getElementById('rec-valor').value);
             const campoResultado = document.getElementById('rec-custo-mensal');
 
             if (!tipoSel || valor <= 0) {
-                campoResultado.value = "R$ 0.00";
+                campoResultado.value = "R$ 0,00";
                 return;
             }
 
             const itemPadrao = tabelaPadroes.find(p => String(p.TRECURSO_TIPO) === String(tipoSel));
             if (!itemPadrao || !itemPadrao.TRECURSO_PERCENTUAL_DEPRECIACAO) {
-                campoResultado.value = "R$ 0.00";
+                campoResultado.value = "R$ 0,00";
                 return;
             }
 
@@ -2000,7 +2083,7 @@
             if (typeof pct === 'string') pct = parseFloat(pct.replace('%', '').replace(',', '.')) / 100;
 
             const custoMensal = valor * pct;
-            campoResultado.value = "R$ " + custoMensal.toFixed(2);
+            campoResultado.value = formatarMoedaBR(custoMensal);
         }
 
         async function carregarRecursos() {
@@ -2028,7 +2111,7 @@
             const ccId = document.getElementById('rec-cc-id').value;
             const nome = document.getElementById('rec-nome').value.trim().toUpperCase();
             const tipoSel = document.getElementById('rec-tipo').value.toUpperCase();
-            const valor = parseFloat(document.getElementById('rec-valor').value) || 0;
+            const valor = parseMoedaBR(document.getElementById('rec-valor').value);
             const turnos = parseFloat(document.getElementById('rec-turnos').value) || 1;
 
             const itemPadrao = tabelaPadroes.find(p => String(p.TRECURSO_TIPO) === String(tipoSel));
@@ -2090,9 +2173,9 @@
                         <td class="p-2 md:p-3 font-semibold text-white uppercase">${ccNome}</td>
                         <td class="p-2 md:p-3 text-white font-medium uppercase">${r.TRECURSO_NOME}</td>
                         <td class="p-2 md:p-3 uppercase">${r.TRECURSO_TIPO}</td>
-                        <td class="p-2 md:p-3">R$ ${Number(r.TRECURSO_VALOR || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(r.TRECURSO_VALOR)}</td>
                         <td class="p-2 md:p-3 font-bold text-white">${r.TRECURSO_TURNOS || 1} Turno(s)</td>
-                        <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(r.TRECURSO_CUSTO_MENSAL || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 text-emerald-400 font-bold">${formatarMoedaBR(r.TRECURSO_CUSTO_MENSAL)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="prepararEdicaoRec('${r.TRECURSO_ID}')" class="text-[10px] md:text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
                             <button onclick="excluirRec('${r.TRECURSO_ID}')" class="text-[10px] md:text-xs bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
@@ -2110,7 +2193,7 @@
             document.getElementById('rec-cc-id').value = item.TCENTRO_CUSTO_ID;
             document.getElementById('rec-nome').value = item.TRECURSO_NOME;
             document.getElementById('rec-tipo').value = item.TRECURSO_TIPO;
-            document.getElementById('rec-valor').value = item.TRECURSO_VALOR;
+            document.getElementById('rec-valor').value = Number(item.TRECURSO_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('rec-turnos').value = item.TRECURSO_TURNOS || 1;
             
             verificarSelecaoCCRecurso();
@@ -2153,7 +2236,7 @@
             const rateio = document.getElementById('cc-tipo-rateio').value.toUpperCase();
             const area = parseFloat(document.getElementById('cc-area').value) || 0;
 
-            const custoFixo = (tipoCC === "PRODUTIVO DIRETO") ? (parseFloat(document.getElementById('cc-custo-fixo').value) || 0) : 0;
+            const custoFixo = (tipoCC === "PRODUTIVO DIRETO") ? parseMoedaBR(document.getElementById('cc-custo-fixo').value) : 0;
             const produtividade = (tipoCC === "PRODUTIVO DIRETO") ? (parseFloat(document.getElementById('cc-produtividade').value) || 0) : 0;
 
             const tempId = editingId || "CC-TEMP-" + Date.now();
@@ -2216,11 +2299,11 @@
                         <td class="p-2 md:p-3 uppercase font-semibold text-brand-primary">${c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-'}</td>
                         <td class="p-2 md:p-3 text-center font-bold text-brand-primary">${c.TCENTRO_CUSTO_QTDE_RECURSOS || 0}</td>
                         <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_AREA || 0).toFixed(2)} m²</td>
-                        <td class="p-2 md:p-3">R$ ${Number(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toFixed(2)}</td>
-                        <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_MENSAL || 0).toFixed(2)}</td>
-                        <td class="p-2 md:p-3 text-brand-primary font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO || 0).toFixed(2)}</td>
-                        <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS || 0).toFixed(2)}</td>
-                        <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_PREDIO || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO)}</td>
+                        <td class="p-2 md:p-3 text-emerald-400 font-bold">${formatarMoedaBR(c.TCENTRO_CUSTO_CUSTO_MENSAL)}</td>
+                        <td class="p-2 md:p-3 text-brand-primary font-bold">${formatarMoedaBR(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)}</td>
+                        <td class="p-2 md:p-3 text-emerald-400 font-bold">${formatarMoedaBR(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)}</td>
+                        <td class="p-2 md:p-3 text-emerald-400 font-bold">${formatarMoedaBR(c.TCENTRO_CUSTO_PREDIO)}</td>
                         <td class="p-2 md:p-3 text-white font-bold">${Number(c.TCENTRO_CUSTO_HORAS || 0).toFixed(2)} h</td>
                         <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_PRODUTIVIDADE || 0).toFixed(2)}%</td>
                         <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_CONSIDERAR_MINIMO === 'SIM' ? '<span class="text-emerald-400 font-bold">SIM</span>' : '-'}</td>
@@ -2242,7 +2325,7 @@
             document.getElementById('cc-tipo').value = item.TCENTRO_CUSTO_TIPO;
             document.getElementById('cc-tipo-rateio').value = item.TCENTRO_CUSTO_TIPO_RATEIO_HORAS;
             document.getElementById('cc-area').value = item.TCENTRO_CUSTO_AREA;
-            document.getElementById('cc-custo-fixo').value = item.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO;
+            document.getElementById('cc-custo-fixo').value = Number(item.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('cc-produtividade').value = item.TCENTRO_CUSTO_PRODUTIVIDADE;
             document.getElementById('cc-considerar-minimo').checked = item.TCENTRO_CUSTO_CONSIDERAR_MINIMO === "SIM";
 
