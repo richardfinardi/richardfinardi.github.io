@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V1.8 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V1.9 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V1.8</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V1.9</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -53,7 +53,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V1.8</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V1.9</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -757,7 +757,7 @@
         function parseMoedaBR(str) {
             if (typeof str === 'number') return str;
             if (!str) return 0;
-            let limpo = str.replace(/[^\d,-]/g, '').replace(',', '.');
+            let limpo = str.toString().replace(/[^\d,-]/g, '').replace(',', '.');
             return parseFloat(limpo) || 0;
         }
 
@@ -768,6 +768,11 @@
                     if(!v) { e.target.value = ''; return; }
                     v = (parseFloat(v) / 100).toFixed(2);
                     e.target.value = Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    
+                    // Se for campo do formulário de funcionário, dispara recálculo dinâmico
+                    if (e.target.id === 'func-salario-base' || e.target.id === 'func-beneficios-valor') {
+                        calcularCustoFuncionario();
+                    }
                 });
             });
         }
@@ -1062,7 +1067,6 @@
             const rent = parseFloat(document.getElementById('cfg-rentabilidade').value) || 0;
             const ret = parseMoedaBR(document.getElementById('cfg-retirada').value);
 
-            // Atualiza objeto em memória imediatamente sem dar F5
             periodoAtivoObj.TPERIODO_FATURAMENTO = fat;
             periodoAtivoObj.TPERIODO_ALIQUOTA = aliq;
             periodoAtivoObj.TPERIODO_PREDIO = pred;
@@ -1548,7 +1552,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1200); });
         }
 
         function renderizarTabelaPlanoContasLocal() {
@@ -1629,7 +1633,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TPLANO_CONTAS", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1200); });
         }
 
         function limparFormPLC() {
@@ -1810,7 +1814,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1200); });
         }
 
         function renderizarTabelaFuncionariosLocal() {
@@ -1916,7 +1920,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TFUNCIONARIO", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1200); });
         }
 
         function limparFormFunc() {
@@ -2157,7 +2161,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1200); });
         }
 
         function renderizarTabelaRecursosLocal() {
@@ -2214,7 +2218,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TRECURSO", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1200); });
         }
 
         function limparFormRec() {
@@ -2284,7 +2288,7 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 1500); });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 1200); });
         }
 
         function renderizarTabelaCCLocal() {
