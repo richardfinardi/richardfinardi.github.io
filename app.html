@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF v1.3 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF v1.4 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -53,7 +53,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE v1.3</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE v1.4</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -542,16 +542,6 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs text-brand-muted mb-1">Classificação do Gasto</label>
-                        <select id="plc-classificacao" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="CUSTO FIXO">CUSTO FIXO</option>
-                            <option value="CUSTO VARIÁVEL">CUSTO VARIÁVEL</option>
-                            <option value="DESPESA FIXA">DESPESA FIXA</option>
-                            <option value="DESPESA VARIÁVEL">DESPESA VARIÁVEL</option>
-                        </select>
-                    </div>
-
-                    <div>
                         <label class="block text-xs text-brand-muted mb-1">Critério de Destino / Rateio</label>
                         <select id="plc-criterio" onchange="verificarCriterioPlanoContas()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                             <option value="EXCLUSIVO">EXCLUSIVO (CENTRO DE CUSTO ÚNICO)</option>
@@ -612,15 +602,14 @@
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
                                 <th class="p-2 md:p-3">Descrição da Conta</th>
-                                <th class="p-2 md:p-3">Classificação</th>
-                                <th class="p-2 md:p-3">Critério Rateio</th>
+                                <th class="p-2 md:p-3">Critério Rateio / Destino</th>
                                 <th class="p-2 md:p-3">Participantes / Destino</th>
                                 <th class="p-2 md:p-3">Valor Mensal (R$)</th>
                                 <th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-plc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="6" class="p-4 text-center">Carregando...</td></tr>
+                            <tr><td colspan="5" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -1087,7 +1076,7 @@
 
         async function carregarPlanoContas() {
             const tbody = document.getElementById('tbl-plc-body');
-            tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center">Buscando contas...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando contas...</td></tr>';
 
             try {
                 const response = await fetch(`${API_URL}?action=TPLANO_CONTAS`);
@@ -1096,19 +1085,18 @@
                 listaPlanoContas = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
 
                 if (listaPlanoContas.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center">Nenhuma conta cadastrada neste período.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Nenhuma conta cadastrada neste período.</td></tr>';
                     return;
                 }
 
                 renderizarTabelaPlanoContasLocal();
-            } catch (e) { tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-400">Erro ao carregar plano de contas.</td></tr>'; }
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar plano de contas.</td></tr>'; }
         }
 
         function salvarPlanoConta(e) {
             e.preventDefault();
             const editingId = document.getElementById('plc-editing-id').value;
             const nome = document.getElementById('plc-nome').value.trim().toUpperCase();
-            const classif = document.getElementById('plc-classificacao').value.toUpperCase();
             const crit = document.getElementById('plc-criterio').value.toUpperCase();
             const valor = parseFloat(document.getElementById('plc-valor').value) || 0;
 
@@ -1135,7 +1123,6 @@
                 TCENTRO_CUSTO_ID: ccTargetInfo,
                 TPLANO_CONTA_ID: tempId,
                 TPLANO_CONTA_NOME: nome,
-                TPLANO_CONTA_CLASSIFICACAO: classif,
                 TPLANO_CONTA_CRITERIO: crit,
                 TPLANO_CONTA_VALOR: valor
             };
@@ -1156,7 +1143,7 @@
                 id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
-                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTargetInfo, editingId || "", nome, classif, crit, valor]
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTargetInfo, editingId || "", nome, crit, valor]
             };
 
             fetch(API_URL, {
@@ -1195,7 +1182,6 @@
                 tbody.innerHTML += `
                     <tr class="hover:bg-brand-border/30 transition">
                         <td class="p-2 md:p-3 font-medium text-white uppercase">${p.TPLANO_CONTA_NOME}</td>
-                        <td class="p-2 md:p-3 font-bold text-amber-400 uppercase">${p.TPLANO_CONTA_CLASSIFICACAO || 'CUSTO FIXO'}</td>
                         <td class="p-2 md:p-3 font-bold text-brand-primary uppercase">${p.TPLANO_CONTA_CRITERIO}</td>
                         <td class="p-2 md:p-3 uppercase font-semibold text-white">${destDisplay}</td>
                         <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(p.TPLANO_CONTA_VALOR || 0).toFixed(2)}</td>
@@ -1214,7 +1200,6 @@
 
             document.getElementById('plc-editing-id').value = item.TPLANO_CONTA_ID;
             document.getElementById('plc-nome').value = item.TPLANO_CONTA_NOME;
-            document.getElementById('plc-classificacao').value = item.TPLANO_CONTA_CLASSIFICACAO || "CUSTO FIXO";
             document.getElementById('plc-criterio').value = item.TPLANO_CONTA_CRITERIO;
             verificarCriterioPlanoContas();
 
