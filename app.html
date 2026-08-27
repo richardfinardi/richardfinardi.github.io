@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V1.6 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V1.7 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -29,17 +29,16 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V1.6</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V1.7</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
         <!-- SELETOR GLOBAL DE PERÍODO -->
         <div id="wrapper-periodo-global" class="hidden flex items-center gap-2 bg-[#16161a] p-1.5 rounded-lg border border-brand-border">
-            <span class="text-xs text-brand-muted pl-1">Período:</span>
+            <span class="text-xs text-brand-muted pl-1">Período Ativo:</span>
             <select id="global-periodo-select" onchange="trocarPeriodoAtivo()" class="bg-[#0d0d0f] text-white text-xs font-bold p-1.5 rounded border border-brand-border outline-none max-w-[220px] truncate">
                 <option value="">Carregando...</option>
             </select>
-            <button onclick="modalCriarNovoPeriodo()" class="text-xs bg-brand-primary hover:bg-brand-hover text-white px-2.5 py-1 rounded font-bold transition whitespace-nowrap">+ Novo / Clonar</button>
         </div>
 
         <div id="user-menu" class="hidden flex items-center gap-3">
@@ -53,7 +52,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V1.6</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V1.7</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -83,7 +82,8 @@
 
         <!-- NAVEGAÇÃO DE ABAS CLIENTE -->
         <div id="nav-cliente-tabs" class="flex gap-2 border-b border-brand-border pb-2 overflow-x-auto">
-            <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap">Centros de Custo</button>
+            <button id="tab-btn-cfg" onclick="alternarAbaCliente('cfg')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap">Config. Período</button>
+            <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Centros de Custo</button>
             <button id="tab-btn-rec" onclick="alternarAbaCliente('rec')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Recursos</button>
             <button id="tab-btn-ben" onclick="alternarAbaCliente('ben')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Benefícios</button>
             <button id="tab-btn-func" onclick="alternarAbaCliente('func')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Funcionários</button>
@@ -178,8 +178,121 @@
             </div>
         </section>
 
+        <!-- ABA 0: CONFIG. PERÍODO (NOVA) -->
+        <section id="section-config-periodo" class="space-y-6">
+            
+            <!-- PARÂMETROS FINANCEIROS DO PERÍODO ATIVO -->
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
+                    <div>
+                        <h2 class="text-lg md:text-xl font-bold text-white">Parâmetros do Período Ativo</h2>
+                        <p class="text-xs text-brand-muted">Defina as metas financeiras, impostos e custos prediais do período selecionado</p>
+                    </div>
+                    <span class="text-xs text-brand-muted">Período: <strong id="cfg-period-name-display" class="text-brand-primary uppercase">---</strong></span>
+                </div>
+
+                <form id="form-cfg-periodo" onsubmit="salvarParametrosPeriodo(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Faturamento Médio Mensal (R$)</label>
+                        <input type="number" step="0.01" id="cfg-faturamento" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Alíquota Média Impostos sobre Vendas (%)</label>
+                        <input type="number" step="0.01" id="cfg-aliquota" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Valor Total Prédio Próprio (R$)</label>
+                        <input type="number" step="0.01" id="cfg-predio" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Rentabilidade Objetiva Meta (%)</label>
+                        <input type="number" step="0.01" id="cfg-rentabilidade" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Retirada Média Mensal dos Sócios (R$)</label>
+                        <input type="number" step="0.01" id="cfg-retirada" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+
+                    <div class="flex items-end">
+                        <button type="submit" id="btn-salvar-cfg" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Parâmetros</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- INVESTIMENTOS DO PERÍODO -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- CADASTRO DE INVESTIMENTO -->
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <h3 class="text-base font-bold text-white border-b border-brand-border/50 pb-2" id="inv-form-title">Cadastrar Investimento</h3>
+                    <form id="form-inv" onsubmit="salvarInvestimento(event)" class="space-y-3">
+                        <input type="hidden" id="inv-editing-id" value="">
+                        <div>
+                            <label class="block text-xs text-brand-muted mb-1">Nome / Descrição Investimento</label>
+                            <input type="text" id="inv-nome" placeholder="Ex: COMPRA TORNO CNC NOVO" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-brand-muted mb-1">Valor do Investimento (R$)</label>
+                            <input type="number" step="0.01" id="inv-valor" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                        </div>
+                        <div class="flex gap-2 pt-1">
+                            <button type="button" id="btn-cancelar-inv" onclick="limparFormInv()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-xs transition">Cancelar</button>
+                            <button type="submit" id="btn-salvar-inv" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-xs transition">Salvar Investimento</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- TABELA INVESTIMENTOS -->
+                <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <h3 class="text-base font-bold text-white border-b border-brand-border/50 pb-2">Investimentos Previstos no Período</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                            <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                                <tr>
+                                    <th class="p-2 md:p-3">Descrição Investimento</th>
+                                    <th class="p-2 md:p-3">Valor (R$)</th>
+                                    <th class="p-2 md:p-3 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-inv-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="3" class="p-4 text-center">Carregando investimentos...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABELA GERENCIAMENTO DE PERÍODOS DA EMPRESA -->
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex justify-between items-center border-b border-brand-border/50 pb-2">
+                    <h3 class="text-base font-bold text-white">Histórico de Períodos da Empresa</h3>
+                    <button onclick="modalCriarNovoPeriodo()" class="text-xs bg-brand-primary hover:bg-brand-hover text-white px-3 py-1.5 rounded font-bold transition">+ Criar / Duplicar Período</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                            <tr>
+                                <th class="p-2 md:p-3">ID</th>
+                                <th class="p-2 md:p-3">Nome Período</th>
+                                <th class="p-2 md:p-3">Status</th>
+                                <th class="p-2 md:p-3">Faturamento Méďio (R$)</th>
+                                <th class="p-2 md:p-3">Prédio Próprio (R$)</th>
+                                <th class="p-2 md:p-3 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-periodos-body" class="divide-y divide-brand-border/50">
+                            <tr><td colspan="6" class="p-4 text-center">Carregando períodos...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
         <!-- ABA 1: CENTRO DE CUSTOS -->
-        <section id="section-centro-custo" class="space-y-6">
+        <section id="section-centro-custo" class="hidden space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
                     <h2 class="text-lg md:text-xl font-bold text-white" id="cc-form-title">Cadastrar Centro de Custo</h2>
@@ -255,6 +368,7 @@
                                 <th class="p-2 md:p-3">Depreciação (R$)</th>
                                 <th class="p-2 md:p-3">Custo Func. (R$)</th>
                                 <th class="p-2 md:p-3">Plano Contas (R$)</th>
+                                <th class="p-2 md:p-3">Prédio (R$)</th>
                                 <th class="p-2 md:p-3">Horas Final</th>
                                 <th class="p-2 md:p-3">Prod. (%)</th>
                                 <th class="p-2 md:p-3">Cons. Min.</th>
@@ -262,7 +376,7 @@
                             </tr>
                         </thead>
                         <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="13" class="p-4 text-center">Carregando...</td></tr>
+                            <tr><td colspan="14" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -627,6 +741,7 @@
         let listaPeriodos = [];
         let periodoAtivoObj = null;
 
+        let listaInvestimentos = [];
         let listaCC = [];
         let listaRecursos = [];
         let listaBeneficios = [];
@@ -749,58 +864,6 @@
             carregarTudoDoPeriodo();
         }
 
-        async function carregarTabelaClientesAdmin() {
-            const tbody = document.getElementById('tbl-admin-clientes-body');
-            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando empresas...</td></tr>';
-
-            try {
-                const res = await fetch(`${API_URL}?action=TCLIENTE`);
-                listaClientesAdmin = await res.json();
-
-                tbody.innerHTML = '';
-                listaClientesAdmin.forEach(c => {
-                    const isAtivo = String(c.TCLIENTE_ATIVO).toUpperCase() !== 'NAO';
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-2 md:p-3 font-semibold text-white">${c.TCLIENTE_ID}</td>
-                            <td class="p-2 md:p-3 text-white font-medium uppercase">${c.TCLIENTE_NOME}</td>
-                            <td class="p-2 md:p-3">${c.TCLIENTE_CNPJ}</td>
-                            <td class="p-2 md:p-3">${isAtivo ? '<span class="text-emerald-400 font-bold">ATIVO</span>' : '<span class="text-red-500 font-bold">BLOQUEADO</span>'}</td>
-                            <td class="p-2 md:p-3 text-right">
-                                <button onclick="alternarStatusCliente('${c.TCLIENTE_ID}', '${c.TCLIENTE_NOME}', '${c.TCLIENTE_CNPJ}', ${isAtivo})" class="text-xs px-3 py-1 rounded font-bold ${isAtivo ? 'bg-red-950/60 text-red-400 border border-red-800' : 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'}">
-                                    ${isAtivo ? 'Bloquear Empresa' : 'Desbloquear Acesso'}
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            } catch(e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar clientes.</td></tr>'; }
-        }
-
-        function alternarStatusCliente(id, nome, cnpj, statusAtualAtivo) {
-            const novoStatus = statusAtualAtivo ? "NAO" : "SIM";
-            const acaoText = statusAtualAtivo ? "BLOQUEAR" : "DESBLOQUEAR";
-
-            if (!confirm(`Tem certeza que deseja ${acaoText} a empresa ${nome}?`)) return;
-
-            const payload = {
-                sheet: "TCLIENTE",
-                action: "UPDATE",
-                id: id,
-                data: [id, nome, cnpj, novoStatus]
-            };
-
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                alert(`Empresa ${nome} atualizada com sucesso!`);
-                setTimeout(carregarTabelaClientesAdmin, 1500);
-            });
-        }
-
         async function carregarPeriodosDoCliente() {
             const select = document.getElementById('global-periodo-select');
             select.innerHTML = '<option value="">Carregando...</option>';
@@ -814,7 +877,7 @@
                 if (listaPeriodos.length === 0) {
                     const payload = {
                         sheet: "TPERIODO",
-                        data: [usuarioLogado.TCLIENTE_ID, "", "2026.1", "ABERTO", "SIM"]
+                        data: [usuarioLogado.TCLIENTE_ID, "", "2026.1", "ABERTO", "SIM", 0, 0, 0, 0, 0]
                     };
                     await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
                     setTimeout(carregarPeriodosDoCliente, 1500);
@@ -830,15 +893,259 @@
                 select.value = atual.TPERIODO_ID;
                 periodoAtivoObj = atual;
 
+                preencherFormularioConfigPeriodo();
+                renderizarTabelaPeriodosHist();
                 verificarStatusBloqueioPeriodo();
 
             } catch (e) { select.innerHTML = '<option value="">Erro ao carregar</option>'; }
+        }
+
+        function preencherFormularioConfigPeriodo() {
+            if (!periodoAtivoObj) return;
+            document.getElementById('cfg-period-name-display').innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
+            document.getElementById('cfg-faturamento').value = periodoAtivoObj.TPERIODO_FATURAMENTO || 0;
+            document.getElementById('cfg-aliquota').value = periodoAtivoObj.TPERIODO_ALIQUOTA || 0;
+            document.getElementById('cfg-predio').value = periodoAtivoObj.TPERIODO_PREDIO || 0;
+            document.getElementById('cfg-rentabilidade').value = periodoAtivoObj.TPERIODO_RENTABILIDADE || 0;
+            document.getElementById('cfg-retirada').value = periodoAtivoObj.TPERIODO_RETIRADA || 0;
+        }
+
+        function renderizarTabelaPeriodosHist() {
+            const tbody = document.getElementById('tbl-periodos-body');
+            tbody.innerHTML = '';
+
+            listaPeriodos.forEach(p => {
+                const isAtivo = p.TPERIODO_ID === periodoAtivoObj.TPERIODO_ID;
+                const isAberto = String(p.TPERIODO_STATUS).toUpperCase() === 'ABERTO';
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition ${isAtivo ? 'bg-brand-primary/10 border-l-2 border-brand-primary' : ''}">
+                        <td class="p-2 md:p-3 font-semibold text-white">${p.TPERIODO_ID}</td>
+                        <td class="p-2 md:p-3 font-bold text-white uppercase">${formatarNomePeriodoLimpo(p)}</td>
+                        <td class="p-2 md:p-3">${isAberto ? '<span class="text-emerald-400 font-bold">ABERTO</span>' : '<span class="text-amber-500 font-bold">FECHADO</span>'}</td>
+                        <td class="p-2 md:p-3">R$ ${Number(p.TPERIODO_FATURAMENTO || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3">R$ ${Number(p.TPERIODO_PREDIO || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="alternarStatusPeriodo('${p.TPERIODO_ID}', '${p.TPERIODO_STATUS}')" class="text-[10px] md:text-xs px-2.5 py-1 rounded font-bold ${isAberto ? 'bg-amber-950/60 text-amber-400 border border-amber-800' : 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'}">
+                                ${isAberto ? 'Fechar Período' : 'Reabrir Período'}
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function alternarStatusPeriodo(id, statusAtual) {
+            const pObj = listaPeriodos.find(x => String(x.TPERIODO_ID) === String(id));
+            if (!pObj) return;
+
+            const novoStatus = String(statusAtual).toUpperCase() === 'ABERTO' ? "FECHADO" : "ABERTO";
+            if (!confirm(`Deseja alterar o status do período ${pObj.TPERIODO_NOME} para ${novoStatus}?`)) return;
+
+            pObj.TPERIODO_STATUS = novoStatus;
+
+            const payload = {
+                sheet: "TPERIODO",
+                action: "UPDATE",
+                id: id,
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: id,
+                data: [
+                    usuarioLogado.TCLIENTE_ID,
+                    id,
+                    pObj.TPERIODO_NOME,
+                    novoStatus,
+                    pObj.TPERIODO_ATUAL || "SIM",
+                    pObj.TPERIODO_FATURAMENTO || 0,
+                    pObj.TPERIODO_ALIQUOTA || 0,
+                    pObj.TPERIODO_PREDIO || 0,
+                    pObj.TPERIODO_RENTABILIDADE || 0,
+                    pObj.TPERIODO_RETIRADA || 0
+                ]
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                verificarStatusBloqueioPeriodo();
+                renderizarTabelaPeriodosHist();
+            });
+        }
+
+        function salvarParametrosPeriodo(e) {
+            e.preventDefault();
+            if (!periodoAtivoObj) return;
+
+            const fat = parseFloat(document.getElementById('cfg-faturamento').value) || 0;
+            const aliq = parseFloat(document.getElementById('cfg-aliquota').value) || 0;
+            const pred = parseFloat(document.getElementById('cfg-predio').value) || 0;
+            const rent = parseFloat(document.getElementById('cfg-rentabilidade').value) || 0;
+            const ret = parseFloat(document.getElementById('cfg-retirada').value) || 0;
+
+            periodoAtivoObj.TPERIODO_FATURAMENTO = fat;
+            periodoAtivoObj.TPERIODO_ALIQUOTA = aliq;
+            periodoAtivoObj.TPERIODO_PREDIO = pred;
+            periodoAtivoObj.TPERIODO_RENTABILIDADE = rent;
+            periodoAtivoObj.TPERIODO_RETIRADA = ret;
+
+            const btn = document.getElementById('btn-salvar-cfg');
+            btn.innerText = "Salvando...";
+            btn.disabled = true;
+
+            const payload = {
+                sheet: "TPERIODO",
+                action: "UPDATE",
+                id: periodoAtivoObj.TPERIODO_ID,
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [
+                    usuarioLogado.TCLIENTE_ID,
+                    periodoAtivoObj.TPERIODO_ID,
+                    periodoAtivoObj.TPERIODO_NOME,
+                    periodoAtivoObj.TPERIODO_STATUS || "ABERTO",
+                    periodoAtivoObj.TPERIODO_ATUAL || "SIM",
+                    fat,
+                    aliq,
+                    pred,
+                    rent,
+                    ret
+                ]
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Parâmetros do período atualizados!");
+                btn.innerText = "Salvar Parâmetros";
+                btn.disabled = false;
+                setTimeout(carregarCentrosDeCusto, 1500);
+            });
+        }
+
+        async function carregarInvestimentos() {
+            const tbody = document.getElementById('tbl-inv-body');
+            tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Buscando investimentos...</td></tr>';
+
+            try {
+                const response = await fetch(`${API_URL}?action=TINVESTIMENTOS`);
+                const data = await response.json();
+
+                listaInvestimentos = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+
+                if (listaInvestimentos.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Nenhum investimento cadastrado neste período.</td></tr>';
+                    return;
+                }
+
+                renderizarTabelaInvestimentosLocal();
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar investimentos.</td></tr>'; }
+        }
+
+        function salvarInvestimento(e) {
+            e.preventDefault();
+            const editingId = document.getElementById('inv-editing-id').value;
+            const nome = document.getElementById('inv-nome').value.trim().toUpperCase();
+            const valor = parseFloat(document.getElementById('inv-valor').value) || 0;
+
+            const tempId = editingId || "INV-TEMP-" + Date.now();
+
+            const objLocal = {
+                TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
+                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
+                TINVESTIMENTO_ID: tempId,
+                TINVESTIMENTO_NOME: nome,
+                TINVESTIMENTO_VALOR: valor
+            };
+
+            if (editingId) {
+                const idx = listaInvestimentos.findIndex(i => String(i.TINVESTIMENTO_ID) === String(editingId));
+                if (idx !== -1) listaInvestimentos[idx] = objLocal;
+            } else {
+                listaInvestimentos.push(objLocal);
+            }
+
+            renderizarTabelaInvestimentosLocal();
+            limparFormInv();
+
+            const payload = {
+                sheet: "TINVESTIMENTOS",
+                action: editingId ? "UPDATE" : "CREATE",
+                id: editingId,
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, editingId || "", nome, valor]
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        }
+
+        function renderizarTabelaInvestimentosLocal() {
+            const tbody = document.getElementById('tbl-inv-body');
+            tbody.innerHTML = '';
+
+            listaInvestimentos.forEach(i => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 text-white font-medium uppercase">${i.TINVESTIMENTO_NOME}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">R$ ${Number(i.TINVESTIMENTO_VALOR || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="prepararEdicaoInv('${i.TINVESTIMENTO_ID}')" class="text-[10px] bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded">Edit</button>
+                            <button onclick="excluirInv('${i.TINVESTIMENTO_ID}')" class="text-[10px] bg-red-950/40 text-red-400 border border-red-800/40 px-2 py-1 rounded">Del</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function prepararEdicaoInv(id) {
+            const item = listaInvestimentos.find(i => String(i.TINVESTIMENTO_ID) === String(id));
+            if (!item) return;
+
+            document.getElementById('inv-editing-id').value = item.TINVESTIMENTO_ID;
+            document.getElementById('inv-nome').value = item.TINVESTIMENTO_NOME;
+            document.getElementById('inv-valor').value = item.TINVESTIMENTO_VALOR;
+
+            document.getElementById('inv-form-title').innerText = "Editar Investimento";
+            document.getElementById('btn-cancelar-inv').classList.remove('hidden');
+        }
+
+        function excluirInv(id) {
+            if (!confirm("Tem certeza que deseja excluir este investimento?")) return;
+
+            listaInvestimentos = listaInvestimentos.filter(i => String(i.TINVESTIMENTO_ID) !== String(id));
+            renderizarTabelaInvestimentosLocal();
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sheet: "TINVESTIMENTOS", action: "DELETE", id: id })
+            });
+        }
+
+        function limparFormInv() {
+            document.getElementById('form-inv').reset();
+            document.getElementById('inv-editing-id').value = "";
+            document.getElementById('inv-form-title').innerText = "Cadastrar Investimento";
+            document.getElementById('btn-cancelar-inv').classList.add('hidden');
         }
 
         function trocarPeriodoAtivo() {
             const id = document.getElementById('global-periodo-select').value;
             periodoAtivoObj = listaPeriodos.find(p => String(p.TPERIODO_ID) === String(id));
             verificarStatusBloqueioPeriodo();
+            preencherFormularioConfigPeriodo();
             carregarTudoDoPeriodo();
         }
 
@@ -889,7 +1196,7 @@
             } else {
                 const payload = {
                     sheet: "TPERIODO",
-                    data: [usuarioLogado.TCLIENTE_ID, "", nomeLimpo, "ABERTO", "SIM"]
+                    data: [usuarioLogado.TCLIENTE_ID, "", nomeLimpo, "ABERTO", "SIM", 0, 0, 0, 0, 0]
                 };
                 await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 alert("Novo período em branco criado!");
@@ -898,6 +1205,7 @@
         }
 
         function carregarTudoDoPeriodo() {
+            carregarInvestimentos();
             carregarCentrosDeCusto();
             carregarRecursos();
             carregarBeneficios();
@@ -906,6 +1214,7 @@
         }
 
         function alternarAbaCliente(aba) {
+            document.getElementById('section-config-periodo').classList.add('hidden');
             document.getElementById('section-centro-custo').classList.add('hidden');
             document.getElementById('section-recursos').classList.add('hidden');
             document.getElementById('section-beneficios').classList.add('hidden');
@@ -915,13 +1224,18 @@
             const classInactive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap";
             const classActive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap";
 
+            document.getElementById('tab-btn-cfg').className = classInactive;
             document.getElementById('tab-btn-cc').className = classInactive;
             document.getElementById('tab-btn-rec').className = classInactive;
             document.getElementById('tab-btn-ben').className = classInactive;
             document.getElementById('tab-btn-func').className = classInactive;
             document.getElementById('tab-btn-plc').className = classInactive;
 
-            if (aba === 'cc') {
+            if (aba === 'cfg') {
+                document.getElementById('section-config-periodo').classList.remove('hidden');
+                document.getElementById('tab-btn-cfg').className = classActive;
+                carregarInvestimentos();
+            } else if (aba === 'cc') {
                 document.getElementById('section-centro-custo').classList.remove('hidden');
                 document.getElementById('tab-btn-cc').className = classActive;
                 carregarCentrosDeCusto();
@@ -1026,7 +1340,7 @@
             const selectCCFunc = document.getElementById('func-cc-id');
             const selectCCPlc = document.getElementById('plc-cc-id');
             const containerCCPlcCheckboxes = document.getElementById('container-plc-cc-checkboxes');
-            tbody.innerHTML = '<tr><td colspan="13" class="p-4 text-center">Buscando dados...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="14" class="p-4 text-center">Buscando dados...</td></tr>';
 
             try {
                 const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
@@ -1066,12 +1380,12 @@
                 });
 
                 if (listaCC.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="13" class="p-4 text-center">Nenhum Centro de Custo cadastrado neste período.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="14" class="p-4 text-center">Nenhum Centro de Custo cadastrado neste período.</td></tr>';
                     return;
                 }
 
                 renderizarTabelaCCLocal();
-            } catch (e) { tbody.innerHTML = '<tr><td colspan="13" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; }
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="14" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; }
         }
 
         async function carregarPlanoContas() {
@@ -1112,8 +1426,6 @@
                     selecionados.push(chk.value);
                 });
                 if (selecionados.length === 0) return alert("Selecione ao menos um Centro de Custo para o Rateio.");
-                
-                // Se marcar todos os centros da lista, salva o JSON com todos os IDs
                 ccTargetInfo = JSON.stringify(selecionados);
             }
 
@@ -1861,7 +2173,8 @@
                 TCENTRO_CUSTO_CUSTO_MENSAL: 0,
                 TCENTRO_CUSTO_CUSTO_FUNCIONARIO: 0,
                 TCENTRO_CUSTO_HORAS: 0,
-                TCENTRO_CUSTO_CUSTO_PLANO_CONTAS: 0
+                TCENTRO_CUSTO_CUSTO_PLANO_CONTAS: 0,
+                TCENTRO_CUSTO_PREDIO: 0
             };
 
             if (editingId) {
@@ -1880,7 +2193,7 @@
                 id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
-                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, editingId || "", nome, tipoCC, 0, area, custoFixo, produtividade, rateio, considerarMinimo, 0, 0, 0, 0]
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, editingId || "", nome, tipoCC, 0, area, custoFixo, produtividade, rateio, considerarMinimo, 0, 0, 0, 0, 0]
             };
 
             fetch(API_URL, {
@@ -1907,6 +2220,7 @@
                         <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_MENSAL || 0).toFixed(2)}</td>
                         <td class="p-2 md:p-3 text-brand-primary font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO || 0).toFixed(2)}</td>
                         <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS || 0).toFixed(2)}</td>
+                        <td class="p-2 md:p-3 text-emerald-400 font-bold">R$ ${Number(c.TCENTRO_CUSTO_PREDIO || 0).toFixed(2)}</td>
                         <td class="p-2 md:p-3 text-white font-bold">${Number(c.TCENTRO_CUSTO_HORAS || 0).toFixed(2)} h</td>
                         <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_PRODUTIVIDADE || 0).toFixed(2)}%</td>
                         <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_CONSIDERAR_MINIMO === 'SIM' ? '<span class="text-emerald-400 font-bold">SIM</span>' : '-'}</td>
