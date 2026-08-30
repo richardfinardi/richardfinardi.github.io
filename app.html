@@ -951,40 +951,46 @@
         }
 
         async function carregarPeriodosDoCliente() {
-            const select = document.getElementById('global-periodo-select');
-            select.innerHTML = '<option value="">Carregando...</option>';
+    const select = document.getElementById('global-periodo-select');
+    select.innerHTML = '<option value="">Carregando...</option>';
 
-            try {
-                const res = await fetch(`${API_URL}?action=TPERIODO`);
-                const data = await res.json();
+    try {
+        const res = await fetch(`${API_URL}?action=TPERIODO`);
+        if (!res.ok) throw new Error('Falha na resposta da API');
+        const data = await res.json();
 
-                listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+        if (!Array.isArray(data)) throw new Error('Formato inválido retornado');
 
-                if (listaPeriodos.length === 0) {
-                    const payload = {
-                        sheet: "TPERIODO",
-                        data: [usuarioLogado.TCLIENTE_ID, "", "2026.1", "ABERTO", "SIM", 0, 0, 0, 0, 0]
-                    };
-                    await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
-                    setTimeout(carregarPeriodosDoCliente, 1500);
-                    return;
-                }
+        listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
 
-                select.innerHTML = '';
-                listaPeriodos.forEach(p => {
-                    select.innerHTML += `<option value="${p.TPERIODO_ID}">${formatarNomePeriodoLimpo(p)}</option>`;
-                });
-
-                const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
-                select.value = atual.TPERIODO_ID;
-                periodoAtivoObj = atual;
-
-                preencherFormularioConfigPeriodo();
-                renderizarTabelaPeriodosHist();
-                verificarStatusBloqueioPeriodo();
-
-            } catch (e) { select.innerHTML = '<option value="">Erro ao carregar</option>'; }
+        if (listaPeriodos.length === 0) {
+            const payload = {
+                sheet: "TPERIODO",
+                data: [usuarioLogado.TCLIENTE_ID, "", "2026.1", "ABERTO", "SIM", 0, 0, 0, 0, 0]
+            };
+            await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+            setTimeout(carregarPeriodosDoCliente, 2000);
+            return;
         }
+
+        select.innerHTML = '';
+        listaPeriodos.forEach(p => {
+            select.innerHTML += `<option value="${p.TPERIODO_ID}">${formatarNomePeriodoLimpo(p)}</option>`;
+        });
+
+        const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
+        select.value = atual.TPERIODO_ID;
+        periodoAtivoObj = atual;
+
+        preencherFormularioConfigPeriodo();
+        renderizarTabelaPeriodosHist();
+        verificarStatusBloqueioPeriodo();
+
+    } catch (e) { 
+        console.error(e);
+        select.innerHTML = '<option value="">Erro ao carregar</option>'; 
+    }
+}
 
         function preencherFormularioConfigPeriodo() {
             if (!periodoAtivoObj) return;
