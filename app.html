@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V2.7 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V2.8 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -30,7 +30,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V2.7</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V2.8</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -54,7 +54,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V2.7</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V2.8</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -740,7 +740,7 @@
             </div>
         </section>
 
-        <!-- ABA 6: RESULTADOS & ANÁLISES (V2.7 COMPLETA) -->
+        <!-- ABA 6: RESULTADOS & ANÁLISES (V2.8 COMPLETA) -->
         <section id="section-resultados" class="hidden space-y-6">
             
             <!-- CONTROLE DE COMPARATIVO DE PERÍODOS -->
@@ -878,7 +878,7 @@
                 <div class="border-b border-brand-border/50 pb-2 flex justify-between items-center">
                     <div>
                         <h3 class="text-base font-bold text-white">Custo-Hora dos Centros de Custo Produtivos Diretos</h3>
-                        <p class="text-xs text-brand-muted">💡 Clique na linha de qualquer setor para ver a composição detalhada do Custo-Hora</p>
+                        <p class="text-xs text-brand-muted">💡 Clique na linha de qualquer setor para ver a composição detalhada do Custo-Hora e Horas Efetivas</p>
                     </div>
                     <span class="text-xs text-brand-primary font-bold">DRILL-DOWN ATIVO</span>
                 </div>
@@ -892,12 +892,13 @@
                                 <th class="p-2 md:p-3">Custos Próprios (R$)</th>
                                 <th class="p-2 md:p-3">Custo Indireto Absorvido (R$)</th>
                                 <th class="p-2 md:p-3">Custo Total Setor (R$)</th>
-                                <th class="p-2 md:p-3">Horas no Mês</th>
+                                <th class="p-2 md:p-3">Prod. (%)</th>
+                                <th class="p-2 md:p-3">Horas Finais (Brutas / Efetivas)</th>
                                 <th class="p-2 md:p-3 text-emerald-400 font-bold">Custo-Hora Específico (R$/h)</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-custo-hora-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="7" class="p-4 text-center">Carregando setores produtivos...</td></tr>
+                            <tr><td colspan="8" class="p-4 text-center">Carregando setores produtivos...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -907,7 +908,7 @@
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="border-b border-brand-border/50 pb-2">
                     <h3 class="text-base font-bold text-white">Ranking Geral de Impacto dos Setores</h3>
-                    <p class="text-xs text-brand-muted">Todos os setores ordenados do maior para o menor custo primário acumulado</p>
+                    <p class="text-xs text-brand-muted">Todos os setores ordenados do maior para o menor custo primário acumulado (Clique na Lupa para Raio-X)</p>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -919,10 +920,11 @@
                                 <th class="p-2 md:p-3">Custo Primário Bruto (R$)</th>
                                 <th class="p-2 md:p-3 text-center">Peso no Orçamento Total (%)</th>
                                 <th class="p-2 md:p-3">Barra de Progresso</th>
+                                <th class="p-2 md:p-3 text-right">Raio-X</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-ranking-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="5" class="p-4 text-center">Carregando análises...</td></tr>
+                            <tr><td colspan="6" class="p-4 text-center">Carregando análises...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -932,13 +934,13 @@
 
     </main>
 
-    <!-- MODAL DE COMPOSIÇÃO DO CUSTO-HORA (DRILL-DOWN) -->
+    <!-- MODAL DE COMPOSIÇÃO DO CUSTO-HORA E RAIO-X DO SETOR (DRILL-DOWN) -->
     <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
                 <div>
                     <h3 id="modal-dh-title" class="text-lg font-bold text-white uppercase">---</h3>
-                    <p class="text-xs text-brand-muted">Composição Detalhada do Custo-Hora do Setor</p>
+                    <p class="text-xs text-brand-muted">Composição Detalhada do Custo e Horas Efetivas do Setor</p>
                 </div>
                 <button onclick="fecharModalDrilldown()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
             </div>
@@ -948,7 +950,7 @@
             </div>
 
             <div class="flex justify-between items-center border-t border-brand-border pt-3">
-                <span class="text-xs text-brand-muted">Custo-Hora Final: <strong id="modal-dh-custohora-total" class="text-emerald-400 font-extrabold text-base">R$ 0,00/h</strong></span>
+                <span class="text-xs text-brand-muted">Custo-Hora Calculado: <strong id="modal-dh-custohora-total" class="text-emerald-400 font-extrabold text-base">R$ 0,00/h</strong></span>
                 <button onclick="fecharModalDrilldown()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Fechar</button>
             </div>
         </div>
@@ -2715,11 +2717,10 @@
             location.reload();
         }
 
-        // FUNÇÃO GERADORA DA ABA DE RESULTADOS & ANÁLISES (V2.7 COMPLETA)
+        // FUNÇÃO GERADORA DA ABA DE RESULTADOS & ANÁLISES (V2.8 EXATA)
         function gerarAnalisesEResultados() {
             if (!periodoAtivoObj) return;
 
-            const periodoCompareId = document.getElementById('res-compare-select').value;
             document.getElementById('dre-period-display').innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
 
             // 1. DADOS FINANCEIROS DO PERÍODO
@@ -2753,7 +2754,7 @@
                 }
             });
 
-            // 4. SOBRA NÃO RATEADA DOS FUNCIONÁRIOS (PERDAS NÃO ALOCADAS)
+            // 4. SOBRA NÃO RATEADA DOS FUNCIONÁRIOS (PERDAS / DESPERDÍCIO)
             let totalSobraRateioFuncionarios = 0;
             listaFuncionarios.forEach(f => {
                 totalSobraRateioFuncionarios += (parseFloat(f.TFUNCIONARIO_VALOR_RATEIO) || 0);
@@ -2773,7 +2774,8 @@
                 const plc = parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS) || 0;
                 const prd = parseFloat(c.TCENTRO_CUSTO_PREDIO) || 0;
                 const ind = parseFloat(c.TCENTRO_CUSTO_INDIRETOS) || 0;
-                const hrs = parseFloat(c.TCENTRO_CUSTO_HORAS) || 0;
+                const hrsBrutas = parseFloat(c.TCENTRO_CUSTO_HORAS) || 0;
+                const prodPct = parseFloat(c.TCENTRO_CUSTO_PRODUTIVIDADE) || 100;
 
                 const custoPrimarioBruto = fx + dep + func + plc + prd;
                 const custoTotalComIndireto = custoPrimarioBruto + ind;
@@ -2787,7 +2789,10 @@
                 }
 
                 if (tipoCC === 'PRODUTIVO DIRETO') {
-                    const custoHoraEspecifico = hrs > 0 ? (custoTotalComIndireto / hrs) : 0;
+                    // HORAS EFETIVAS CONSIDERANDO PRODUTIVIDADE (%)
+                    const hrsEfetivas = hrsBrutas * (prodPct / 100);
+                    const custoHoraEspecifico = hrsEfetivas > 0 ? (custoTotalComIndireto / hrsEfetivas) : 0;
+
                     ccsProdutivosDiretos.push({
                         id: c.TCENTRO_CUSTO_ID,
                         nome: c.TCENTRO_CUSTO_NOME,
@@ -2795,12 +2800,15 @@
                         custoProprio: custoPrimarioBruto,
                         custoIndireto: ind,
                         custoTotal: custoTotalComIndireto,
-                        horas: hrs,
+                        produtividade: prodPct,
+                        horasBrutas: hrsBrutas,
+                        horasEfetivas: hrsEfetivas,
                         custoHora: custoHoraEspecifico
                     });
                 }
 
                 rankingGeralCCs.push({
+                    id: c.TCENTRO_CUSTO_ID,
                     nome: c.TCENTRO_CUSTO_NOME,
                     tipo: tipoCC,
                     custo: custoPrimarioBruto
@@ -2814,12 +2822,16 @@
             const resultadoFabril = margemContribucao - totalCustoFixoFabrilBruto;
             const resultadoLiquidoFinal = resultadoFabril - totalDespesasFixasAdmin - totalSobraRateioFuncionarios - retiradaSocios;
 
-            // 7. CÁLCULO DE PONTO DE EQUILÍBRIO (COM PERDAS NÃO ALOCADAS + RENTABILIDADE)
-            const gastosFixosTotaisComPerdas = totalCustoFixoFabrilBruto + totalDespesasFixasAdmin + totalSobraRateioFuncionarios + retiradaSocios;
+            // 7. CÁLCULO FOTOGRÁFICO DO PONTO DE EQUILÍBRIO (DIVIDENDO E DIVISOR IDÊNTICOS À PLANILHA)
+            const gastoFixoAcumulado = totalCustoFixoFabrilBruto + totalDespesasFixasAdmin + totalSobraRateioFuncionarios;
             const metaRentabilidadeMoeda = investimentoTotalEmpresa * (rentabilidadeMetaPct / 100);
+            const dividendoPontoEquilibrio = gastoFixoAcumulado + retiradaSocios + metaRentabilidadeMoeda;
 
-            const pctMargemContrib = receitaLiquida > 0 ? (margemContribucao / receitaLiquida) : 0;
-            const pontoEquilibrio = pctMargemContrib > 0 ? ((gastosFixosTotaisComPerdas + metaRentabilidadeMoeda) / pctMargemContrib) : 0;
+            const pctImpostosEComissoes = faturamentoBruto > 0 ? (impostosVendasVal / faturamentoBruto) : (aliquotaImpostos / 100);
+            const pctCustosVariaveis = faturamentoBruto > 0 ? (totalCustoVariavelDRE / faturamentoBruto) : 0;
+            const divisorPontoEquilibrio = 1 - pctImpostosEComissoes - pctCustosVariaveis;
+
+            const pontoEquilibrio = divisorPontoEquilibrio > 0 ? (dividendoPontoEquilibrio / divisorPontoEquilibrio) : 0;
 
             const pctDespesaFixaTotal = faturamentoBruto > 0 ? (((totalDespesasFixasAdmin + retiradaSocios) / faturamentoBruto) * 100) : 0;
             const rentabilidadeAtualMensalPct = investimentoTotalEmpresa > 0 ? ((resultadoLiquidoFinal / investimentoTotalEmpresa) * 100) : 0;
@@ -2883,13 +2895,14 @@
                         <td class="p-2 md:p-3">${formatarMoedaBR(item.custoProprio)}</td>
                         <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(item.custoIndireto)}</td>
                         <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(item.custoTotal)}</td>
-                        <td class="p-2 md:p-3 font-bold text-white">${item.horas.toFixed(1)} h</td>
+                        <td class="p-2 md:p-3 font-bold text-brand-primary">${item.produtividade.toFixed(0)}%</td>
+                        <td class="p-2 md:p-3 font-bold text-white">${item.horasBrutas.toFixed(1)}h / <strong class="text-emerald-400">${item.horasEfetivas.toFixed(1)}h</strong></td>
                         <td class="p-2 md:p-3 font-extrabold text-emerald-400">${formatarMoedaBR(item.custoHora)}/h</td>
                     </tr>
                 `;
             });
 
-            // PREENCHIMENTO TABELA RANKING GERAL
+            // PREENCHIMENTO TABELA RANKING GERAL COM RAIO-X / LUPA
             const totalCustoPrimarioEmpresa = totalCustoFixoFabrilBruto + totalDespesasFixasAdmin;
             rankingGeralCCs.sort((a, b) => b.custo - a.custo);
             
@@ -2909,6 +2922,9 @@
                                 <div class="bg-brand-primary h-full rounded-full" style="width: ${pesoPct.toFixed(1)}%"></div>
                             </div>
                         </td>
+                        <td class="p-2 md:p-3 text-right">
+                            <button onclick="abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary text-brand-primary hover:text-white border border-brand-primary/40 px-2.5 py-1 rounded transition font-bold">🔍 Raio-X</button>
+                        </td>
                     </tr>
                 `;
             });
@@ -2917,13 +2933,14 @@
             renderizarGraficoRoscaCC(rankingGeralCCs.filter(x => x.tipo.includes('PRODUTIVO')));
         }
 
-        // RAIO-X / COMPOSIÇÃO DO CUSTO-HORA (DRILL-DOWN)
+        // RAIO-X / COMPOSIÇÃO DO CUSTO-HORA E CONTAS (DRILL-DOWN V2.8)
         function abrirDrilldownCustoHora(ccId, ccNome) {
             const modal = document.getElementById('modal-drilldown-custohora');
             const container = document.getElementById('modal-dh-content');
-            document.getElementById('modal-dh-title').innerText = "Composição: " + ccNome;
+            document.getElementById('modal-dh-title').innerText = "Raio-X: " + ccNome;
 
             const recsDoCC = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID) === String(ccId));
+            
             const funcsDoCC = listaFuncionarios.filter(f => {
                 if (f.TFUNCIONARIO_RATEIO === "SIM") {
                     try {
@@ -2944,11 +2961,13 @@
 
             const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(ccId));
             const custoIndiretoAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_INDIRETOS : 0) || 0;
-            const horasFinaisCC = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_HORAS : 176) || 176;
+            const horasBrutasCC = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_HORAS : 176) || 176;
+            const prodPct = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PRODUTIVIDADE : 100) || 100;
+            const horasEfetivasCC = horasBrutasCC * (prodPct / 100);
 
             let htmlHtml = '';
 
-            // MAQUINAS / RECURSOS
+            // 1. RECURSOS
             htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
                 <h4 class="font-bold text-white uppercase text-xs">1. Recursos & Máquinas (${recsDoCC.length})</h4>`;
             if (recsDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhum recurso direto cadastrado neste setor.</p>`;
@@ -2959,35 +2978,63 @@
             }
             htmlHtml += `</div>`;
 
-            // FUNCIONARIOS
+            // 2. FUNCIONARIOS COM DETALHAMENTO DE HORAS E RATEIO
             htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
-                <h4 class="font-bold text-white uppercase text-xs">2. FuncionáriosAlocados / Rateados (${funcsDoCC.length})</h4>`;
+                <h4 class="font-bold text-white uppercase text-xs">2. Funcionários Alocados / Rateados (${funcsDoCC.length})</h4>`;
             if (funcsDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhum funcionário direto cadastrado neste setor.</p>`;
             else {
                 funcsDoCC.forEach(f => {
                     let val = parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL) || 0;
+                    let hrsF = parseFloat(f.TFUNCIONARIO_HORAS) || 176;
+                    let infoRateio = `(${hrsF.toFixed(0)}h totais)`;
+
                     if (f.TFUNCIONARIO_RATEIO === "SIM") {
                         try {
                             const arr = JSON.parse(f.TCENTRO_CUSTO_ID);
                             const itemP = arr.find(x => String(x.id) === String(ccId));
-                            if (itemP) val = val * (parseFloat(itemP.pct) / 100);
+                            if (itemP) {
+                                const pctLoc = parseFloat(itemP.pct) || 0;
+                                val = val * (pctLoc / 100);
+                                const hrsRateadas = hrsF * (pctLoc / 100);
+                                infoRateio = `(Rateado ${pctLoc}% = ${hrsRateadas.toFixed(0)}h disps.)`;
+                            }
                         } catch(e) {}
                     }
-                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- ${f.TFUNCIONARIO_NOME} ${f.TFUNCIONARIO_RATEIO === "SIM" ? "(Rateado)" : ""}</span><span>${formatarMoedaBR(val)}/mês</span></div>`;
+                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- ${f.TFUNCIONARIO_NOME} <strong class="text-brand-primary">${infoRateio}</strong></span><span>${formatarMoedaBR(val)}/mês</span></div>`;
                 });
             }
             htmlHtml += `</div>`;
 
-            // CUSTO INDIRETO
+            // 3. PLANO DE CONTAS
             htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
-                <h4 class="font-bold text-white uppercase text-xs">3. Custo Indireto Absorvido (Coluna Q)</h4>
-                <div class="flex justify-between text-xs text-brand-muted"><span>- Absorção de Setores Indiretos + Sobra Mão Obra</span><span class="text-brand-primary font-bold">${formatarMoedaBR(custoIndiretoAbsorvido)}/mês</span></div>
+                <h4 class="font-bold text-white uppercase text-xs">3. Contas do Plano de Contas (${planoDoCC.length})</h4>`;
+            if (planoDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhuma conta rateada diretamente para este setor.</p>`;
+            else {
+                planoDoCC.forEach(p => {
+                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- ${p.TPLANO_CONTA_NOME} (${p.TPLANO_CONTA_CRITERIO})</span><span>${formatarMoedaBR(p.TPLANO_CONTA_VALOR)}</span></div>`;
+                });
+            }
+            htmlHtml += `</div>`;
+
+            // 4. CUSTO INDIRETO
+            if (custoIndiretoAbsorvido > 0) {
+                htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
+                    <h4 class="font-bold text-white uppercase text-xs">4. Custo Indireto Absorvido (Coluna Q)</h4>
+                    <div class="flex justify-between text-xs text-brand-muted"><span>- Absorção de Setores Indiretos + Sobra Mão Obra</span><span class="text-brand-primary font-bold">${formatarMoedaBR(custoIndiretoAbsorvido)}/mês</span></div>
+                </div>`;
+            }
+
+            // 5. RESUMO DE HORAS E PRODUTIVIDADE
+            htmlHtml += `<div class="bg-brand-primary/10 p-3 rounded border border-brand-primary/30 text-xs space-y-1">
+                <div class="flex justify-between text-white font-bold"><span>Horas Brutas Cadastradas:</span><span>${horasBrutasCC.toFixed(1)} h</span></div>
+                <div class="flex justify-between text-brand-primary font-bold"><span>Fator de Produtividade:</span><span>${prodPct.toFixed(0)}%</span></div>
+                <div class="flex justify-between text-emerald-400 font-extrabold border-t border-brand-border/50 pt-1"><span>Horas Efetivas Consideradas:</span><span>${horasEfetivasCC.toFixed(1)} h</span></div>
             </div>`;
 
             container.innerHTML = htmlHtml;
 
             const custoTotalDoSetor = (parseFloat(ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0) + (parseFloat(ccObj.TCENTRO_CUSTO_CUSTO_MENSAL)||0) + (parseFloat(ccObj.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0) + (parseFloat(ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0) + (parseFloat(ccObj.TCENTRO_CUSTO_PREDIO)||0) + custoIndiretoAbsorvido;
-            const custoHoraCalculado = horasFinaisCC > 0 ? (custoTotalDoSetor / horasFinaisCC) : 0;
+            const custoHoraCalculado = horasEfetivasCC > 0 ? (custoTotalDoSetor / horasEfetivasCC) : 0;
 
             document.getElementById('modal-dh-custohora-total').innerText = formatarMoedaBR(custoHoraCalculado) + "/h";
             modal.classList.remove('hidden');
