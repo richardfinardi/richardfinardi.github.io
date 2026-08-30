@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V2.2 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V2.3 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V2.2</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V2.3</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -53,7 +53,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V2.2</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V2.3</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -951,46 +951,40 @@
         }
 
         async function carregarPeriodosDoCliente() {
-    const select = document.getElementById('global-periodo-select');
-    select.innerHTML = '<option value="">Carregando...</option>';
+            const select = document.getElementById('global-periodo-select');
+            select.innerHTML = '<option value="">Carregando...</option>';
 
-    try {
-        const res = await fetch(`${API_URL}?action=TPERIODO`);
-        if (!res.ok) throw new Error('Falha na resposta da API');
-        const data = await res.json();
+            try {
+                const res = await fetch(`${API_URL}?action=TPERIODO`);
+                const data = await res.json();
 
-        if (!Array.isArray(data)) throw new Error('Formato inválido retornado');
+                listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
 
-        listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                if (listaPeriodos.length === 0) {
+                    const payload = {
+                        sheet: "TPERIODO",
+                        data: [usuarioLogado.TCLIENTE_ID, "", "2026.1", "ABERTO", "SIM", 0, 0, 0, 0, 0]
+                    };
+                    await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+                    setTimeout(carregarPeriodosDoCliente, 1500);
+                    return;
+                }
 
-        if (listaPeriodos.length === 0) {
-            const payload = {
-                sheet: "TPERIODO",
-                data: [usuarioLogado.TCLIENTE_ID, "", "2026.1", "ABERTO", "SIM", 0, 0, 0, 0, 0]
-            };
-            await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
-            setTimeout(carregarPeriodosDoCliente, 2000);
-            return;
+                select.innerHTML = '';
+                listaPeriodos.forEach(p => {
+                    select.innerHTML += `<option value="${p.TPERIODO_ID}">${formatarNomePeriodoLimpo(p)}</option>`;
+                });
+
+                const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
+                select.value = atual.TPERIODO_ID;
+                periodoAtivoObj = atual;
+
+                preencherFormularioConfigPeriodo();
+                renderizarTabelaPeriodosHist();
+                verificarStatusBloqueioPeriodo();
+
+            } catch (e) { select.innerHTML = '<option value="">Erro ao carregar</option>'; }
         }
-
-        select.innerHTML = '';
-        listaPeriodos.forEach(p => {
-            select.innerHTML += `<option value="${p.TPERIODO_ID}">${formatarNomePeriodoLimpo(p)}</option>`;
-        });
-
-        const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
-        select.value = atual.TPERIODO_ID;
-        periodoAtivoObj = atual;
-
-        preencherFormularioConfigPeriodo();
-        renderizarTabelaPeriodosHist();
-        verificarStatusBloqueioPeriodo();
-
-    } catch (e) { 
-        console.error(e);
-        select.innerHTML = '<option value="">Erro ao carregar</option>'; 
-    }
-}
 
         function preencherFormularioConfigPeriodo() {
             if (!periodoAtivoObj) return;
@@ -1148,34 +1142,16 @@
 
         function salvarInvestimento(e) {
             e.preventDefault();
-            const editingId = document.getElementById('inv-editing-id').value;
+            const editingId = document.getElementById('inv-editing-id').value.trim();
             const nome = document.getElementById('inv-nome').value.trim().toUpperCase();
             const valor = parseMoedaBR(document.getElementById('inv-valor').value);
 
-            const idRegistro = editingId ? editingId : ("INV-TEMP-" + Date.now());
-
-            const objLocal = {
-                TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
-                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
-                TINVESTIMENTO_ID: idRegistro,
-                TINVESTIMENTO_NOME: nome,
-                TINVESTIMENTO_VALOR: valor
-            };
-
-            if (editingId) {
-                const idx = listaInvestimentos.findIndex(i => String(i.TINVESTIMENTO_ID) === String(editingId));
-                if (idx !== -1) listaInvestimentos[idx] = objLocal;
-            } else {
-                listaInvestimentos.push(objLocal);
-            }
-
-            renderizarTabelaInvestimentosLocal();
-            limparFormInv();
+            const idRegistro = editingId ? editingId : "";
 
             const payload = {
                 sheet: "TINVESTIMENTOS",
                 action: editingId ? "UPDATE" : "CREATE",
-                id: idRegistro,
+                id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
                 data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, idRegistro, nome, valor]
@@ -1186,6 +1162,9 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
+            }).then(() => {
+                limparFormInv();
+                setTimeout(carregarInvestimentos, 1500);
             });
         }
 
@@ -1222,29 +1201,26 @@
         }
 
         function prepararEdicaoInv(id) {
-            const item = listaInvestimentos.find(i => String(i.TINVESTIMENTO_ID) === String(id));
+            const item = listaInvestimentos.find(i => String(i.TINVESTIMENTO_ID).trim().toUpperCase() === String(id).trim().toUpperCase());
             if (!item) return;
 
             document.getElementById('inv-editing-id').value = item.TINVESTIMENTO_ID;
             document.getElementById('inv-nome').value = item.TINVESTIMENTO_NOME;
             document.getElementById('inv-valor').value = Number(item.TINVESTIMENTO_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
-            document.getElementById('inv-form-title').innerText = "Editar Investimento";
+            document.getElementById('inv-form-title').innerText = "Editar Investimento (" + item.TINVESTIMENTO_ID + ")";
             document.getElementById('btn-cancelar-inv').classList.remove('hidden');
         }
 
         function excluirInv(id) {
             if (!confirm("Tem certeza que deseja excluir este investimento?")) return;
 
-            listaInvestimentos = listaInvestimentos.filter(i => String(i.TINVESTIMENTO_ID) !== String(id));
-            renderizarTabelaInvestimentosLocal();
-
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TINVESTIMENTOS", action: "DELETE", id: id })
-            });
+            }).then(() => { setTimeout(carregarInvestimentos, 1500); });
         }
 
         function limparFormInv() {
@@ -1528,7 +1504,7 @@
 
         function salvarPlanoConta(e) {
             e.preventDefault();
-            const editingId = document.getElementById('plc-editing-id').value;
+            const editingId = document.getElementById('plc-editing-id').value.trim();
             const nome = document.getElementById('plc-nome').value.trim().toUpperCase();
             const crit = document.getElementById('plc-criterio').value.toUpperCase();
             const valor = parseMoedaBR(document.getElementById('plc-valor').value);
@@ -1548,32 +1524,14 @@
                 ccTargetInfo = JSON.stringify(selecionados);
             }
 
-            const idRegistro = editingId ? editingId : ("PLC-TEMP-" + Date.now());
+            const idRegistro = editingId ? editingId : "";
 
-            const objLocal = {
-                TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
-                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
-                TCENTRO_CUSTO_ID: ccTargetInfo,
-                TPLANO_CONTA_ID: idRegistro,
-                TPLANO_CONTA_NOME: nome,
-                TPLANO_CONTA_CRITERIO: crit,
-                TPLANO_CONTA_VALOR: valor
-            };
-
-            if (editingId) {
-                const idx = listaPlanoContas.findIndex(p => String(p.TPLANO_CONTA_ID) === String(editingId));
-                if (idx !== -1) listaPlanoContas[idx] = objLocal;
-            } else {
-                listaPlanoContas.push(objLocal);
-            }
-
-            renderizarTabelaPlanoContasLocal();
             limparFormPLC();
 
             const payload = {
                 sheet: "TPLANO_CONTAS",
                 action: editingId ? "UPDATE" : "CREATE",
-                id: idRegistro,
+                id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
                 data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTargetInfo, idRegistro, nome, crit, valor]
@@ -1584,7 +1542,12 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 2000); });
+            }).then(() => {
+                setTimeout(() => {
+                    carregarPlanoContas();
+                    carregarCentrosDeCusto();
+                }, 2000);
+            });
         }
 
         function renderizarTabelaPlanoContasLocal() {
@@ -1642,7 +1605,7 @@
         }
 
         function prepararEdicaoPLC(id) {
-            const item = listaPlanoContas.find(p => String(p.TPLANO_CONTA_ID) === String(id));
+            const item = listaPlanoContas.find(p => String(p.TPLANO_CONTA_ID).trim().toUpperCase() === String(id).trim().toUpperCase());
             if (!item) return;
 
             document.getElementById('plc-editing-id').value = item.TPLANO_CONTA_ID;
@@ -1664,22 +1627,24 @@
             }
 
             document.getElementById('plc-valor').value = Number(item.TPLANO_CONTA_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            document.getElementById('plc-form-title').innerText = "Editar Conta";
+            document.getElementById('plc-form-title').innerText = "Editar Conta (" + item.TPLANO_CONTA_ID + ")";
             document.getElementById('btn-cancelar-plc').classList.remove('hidden');
         }
 
         function excluirPLC(id) {
             if (!confirm("Tem certeza que deseja excluir esta conta?")) return;
 
-            listaPlanoContas = listaPlanoContas.filter(p => String(p.TPLANO_CONTA_ID) !== String(id));
-            renderizarTabelaPlanoContasLocal();
-
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TPLANO_CONTAS", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 2000); });
+            }).then(() => {
+                setTimeout(() => {
+                    carregarPlanoContas();
+                    carregarCentrosDeCusto();
+                }, 2000);
+            });
         }
 
         function limparFormPLC() {
@@ -1772,7 +1737,7 @@
 
         function salvarFuncionario(e) {
             e.preventDefault();
-            const editingId = document.getElementById('func-editing-id').value;
+            const editingId = document.getElementById('func-editing-id').value.trim();
             const isRateio = document.getElementById('func-is-rateio').checked;
             const custoCalculado = calcularCustoFuncionario();
             const horasTotais = parseFloat(document.getElementById('func-horas-mes').value) || 176;
@@ -1804,39 +1769,14 @@
             const salBase = parseMoedaBR(document.getElementById('func-salario-base').value);
             const benValor = parseMoedaBR(document.getElementById('func-beneficios-valor').value);
 
-            // PRESERVA O ID DA EDICAO ORIGINAL SE HOUVER
-            const idRegistro = editingId ? editingId : ("FUNC-TEMP-" + Date.now());
+            const idRegistro = editingId ? editingId : "";
 
-            const objLocal = {
-                TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
-                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
-                TCENTRO_CUSTO_ID: ccInfo,
-                TFUNCIONARIO_ID: idRegistro,
-                TFUNCIONARIO_NOME: nome,
-                TFUNCIONARIO_TP_REGISTRO: tpReg,
-                TFUNCIONARIO_TP_SALARIO: tpSal,
-                TFUNCIONARIO_SALARIO_BASE: salBase,
-                TFUNCIONARIO_BENEFICIOS: benValor,
-                TFUNCIONARIO_CUSTO_MENSAL: custoCalculado,
-                TFUNCIONARIO_RATEIO: isRateio ? "SIM" : "NAO",
-                TFUNCIONARIO_VALOR_RATEIO: valorSobraRateio,
-                TFUNCIONARIO_HORAS: horasTotais
-            };
-
-            if (editingId) {
-                const idx = listaFuncionarios.findIndex(f => String(f.TFUNCIONARIO_ID) === String(editingId));
-                if (idx !== -1) listaFuncionarios[idx] = objLocal;
-            } else {
-                listaFuncionarios.push(objLocal);
-            }
-
-            renderizarTabelaFuncionariosLocal();
             limparFormFunc();
 
             const payload = {
                 sheet: "TFUNCIONARIO",
                 action: editingId ? "UPDATE" : "CREATE",
-                id: idRegistro,
+                id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
                 data: [
@@ -1861,7 +1801,12 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 2000); });
+            }).then(() => {
+                setTimeout(() => {
+                    carregarFuncionarios();
+                    carregarCentrosDeCusto();
+                }, 2000);
+            });
         }
 
         function renderizarTabelaFuncionariosLocal() {
@@ -1950,7 +1895,7 @@
         }
 
         function prepararEdicaoFunc(id) {
-            const item = listaFuncionarios.find(f => String(f.TFUNCIONARIO_ID) === String(id));
+            const item = listaFuncionarios.find(f => String(f.TFUNCIONARIO_ID).trim().toUpperCase() === String(id).trim().toUpperCase());
             if (!item) return;
 
             document.getElementById('func-editing-id').value = item.TFUNCIONARIO_ID;
@@ -1981,22 +1926,24 @@
             calcularCustoFuncionario();
             validarRateioPercentuais();
 
-            document.getElementById('func-form-title').innerText = "Editar Funcionário";
+            document.getElementById('func-form-title').innerText = "Editar Funcionário (" + item.TFUNCIONARIO_ID + ")";
             document.getElementById('btn-cancelar-func').classList.remove('hidden');
         }
 
         function excluirFunc(id) {
             if (!confirm("Tem certeza que deseja excluir o Funcionário selecionado?")) return;
 
-            listaFuncionarios = listaFuncionarios.filter(f => String(f.TFUNCIONARIO_ID) !== String(id));
-            renderizarTabelaFuncionariosLocal();
-
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TFUNCIONARIO", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 2000); });
+            }).then(() => {
+                setTimeout(() => {
+                    carregarFuncionarios();
+                    carregarCentrosDeCusto();
+                }, 2000);
+            });
         }
 
         function limparFormFunc() {
@@ -2045,34 +1992,18 @@
 
         function salvarBeneficio(e) {
             e.preventDefault();
-            const editingId = document.getElementById('ben-editing-id').value;
+            const editingId = document.getElementById('ben-editing-id').value.trim();
             const nome = document.getElementById('ben-nome').value.trim().toUpperCase();
             const valor = parseMoedaBR(document.getElementById('ben-valor').value);
 
-            const idRegistro = editingId ? editingId : ("BEN-TEMP-" + Date.now());
+            const idRegistro = editingId ? editingId : "";
 
-            const objLocal = {
-                TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
-                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
-                TBENEFICIO_ID: idRegistro,
-                TBENEFICIO_NOME: nome,
-                TBENEFICIO_VALOR: valor
-            };
-
-            if (editingId) {
-                const idx = listaBeneficios.findIndex(b => String(b.TBENEFICIO_ID) === String(editingId));
-                if (idx !== -1) listaBeneficios[idx] = objLocal;
-            } else {
-                listaBeneficios.push(objLocal);
-            }
-
-            renderizarTabelaBeneficiosLocal();
             limparFormBen();
 
             const payload = {
                 sheet: "TBENEFICIOS",
                 action: editingId ? "UPDATE" : "CREATE",
-                id: idRegistro,
+                id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
                 data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, idRegistro, nome, valor]
@@ -2083,7 +2014,12 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 2000); });
+            }).then(() => {
+                setTimeout(() => {
+                    carregarBeneficios();
+                    carregarCentrosDeCusto();
+                }, 2000);
+            });
         }
 
         function renderizarTabelaBeneficiosLocal() {
@@ -2128,29 +2064,31 @@
         }
 
         function prepararEdicaoBen(id) {
-            const item = listaBeneficios.find(b => String(b.TBENEFICIO_ID) === String(id));
+            const item = listaBeneficios.find(b => String(b.TBENEFICIO_ID).trim().toUpperCase() === String(id).trim().toUpperCase());
             if (!item) return;
 
             document.getElementById('ben-editing-id').value = item.TBENEFICIO_ID;
             document.getElementById('ben-nome').value = item.TBENEFICIO_NOME;
             document.getElementById('ben-valor').value = Number(item.TBENEFICIO_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
-            document.getElementById('ben-form-title').innerText = "Editar Benefício";
+            document.getElementById('ben-form-title').innerText = "Editar Benefício (" + item.TBENEFICIO_ID + ")";
             document.getElementById('btn-cancelar-ben').classList.remove('hidden');
         }
 
         function excluirBen(id) {
             if (!confirm("Tem certeza que deseja excluir o Benefício selecionado?")) return;
 
-            listaBeneficios = listaBeneficios.filter(b => String(b.TBENEFICIO_ID) !== String(id));
-            renderizarTabelaBeneficiosLocal();
-
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TBENEFICIOS", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 2000); });
+            }).then(() => {
+                setTimeout(() => {
+                    carregarBeneficios();
+                    carregarCentrosDeCusto();
+                }, 2000);
+            });
         }
 
         function limparFormBen() {
@@ -2205,7 +2143,7 @@
 
         function salvarRecurso(e) {
             e.preventDefault();
-            const editingId = document.getElementById('rec-editing-id').value;
+            const editingId = document.getElementById('rec-editing-id').value.trim();
             const ccId = document.getElementById('rec-cc-id').value;
             const nome = document.getElementById('rec-nome').value.trim().toUpperCase();
             const tipoSel = document.getElementById('rec-tipo').value.toUpperCase();
@@ -2217,34 +2155,14 @@
             if (typeof pct === 'string') pct = parseFloat(pct.replace('%', '').replace(',', '.')) / 100;
             
             const custoMensalNum = valor * pct;
-            const idRegistro = editingId ? editingId : ("REC-TEMP-" + Date.now());
+            const idRegistro = editingId ? editingId : "";
 
-            const objLocal = {
-                TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
-                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
-                TCENTRO_CUSTO_ID: ccId,
-                TRECURSO_ID: idRegistro,
-                TRECURSO_NOME: nome,
-                TRECURSO_VALOR: valor,
-                TRECURSO_TIPO: tipoSel,
-                TRECURSO_CUSTO_MENSAL: custoMensalNum,
-                TRECURSO_TURNOS: turnos
-            };
-
-            if (editingId) {
-                const idx = listaRecursos.findIndex(r => String(r.TRECURSO_ID) === String(editingId));
-                if (idx !== -1) listaRecursos[idx] = objLocal;
-            } else {
-                listaRecursos.push(objLocal);
-            }
-
-            renderizarTabelaRecursosLocal();
             limparFormRec();
 
             const payload = {
                 sheet: "TRECURSO",
                 action: editingId ? "UPDATE" : "CREATE",
-                id: idRegistro,
+                id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
                 data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccId, idRegistro, nome, valor, tipoSel, custoMensalNum, turnos]
@@ -2255,7 +2173,12 @@
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 2000); });
+            }).then(() => {
+                setTimeout(() => {
+                    carregarRecursos();
+                    carregarCentrosDeCusto();
+                }, 2000);
+            });
         }
 
         function renderizarTabelaRecursosLocal() {
@@ -2304,7 +2227,7 @@
         }
 
         function prepararEdicaoRec(id) {
-            const item = listaRecursos.find(r => String(r.TRECURSO_ID) === String(id));
+            const item = listaRecursos.find(r => String(r.TRECURSO_ID).trim().toUpperCase() === String(id).trim().toUpperCase());
             if (!item) return;
 
             document.getElementById('rec-editing-id').value = item.TRECURSO_ID;
@@ -2317,22 +2240,24 @@
             verificarSelecaoCCRecurso();
             calcularCustoMensalRecurso();
 
-            document.getElementById('rec-form-title').innerText = "Editar Recurso";
+            document.getElementById('rec-form-title').innerText = "Editar Recurso (" + item.TRECURSO_ID + ")";
             document.getElementById('btn-cancelar-rec').classList.remove('hidden');
         }
 
         function excluirRec(id) {
             if (!confirm("Tem certeza que deseja excluir o Recurso selecionado?")) return;
 
-            listaRecursos = listaRecursos.filter(r => String(r.TRECURSO_ID) !== String(id));
-            renderizarTabelaRecursosLocal();
-
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TRECURSO", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
-            }).then(() => { setTimeout(carregarCentrosDeCusto, 2000); });
+            }).then(() => {
+                setTimeout(() => {
+                    carregarRecursos();
+                    carregarCentrosDeCusto();
+                }, 2000);
+            });
         }
 
         function limparFormRec() {
@@ -2347,7 +2272,7 @@
 
         function salvarCentroCusto(e) {
             e.preventDefault();
-            const editingId = document.getElementById('cc-editing-id').value;
+            const editingId = document.getElementById('cc-editing-id').value.trim();
             const considerarMinimo = document.getElementById('cc-considerar-minimo').checked ? "SIM" : "";
             const tipoCC = document.getElementById('cc-tipo').value.toUpperCase();
             const nome = document.getElementById('cc-nome').value.trim().toUpperCase();
@@ -2357,41 +2282,14 @@
             const custoFixo = (tipoCC === "PRODUTIVO DIRETO") ? parseMoedaBR(document.getElementById('cc-custo-fixo').value) : 0;
             const produtividade = (tipoCC === "PRODUTIVO DIRETO") ? (parseFloat(document.getElementById('cc-produtividade').value) || 0) : 0;
 
-            const idRegistro = editingId ? editingId : ("CC-TEMP-" + Date.now());
+            const idRegistro = editingId ? editingId : "";
 
-            const objLocal = {
-                TCLIENTE_ID: usuarioLogado.TCLIENTE_ID,
-                TPERIODO_ID: periodoAtivoObj.TPERIODO_ID,
-                TCENTRO_CUSTO_ID: idRegistro,
-                TCENTRO_CUSTO_NOME: nome,
-                TCENTRO_CUSTO_TIPO: tipoCC,
-                TCENTRO_CUSTO_QTDE_RECURSOS: 0,
-                TCENTRO_CUSTO_AREA: area,
-                TECENTRO_CUSTO_CUSTO_FIXO_DIRETO: custoFixo,
-                TCENTRO_CUSTO_PRODUTIVIDADE: produtividade,
-                TCENTRO_CUSTO_TIPO_RATEIO_HORAS: rateio,
-                TCENTRO_CUSTO_CONSIDERAR_MINIMO: considerarMinimo,
-                TCENTRO_CUSTO_CUSTO_MENSAL: 0,
-                TCENTRO_CUSTO_CUSTO_FUNCIONARIO: 0,
-                TCENTRO_CUSTO_HORAS: 0,
-                TCENTRO_CUSTO_CUSTO_PLANO_CONTAS: 0,
-                TCENTRO_CUSTO_PREDIO: 0
-            };
-
-            if (editingId) {
-                const idx = listaCC.findIndex(c => String(c.TCENTRO_CUSTO_ID) === String(editingId));
-                if (idx !== -1) listaCC[idx] = objLocal;
-            } else {
-                listaCC.push(objLocal);
-            }
-
-            renderizarTabelaCCLocal();
             limparFormCC();
 
             const payload = {
                 sheet: "TCENTRO_CUSTO",
                 action: editingId ? "UPDATE" : "CREATE",
-                id: idRegistro,
+                id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
                 data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, idRegistro, nome, tipoCC, 0, area, custoFixo, produtividade, rateio, considerarMinimo, 0, 0, 0, 0, 0]
@@ -2478,7 +2376,7 @@
         }
 
         function prepararEdicaoCC(id) {
-            const item = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(id));
+            const item = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).trim().toUpperCase() === String(id).trim().toUpperCase());
             if (!item) return;
 
             document.getElementById('cc-editing-id').value = item.TCENTRO_CUSTO_ID;
@@ -2492,22 +2390,19 @@
 
             verificarTipoCentroCusto();
 
-            document.getElementById('cc-form-title').innerText = "Editar Centro de Custo";
+            document.getElementById('cc-form-title').innerText = "Editar Centro de Custo (" + item.TCENTRO_CUSTO_ID + ")";
             document.getElementById('btn-cancelar-cc').classList.remove('hidden');
         }
 
         function excluirCC(id) {
             if (!confirm("Tem certeza que deseja excluir o Centro de Custo selecionado?")) return;
 
-            listaCC = listaCC.filter(c => String(c.TCENTRO_CUSTO_ID) !== String(id));
-            renderizarTabelaCCLocal();
-
             fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sheet: "TCENTRO_CUSTO", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
-            });
+            }).then(() => { setTimeout(carregarCentrosDeCusto, 2000); });
         }
 
         function limparFormCC() {
