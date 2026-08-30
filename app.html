@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V2.5 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V2.6 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -30,7 +30,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V2.5</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V2.6</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -54,7 +54,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V2.5</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V2.6</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -740,45 +740,51 @@
             </div>
         </section>
 
-        <!-- ABA 6: RESULTADOS & ANÁLISES (NOVA) -->
+        <!-- ABA 6: RESULTADOS & ANÁLISES (V2.6) -->
         <section id="section-resultados" class="hidden space-y-6">
             
             <!-- CARDS DE METRICAS PRINCIPAIS -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
-                    <span class="text-xs text-brand-muted uppercase font-semibold">Custo Fabril Total</span>
-                    <h3 id="res-card-custo-total" class="text-xl md:text-2xl font-extrabold text-white">R$ 0,00</h3>
-                    <p class="text-[10px] text-brand-muted">Soma dos CCs + Indiretos</p>
+                    <span class="text-xs text-brand-muted uppercase font-semibold">Investimento Total</span>
+                    <h3 id="res-card-investimento-total" class="text-lg md:text-xl font-extrabold text-white">R$ 0,00</h3>
+                    <p class="text-[10px] text-brand-muted">Prédio + Máquinas + Período</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Ponto de Equilíbrio</span>
-                    <h3 id="res-card-ponto-equilibrio" class="text-xl md:text-2xl font-extrabold text-brand-primary">R$ 0,00</h3>
-                    <p class="text-[10px] text-brand-muted">Faturamento para Cobrir Custos</p>
+                    <h3 id="res-card-ponto-equilibrio" class="text-lg md:text-xl font-extrabold text-brand-primary">R$ 0,00</h3>
+                    <p class="text-[10px] text-brand-muted">Inclui Gastos + Meta Rent.</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
-                    <span class="text-xs text-brand-muted uppercase font-semibold">Maior Custo Setorial</span>
-                    <h3 id="res-card-maior-cc" class="text-base md:text-lg font-bold text-amber-400 truncate">---</h3>
-                    <p id="res-card-maior-cc-val" class="text-xs font-bold text-brand-muted">R$ 0,00</p>
+                    <span class="text-xs text-brand-muted uppercase font-semibold">Despesas Fixas / Fat.</span>
+                    <h3 id="res-card-pct-despesa-fixa" class="text-lg md:text-xl font-extrabold text-amber-400">0,0%</h3>
+                    <p class="text-[10px] text-brand-muted">Peso do Admin/Sócios no Fat.</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
-                    <span class="text-xs text-brand-muted uppercase font-semibold">Custo-Hora Médio</span>
-                    <h3 id="res-card-custo-hora-medio" class="text-xl md:text-2xl font-extrabold text-emerald-400">R$ 0,00/h</h3>
-                    <p class="text-[10px] text-brand-muted">Base Operacional Fabril</p>
+                    <span class="text-xs text-brand-muted uppercase font-semibold">Rentabilidade Atual</span>
+                    <h3 id="res-card-rentabilidade-atual" class="text-lg md:text-xl font-extrabold text-emerald-400">0,0% a.m.</h3>
+                    <p class="text-[10px] text-brand-muted">Lucro / Investimento Total</p>
+                </div>
+
+                <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
+                    <span class="text-xs text-brand-muted uppercase font-semibold">Payback Estimado</span>
+                    <h3 id="res-card-payback" class="text-lg md:text-xl font-extrabold text-blue-400">0 meses</h3>
+                    <p class="text-[10px] text-brand-muted">Retorno do Investimento</p>
                 </div>
             </div>
 
             <!-- DRE GERENCIAL & GRÁFICO DE COMPOSIÇÃO DE CUSTO -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <!-- DRE GERENCIAL ESTRUTURADA -->
+                <!-- DRE GERENCIAL ESTRUTURADA E SEPARADA -->
                 <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <div class="flex justify-between items-center border-b border-brand-border/50 pb-3">
                         <div>
                             <h2 class="text-lg font-bold text-white">DRE Gerencial Industrial</h2>
-                            <p class="text-xs text-brand-muted">Demonstração do Resultado por Absorção de Custos</p>
+                            <p class="text-xs text-brand-muted">Estrutura Fatiada: Custos Fabris vs. Despesas Operacionais</p>
                         </div>
                         <span class="text-xs font-bold text-brand-primary uppercase" id="dre-period-display">---</span>
                     </div>
@@ -790,7 +796,7 @@
                         </div>
 
                         <div class="flex justify-between py-1.5 text-red-400 border-b border-brand-border/30 pl-3">
-                            <span>(-) Impostos sobre Vendas & Deduções</span>
+                            <span>(-) Impostos sobre Vendas & Deduções Variáveis</span>
                             <span id="dre-impostos">R$ 0,00</span>
                         </div>
 
@@ -800,7 +806,7 @@
                         </div>
 
                         <div class="flex justify-between py-1.5 text-red-400 border-b border-brand-border/30 pl-3">
-                            <span>(-) Custos Variáveis de Produção (CPV)</span>
+                            <span>(-) Custos Variáveis de Produção (Matéria-Prima/Insumos)</span>
                             <span id="dre-custo-var">R$ 0,00</span>
                         </div>
 
@@ -809,14 +815,26 @@
                             <span id="dre-margem-contrib" class="text-emerald-400">R$ 0,00</span>
                         </div>
 
+                        <!-- CUSTOS FIXOS INDUSTRIAIS (FABRIL) -->
                         <div class="flex justify-between py-1.5 text-red-400 border-b border-brand-border/30 pl-3">
-                            <span>(-) Custos Fixos Industriais Absorvidos</span>
+                            <span>(-) Custos Fixos Industriais (Fábrica / Diretos e Indiretos)</span>
                             <span id="dre-custo-fixo-fabril">R$ 0,00</span>
                         </div>
 
                         <div class="flex justify-between py-2 bg-[#0d0d0f] px-3 rounded font-bold">
-                            <span class="text-white uppercase">(=) Resultado Operacional Industrial (EBITDA)</span>
-                            <span id="dre-ebitda" class="text-white">R$ 0,00</span>
+                            <span class="text-white uppercase">(=) Resultado Bruto Industrial</span>
+                            <span id="dre-resultado-fabril" class="text-white">R$ 0,00</span>
+                        </div>
+
+                        <!-- DESPESAS FIXAS OPERACIONAIS -->
+                        <div class="flex justify-between py-1.5 text-red-400 border-b border-brand-border/30 pl-3">
+                            <span>(-) Despesas Fixas Operacionais (Admin, Vendas, Financeiro)</span>
+                            <span id="dre-despesas-fixas-admin">R$ 0,00</span>
+                        </div>
+
+                        <div class="flex justify-between py-1.5 text-red-400 border-b border-brand-border/30 pl-3">
+                            <span>(-) Perdas / Sobra de Mão de Obra Não Alocada</span>
+                            <span id="dre-sobra-mao-obra">R$ 0,00</span>
                         </div>
 
                         <div class="flex justify-between py-1.5 text-red-400 border-b border-brand-border/30 pl-3">
@@ -825,7 +843,7 @@
                         </div>
 
                         <div class="flex justify-between py-2.5 bg-brand-primary/20 border border-brand-primary px-3 rounded text-sm font-extrabold">
-                            <span class="text-brand-primary uppercase">(=) Resultado Líquido do Período</span>
+                            <span class="text-brand-primary uppercase">(=) Resultado Líquido Final</span>
                             <span id="dre-resultado-liquido" class="text-brand-primary">R$ 0,00</span>
                         </div>
                     </div>
@@ -834,7 +852,7 @@
                 <!-- GRÁFICO DE DISTRIBUIÇÃO DOS CENTROS DE CUSTO -->
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4 flex flex-col justify-between">
                     <div class="border-b border-brand-border/50 pb-2">
-                        <h3 class="text-base font-bold text-white">Composição do Custo Fabril</h3>
+                        <h3 class="text-base font-bold text-white">Composição de Custos Fabris</h3>
                         <p class="text-xs text-brand-muted">Divisão percentual por Centro de Custo</p>
                     </div>
 
@@ -844,22 +862,49 @@
                 </div>
             </div>
 
-            <!-- RANKING DE CENTROS DE CUSTO MAIS CAROS -->
+            <!-- TABELA DE CUSTO HORA DOS CENTROS DE CUSTO PRODUTIVOS DIRETOS -->
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="border-b border-brand-border/50 pb-2">
-                    <h3 class="text-base font-bold text-white">Ranking de Impacto dos Centros de Custo</h3>
-                    <p class="text-xs text-brand-muted">Setores ordenados do maior para o menor custo total acumulado</p>
+                    <h3 class="text-base font-bold text-white">Custo-Hora dos Centros de Custo Produtivos Diretos</h3>
+                    <p class="text-xs text-brand-muted">Demonstrativo da hora-máquina/hora-homem calculada para precificação</p>
                 </div>
 
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Posição / Centro de Custo</th>
+                                <th class="p-2 md:p-3">Centro de Custo Direto</th>
+                                <th class="p-2 md:p-3">Tipo Rateio</th>
+                                <th class="p-2 md:p-3">Custos Próprios (R$)</th>
+                                <th class="p-2 md:p-3">Custo Indireto Absorvido (R$)</th>
+                                <th class="p-2 md:p-3">Custo Total Setor (R$)</th>
+                                <th class="p-2 md:p-3">Horas no Mês</th>
+                                <th class="p-2 md:p-3 text-emerald-400 font-bold">Custo-Hora Específico (R$/h)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-custo-hora-cc-body" class="divide-y divide-brand-border/50">
+                            <tr><td colspan="7" class="p-4 text-center">Carregando setores produtivos...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- RANKING DE CENTROS DE CUSTO MAIS CAROS -->
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="border-b border-brand-border/50 pb-2">
+                    <h3 class="text-base font-bold text-white">Ranking Geral de Impacto dos Setores</h3>
+                    <p class="text-xs text-brand-muted">Todos os setores ordenados do maior para o menor custo primário acumulado</p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                            <tr>
+                                <th class="p-2 md:p-3">Posição / Setor</th>
                                 <th class="p-2 md:p-3">Tipo Setor</th>
-                                <th class="p-2 md:p-3">Custo Total Absorvido (R$)</th>
-                                <th class="p-2 md:p-3 text-center">Peso no Orçamento (%)</th>
-                                <th class="p-2 md:p-3">Representatividade Visual</th>
+                                <th class="p-2 md:p-3">Custo Primário Bruto (R$)</th>
+                                <th class="p-2 md:p-3 text-center">Peso no Orçamento Total (%)</th>
+                                <th class="p-2 md:p-3">Barra de Progresso</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-ranking-cc-body" class="divide-y divide-brand-border/50">
@@ -2630,18 +2675,29 @@
             location.reload();
         }
 
-        // FUNÇÃO GERADORA DA ABA DE RESULTADOS & ANÁLISES (V2.5)
+        // FUNÇÃO GERADORA DA ABA DE RESULTADOS & ANÁLISES (V2.6 REFINADA)
         function gerarAnalisesEResultados() {
             if (!periodoAtivoObj) return;
 
             document.getElementById('dre-period-display').innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
 
-            // 1. DADOS DE ENTRADA DO PERÍODO
+            // 1. DADOS FINANCEIROS DO PERÍODO
             const faturamentoBruto = parseFloat(periodoAtivoObj.TPERIODO_FATURAMENTO) || 0;
             const aliquotaImpostos = parseFloat(periodoAtivoObj.TPERIODO_ALIQUOTA) || 0;
+            const predioValor = parseFloat(periodoAtivoObj.TPERIODO_PREDIO) || 0;
+            const rentabilidadeMetaPct = parseFloat(periodoAtivoObj.TPERIODO_RENTABILIDADE) || 0;
             const retiradaSocios = parseFloat(periodoAtivoObj.TPERIODO_RETIRADA) || 0;
 
-            // 2. CÁLCULO DE CUSTOS VARIÁVEIS E FIXOS DO PLANO DE CONTAS
+            // 2. CÁLCULO DO ATIVO/INVESTIMENTO TOTAL
+            let totalValorMaquinasRecursos = 0;
+            listaRecursos.forEach(r => { totalValorMaquinasRecursos += (parseFloat(r.TRECURSO_VALOR) || 0); });
+
+            let totalInvestimentosPeriodo = 0;
+            listaInvestimentos.forEach(i => { totalInvestimentosPeriodo += (parseFloat(i.TINVESTIMENTO_VALOR) || 0); });
+
+            const investimentoTotalEmpresa = predioValor + totalValorMaquinasRecursos + totalInvestimentosPeriodo;
+
+            // 3. CÁLCULO DE CUSTOS E DESPESAS VARIÁVEIS DO PLANO DE CONTAS
             let totalCustoVariavelDRE = 0;
             let totalDespesaVariavelDRE = 0;
 
@@ -2656,13 +2712,18 @@
                 }
             });
 
-            // 3. CÁLCULOS DOS CENTROS DE CUSTO
-            let totalCustoFixoFabril = 0;
-            let totalHorasProdutivas = 0;
-            let maiorCC = null;
-            let maiorCCCusto = -1;
+            // 4. SOBRA NÃO RATEADA DOS FUNCIONÁRIOS
+            let totalSobraRateioFuncionarios = 0;
+            listaFuncionarios.forEach(f => {
+                totalSobraRateioFuncionarios += (parseFloat(f.TFUNCIONARIO_VALOR_RATEIO) || 0);
+            });
 
-            let rankingCCs = [];
+            // 5. PROCESSAMENTO DOS CENTROS DE CUSTO (SEPARAÇÃO RIGOROSA FABRIL VS ADMIN)
+            let totalCustoFixoFabrilBruto = 0;
+            let totalDespesasFixasAdmin = 0;
+
+            let rankingGeralCCs = [];
+            let ccsProdutivosDiretos = [];
 
             listaCC.forEach(c => {
                 const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
@@ -2673,62 +2734,104 @@
                 const ind = parseFloat(c.TCENTRO_CUSTO_INDIRETOS) || 0;
                 const hrs = parseFloat(c.TCENTRO_CUSTO_HORAS) || 0;
 
-                const custoTotalCC = fx + dep + func + plc + prd + ind;
-                totalCustoFixoFabril += custoTotalCC;
+                const custoPrimarioBruto = fx + dep + func + plc + prd;
+                const custoTotalComIndireto = custoPrimarioBruto + ind;
 
-                if (c.TCENTRO_CUSTO_TIPO === 'PRODUTIVO DIRETO') {
-                    totalHorasProdutivas += hrs;
+                const tipoCC = String(c.TCENTRO_CUSTO_TIPO || "").toUpperCase();
+
+                if (tipoCC === 'PRODUTIVO DIRETO' || tipoCC === 'PRODUTIVO INDIRETO') {
+                    totalCustoFixoFabrilBruto += custoPrimarioBruto;
+                } else {
+                    totalDespesasFixasAdmin += custoPrimarioBruto;
                 }
 
-                if (custoTotalCC > maiorCCCusto) {
-                    maiorCCCusto = custoTotalCC;
-                    maiorCC = c.TCENTRO_CUSTO_NOME;
+                if (tipoCC === 'PRODUTIVO DIRETO') {
+                    const custoHoraEspecifico = hrs > 0 ? (custoTotalComIndireto / hrs) : 0;
+                    ccsProdutivosDiretos.push({
+                        nome: c.TCENTRO_CUSTO_NOME,
+                        tipoRateio: c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-',
+                        custoProprio: custoPrimarioBruto,
+                        custoIndireto: ind,
+                        custoTotal: custoTotalComIndireto,
+                        horas: hrs,
+                        custoHora: custoHoraEspecifico
+                    });
                 }
 
-                rankingCCs.push({
+                rankingGeralCCs.push({
                     nome: c.TCENTRO_CUSTO_NOME,
-                    tipo: c.TCENTRO_CUSTO_TIPO,
-                    custo: custoTotalCC
+                    tipo: tipoCC,
+                    custo: custoPrimarioBruto
                 });
             });
 
-            // 4. DRE E ESTRUTURA FINANCEIRA
+            // 6. ESTRUTURA DRE GERENCIAL COMPLETA
             const impostosVendasVal = (faturamentoBruto * (aliquotaImpostos / 100)) + totalDespesaVariavelDRE;
             const receitaLiquida = faturamentoBruto - impostosVendasVal;
             const margemContribucao = receitaLiquida - totalCustoVariavelDRE;
-            const ebitda = margemContribucao - totalCustoFixoFabril;
-            const resultadoLiquido = ebitda - retiradaSocios;
+            const resultadoFabril = margemContribucao - totalCustoFixoFabrilBruto;
+            const resultadoLiquidoFinal = resultadoFabril - totalDespesasFixasAdmin - totalSobraRateioFuncionarios - retiradaSocios;
 
-            // Ponto de Equilíbrio Operacional (Custos Fixos / % Margem Contribuição)
+            // 7. CÁLCULO DE METRICAS E INDICADORES CHAVE
+            const gastosFixosTotaisParaPE = totalCustoFixoFabrilBruto + totalDespesasFixasAdmin + totalSobraRateioFuncionarios + retiradaSocios;
+            const metaRentabilidadeMoeda = investimentoTotalEmpresa * (rentabilidadeMetaPct / 100);
+
             const pctMargemContrib = receitaLiquida > 0 ? (margemContribucao / receitaLiquida) : 0;
-            const pontoEquilibrio = pctMargemContrib > 0 ? (totalCustoFixoFabril / pctMargemContrib) : 0;
-            const custoHoraMedio = totalHorasProdutivas > 0 ? (totalCustoFixoFabril / totalHorasProdutivas) : 0;
+            const pontoEquilibrio = pctMargemContrib > 0 ? ((gastosFixosTotaisParaPE + metaRentabilidadeMoeda) / pctMargemContrib) : 0;
+
+            const pctDespesaFixaTotal = faturamentoBruto > 0 ? (((totalDespesasFixasAdmin + retiradaSocios) / faturamentoBruto) * 100) : 0;
+            const rentabilidadeAtualMensalPct = investimentoTotalEmpresa > 0 ? ((resultadoLiquidoFinal / investimentoTotalEmpresa) * 100) : 0;
+            const paybackMeses = resultadoLiquidoFinal > 0 ? (investimentoTotalEmpresa / resultadoLiquidoFinal) : 0;
 
             // PREENCHIMENTO DOS CARDS SUPERIORES
-            document.getElementById('res-card-custo-total').innerText = formatarMoedaBR(totalCustoFixoFabril);
+            document.getElementById('res-card-investimento-total').innerText = formatarMoedaBR(investimentoTotalEmpresa);
             document.getElementById('res-card-ponto-equilibrio').innerText = formatarMoedaBR(pontoEquilibrio);
-            document.getElementById('res-card-maior-cc').innerText = maiorCC || "Nenhum";
-            document.getElementById('res-card-maior-cc-val').innerText = formatarMoedaBR(maiorCCCusto > 0 ? maiorCCCusto : 0);
-            document.getElementById('res-card-custo-hora-medio').innerText = formatarMoedaBR(custoHoraMedio) + "/h";
+            document.getElementById('res-card-pct-despesa-fixa').innerText = pctDespesaFixaTotal.toFixed(1) + "%";
+            document.getElementById('res-card-rentabilidade-atual').innerText = rentabilidadeAtualMensalPct.toFixed(2) + "% a.m.";
+            document.getElementById('res-card-payback').innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses (${(paybackMeses/12).toFixed(1)} anos)` : "N/A";
 
-            // PREENCHIMENTO DA DRE
+            // PREENCHIMENTO DA DRE ESTRUTURADA
             document.getElementById('dre-rec-bruta').innerText = formatarMoedaBR(faturamentoBruto);
             document.getElementById('dre-impostos').innerText = formatarMoedaBR(impostosVendasVal);
             document.getElementById('dre-rec-liquida').innerText = formatarMoedaBR(receitaLiquida);
             document.getElementById('dre-custo-var').innerText = formatarMoedaBR(totalCustoVariavelDRE);
             document.getElementById('dre-margem-contrib').innerText = formatarMoedaBR(margemContribucao) + ` (${(pctMargemContrib * 100).toFixed(1)}%)`;
-            document.getElementById('dre-custo-fixo-fabril').innerText = formatarMoedaBR(totalCustoFixoFabril);
-            document.getElementById('dre-ebitda').innerText = formatarMoedaBR(ebitda);
+            
+            document.getElementById('dre-custo-fixo-fabril').innerText = formatarMoedaBR(totalCustoFixoFabrilBruto);
+            document.getElementById('dre-resultado-fabril').innerText = formatarMoedaBR(resultadoFabril);
+            
+            document.getElementById('dre-despesas-fixas-admin').innerText = formatarMoedaBR(totalDespesasFixasAdmin);
+            document.getElementById('dre-sobra-mao-obra').innerText = formatarMoedaBR(totalSobraRateioFuncionarios);
             document.getElementById('dre-retiradas').innerText = formatarMoedaBR(retiradaSocios);
-            document.getElementById('dre-resultado-liquido').innerText = formatarMoedaBR(resultadoLiquido);
+            document.getElementById('dre-resultado-liquido').innerText = formatarMoedaBR(resultadoLiquidoFinal);
 
-            // PREENCHIMENTO DA TABELA DE RANKING
-            rankingCCs.sort((a, b) => b.custo - a.custo);
+            // PREENCHIMENTO TABELA CUSTO HORA POR CENTRO DE CUSTO DIRETO
+            const tbodyCustoHora = document.getElementById('tbl-custo-hora-cc-body');
+            tbodyCustoHora.innerHTML = '';
+
+            ccsProdutivosDiretos.forEach(item => {
+                tbodyCustoHora.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-bold text-white uppercase">${item.nome}</td>
+                        <td class="p-2 md:p-3 uppercase text-brand-primary font-semibold">${item.tipoRateio}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.custoProprio)}</td>
+                        <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(item.custoIndireto)}</td>
+                        <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(item.custoTotal)}</td>
+                        <td class="p-2 md:p-3 font-bold text-white">${item.horas.toFixed(1)} h</td>
+                        <td class="p-2 md:p-3 font-extrabold text-emerald-400">${formatarMoedaBR(item.custoHora)}/h</td>
+                    </tr>
+                `;
+            });
+
+            // PREENCHIMENTO TABELA RANKING GERAL
+            const totalCustoPrimarioEmpresa = totalCustoFixoFabrilBruto + totalDespesasFixasAdmin;
+            rankingGeralCCs.sort((a, b) => b.custo - a.custo);
+            
             const tbodyRanking = document.getElementById('tbl-ranking-cc-body');
             tbodyRanking.innerHTML = '';
 
-            rankingCCs.forEach((item, index) => {
-                const pesoPct = totalCustoFixoFabril > 0 ? ((item.custo / totalCustoFixoFabril) * 100) : 0;
+            rankingGeralCCs.forEach((item, index) => {
+                const pesoPct = totalCustoPrimarioEmpresa > 0 ? ((item.custo / totalCustoPrimarioEmpresa) * 100) : 0;
                 tbodyRanking.innerHTML += `
                     <tr class="hover:bg-brand-border/30 transition">
                         <td class="p-2 md:p-3 font-bold text-white uppercase">${index + 1}º - ${item.nome}</td>
@@ -2744,8 +2847,8 @@
                 `;
             });
 
-            // MONTAGEM DO GRÁFICO DE ROSCA (CHART.JS)
-            renderizarGraficoRoscaCC(rankingCCs);
+            // MONTAGEM DO GRÁFICO DE ROSCA DA FÁBRICA
+            renderizarGraficoRoscaCC(rankingGeralCCs.filter(x => x.tipo.includes('PRODUTIVO')));
         }
 
         function renderizarGraficoRoscaCC(rankingData) {
