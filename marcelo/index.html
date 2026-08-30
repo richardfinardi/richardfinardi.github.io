@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz de Português - 6º Ano</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f6;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .quiz-container {
+      background: white;
+      max-width: 650px;
+      width: 100%;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .card {
+      background: #fafafa;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+    .topico {
+      display: inline-block;
+      background: #e3f2fd;
+      color: #1565c0;
+      font-size: 0.85em;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 15px;
+      margin-bottom: 10px;
+    }
+    .pergunta {
+      font-size: 1.1em;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    .opcao {
+      display: block;
+      width: 100%;
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 8px;
+      text-align: left;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+    .opcao:hover {
+      border-color: #2196f3;
+      background: #f0f7ff;
+    }
+    .feedback {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.95em;
+      line-height: 1.4;
+    }
+    .feedback.correto {
+      background: #e8f5e9;
+      border: 1px solid #c8e6c9;
+      color: #2e7d32;
+    }
+    .feedback.incorreto {
+      background: #fff3e0;
+      border: 1px solid #ffe0b2;
+      color: #e65100;
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <h1>Desafio de Português - 6º Ano</h1>
+  <div id="quiz-box"></div>
+</div>
+
+<script>
+const questoes = [
+  {
+    id: 1,
+    topico: "Pronomes Retos",
+    pergunta: "O Pedro estava jogando videogame e disse: 'O Pedro e o Lucas venceram a partida!'. Para não repetir os nomes e deixar a frase mais natural, como ele poderia falar?",
+    opcoes: { A: "Nós vencemos a partida!", B: "Eles venceram a partida!", C: "Eu venci a partida!", D: "Vocês venceram a partida!" },
+    resposta: "A",
+    explicacao: "Como o Pedro faz parte do grupo (Pedro + Lucas), ele usa 'Nós'. O pronome 'Nós' serve exatamente para substituir 'eu + outra pessoa' na conversa!"
+  },
+  {
+    id: 2,
+    topico: "Pronomes Oblíquos",
+    pergunta: "A Sofia achou um livro muito legal na biblioteca. Em vez de dizer 'Eu vi o livro e peguei o livro', qual é o jeito correto de juntar tudo usando um pronome?",
+    opcoes: { A: "Eu vi ele e peguei ele.", B: "Eu o vi e o peguei.", C: "Eu vi si e peguei si.", D: "Eu vi consigo e peguei consigo." },
+    resposta: "B",
+    explicacao: "Na língua escrita, para não repetir a palavra 'livro', usamos o pronome 'o' (Eu o vi / Eu o peguei). Na fala do dia a dia a gente às vezes diz 'vi ele', mas no texto escrito o 'o' é a escolha correta!"
+  },
+  {
+    id: 3,
+    topico: "Modo Indicativo - Tempos Verbais",
+    pergunta: "Imagine que você está contando para um amigo o que faz todo fim de semana. Qual das frases mostra uma ação que acontece no Presente?",
+    opcoes: { A: "Eu andei de bicicleta no parque.", B: "Eu andarei de bicicleta no parque.", C: "Eu ando de bicicleta no parque.", D: "Eu andaria de bicicleta no parque." },
+    resposta: "C",
+    explicacao: "A palavra 'ando' mostra uma coisa que acontece no momento atual ou na sua rotina de hoje (Presente). A palavra 'andei' já passou (Passado) e 'andarei' ainda vai acontecer (Futuro)."
+  },
+  {
+    id: 4,
+    topico: "Modo Indicativo - Passado/Pretérito",
+    pergunta: "O Leo estava lembrando de um aniversário antigo e disse: 'Naquele dia, nós comemos pizza e jogamos bola'. Essas ações já aconteceram e terminaram. Qual é o tempo desses verbos?",
+    opcoes: { A: "Presente", B: "Pretérito Perfeito (Passado)", C: "Futuro do Presente", D: "Modo Imperativo" },
+    resposta: "B",
+    explicacao: "'Pretérito Perfeito' é só um nome bonito para ações do passado que foram totalmente concluídas. Como a festa já acabou e eles já comeram a pizza, os verbos estão no Pretérito Perfeito!"
+  },
+  {
+    id: 5,
+    topico: "Acentuação de Oxítonas",
+    pergunta: "Você está fazendo a lista de compras para uma festa e precisa acentuar a palavra 'cafe' porque a última sílaba é a mais forte (Oxítona) e termina com a letra 'E'. Como ela deve ser escrita?",
+    opcoes: { A: "Cáfe", B: "Café", C: "Cáfẽ", D: "Cafe" },
+    resposta: "B",
+    explicacao: "Palavras oxítonas são aquelas em que a última sílaba é falada com mais força (ca-FÉ). A regra diz que toda oxítona terminada nas letras A, E ou O deve levar acento. Por isso, escrevemos 'Café'."
+  },
+  {
+    id: 6,
+    topico: "Acentuação de Oxítonas",
+    pergunta: "Qual das opções abaixo traz duas palavras que são Oxítonas e precisam de acento pelo mesmo motivo?",
+    opcoes: { A: "Saci e Livro", B: "Picolé e Cipó", C: "Mesa e Cadeira", D: "Lápis e Régua" },
+    resposta: "B",
+    explicacao: "Nas palavras 'pico-LÉ' e 'ci-PÓ', o som mais forte está na última sílaba. Como terminam em 'E' e 'O', ambas recebem acento gráfico!"
+  },
+  {
+    id: 7,
+    topico: "Modo Imperativo",
+    pergunta: "A professora entrou na sala e disse: 'Por favor, abram o livro na página 20!'. A palavra 'abram' está dando um pedido ou instrução. Qual é o modo desse verbo?",
+    opcoes: { A: "Modo Indicativo (mostra uma certeza)", B: "Modo Imperativo (dá uma ordem, pedido ou conselho)", C: "Modo Passado (mostra algo que já foi feito)", D: "Modo Futuro (mostra algo que vai acontecer)" },
+    resposta: "B",
+    explicacao: "Usamos o 'Modo Imperativo' sempre que queremos pedir, orientar ou dar uma ordem para alguém fazer algo, exatamente como a professora fez ao pedir para abrir o livro."
+  }
+];
+
+const quizBox = document.getElementById('quiz-box');
+
+questoes.forEach((q, idx) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  
+  let html = `<span class="topico">${q.topico}</span>`;
+  html += `<div class="pergunta">${idx + 1}. ${q.pergunta}</div>`;
+  
+  for (let letra in q.opcoes) {
+    html += `<button class="opcao" onclick="verificarResposta(${idx}, '${letra}', this)"><strong>${letra})</strong> ${q.opcoes[letra]}</button>`;
+  }
+  
+  html += `<div id="fb-${idx}" class="feedback"></div>`;
+  card.innerHTML = html;
+  quizBox.appendChild(card);
+});
+
+function verificarResposta(index, letraEscolhida, elemento) {
+  const q = questoes[index];
+  const fbDiv = document.getElementById(`fb-${index}`);
+  const card = elemento.parentElement;
+  const botoes = card.querySelectorAll('.opcao');
+  
+  botoes.forEach(btn => btn.style.pointerEvents = 'none'); // Desabilita novos cliques
+  
+  if (letraEscolhida === q.resposta) {
+    elemento.style.background = '#c8e6c9';
+    elemento.style.borderColor = '#2e7d32';
+    fbDiv.className = 'feedback correto';
+    fbDiv.innerHTML = `<strong>Muito bem! Resposta correta (${q.resposta}).</strong><br>${q.explicacao}`;
+  } else {
+    elemento.style.background = '#ffcdd2';
+    elemento.style.borderColor = '#c62828';
+    fbDiv.className = 'feedback incorreto';
+    fbDiv.innerHTML = `<strong>Opção ${letraEscolhida}. Vamos pensar juntos:</strong> A alternativa correta é a <strong>${q.resposta}</strong>.<br><br>${q.explicacao}`;
+  }
+  
+  fbDiv.style.display = 'block';
+}
+</script>
+
+</body>
+</html>
