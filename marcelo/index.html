@@ -25,7 +25,7 @@
     h1 {
       color: #2c3e50;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
     p.subtitulo {
       text-align: center;
@@ -52,30 +52,45 @@
     .pergunta {
       font-size: 1.05em;
       font-weight: 600;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       line-height: 1.4;
     }
-    .resposta-input {
+    .opcao {
+      display: block;
       width: 100%;
-      padding: 10px;
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 8px;
+      text-align: left;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+    .opcao:hover {
+      border-color: #2196f3;
+      background: #f0f7ff;
+    }
+    .input-texto {
+      width: 100%;
+      padding: 12px;
       border: 2px solid #ccc;
       border-radius: 6px;
       font-size: 1em;
       box-sizing: border-box;
       margin-bottom: 10px;
     }
-    .resposta-input:focus {
-      border-color: #2196f3;
-      outline: none;
-    }
-    .btn-conferir {
+    .btn-responder {
       background-color: #1565c0;
       color: white;
       border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
+      padding: 10px 18px;
+      border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
+      font-size: 0.95em;
     }
     .feedback {
       display: none;
@@ -131,7 +146,7 @@
 
 <div class="quiz-container">
   <h1>English Activity - Unit 5: My Week</h1>
-  <p class="subtitulo">Escreva suas respostas em inglês nos campos indicados.</p>
+  <p class="subtitulo">Responda as questões abaixo (Múltipla Escolha e Digitação Curta).</p>
   
   <div style="text-align: center; margin-bottom: 20px;">
     <label for="nome-aluno"><strong>Nome do Aluno(a):</strong></label><br>
@@ -144,7 +159,7 @@
   <div id="resultado-box">
     <h2>Atividade Concluída! 🎉</h2>
     <p id="nota-texto" style="font-size: 1.3em; font-weight: bold;"></p>
-    <button class="btn-enviar" onclick="enviarRelatorioPorEmail()">Enviar Respostas para o Professor</button>
+    <button class="btn-enviar" onclick="enviarRelatorioPorEmail()">Enviar Resultado para o Professor</button>
   </div>
 </div>
 
@@ -154,78 +169,136 @@ const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 const questoes = [
   {
     id: 1,
+    tipo: "texto",
     topico: "Daily Routines",
-    pergunta: "Como escrevemos 'almoçar' e 'fazer minha lição de casa' em inglês?",
-    respostaGabarito: ["have lunch e do my homework", "have lunch e do homework"],
-    explicacao: "Almoçar é 'have lunch' e fazer lição de casa é 'do my homework'."
+    pergunta: "Como escrevemos 'almoçar' em inglês? (Digite apenas a expressão em inglês):",
+    respostasAceitas: ["have lunch"],
+    explicacao: "'Almoçar' em inglês é 'have lunch'."
   },
   {
     id: 2,
+    tipo: "texto",
     topico: "Daily Routines",
-    pergunta: "Traduza para o inglês a frase: 'Eu vou para a escola de manhã'.",
-    respostaGabarito: ["i go to school in the morning", "i go to school in the morning."],
-    explicacao: "'Ir para a escola' é 'go to school' e 'de manhã' é 'in the morning'."
+    pergunta: "Como escrevemos 'fazer minha lição de casa' em inglês?",
+    respostasAceitas: ["do my homework", "do homework"],
+    explicacao: "'Fazer minha lição de casa' é 'do my homework'."
   },
   {
     id: 3,
+    tipo: "opcoes",
     topico: "Chores (Tarefas Domésticas)",
-    pergunta: "Escreva em inglês duas tarefas domésticas que fazemos na cozinha (ex: secar a louça, lavar a louça).",
-    respostaGabarito: ["wash the dishes e dry the dishes", "wash the dishes e help with cooking", "dry the dishes e wash the dishes"],
-    explicacao: "Algumas tarefas de cozinha são: 'wash the dishes' (lavar), 'dry the dishes' (secar) ou 'help with cooking' (ajudar a cozinhar)."
+    pergunta: "Qual expressão significa 'levar o lixo para fora'?",
+    opcoes: {
+      A: "Make my bed",
+      B: "Take out the trash",
+      C: "Wash the dishes",
+      D: "Clear the table"
+    },
+    respostaCorreta: "B",
+    explicacao: "'Take out the trash' significa levar o lixo para fora."
   },
   {
     id: 4,
+    tipo: "opcoes",
     topico: "Chores (Tarefas Domésticas)",
-    pergunta: "Como se diz 'arrumar a cama' e 'levar o lixo para fora' em inglês?",
-    respostaGabarito: ["make my bed e take out the trash", "make the bed e take out the trash"],
-    explicacao: "Arrumar a cama é 'make my bed' e levar o lixo para fora é 'take out the trash'."
+    pergunta: "Qual expressão significa 'arrumar a cama'?",
+    opcoes: {
+      A: "Make my bed",
+      B: "Clean my room",
+      C: "Put away my clothes",
+      D: "Dry the dishes"
+    },
+    respostaCorreta: "A",
+    explicacao: "'Make my bed' é a forma correta para arrumar a cama."
   },
   {
     id: 5,
-    topico: "Present Simple - Regra da 3ª Pessoa (He/She)",
-    pergunta: "Complete a frase na afirmativa com o verbo correto: 'He ____ (go) to school by bus'.",
-    respostaGabarito: ["goes"],
-    explicacao: "Para He/She/It, verbos terminados em -o ganham -es. Por isso, 'go' vira 'goes'."
+    tipo: "opcoes",
+    topico: "Present Simple - Regra do He/She",
+    pergunta: "Qual é a forma correta do verbo 'go' para a frase: 'He ____ to school by bus'?",
+    opcoes: {
+      A: "go",
+      B: "gos",
+      C: "goes",
+      D: "goies"
+    },
+    respostaCorreta: "C",
+    explicacao: "Para He, She e It, os verbos terminados em -o ganham '-es' no final (goes)."
   },
   {
     id: 6,
-    topico: "Present Simple - Regra da 3ª Pessoa (He/She)",
-    pergunta: "Passe o verbo para a 3ª pessoa (She): Como fica 'wash' na frase 'She ____ the dishes'?",
-    respostaGabarito: ["washes"],
-    explicacao: "Verbos terminados em -sh ganham -es no final quando usados com He, She ou It. Logo, 'wash' vira 'washes'."
+    tipo: "opcoes",
+    topico: "Present Simple - Regra do He/She",
+    pergunta: "Como fica o verbo 'wash' na frase: 'She ____ the dishes'?",
+    opcoes: {
+      A: "washs",
+      B: "washes",
+      C: "wash",
+      D: "washies"
+    },
+    respostaCorreta: "B",
+    explicacao: "Verbos terminados em -sh ganham '-es' no final quando usados com She/He/It (washes)."
   },
   {
     id: 7,
-    topico: "Present Simple - Negativa (I/You/We/They)",
-    pergunta: "Escreva a frase na negativa: 'I play video games' (Use a palavra don't).",
-    respostaGabarito: ["i don't play video games", "i don't play video games."],
-    explicacao: "Para I, You, We e They, usamos 'don't' antes do verbo principal para fazer a negativa."
+    tipo: "opcoes",
+    topico: "Present Simple - Negativa",
+    pergunta: "Como fazemos a frase 'I listen to rock' ficar na NEGATIVA?",
+    opcoes: {
+      A: "I doesn't listen to rock.",
+      B: "I don't listen to rock.",
+      C: "I not listen to rock.",
+      D: "I no listen to rock."
+    },
+    respostaCorreta: "B",
+    explicacao: "Para a turma do 'I, You, We, They', usamos 'don't' antes do verbo."
   },
   {
     id: 8,
-    topico: "Present Simple - Negativa (He/She/It)",
-    pergunta: "Como fica a frase 'He cleans his room' na negativa? (Dica: use doesn't e lembre do verbo voltar ao normal).",
-    respostaGabarito: ["he doesn't clean his room", "he doesn't clean his room."],
-    explicacao: "Para He, She e It, usamos 'doesn't' na negativa e o verbo volta para a forma normal sem o -s (clean)."
+    tipo: "opcoes",
+    topico: "Present Simple - Negativa",
+    pergunta: "Como fazemos a frase 'He cleans his room' ficar na NEGATIVA?",
+    opcoes: {
+      A: "He don't clean his room.",
+      B: "He not cleans his room.",
+      C: "He doesn't clean his room.",
+      D: "He doesn't cleans his room."
+    },
+    respostaCorreta: "C",
+    explicacao: "Para He, She e It, usamos 'doesn't' e o verbo volta para a forma normal sem o -s (clean)."
   },
   {
     id: 9,
-    topico: "Preposições de Tempo (In / At / On)",
-    pergunta: "Qual preposição usamos para os dias da semana? Complete: '____ Mondays, I have English class'.",
-    respostaGabarito: ["on"],
-    explicacao: "Usamos a preposição 'On' antes de dias da semana e finais de semana (On Mondays, On weekends)."
+    tipo: "opcoes",
+    topico: "Preposições de Tempo",
+    pergunta: "Qual preposição usamos antes dos dias da semana? Ex: '____ Mondays, I have English class.'",
+    opcoes: {
+      A: "In",
+      B: "At",
+      C: "On",
+      D: "To"
+    },
+    respostaCorreta: "C",
+    explicacao: "Usamos 'On' sempre antes de dias da semana (On Mondays, On Fridays) e finais de semana."
   },
   {
     id: 10,
-    topico: "Preposições de Tempo (In / At / On)",
-    pergunta: "Complete com IN ou AT: '____ the afternoon, I do my homework, but ____ night, I sleep'.",
-    respostaGabarito: ["in e at", "in, at", "in / at"],
-    explicacao: "Usamos 'In' para partes do dia (in the morning/afternoon/evening) e 'At' para horários específicos e para a palavra night (at night, at lunchtime)."
+    tipo: "opcoes",
+    topico: "Preposições de Tempo",
+    pergunta: "Qual opção completa corretamente as frases: '____ the morning' e '____ night'?",
+    opcoes: {
+      A: "In / At",
+      B: "At / In",
+      C: "On / At",
+      D: "In / On"
+    },
+    respostaCorreta: "A",
+    explicacao: "Dizemos 'In the morning' (partes do dia) e 'At night' (para a palavra night)."
   }
 ];
 
 let respostasUsuario = {};
-let questoesConferidas = 0;
+let respostasRespondidas = 0;
 let acertos = 0;
 
 const quizBox = document.getElementById('quiz-box');
@@ -236,26 +309,66 @@ questoes.forEach((q, idx) => {
   
   let html = `<span class="topico">${q.topico}</span>`;
   html += `<div class="pergunta">${idx + 1}. ${q.pergunta}</div>`;
-  html += `<input type="text" id="input-${idx}" class="resposta-input" placeholder="Digite sua resposta em inglês...">`;
-  html += `<button class="btn-conferir" onclick="conferirResposta(${idx})">Conferir Resposta</button>`;
-  html += `<div id="fb-${idx}" class="feedback"></div>`;
   
+  if (q.tipo === "opcoes") {
+    for (let letra in q.opcoes) {
+      html += `<button class="opcao" onclick="responderOpcao(${idx}, '${letra}', this)"><strong>${letra})</strong> ${q.opcoes[letra]}</button>`;
+    }
+  } else {
+    html += `<input type="text" id="input-${idx}" class="input-texto" placeholder="Digite sua resposta aqui...">`;
+    html += `<button class="btn-responder" onclick="responderTexto(${idx})">Confirmar Resposta</button>`;
+  }
+  
+  html += `<div id="fb-${idx}" class="feedback"></div>`;
   card.innerHTML = html;
   quizBox.appendChild(card);
 });
 
-function normalizarTexto(txt) {
-  return txt.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").replace(/\s+/g, " ");
+function responderOpcao(index, letraEscolhida, elemento) {
+  const q = questoes[index];
+  const fbDiv = document.getElementById(`fb-${index}`);
+  const card = elemento.parentElement;
+  const botoes = card.querySelectorAll('.opcao');
+  
+  botoes.forEach(btn => btn.style.pointerEvents = 'none');
+  respostasRespondidas++;
+  
+  const acertou = (letraEscolhida === q.respostaCorreta);
+  if (acertou) acertos++;
+
+  respostasUsuario[index] = {
+    topico: q.topico,
+    pergunta: q.pergunta,
+    escolhida: `(${letraEscolhida}) ${q.opcoes[letraEscolhida]}`,
+    correta: `(${q.respostaCorreta}) ${q.opcoes[q.respostaCorreta]}`,
+    acertou: acertou,
+    explicacao: q.explicacao
+  };
+
+  if (acertou) {
+    elemento.style.background = '#c8e6c9';
+    elemento.style.borderColor = '#2e7d32';
+    fbDiv.className = 'feedback correto';
+    fbDiv.innerHTML = `<strong>Very Good! Resposta correta (${q.respostaCorreta}).</strong><br>${q.explicacao}`;
+  } else {
+    elemento.style.background = '#ffcdd2';
+    elemento.style.borderColor = '#c62828';
+    fbDiv.className = 'feedback incorreto';
+    fbDiv.innerHTML = `<strong>Você marcou a opção ${letraEscolhida}.</strong> A alternativa correta é a <strong>${q.respostaCorreta}</strong>.<br>${q.explicacao}`;
+  }
+
+  fbDiv.style.display = 'block';
+  conferirFim();
 }
 
-function conferirResposta(index) {
+function responderTexto(index) {
   const q = questoes[index];
   const inputEl = document.getElementById(`input-${index}`);
   const fbDiv = document.getElementById(`fb-${index}`);
-  const valDigitado = inputEl.value;
+  const valDigitado = inputEl.value.trim();
 
-  if (!valDigitado.trim()) {
-    alert("Por favor, digite uma resposta antes de conferir!");
+  if (!valDigitado) {
+    alert("Por favor, digite uma resposta antes de confirmar!");
     return;
   }
 
@@ -264,46 +377,45 @@ function conferirResposta(index) {
   btn.disabled = true;
   btn.style.opacity = "0.5";
 
-  questoesConferidas++;
+  respostasRespondidas++;
 
-  const valNorm = normalizarTexto(valDigitado);
-  const acertou = q.respostaGabarito.some(gabarito => normalizarTexto(gabarito) === valNorm || valNorm.includes(normalizarTexto(gabarito)));
+  const valNorm = valDigitado.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
+  const acertou = q.respostasAceitas.some(aceita => aceita.toLowerCase().trim() === valNorm);
 
   if (acertou) acertos++;
 
   respostasUsuario[index] = {
     topico: q.topico,
     pergunta: q.pergunta,
-    respostaAluno: valDigitado,
-    gabaritoExemplo: q.respostaGabarito[0],
+    escolhida: valDigitado,
+    correta: q.respostasAceitas[0],
     acertou: acertou,
     explicacao: q.explicacao
   };
 
   if (acertou) {
     fbDiv.className = 'feedback correto';
-    fbDiv.innerHTML = `<strong>Great job! Resposta correta!</strong><br>${q.explicacao}`;
+    fbDiv.innerHTML = `<strong>Excelente! Resposta correta.</strong><br>${q.explicacao}`;
   } else {
     fbDiv.className = 'feedback incorreto';
-    fbDiv.innerHTML = `<strong>Resposta registrada.</strong><br><strong>Exemplo de resposta esperada:</strong> ${q.respostaGabarito[0]}<br><strong>Explicação:</strong> ${q.explicacao}`;
+    fbDiv.innerHTML = `<strong>Resposta digitada: "${valDigitado}".</strong><br><strong>Resposta esperada:</strong> ${q.respostasAceitas[0]}<br>${q.explicacao}`;
   }
 
   fbDiv.style.display = 'block';
-
-  if (questoesConferidas === questoes.length) {
-    exibirResultadoFinal();
-  }
+  conferirFim();
 }
 
-function exibirResultadoFinal() {
-  const total = questoes.length;
-  const nota = ((acertos / total) * 10).toFixed(1);
-  const resBox = document.getElementById('resultado-box');
-  const notaTexto = document.getElementById('nota-texto');
+function conferirFim() {
+  if (respostasRespondidas === questoes.length) {
+    const total = questoes.length;
+    const nota = ((acertos / total) * 10).toFixed(1);
+    const resBox = document.getElementById('resultado-box');
+    const notaTexto = document.getElementById('nota-texto');
 
-  notaTexto.innerText = `Sua Nota: ${nota} / 10,0 (${acertos} de ${total} acertos em equivalência)`;
-  resBox.style.display = 'block';
-  resBox.scrollIntoView({ behavior: 'smooth' });
+    notaTexto.innerText = `Sua Nota: ${nota} / 10,0 (${acertos} de ${total} acertos)`;
+    resBox.style.display = 'block';
+    resBox.scrollIntoView({ behavior: 'smooth' });
+  }
 }
 
 function enviarRelatorioPorEmail() {
@@ -315,22 +427,25 @@ function enviarRelatorioPorEmail() {
   }
 
   const nota = ((acertos / questoes.length) * 10).toFixed(1);
-  const assunto = encodeURIComponent(`Atividade de Inglês (Unit 5) - Aluno(a): ${nomeAluno}`);
+  const assunto = encodeURIComponent(`Resultado Quiz de Inglês (Unit 5) - Aluno(a): ${nomeAluno}`);
   
-  let relatorio = `ATIVIDADE DE INGLÊS - UNIT 5 (MY WEEK)\n`;
+  let relatorio = `RESULTADO DO QUIZ DE INGLÊS - UNIT 5 (MY WEEK)\n`;
   relatorio += `Aluno(a): ${nomeAluno}\n`;
-  relatorio += `Aproveitamento automático: ${nota} / 10,0\n\n`;
+  relatorio += `Nota Final: ${nota} / 10,0 (${acertos} de ${questoes.length} acertos)\n\n`;
   relatorio += `===============================================\n`;
-  relatorio += `RESPOSTAS DO ALUNO PARA CORREÇÃO\n`;
+  relatorio += `DETALHAMENTO DE RESPOSTAS\n`;
   relatorio += `===============================================\n\n`;
 
   questoes.forEach((q, idx) => {
     const r = respostasUsuario[idx];
-    relatorio += `Q${idx + 1} (${r.topico})\n`;
+    const status = r.acertou ? "[ACERTOU]" : "[ERROU]";
+    relatorio += `Q${idx + 1} (${r.topico}): ${status}\n`;
     relatorio += `Pergunta: ${r.pergunta}\n`;
-    relatorio += `• Resposta escrita pelo aluno: "${r.respostaAluno}"\n`;
-    relatorio += `• Sugestão de Gabarito: ${r.gabaritoExemplo}\n`;
-    relatorio += `• Regra/Explicação: ${r.explicacao}\n`;
+    relatorio += `• Marcada/Digitada pelo aluno: ${r.escolhida}\n`;
+    relatorio += `• Resposta Correta/Gabarito: ${r.correta}\n`;
+    if (!r.acertou) {
+      relatorio += `• Explicação: ${r.explicacao}\n`;
+    }
     relatorio += `--------------------------------------------------\n`;
   });
 
