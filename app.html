@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V3.0 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V3.1 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,11 +32,11 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.0</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.1</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
-        <!-- INDICADOR DE SINCRONIZAÇÃO DA API (NOVO) -->
+        <!-- INDICADOR DE SINCRONIZAÇÃO DA API -->
         <div id="sync-indicator" class="hidden items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold transition-all">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
             <span id="sync-text">Conectado</span>
@@ -744,7 +744,7 @@
             </div>
         </section>
 
-        <!-- ABA 6: RESULTADOS & ANÁLISES (V3.0 COMPLETA) -->
+        <!-- ABA 6: RESULTADOS & ANÁLISES (V3.0 CORRIGIDA) -->
         <section id="section-resultados" class="hidden space-y-6">
             
             <!-- CONTROLE DE COMPARATIVO DE PERÍODOS -->
@@ -805,7 +805,7 @@
                     </div>
 
                     <div id="container-dre-rows" class="space-y-2 text-xs md:text-sm">
-                        <!-- Preenchido via JS dinamicamente com suporte a comparativo -->
+                        <!-- Preenchido via JS dinamicamente -->
                     </div>
                 </div>
 
@@ -883,7 +883,7 @@
 
     </main>
 
-    <!-- MODAL DE COMPOSIÇÃO DO CUSTO-HORA E RAIO-X DO SETOR (DRILL-DOWN V3.0) -->
+    <!-- MODAL DE COMPOSIÇÃO DO CUSTO-HORA E RAIO-X DO SETOR -->
     <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
@@ -1082,7 +1082,7 @@
             }
 
             await carregarPeriodosDoCliente();
-            carregarPadroes();
+            await carregarPadroes();
             carregarTudoDoPeriodo();
         }
 
@@ -1114,6 +1114,32 @@
                 });
                 setSyncStatus(false);
             } catch(e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar clientes.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        async function carregarPadroes() {
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=PADROES`);
+                tabelaPadroes = await response.json();
+
+                const selectTipo = document.getElementById('cc-tipo');
+                const selectRateio = document.getElementById('cc-tipo-rateio');
+                const selectTipoRec = document.getElementById('rec-tipo');
+                const selectTpRegFunc = document.getElementById('func-tp-registro');
+
+                selectTipo.innerHTML = '<option value="">-- SELECIONE O TIPO --</option>';
+                selectRateio.innerHTML = '<option value="">-- SELECIONE O TIPO RATEIO --</option>';
+                selectTipoRec.innerHTML = '<option value="">-- SELECIONE O TIPO RECURSO --</option>';
+                selectTpRegFunc.innerHTML = '<option value="">-- SELECIONE TIPO REGISTRO --</option>';
+
+                tabelaPadroes.forEach(p => {
+                    if (p.TCENTRO_CUSTO_TIPO) selectTipo.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO}</option>`;
+                    if (p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS) selectRateio.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}</option>`;
+                    if (p.TRECURSO_TIPO) selectTipoRec.innerHTML += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO}</option>`;
+                    if (p.TFUNCIONARIO_TP_REGISTRO) selectTpRegFunc.innerHTML += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO}</option>`;
+                });
+                setSyncStatus(false);
+            } catch(e) { console.error("Erro ao carregar padrões", e); setSyncStatus(false, "Erro Padrões"); }
         }
 
         async function carregarPeriodosDoCliente() {
@@ -1427,7 +1453,7 @@
             } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar benefícios.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
-        // FUNÇÃO GERADORA DA ABA DE RESULTADOS & ANÁLISES (V3.0 COMPLETA E EXATA)
+        // FUNÇÃO GERADORA DA ABA DE RESULTADOS & ANÁLISES (V3.0 CORRIGIDA)
         async function gerarAnalisesEResultados() {
             if (!periodoAtivoObj) return;
 
@@ -1460,8 +1486,6 @@
             const calcPeriodoDRE = (pObj, ccsList, planoList, funcList) => {
                 const fatBruto = parseFloat(pObj.TPERIODO_FATURAMENTO) || 0;
                 const aliqImpostos = parseFloat(pObj.TPERIODO_ALIQUOTA) || 0;
-                const predio = parseFloat(pObj.TPERIODO_PREDIO) || 0;
-                const rentMetaPct = parseFloat(pObj.TPERIODO_RENTABILIDADE) || 0;
                 const retSocios = parseFloat(pObj.TPERIODO_RETIRADA) || 0;
 
                 let cVariavel = 0;
