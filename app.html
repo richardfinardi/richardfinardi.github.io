@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V2.8 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V2.9 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -30,7 +30,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V2.8</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V2.9</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -54,7 +54,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V2.8</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V2.9</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -740,7 +740,7 @@
             </div>
         </section>
 
-        <!-- ABA 6: RESULTADOS & ANÁLISES (V2.8 COMPLETA) -->
+        <!-- ABA 6: RESULTADOS & ANÁLISES (V2.9 PERFEITA) -->
         <section id="section-resultados" class="hidden space-y-6">
             
             <!-- CONTROLE DE COMPARATIVO DE PERÍODOS -->
@@ -904,7 +904,7 @@
                 </div>
             </div>
 
-            <!-- RANKING DE CENTROS DE CUSTO MAIS CAROS -->
+            <!-- RANKING DE CENTROS DE CUSTO MAIS CAROS COM LUPA / RAIO-X -->
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="border-b border-brand-border/50 pb-2">
                     <h3 class="text-base font-bold text-white">Ranking Geral de Impacto dos Setores</h3>
@@ -934,7 +934,7 @@
 
     </main>
 
-    <!-- MODAL DE COMPOSIÇÃO DO CUSTO-HORA E RAIO-X DO SETOR (DRILL-DOWN) -->
+    <!-- MODAL DE COMPOSIÇÃO DO CUSTO-HORA E RAIO-X DO SETOR (DRILL-DOWN V2.9) -->
     <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
@@ -1441,7 +1441,7 @@
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sheet: "TINVESTIMENTOS", action: "DELETE", id: id })
+                body: JSON.stringify({ sheet: "TINVESTIMENTOS", action: "DELETE", id: id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
             }).then(() => { setTimeout(carregarInvestimentos, 1500); });
         }
 
@@ -2717,7 +2717,7 @@
             location.reload();
         }
 
-        // FUNÇÃO GERADORA DA ABA DE RESULTADOS & ANÁLISES (V2.8 EXATA)
+        // FUNÇÃO GERADORA DA ABA DE RESULTADOS & ANÁLISES (V2.9 COMPLETA E EXATA)
         function gerarAnalisesEResultados() {
             if (!periodoAtivoObj) return;
 
@@ -2789,7 +2789,6 @@
                 }
 
                 if (tipoCC === 'PRODUTIVO DIRETO') {
-                    // HORAS EFETIVAS CONSIDERANDO PRODUTIVIDADE (%)
                     const hrsEfetivas = hrsBrutas * (prodPct / 100);
                     const custoHoraEspecifico = hrsEfetivas > 0 ? (custoTotalComIndireto / hrsEfetivas) : 0;
 
@@ -2825,8 +2824,11 @@
             // 7. CÁLCULO FOTOGRÁFICO DO PONTO DE EQUILÍBRIO (DIVIDENDO E DIVISOR IDÊNTICOS À PLANILHA)
             const gastoFixoAcumulado = totalCustoFixoFabrilBruto + totalDespesasFixasAdmin + totalSobraRateioFuncionarios;
             const metaRentabilidadeMoeda = investimentoTotalEmpresa * (rentabilidadeMetaPct / 100);
+            
+            // DIVIDENDO: Gasto Fixo + Retirada + Rentabilidade
             const dividendoPontoEquilibrio = gastoFixoAcumulado + retiradaSocios + metaRentabilidadeMoeda;
 
+            // DIVISOR: 1 - % Impostos/Comissoes - % Custos Variaveis
             const pctImpostosEComissoes = faturamentoBruto > 0 ? (impostosVendasVal / faturamentoBruto) : (aliquotaImpostos / 100);
             const pctCustosVariaveis = faturamentoBruto > 0 ? (totalCustoVariavelDRE / faturamentoBruto) : 0;
             const divisorPontoEquilibrio = 1 - pctImpostosEComissoes - pctCustosVariaveis;
@@ -2933,7 +2935,7 @@
             renderizarGraficoRoscaCC(rankingGeralCCs.filter(x => x.tipo.includes('PRODUTIVO')));
         }
 
-        // RAIO-X / COMPOSIÇÃO DO CUSTO-HORA E CONTAS (DRILL-DOWN V2.8)
+        // RAIO-X / COMPOSIÇÃO DO CUSTO-HORA E CONTAS (DRILL-DOWN V2.9)
         function abrirDrilldownCustoHora(ccId, ccNome) {
             const modal = document.getElementById('modal-drilldown-custohora');
             const container = document.getElementById('modal-dh-content');
@@ -2986,7 +2988,7 @@
                 funcsDoCC.forEach(f => {
                     let val = parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL) || 0;
                     let hrsF = parseFloat(f.TFUNCIONARIO_HORAS) || 176;
-                    let infoRateio = `(${hrsF.toFixed(0)}h totais)`;
+                    let infoRateio = `(${hrsF.toFixed(0)}h totais disps.)`;
 
                     if (f.TFUNCIONARIO_RATEIO === "SIM") {
                         try {
@@ -3026,9 +3028,9 @@
 
             // 5. RESUMO DE HORAS E PRODUTIVIDADE
             htmlHtml += `<div class="bg-brand-primary/10 p-3 rounded border border-brand-primary/30 text-xs space-y-1">
-                <div class="flex justify-between text-white font-bold"><span>Horas Brutas Cadastradas:</span><span>${horasBrutasCC.toFixed(1)} h</span></div>
+                <div class="flex justify-between text-white font-bold"><span>Horas Brutas do Setor:</span><span>${horasBrutasCC.toFixed(1)} h</span></div>
                 <div class="flex justify-between text-brand-primary font-bold"><span>Fator de Produtividade:</span><span>${prodPct.toFixed(0)}%</span></div>
-                <div class="flex justify-between text-emerald-400 font-extrabold border-t border-brand-border/50 pt-1"><span>Horas Efetivas Consideradas:</span><span>${horasEfetivasCC.toFixed(1)} h</span></div>
+                <div class="flex justify-between text-emerald-400 font-extrabold border-t border-brand-border/50 pt-1"><span>Horas Efetivas Consideradas no Custo-Hora:</span><span>${horasEfetivasCC.toFixed(1)} h</span></div>
             </div>`;
 
             container.innerHTML = htmlHtml;
