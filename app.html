@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V2.3 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V2.4 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V2.3</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V2.4</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -53,7 +53,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V2.3</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V2.4</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -371,6 +371,7 @@
                                 <th class="p-2 md:p-3">Custo Func. (R$)</th>
                                 <th class="p-2 md:p-3">Plano Contas (R$)</th>
                                 <th class="p-2 md:p-3">Prédio (R$)</th>
+                                <th class="p-2 md:p-3">Indiretos (R$)</th>
                                 <th class="p-2 md:p-3">Horas Final</th>
                                 <th class="p-2 md:p-3">Prod. (%)</th>
                                 <th class="p-2 md:p-3">Cons. Min.</th>
@@ -378,7 +379,7 @@
                             </tr>
                         </thead>
                         <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="14" class="p-4 text-center">Carregando...</td></tr>
+                            <tr><td colspan="15" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
                         <tfoot id="tbl-cc-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
@@ -1433,7 +1434,7 @@
             const selectCCFunc = document.getElementById('func-cc-id');
             const selectCCPlc = document.getElementById('plc-cc-id');
             const containerCCPlcCheckboxes = document.getElementById('container-plc-cc-checkboxes');
-            tbody.innerHTML = '<tr><td colspan="14" class="p-4 text-center">Buscando dados...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center">Buscando dados...</td></tr>';
 
             try {
                 const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
@@ -1473,13 +1474,13 @@
                 });
 
                 if (listaCC.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="14" class="p-4 text-center">Nenhum Centro de Custo cadastrado neste período.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center">Nenhum Centro de Custo cadastrado neste período.</td></tr>';
                     document.getElementById('tbl-cc-foot').innerHTML = '';
                     return;
                 }
 
                 renderizarTabelaCCLocal();
-            } catch (e) { tbody.innerHTML = '<tr><td colspan="14" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; }
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; }
         }
 
         async function carregarPlanoContas() {
@@ -2292,7 +2293,7 @@
                 id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
-                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, idRegistro, nome, tipoCC, 0, area, custoFixo, produtividade, rateio, considerarMinimo, 0, 0, 0, 0, 0]
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, idRegistro, nome, tipoCC, 0, area, custoFixo, produtividade, rateio, considerarMinimo, 0, 0, 0, 0, 0, 0]
             };
 
             fetch(API_URL, {
@@ -2315,6 +2316,7 @@
             let totalCustoFunc = 0;
             let totalPlanoContas = 0;
             let totalPredio = 0;
+            let totalIndiretos = 0;
             let totalHoras = 0;
 
             listaCC.forEach(c => {
@@ -2325,6 +2327,7 @@
                 const func = parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO) || 0;
                 const plc = parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS) || 0;
                 const prd = parseFloat(c.TCENTRO_CUSTO_PREDIO) || 0;
+                const ind = parseFloat(c.TCENTRO_CUSTO_INDIRETOS) || 0;
                 const hrs = parseFloat(c.TCENTRO_CUSTO_HORAS) || 0;
 
                 totalRecursos += rec;
@@ -2334,6 +2337,7 @@
                 totalCustoFunc += func;
                 totalPlanoContas += plc;
                 totalPredio += prd;
+                totalIndiretos += ind;
                 totalHoras += hrs;
 
                 tbody.innerHTML += `
@@ -2348,6 +2352,7 @@
                         <td class="p-2 md:p-3 text-brand-primary font-bold">${formatarMoedaBR(func)}</td>
                         <td class="p-2 md:p-3 text-emerald-400 font-bold">${formatarMoedaBR(plc)}</td>
                         <td class="p-2 md:p-3 text-emerald-400 font-bold">${formatarMoedaBR(prd)}</td>
+                        <td class="p-2 md:p-3 text-brand-primary font-bold">${formatarMoedaBR(ind)}</td>
                         <td class="p-2 md:p-3 text-white font-bold">${hrs.toFixed(2)} h</td>
                         <td class="p-2 md:p-3">${Number(c.TCENTRO_CUSTO_PRODUTIVIDADE || 0).toFixed(2)}%</td>
                         <td class="p-2 md:p-3">${c.TCENTRO_CUSTO_CONSIDERAR_MINIMO === 'SIM' ? '<span class="text-emerald-400 font-bold">SIM</span>' : '-'}</td>
@@ -2369,6 +2374,7 @@
                     <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(totalCustoFunc)}</td>
                     <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(totalPlanoContas)}</td>
                     <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(totalPredio)}</td>
+                    <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(totalIndiretos)}</td>
                     <td class="p-2 md:p-3 text-white">${totalHoras.toFixed(2)} h</td>
                     <td colspan="3"></td>
                 </tr>
