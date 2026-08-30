@@ -16,7 +16,7 @@
     }
     .quiz-container {
       background: white;
-      max-width: 650px;
+      max-width: 700px;
       width: 100%;
       border-radius: 12px;
       padding: 25px;
@@ -85,16 +85,65 @@
       border: 1px solid #ffe0b2;
       color: #e65100;
     }
+    #resultado-box {
+      display: none;
+      background: #e8eaf6;
+      border: 2px solid #3f51b5;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 30px;
+    }
+    #resultado-box h2 {
+      margin-top: 0;
+      color: #1a237e;
+    }
+    .btn-enviar {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1em;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    .input-aluno {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
 <div class="quiz-container">
   <h1>Desafio de Português - 6º Ano</h1>
+  
+  <div style="text-align: center; margin-bottom: 20px;">
+    <label for="nome-aluno"><strong>Nome do Aluno(a):</strong></label><br>
+    <input type="text" id="nome-aluno" class="input-aluno" placeholder="Digite seu nome completo">
+  </div>
+
   <div id="quiz-box"></div>
+
+  <!-- Painel de Resultado Final -->
+  <div id="resultado-box">
+    <h2>Quiz Concluído! 🎉</h2>
+    <p id="nota-texto" style="font-size: 1.3em; font-weight: bold;"></p>
+    <button class="btn-enviar" onclick="enviarRelatorioPorEmail()">Enviar Resultado para o Professor</button>
+  </div>
 </div>
 
 <script>
+const EMAIL_PROFESSOR = "richard@consultoriarf.net";
+
 const questoes = [
   {
     id: 1,
@@ -151,8 +200,52 @@ const questoes = [
     opcoes: { A: "Modo Indicativo (mostra uma certeza)", B: "Modo Imperativo (dá uma ordem, pedido ou conselho)", C: "Modo Passado (mostra algo que já foi feito)", D: "Modo Futuro (mostra algo que vai acontecer)" },
     resposta: "B",
     explicacao: "Usamos o 'Modo Imperativo' sempre que queremos pedir, orientar ou dar uma ordem para alguém fazer algo, exatamente como a professora fez ao pedir para abrir o livro."
+  },
+  {
+    id: 8,
+    topico: "Pronomes Retos",
+    pergunta: "A Mariana e a Beatriz foram ao cinema juntas. Ao chegar em casa, a Mariana contou para a mãe: '____ assistimos a um filme incrível!'. Qual pronome reto completa a frase?",
+    opcoes: { A: "Elas", B: "Nós", C: "Vós", D: "Eu" },
+    resposta: "B",
+    explicacao: "A Mariana estava junto no cinema, então ela se inclui no grupo. Quando a gente se inclui com outras pessoas, usamos 'Nós'."
+  },
+  {
+    id: 9,
+    topico: "Pronomes Oblíquos",
+    pergunta: "O professor deu um recado importante para os alunos. Ele disse: 'Vou enviar as tarefas para vocês amanhã'. Para deixar mais curto, como ele poderia dizer?",
+    opcoes: { A: "Vou enviar-lhes as tarefas amanhã.", B: "Vou enviar eles as tarefas amanhã.", C: "Vou enviar si as tarefas amanhã.", D: "Vou enviar conosco as tarefas amanhã." },
+    resposta: "A",
+    explicacao: "O pronome 'lhes' substitui 'para vocês' ou 'para eles'. É uma forma elegante e correta de indicar quem está recebendo a ação."
+  },
+  {
+    id: 10,
+    topico: "Modo Indicativo - Futuro",
+    pergunta: "O treino de futebol foi adiado. O técnico avisou: 'Nós jogaremos a final na próxima semana'. O verbo 'jogaremos' indica algo que:",
+    opcoes: { A: "Está acontecendo agora mesmo.", B: "Já aconteceu e terminou no passado.", C: "Ainda vai acontecer no futuro.", D: "É apenas um pedido ou ordem." },
+    resposta: "C",
+    explicacao: "A palavra 'jogaremos' está no Futuro do Presente, indicando uma ação que com certeza vai acontecer em um momento que ainda virá."
+  },
+  {
+    id: 11,
+    topico: "Acentuação de Oxítonas",
+    pergunta: "Qual das opções abaixo traz uma palavra oxítona que precisa de acento porque termina com 'EM'?",
+    opcoes: { A: "Também", B: "Jovem", C: "Nuvem", D: "Item" },
+    resposta: "A",
+    explicacao: "A regra diz que oxítonas terminadas em 'EM' ou 'ENS' recebem acento (tam-BÉM, po-RÉM, pa-ra-BÉNS). As palavras jovem, nuvem e item são paroxítonas, por isso não levam acento."
+  },
+  {
+    id: 12,
+    topico: "Modo Imperativo",
+    pergunta: "Em um jogo de tabuleiro, a regra diz: 'Não olhe as cartas do seu colega de equipe!'. Essa frase está dando um aviso/proibição. Qual é o modo do verbo 'olhe'?",
+    opcoes: { A: "Modo Imperativo Negativo", B: "Modo Indicativo Presente", C: "Modo Pretérito Imperfeito", D: "Modo Futuro" },
+    resposta: "A",
+    explicacao: "Quando usamos a palavra 'Não' junta com um verbo no Imperativo (como 'não olhe', 'não corra'), temos o Imperativo Negativo, usado para proibir ou orientar a não fazer algo."
   }
 ];
+
+let respostasUsuario = {};
+let respostasRespondidas = 0;
+let acertos = 0;
 
 const quizBox = document.getElementById('quiz-box');
 
@@ -178,9 +271,23 @@ function verificarResposta(index, letraEscolhida, elemento) {
   const card = elemento.parentElement;
   const botoes = card.querySelectorAll('.opcao');
   
-  botoes.forEach(btn => btn.style.pointerEvents = 'none'); // Desabilita novos cliques
+  botoes.forEach(btn => btn.style.pointerEvents = 'none');
+  respostasRespondidas++;
   
-  if (letraEscolhida === q.resposta) {
+  const acertou = (letraEscolhida === q.resposta);
+  if (acertou) acertos++;
+
+  respostasUsuario[index] = {
+    topico: q.topico,
+    escolhida: letraEscolhida,
+    textoEscolhida: q.opcoes[letraEscolhida],
+    correta: q.resposta,
+    textoCorreta: q.opcoes[q.resposta],
+    acertou: acertou,
+    explicacao: q.explicacao
+  };
+  
+  if (acertou) {
     elemento.style.background = '#c8e6c9';
     elemento.style.borderColor = '#2e7d32';
     fbDiv.className = 'feedback correto';
@@ -193,6 +300,55 @@ function verificarResposta(index, letraEscolhida, elemento) {
   }
   
   fbDiv.style.display = 'block';
+
+  if (respostasRespondidas === questoes.length) {
+    exibirResultadoFinal();
+  }
+}
+
+function exibirResultadoFinal() {
+  const total = questoes.length;
+  const nota = ((acertos / total) * 10).toFixed(1);
+  const resBox = document.getElementById('resultado-box');
+  const notaTexto = document.getElementById('nota-texto');
+
+  notaTexto.innerText = `Sua Nota: ${nota} / 10,0 (${acertos} de ${total} acertos)`;
+  resBox.style.display = 'block';
+  resBox.scrollIntoView({ behavior: 'smooth' });
+}
+
+function enviarRelatorioPorEmail() {
+  const nomeAluno = document.getElementById('nome-aluno').value.trim();
+
+  if (!nomeAluno) {
+    alert("Por favor, suba até o início da página e digite o seu nome antes de enviar!");
+    return;
+  }
+
+  const nota = ((acertos / questoes.length) * 10).toFixed(1);
+  const assunto = encodeURIComponent(`Resultado Quiz de Português - Aluno(a): ${nomeAluno}`);
+  
+  let relatorio = `RESULTADO DO QUIZ DE PORTUGUÊS (6º ANO)\n`;
+  relatorio += `Aluno(a): ${nomeAluno}\n`;
+  relatorio += `Nota Final: ${nota} / 10,0 (${acertos} de ${questoes.length} acertos)\n\n`;
+  relatorio += `===============================================\n`;
+  relatorio += `DETALHAMENTO DE ERROS E ACERTOS\n`;
+  relatorio += `===============================================\n\n`;
+
+  questoes.forEach((q, idx) => {
+    const r = respostasUsuario[idx];
+    const status = r.acertou ? "[ACERTOU]" : "[ERROU]";
+    relatorio += `Q${idx + 1} (${r.topico}): ${status}\n`;
+    relatorio += `   - Marcada: (${r.escolhida}) ${r.textoEscolhida}\n`;
+    relatorio += `   - Correta: (${r.correta}) ${r.textoCorreta}\n`;
+    if (!r.acertou) {
+      relatorio += `   - Explicação: ${r.explicacao}\n`;
+    }
+    relatorio += `\n`;
+  });
+
+  const corpo = encodeURIComponent(relatorio);
+  window.location.href = `mailto:${EMAIL_PROFESSOR}?subject=${assunto}&body=${corpo}`;
 }
 </script>
 
