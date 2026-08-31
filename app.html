@@ -21,11 +21,65 @@
         }
       }
     </script>
-    <style>
+<style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0d0d0f; color: #f4f4f5; }
         input[type="text"], input[type="email"] { text-transform: uppercase; }
         @keyframes pulse-fast { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .animate-pulse-fast { animation: pulse-fast 1s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+            html, body {
+                height: 100% !important;
+                overflow: visible !important;
+                background: #ffffff !important;
+                color: #0f172a !important;
+            }
+            body * { visibility: hidden !important; }
+            
+            #modal-drilldown-custohora, #modal-drilldown-custohora * { visibility: visible !important; }
+            
+            #modal-drilldown-custohora {
+                position: absolute !important;
+                left: 0 !important; 
+                top: 0 !important;
+                width: 100% !important; 
+                margin: 0 !important; 
+                padding: 10px !important;
+                background-color: #ffffff !important; 
+                color: #0f172a !important; 
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            #modal-drilldown-custohora .bg-brand-card {
+                background-color: #ffffff !important;
+                border: none !important;
+                box-shadow: none !important;
+                max-width: 100% !important;
+            }
+
+            #modal-drilldown-custohora h3, 
+            #modal-drilldown-custohora h4, 
+            #modal-drilldown-custohora strong, 
+            #modal-drilldown-custohora span {
+                color: #0f172a !important;
+            }
+
+            #modal-drilldown-custohora .bg-\[\#0d0d0f\] {
+                background-color: #f8fafc !important;
+                border: 1px solid #cbd5e1 !important;
+            }
+
+            #modal-drilldown-custohora .text-brand-muted {
+                color: #475569 !important;
+            }
+
+            .no-print, button { display: none !important; }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
@@ -3207,170 +3261,15 @@ function abrirDrilldownCustoHora(ccId, ccNome) {
 
 // GERAÇÃO DE PDF SEM TELA EM BRANCO E FORMATADO PARA IMPRESSÃO
 function gerarPDFRelatorioSetor() {
-    if (!setorModalAtivo.nome) return;
-
-    setSyncStatus(true, "Gerando PDF...");
-
-    const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === String(setorModalAtivo.id).toUpperCase());
-    const tipoCC = String(ccObj ? ccObj.TCENTRO_CUSTO_TIPO : "").toUpperCase();
-    const isProdutivoDireto = tipoCC === 'PRODUTIVO DIRETO';
-
-    const recsDoCC = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID).toUpperCase() === String(setorModalAtivo.id).toUpperCase());
-    const funcsDoCC = listaFuncionarios.filter(f => {
-        if (String(f.TFUNCIONARIO_RATEIO).toUpperCase() === "SIM") {
-            try {
-                let rawCC = String(f.TCENTRO_CUSTO_ID || "").trim();
-                if (rawCC.startsWith('"') && rawCC.endsWith('"')) rawCC = rawCC.substring(1, rawCC.length - 1);
-                rawCC = rawCC.replace(/""/g, '"');
-                const arr = JSON.parse(rawCC);
-                return Array.isArray(arr) && arr.some(x => String(x.id || x.ID).toUpperCase() === String(setorModalAtivo.id).toUpperCase());
-            } catch(e) { return false; }
-        }
-        return String(f.TCENTRO_CUSTO_ID).toUpperCase() === String(setorModalAtivo.id).toUpperCase();
-    });
-
-    let subtotalRecursos = 0;
-    let subtotalFuncionarios = 0;
-    let subtotalPlano = 0;
-
-    let recsRows = recsDoCC.map(r => {
-        const c = parseFloat(r.TRECURSO_CUSTO_MENSAL) || 0;
-        subtotalRecursos += c;
-        return `<tr><td style="padding:6px; border-bottom:1px solid #eee;">${r.TRECURSO_NOME}</td><td style="padding:6px; border-bottom:1px solid #eee; text-align:right;">${formatarMoedaBR(c)}</td></tr>`;
-    }).join('');
-
-    let funcsRows = funcsDoCC.map(f => {
-        let val = parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL) || 0;
-        if (String(f.TFUNCIONARIO_RATEIO).toUpperCase() === "SIM") {
-            try {
-                let rawCC = String(f.TCENTRO_CUSTO_ID || "").trim();
-                if (rawCC.startsWith('"') && rawCC.endsWith('"')) rawCC = rawCC.substring(1, rawCC.length - 1);
-                rawCC = rawCC.replace(/""/g, '"');
-                const arr = JSON.parse(rawCC);
-                const itemP = arr.find(x => String(x.id || x.ID).toUpperCase() === String(setorModalAtivo.id).toUpperCase());
-                if (itemP) val = val * ((parseFloat(itemP.pct || itemP.PCT) || 0) / 100);
-            } catch(e) {}
-        }
-        subtotalFuncionarios += val;
-        return `<tr><td style="padding:6px; border-bottom:1px solid #eee;">${f.TFUNCIONARIO_NOME}</td><td style="padding:6px; border-bottom:1px solid #eee; text-align:right;">${formatarMoedaBR(val)}</td></tr>`;
-    }).join('');
-
-    const planoDoCC = listaPlanoContas.filter(p => {
-        const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
-        if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return false;
-        if (crit === 'EXCLUSIVO') return String(p.TCENTRO_CUSTO_ID).toUpperCase() === String(setorModalAtivo.id).toUpperCase();
-        return true;
-    });
-
-    let planoRows = '';
-    planoDoCC.forEach(p => {
-        let val = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
-        const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
-        if (crit === 'SELETIVO_PERCENTUAL' || (p.TCENTRO_CUSTO_ID && p.TCENTRO_CUSTO_ID.includes('pct'))) {
-            try {
-                let rawJSON = String(p.TCENTRO_CUSTO_ID || "").trim();
-                if (rawJSON.startsWith('"') && rawJSON.endsWith('"')) rawJSON = rawJSON.substring(1, rawJSON.length - 1);
-                rawJSON = rawJSON.replace(/""/g, '"');
-                const arr = JSON.parse(rawJSON);
-                const itemP = arr.find(x => String(x.id || x.ID).toUpperCase() === String(setorModalAtivo.id).toUpperCase());
-                if (itemP) val = val * ((parseFloat(itemP.pct || itemP.PCT) || 0) / 100);
-                else val = 0;
-            } catch(e) { val = 0; }
-        }
-        if (val > 0) {
-            subtotalPlano += val;
-            planoRows += `<tr><td style="padding:6px; border-bottom:1px solid #eee;">${p.TPLANO_CONTA_NOME} (${crit})</td><td style="padding:6px; border-bottom:1px solid #eee; text-align:right;">${formatarMoedaBR(val)}</td></tr>`;
-        }
-    });
-
-    const cFixo = parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0) || 0;
-    const cPredio = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0) || 0;
-    const cIndireto = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_INDIRETOS : 0) || 0;
-    const subtotalOutros = cFixo + cPredio + cIndireto;
-
-    const custoTotalSetor = subtotalRecursos + subtotalFuncionarios + subtotalPlano + subtotalOutros;
-
-    let horasBrutas = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_HORAS : 176) || 176;
-    if(horasBrutas === 0) horasBrutas = 176;
-    const prodPct = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PRODUTIVIDADE : 100) || 100;
-    const horasEfetivas = horasBrutas * (prodPct / 100);
-    const custoHora = (isProdutivoDireto && horasEfetivas > 0) ? (custoTotalSetor / horasEfetivas) : 0;
-
-    // Elemento HTML limpo para renderização em PDF sem Tailwind instável
-    const element = document.createElement('div');
-    element.style.padding = '20px';
-    element.style.fontFamily = 'Arial, sans-serif';
-    element.style.color = '#111827';
-    element.style.backgroundColor = '#ffffff';
-
-    element.innerHTML = `
-        <div style="border-bottom: 2px solid #FF8838; padding-bottom: 10px; margin-bottom: 20px;">
-            <h2 style="margin: 0; color: #111827; font-size: 18px; font-weight: bold;">RELATÓRIO DE CUSTOS - ${setorModalAtivo.nome.toUpperCase()}</h2>
-            <p style="margin: 4px 0 0 0; font-size: 12px; color: #4B5563;">Empresa: ${empresaLogadaNome.toUpperCase()} | Período: ${periodoAtivoObj ? periodoAtivoObj.TPERIODO_NOME : '---'}</p>
-        </div>
-
-        <div style="margin-bottom: 15px;">
-            <h3 style="font-size: 13px; margin: 0 0 5px 0; color: #FF8838; font-weight: bold;">1. RECURSOS & MÁQUINAS</h3>
-            <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
-                ${recsRows || '<tr><td style="padding:6px; color:#9CA3AF;">Nenhum recurso cadastrado neste setor.</td></tr>'}
-                <tr style="font-weight: bold; background: #F9FAFB;"><td style="padding:6px;">Subtotal Recursos:</td><td style="padding:6px; text-align:right;">${formatarMoedaBR(subtotalRecursos)}</td></tr>
-            </table>
-        </div>
-
-        <div style="margin-bottom: 15px;">
-            <h3 style="font-size: 13px; margin: 0 0 5px 0; color: #FF8838; font-weight: bold;">2. FUNCIONÁRIOS ALOCADOS / RATEADOS</h3>
-            <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
-                ${funcsRows || '<tr><td style="padding:6px; color:#9CA3AF;">Nenhum funcionário cadastrado neste setor.</td></tr>'}
-                <tr style="font-weight: bold; background: #F9FAFB;"><td style="padding:6px;">Subtotal Mão de Obra:</td><td style="padding:6px; text-align:right;">${formatarMoedaBR(subtotalFuncionarios)}</td></tr>
-            </table>
-        </div>
-
-        <div style="margin-bottom: 15px;">
-            <h3 style="font-size: 13px; margin: 0 0 5px 0; color: #FF8838; font-weight: bold;">3. CONTAS FIXAS DO PLANO DE CONTAS</h3>
-            <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
-                ${planoRows || '<tr><td style="padding:6px; color:#9CA3AF;">Nenhuma conta fixa para este setor.</td></tr>'}
-                <tr style="font-weight: bold; background: #F9FAFB;"><td style="padding:6px;">Subtotal Contas Fixas:</td><td style="padding:6px; text-align:right;">${formatarMoedaBR(subtotalPlano)}</td></tr>
-            </table>
-        </div>
-
-        ${subtotalOutros > 0 ? `
-        <div style="margin-bottom: 15px;">
-            <h3 style="font-size: 13px; margin: 0 0 5px 0; color: #FF8838; font-weight: bold;">4. OUTROS CUSTOS E RATEIOS</h3>
-            <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
-                ${cFixo > 0 ? `<tr><td style="padding:6px; border-bottom:1px solid #eee;">Custo Fixo Direto</td><td style="padding:6px; border-bottom:1px solid #eee; text-align:right;">${formatarMoedaBR(cFixo)}</td></tr>` : ''}
-                ${cPredio > 0 ? `<tr><td style="padding:6px; border-bottom:1px solid #eee;">Rateio de Prédio (Área)</td><td style="padding:6px; border-bottom:1px solid #eee; text-align:right;">${formatarMoedaBR(cPredio)}</td></tr>` : ''}
-                ${cIndireto > 0 ? `<tr><td style="padding:6px; border-bottom:1px solid #eee;">Absorção de Indiretos + Sobra Mão Obra</td><td style="padding:6px; border-bottom:1px solid #eee; text-align:right;">${formatarMoedaBR(cIndireto)}</td></tr>` : ''}
-                <tr style="font-weight: bold; background: #F9FAFB;"><td style="padding:6px;">Subtotal Outros:</td><td style="padding:6px; text-align:right;">${formatarMoedaBR(subtotalOutros)}</td></tr>
-            </table>
-        </div>` : ''}
-
-        <div style="background: #111827; color: #ffffff; padding: 12px; border-radius: 6px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: bold;">
-            <span>CUSTO TOTAL MENSAL DO SETOR:</span>
-            <span>${formatarMoedaBR(custoTotalSetor)}</span>
-        </div>
-
-        ${isProdutivoDireto ? `
-        <div style="background: #ECFDF5; border: 1px solid #10B981; color: #065F46; padding: 12px; border-radius: 6px; margin-top: 10px; font-size: 12px;">
-            <div>Horas Brutas: <strong>${horasBrutas.toFixed(1)} h</strong> | Produtividade: <strong>${prodPct.toFixed(0)}%</strong></div>
-            <div style="font-size: 14px; font-weight: bold; margin-top: 4px;">Custo-Hora Calculado: ${formatarMoedaBR(custoHora)}/h</div>
-        </div>` : ''}
-    `;
-
-    const opt = {
-        margin:       10,
-        filename:     `Relatorio_${setorModalAtivo.nome.replace(/\s+/g, '_')}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(element).save().then(() => {
-        setSyncStatus(false);
-    }).catch(err => {
-        console.error(err);
-        alert("Erro ao exportar PDF.");
-        setSyncStatus(false, "Erro PDF");
-    });
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) mainContent.style.display = 'none';
+    
+    // Dispara a janela de impressão nativa (Permite escolher "Salvar como PDF")
+    window.print();
+    
+    setTimeout(() => {
+        if (mainContent) mainContent.style.display = 'block';
+    }, 500);
 }
 
         function renderizarGraficoRoscaCC(rankingData) {
