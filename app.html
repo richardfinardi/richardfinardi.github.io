@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V3.1 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V3.6 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,7 +32,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.1</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.6</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -62,7 +62,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.1</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.6</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -1802,7 +1802,7 @@
             const turnos = parseInt(document.getElementById('rec-turnos').value, 10) || 1;
             const custoMensal = parseMoedaBR(document.getElementById('rec-custo-mensal').value);
 
-            // ORDEM CORRETA DAS COLUNAS NA PLANILHA TRECURSO:
+            // CORREÇÃO CRÍTICA DO MAPEAMENTO DE COLUNAS NA PLANILHA TRECURSO:
             // Col A: TCLIENTE_ID
             // Col B: TPERIODO_ID
             // Col C: TCENTRO_CUSTO_ID
@@ -1987,31 +1987,45 @@
             });
         }
 
+        // IMPLEMENTAÇÃO FIEL DA FÓRMULA DE ENCARGOS SOLICITADA
         function calcularCustoFuncionario() {
-            const salBase = parseMoedaBR(document.getElementById('func-salario-base').value);
+            const salBaseInput = parseMoedaBR(document.getElementById('func-salario-base').value);
             const valBen = parseMoedaBR(document.getElementById('func-beneficios-valor').value);
             const tpSal = document.getElementById('func-tp-salario').value;
             const hrsMes = parseFloat(document.getElementById('func-horas-mes').value) || 176;
-            const tpReg = document.getElementById('func-tp-registro').value;
+            const tpReg = String(document.getElementById('func-tp-registro').value || "").trim().toUpperCase();
 
-            let salCalculado = salBase;
-            if (tpSal === 'HORISTA') {
-                salCalculado = salBase * hrsMes;
-            }
+            // 1. Salário Base
+            const salario = (tpSal === 'HORISTA') ? (salBaseInput * hrsMes) : salBaseInput;
 
-            // BUSCA TAXA DE ENCARGOS DA TABELA DE PADRÕES
-            let multiplicador = 1.0;
-            const pReg = tabelaPadroes.find(p => String(p.TFUNCIONARIO_TP_REGISTRO).toUpperCase() === String(tpReg).toUpperCase());
-            if (pReg && pReg.TFUNCIONARIO_TAXA_ENCARGOS) {
-                const taxaNum = parseFloat(pReg.TFUNCIONARIO_TAXA_ENCARGOS) || 0;
-                multiplicador = 1.0 + (taxaNum > 1 ? taxaNum / 100 : taxaNum);
-            } else if (tpReg.includes('CLT') || tpReg.includes('REGULADO')) {
-                multiplicador = 1.68;
-            }
+            // 2. Flags do Registro
+            const temRegistro = tpReg !== "SEM REGISTRO";
 
-            const custoTotal = (salCalculado * multiplicador) + valBen;
-            document.getElementById('func-custo-mensal').value = formatarMoedaBR(custoTotal);
+            // 3. Provisões (13º e Férias + 1/3)
+            const decimoTerceiro = temRegistro ? (salario / 12) : 0;
+            const tercoFerias = temRegistro ? ((salario / 12) / 3) : 0;
+            const feriasAdic = temRegistro ? (salario / 12) : 0;
 
+            // 4. Total Bruto para cálculo de FGTS
+            const totalBruto = salario + decimoTerceiro + tercoFerias + feriasAdic;
+
+            // 5. FGTS e Multa
+            const fgts = temRegistro ? (totalBruto * 0.08) : 0;
+            const multaFgts = temRegistro ? (fgts * 0.50) : 0;
+
+            // 6. Encargos Patronais
+            const isNormal = (tpReg === "NORMAL" || tpReg === "CLT NORMAL" || tpReg === "REGULADO");
+            const inss = isNormal ? (salario * 0.20) : 0;
+            const sesc = isNormal ? (salario * 0.02) : 0;
+            const senai = isNormal ? (salario * 0.025) : 0;
+            const incra = isNormal ? (salario * 0.033) : 0;
+
+            // 7. Custo Total Mensal Calculado do Funcionário
+            const custoTotalMensal = salario + decimoTerceiro + tercoFerias + feriasAdic + fgts + multaFgts + inss + sesc + senai + incra + valBen;
+            
+            document.getElementById('func-custo-mensal').value = formatarMoedaBR(custoTotalMensal);
+
+            // Soma de Rateio %
             const inputs = document.querySelectorAll('.input-rateio-pct');
             let somaPct = 0;
             inputs.forEach(inp => { somaPct += (parseFloat(inp.value) || 0); });
@@ -2019,7 +2033,7 @@
             const dispTotal = document.getElementById('display-total-pct');
             if (dispTotal) dispTotal.innerText = somaPct.toFixed(1) + "%";
 
-            const sobraVal = custoTotal * Math.max(0, (100 - somaPct) / 100);
+            const sobraVal = custoTotalMensal * Math.max(0, (100 - somaPct) / 100);
             const dispSobra = document.getElementById('display-sobra-custo');
             if (dispSobra) dispSobra.innerText = formatarMoedaBR(sobraVal);
         }
@@ -2493,15 +2507,14 @@
                         `;
                     }
 
-                    // COR DINÂMICA DO RESULTADO FINAL (VERDE SE >= 0, VERMELHO SE < 0)
                     let textClass = 'text-white font-bold';
                     let bgStyle = 'py-2 border-b border-brand-border/30 pl-3 text-brand-muted';
 
                     if (isHighlight) {
                         const isPositivo = valAtivo >= 0;
                         bgStyle = isPositivo 
-                            ? 'bg-emerald-950/40 border border-emerald-800/80 p-3 rounded-lg font-extrabold text-emerald-400' 
-                            : 'bg-red-950/40 border border-red-800/80 p-3 rounded-lg font-extrabold text-red-400';
+                            ? 'bg-emerald-950/40 border border-emerald-800/80 p-3 rounded-lg font-extrabold text-emerald-400 shadow-lg' 
+                            : 'bg-red-950/40 border border-red-800/80 p-3 rounded-lg font-extrabold text-red-400 shadow-lg';
                         textClass = isPositivo ? 'text-emerald-400 text-base' : 'text-red-400 text-base';
                     } else if (isHeader) {
                         bgStyle = 'bg-[#0d0d0f] p-2.5 rounded-md font-bold text-white border-l-4 border-brand-primary';
@@ -2566,7 +2579,7 @@
             const tbodyCustoHora = document.getElementById('tbl-custo-hora-cc-body');
             if(tbodyCustoHora) {
                 tbodyCustoHora.innerHTML = '';
-                // FILTRA APENAS SETORES PRODUTIVOS DIRETOS PARA O CUSTO-HORA
+                // EXCLUSIVO PARA PRODUTIVO DIRETO NO CUSTO-HORA
                 listaCC.filter(c => String(c.TCENTRO_CUSTO_TIPO).toUpperCase() === 'PRODUTIVO DIRETO').forEach(c => {
                     const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
                     const dep = parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL) || 0;
@@ -2648,7 +2661,7 @@
             const container = document.getElementById('modal-dh-content');
             if(!modal || !container) return;
 
-            document.getElementById('modal-dh-title').innerText = "Raio-X: " + ccNome;
+            document.getElementById('modal-dh-title').innerText = "RAIO-X: " + ccNome;
 
             const recsDoCC = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID) === String(ccId));
             
@@ -2674,7 +2687,10 @@
             });
 
             const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(ccId));
+            const custoFixoDireto = parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0) || 0;
+            const custoPredioAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0) || 0;
             const custoIndiretoAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_INDIRETOS : 0) || 0;
+            
             let horasBrutasCC = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_HORAS : 176) || 176;
             if(horasBrutasCC === 0) horasBrutasCC = 176;
             
@@ -2683,6 +2699,7 @@
 
             let htmlHtml = '';
 
+            // 1. RECURSOS
             htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
                 <h4 class="font-bold text-white uppercase text-xs">1. Recursos & Máquinas (${recsDoCC.length})</h4>`;
             if (recsDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhum recurso direto cadastrado neste setor.</p>`;
@@ -2693,6 +2710,7 @@
             }
             htmlHtml += `</div>`;
 
+            // 2. FUNCIONÁRIOS
             htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
                 <h4 class="font-bold text-white uppercase text-xs">2. Funcionários Alocados / Rateados (${funcsDoCC.length})</h4>`;
             if (funcsDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhum funcionário direto cadastrado neste setor.</p>`;
@@ -2719,6 +2737,7 @@
             }
             htmlHtml += `</div>`;
 
+            // 3. PLANO DE CONTAS
             htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
                 <h4 class="font-bold text-white uppercase text-xs">3. Contas Fixas do Plano de Contas (${planoDoCC.length})</h4>`;
             if (planoDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhuma conta fixa rateada diretamente para este setor.</p>`;
@@ -2756,25 +2775,35 @@
             }
             htmlHtml += `</div>`;
 
-            if (custoIndiretoAbsorvido > 0) {
+            // 4. DEMAIS CUSTOS (Custo Fixo Direto, Prédio e Indiretos Absorvidos)
+            if (custoFixoDireto > 0 || custoPredioAbsorvido > 0 || custoIndiretoAbsorvido > 0) {
                 htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
-                    <h4 class="font-bold text-white uppercase text-xs">4. Custo Indireto Absorvido (Coluna Q)</h4>
-                    <div class="flex justify-between text-xs text-brand-muted"><span>- Absorção de Setores Indiretos + Sobra Mão Obra</span><span class="text-brand-primary font-bold">${formatarMoedaBR(custoIndiretoAbsorvido)}/mês</span></div>
-                </div>`;
+                    <h4 class="font-bold text-white uppercase text-xs">4. Outros Custos e Rateios do Setor</h4>`;
+                
+                if (custoFixoDireto > 0) {
+                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- Custo Fixo Direto do Setor</span><span>${formatarMoedaBR(custoFixoDireto)}/mês</span></div>`;
+                }
+                if (custoPredioAbsorvido > 0) {
+                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- Rateio de Prédio (Área)</span><span>${formatarMoedaBR(custoPredioAbsorvido)}/mês</span></div>`;
+                }
+                if (custoIndiretoAbsorvido > 0) {
+                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- Absorção de Setores Indiretos + Sobra Mão Obra</span><span class="text-brand-primary font-bold">${formatarMoedaBR(custoIndiretoAbsorvido)}/mês</span></div>`;
+                }
+                htmlHtml += `</div>`;
             }
 
-            const custoTotalDoSetor = (parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_MENSAL : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_FUNCIONARIO : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0)||0) + custoIndiretoAbsorvido;
+            const custoTotalDoSetor = custoFixoDireto + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_MENSAL : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_FUNCIONARIO : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0)||0) + custoPredioAbsorvido + custoIndiretoAbsorvido;
 
-            // BLOCO ADICIONADO: EXIBIÇÃO DO CUSTO TOTAL MENSAL ACUMULADO DO SETOR
-            htmlHtml += `<div class="bg-brand-border/40 p-3 rounded border border-brand-border flex justify-between items-center text-xs">
-                <span class="font-bold text-white uppercase">Custo Total Mensal do Setor:</span>
-                <span class="font-extrabold text-white text-sm">${formatarMoedaBR(custoTotalDoSetor)}</span>
+            // BLOCO DEDICADO DO CUSTO TOTAL MENSAL DO SETOR
+            htmlHtml += `<div class="bg-brand-border/40 p-3.5 rounded-lg border border-brand-border flex justify-between items-center text-xs">
+                <span class="font-bold text-white uppercase">CUSTO TOTAL MENSAL DO SETOR:</span>
+                <span class="font-extrabold text-white text-base">${formatarMoedaBR(custoTotalDoSetor)}</span>
             </div>`;
 
-            htmlHtml += `<div class="bg-brand-primary/10 p-3 rounded border border-brand-primary/30 text-xs space-y-1">
+            htmlHtml += `<div class="bg-brand-primary/10 p-3.5 rounded-lg border border-brand-primary/30 text-xs space-y-1.5">
                 <div class="flex justify-between text-white font-bold"><span>Horas Brutas do Setor:</span><span>${horasBrutasCC.toFixed(1)} h</span></div>
                 <div class="flex justify-between text-brand-primary font-bold"><span>Fator de Produtividade:</span><span>${prodPct.toFixed(0)}%</span></div>
-                <div class="flex justify-between text-emerald-400 font-extrabold border-t border-brand-border/50 pt-1"><span>Horas Efetivas Consideradas no Custo-Hora:</span><span>${horasEfetivasCC.toFixed(1)} h</span></div>
+                <div class="flex justify-between text-emerald-400 font-extrabold border-t border-brand-border/50 pt-1 text-sm"><span>Horas Efetivas Consideradas no Custo-Hora:</span><span>${horasEfetivasCC.toFixed(1)} h</span></div>
             </div>`;
 
             container.innerHTML = htmlHtml;
