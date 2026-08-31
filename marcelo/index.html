@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz de Inglês - Unit 5: My Week</title>
+  <title>Quiz de Inglês - Units 3 & 4</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -145,7 +145,7 @@
 <body>
 
 <div class="quiz-container">
-  <h1>English Activity - Unit 5: My Week</h1>
+  <h1>English Activity - Units 3 & 4</h1>
   <p class="subtitulo">Responda as questões abaixo (Múltipla Escolha e Digitação Curta).</p>
   
   <div style="text-align: center; margin-bottom: 20px;">
@@ -169,131 +169,125 @@ const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 const questoes = [
   {
     id: 1,
-    tipo: "texto",
-    topico: "Daily Routines",
-    pergunta: "Como escrevemos 'almoçar' em inglês? (Digite apenas a expressão em inglês):",
-    respostasAceitas: ["have lunch"],
-    explicacao: "'Almoçar' em inglês é 'have lunch'."
+    tipo: "opcoes",
+    topico: "Verbo Like",
+    pergunta: "Se alguém pergunta 'Do you like pop music?', qual é a resposta curta correta para SIM?",
+    opcoes: {
+      A: "Yes, I like.",
+      B: "Yes, I do.",
+      C: "Yes, I am.",
+      D: "Yes, I have."
+    },
+    respostaCorreta: "B",
+    explicacao: "Em respostas curtas em inglês não repetimos o verbo 'like'. Usamos o auxiliar 'Yes, I do'."
   },
   {
     id: 2,
     tipo: "texto",
-    topico: "Daily Routines",
-    pergunta: "Como escrevemos 'fazer minha lição de casa' em inglês?",
-    respostasAceitas: ["do my homework", "do homework"],
-    explicacao: "'Fazer minha lição de casa' é 'do my homework'."
+    topico: "Demonstrativos",
+    pergunta: "Qual palavra usamos para apontar para UMA coisa que está perto (singular/here)? Digite em inglês:",
+    respostasAceitas: ["this"],
+    explicacao: "'This' é usado para 1 coisa que está perto de nós."
   },
   {
     id: 3,
     tipo: "opcoes",
-    topico: "Chores (Tarefas Domésticas)",
-    pergunta: "Qual expressão significa 'levar o lixo para fora'?",
+    topico: "Demonstrativos",
+    pergunta: "Aponte para vários livros que estão longe de você (plural/there). Qual é a opção correta?",
     opcoes: {
-      A: "Make my bed",
-      B: "Take out the trash",
-      C: "Wash the dishes",
-      D: "Clear the table"
+      A: "This is my books.",
+      B: "That is my books.",
+      C: "These are my books.",
+      D: "Those are my books."
     },
-    respostaCorreta: "B",
-    explicacao: "'Take out the trash' significa levar o lixo para fora."
+    respostaCorreta: "D",
+    explicacao: "'Those are' é usado para indicar elementos no plural que estão longe (There)."
   },
   {
     id: 4,
     tipo: "opcoes",
-    topico: "Chores (Tarefas Domésticas)",
-    pergunta: "Qual expressão significa 'arrumar a cama'?",
+    topico: "Verbo Can (Habilidade)",
+    pergunta: "Qual frase está escrita de forma correta para indicar uma habilidade em inglês?",
     opcoes: {
-      A: "Make my bed",
-      B: "Clean my room",
-      C: "Put away my clothes",
-      D: "Dry the dishes"
+      A: "He can swims 100 meters.",
+      B: "He can swim 100 meters.",
+      C: "He can to swim 100 meters.",
+      D: "He cans swim 100 meters."
     },
-    respostaCorreta: "A",
-    explicacao: "'Make my bed' é a forma correta para arrumar a cama."
+    respostaCorreta: "B",
+    explicacao: "Depois do verbo 'can', o verbo principal fica na forma normal sem 's' e sem 'to'."
   },
   {
     id: 5,
-    tipo: "opcoes",
-    topico: "Present Simple - Regra do He/She",
-    pergunta: "Qual é a forma correta do verbo 'go' para a frase: 'He ____ to school by bus'?",
-    opcoes: {
-      A: "go",
-      B: "gos",
-      C: "goes",
-      D: "goies"
-    },
-    respostaCorreta: "C",
-    explicacao: "Para He, She e It, os verbos terminados em -o ganham '-es' no final (goes)."
+    tipo: "texto",
+    topico: "Vocabulário",
+    pergunta: "Como escrevemos a habilidade 'desenhar' em inglês? (Digite apenas a palavra):",
+    respostasAceitas: ["draw"],
+    explicacao: "'Desenhar' em inglês é 'draw'."
   },
   {
     id: 6,
     tipo: "opcoes",
-    topico: "Present Simple - Regra do He/She",
-    pergunta: "Como fica o verbo 'wash' na frase: 'She ____ the dishes'?",
+    topico: "Verbo Have / Has",
+    pergunta: "Qual opção completa a frase corretamente: 'She ____ two guitars and he ____ a new bike'?",
     opcoes: {
-      A: "washs",
-      B: "washes",
-      C: "wash",
-      D: "washies"
+      A: "have / has",
+      B: "has / have",
+      C: "has / has",
+      D: "have / have"
     },
-    respostaCorreta: "B",
-    explicacao: "Verbos terminados em -sh ganham '-es' no final quando usados com She/He/It (washes)."
+    respostaCorreta: "C",
+    explicacao: "Para He, She e It, usamos sempre 'has' na afirmativa."
   },
   {
     id: 7,
     tipo: "opcoes",
-    topico: "Present Simple - Negativa",
-    pergunta: "Como fazemos a frase 'I listen to rock' ficar na NEGATIVA?",
+    topico: "Verbo Have (Negativa)",
+    pergunta: "Como fica a frase 'He has a watch' na NEGATIVA?",
     opcoes: {
-      A: "I doesn't listen to rock.",
-      B: "I don't listen to rock.",
-      C: "I not listen to rock.",
-      D: "I no listen to rock."
+      A: "He don't have a watch.",
+      B: "He doesn't has a watch.",
+      C: "He doesn't have a watch.",
+      D: "He hasn't a watch."
     },
-    respostaCorreta: "B",
-    explicacao: "Para a turma do 'I, You, We, They', usamos 'don't' antes do verbo."
+    respostaCorreta: "C",
+    explicacao: "Na negativa de He/She/It usamos 'doesn't' e o verbo volta para a forma base 'have'."
   },
   {
     id: 8,
     tipo: "opcoes",
-    topico: "Present Simple - Negativa",
-    pergunta: "Como fazemos a frase 'He cleans his room' ficar na NEGATIVA?",
+    topico: "Modo Imperativo",
+    pergunta: "Como damos um aviso ou proibição usando o Imperativo? (Ex: 'Não corra!')",
     opcoes: {
-      A: "He don't clean his room.",
-      B: "He not cleans his room.",
-      C: "He doesn't clean his room.",
-      D: "He doesn't cleans his room."
+      A: "No run!",
+      B: "Not run!",
+      C: "Don't run!",
+      D: "Doesn't run!"
     },
     respostaCorreta: "C",
-    explicacao: "Para He, She e It, usamos 'doesn't' e o verbo volta para a forma normal sem o -s (clean)."
+    explicacao: "No imperativo negativo usamos 'Don't' antes do verbo."
   },
   {
     id: 9,
-    tipo: "opcoes",
-    topico: "Preposições de Tempo",
-    pergunta: "Qual preposição usamos antes dos dias da semana? Ex: '____ Mondays, I have English class.'",
-    opcoes: {
-      A: "In",
-      B: "At",
-      C: "On",
-      D: "To"
-    },
-    respostaCorreta: "C",
-    explicacao: "Usamos 'On' sempre antes de dias da semana (On Mondays, On Fridays) e finais de semana."
+    tipo: "texto",
+    topico: "Plural Irregular",
+    pergunta: "Qual é o plural da palavra 'child' (criança) em inglês? (Digite apenas a palavra no plural):",
+    respostasAceitas: ["children"],
+    explicacao: "O plural de 'child' é irregular: 'children'."
   },
   {
     id: 10,
     tipo: "opcoes",
-    topico: "Preposições de Tempo",
-    pergunta: "Qual opção completa corretamente as frases: '____ the morning' e '____ night'?",
+    topico: "Conectores (And / But)",
+    pergunta: "Qual opção completa a frase corretamente: 'I like shopping, ____ I don't have money.'?",
     opcoes: {
-      A: "In / At",
-      B: "At / In",
-      C: "On / At",
-      D: "In / On"
+      A: "and",
+      B: "but",
+      C: "because",
+      D: "or"
     },
-    respostaCorreta: "A",
-    explicacao: "Dizemos 'In the morning' (partes do dia) e 'At night' (para a palavra night)."
+    respostaCorreta: "B",
+    explicacao: "Usamos 'but' (mas) para conectar ideias contrárias/opostas."
   }
 ];
 
@@ -315,7 +309,7 @@ questoes.forEach((q, idx) => {
       html += `<button class="opcao" onclick="responderOpcao(${idx}, '${letra}', this)"><strong>${letra})</strong> ${q.opcoes[letra]}</button>`;
     }
   } else {
-    html += `<input type="text" id="input-${idx}" class="input-texto" placeholder="Digite sua resposta aqui...">`;
+    html += `<input type="text" id="input-${idx}" class="input-texto" placeholder="Digite sua resposta em inglês...">`;
     html += `<button class="btn-responder" onclick="responderTexto(${idx})">Confirmar Resposta</button>`;
   }
   
@@ -427,9 +421,9 @@ function enviarRelatorioPorEmail() {
   }
 
   const nota = ((acertos / questoes.length) * 10).toFixed(1);
-  const assunto = encodeURIComponent(`Resultado Quiz de Inglês (Unit 5) - Aluno(a): ${nomeAluno}`);
+  const assunto = encodeURIComponent(`Resultado Quiz de Inglês (Units 3 e 4) - Aluno(a): ${nomeAluno}`);
   
-  let relatorio = `RESULTADO DO QUIZ DE INGLÊS - UNIT 5 (MY WEEK)\n`;
+  let relatorio = `RESULTADO DO QUIZ DE INGLÊS - UNITS 3 & 4\n`;
   relatorio += `Aluno(a): ${nomeAluno}\n`;
   relatorio += `Nota Final: ${nota} / 10,0 (${acertos} de ${questoes.length} acertos)\n\n`;
   relatorio += `===============================================\n`;
