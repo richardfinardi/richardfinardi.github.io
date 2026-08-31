@@ -27,20 +27,23 @@
         @keyframes pulse-fast { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .animate-pulse-fast { animation: pulse-fast 1s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 
-        @media print {
+     @media print {
             @page {
                 size: A4 portrait;
-                margin: 10mm;
+                margin: 8mm;
             }
             html, body {
-                height: 100% !important;
+                height: auto !important;
                 overflow: visible !important;
                 background: #ffffff !important;
                 color: #0f172a !important;
             }
+            
             body * { visibility: hidden !important; }
             
-            #modal-drilldown-custohora, #modal-drilldown-custohora * { visibility: visible !important; }
+            #modal-drilldown-custohora, #modal-drilldown-custohora * { 
+                visibility: visible !important; 
+            }
             
             #modal-drilldown-custohora {
                 position: absolute !important;
@@ -48,7 +51,7 @@
                 top: 0 !important;
                 width: 100% !important; 
                 margin: 0 !important; 
-                padding: 10px !important;
+                padding: 0 !important;
                 background-color: #ffffff !important; 
                 color: #0f172a !important; 
                 box-shadow: none !important;
@@ -60,6 +63,19 @@
                 border: none !important;
                 box-shadow: none !important;
                 max-width: 100% !important;
+                padding: 0 !important;
+            }
+
+            /* REMOVE ALTURA MÁXIMA E BARRAS DE ROLAGEM */
+            #pdf-report-content {
+                max-height: none !important;
+                overflow: visible !important;
+                padding-right: 0 !important;
+            }
+
+            /* REMOVE SCROLLBARS NATIVAS DO NAVEGADOR */
+            ::-webkit-scrollbar {
+                display: none !important;
             }
 
             #modal-drilldown-custohora h3, 
@@ -71,14 +87,17 @@
 
             #modal-drilldown-custohora .bg-\[\#0d0d0f\] {
                 background-color: #f8fafc !important;
-                border: 1px solid #cbd5e1 !important;
+                border: 1px solid #e2e8f0 !important;
             }
 
             #modal-drilldown-custohora .text-brand-muted {
                 color: #475569 !important;
             }
 
-            .no-print, button { display: none !important; }
+            /* OCULTA BOTÕES E O 'X' DE FECHAR */
+            .no-print, button, #modal-drilldown-custohora button { 
+                display: none !important; 
+            }
         }
     </style>
 </head>
@@ -3261,15 +3280,85 @@ function abrirDrilldownCustoHora(ccId, ccNome) {
 
 // GERAÇÃO DE PDF SEM TELA EM BRANCO E FORMATADO PARA IMPRESSÃO
 function gerarPDFRelatorioSetor() {
-    const mainContent = document.getElementById('main-content');
-    if (mainContent) mainContent.style.display = 'none';
+    const conteudo = document.getElementById('pdf-report-content');
+    const titulo = document.getElementById('modal-dh-title') ? document.getElementById('modal-dh-title').innerText : 'RELATÓRIO';
     
-    // Dispara a janela de impressão nativa (Permite escolher "Salvar como PDF")
-    window.print();
+    if (!conteudo) return;
+
+    const janelaImpressao = window.open('', '', 'width=900,height=800');
     
-    setTimeout(() => {
-        if (mainContent) mainContent.style.display = 'block';
-    }, 500);
+    janelaImpressao.document.write(`
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+            <meta charset="UTF-8">
+            <title>${titulo}</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+                body { 
+                    font-family: 'Plus Jakarta Sans', sans-serif; 
+                    background: #ffffff !important; 
+                    color: #0f172a !important; 
+                    padding: 20px;
+                }
+                .bg-\[\#0d0d0f\] {
+                    background-color: #f8fafc !important;
+                    border: 1px solid #cbd5e1 !important;
+                }
+                .text-brand-muted {
+                    color: #475569 !important;
+                }
+                .text-white {
+                    color: #0f172a !important;
+                }
+                .border-brand-border {
+                    border-color: #cbd5e1 !important;
+                }
+                .bg-brand-border\/40 {
+                    background-color: #f1f5f9 !important;
+                    border: 1px solid #cbd5e1 !important;
+                }
+                .bg-brand-primary\/10 {
+                    background-color: #fff7ed !important;
+                    border: 1px solid #fdba74 !important;
+                }
+                .text-brand-primary {
+                    color: #ea580c !important;
+                }
+                ::-webkit-scrollbar {
+                    display: none !important;
+                }
+                @media print {
+                    @page { size: A4 portrait; margin: 10mm; }
+                    body { padding: 0; }
+                }
+            </style>
+        </head>
+        <body>
+            <div style="border-bottom: 2px solid #ea580c; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 style="font-size: 18px; font-weight: 800; color: #0f172a; margin: 0;">${titulo}</h1>
+                    <p style="font-size: 11px; color: #64748b; margin: 4px 0 0 0;">Empresa: ${empresaLogadaNome.toUpperCase()} | Período: ${periodoAtivoObj ? periodoAtivoObj.TPERIODO_NOME : '---'}</p>
+                </div>
+                <div style="font-size: 10px; color: #94a3b8; font-weight: bold;">CONSULTORIA.RF V3.1</div>
+            </div>
+
+            <div>
+                ${conteudo.innerHTML}
+            </div>
+
+            <script>
+                window.onload = function() {
+                    window.print();
+                    setTimeout(function() { window.close(); }, 500);
+                };
+            <\/script>
+        </body>
+        </html>
+    `);
+
+    janelaImpressao.document.close();
 }
 
         function renderizarGraficoRoscaCC(rankingData) {
