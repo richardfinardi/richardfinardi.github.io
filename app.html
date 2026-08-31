@@ -2349,14 +2349,22 @@
             document.getElementById('modal-importar-plano').classList.add('hidden');
         }
 
-        function baixarModeloCSVPlano() {
-            const conteudo = "NOME;CRITERIO;VALOR;CENTRO_CUSTO_ID\nENERGIA ELETRICA;AREA;1500.00;\nALUGUEL PREDIO;AREA;5000.00;\nMANUTENCAO MAQUINAS;RECURSOS;800.00;\nSISTEMA ERP;HORAS;350.00;\nMATERIAL ESCRITORIO;EXCLUSIVO;200.00;CC-001\nCOMISSAO VENDAS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1200.00;";
-            const blob = new Blob(["\ufeff" + conteudo], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "modelo_plano_de_contas.csv";
-            link.click();
-        }
+function baixarModeloCSVPlano() {
+    // Modelo em CSV com exemplos de Exclusivo, Área, Recursos, Horas, Variável e Rateio Porcentagem %
+    const conteudo = "NOME;CRITERIO;VALOR;CENTRO_CUSTO_ID\n" +
+                     "ENERGIA ELETRICA;AREA;1500.00;\n" +
+                     "ALUGUEL PREDIO;AREA;5000.00;\n" +
+                     "SISTEMA ERP;SELETIVO_PERCENTUAL;1000.00;[{\"id\":\"CC-001\",\"pct\":60},{\"id\":\"CC-002\",\"pct\":40}]\n" +
+                     "MANUTENCAO MAQUINAS;RECURSOS;800.00;\n" +
+                     "MATERIAL ESCRITORIO;EXCLUSIVO;200.00;CC-001\n" +
+                     "COMISSAO VENDAS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1200.00;";
+
+    const blob = new Blob(["\ufeff" + conteudo], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "modelo_plano_de_contas.csv";
+    link.click();
+}
 
         function processarArquivoCSV(event) {
             const file = event.target.files[0];
