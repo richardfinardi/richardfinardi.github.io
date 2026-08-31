@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V3.7 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V3.8 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,7 +32,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.7</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.8</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -62,7 +62,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.7</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.8</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -363,6 +363,7 @@
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
+                                <th class="p-2 md:p-3">ID</th>
                                 <th class="p-2 md:p-3">Nome</th>
                                 <th class="p-2 md:p-3">Tipo</th>
                                 <th class="p-2 md:p-3">Tipo Rateio</th>
@@ -381,7 +382,7 @@
                             </tr>
                         </thead>
                         <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="15" class="p-4 text-center">Carregando...</td></tr>
+                            <tr><td colspan="16" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
                         <tfoot id="tbl-cc-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
@@ -650,7 +651,6 @@
                         <h2 class="text-lg md:text-xl font-bold text-white" id="plc-form-title">Cadastrar Conta no Plano de Contas</h2>
                         <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
                     </div>
-                    <!-- BOTÃO NOVO DE IMPORTAR PLANILHA -->
                     <button onclick="abrirModalImportarPlano()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
                         <span>📥 Importar Planilha (CSV)</span>
                     </button>
@@ -658,6 +658,32 @@
 
                 <form id="form-plc" onsubmit="salvarPlanoConta(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input type="hidden" id="plc-editing-id" value="">
+
+                    <!-- CHECKBOX DE RATEIO SELETIVO / PORCENTAGEM -->
+                    <div class="md:col-span-3 border-b border-brand-border/50 pb-3 space-y-3">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="plc-is-rateio" onchange="alternarModoRateioPlanoConta()" class="w-4 h-4 accent-brand-primary rounded cursor-pointer">
+                            <label for="plc-is-rateio" class="text-sm font-bold text-white cursor-pointer">É Conta de Rateio Seletivo / Porcentagem (Atende múltiplos Centros de Custo)?</label>
+                        </div>
+
+                        <!-- RATEIO SELETIVO COM PORCENTAGENS E VALIDAÇÃO DE 100% OBRIGATÓRIO -->
+                        <div id="wrapper-plc-cc-rateio" class="hidden space-y-2 bg-[#0d0d0f] p-3 rounded border border-brand-border">
+                            <div class="flex justify-between items-center">
+                                <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%): <span class="text-amber-400 font-normal">(A SOMA DEVE SER EXATAMENTE 100%)</span></label>
+                                <div class="flex gap-2">
+                                    <button type="button" onclick="dividirIgualmentePlanoCC()" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white font-bold">Dividir Igualmente</button>
+                                    <button type="button" onclick="zerarPercentuaisPlanoCC()" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white">Zerar</button>
+                                </div>
+                            </div>
+                            <div id="container-rateio-plc-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
+                                <!-- Preenchido dinamicamente via JS -->
+                            </div>
+                            <div class="flex justify-between items-center text-xs font-bold pt-2 border-t border-brand-border/50">
+                                <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct-plc" class="text-red-400 text-sm">0%</strong></span>
+                                <span id="display-status-validacao-plc" class="text-red-400 font-extrabold">⚠️ A SOMA DEVE SER IGUAL A 100.0%</span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Descrição / Nome da Conta</label>
@@ -686,19 +712,6 @@
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Valor Mensal (R$)</label>
                         <input type="text" id="plc-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div id="wrapper-plc-cc-rateio-seletivo" class="hidden md:col-span-3 bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-2">
-                        <div class="flex justify-between items-center border-b border-brand-border/50 pb-2">
-                            <label class="block text-xs font-bold text-brand-primary">Selecione os Centros de Custo que participam deste Rateio:</label>
-                            <div class="flex gap-2">
-                                <button type="button" onclick="marcarTodosCCPlano(true)" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white">Marcar Todos</button>
-                                <button type="button" onclick="marcarTodosCCPlano(false)" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white">Desmarcar Todos</button>
-                            </div>
-                        </div>
-                        <div id="container-plc-cc-checkboxes" class="grid grid-cols-2 md:grid-cols-4 gap-2 max-h-36 overflow-y-auto pt-1">
-                            <!-- Preenchido via JS -->
-                        </div>
                     </div>
 
                     <div id="wrapper-plc-aviso-variavel" class="hidden md:col-span-3 bg-amber-950/30 border border-amber-800/50 p-2.5 rounded text-xs text-amber-300">
@@ -1006,6 +1019,8 @@
                         if (typeof calcularCustoFuncionario === 'function') calcularCustoFuncionario();
                     } else if (e.target.id === 'rec-valor') {
                         if (typeof calcularCustoMensalRecurso === 'function') calcularCustoMensalRecurso();
+                    } else if (e.target.id === 'plc-valor') {
+                        if (typeof calcularPercentuaisPlanoConta === 'function') calcularPercentuaisPlanoConta();
                     }
                 });
             });
@@ -1364,6 +1379,25 @@
             }
         }
 
+        // TROCA DE PERÍODO ATIVO CORRIGIDA E TRATADA
+        function trocarPeriodoAtivo() {
+            const id = document.getElementById('global-periodo-select').value;
+            if(!id) return;
+            
+            periodoAtivoObj = listaPeriodos.find(p => String(p.TPERIODO_ID) === String(id));
+            if(!periodoAtivoObj) return;
+
+            atualizarTagsPeriodoHeader();
+            verificarStatusBloqueioPeriodo();
+            preencherFormularioConfigPeriodo();
+            
+            // Recarrega em lote com delay curto para evitar conflitos de requisição paralela
+            setSyncStatus(true, "Carregando período...");
+            setTimeout(() => {
+                carregarTudoDoPeriodo();
+            }, 300);
+        }
+
         function preencherFormularioConfigPeriodo() {
             if (!periodoAtivoObj) return;
 
@@ -1609,7 +1643,7 @@
         async function carregarCentrosDeCusto() {
             const tbody = document.getElementById('tbl-cc-body');
             if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center">Buscando centros de custo...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center">Buscando centros de custo...</td></tr>';
 
             try {
                 setSyncStatus(true);
@@ -1625,7 +1659,7 @@
                 preencherSelectsCentrosDeCusto();
                 renderizarTabelaCCLocal();
                 setSyncStatus(false);
-            } catch (e) { tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; setSyncStatus(false, "Erro API"); }
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
         function renderizarTabelaCCLocal() {
@@ -1633,7 +1667,7 @@
             if (!tbody) return;
 
             if (listaCC.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center">Nenhum centro de custo cadastrado.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center">Nenhum centro de custo cadastrado.</td></tr>';
                 return;
             }
 
@@ -1641,6 +1675,7 @@
             listaCC.forEach(item => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-brand-primary uppercase text-xs font-mono">${item.TCENTRO_CUSTO_ID}</td>
                         <td class="p-2 md:p-3 font-semibold text-white uppercase">${item.TCENTRO_CUSTO_NOME}</td>
                         <td class="p-2 md:p-3 uppercase text-xs">${item.TCENTRO_CUSTO_TIPO}</td>
                         <td class="p-2 md:p-3 uppercase text-xs">${item.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-'}</td>
@@ -2025,7 +2060,6 @@
             });
         }
 
-        // FÓRMULA DE ENCARGOS TRABALHISTAS
         function calcularCustoFuncionario() {
             const salBaseInput = parseMoedaBR(document.getElementById('func-salario-base').value);
             const valBen = parseMoedaBR(document.getElementById('func-beneficios-valor').value);
@@ -2227,7 +2261,81 @@
             alternarModoRateioFuncionario();
         }
 
-        // --- ABA PLANO DE CONTAS & IMPORTAÇÃO DE PLANILHA ---
+        // --- ABA PLANO DE CONTAS COM RATEIO SELETIVO % (EXIGE 100% OBRIGATÓRIO) ---
+        function alternarModoRateioPlanoConta() {
+            const isRateio = document.getElementById('plc-is-rateio').checked;
+            const wrapExclusivo = document.getElementById('wrapper-plc-cc-exclusivo');
+            const wrapRateio = document.getElementById('wrapper-plc-cc-rateio');
+            const critSel = document.getElementById('plc-criterio');
+
+            if (isRateio) {
+                wrapExclusivo.classList.add('hidden');
+                wrapRateio.classList.remove('hidden');
+                critSel.value = 'SELETIVO_PERCENTUAL';
+                renderizarListaRateioPlanoCCs();
+            } else {
+                wrapRateio.classList.add('hidden');
+                critSel.value = 'EXCLUSIVO';
+                verificarCriterioPlanoContas();
+            }
+        }
+
+        function renderizarListaRateioPlanoCCs() {
+            const container = document.getElementById('container-rateio-plc-cc-list');
+            if(!container) return;
+            container.innerHTML = '';
+
+            listaCC.forEach(c => {
+                container.innerHTML += `
+                    <div class="flex items-center justify-between gap-2 text-xs">
+                        <span class="text-white font-medium uppercase truncate">${c.TCENTRO_CUSTO_NOME}</span>
+                        <input type="number" step="0.01" min="0" max="100" placeholder="0%" oninput="calcularPercentuaisPlanoConta()" data-plc-cc-id="${c.TCENTRO_CUSTO_ID}" class="input-plc-rateio-pct w-20 p-1 rounded bg-[#16161a] border border-brand-border text-white text-right outline-none">
+                    </div>
+                `;
+            });
+            calcularPercentuaisPlanoConta();
+        }
+
+        function dividirIgualmentePlanoCC() {
+            const inputs = document.querySelectorAll('.input-plc-rateio-pct');
+            if (inputs.length === 0) return;
+            const pctIgual = (100 / inputs.length).toFixed(2);
+            inputs.forEach(inp => inp.value = pctIgual);
+            calcularPercentuaisPlanoConta();
+        }
+
+        function zerarPercentuaisPlanoCC() {
+            document.querySelectorAll('.input-plc-rateio-pct').forEach(inp => inp.value = '');
+            calcularPercentuaisPlanoConta();
+        }
+
+        function calcularPercentuaisPlanoConta() {
+            const inputs = document.querySelectorAll('.input-plc-rateio-pct');
+            let somaPct = 0;
+            inputs.forEach(inp => { somaPct += (parseFloat(inp.value) || 0); });
+
+            const dispTotal = document.getElementById('display-total-pct-plc');
+            const dispStatus = document.getElementById('display-status-validacao-plc');
+
+            if (dispTotal) dispTotal.innerText = somaPct.toFixed(1) + "%";
+
+            // VALIDAÇÃO ESTRITA DE 100%
+            const isValido = Math.abs(somaPct - 100.0) < 0.01;
+
+            if (dispStatus) {
+                if (isValido) {
+                    dispStatus.className = "text-emerald-400 font-extrabold";
+                    dispStatus.innerText = "✅ SOMA VÁLIDA (EXATAMENTE 100.0%)";
+                    if (dispTotal) dispTotal.className = "text-emerald-400 text-sm";
+                } else {
+                    dispStatus.className = "text-red-400 font-extrabold";
+                    dispStatus.innerText = `⚠️ A SOMA DEVE SER IGUAL A 100.0% (ATUAL: ${somaPct.toFixed(1)}%)`;
+                    if (dispTotal) dispTotal.className = "text-red-400 text-sm";
+                }
+            }
+            return isValido;
+        }
+
         function abrirModalImportarPlano() {
             dadosCSVImportacao = [];
             document.getElementById('csv-file-input').value = '';
@@ -2267,8 +2375,6 @@
                     return;
                 }
 
-                const cabecalho = linhas[0].split(/;|,/).map(c => c.trim().toUpperCase());
-
                 for (let i = 1; i < linhas.length; i++) {
                     if (!linhas[i].trim()) continue;
                     const colunas = linhas[i].split(/;|,/).map(c => c.trim());
@@ -2277,7 +2383,13 @@
                         let nome = colunas[0].toUpperCase();
                         let criterio = colunas[1].toUpperCase() || 'AREA';
                         let valor = parseMoedaBR(colunas[2]);
-                        let ccId = colunas[3] ? colunas[3].toUpperCase() : '';
+                        let ccTargetInput = colunas[3] ? colunas[3].trim().toUpperCase() : '';
+
+                        let ccId = ccTargetInput;
+                        if (criterio === 'EXCLUSIVO' && ccTargetInput) {
+                            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === ccTargetInput || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === ccTargetInput);
+                            if (ccObj) ccId = ccObj.TCENTRO_CUSTO_ID;
+                        }
 
                         if (nome && valor > 0) {
                             dadosCSVImportacao.push({ nome, criterio, valor, ccId });
@@ -2337,42 +2449,21 @@
         function verificarCriterioPlanoContas() {
             const crit = document.getElementById('plc-criterio').value;
             const wrapExclusivo = document.getElementById('wrapper-plc-cc-exclusivo');
-            const wrapSeletivo = document.getElementById('wrapper-plc-cc-rateio-seletivo');
             const wrapAviso = document.getElementById('wrapper-plc-aviso-variavel');
+            const isRateioSeletivo = document.getElementById('plc-is-rateio').checked;
+
+            if (isRateioSeletivo) return;
 
             if (crit === 'EXCLUSIVO') {
                 wrapExclusivo.classList.remove('hidden');
-                wrapSeletivo.classList.add('hidden');
                 wrapAviso.classList.add('hidden');
             } else if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) {
                 wrapExclusivo.classList.add('hidden');
-                wrapSeletivo.classList.add('hidden');
                 wrapAviso.classList.remove('hidden');
             } else {
                 wrapExclusivo.classList.add('hidden');
-                wrapSeletivo.classList.remove('hidden');
                 wrapAviso.classList.add('hidden');
-                renderizarCheckboxesPlanoCC();
             }
-        }
-
-        function renderizarCheckboxesPlanoCC() {
-            const container = document.getElementById('container-plc-cc-checkboxes');
-            if(!container) return;
-            container.innerHTML = '';
-
-            listaCC.forEach(c => {
-                container.innerHTML += `
-                    <label class="flex items-center gap-2 text-xs text-white cursor-pointer bg-[#16161a] p-1.5 rounded border border-brand-border">
-                        <input type="checkbox" checked value="${c.TCENTRO_CUSTO_ID}" class="chk-plc-cc accent-brand-primary">
-                        <span class="truncate uppercase">${c.TCENTRO_CUSTO_NOME}</span>
-                    </label>
-                `;
-            });
-        }
-
-        function marcarTodosCCPlano(marcar) {
-            document.querySelectorAll('.chk-plc-cc').forEach(chk => chk.checked = marcar);
         }
 
         async function carregarPlanoContas() {
@@ -2413,9 +2504,11 @@
                     try {
                         const arr = JSON.parse(p.TCENTRO_CUSTO_ID);
                         let nomes = [];
-                        arr.forEach(id => {
-                            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(id));
-                            if(ccObj) nomes.push(ccObj.TCENTRO_CUSTO_NOME);
+                        arr.forEach(item => {
+                            const idBusca = typeof item === 'object' ? item.id : item;
+                            const pctBusca = typeof item === 'object' ? ` (${item.pct}%)` : '';
+                            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(idBusca));
+                            if(ccObj) nomes.push(ccObj.TCENTRO_CUSTO_NOME + pctBusca);
                         });
                         destDisplay = nomes.join(", ");
                     } catch(e) {}
@@ -2425,7 +2518,7 @@
                     <tr class="hover:bg-brand-border/30 transition">
                         <td class="p-2 md:p-3 font-semibold text-white uppercase">${p.TPLANO_CONTA_NOME}</td>
                         <td class="p-2 md:p-3 uppercase text-xs">${p.TPLANO_CONTA_CRITERIO}</td>
-                        <td class="p-2 md:p-3 text-xs uppercase">${destDisplay || 'TODOS'}</td>
+                        <td class="p-2 md:p-3 text-xs uppercase">${destDisplay || 'TODOS OS SETORES'}</td>
                         <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(p.TPLANO_CONTA_VALOR)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="editarPlanoConta('${p.TPLANO_CONTA_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
@@ -2445,9 +2538,11 @@
             document.getElementById('plc-criterio').value = item.TPLANO_CONTA_CRITERIO;
             document.getElementById('plc-valor').value = Number(item.TPLANO_CONTA_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
-            verificarCriterioPlanoContas();
+            const isSeletivo = item.TPLANO_CONTA_CRITERIO === 'SELETIVO_PERCENTUAL' || (item.TCENTRO_CUSTO_ID && item.TCENTRO_CUSTO_ID.includes('pct'));
+            document.getElementById('plc-is-rateio').checked = isSeletivo;
+            alternarModoRateioPlanoConta();
 
-            if (item.TPLANO_CONTA_CRITERIO === 'EXCLUSIVO') {
+            if (!isSeletivo && item.TPLANO_CONTA_CRITERIO === 'EXCLUSIVO') {
                 document.getElementById('plc-cc-id').value = item.TCENTRO_CUSTO_ID;
             }
 
@@ -2460,20 +2555,36 @@
             e.preventDefault();
             const btn = document.getElementById('btn-salvar-plc');
             const editingId = document.getElementById('plc-editing-id').value;
+            const isRateioSeletivo = document.getElementById('plc-is-rateio').checked;
+
+            let crit = document.getElementById('plc-criterio').value;
+            let ccTarget = document.getElementById('plc-cc-id').value;
+
+            if (isRateioSeletivo) {
+                // VALIDAÇÃO ESTRITA: EXIGE SOMA EXATA DE 100%
+                if (!calcularPercentuaisPlanoConta()) {
+                    alert("Atenção: A soma dos percentuais para a conta de rateio DEVE SER EXATAMENTE 100.0%. Verifique os valores digitados.");
+                    return;
+                }
+
+                let rateioArr = [];
+                const inputs = document.querySelectorAll('.input-plc-rateio-pct');
+                inputs.forEach(inp => {
+                    const pctVal = parseFloat(inp.value) || 0;
+                    if (pctVal > 0) {
+                        rateioArr.push({ id: inp.getAttribute('data-plc-cc-id'), pct: pctVal });
+                    }
+                });
+                ccTarget = JSON.stringify(rateioArr);
+                crit = 'SELETIVO_PERCENTUAL';
+            }
+
             btn.innerText = "Gravando...";
             btn.disabled = true;
             setSyncStatus(true);
 
             const nome = document.getElementById('plc-nome').value.trim().toUpperCase();
-            const crit = document.getElementById('plc-criterio').value;
             const val = parseMoedaBR(document.getElementById('plc-valor').value);
-            let ccTarget = document.getElementById('plc-cc-id').value;
-
-            if (crit !== 'EXCLUSIVO' && !crit.includes('NÃO RATEAR') && !crit.includes('NAO RATEAR')) {
-                let selecionados = [];
-                document.querySelectorAll('.chk-plc-cc:checked').forEach(chk => selecionados.push(chk.value));
-                ccTarget = JSON.stringify(selecionados);
-            }
 
             const payload = {
                 sheet: "TPLANO_CONTAS",
@@ -2509,7 +2620,8 @@
             document.getElementById('btn-salvar-plc').innerText = "Salvar Conta";
             document.getElementById('btn-salvar-plc').disabled = false;
             document.getElementById('btn-cancelar-plc').classList.add('hidden');
-            verificarCriterioPlanoContas();
+            document.getElementById('plc-is-rateio').checked = false;
+            alternarModoRateioPlanoConta();
         }
 
         async function deletarItemAPI(aba, id, callbackSucesso) {
@@ -2642,24 +2754,23 @@
                         `;
                     }
 
-                    // ESTILIZAÇÃO COLORIDA E SUPER VISUAL
                     let bgStyle = 'py-2 border-b border-brand-border/30 pl-3 text-brand-muted';
                     let textClass = 'text-white font-bold';
 
                     if (tipoEstilo === 'receita') {
-                        bgStyle = 'bg-emerald-950/30 border-l-4 border-emerald-500 p-2.5 rounded-r-md font-bold text-emerald-300';
+                        bgStyle = 'bg-emerald-950/30 border-l-4 border-emerald-500 p-2.5 rounded-r-md font-bold text-emerald-300 shadow-sm';
                         textClass = 'text-emerald-300 text-sm font-extrabold';
                     } else if (tipoEstilo === 'deducao') {
                         bgStyle = 'py-1.5 border-b border-brand-border/30 pl-3 text-red-300/80';
                         textClass = 'text-red-300 font-medium';
                     } else if (tipoEstilo === 'margem') {
-                        bgStyle = 'bg-blue-950/40 border-l-4 border-blue-500 p-2.5 rounded-r-md font-bold text-blue-300';
+                        bgStyle = 'bg-blue-950/40 border-l-4 border-blue-500 p-2.5 rounded-r-md font-bold text-blue-300 shadow-sm';
                         textClass = 'text-blue-300 text-sm font-extrabold';
                     } else if (tipoEstilo === 'custo_fabril') {
                         bgStyle = 'py-1.5 border-b border-brand-border/30 pl-3 text-amber-300/80';
                         textClass = 'text-amber-300 font-medium';
                     } else if (tipoEstilo === 'res_fabril') {
-                        bgStyle = 'bg-amber-950/40 border-l-4 border-amber-500 p-2.5 rounded-r-md font-bold text-amber-300';
+                        bgStyle = 'bg-amber-950/40 border-l-4 border-amber-500 p-2.5 rounded-r-md font-bold text-amber-300 shadow-sm';
                         textClass = 'text-amber-300 text-sm font-extrabold';
                     } else if (tipoEstilo === 'resultado_final') {
                         const isPositivo = valAtivo >= 0;
@@ -2830,7 +2941,7 @@
                 if (crit === 'EXCLUSIVO') return String(p.TCENTRO_CUSTO_ID) === String(ccId);
                 try {
                     const arr = JSON.parse(p.TCENTRO_CUSTO_ID);
-                    return arr.includes(ccId);
+                    return arr.some(item => (typeof item === 'object' ? String(item.id) === String(ccId) : String(item) === String(ccId)));
                 } catch(e) { return true; }
             });
 
@@ -2894,7 +3005,15 @@
                     let valAbsorvido = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
                     const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
 
-                    if (crit !== 'EXCLUSIVO') {
+                    if (crit === 'SELETIVO_PERCENTUAL' || (p.TCENTRO_CUSTO_ID && p.TCENTRO_CUSTO_ID.includes('pct'))) {
+                        try {
+                            const arr = JSON.parse(p.TCENTRO_CUSTO_ID);
+                            const itemP = arr.find(x => String(x.id) === String(ccId));
+                            if (itemP) {
+                                valAbsorvido = valAbsorvido * ((parseFloat(itemP.pct) || 0) / 100);
+                            }
+                        } catch(e) {}
+                    } else if (crit !== 'EXCLUSIVO') {
                         let participantes = [];
                         try { participantes = JSON.parse(p.TCENTRO_CUSTO_ID); } catch(e) { participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID); }
                         if(!Array.isArray(participantes) || participantes.length === 0) participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID);
