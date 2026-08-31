@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V3.5 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V3.1 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,7 +32,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.5</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.1</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -62,7 +62,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.5</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.1</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -453,8 +453,8 @@
                             <tr>
                                 <th class="p-2 md:p-3">Centro Custo</th>
                                 <th class="p-2 md:p-3">Nome Recurso</th>
-                                <th class="p-2 md:p-3">Tipo</th>
                                 <th class="p-2 md:p-3">Valor (R$)</th>
+                                <th class="p-2 md:p-3">Tipo</th>
                                 <th class="p-2 md:p-3">Turnos</th>
                                 <th class="p-2 md:p-3">Custo Mensal (R$)</th>
                                 <th class="p-2 md:p-3 text-right">Ações</th>
@@ -1021,6 +1021,111 @@
             calcularCustoFuncionario();
         }
 
+        function verificarStatusBloqueioPeriodo() {
+            const banner = document.getElementById('banner-periodo-bloqueado');
+            if (periodoAtivoObj && String(periodoAtivoObj.TPERIODO_STATUS).toUpperCase() === 'FECHADO') {
+                if(banner) banner.classList.remove('hidden');
+                bloquearTodosFormularios(true);
+            } else {
+                if(banner) banner.classList.add('hidden');
+                bloquearTodosFormularios(false);
+            }
+        }
+
+        function bloquearTodosFormularios(bloquear) {
+            const btns = document.querySelectorAll('button[type="submit"]');
+            btns.forEach(b => {
+                b.disabled = bloquear;
+                if(bloquear) b.classList.add('opacity-40', 'cursor-not-allowed');
+                else b.classList.remove('opacity-40', 'cursor-not-allowed');
+            });
+        }
+
+        function carregarClientesSelect() {
+            const sel = document.getElementById('usr-cli-id');
+            if (!sel) return;
+            sel.innerHTML = '<option value="">-- SELECIONE O CLIENTE --</option>';
+            if (Array.isArray(listaClientesAdmin)) {
+                listaClientesAdmin.forEach(c => {
+                    sel.innerHTML += `<option value="${c.TCLIENTE_ID}">${c.TCLIENTE_NOME.toUpperCase()}</option>`;
+                });
+            }
+        }
+
+        function modalCriarNovoPeriodo() {
+            const nome = prompt("Informe o nome do novo período (Ex: 2026.2):");
+            if (!nome) return;
+
+            setSyncStatus(true);
+            const payload = {
+                sheet: "TPERIODO",
+                action: "CLONE_PERIOD",
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoOrigemId: periodoAtivoObj ? periodoAtivoObj.TPERIODO_ID : "",
+                novoNomePeriodo: nome.trim().toUpperCase()
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Novo período criado com sucesso!");
+                setSyncStatus(false);
+                setTimeout(carregarPeriodosDoCliente, 1500);
+            });
+        }
+
+        function alternarStatusPeriodo(id, statusAtual) {
+            const novoStatus = String(statusAtual).toUpperCase() === 'ABERTO' ? 'FECHADO' : 'ABERTO';
+            const item = listaPeriodos.find(p => String(p.TPERIODO_ID) === String(id));
+            if (!item) return;
+
+            setSyncStatus(true);
+            const payload = {
+                sheet: "TPERIODO",
+                action: "UPDATE",
+                id: id,
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: id,
+                data: [usuarioLogado.TCLIENTE_ID, id, item.TPERIODO_NOME, novoStatus, item.TPERIODO_ATUAL || "SIM", item.TPERIODO_FATURAMENTO || 0, item.TPERIODO_ALIQUOTA || 0, item.TPERIODO_PREDIO || 0, item.TPERIODO_RENTABILIDADE || 0, item.TPERIODO_RETIRADA || 0]
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                setSyncStatus(false);
+                setTimeout(carregarPeriodosDoCliente, 1500);
+            });
+        }
+
+        function alternarStatusCliente(id, nome, cnpj, isAtivo) {
+            const novoStatus = isAtivo ? 'NAO' : 'SIM';
+            setSyncStatus(true);
+
+            const payload = {
+                sheet: "TCLIENTE",
+                action: "UPDATE",
+                id: id,
+                clienteId: id,
+                data: [id, nome, cnpj, novoStatus]
+            };
+
+            fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                setSyncStatus(false);
+                setTimeout(carregarTabelaClientesAdmin, 1500);
+            });
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             aplicarMascarasMonetarias();
             const savedUser = localStorage.getItem('usuarioLogadoRF');
@@ -1252,6 +1357,126 @@
             });
         }
 
+        // --- ABA INVESTIMENTOS DO PERÍODO ---
+        async function carregarInvestimentos() {
+            const tbody = document.getElementById('tbl-inv-body');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Buscando investimentos...</td></tr>';
+
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=TINVESTIMENTOS`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    listaInvestimentos = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaInvestimentos = [];
+                }
+
+                renderizarTabelaInvestimentosLocal();
+                setSyncStatus(false);
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar investimentos.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        function renderizarTabelaInvestimentosLocal() {
+            const tbody = document.getElementById('tbl-inv-body');
+            const tfoot = document.getElementById('tbl-inv-foot');
+            if (!tbody) return;
+
+            if (listaInvestimentos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Nenhum investimento cadastrado neste período.</td></tr>';
+                if(tfoot) tfoot.innerHTML = '';
+                return;
+            }
+
+            let total = 0;
+            tbody.innerHTML = '';
+            listaInvestimentos.forEach(item => {
+                const val = parseFloat(item.TINVESTIMENTO_VALOR) || 0;
+                total += val;
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${item.TINVESTIMENTO_NOME}</td>
+                        <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(val)}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="editarInvestimento('${item.TINVESTIMENTO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
+                            <button onclick="deletarItemAPI('TINVESTIMENTOS', '${item.TINVESTIMENTO_ID}', carregarInvestimentos)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            if(tfoot) {
+                tfoot.innerHTML = `
+                    <tr>
+                        <td class="p-2 md:p-3 uppercase">Total Investimentos</td>
+                        <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(total)}</td>
+                        <td></td>
+                    </tr>
+                `;
+            }
+        }
+
+        function editarInvestimento(id) {
+            const item = listaInvestimentos.find(i => String(i.TINVESTIMENTO_ID) === String(id));
+            if(!item) return;
+
+            document.getElementById('inv-editing-id').value = item.TINVESTIMENTO_ID;
+            document.getElementById('inv-nome').value = item.TINVESTIMENTO_NOME;
+            document.getElementById('inv-valor').value = Number(item.TINVESTIMENTO_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+            document.getElementById('btn-salvar-inv').innerText = "Atualizar Investimento";
+            document.getElementById('btn-cancelar-inv').classList.remove('hidden');
+        }
+
+        async function salvarInvestimento(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-salvar-inv');
+            const editingId = document.getElementById('inv-editing-id').value;
+            btn.innerText = "Gravando...";
+            btn.disabled = true;
+            setSyncStatus(true);
+
+            const nome = document.getElementById('inv-nome').value.trim().toUpperCase();
+            const val = parseMoedaBR(document.getElementById('inv-valor').value);
+
+            const payload = {
+                sheet: "TINVESTIMENTOS",
+                action: editingId ? "UPDATE" : "CREATE",
+                id: editingId,
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, editingId || "", nome, val]
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert(editingId ? "Investimento atualizado!" : "Investimento cadastrado!");
+                limparFormInv();
+                setSyncStatus(false);
+                setTimeout(carregarInvestimentos, 1500);
+            } catch(err) {
+                alert("Erro ao gravar investimento.");
+                btn.innerText = editingId ? "Atualizar Investimento" : "Salvar Investimento";
+                btn.disabled = false;
+                setSyncStatus(false, "Erro ao gravar");
+            }
+        }
+
+        function limparFormInv() {
+            document.getElementById('form-inv').reset();
+            document.getElementById('inv-editing-id').value = '';
+            document.getElementById('btn-salvar-inv').innerText = "Salvar Investimento";
+            document.getElementById('btn-salvar-inv').disabled = false;
+            document.getElementById('btn-cancelar-inv').classList.add('hidden');
+        }
+
         function carregarTudoDoPeriodo() {
             carregarInvestimentos();
             carregarCentrosDeCusto();
@@ -1316,11 +1541,20 @@
         function verificarTipoCentroCusto() {
             const tipo = document.getElementById('cc-tipo').value;
             const wrapperRateio = document.getElementById('wrapper-cc-tipo-rateio');
+            const wrapperCustoFixo = document.getElementById('wrapper-cc-custo-fixo');
+            const wrapperProdutividade = document.getElementById('wrapper-cc-produtividade');
+
             if (tipo === 'PRODUTIVO DIRETO') {
                 wrapperRateio.classList.remove('hidden');
+                wrapperCustoFixo.classList.remove('hidden');
+                wrapperProdutividade.classList.remove('hidden');
             } else {
                 wrapperRateio.classList.add('hidden');
+                wrapperCustoFixo.classList.add('hidden');
+                wrapperProdutividade.classList.add('hidden');
                 document.getElementById('cc-tipo-rateio').value = '';
+                document.getElementById('cc-custo-fixo').value = '0,00';
+                document.getElementById('cc-produtividade').value = '100.00';
             }
         }
 
@@ -1516,14 +1750,17 @@
                 const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(r.TCENTRO_CUSTO_ID));
                 const nomeCC = ccObj ? ccObj.TCENTRO_CUSTO_NOME : r.TCENTRO_CUSTO_ID;
 
+                const valRecurso = parseFloat(r.TRECURSO_VALOR) || 0;
+                const custoMensal = parseFloat(r.TRECURSO_CUSTO_MENSAL) || 0;
+
                 tbody.innerHTML += `
                     <tr class="hover:bg-brand-border/30 transition">
                         <td class="p-2 md:p-3 text-xs uppercase font-semibold text-white">${nomeCC}</td>
                         <td class="p-2 md:p-3 font-semibold text-white uppercase">${r.TRECURSO_NOME}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(valRecurso)}</td>
                         <td class="p-2 md:p-3 uppercase text-xs">${r.TRECURSO_TIPO}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(r.TRECURSO_VALOR)}</td>
                         <td class="p-2 md:p-3">${r.TRECURSO_TURNOS || 1}</td>
-                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(r.TRECURSO_CUSTO_MENSAL)}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(custoMensal)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="editarRecurso('${r.TRECURSO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
                             <button onclick="deletarItemAPI('TRECURSO', '${r.TRECURSO_ID}', carregarRecursos)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
@@ -1565,13 +1802,23 @@
             const turnos = parseInt(document.getElementById('rec-turnos').value, 10) || 1;
             const custoMensal = parseMoedaBR(document.getElementById('rec-custo-mensal').value);
 
+            // ORDEM CORRETA DAS COLUNAS NA PLANILHA TRECURSO:
+            // Col A: TCLIENTE_ID
+            // Col B: TPERIODO_ID
+            // Col C: TCENTRO_CUSTO_ID
+            // Col D: TRECURSO_ID
+            // Col E: TRECURSO_NOME
+            // Col F: TRECURSO_VALOR
+            // Col G: TRECURSO_TIPO
+            // Col H: TRECURSO_CUSTO_MENSAL
+            // Col I: TRECURSO_TURNOS
             const payload = {
                 sheet: "TRECURSO",
                 action: editingId ? "UPDATE" : "CREATE",
                 id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
-                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccId, editingId || "", nome, tipo, val, custoMensal, turnos]
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccId, editingId || "", nome, val, tipo, custoMensal, turnos]
             };
 
             try {
@@ -1752,8 +1999,13 @@
                 salCalculado = salBase * hrsMes;
             }
 
+            // BUSCA TAXA DE ENCARGOS DA TABELA DE PADRÕES
             let multiplicador = 1.0;
-            if (tpReg.includes('CLT') || tpReg.includes('REGULADO')) {
+            const pReg = tabelaPadroes.find(p => String(p.TFUNCIONARIO_TP_REGISTRO).toUpperCase() === String(tpReg).toUpperCase());
+            if (pReg && pReg.TFUNCIONARIO_TAXA_ENCARGOS) {
+                const taxaNum = parseFloat(pReg.TFUNCIONARIO_TAXA_ENCARGOS) || 0;
+                multiplicador = 1.0 + (taxaNum > 1 ? taxaNum / 100 : taxaNum);
+            } else if (tpReg.includes('CLT') || tpReg.includes('REGULADO')) {
                 multiplicador = 1.68;
             }
 
@@ -2241,14 +2493,26 @@
                         `;
                     }
 
-                    const bgStyle = isHighlight ? 'bg-brand-primary/20 border border-brand-primary p-3 rounded-lg font-extrabold text-brand-primary' : (isHeader ? 'bg-[#0d0d0f] p-2.5 rounded-md font-bold text-white border-l-4 border-brand-primary' : 'py-2 border-b border-brand-border/30 pl-3 text-brand-muted');
+                    // COR DINÂMICA DO RESULTADO FINAL (VERDE SE >= 0, VERMELHO SE < 0)
+                    let textClass = 'text-white font-bold';
+                    let bgStyle = 'py-2 border-b border-brand-border/30 pl-3 text-brand-muted';
+
+                    if (isHighlight) {
+                        const isPositivo = valAtivo >= 0;
+                        bgStyle = isPositivo 
+                            ? 'bg-emerald-950/40 border border-emerald-800/80 p-3 rounded-lg font-extrabold text-emerald-400' 
+                            : 'bg-red-950/40 border border-red-800/80 p-3 rounded-lg font-extrabold text-red-400';
+                        textClass = isPositivo ? 'text-emerald-400 text-base' : 'text-red-400 text-base';
+                    } else if (isHeader) {
+                        bgStyle = 'bg-[#0d0d0f] p-2.5 rounded-md font-bold text-white border-l-4 border-brand-primary';
+                    }
 
                     containerDRE.innerHTML += `
                         <div class="flex justify-between items-center ${bgStyle}">
-                            <span class="${isHighlight ? 'text-brand-primary text-sm' : (isHeader ? 'text-white' : '')}">${label}</span>
+                            <span class="${isHighlight ? (valAtivo >= 0 ? 'text-emerald-400 font-bold' : 'text-red-400 font-bold') : (isHeader ? 'text-white' : '')}">${label}</span>
                             <div class="flex items-center gap-4">
                                 <div class="space-x-2 text-right">
-                                    <span class="${isHighlight ? 'text-brand-primary text-base' : 'text-white font-bold'}">${formatarMoedaBR(valAtivo)}</span>
+                                    <span class="${textClass}">${formatarMoedaBR(valAtivo)}</span>
                                     <span class="text-[11px] font-mono text-brand-muted">(${pctA})</span>
                                 </div>
                                 ${compHtml}
@@ -2302,7 +2566,8 @@
             const tbodyCustoHora = document.getElementById('tbl-custo-hora-cc-body');
             if(tbodyCustoHora) {
                 tbodyCustoHora.innerHTML = '';
-                listaCC.filter(c => c.TCENTRO_CUSTO_TIPO === 'PRODUTIVO DIRETO').forEach(c => {
+                // FILTRA APENAS SETORES PRODUTIVOS DIRETOS PARA O CUSTO-HORA
+                listaCC.filter(c => String(c.TCENTRO_CUSTO_TIPO).toUpperCase() === 'PRODUTIVO DIRETO').forEach(c => {
                     const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
                     const dep = parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL) || 0;
                     const func = parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO) || 0;
@@ -2498,6 +2763,14 @@
                 </div>`;
             }
 
+            const custoTotalDoSetor = (parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_MENSAL : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_FUNCIONARIO : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0)||0) + custoIndiretoAbsorvido;
+
+            // BLOCO ADICIONADO: EXIBIÇÃO DO CUSTO TOTAL MENSAL ACUMULADO DO SETOR
+            htmlHtml += `<div class="bg-brand-border/40 p-3 rounded border border-brand-border flex justify-between items-center text-xs">
+                <span class="font-bold text-white uppercase">Custo Total Mensal do Setor:</span>
+                <span class="font-extrabold text-white text-sm">${formatarMoedaBR(custoTotalDoSetor)}</span>
+            </div>`;
+
             htmlHtml += `<div class="bg-brand-primary/10 p-3 rounded border border-brand-primary/30 text-xs space-y-1">
                 <div class="flex justify-between text-white font-bold"><span>Horas Brutas do Setor:</span><span>${horasBrutasCC.toFixed(1)} h</span></div>
                 <div class="flex justify-between text-brand-primary font-bold"><span>Fator de Produtividade:</span><span>${prodPct.toFixed(0)}%</span></div>
@@ -2506,7 +2779,6 @@
 
             container.innerHTML = htmlHtml;
 
-            const custoTotalDoSetor = (parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_MENSAL : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_FUNCIONARIO : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0)||0) + custoIndiretoAbsorvido;
             const custoHoraCalculado = horasEfetivasCC > 0 ? (custoTotalDoSetor / horasEfetivasCC) : 0;
 
             document.getElementById('modal-dh-custohora-total').innerText = formatarMoedaBR(custoHoraCalculado) + "/h";
