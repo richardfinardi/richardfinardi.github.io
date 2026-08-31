@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V3.6 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V3.7 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,7 +32,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.6</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.7</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -62,7 +62,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.6</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.7</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -645,9 +645,15 @@
         <!-- ABA 5: PLANO DE CONTAS -->
         <section id="section-plano-contas" class="hidden space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
-                    <h2 class="text-lg md:text-xl font-bold text-white" id="plc-form-title">Cadastrar Conta no Plano de Contas</h2>
-                    <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-2">
+                    <div>
+                        <h2 class="text-lg md:text-xl font-bold text-white" id="plc-form-title">Cadastrar Conta no Plano de Contas</h2>
+                        <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                    </div>
+                    <!-- BOTÃO NOVO DE IMPORTAR PLANILHA -->
+                    <button onclick="abrirModalImportarPlano()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
+                        <span>📥 Importar Planilha (CSV)</span>
+                    </button>
                 </div>
 
                 <form id="form-plc" onsubmit="salvarPlanoConta(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -782,7 +788,7 @@
             <!-- DRE GERENCIAL & GRÁFICO DE COMPOSIÇÃO DE CUSTO -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <!-- DRE GERENCIAL ESTRUTURADA -->
+                <!-- DRE GERENCIAL ESTRUTURADA SUPER VISUAL E COLORIDA -->
                 <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <div class="flex justify-between items-center border-b border-brand-border/50 pb-3">
                         <div>
@@ -794,8 +800,8 @@
                         <span class="text-xs font-bold text-brand-primary uppercase" id="dre-period-display">---</span>
                     </div>
 
-                    <div id="container-dre-rows" class="space-y-2 text-xs md:text-sm">
-                        <!-- Preenchido via JS dinamicamente -->
+                    <div id="container-dre-rows" class="space-y-2.5 text-xs md:text-sm">
+                        <!-- Preenchido via JS dinamicamente com paleta cromática temática -->
                     </div>
                 </div>
 
@@ -873,6 +879,47 @@
 
     </main>
 
+    <!-- MODAL DE IMPORTAÇÃO DE PLANO DE CONTAS POR CSV/EXCEL -->
+    <div id="modal-importar-plano" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3">
+                <div>
+                    <h3 class="text-lg font-bold text-white uppercase flex items-center gap-2">📥 Importar Plano de Contas</h3>
+                    <p class="text-xs text-brand-muted">Selecione um arquivo CSV com suas contas para importar em lote</p>
+                </div>
+                <button onclick="fecharModalImportarPlano()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
+            </div>
+
+            <div class="space-y-3 text-xs text-brand-muted">
+                <p>O arquivo CSV deve conter o cabeçalho na primeira linha com as colunas:</p>
+                <div class="bg-[#0d0d0f] p-2.5 rounded font-mono text-[11px] border border-brand-border text-emerald-400">
+                    NOME; CRITERIO; VALOR; CENTRO_CUSTO_ID
+                </div>
+                <ul class="list-disc pl-4 space-y-1">
+                    <li><strong>CRITERIO:</strong> EXCLUSIVO, AREA, RECURSOS, HORAS, etc.</li>
+                    <li><strong>VALOR:</strong> Valor numérico (ex: 1200.00)</li>
+                    <li><strong>CENTRO_CUSTO_ID:</strong> Nome ou ID do Centro de Custo (opcional para rateios globais)</li>
+                </ul>
+                <div class="pt-1">
+                    <button onclick="baixarModeloCSVPlano()" class="text-brand-primary underline hover:text-brand-hover text-xs font-bold">📥 Baixar Planilha Modelo (.CSV)</button>
+                </div>
+            </div>
+
+            <div class="border-2 border-dashed border-brand-border p-6 rounded-xl text-center space-y-2 bg-[#0d0d0f]">
+                <input type="file" id="csv-file-input" accept=".csv" class="hidden" onchange="processarArquivoCSV(event)">
+                <label for="csv-file-input" class="cursor-pointer bg-brand-border hover:bg-brand-border/80 text-white font-bold px-4 py-2 rounded-lg text-xs inline-block">
+                    📁 Selecionar Arquivo CSV
+                </label>
+                <p id="csv-file-name" class="text-xs text-brand-muted pt-1">Nenhum arquivo selecionado</p>
+            </div>
+
+            <div class="flex justify-end gap-2 border-t border-brand-border pt-3">
+                <button onclick="fecharModalImportarPlano()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Cancelar</button>
+                <button id="btn-confirmar-importacao" onclick="confirmarImportacaoCSV()" disabled class="bg-emerald-600 hover:bg-emerald-500 opacity-40 text-white font-bold px-4 py-2 rounded text-xs transition cursor-not-allowed">Confirmar Importação</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL DE COMPOSIÇÃO DO CUSTO-HORA E RAIO-X DO SETOR -->
     <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
@@ -912,6 +959,7 @@
         let listaPlanoContas = [];
         let tabelaPadroes = [];
         let chartCCInstance = null;
+        let dadosCSVImportacao = [];
 
         function setSyncStatus(isSyncing, msg = "Conectado") {
             const indicator = document.getElementById('sync-indicator');
@@ -1802,16 +1850,6 @@
             const turnos = parseInt(document.getElementById('rec-turnos').value, 10) || 1;
             const custoMensal = parseMoedaBR(document.getElementById('rec-custo-mensal').value);
 
-            // CORREÇÃO CRÍTICA DO MAPEAMENTO DE COLUNAS NA PLANILHA TRECURSO:
-            // Col A: TCLIENTE_ID
-            // Col B: TPERIODO_ID
-            // Col C: TCENTRO_CUSTO_ID
-            // Col D: TRECURSO_ID
-            // Col E: TRECURSO_NOME
-            // Col F: TRECURSO_VALOR
-            // Col G: TRECURSO_TIPO
-            // Col H: TRECURSO_CUSTO_MENSAL
-            // Col I: TRECURSO_TURNOS
             const payload = {
                 sheet: "TRECURSO",
                 action: editingId ? "UPDATE" : "CREATE",
@@ -1987,7 +2025,7 @@
             });
         }
 
-        // IMPLEMENTAÇÃO FIEL DA FÓRMULA DE ENCARGOS SOLICITADA
+        // FÓRMULA DE ENCARGOS TRABALHISTAS
         function calcularCustoFuncionario() {
             const salBaseInput = parseMoedaBR(document.getElementById('func-salario-base').value);
             const valBen = parseMoedaBR(document.getElementById('func-beneficios-valor').value);
@@ -1995,37 +2033,28 @@
             const hrsMes = parseFloat(document.getElementById('func-horas-mes').value) || 176;
             const tpReg = String(document.getElementById('func-tp-registro').value || "").trim().toUpperCase();
 
-            // 1. Salário Base
             const salario = (tpSal === 'HORISTA') ? (salBaseInput * hrsMes) : salBaseInput;
-
-            // 2. Flags do Registro
             const temRegistro = tpReg !== "SEM REGISTRO";
 
-            // 3. Provisões (13º e Férias + 1/3)
             const decimoTerceiro = temRegistro ? (salario / 12) : 0;
             const tercoFerias = temRegistro ? ((salario / 12) / 3) : 0;
             const feriasAdic = temRegistro ? (salario / 12) : 0;
 
-            // 4. Total Bruto para cálculo de FGTS
             const totalBruto = salario + decimoTerceiro + tercoFerias + feriasAdic;
 
-            // 5. FGTS e Multa
             const fgts = temRegistro ? (totalBruto * 0.08) : 0;
             const multaFgts = temRegistro ? (fgts * 0.50) : 0;
 
-            // 6. Encargos Patronais
             const isNormal = (tpReg === "NORMAL" || tpReg === "CLT NORMAL" || tpReg === "REGULADO");
             const inss = isNormal ? (salario * 0.20) : 0;
             const sesc = isNormal ? (salario * 0.02) : 0;
             const senai = isNormal ? (salario * 0.025) : 0;
             const incra = isNormal ? (salario * 0.033) : 0;
 
-            // 7. Custo Total Mensal Calculado do Funcionário
             const custoTotalMensal = salario + decimoTerceiro + tercoFerias + feriasAdic + fgts + multaFgts + inss + sesc + senai + incra + valBen;
             
             document.getElementById('func-custo-mensal').value = formatarMoedaBR(custoTotalMensal);
 
-            // Soma de Rateio %
             const inputs = document.querySelectorAll('.input-rateio-pct');
             let somaPct = 0;
             inputs.forEach(inp => { somaPct += (parseFloat(inp.value) || 0); });
@@ -2198,7 +2227,113 @@
             alternarModoRateioFuncionario();
         }
 
-        // --- ABA PLANO DE CONTAS ---
+        // --- ABA PLANO DE CONTAS & IMPORTAÇÃO DE PLANILHA ---
+        function abrirModalImportarPlano() {
+            dadosCSVImportacao = [];
+            document.getElementById('csv-file-input').value = '';
+            document.getElementById('csv-file-name').innerText = 'Nenhum arquivo selecionado';
+            document.getElementById('btn-confirmar-importacao').disabled = true;
+            document.getElementById('btn-confirmar-importacao').classList.add('opacity-40', 'cursor-not-allowed');
+            document.getElementById('modal-importar-plano').classList.remove('hidden');
+        }
+
+        function fecharModalImportarPlano() {
+            document.getElementById('modal-importar-plano').classList.add('hidden');
+        }
+
+        function baixarModeloCSVPlano() {
+            const conteudo = "NOME;CRITERIO;VALOR;CENTRO_CUSTO_ID\nENERGIA ELETRICA;AREA;1500.00;\nALUGUEL PREDIO;AREA;5000.00;\nMANUTENCAO MAQUINAS;RECURSOS;800.00;\nSISTEMA ERP;HORAS;350.00;\nMATERIAL ESCRITORIO;EXCLUSIVO;200.00;CC-001\nCOMISSAO VENDAS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1200.00;";
+            const blob = new Blob(["\ufeff" + conteudo], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "modelo_plano_de_contas.csv";
+            link.click();
+        }
+
+        function processarArquivoCSV(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            document.getElementById('csv-file-name').innerText = file.name;
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const linhas = text.split(/\r\n|\n/);
+                dadosCSVImportacao = [];
+
+                if (linhas.length <= 1) {
+                    alert("O arquivo CSV está vazio ou em formato inválido.");
+                    return;
+                }
+
+                const cabecalho = linhas[0].split(/;|,/).map(c => c.trim().toUpperCase());
+
+                for (let i = 1; i < linhas.length; i++) {
+                    if (!linhas[i].trim()) continue;
+                    const colunas = linhas[i].split(/;|,/).map(c => c.trim());
+
+                    if (colunas.length >= 3) {
+                        let nome = colunas[0].toUpperCase();
+                        let criterio = colunas[1].toUpperCase() || 'AREA';
+                        let valor = parseMoedaBR(colunas[2]);
+                        let ccId = colunas[3] ? colunas[3].toUpperCase() : '';
+
+                        if (nome && valor > 0) {
+                            dadosCSVImportacao.push({ nome, criterio, valor, ccId });
+                        }
+                    }
+                }
+
+                if (dadosCSVImportacao.length > 0) {
+                    const btn = document.getElementById('btn-confirmar-importacao');
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-40', 'cursor-not-allowed');
+                    alert(`${dadosCSVImportacao.length} contas identificadas com sucesso no arquivo! Clique em Confirmar Importação.`);
+                } else {
+                    alert("Nenhuma conta válida foi encontrada no arquivo. Verifique o formato.");
+                }
+            };
+
+            reader.readAsText(file, "UTF-8");
+        }
+
+        async function confirmarImportacaoCSV() {
+            if (!dadosCSVImportacao || dadosCSVImportacao.length === 0) return;
+
+            const btn = document.getElementById('btn-confirmar-importacao');
+            btn.innerText = "Importando...";
+            btn.disabled = true;
+            setSyncStatus(true, "Importando lote...");
+
+            let sucessos = 0;
+
+            for (const item of dadosCSVImportacao) {
+                const payload = {
+                    sheet: "TPLANO_CONTAS",
+                    action: "CREATE",
+                    clienteId: usuarioLogado.TCLIENTE_ID,
+                    periodoId: periodoAtivoObj.TPERIODO_ID,
+                    data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, item.ccId, "", item.nome, item.criterio, item.valor]
+                };
+
+                try {
+                    await fetch(API_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    sucessos++;
+                } catch(e) {}
+            }
+
+            alert(`${sucessos} contas do Plano de Contas foram importadas com sucesso!`);
+            fecharModalImportarPlano();
+            setSyncStatus(false);
+            setTimeout(carregarPlanoContas, 1500);
+        }
+
         function verificarCriterioPlanoContas() {
             const crit = document.getElementById('plc-criterio').value;
             const wrapExclusivo = document.getElementById('wrapper-plc-cc-exclusivo');
@@ -2489,7 +2624,7 @@
             if(containerDRE) {
                 containerDRE.innerHTML = '';
 
-                const montarLinhaDRE = (label, valAtivo, valCompare, isHeader = false, isHighlight = false) => {
+                const montarLinhaDRE = (label, valAtivo, valCompare, tipoEstilo = 'normal') => {
                     const pctA = dreAtiva.fatBruto > 0 ? ((valAtivo / dreAtiva.fatBruto) * 100).toFixed(1) + "%" : "0.0%";
                     let compHtml = '';
 
@@ -2507,22 +2642,36 @@
                         `;
                     }
 
-                    let textClass = 'text-white font-bold';
+                    // ESTILIZAÇÃO COLORIDA E SUPER VISUAL
                     let bgStyle = 'py-2 border-b border-brand-border/30 pl-3 text-brand-muted';
+                    let textClass = 'text-white font-bold';
 
-                    if (isHighlight) {
+                    if (tipoEstilo === 'receita') {
+                        bgStyle = 'bg-emerald-950/30 border-l-4 border-emerald-500 p-2.5 rounded-r-md font-bold text-emerald-300';
+                        textClass = 'text-emerald-300 text-sm font-extrabold';
+                    } else if (tipoEstilo === 'deducao') {
+                        bgStyle = 'py-1.5 border-b border-brand-border/30 pl-3 text-red-300/80';
+                        textClass = 'text-red-300 font-medium';
+                    } else if (tipoEstilo === 'margem') {
+                        bgStyle = 'bg-blue-950/40 border-l-4 border-blue-500 p-2.5 rounded-r-md font-bold text-blue-300';
+                        textClass = 'text-blue-300 text-sm font-extrabold';
+                    } else if (tipoEstilo === 'custo_fabril') {
+                        bgStyle = 'py-1.5 border-b border-brand-border/30 pl-3 text-amber-300/80';
+                        textClass = 'text-amber-300 font-medium';
+                    } else if (tipoEstilo === 'res_fabril') {
+                        bgStyle = 'bg-amber-950/40 border-l-4 border-amber-500 p-2.5 rounded-r-md font-bold text-amber-300';
+                        textClass = 'text-amber-300 text-sm font-extrabold';
+                    } else if (tipoEstilo === 'resultado_final') {
                         const isPositivo = valAtivo >= 0;
                         bgStyle = isPositivo 
-                            ? 'bg-emerald-950/40 border border-emerald-800/80 p-3 rounded-lg font-extrabold text-emerald-400 shadow-lg' 
-                            : 'bg-red-950/40 border border-red-800/80 p-3 rounded-lg font-extrabold text-red-400 shadow-lg';
-                        textClass = isPositivo ? 'text-emerald-400 text-base' : 'text-red-400 text-base';
-                    } else if (isHeader) {
-                        bgStyle = 'bg-[#0d0d0f] p-2.5 rounded-md font-bold text-white border-l-4 border-brand-primary';
+                            ? 'bg-gradient-to-r from-emerald-950/80 to-emerald-900/40 border-2 border-emerald-500 p-3.5 rounded-xl font-extrabold text-emerald-400 shadow-xl' 
+                            : 'bg-gradient-to-r from-red-950/80 to-red-900/40 border-2 border-red-500 p-3.5 rounded-xl font-extrabold text-red-400 shadow-xl';
+                        textClass = isPositivo ? 'text-emerald-400 text-lg font-black' : 'text-red-400 text-lg font-black';
                     }
 
                     containerDRE.innerHTML += `
                         <div class="flex justify-between items-center ${bgStyle}">
-                            <span class="${isHighlight ? (valAtivo >= 0 ? 'text-emerald-400 font-bold' : 'text-red-400 font-bold') : (isHeader ? 'text-white' : '')}">${label}</span>
+                            <span class="${tipoEstilo === 'resultado_final' ? (valAtivo >= 0 ? 'text-emerald-400 font-black text-sm' : 'text-red-400 font-black text-sm') : ''}">${label}</span>
                             <div class="flex items-center gap-4">
                                 <div class="space-x-2 text-right">
                                     <span class="${textClass}">${formatarMoedaBR(valAtivo)}</span>
@@ -2534,17 +2683,17 @@
                     `;
                 };
 
-                montarLinhaDRE("(+) RECEITA BRUTA ESPERADA", dreAtiva.fatBruto, dreCompare ? dreCompare.fatBruto : 0, true);
-                montarLinhaDRE("(-) Impostos sobre Vendas & Deduções Variáveis", dreAtiva.impostosDeducoes, dreCompare ? dreCompare.impostosDeducoes : 0);
-                montarLinhaDRE("(=) RECEITA LÍQUIDA", dreAtiva.recLiquida, dreCompare ? dreCompare.recLiquida : 0, true);
-                montarLinhaDRE("(-) Custos Variáveis de Produção (CPV)", dreAtiva.cVariavel, dreCompare ? dreCompare.cVariavel : 0);
-                montarLinhaDRE("(=) MARGEM DE CONTRIBUIÇÃO BRUTA", dreAtiva.margemContrib, dreCompare ? dreCompare.margemContrib : 0, true);
-                montarLinhaDRE("(-) Custos Fixos Industriais (Fábrica / Diretos e Indiretos)", dreAtiva.cFixoFabril, dreCompare ? dreCompare.cFixoFabril : 0);
-                montarLinhaDRE("(=) RESULTADO BRUTO INDUSTRIAL", dreAtiva.resFabril, dreCompare ? dreCompare.resFabril : 0, true);
-                montarLinhaDRE("(-) Despesas Fixas Operacionais (Admin, Vendas, Financeiro)", dreAtiva.dFichaAdmin, dreCompare ? dreCompare.dFichaAdmin : 0);
-                montarLinhaDRE("(-) Perdas / Sobra de Mão de Obra Não Alocada", dreAtiva.sobraMaoObra, dreCompare ? dreCompare.sobraMaoObra : 0);
-                montarLinhaDRE("(-) Retiradas dos Sócios & Pró-Labore", dreAtiva.retSocios, dreCompare ? dreCompare.retSocios : 0);
-                montarLinhaDRE("(=) RESULTADO LÍQUIDO FINAL", dreAtiva.resLiquido, dreCompare ? dreCompare.resLiquido : 0, false, true);
+                montarLinhaDRE("(+) RECEITA BRUTA ESPERADA", dreAtiva.fatBruto, dreCompare ? dreCompare.fatBruto : 0, 'receita');
+                montarLinhaDRE("(-) Impostos sobre Vendas & Deduções Variáveis", dreAtiva.impostosDeducoes, dreCompare ? dreCompare.impostosDeducoes : 0, 'deducao');
+                montarLinhaDRE("(=) RECEITA LÍQUIDA", dreAtiva.recLiquida, dreCompare ? dreCompare.recLiquida : 0, 'receita');
+                montarLinhaDRE("(-) Custos Variáveis de Produção (CPV)", dreAtiva.cVariavel, dreCompare ? dreCompare.cVariavel : 0, 'deducao');
+                montarLinhaDRE("(=) MARGEM DE CONTRIBUIÇÃO BRUTA", dreAtiva.margemContrib, dreCompare ? dreCompare.margemContrib : 0, 'margem');
+                montarLinhaDRE("(-) Custos Fixos Industriais (Fábrica / Diretos e Indiretos)", dreAtiva.cFixoFabril, dreCompare ? dreCompare.cFixoFabril : 0, 'custo_fabril');
+                montarLinhaDRE("(=) RESULTADO BRUTO INDUSTRIAL", dreAtiva.resFabril, dreCompare ? dreCompare.resFabril : 0, 'res_fabril');
+                montarLinhaDRE("(-) Despesas Fixas Operacionais (Admin, Vendas, Financeiro)", dreAtiva.dFichaAdmin, dreCompare ? dreCompare.dFichaAdmin : 0, 'deducao');
+                montarLinhaDRE("(-) Perdas / Sobra de Mão de Obra Não Alocada", dreAtiva.sobraMaoObra, dreCompare ? dreCompare.sobraMaoObra : 0, 'deducao');
+                montarLinhaDRE("(-) Retiradas dos Sócios & Pró-Labore", dreAtiva.retSocios, dreCompare ? dreCompare.retSocios : 0, 'deducao');
+                montarLinhaDRE("(=) RESULTADO LÍQUIDO FINAL", dreAtiva.resLiquido, dreCompare ? dreCompare.resLiquido : 0, 'resultado_final');
             }
 
             let totalMaquinas = 0; listaRecursos.forEach(r => totalMaquinas += (parseFloat(r.TRECURSO_VALOR)||0));
@@ -2579,7 +2728,6 @@
             const tbodyCustoHora = document.getElementById('tbl-custo-hora-cc-body');
             if(tbodyCustoHora) {
                 tbodyCustoHora.innerHTML = '';
-                // EXCLUSIVO PARA PRODUTIVO DIRETO NO CUSTO-HORA
                 listaCC.filter(c => String(c.TCENTRO_CUSTO_TIPO).toUpperCase() === 'PRODUTIVO DIRETO').forEach(c => {
                     const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
                     const dep = parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL) || 0;
@@ -2775,7 +2923,7 @@
             }
             htmlHtml += `</div>`;
 
-            // 4. DEMAIS CUSTOS (Custo Fixo Direto, Prédio e Indiretos Absorvidos)
+            // 4. DEMAIS CUSTOS
             if (custoFixoDireto > 0 || custoPredioAbsorvido > 0 || custoIndiretoAbsorvido > 0) {
                 htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
                     <h4 class="font-bold text-white uppercase text-xs">4. Outros Custos e Rateios do Setor</h4>`;
@@ -2794,7 +2942,6 @@
 
             const custoTotalDoSetor = custoFixoDireto + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_MENSAL : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_FUNCIONARIO : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0)||0) + custoPredioAbsorvido + custoIndiretoAbsorvido;
 
-            // BLOCO DEDICADO DO CUSTO TOTAL MENSAL DO SETOR
             htmlHtml += `<div class="bg-brand-border/40 p-3.5 rounded-lg border border-brand-border flex justify-between items-center text-xs">
                 <span class="font-bold text-white uppercase">CUSTO TOTAL MENSAL DO SETOR:</span>
                 <span class="font-extrabold text-white text-base">${formatarMoedaBR(custoTotalDoSetor)}</span>
