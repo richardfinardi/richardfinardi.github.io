@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V3.2 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V3.3 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,7 +32,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.1</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.3</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -62,7 +62,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.2</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.1</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -953,7 +953,7 @@
                     e.target.value = Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                     
                     if (e.target.id === 'func-salario-base' || e.target.id === 'func-beneficios-valor') {
-                        calcularCustoFuncionario();
+                        if (typeof calcularCustoFuncionario === 'function') calcularCustoFuncionario();
                     }
                 });
             });
@@ -1109,6 +1109,7 @@
 
         async function carregarTabelaClientesAdmin() {
             const tbody = document.getElementById('tbl-admin-clientes-body');
+            if(!tbody) return;
             tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando empresas...</td></tr>';
 
             try {
@@ -1216,6 +1217,7 @@
 
         function renderizarTabelaPeriodosHist() {
             const tbody = document.getElementById('tbl-periodos-body');
+            if(!tbody) return;
             tbody.innerHTML = '';
 
             listaPeriodos.forEach(p => {
@@ -1285,6 +1287,7 @@
 
         async function carregarInvestimentos() {
             const tbody = document.getElementById('tbl-inv-body');
+            if(!tbody) return;
             tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Buscando investimentos...</td></tr>';
 
             try {
@@ -1322,10 +1325,10 @@
         function verificarStatusBloqueioPeriodo() {
             const banner = document.getElementById('banner-periodo-bloqueado');
             if (periodoAtivoObj && String(periodoAtivoObj.TPERIODO_STATUS).toUpperCase() === 'FECHADO') {
-                banner.classList.remove('hidden');
+                if(banner) banner.classList.remove('hidden');
                 bloquearTodosFormularios(true);
             } else {
-                banner.classList.add('hidden');
+                if(banner) banner.classList.add('hidden');
                 bloquearTodosFormularios(false);
             }
         }
@@ -1395,9 +1398,22 @@
             }
         }
 
+        // --- FUNÇÕES DA ABA CENTROS DE CUSTO ---
+        function verificarTipoCentroCusto() {
+            const tipo = document.getElementById('cc-tipo').value;
+            const wrapperRateio = document.getElementById('wrapper-cc-tipo-rateio');
+            if (tipo === 'PRODUTIVO DIRETO') {
+                wrapperRateio.classList.remove('hidden');
+            } else {
+                wrapperRateio.classList.add('hidden');
+                document.getElementById('cc-tipo-rateio').value = '';
+            }
+        }
+
         async function carregarCentrosDeCusto() {
             const tbody = document.getElementById('tbl-cc-body');
-            tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center">Buscando dados...</td></tr>';
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center">Buscando centros de custo...</td></tr>';
 
             try {
                 setSyncStatus(true);
@@ -1415,8 +1431,122 @@
             } catch (e) { tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
+        function renderizarTabelaCCLocal() {
+            const tbody = document.getElementById('tbl-cc-body');
+            if (!tbody) return;
+
+            if (listaCC.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center">Nenhum centro de custo cadastrado.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            listaCC.forEach(item => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${item.TCENTRO_CUSTO_NOME}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${item.TCENTRO_CUSTO_TIPO}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${item.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-'}</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_QTDE_RECURSOS || 0}</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_AREA || 0}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || item.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_CUSTO_MENSAL)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_PREDIO)}</td>
+                        <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(item.TCENTRO_CUSTO_INDIRETOS)}</td>
+                        <td class="p-2 md:p-3 font-bold text-white">${item.TCENTRO_CUSTO_HORAS || 0}h</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_PRODUTIVIDADE || 100}%</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_MINIMO || 'NAO'}</td>
+                        <td class="p-2 md:p-3 text-right">
+                            <button onclick="deletarItemAPI('TCENTRO_CUSTO', '${item.TCENTRO_CUSTO_ID}', carregarCentrosDeCusto)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function salvarCentroCusto(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-salvar-cc');
+            btn.innerText = "Gravando...";
+            btn.disabled = true;
+            setSyncStatus(true);
+
+            const nome = document.getElementById('cc-nome').value.trim();
+            const tipo = document.getElementById('cc-tipo').value;
+            const rateio = document.getElementById('cc-tipo-rateio').value;
+            const area = parseFloat(document.getElementById('cc-area').value) || 0;
+            const fx = parseMoedaBR(document.getElementById('cc-custo-fixo').value);
+            const prod = parseFloat(document.getElementById('cc-produtividade').value) || 100;
+            const min = document.getElementById('cc-considerar-minimo').checked ? "SIM" : "NAO";
+
+            const payload = {
+                sheet: "TCENTRO_CUSTO",
+                action: "CREATE",
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, "", nome, tipo, min, area, fx, prod, rateio, 0, 0, 0, 0, 0, 0, 0]
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert("Centro de Custo gravado com sucesso!");
+                limparFormCC();
+                setSyncStatus(false);
+                setTimeout(carregarCentrosDeCusto, 1500);
+            } catch (err) {
+                alert("Erro ao gravar Centro de Custo.");
+                btn.innerText = "Salvar Centro de Custo";
+                btn.disabled = false;
+                setSyncStatus(false, "Erro ao gravar");
+            }
+        }
+
+        function limparFormCC() {
+            document.getElementById('form-cc').reset();
+            document.getElementById('cc-editing-id').value = '';
+            document.getElementById('btn-salvar-cc').innerText = "Salvar Centro de Custo";
+            document.getElementById('btn-salvar-cc').disabled = false;
+            verificarTipoCentroCusto();
+        }
+
+        async function deletarItemAPI(aba, id, callbackSucesso) {
+            if (!confirm("Tem certeza que deseja excluir este registro?")) return;
+            setSyncStatus(true);
+
+            const payload = {
+                sheet: aba,
+                action: "DELETE",
+                id: id,
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert("Registro excluído!");
+                setSyncStatus(false);
+                setTimeout(callbackSucesso, 1500);
+            } catch(e) {
+                alert("Erro ao excluir registro.");
+                setSyncStatus(false, "Erro ao excluir");
+            }
+        }
+
         async function carregarPlanoContas() {
             const tbody = document.getElementById('tbl-plc-body');
+            if(!tbody) return;
             tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando contas...</td></tr>';
 
             try {
@@ -1435,8 +1565,32 @@
             } catch (e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar plano de contas.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
+        function renderizarTabelaPlanoContasLocal() {
+            const tbody = document.getElementById('tbl-plc-body');
+            if(!tbody) return;
+            if(listaPlanoContas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Nenhuma conta cadastrada.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            listaPlanoContas.forEach(p => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${p.TPLANO_CONTA_NOME}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${p.TPLANO_CONTA_CRITERIO}</td>
+                        <td class="p-2 md:p-3 text-xs">${p.TCENTRO_CUSTO_ID || 'TODOS'}</td>
+                        <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(p.TPLANO_CONTA_VALOR)}</td>
+                        <td class="p-2 md:p-3 text-right">
+                            <button onclick="deletarItemAPI('TPLANO_CONTAS', '${p.TPLANO_CONTA_ID}', carregarPlanoContas)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
         async function carregarFuncionarios() {
             const tbody = document.getElementById('tbl-func-body');
+            if(!tbody) return;
             tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Buscando funcionários...</td></tr>';
 
             try {
@@ -1455,9 +1609,36 @@
             } catch (e) { tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
+        function renderizarTabelaFuncionariosLocal() {
+            const tbody = document.getElementById('tbl-func-body');
+            if(!tbody) return;
+            if(listaFuncionarios.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Nenhum funcionário cadastrado.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            listaFuncionarios.forEach(f => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 text-xs uppercase">${f.TCENTRO_CUSTO_ID}</td>
+                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${f.TFUNCIONARIO_NOME}</td>
+                        <td class="p-2 md:p-3">${f.TFUNCIONARIO_HORAS || 176}h</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_SALARIO_BASE)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_VALOR_BENEFICIOS)}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL)}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${f.TFUNCIONARIO_RATEIO || 'NAO'}</td>
+                        <td class="p-2 md:p-3 text-right">
+                            <button onclick="deletarItemAPI('TFUNCIONARIO', '${f.TFUNCIONARIO_ID}', carregarFuncionarios)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
         async function carregarRecursos() {
             const tbody = document.getElementById('tbl-rec-body');
-            tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center">Buscando recursos...</td></tr>';
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">Buscando recursos...</td></tr>';
 
             try {
                 setSyncStatus(true);
@@ -1472,11 +1653,37 @@
 
                 renderizarTabelaRecursosLocal();
                 setSyncStatus(false);
-            } catch (e) { tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-400">Erro ao carregar recursos.</td></tr>'; setSyncStatus(false, "Erro API"); }
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-red-400">Erro ao carregar recursos.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        function renderizarTabelaRecursosLocal() {
+            const tbody = document.getElementById('tbl-rec-body');
+            if(!tbody) return;
+            if(listaRecursos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">Nenhum recurso cadastrado.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            listaRecursos.forEach(r => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 text-xs uppercase">${r.TCENTRO_CUSTO_ID}</td>
+                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${r.TRECURSO_NOME}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${r.TRECURSO_TIPO}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(r.TRECURSO_VALOR)}</td>
+                        <td class="p-2 md:p-3">${r.TRECURSO_TURNOS || 1}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(r.TRECURSO_CUSTO_MENSAL)}</td>
+                        <td class="p-2 md:p-3 text-right">
+                            <button onclick="deletarItemAPI('TRECURSO', '${r.TRECURSO_ID}', carregarRecursos)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
         }
 
         async function carregarBeneficios() {
             const tbody = document.getElementById('tbl-ben-body');
+            if(!tbody) return;
             tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Buscando benefícios...</td></tr>';
 
             try {
@@ -1495,12 +1702,34 @@
             } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar benefícios.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
+        function renderizarTabelaBeneficiosLocal() {
+            const tbody = document.getElementById('tbl-ben-body');
+            if(!tbody) return;
+            if(listaBeneficios.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Nenhum benefício cadastrado.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            listaBeneficios.forEach(b => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${b.TBENEFICIO_NOME}</td>
+                        <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(b.TBENEFICIO_VALOR)}</td>
+                        <td class="p-2 md:p-3 text-right">
+                            <button onclick="deletarItemAPI('TBENEFICIOS', '${b.TBENEFICIO_ID}', carregarBeneficios)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
         async function gerarAnalisesEResultados() {
             if (!periodoAtivoObj) return;
 
             const compareElem = document.getElementById('res-compare-select');
             const periodoCompareId = compareElem ? compareElem.value : "";
-            document.getElementById('dre-period-display').innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
+            const periodDisplay = document.getElementById('dre-period-display');
+            if(periodDisplay) periodDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
 
             let periodoCompareObj = null;
             let listaCCCompare = [];
@@ -1546,7 +1775,7 @@
                 let dFichaAdmin = 0;
 
                 ccsList.forEach(c => {
-                    const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
+                    const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
                     const dep = parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL) || 0;
                     const func = parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO) || 0;
                     const plc = parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS) || 0;
@@ -1574,53 +1803,55 @@
             let dreCompare = periodoCompareObj ? calcPeriodoDRE(periodoCompareObj, listaCCCompare, listaPlanoCompare, listaFuncCompare) : null;
 
             const containerDRE = document.getElementById('container-dre-rows');
-            containerDRE.innerHTML = '';
+            if(containerDRE) {
+                containerDRE.innerHTML = '';
 
-            const montarLinhaDRE = (label, valAtivo, valCompare, isHeader = false, isHighlight = false) => {
-                const pctA = dreAtiva.fatBruto > 0 ? ((valAtivo / dreAtiva.fatBruto) * 100).toFixed(1) + "%" : "0.0%";
-                let compHtml = '';
+                const montarLinhaDRE = (label, valAtivo, valCompare, isHeader = false, isHighlight = false) => {
+                    const pctA = dreAtiva.fatBruto > 0 ? ((valAtivo / dreAtiva.fatBruto) * 100).toFixed(1) + "%" : "0.0%";
+                    let compHtml = '';
 
-                if (dreCompare) {
-                    const pctC = dreCompare.fatBruto > 0 ? ((valCompare / dreCompare.fatBruto) * 100).toFixed(1) + "%" : "0.0%";
-                    const diffVal = valAtivo - valCompare;
-                    const varPct = valCompare !== 0 ? (((valAtivo - valCompare) / Math.abs(valCompare)) * 100).toFixed(1) + "%" : "0%";
-                    const colorVar = diffVal >= 0 ? "text-emerald-400" : "text-red-400";
+                    if (dreCompare) {
+                        const pctC = dreCompare.fatBruto > 0 ? ((valCompare / dreCompare.fatBruto) * 100).toFixed(1) + "%" : "0.0%";
+                        const diffVal = valAtivo - valCompare;
+                        const varPct = valCompare !== 0 ? (((valAtivo - valCompare) / Math.abs(valCompare)) * 100).toFixed(1) + "%" : "0%";
+                        const colorVar = diffVal >= 0 ? "text-emerald-400" : "text-red-400";
 
-                    compHtml = `
-                        <div class="flex items-center gap-3 font-mono text-xs">
-                            <span class="text-brand-muted hidden md:inline">${formatarMoedaBR(valCompare)} (${pctC})</span>
-                            <span class="${colorVar} font-bold">Δ ${varPct}</span>
+                        compHtml = `
+                            <div class="flex items-center gap-3 font-mono text-xs">
+                                <span class="text-brand-muted hidden md:inline">${formatarMoedaBR(valCompare)} (${pctC})</span>
+                                <span class="${colorVar} font-bold">Δ ${varPct}</span>
+                            </div>
+                        `;
+                    }
+
+                    const bgStyle = isHighlight ? 'bg-brand-primary/20 border border-brand-primary p-2.5 rounded font-extrabold text-brand-primary' : (isHeader ? 'bg-[#0d0d0f] p-2 rounded font-bold text-white' : 'py-1.5 border-b border-brand-border/30 pl-3 text-brand-muted');
+
+                    containerDRE.innerHTML += `
+                        <div class="flex justify-between items-center ${bgStyle}">
+                            <span class="${isHighlight ? 'text-brand-primary' : (isHeader ? 'text-white' : '')}">${label}</span>
+                            <div class="flex items-center gap-4">
+                                <div class="space-x-2 text-right">
+                                    <span class="${isHighlight ? 'text-brand-primary text-base' : 'text-white font-bold'}">${formatarMoedaBR(valAtivo)}</span>
+                                    <span class="text-[11px] font-mono text-brand-muted">(${pctA})</span>
+                                </div>
+                                ${compHtml}
+                            </div>
                         </div>
                     `;
-                }
+                };
 
-                const bgStyle = isHighlight ? 'bg-brand-primary/20 border border-brand-primary p-2.5 rounded font-extrabold text-brand-primary' : (isHeader ? 'bg-[#0d0d0f] p-2 rounded font-bold text-white' : 'py-1.5 border-b border-brand-border/30 pl-3 text-brand-muted');
-
-                containerDRE.innerHTML += `
-                    <div class="flex justify-between items-center ${bgStyle}">
-                        <span class="${isHighlight ? 'text-brand-primary' : (isHeader ? 'text-white' : '')}">${label}</span>
-                        <div class="flex items-center gap-4">
-                            <div class="space-x-2 text-right">
-                                <span class="${isHighlight ? 'text-brand-primary text-base' : 'text-white font-bold'}">${formatarMoedaBR(valAtivo)}</span>
-                                <span class="text-[11px] font-mono text-brand-muted">(${pctA})</span>
-                            </div>
-                            ${compHtml}
-                        </div>
-                    </div>
-                `;
-            };
-
-            montarLinhaDRE("(+) Receita Bruta Esperada", dreAtiva.fatBruto, dreCompare ? dreCompare.fatBruto : 0, true);
-            montarLinhaDRE("(-) Impostos sobre Vendas & Deduções Variáveis", dreAtiva.impostosDeducoes, dreCompare ? dreCompare.impostosDeducoes : 0);
-            montarLinhaDRE("(=) Receita Líquida", dreAtiva.recLiquida, dreCompare ? dreCompare.recLiquida : 0, true);
-            montarLinhaDRE("(-) Custos Variáveis de Produção (CPV)", dreAtiva.cVariavel, dreCompare ? dreCompare.cVariavel : 0);
-            montarLinhaDRE("(=) Margem de Contribuição Bruta", dreAtiva.margemContrib, dreCompare ? dreCompare.margemContrib : 0, true);
-            montarLinhaDRE("(-) Custos Fixos Industriais (Fábrica / Diretos e Indiretos)", dreAtiva.cFixoFabril, dreCompare ? dreCompare.cFixoFabril : 0);
-            montarLinhaDRE("(=) Resultado Bruto Industrial", dreAtiva.resFabril, dreCompare ? dreCompare.resFabril : 0, true);
-            montarLinhaDRE("(-) Despesas Fixas Operacionais (Admin, Vendas, Financeiro)", dreAtiva.dFichaAdmin, dreCompare ? dreCompare.dFichaAdmin : 0);
-            montarLinhaDRE("(-) Perdas / Sobra de Mão de Obra Não Alocada", dreAtiva.sobraMaoObra, dreCompare ? dreCompare.sobraMaoObra : 0);
-            montarLinhaDRE("(-) Retiradas dos Sócios & Pró-Labore", dreAtiva.retSocios, dreCompare ? dreCompare.retSocios : 0);
-            montarLinhaDRE("(=) Resultado Líquido Final", dreAtiva.resLiquido, dreCompare ? dreCompare.resLiquido : 0, false, true);
+                montarLinhaDRE("(+) Receita Bruta Esperada", dreAtiva.fatBruto, dreCompare ? dreCompare.fatBruto : 0, true);
+                montarLinhaDRE("(-) Impostos sobre Vendas & Deduções Variáveis", dreAtiva.impostosDeducoes, dreCompare ? dreCompare.impostosDeducoes : 0);
+                montarLinhaDRE("(=) Receita Líquida", dreAtiva.recLiquida, dreCompare ? dreCompare.recLiquida : 0, true);
+                montarLinhaDRE("(-) Custos Variáveis de Produção (CPV)", dreAtiva.cVariavel, dreCompare ? dreCompare.cVariavel : 0);
+                montarLinhaDRE("(=) Margem de Contribuição Bruta", dreAtiva.margemContrib, dreCompare ? dreCompare.margemContrib : 0, true);
+                montarLinhaDRE("(-) Custos Fixos Industriais (Fábrica / Diretos e Indiretos)", dreAtiva.cFixoFabril, dreCompare ? dreCompare.cFixoFabril : 0);
+                montarLinhaDRE("(=) Resultado Bruto Industrial", dreAtiva.resFabril, dreCompare ? dreCompare.resFabril : 0, true);
+                montarLinhaDRE("(-) Despesas Fixas Operacionais (Admin, Vendas, Financeiro)", dreAtiva.dFichaAdmin, dreCompare ? dreCompare.dFichaAdmin : 0);
+                montarLinhaDRE("(-) Perdas / Sobra de Mão de Obra Não Alocada", dreAtiva.sobraMaoObra, dreCompare ? dreCompare.sobraMaoObra : 0);
+                montarLinhaDRE("(-) Retiradas dos Sócios & Pró-Labore", dreAtiva.retSocios, dreCompare ? dreCompare.retSocios : 0);
+                montarLinhaDRE("(=) Resultado Líquido Final", dreAtiva.resLiquido, dreCompare ? dreCompare.resLiquido : 0, false, true);
+            }
 
             let totalMaquinas = 0; listaRecursos.forEach(r => totalMaquinas += (parseFloat(r.TRECURSO_VALOR)||0));
             let totalInvest = 0; listaInvestimentos.forEach(i => totalInvest += (parseFloat(i.TINVESTIMENTO_VALOR)||0));
@@ -1639,77 +1870,86 @@
             const rentabilidadeAtualPct = investimentoTotal > 0 ? ((dreAtiva.resLiquido / investimentoTotal) * 100) : 0;
             const paybackMeses = dreAtiva.resLiquido > 0 ? (investimentoTotal / dreAtiva.resLiquido) : 0;
 
-            document.getElementById('res-card-investimento-total').innerText = formatarMoedaBR(investimentoTotal);
-            document.getElementById('res-card-ponto-equilibrio').innerText = formatarMoedaBR(pontoEquilibrio);
-            document.getElementById('res-card-pct-despesa-fixa').innerText = pctDespesaFixaTotal.toFixed(1) + "%";
-            document.getElementById('res-card-rentabilidade-atual').innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
-            document.getElementById('res-card-payback').innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
+            const elInv = document.getElementById('res-card-investimento-total');
+            const elPE = document.getElementById('res-card-ponto-equilibrio');
+            const elDF = document.getElementById('res-card-pct-despesa-fixa');
+            const elRent = document.getElementById('res-card-rentabilidade-atual');
+            const elPB = document.getElementById('res-card-payback');
+
+            if(elInv) elInv.innerText = formatarMoedaBR(investimentoTotal);
+            if(elPE) elPE.innerText = formatarMoedaBR(pontoEquilibrio);
+            if(elDF) elDF.innerText = pctDespesaFixaTotal.toFixed(1) + "%";
+            if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
+            if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
 
             const tbodyCustoHora = document.getElementById('tbl-custo-hora-cc-body');
-            tbodyCustoHora.innerHTML = '';
+            if(tbodyCustoHora) {
+                tbodyCustoHora.innerHTML = '';
+                listaCC.filter(c => c.TCENTRO_CUSTO_TIPO === 'PRODUTIVO DIRETO').forEach(c => {
+                    const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
+                    const dep = parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL) || 0;
+                    const func = parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO) || 0;
+                    const plc = parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS) || 0;
+                    const prd = parseFloat(c.TCENTRO_CUSTO_PREDIO) || 0;
+                    const ind = parseFloat(c.TCENTRO_CUSTO_INDIRETOS) || 0;
+                    const hrsBrutas = parseFloat(c.TCENTRO_CUSTO_HORAS) || 0;
+                    const prodPct = parseFloat(c.TCENTRO_CUSTO_PRODUTIVIDADE) || 100;
 
-            listaCC.filter(c => c.TCENTRO_CUSTO_TIPO === 'PRODUTIVO DIRETO').forEach(c => {
-                const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
-                const dep = parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL) || 0;
-                const func = parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO) || 0;
-                const plc = parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS) || 0;
-                const prd = parseFloat(c.TCENTRO_CUSTO_PREDIO) || 0;
-                const ind = parseFloat(c.TCENTRO_CUSTO_INDIRETOS) || 0;
-                const hrsBrutas = parseFloat(c.TCENTRO_CUSTO_HORAS) || 0;
-                const prodPct = parseFloat(c.TCENTRO_CUSTO_PRODUTIVIDADE) || 100;
+                    const cProprio = fx + dep + func + plc + prd;
+                    const cTotal = cProprio + ind;
+                    const hrsEfetivas = hrsBrutas * (prodPct / 100);
+                    const cHora = hrsEfetivas > 0 ? (cTotal / hrsEfetivas) : 0;
 
-                const cProprio = fx + dep + func + plc + prd;
-                const cTotal = cProprio + ind;
-                const hrsEfetivas = hrsBrutas * (prodPct / 100);
-                const cHora = hrsEfetivas > 0 ? (cTotal / hrsEfetivas) : 0;
-
-                tbodyCustoHora.innerHTML += `
-                    <tr onclick="abrirDrilldownCustoHora('${c.TCENTRO_CUSTO_ID}', '${c.TCENTRO_CUSTO_NOME}')" class="hover:bg-brand-primary/10 cursor-pointer transition">
-                        <td class="p-2 md:p-3 font-bold text-white uppercase flex items-center gap-1.5">
-                            <span>🔍</span> <span>${c.TCENTRO_CUSTO_NOME}</span>
-                        </td>
-                        <td class="p-2 md:p-3 uppercase text-brand-primary font-semibold">${c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-'}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(cProprio)}</td>
-                        <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(ind)}</td>
-                        <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(cTotal)}</td>
-                        <td class="p-2 md:p-3 font-bold text-brand-primary">${prodPct.toFixed(0)}%</td>
-                        <td class="p-2 md:p-3 font-bold text-white">${hrsBrutas.toFixed(1)}h / <strong class="text-emerald-400">${hrsEfetivas.toFixed(1)}h</strong></td>
-                        <td class="p-2 md:p-3 font-extrabold text-emerald-400">${formatarMoedaBR(cHora)}/h</td>
-                    </tr>
-                `;
-            });
+                    tbodyCustoHora.innerHTML += `
+                        <tr onclick="abrirDrilldownCustoHora('${c.TCENTRO_CUSTO_ID}', '${c.TCENTRO_CUSTO_NOME}')" class="hover:bg-brand-primary/10 cursor-pointer transition">
+                            <td class="p-2 md:p-3 font-bold text-white uppercase flex items-center gap-1.5">
+                                <span>🔍</span> <span>${c.TCENTRO_CUSTO_NOME}</span>
+                            </td>
+                            <td class="p-2 md:p-3 uppercase text-brand-primary font-semibold">${c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-'}</td>
+                            <td class="p-2 md:p-3">${formatarMoedaBR(cProprio)}</td>
+                            <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(ind)}</td>
+                            <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(cTotal)}</td>
+                            <td class="p-2 md:p-3 font-bold text-brand-primary">${prodPct.toFixed(0)}%</td>
+                            <td class="p-2 md:p-3 font-bold text-white">${hrsBrutas.toFixed(1)}h / <strong class="text-emerald-400">${hrsEfetivas.toFixed(1)}h</strong></td>
+                            <td class="p-2 md:p-3 font-extrabold text-emerald-400">${formatarMoedaBR(cHora)}/h</td>
+                        </tr>
+                    `;
+                });
+            }
 
             let rankingGeralCCs = [];
             const totalCustoPrimarioEmpresa = dreAtiva.cFixoFabril + dreAtiva.dFichaAdmin;
 
             listaCC.forEach(c => {
-                const cBruto = (parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0) + (parseFloat(c.TCENTRO_CUSTO_PREDIO)||0);
+                const cBruto = (parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0) + (parseFloat(c.TCENTRO_CUSTO_PREDIO)||0);
                 rankingGeralCCs.push({ id: c.TCENTRO_CUSTO_ID, nome: c.TCENTRO_CUSTO_NOME, tipo: c.TCENTRO_CUSTO_TIPO, custo: cBruto });
             });
 
             rankingGeralCCs.sort((a, b) => b.custo - a.custo);
             const tbodyRanking = document.getElementById('tbl-ranking-cc-body');
-            tbodyRanking.innerHTML = '';
+            if(tbodyRanking) {
+                tbodyRanking.innerHTML = '';
 
-            rankingGeralCCs.forEach((item, index) => {
-                const pesoPct = totalCustoPrimarioEmpresa > 0 ? ((item.custo / totalCustoPrimarioEmpresa) * 100) : 0;
-                tbodyRanking.innerHTML += `
-                    <tr class="hover:bg-brand-border/30 transition">
-                        <td class="p-2 md:p-3 font-bold text-white uppercase">${index + 1}º - ${item.nome}</td>
-                        <td class="p-2 md:p-3 uppercase text-brand-muted">${item.tipo}</td>
-                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(item.custo)}</td>
-                        <td class="p-2 md:p-3 text-center font-bold text-brand-primary">${pesoPct.toFixed(1)}%</td>
-                        <td class="p-2 md:p-3">
-                            <div class="w-full bg-[#0d0d0f] h-2.5 rounded-full overflow-hidden border border-brand-border">
-                                <div class="bg-brand-primary h-full rounded-full" style="width: ${pesoPct.toFixed(1)}%"></div>
-                            </div>
-                        </td>
-                        <td class="p-2 md:p-3 text-right">
-                            <button onclick="abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary text-brand-primary hover:text-white border border-brand-primary/40 px-2.5 py-1 rounded transition font-bold">🔍 Raio-X</button>
-                        </td>
-                    </tr>
-                `;
-            });
+                rankingGeralCCs.forEach((item, index) => {
+                    const pesoPct = totalCustoPrimarioEmpresa > 0 ? ((item.custo / totalCustoPrimarioEmpresa) * 100) : 0;
+                    tbodyRanking.innerHTML += `
+                        <tr class="hover:bg-brand-border/30 transition">
+                            <td class="p-2 md:p-3 font-bold text-white uppercase">${index + 1}º - ${item.nome}</td>
+                            <td class="p-2 md:p-3 uppercase text-brand-muted">${item.tipo}</td>
+                            <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(item.custo)}</td>
+                            <td class="p-2 md:p-3 text-center font-bold text-brand-primary">${pesoPct.toFixed(1)}%</td>
+                            <td class="p-2 md:p-3">
+                                <div class="w-full bg-[#0d0d0f] h-2.5 rounded-full overflow-hidden border border-brand-border">
+                                    <div class="bg-brand-primary h-full rounded-full" style="width: ${pesoPct.toFixed(1)}%"></div>
+                                </div>
+                            </td>
+                            <td class="p-2 md:p-3 text-right">
+                                <button onclick="abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary text-brand-primary hover:text-white border border-brand-primary/40 px-2.5 py-1 rounded transition font-bold">🔍 Raio-X</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
 
             renderizarGraficoRoscaCC(rankingGeralCCs.filter(x => x.tipo.includes('PRODUTIVO')));
             setSyncStatus(false);
@@ -1718,6 +1958,8 @@
         function abrirDrilldownCustoHora(ccId, ccNome) {
             const modal = document.getElementById('modal-drilldown-custohora');
             const container = document.getElementById('modal-dh-content');
+            if(!modal || !container) return;
+
             document.getElementById('modal-dh-title').innerText = "Raio-X: " + ccNome;
 
             const recsDoCC = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID) === String(ccId));
@@ -1839,7 +2081,7 @@
 
             container.innerHTML = htmlHtml;
 
-            const custoTotalDoSetor = (parseFloat(ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0) + (parseFloat(ccObj.TCENTRO_CUSTO_CUSTO_MENSAL)||0) + (parseFloat(ccObj.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0) + (parseFloat(ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0) + (parseFloat(ccObj.TCENTRO_CUSTO_PREDIO)||0) + custoIndiretoAbsorvido;
+            const custoTotalDoSetor = (parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_MENSAL : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_FUNCIONARIO : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0)||0) + custoIndiretoAbsorvido;
             const custoHoraCalculado = horasEfetivasCC > 0 ? (custoTotalDoSetor / horasEfetivasCC) : 0;
 
             document.getElementById('modal-dh-custohora-total').innerText = formatarMoedaBR(custoHoraCalculado) + "/h";
@@ -1847,11 +2089,14 @@
         }
 
         function fecharModalDrilldown() {
-            document.getElementById('modal-drilldown-custohora').classList.add('hidden');
+            const modal = document.getElementById('modal-drilldown-custohora');
+            if(modal) modal.classList.add('hidden');
         }
 
         function renderizarGraficoRoscaCC(rankingData) {
-            const ctx = document.getElementById('chart-cc-distribuicao').getContext('2d');
+            const canvas = document.getElementById('chart-cc-distribuicao');
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
 
             if (chartCCInstance) {
                 chartCCInstance.destroy();
