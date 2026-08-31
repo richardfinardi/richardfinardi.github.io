@@ -2366,7 +2366,7 @@ function baixarModeloCSVPlano() {
     link.click();
 }
 
-       function processarArquivoCSV(event) {
+     function processarArquivoCSV(event) {
     const file = event.target.files[0];
     if (!file) return;
 
@@ -2385,7 +2385,6 @@ function baixarModeloCSVPlano() {
 
         for (let i = 1; i < linhas.length; i++) {
             if (!linhas[i].trim()) continue;
-            // Trata separador ; ou ,
             const colunas = linhas[i].split(/;|,/).map(c => c.trim());
 
             if (colunas.length >= 3) {
@@ -2393,9 +2392,11 @@ function baixarModeloCSVPlano() {
                 let criterio = colunas[1].toUpperCase() || 'AREA';
                 let valor = parseMoedaBR(colunas[2]);
                 
-                // UNIFICA E LIMPA ASPAS ESCAPADAS DO CSV (TRATA "" PARA ")
+                // UNIFICA E HIGIENIZA O JSON DE RATEIO SELETIVO / %
                 let rawCC = colunas.slice(3).join(';').trim();
                 rawCC = rawCC.replace(/^"+|"$/g, '').replace(/""/g, '"');
+                // CONVERTE DE SINTAXE EXCEL ';' PARA SINTAXE JSON VÁLIDA ','
+                rawCC = rawCC.replace(/;\s*"/g, ',"').replace(/;\s*\{/g, ',{');
 
                 let ccId = rawCC;
                 if (criterio === 'EXCLUSIVO' && rawCC) {
