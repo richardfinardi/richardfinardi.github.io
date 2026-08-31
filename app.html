@@ -1130,48 +1130,63 @@
             } catch(e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar clientes.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
-        async function carregarPeriodosDoCliente() {
-            const select = document.getElementById('global-periodo-select');
-            const selectCompare = document.getElementById('res-compare-select');
-            if(select) select.innerHTML = '<option value="">Carregando...</option>';
+async function carregarPeriodosDoCliente() {
+    const select = document.getElementById('global-periodo-select');
+    const selectCompare = document.getElementById('res-compare-select');
+    if(select) select.innerHTML = '<option value="">Carregando...</option>';
 
-            try {
-                setSyncStatus(true);
-                const res = await fetch(`${API_URL}?action=TPERIODO`);
-                const data = await res.json();
-
-                listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
-
-                if (listaPeriodos.length === 0) {
-                    const payload = {
-                        sheet: "TPERIODO",
-                        data: [usuarioLogado.TCLIENTE_ID, "", "2026.1", "ABERTO", "SIM", 0, 0, 0, 0, 0]
-                    };
-                    await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
-                    setTimeout(carregarPeriodosDoCliente, 1500);
-                    return;
-                }
-
-                if(select) select.innerHTML = '';
-                if(selectCompare) selectCompare.innerHTML = '<option value="">Sem Comparativo (Apenas Ativo)</option>';
-
-                listaPeriodos.forEach(p => {
-                    if(select) select.innerHTML += `<option value="${p.TPERIODO_ID}">${formatarNomePeriodoLimpo(p)}</option>`;
-                    if(selectCompare) selectCompare.innerHTML += `<option value="${p.TPERIODO_ID}">${formatarNomePeriodoLimpo(p)}</option>`;
-                });
-
-                const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
-                if(select) select.value = atual.TPERIODO_ID;
-                periodoAtivoObj = atual;
-
-                atualizarTagsPeriodoHeader();
-                preencherFormularioConfigPeriodo();
-                renderizarTabelaPeriodosHist();
-                verificarStatusBloqueioPeriodo();
-                setSyncStatus(false);
-
-            } catch (e) { if(select) select.innerHTML = '<option value="">Erro ao carregar</option>'; setSyncStatus(false, "Erro API"); }
+    try {
+        setSyncStatus(true);
+        const res = await fetch(`${API_URL}?action=TPERIODO`);
+        const responseText = await res.text();
+        
+        // Tenta converter o texto para JSON com segurança
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (jsonErr) {
+            console.error("Resposta da API não é um JSON válido:", responseText);
+            throw new Error("Erro no formato da resposta da API");
         }
+
+        if (!Array.isArray(data)) {
+            console.error("A API retornou um erro em formato JSON:", data);
+            throw new Error(data.message || "Erro desconhecido na API");
+        }
+
+        listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+
+        if (listaPeriodos.length === 0) {
+            if(select) select.innerHTML = '<option value="">Nenhum período</option>';
+            setSyncStatus(false, "Sem Períodos");
+            return;
+        }
+
+        if(select) select.innerHTML = '';
+        if(selectCompare) selectCompare.innerHTML = '<option value="">Sem Comparativo (Apenas Ativo)</option>';
+
+        listaPeriodos.forEach(p => {
+            const optText = formatarNomePeriodoLimpo(p);
+            if(select) select.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
+            if(selectCompare) selectCompare.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
+        });
+
+        const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
+        if(select) select.value = atual.TPERIODO_ID;
+        periodoAtivoObj = atual;
+
+        atualizarTagsPeriodoHeader();
+        preencherFormularioConfigPeriodo();
+        renderizarTabelaPeriodosHist();
+        verificarStatusBloqueioPeriodo();
+        setSyncStatus(false);
+
+    } catch (e) { 
+        console.error("Erro em carregarPeriodosDoCliente:", e);
+        if(select) select.innerHTML = '<option value="">Erro ao carregar</option>'; 
+        setSyncStatus(false, "Erro API"); 
+    }
+}
 
         function preencherFormularioConfigPeriodo() {
             if (!periodoAtivoObj) return;
