@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V3.3 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V3.4 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -32,7 +32,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.3</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.4</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -554,7 +554,7 @@
                             </div>
                             <div class="flex justify-between items-center text-xs font-bold pt-1 border-t border-brand-border/50">
                                 <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct" class="text-white">0%</strong></span>
-                                <span class="text-brand-muted">Sobra de Custo Não Rateado (Coluna K): <strong id="display-sobra-custo" class="text-emerald-400">R$ 0,00</strong></span>
+                                <span class="text-brand-muted">Sobra de Custo Não Rateado: <strong id="display-sobra-custo" class="text-emerald-400">R$ 0,00</strong></span>
                             </div>
                         </div>
                     </div>
@@ -954,6 +954,8 @@
                     
                     if (e.target.id === 'func-salario-base' || e.target.id === 'func-beneficios-valor') {
                         if (typeof calcularCustoFuncionario === 'function') calcularCustoFuncionario();
+                    } else if (e.target.id === 'rec-valor') {
+                        if (typeof calcularCustoMensalRecurso === 'function') calcularCustoMensalRecurso();
                     }
                 });
             });
@@ -975,6 +977,19 @@
             const tagStr = periodoAtivoObj ? formatarNomePeriodoLimpo(periodoAtivoObj) : "---";
             document.querySelectorAll('.display-periodo-tag').forEach(el => el.innerText = tagStr);
             document.querySelectorAll('.display-empresa-nome').forEach(el => el.innerText = empresaLogadaNome);
+        }
+
+        function preencherSelectsCentrosDeCusto() {
+            const selectsCC = ['rec-cc-id', 'func-cc-id', 'plc-cc-id'];
+            selectsCC.forEach(id => {
+                const sel = document.getElementById(id);
+                if (sel) {
+                    sel.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
+                    listaCC.forEach(c => {
+                        sel.innerHTML += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME} (${c.TCENTRO_CUSTO_TIPO})</option>`;
+                    });
+                }
+            });
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -1382,15 +1397,19 @@
             } else if (aba === 'rec') {
                 document.getElementById('section-recursos').classList.remove('hidden');
                 document.getElementById('tab-btn-rec').className = classActive;
+                carregarRecursos();
             } else if (aba === 'ben') {
                 document.getElementById('section-beneficios').classList.remove('hidden');
                 document.getElementById('tab-btn-ben').className = classActive;
+                carregarBeneficios();
             } else if (aba === 'func') {
                 document.getElementById('section-funcionarios').classList.remove('hidden');
                 document.getElementById('tab-btn-func').className = classActive;
+                carregarFuncionarios();
             } else if (aba === 'plc') {
                 document.getElementById('section-plano-contas').classList.remove('hidden');
                 document.getElementById('tab-btn-plc').className = classActive;
+                carregarPlanoContas();
             } else if (aba === 'res') {
                 document.getElementById('section-resultados').classList.remove('hidden');
                 document.getElementById('tab-btn-res').className = classActive;
@@ -1398,7 +1417,7 @@
             }
         }
 
-        // --- FUNÇÕES DA ABA CENTROS DE CUSTO ---
+        // --- ABA CENTROS DE CUSTO ---
         function verificarTipoCentroCusto() {
             const tipo = document.getElementById('cc-tipo').value;
             const wrapperRateio = document.getElementById('wrapper-cc-tipo-rateio');
@@ -1426,6 +1445,7 @@
                     listaCC = [];
                 }
 
+                preencherSelectsCentrosDeCusto();
                 renderizarTabelaCCLocal();
                 setSyncStatus(false);
             } catch (e) { tbody.innerHTML = '<tr><td colspan="15" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; setSyncStatus(false, "Erro API"); }
@@ -1516,123 +1536,33 @@
             verificarTipoCentroCusto();
         }
 
-        async function deletarItemAPI(aba, id, callbackSucesso) {
-            if (!confirm("Tem certeza que deseja excluir este registro?")) return;
-            setSyncStatus(true);
+        // --- ABA RECURSOS ---
+        function verificarSelecaoCCRecurso() {
+            const ccId = document.getElementById('rec-cc-id').value;
+            const ccSel = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(ccId));
+            const wrapperTurnos = document.getElementById('wrapper-rec-turnos');
 
-            const payload = {
-                sheet: aba,
-                action: "DELETE",
-                id: id,
-                clienteId: usuarioLogado.TCLIENTE_ID,
-                periodoId: periodoAtivoObj.TPERIODO_ID
-            };
-
-            try {
-                await fetch(API_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                alert("Registro excluído!");
-                setSyncStatus(false);
-                setTimeout(callbackSucesso, 1500);
-            } catch(e) {
-                alert("Erro ao excluir registro.");
-                setSyncStatus(false, "Erro ao excluir");
+            if (ccSel && String(ccSel.TCENTRO_CUSTO_TIPO).toUpperCase() === 'PRODUTIVO DIRETO') {
+                wrapperTurnos.classList.remove('opacity-40', 'pointer-events-none');
+            } else {
+                wrapperTurnos.classList.add('opacity-40', 'pointer-events-none');
+                document.getElementById('rec-turnos').value = 1;
             }
+            calcularCustoMensalRecurso();
         }
 
-        async function carregarPlanoContas() {
-            const tbody = document.getElementById('tbl-plc-body');
-            if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando contas...</td></tr>';
+        function calcularCustoMensalRecurso() {
+            const val = parseMoedaBR(document.getElementById('rec-valor').value);
+            const tipo = document.getElementById('rec-tipo').value;
+            let taxaAnual = 0.10; // Padrão 10% a.a.
 
-            try {
-                setSyncStatus(true);
-                const response = await fetch(`${API_URL}?action=TPLANO_CONTAS`);
-                const data = await response.json();
-
-                if (Array.isArray(data)) {
-                    listaPlanoContas = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
-                } else {
-                    listaPlanoContas = [];
-                }
-
-                renderizarTabelaPlanoContasLocal();
-                setSyncStatus(false);
-            } catch (e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar plano de contas.</td></tr>'; setSyncStatus(false, "Erro API"); }
-        }
-
-        function renderizarTabelaPlanoContasLocal() {
-            const tbody = document.getElementById('tbl-plc-body');
-            if(!tbody) return;
-            if(listaPlanoContas.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Nenhuma conta cadastrada.</td></tr>';
-                return;
+            const pTipo = tabelaPadroes.find(p => String(p.TRECURSO_TIPO).toUpperCase() === String(tipo).toUpperCase());
+            if (pTipo && pTipo.TRECURSO_TAXA_DEPRECIACAO) {
+                taxaAnual = parseFloat(pTipo.TRECURSO_TAXA_DEPRECIACAO) || 0.10;
             }
-            tbody.innerHTML = '';
-            listaPlanoContas.forEach(p => {
-                tbody.innerHTML += `
-                    <tr class="hover:bg-brand-border/30 transition">
-                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${p.TPLANO_CONTA_NOME}</td>
-                        <td class="p-2 md:p-3 uppercase text-xs">${p.TPLANO_CONTA_CRITERIO}</td>
-                        <td class="p-2 md:p-3 text-xs">${p.TCENTRO_CUSTO_ID || 'TODOS'}</td>
-                        <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(p.TPLANO_CONTA_VALOR)}</td>
-                        <td class="p-2 md:p-3 text-right">
-                            <button onclick="deletarItemAPI('TPLANO_CONTAS', '${p.TPLANO_CONTA_ID}', carregarPlanoContas)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition">Excluir</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
 
-        async function carregarFuncionarios() {
-            const tbody = document.getElementById('tbl-func-body');
-            if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Buscando funcionários...</td></tr>';
-
-            try {
-                setSyncStatus(true);
-                const response = await fetch(`${API_URL}?action=TFUNCIONARIO`);
-                const data = await response.json();
-
-                if (Array.isArray(data)) {
-                    listaFuncionarios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
-                } else {
-                    listaFuncionarios = [];
-                }
-
-                renderizarTabelaFuncionariosLocal();
-                setSyncStatus(false);
-            } catch (e) { tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>'; setSyncStatus(false, "Erro API"); }
-        }
-
-        function renderizarTabelaFuncionariosLocal() {
-            const tbody = document.getElementById('tbl-func-body');
-            if(!tbody) return;
-            if(listaFuncionarios.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Nenhum funcionário cadastrado.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = '';
-            listaFuncionarios.forEach(f => {
-                tbody.innerHTML += `
-                    <tr class="hover:bg-brand-border/30 transition">
-                        <td class="p-2 md:p-3 text-xs uppercase">${f.TCENTRO_CUSTO_ID}</td>
-                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${f.TFUNCIONARIO_NOME}</td>
-                        <td class="p-2 md:p-3">${f.TFUNCIONARIO_HORAS || 176}h</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_SALARIO_BASE)}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_VALOR_BENEFICIOS)}</td>
-                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL)}</td>
-                        <td class="p-2 md:p-3 uppercase text-xs">${f.TFUNCIONARIO_RATEIO || 'NAO'}</td>
-                        <td class="p-2 md:p-3 text-right">
-                            <button onclick="deletarItemAPI('TFUNCIONARIO', '${f.TFUNCIONARIO_ID}', carregarFuncionarios)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition">Excluir</button>
-                        </td>
-                    </tr>
-                `;
-            });
+            const custoMensal = val * (taxaAnual / 12);
+            document.getElementById('rec-custo-mensal').value = formatarMoedaBR(custoMensal);
         }
 
         async function carregarRecursos() {
@@ -1665,9 +1595,12 @@
             }
             tbody.innerHTML = '';
             listaRecursos.forEach(r => {
+                const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(r.TCENTRO_CUSTO_ID));
+                const nomeCC = ccObj ? ccObj.TCENTRO_CUSTO_NOME : r.TCENTRO_CUSTO_ID;
+
                 tbody.innerHTML += `
                     <tr class="hover:bg-brand-border/30 transition">
-                        <td class="p-2 md:p-3 text-xs uppercase">${r.TCENTRO_CUSTO_ID}</td>
+                        <td class="p-2 md:p-3 text-xs uppercase font-semibold text-white">${nomeCC}</td>
                         <td class="p-2 md:p-3 font-semibold text-white uppercase">${r.TRECURSO_NOME}</td>
                         <td class="p-2 md:p-3 uppercase text-xs">${r.TRECURSO_TIPO}</td>
                         <td class="p-2 md:p-3">${formatarMoedaBR(r.TRECURSO_VALOR)}</td>
@@ -1681,6 +1614,57 @@
             });
         }
 
+        async function salvarRecurso(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-salvar-rec');
+            btn.innerText = "Gravando...";
+            btn.disabled = true;
+            setSyncStatus(true);
+
+            const ccId = document.getElementById('rec-cc-id').value;
+            const nome = document.getElementById('rec-nome').value.trim();
+            const tipo = document.getElementById('rec-tipo').value;
+            const val = parseMoedaBR(document.getElementById('rec-valor').value);
+            const turnos = parseInt(document.getElementById('rec-turnos').value, 10) || 1;
+            const custoMensal = parseMoedaBR(document.getElementById('rec-custo-mensal').value);
+
+            const payload = {
+                sheet: "TRECURSO",
+                action: "CREATE",
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccId, "", nome, tipo, val, custoMensal, turnos]
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert("Recurso gravado com sucesso!");
+                limparFormRec();
+                setSyncStatus(false);
+                setTimeout(carregarRecursos, 1500);
+            } catch (err) {
+                alert("Erro ao gravar Recurso.");
+                btn.innerText = "Salvar Recurso";
+                btn.disabled = false;
+                setSyncStatus(false, "Erro ao gravar");
+            }
+        }
+
+        function limparFormRec() {
+            document.getElementById('form-rec').reset();
+            document.getElementById('rec-editing-id').value = '';
+            document.getElementById('btn-salvar-rec').innerText = "Salvar Recurso";
+            document.getElementById('btn-salvar-rec').disabled = false;
+            document.getElementById('rec-custo-mensal').value = '';
+            verificarSelecaoCCRecurso();
+        }
+
+        // --- ABA BENEFÍCIOS ---
         async function carregarBeneficios() {
             const tbody = document.getElementById('tbl-ben-body');
             if(!tbody) return;
@@ -1723,6 +1707,398 @@
             });
         }
 
+        async function salvarBeneficio(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-salvar-ben');
+            btn.innerText = "Gravando...";
+            btn.disabled = true;
+            setSyncStatus(true);
+
+            const nome = document.getElementById('ben-nome').value.trim();
+            const val = parseMoedaBR(document.getElementById('ben-valor').value);
+
+            const payload = {
+                sheet: "TBENEFICIOS",
+                action: "CREATE",
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, "", nome, val]
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert("Benefício gravado com sucesso!");
+                limparFormBen();
+                setSyncStatus(false);
+                setTimeout(carregarBeneficios, 1500);
+            } catch (err) {
+                alert("Erro ao gravar Benefício.");
+                btn.innerText = "Salvar Benefício";
+                btn.disabled = false;
+                setSyncStatus(false, "Erro ao gravar");
+            }
+        }
+
+        function limparFormBen() {
+            document.getElementById('form-ben').reset();
+            document.getElementById('ben-editing-id').value = '';
+            document.getElementById('btn-salvar-ben').innerText = "Salvar Benefício";
+            document.getElementById('btn-salvar-ben').disabled = false;
+        }
+
+        // --- ABA FUNCIONÁRIOS ---
+        function alternarModoRateioFuncionario() {
+            const isRateio = document.getElementById('func-is-rateio').checked;
+            const wrapUnico = document.getElementById('wrapper-func-cc-unico');
+            const wrapRateio = document.getElementById('wrapper-func-cc-rateio');
+
+            if (isRateio) {
+                wrapUnico.classList.add('hidden');
+                wrapRateio.classList.remove('hidden');
+                renderizarListaRateioCCs();
+            } else {
+                wrapUnico.classList.remove('hidden');
+                wrapRateio.classList.add('hidden');
+            }
+            calcularCustoFuncionario();
+        }
+
+        function renderizarListaRateioCCs() {
+            const container = document.getElementById('container-rateio-cc-list');
+            if(!container) return;
+            container.innerHTML = '';
+
+            listaCC.forEach(c => {
+                container.innerHTML += `
+                    <div class="flex items-center justify-between gap-2 text-xs">
+                        <span class="text-white font-medium uppercase truncate">${c.TCENTRO_CUSTO_NOME}</span>
+                        <input type="number" step="0.01" min="0" max="100" placeholder="0%" oninput="calcularCustoFuncionario()" data-cc-id="${c.TCENTRO_CUSTO_ID}" class="input-rateio-pct w-20 p-1 rounded bg-[#16161a] border border-brand-border text-white text-right outline-none">
+                    </div>
+                `;
+            });
+        }
+
+        function calcularCustoFuncionario() {
+            const salBase = parseMoedaBR(document.getElementById('func-salario-base').value);
+            const valBen = parseMoedaBR(document.getElementById('func-beneficios-valor').value);
+            const tpReg = document.getElementById('func-tp-registro').value;
+            
+            let multiplicador = 1.68; // Encargos CLT padrão
+            if (tpReg.includes('PJ') || tpReg.includes('MEI')) multiplicador = 1.0;
+
+            const custoTotal = (salBase * multiplicador) + valBen;
+            document.getElementById('func-custo-mensal').value = formatarMoedaBR(custoTotal);
+
+            // Calcula soma de rateio %
+            const inputs = document.querySelectorAll('.input-rateio-pct');
+            let somaPct = 0;
+            inputs.forEach(inp => { somaPct += (parseFloat(inp.value) || 0); });
+
+            const dispTotal = document.getElementById('display-total-pct');
+            if (dispTotal) dispTotal.innerText = somaPct.toFixed(1) + "%";
+
+            const sobraVal = custoTotal * Math.max(0, (100 - somaPct) / 100);
+            const dispSobra = document.getElementById('display-sobra-custo');
+            if (dispSobra) dispSobra.innerText = formatarMoedaBR(sobraVal);
+        }
+
+        async function carregarFuncionarios() {
+            const tbody = document.getElementById('tbl-func-body');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Buscando funcionários...</td></tr>';
+
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=TFUNCIONARIO`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    listaFuncionarios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaFuncionarios = [];
+                }
+
+                renderizarTabelaFuncionariosLocal();
+                setSyncStatus(false);
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        function renderizarTabelaFuncionariosLocal() {
+            const tbody = document.getElementById('tbl-func-body');
+            if(!tbody) return;
+            if(listaFuncionarios.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Nenhum funcionário cadastrado.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            listaFuncionarios.forEach(f => {
+                let ccDisplay = f.TCENTRO_CUSTO_ID;
+                if (f.TFUNCIONARIO_RATEIO === "SIM") {
+                    ccDisplay = "MÚLTIPLOS (RATEIO)";
+                } else {
+                    const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(f.TCENTRO_CUSTO_ID));
+                    if (ccObj) ccDisplay = ccObj.TCENTRO_CUSTO_NOME;
+                }
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 text-xs uppercase font-semibold text-white">${ccDisplay}</td>
+                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${f.TFUNCIONARIO_NOME}</td>
+                        <td class="p-2 md:p-3">${f.TFUNCIONARIO_HORAS || 176}h</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_SALARIO_BASE)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_VALOR_BENEFICIOS)}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL)}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${f.TFUNCIONARIO_RATEIO || 'NAO'}</td>
+                        <td class="p-2 md:p-3 text-right">
+                            <button onclick="deletarItemAPI('TFUNCIONARIO', '${f.TFUNCIONARIO_ID}', carregarFuncionarios)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function salvarFuncionario(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-salvar-func');
+            btn.innerText = "Gravando...";
+            btn.disabled = true;
+            setSyncStatus(true);
+
+            const isRateio = document.getElementById('func-is-rateio').checked;
+            let ccTarget = document.getElementById('func-cc-id').value;
+
+            if (isRateio) {
+                let rateioArr = [];
+                const inputs = document.querySelectorAll('.input-rateio-pct');
+                inputs.forEach(inp => {
+                    const pctVal = parseFloat(inp.value) || 0;
+                    if (pctVal > 0) rateioArr.push({ id: inp.getAttribute('data-cc-id'), pct: pctVal });
+                });
+                ccTarget = JSON.stringify(rateioArr);
+            }
+
+            const nome = document.getElementById('func-nome').value.trim();
+            const tpReg = document.getElementById('func-tp-registro').value;
+            const tpSal = document.getElementById('func-tp-salario').value;
+            const salBase = parseMoedaBR(document.getElementById('func-salario-base').value);
+            const hrsMes = parseFloat(document.getElementById('func-horas-mes').value) || 176;
+            const valBen = parseMoedaBR(document.getElementById('func-beneficios-valor').value);
+            const custoTotal = parseMoedaBR(document.getElementById('func-custo-mensal').value);
+
+            const payload = {
+                sheet: "TFUNCIONARIO",
+                action: "CREATE",
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, tpReg, tpSal, salBase, valBen, custoTotal, isRateio ? "SIM" : "NAO", 0, hrsMes]
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert("Funcionário gravado com sucesso!");
+                limparFormFunc();
+                setSyncStatus(false);
+                setTimeout(carregarFuncionarios, 1500);
+            } catch (err) {
+                alert("Erro ao gravar Funcionário.");
+                btn.innerText = "Salvar Funcionário";
+                btn.disabled = false;
+                setSyncStatus(false, "Erro ao gravar");
+            }
+        }
+
+        function limparFormFunc() {
+            document.getElementById('form-func').reset();
+            document.getElementById('func-editing-id').value = '';
+            document.getElementById('btn-salvar-func').innerText = "Salvar Funcionário";
+            document.getElementById('btn-salvar-func').disabled = false;
+            alternarModoRateioFuncionario();
+        }
+
+        // --- ABA PLANO DE CONTAS ---
+        function verificarCriterioPlanoContas() {
+            const crit = document.getElementById('plc-criterio').value;
+            const wrapExclusivo = document.getElementById('wrapper-plc-cc-exclusivo');
+            const wrapSeletivo = document.getElementById('wrapper-plc-cc-rateio-seletivo');
+            const wrapAviso = document.getElementById('wrapper-plc-aviso-variavel');
+
+            if (crit === 'EXCLUSIVO') {
+                wrapExclusivo.classList.remove('hidden');
+                wrapSeletivo.classList.add('hidden');
+                wrapAviso.classList.add('hidden');
+            } else if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) {
+                wrapExclusivo.classList.add('hidden');
+                wrapSeletivo.classList.add('hidden');
+                wrapAviso.classList.remove('hidden');
+            } else {
+                wrapExclusivo.classList.add('hidden');
+                wrapSeletivo.classList.remove('hidden');
+                wrapAviso.classList.add('hidden');
+                renderizarCheckboxesPlanoCC();
+            }
+        }
+
+        function renderizarCheckboxesPlanoCC() {
+            const container = document.getElementById('container-plc-cc-checkboxes');
+            if(!container) return;
+            container.innerHTML = '';
+
+            listaCC.forEach(c => {
+                container.innerHTML += `
+                    <label class="flex items-center gap-2 text-xs text-white cursor-pointer bg-[#16161a] p-1.5 rounded border border-brand-border">
+                        <input type="checkbox" checked value="${c.TCENTRO_CUSTO_ID}" class="chk-plc-cc accent-brand-primary">
+                        <span class="truncate">${c.TCENTRO_CUSTO_NOME}</span>
+                    </label>
+                `;
+            });
+        }
+
+        function marcarTodosCCPlano(marcar) {
+            document.querySelectorAll('.chk-plc-cc').forEach(chk => chk.checked = marcar);
+        }
+
+        async function carregarPlanoContas() {
+            const tbody = document.getElementById('tbl-plc-body');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando contas...</td></tr>';
+
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=TPLANO_CONTAS`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    listaPlanoContas = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaPlanoContas = [];
+                }
+
+                renderizarTabelaPlanoContasLocal();
+                setSyncStatus(false);
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar plano de contas.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        function renderizarTabelaPlanoContasLocal() {
+            const tbody = document.getElementById('tbl-plc-body');
+            if(!tbody) return;
+            if(listaPlanoContas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Nenhuma conta cadastrada.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            listaPlanoContas.forEach(p => {
+                let destDisplay = p.TCENTRO_CUSTO_ID;
+                if (p.TPLANO_CONTA_CRITERIO === 'EXCLUSIVO') {
+                    const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(p.TCENTRO_CUSTO_ID));
+                    if (ccObj) destDisplay = ccObj.TCENTRO_CUSTO_NOME;
+                }
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${p.TPLANO_CONTA_NOME}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${p.TPLANO_CONTA_CRITERIO}</td>
+                        <td class="p-2 md:p-3 text-xs uppercase">${destDisplay || 'TODOS'}</td>
+                        <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(p.TPLANO_CONTA_VALOR)}</td>
+                        <td class="p-2 md:p-3 text-right">
+                            <button onclick="deletarItemAPI('TPLANO_CONTAS', '${p.TPLANO_CONTA_ID}', carregarPlanoContas)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function salvarPlanoConta(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-salvar-plc');
+            btn.innerText = "Gravando...";
+            btn.disabled = true;
+            setSyncStatus(true);
+
+            const nome = document.getElementById('plc-nome').value.trim();
+            const crit = document.getElementById('plc-criterio').value;
+            const val = parseMoedaBR(document.getElementById('plc-valor').value);
+            let ccTarget = document.getElementById('plc-cc-id').value;
+
+            if (crit !== 'EXCLUSIVO' && !crit.includes('NÃO RATEAR') && !crit.includes('NAO RATEAR')) {
+                let selecionados = [];
+                document.querySelectorAll('.chk-plc-cc:checked').forEach(chk => selecionados.push(chk.value));
+                ccTarget = JSON.stringify(selecionados);
+            }
+
+            const payload = {
+                sheet: "TPLANO_CONTAS",
+                action: "CREATE",
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, crit, val]
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert("Conta gravada com sucesso!");
+                limparFormPLC();
+                setSyncStatus(false);
+                setTimeout(carregarPlanoContas, 1500);
+            } catch (err) {
+                alert("Erro ao gravar Conta.");
+                btn.innerText = "Salvar Conta";
+                btn.disabled = false;
+                setSyncStatus(false, "Erro ao gravar");
+            }
+        }
+
+        function limparFormPLC() {
+            document.getElementById('form-plc').reset();
+            document.getElementById('plc-editing-id').value = '';
+            document.getElementById('btn-salvar-plc').innerText = "Salvar Conta";
+            document.getElementById('btn-salvar-plc').disabled = false;
+            verificarCriterioPlanoContas();
+        }
+
+        async function deletarItemAPI(aba, id, callbackSucesso) {
+            if (!confirm("Tem certeza que deseja excluir este registro?")) return;
+            setSyncStatus(true);
+
+            const payload = {
+                sheet: aba,
+                action: "DELETE",
+                id: id,
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert("Registro excluído!");
+                setSyncStatus(false);
+                setTimeout(callbackSucesso, 1500);
+            } catch(e) {
+                alert("Erro ao excluir registro.");
+                setSyncStatus(false, "Erro ao excluir");
+            }
+        }
+
+        // --- RESULTADOS & ANÁLISES ---
         async function gerarAnalisesEResultados() {
             if (!periodoAtivoObj) return;
 
