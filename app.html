@@ -2923,170 +2923,184 @@ function baixarModeloCSVPlano() {
             setSyncStatus(false);
         }
 
-        function abrirDrilldownCustoHora(ccId, ccNome) {
-            const modal = document.getElementById('modal-drilldown-custohora');
-            const container = document.getElementById('modal-dh-content');
-            if(!modal || !container) return;
+function abrirDrilldownCustoHora(ccId, ccNome) {
+    const modal = document.getElementById('modal-drilldown-custohora');
+    const container = document.getElementById('modal-dh-content');
+    if(!modal || !container) return;
 
-            document.getElementById('modal-dh-title').innerText = "RAIO-X: " + ccNome;
+    document.getElementById('modal-dh-title').innerText = "RAIO-X: " + ccNome;
 
-            const recsDoCC = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID) === String(ccId));
-            
-            const funcsDoCC = listaFuncionarios.filter(f => {
-                if (f.TFUNCIONARIO_RATEIO === "SIM") {
-                    try {
-                        const arr = JSON.parse(f.TCENTRO_CUSTO_ID);
-                        return arr.some(x => String(x.id) === String(ccId));
-                    } catch(e) { return false; }
-                }
-                return String(f.TCENTRO_CUSTO_ID) === String(ccId);
-            });
-
-            const planoDoCC = listaPlanoContas.filter(p => {
-                const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
-                if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return false;
-
-                if (crit === 'EXCLUSIVO') return String(p.TCENTRO_CUSTO_ID) === String(ccId);
-                try {
-                    const arr = JSON.parse(p.TCENTRO_CUSTO_ID);
-                    return arr.some(item => (typeof item === 'object' ? String(item.id) === String(ccId) : String(item) === String(ccId)));
-                } catch(e) { return true; }
-            });
-
-            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(ccId));
-            const custoFixoDireto = parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0) || 0;
-            const custoPredioAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0) || 0;
-            const custoIndiretoAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_INDIRETOS : 0) || 0;
-            
-            let horasBrutasCC = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_HORAS : 176) || 176;
-            if(horasBrutasCC === 0) horasBrutasCC = 176;
-            
-            const prodPct = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PRODUTIVIDADE : 100) || 100;
-            const horasEfetivasCC = horasBrutasCC * (prodPct / 100);
-
-            let htmlHtml = '';
-
-            // 1. RECURSOS
-            htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
-                <h4 class="font-bold text-white uppercase text-xs">1. Recursos & Máquinas (${recsDoCC.length})</h4>`;
-            if (recsDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhum recurso direto cadastrado neste setor.</p>`;
-            else {
-                recsDoCC.forEach(r => {
-                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- ${r.TRECURSO_NOME}</span><span>${formatarMoedaBR(r.TRECURSO_CUSTO_MENSAL)}/mês</span></div>`;
-                });
-            }
-            htmlHtml += `</div>`;
-
-            // 2. FUNCIONÁRIOS
-            htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
-                <h4 class="font-bold text-white uppercase text-xs">2. Funcionários Alocados / Rateados (${funcsDoCC.length})</h4>`;
-            if (funcsDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhum funcionário direto cadastrado neste setor.</p>`;
-            else {
-                funcsDoCC.forEach(f => {
-                    let val = parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL) || 0;
-                    let hrsF = parseFloat(f.TFUNCIONARIO_HORAS) || 176;
-                    let infoRateio = `(${hrsF.toFixed(0)}h disps.)`;
-
-                    if (f.TFUNCIONARIO_RATEIO === "SIM") {
-                        try {
-                            const arr = JSON.parse(f.TCENTRO_CUSTO_ID);
-                            const itemP = arr.find(x => String(x.id) === String(ccId));
-                            if (itemP) {
-                                const pctLoc = parseFloat(itemP.pct) || 0;
-                                val = val * (pctLoc / 100);
-                                const hrsRateadas = hrsF * (pctLoc / 100);
-                                infoRateio = `(Rateado ${pctLoc}% = ${hrsRateadas.toFixed(0)}h disps.)`;
-                            }
-                        } catch(e) {}
-                    }
-                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- ${f.TFUNCIONARIO_NOME} <strong class="text-brand-primary">${infoRateio}</strong></span><span>${formatarMoedaBR(val)}/mês</span></div>`;
-                });
-            }
-            htmlHtml += `</div>`;
-
-            // 3. PLANO DE CONTAS
-            htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
-                <h4 class="font-bold text-white uppercase text-xs">3. Contas Fixas do Plano de Contas (${planoDoCC.length})</h4>`;
-            if (planoDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhuma conta fixa rateada diretamente para este setor.</p>`;
-            else {
-                planoDoCC.forEach(p => {
-                    let valAbsorvido = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
-                    const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
-
-                    if (crit === 'SELETIVO_PERCENTUAL' || (p.TCENTRO_CUSTO_ID && p.TCENTRO_CUSTO_ID.includes('pct'))) {
-                        try {
-                            const arr = JSON.parse(p.TCENTRO_CUSTO_ID);
-                            const itemP = arr.find(x => String(x.id) === String(ccId));
-                            if (itemP) {
-                                valAbsorvido = valAbsorvido * ((parseFloat(itemP.pct) || 0) / 100);
-                            }
-                        } catch(e) {}
-                    } else if (crit !== 'EXCLUSIVO') {
-                        let participantes = [];
-                        try { participantes = JSON.parse(p.TCENTRO_CUSTO_ID); } catch(e) { participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID); }
-                        if(!Array.isArray(participantes) || participantes.length === 0) participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID);
-
-                        let baseTotal = 0;
-                        let baseEsteCC = 0;
-
-                        participantes.forEach(id => {
-                            const cSearch = listaCC.find(x => String(x.TCENTRO_CUSTO_ID) === String(id));
-                            if (cSearch) {
-                                let bVal = 0;
-                                if (crit === 'AREA') bVal = parseFloat(cSearch.TCENTRO_CUSTO_AREA) || 0;
-                                else if (crit === 'RECURSOS') bVal = parseInt(cSearch.TCENTRO_CUSTO_QTDE_RECURSOS) || 0;
-                                else if (crit === 'HORAS') bVal = parseFloat(cSearch.TCENTRO_CUSTO_HORAS) || 0;
-
-                                baseTotal += bVal;
-                                if (String(id) === String(ccId)) baseEsteCC = bVal;
-                            }
-                        });
-
-                        if (baseTotal > 0) valAbsorvido = valAbsorvido * (baseEsteCC / baseTotal);
-                    }
-
-                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- ${p.TPLANO_CONTA_NOME} (${crit})</span><span>${formatarMoedaBR(valAbsorvido)}</span></div>`;
-                });
-            }
-            htmlHtml += `</div>`;
-
-            // 4. DEMAIS CUSTOS
-            if (custoFixoDireto > 0 || custoPredioAbsorvido > 0 || custoIndiretoAbsorvido > 0) {
-                htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
-                    <h4 class="font-bold text-white uppercase text-xs">4. Outros Custos e Rateios do Setor</h4>`;
-                
-                if (custoFixoDireto > 0) {
-                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- Custo Fixo Direto do Setor</span><span>${formatarMoedaBR(custoFixoDireto)}/mês</span></div>`;
-                }
-                if (custoPredioAbsorvido > 0) {
-                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- Rateio de Prédio (Área)</span><span>${formatarMoedaBR(custoPredioAbsorvido)}/mês</span></div>`;
-                }
-                if (custoIndiretoAbsorvido > 0) {
-                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- Absorção de Setores Indiretos + Sobra Mão Obra</span><span class="text-brand-primary font-bold">${formatarMoedaBR(custoIndiretoAbsorvido)}/mês</span></div>`;
-                }
-                htmlHtml += `</div>`;
-            }
-
-            const custoTotalDoSetor = custoFixoDireto + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_MENSAL : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_FUNCIONARIO : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0)||0) + custoPredioAbsorvido + custoIndiretoAbsorvido;
-
-            htmlHtml += `<div class="bg-brand-border/40 p-3.5 rounded-lg border border-brand-border flex justify-between items-center text-xs">
-                <span class="font-bold text-white uppercase">CUSTO TOTAL MENSAL DO SETOR:</span>
-                <span class="font-extrabold text-white text-base">${formatarMoedaBR(custoTotalDoSetor)}</span>
-            </div>`;
-
-            htmlHtml += `<div class="bg-brand-primary/10 p-3.5 rounded-lg border border-brand-primary/30 text-xs space-y-1.5">
-                <div class="flex justify-between text-white font-bold"><span>Horas Brutas do Setor:</span><span>${horasBrutasCC.toFixed(1)} h</span></div>
-                <div class="flex justify-between text-brand-primary font-bold"><span>Fator de Produtividade:</span><span>${prodPct.toFixed(0)}%</span></div>
-                <div class="flex justify-between text-emerald-400 font-extrabold border-t border-brand-border/50 pt-1 text-sm"><span>Horas Efetivas Consideradas no Custo-Hora:</span><span>${horasEfetivasCC.toFixed(1)} h</span></div>
-            </div>`;
-
-            container.innerHTML = htmlHtml;
-
-            const custoHoraCalculado = horasEfetivasCC > 0 ? (custoTotalDoSetor / horasEfetivasCC) : 0;
-
-            document.getElementById('modal-dh-custohora-total').innerText = formatarMoedaBR(custoHoraCalculado) + "/h";
-            modal.classList.remove('hidden');
+    const recsDoCC = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID) === String(ccId));
+    
+    const funcsDoCC = listaFuncionarios.filter(f => {
+        if (f.TFUNCIONARIO_RATEIO === "SIM") {
+            try {
+                const arr = JSON.parse(f.TCENTRO_CUSTO_ID);
+                return arr.some(x => String(x.id) === String(ccId));
+            } catch(e) { return false; }
         }
+        return String(f.TCENTRO_CUSTO_ID) === String(ccId);
+    });
+
+    const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(ccId));
+    const custoFixoDireto = parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0) || 0;
+    const custoPredioAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0) || 0;
+    const custoIndiretoAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_INDIRETOS : 0) || 0;
+
+    // PROCESSA CONTAS DO PLANO DE CONTAS FILTRANDO APENAS AS COM VALOR ABSORVIDO > 0
+    let planoLinhasHtml = '';
+    let qtdContasAtivas = 0;
+
+    const planoDoCC = listaPlanoContas.filter(p => {
+        const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
+        if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return false;
+
+        if (crit === 'EXCLUSIVO') return String(p.TCENTRO_CUSTO_ID) === String(ccId);
+        try {
+            const arr = JSON.parse(p.TCENTRO_CUSTO_ID);
+            return arr.some(item => (typeof item === 'object' ? String(item.id) === String(ccId) : String(item) === String(ccId)));
+        } catch(e) { return true; }
+    });
+
+    planoDoCC.forEach(p => {
+        let valAbsorvido = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
+        const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
+
+        if (crit === 'SELETIVO_PERCENTUAL' || (p.TCENTRO_CUSTO_ID && p.TCENTRO_CUSTO_ID.includes('pct'))) {
+            try {
+                const arr = JSON.parse(p.TCENTRO_CUSTO_ID);
+                const itemP = arr.find(x => String(x.id) === String(ccId));
+                if (itemP) {
+                    valAbsorvido = valAbsorvido * ((parseFloat(itemP.pct) || 0) / 100);
+                } else {
+                    valAbsorvido = 0;
+                }
+            } catch(e) { valAbsorvido = 0; }
+        } else if (crit !== 'EXCLUSIVO') {
+            let participantes = [];
+            try { participantes = JSON.parse(p.TCENTRO_CUSTO_ID); } catch(e) { participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID); }
+            if(!Array.isArray(participantes) || participantes.length === 0) participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID);
+
+            let baseTotal = 0;
+            let baseEsteCC = 0;
+
+            participantes.forEach(id => {
+                const cSearch = listaCC.find(x => String(x.TCENTRO_CUSTO_ID) === String(id));
+                if (cSearch) {
+                    let bVal = 0;
+                    if (crit === 'AREA') bVal = parseFloat(cSearch.TCENTRO_CUSTO_AREA) || 0;
+                    else if (crit === 'RECURSOS') bVal = parseInt(cSearch.TCENTRO_CUSTO_QTDE_RECURSOS) || 0;
+                    else if (crit === 'HORAS') bVal = parseFloat(cSearch.TCENTRO_CUSTO_HORAS) || 0;
+
+                    baseTotal += bVal;
+                    if (String(id) === String(ccId)) baseEsteCC = bVal;
+                }
+            });
+
+            if (baseTotal > 0) valAbsorvido = valAbsorvido * (baseEsteCC / baseTotal);
+            else valAbsorvido = 0;
+        }
+
+        // SE O VALOR ABSORVIDO FOR MAIOR QUE ZERO, ADICIONA NA LISTA
+        if (valAbsorvido > 0) {
+            qtdContasAtivas++;
+            planoLinhasHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- ${p.TPLANO_CONTA_NOME} (${crit})</span><span>${formatarMoedaBR(valAbsorvido)}</span></div>`;
+        }
+    });
+
+    let horasBrutasCC = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_HORAS : 176) || 176;
+    if(horasBrutasCC === 0) horasBrutasCC = 176;
+    
+    const prodPct = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PRODUTIVIDADE : 100) || 100;
+    const horasEfetivasCC = horasBrutasCC * (prodPct / 100);
+
+    let htmlHtml = '';
+
+    // 1. RECURSOS
+    htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
+        <h4 class="font-bold text-white uppercase text-xs">1. Recursos & Máquinas (${recsDoCC.length})</h4>`;
+    if (recsDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhum recurso direto cadastrado neste setor.</p>`;
+    else {
+        recsDoCC.forEach(r => {
+            htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- ${r.TRECURSO_NOME}</span><span>${formatarMoedaBR(r.TRECURSO_CUSTO_MENSAL)}/mês</span></div>`;
+        });
+    }
+    htmlHtml += `</div>`;
+
+    // 2. FUNCIONÁRIOS
+    htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
+        <h4 class="font-bold text-white uppercase text-xs">2. Funcionários Alocados / Rateados (${funcsDoCC.length})</h4>`;
+    if (funcsDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhum funcionário direto cadastrado neste setor.</p>`;
+    else {
+        funcsDoCC.forEach(f => {
+            let val = parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL) || 0;
+            let hrsF = parseFloat(f.TFUNCIONARIO_HORAS) || 176;
+            let infoRateio = `(${hrsF.toFixed(0)}h disps.)`;
+
+            if (f.TFUNCIONARIO_RATEIO === "SIM") {
+                try {
+                    const arr = JSON.parse(f.TCENTRO_CUSTO_ID);
+                    const itemP = arr.find(x => String(x.id) === String(ccId));
+                    if (itemP) {
+                        const pctLoc = parseFloat(itemP.pct) || 0;
+                        val = val * (pctLoc / 100);
+                        const hrsRateadas = hrsF * (pctLoc / 100);
+                        infoRateio = `(Rateado ${pctLoc}% = ${hrsRateadas.toFixed(0)}h disps.)`;
+                    }
+                } catch(e) {}
+            }
+            htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- ${f.TFUNCIONARIO_NOME} <strong class="text-brand-primary">${infoRateio}</strong></span><span>${formatarMoedaBR(val)}/mês</span></div>`;
+        });
+    }
+    htmlHtml += `</div>`;
+
+    // 3. PLANO DE CONTAS (EXIBE SOMENTE AS COM CUSTO > 0)
+    htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
+        <h4 class="font-bold text-white uppercase text-xs">3. Contas Fixas do Plano de Contas (${qtdContasAtivas})</h4>`;
+    if (qtdContasAtivas === 0) {
+        htmlHtml += `<p class="text-xs text-brand-muted">Nenhuma conta fixa rateada diretamente para este setor.</p>`;
+    } else {
+        htmlHtml += planoLinhasHtml;
+    }
+    htmlHtml += `</div>`;
+
+    // 4. DEMAIS CUSTOS
+    if (custoFixoDireto > 0 || custoPredioAbsorvido > 0 || custoIndiretoAbsorvido > 0) {
+        htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
+            <h4 class="font-bold text-white uppercase text-xs">4. Outros Custos e Rateios do Setor</h4>`;
+        
+        if (custoFixoDireto > 0) {
+            htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- Custo Fixo Direto do Setor</span><span>${formatarMoedaBR(custoFixoDireto)}/mês</span></div>`;
+        }
+        if (custoPredioAbsorvido > 0) {
+            htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- Rateio de Prédio (Área)</span><span>${formatarMoedaBR(custoPredioAbsorvido)}/mês</span></div>`;
+        }
+        if (custoIndiretoAbsorvido > 0) {
+            htmlHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- Absorção de Setores Indiretos + Sobra Mão Obra</span><span class="text-brand-primary font-bold">${formatarMoedaBR(custoIndiretoAbsorvido)}/mês</span></div>`;
+        }
+        htmlHtml += `</div>`;
+    }
+
+    const custoTotalDoSetor = custoFixoDireto + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_MENSAL : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_FUNCIONARIO : 0)||0) + (parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0)||0) + custoPredioAbsorvido + custoIndiretoAbsorvido;
+
+    htmlHtml += `<div class="bg-brand-border/40 p-3.5 rounded-lg border border-brand-border flex justify-between items-center text-xs">
+        <span class="font-bold text-white uppercase">CUSTO TOTAL MENSAL DO SETOR:</span>
+        <span class="font-extrabold text-white text-base">${formatarMoedaBR(custoTotalDoSetor)}</span>
+    </div>`;
+
+    htmlHtml += `<div class="bg-brand-primary/10 p-3.5 rounded-lg border border-brand-primary/30 text-xs space-y-1.5">
+        <div class="flex justify-between text-white font-bold"><span>Horas Brutas do Setor:</span><span>${horasBrutasCC.toFixed(1)} h</span></div>
+        <div class="flex justify-between text-brand-primary font-bold"><span>Fator de Produtividade:</span><span>${prodPct.toFixed(0)}%</span></div>
+        <div class="flex justify-between text-emerald-400 font-extrabold border-t border-brand-border/50 pt-1 text-sm"><span>Horas Efetivas Consideradas no Custo-Hora:</span><span>${horasEfetivasCC.toFixed(1)} h</span></div>
+    </div>`;
+
+    container.innerHTML = htmlHtml;
+
+    const custoHoraCalculado = horasEfetivasCC > 0 ? (custoTotalDoSetor / horasEfetivasCC) : 0;
+
+    document.getElementById('modal-dh-custohora-total').innerText = formatarMoedaBR(custoHoraCalculado) + "/h";
+    modal.classList.remove('hidden');
+}
 
         function fecharModalDrilldown() {
             const modal = document.getElementById('modal-drilldown-custohora');
