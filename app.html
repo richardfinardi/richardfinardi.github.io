@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V3.1 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V3.2 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -62,7 +62,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.1</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.2</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -732,7 +732,7 @@
             </div>
         </section>
 
-        <!-- ABA 6: RESULTADOS & ANÁLISES (V3.1 CORRIGIDA) -->
+        <!-- ABA 6: RESULTADOS & ANÁLISES -->
         <section id="section-resultados" class="hidden space-y-6">
             
             <!-- CONTROLE DE COMPARATIVO DE PERÍODOS -->
@@ -928,6 +928,11 @@
             }
         }
 
+        function deslogar() {
+            localStorage.removeItem('usuarioLogadoRF');
+            location.reload();
+        }
+
         function formatarMoedaBR(valor) {
             return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
@@ -963,7 +968,7 @@
                     nomeRaw = d.getFullYear() + "." + (d.getMonth() < 6 ? "1" : "2");
                 }
             }
-            return `${nomeRaw} [${p.TPERIODO_STATUS}]`;
+            return `${nomeRaw} [${p.TPERIODO_STATUS || 'ABERTO'}]`;
         }
 
         function atualizarTagsPeriodoHeader() {
@@ -1090,12 +1095,14 @@
                 if (selectTipoRec) selectTipoRec.innerHTML = '<option value="">-- SELECIONE O TIPO RECURSO --</option>';
                 if (selectTpRegFunc) selectTpRegFunc.innerHTML = '<option value="">-- SELECIONE TIPO REGISTRO --</option>';
 
-                tabelaPadroes.forEach(p => {
-                    if (p.TCENTRO_CUSTO_TIPO && selectTipo) selectTipo.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO}</option>`;
-                    if (p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS && selectRateio) selectRateio.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}</option>`;
-                    if (p.TRECURSO_TIPO && selectTipoRec) selectTipoRec.innerHTML += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO}</option>`;
-                    if (p.TFUNCIONARIO_TP_REGISTRO && selectTpRegFunc) selectTpRegFunc.innerHTML += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO}</option>`;
-                });
+                if (Array.isArray(tabelaPadroes)) {
+                    tabelaPadroes.forEach(p => {
+                        if (p.TCENTRO_CUSTO_TIPO && selectTipo) selectTipo.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO}</option>`;
+                        if (p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS && selectRateio) selectRateio.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}</option>`;
+                        if (p.TRECURSO_TIPO && selectTipoRec) selectTipoRec.innerHTML += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO}</option>`;
+                        if (p.TFUNCIONARIO_TP_REGISTRO && selectTpRegFunc) selectTpRegFunc.innerHTML += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO}</option>`;
+                    });
+                }
                 setSyncStatus(false);
             } catch(e) { console.error("Erro ao carregar padrões", e); setSyncStatus(false, "Erro Padrões"); }
         }
@@ -1110,87 +1117,95 @@
                 listaClientesAdmin = await res.json();
 
                 tbody.innerHTML = '';
-                listaClientesAdmin.forEach(c => {
-                    const isAtivo = String(c.TCLIENTE_ATIVO).toUpperCase() !== 'NAO';
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-brand-border/30 transition">
-                            <td class="p-2 md:p-3 font-semibold text-white">${c.TCLIENTE_ID}</td>
-                            <td class="p-2 md:p-3 text-white font-medium uppercase">${c.TCLIENTE_NOME}</td>
-                            <td class="p-2 md:p-3">${c.TCLIENTE_CNPJ}</td>
-                            <td class="p-2 md:p-3">${isAtivo ? '<span class="text-emerald-400 font-bold">ATIVO</span>' : '<span class="text-red-500 font-bold">BLOQUEADO</span>'}</td>
-                            <td class="p-2 md:p-3 text-right">
-                                <button onclick="alternarStatusCliente('${c.TCLIENTE_ID}', '${c.TCLIENTE_NOME}', '${c.TCLIENTE_CNPJ}', ${isAtivo})" class="text-xs px-3 py-1 rounded font-bold ${isAtivo ? 'bg-red-950/60 text-red-400 border border-red-800' : 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'}">
-                                    ${isAtivo ? 'Bloquear Empresa' : 'Desbloquear Acesso'}
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
+                if (Array.isArray(listaClientesAdmin)) {
+                    listaClientesAdmin.forEach(c => {
+                        const isAtivo = String(c.TCLIENTE_ATIVO).toUpperCase() !== 'NAO';
+                        tbody.innerHTML += `
+                            <tr class="hover:bg-brand-border/30 transition">
+                                <td class="p-2 md:p-3 font-semibold text-white">${c.TCLIENTE_ID}</td>
+                                <td class="p-2 md:p-3 text-white font-medium uppercase">${c.TCLIENTE_NOME}</td>
+                                <td class="p-2 md:p-3">${c.TCLIENTE_CNPJ}</td>
+                                <td class="p-2 md:p-3">${isAtivo ? '<span class="text-emerald-400 font-bold">ATIVO</span>' : '<span class="text-red-500 font-bold">BLOQUEADO</span>'}</td>
+                                <td class="p-2 md:p-3 text-right">
+                                    <button onclick="alternarStatusCliente('${c.TCLIENTE_ID}', '${c.TCLIENTE_NOME}', '${c.TCLIENTE_CNPJ}', ${isAtivo})" class="text-xs px-3 py-1 rounded font-bold ${isAtivo ? 'bg-red-950/60 text-red-400 border border-red-800' : 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'}">
+                                        ${isAtivo ? 'Bloquear Empresa' : 'Desbloquear Acesso'}
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
                 setSyncStatus(false);
             } catch(e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar clientes.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
-async function carregarPeriodosDoCliente() {
-    const select = document.getElementById('global-periodo-select');
-    const selectCompare = document.getElementById('res-compare-select');
-    if(select) select.innerHTML = '<option value="">Carregando...</option>';
+        async function carregarPeriodosDoCliente() {
+            const select = document.getElementById('global-periodo-select');
+            const selectCompare = document.getElementById('res-compare-select');
+            if(select) select.innerHTML = '<option value="">Carregando...</option>';
 
-    try {
-        setSyncStatus(true);
-        const res = await fetch(`${API_URL}?action=TPERIODO`);
-        const responseText = await res.text();
-        
-        // Tenta converter o texto para JSON com segurança
-        let data;
-        try {
-            data = JSON.parse(responseText);
-        } catch (jsonErr) {
-            console.error("Resposta da API não é um JSON válido:", responseText);
-            throw new Error("Erro no formato da resposta da API");
+            try {
+                setSyncStatus(true);
+                const res = await fetch(`${API_URL}?action=TPERIODO`);
+                const responseText = await res.text();
+                
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (jsonErr) {
+                    console.error("Resposta da API não é JSON:", responseText);
+                    throw new Error("Resposta inválida da API");
+                }
+
+                if (!Array.isArray(data)) {
+                    throw new Error(data.message || "Erro retornado pela API");
+                }
+
+                listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+
+                if (listaPeriodos.length === 0) {
+                    const payload = {
+                        sheet: "TPERIODO",
+                        data: [usuarioLogado.TCLIENTE_ID, "", "2026.1", "ABERTO", "SIM", 0, 0, 0, 0, 0]
+                    };
+                    await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+                    setTimeout(carregarPeriodosDoCliente, 1500);
+                    return;
+                }
+
+                if(select) select.innerHTML = '';
+                if(selectCompare) selectCompare.innerHTML = '<option value="">Sem Comparativo (Apenas Ativo)</option>';
+
+                listaPeriodos.forEach(p => {
+                    const optText = formatarNomePeriodoLimpo(p);
+                    if(select) select.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
+                    if(selectCompare) selectCompare.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
+                });
+
+                const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
+                if(select) select.value = atual.TPERIODO_ID;
+                periodoAtivoObj = atual;
+
+                atualizarTagsPeriodoHeader();
+                preencherFormularioConfigPeriodo();
+                renderizarTabelaPeriodosHist();
+                verificarStatusBloqueioPeriodo();
+                setSyncStatus(false);
+
+            } catch (e) { 
+                console.error("Erro em carregarPeriodosDoCliente:", e);
+                if(select) select.innerHTML = '<option value="">Erro ao carregar</option>'; 
+                setSyncStatus(false, "Erro API"); 
+            }
         }
-
-        if (!Array.isArray(data)) {
-            console.error("A API retornou um erro em formato JSON:", data);
-            throw new Error(data.message || "Erro desconhecido na API");
-        }
-
-        listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
-
-        if (listaPeriodos.length === 0) {
-            if(select) select.innerHTML = '<option value="">Nenhum período</option>';
-            setSyncStatus(false, "Sem Períodos");
-            return;
-        }
-
-        if(select) select.innerHTML = '';
-        if(selectCompare) selectCompare.innerHTML = '<option value="">Sem Comparativo (Apenas Ativo)</option>';
-
-        listaPeriodos.forEach(p => {
-            const optText = formatarNomePeriodoLimpo(p);
-            if(select) select.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
-            if(selectCompare) selectCompare.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
-        });
-
-        const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
-        if(select) select.value = atual.TPERIODO_ID;
-        periodoAtivoObj = atual;
-
-        atualizarTagsPeriodoHeader();
-        preencherFormularioConfigPeriodo();
-        renderizarTabelaPeriodosHist();
-        verificarStatusBloqueioPeriodo();
-        setSyncStatus(false);
-
-    } catch (e) { 
-        console.error("Erro em carregarPeriodosDoCliente:", e);
-        if(select) select.innerHTML = '<option value="">Erro ao carregar</option>'; 
-        setSyncStatus(false, "Erro API"); 
-    }
-}
 
         function preencherFormularioConfigPeriodo() {
             if (!periodoAtivoObj) return;
-            document.getElementById('cfg-period-name-display').innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
+
+            const nameDisplay = document.getElementById('cfg-period-name-display');
+            if (nameDisplay) {
+                nameDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
+            }
             
             document.getElementById('cfg-faturamento').value = Number(periodoAtivoObj.TPERIODO_FATURAMENTO || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('cfg-aliquota').value = periodoAtivoObj.TPERIODO_ALIQUOTA || 0;
@@ -1277,7 +1292,11 @@ async function carregarPeriodosDoCliente() {
                 const response = await fetch(`${API_URL}?action=TINVESTIMENTOS`);
                 const data = await response.json();
 
-                listaInvestimentos = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                if (Array.isArray(data)) {
+                    listaInvestimentos = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaInvestimentos = [];
+                }
 
                 if (listaInvestimentos.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Nenhum investimento cadastrado neste período.</td></tr>';
@@ -1385,7 +1404,11 @@ async function carregarPeriodosDoCliente() {
                 const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
                 const data = await response.json();
 
-                listaCC = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                if (Array.isArray(data)) {
+                    listaCC = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaCC = [];
+                }
 
                 renderizarTabelaCCLocal();
                 setSyncStatus(false);
@@ -1401,7 +1424,11 @@ async function carregarPeriodosDoCliente() {
                 const response = await fetch(`${API_URL}?action=TPLANO_CONTAS`);
                 const data = await response.json();
 
-                listaPlanoContas = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                if (Array.isArray(data)) {
+                    listaPlanoContas = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaPlanoContas = [];
+                }
 
                 renderizarTabelaPlanoContasLocal();
                 setSyncStatus(false);
@@ -1417,7 +1444,11 @@ async function carregarPeriodosDoCliente() {
                 const response = await fetch(`${API_URL}?action=TFUNCIONARIO`);
                 const data = await response.json();
 
-                listaFuncionarios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                if (Array.isArray(data)) {
+                    listaFuncionarios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaFuncionarios = [];
+                }
 
                 renderizarTabelaFuncionariosLocal();
                 setSyncStatus(false);
@@ -1433,7 +1464,11 @@ async function carregarPeriodosDoCliente() {
                 const response = await fetch(`${API_URL}?action=TRECURSO`);
                 const data = await response.json();
 
-                listaRecursos = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                if (Array.isArray(data)) {
+                    listaRecursos = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaRecursos = [];
+                }
 
                 renderizarTabelaRecursosLocal();
                 setSyncStatus(false);
@@ -1449,14 +1484,17 @@ async function carregarPeriodosDoCliente() {
                 const response = await fetch(`${API_URL}?action=TBENEFICIOS`);
                 const data = await response.json();
 
-                listaBeneficios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                if (Array.isArray(data)) {
+                    listaBeneficios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaBeneficios = [];
+                }
 
                 renderizarTabelaBeneficiosLocal();
                 setSyncStatus(false);
             } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar benefícios.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
-        // FUNÇÃO GERADORA DA ABA DE RESULTADOS & ANÁLISES (V3.0 CORRIGIDA E COMPLETA)
         async function gerarAnalisesEResultados() {
             if (!periodoAtivoObj) return;
 
@@ -1486,7 +1524,6 @@ async function carregarPeriodosDoCliente() {
                 } catch(e) { console.error("Erro ao carregar comparativo", e); }
             }
 
-            // 1. DADOS DO PERÍODO ATIVO
             const calcPeriodoDRE = (pObj, ccsList, planoList, funcList) => {
                 const fatBruto = parseFloat(pObj.TPERIODO_FATURAMENTO) || 0;
                 const aliqImpostos = parseFloat(pObj.TPERIODO_ALIQUOTA) || 0;
@@ -1536,7 +1573,6 @@ async function carregarPeriodosDoCliente() {
             const dreAtiva = calcPeriodoDRE(periodoAtivoObj, listaCC, listaPlanoContas, listaFuncionarios);
             let dreCompare = periodoCompareObj ? calcPeriodoDRE(periodoCompareObj, listaCCCompare, listaPlanoCompare, listaFuncCompare) : null;
 
-            // 2. MONTAGEM DAS LINHAS DA DRE
             const containerDRE = document.getElementById('container-dre-rows');
             containerDRE.innerHTML = '';
 
@@ -1586,7 +1622,6 @@ async function carregarPeriodosDoCliente() {
             montarLinhaDRE("(-) Retiradas dos Sócios & Pró-Labore", dreAtiva.retSocios, dreCompare ? dreCompare.retSocios : 0);
             montarLinhaDRE("(=) Resultado Líquido Final", dreAtiva.resLiquido, dreCompare ? dreCompare.resLiquido : 0, false, true);
 
-            // 3. ATIVO/INVESTIMENTO E PONTO DE EQUILÍBRIO METRIFICADO
             let totalMaquinas = 0; listaRecursos.forEach(r => totalMaquinas += (parseFloat(r.TRECURSO_VALOR)||0));
             let totalInvest = 0; listaInvestimentos.forEach(i => totalInvest += (parseFloat(i.TINVESTIMENTO_VALOR)||0));
             const investimentoTotal = (parseFloat(periodoAtivoObj.TPERIODO_PREDIO)||0) + totalMaquinas + totalInvest;
@@ -1610,7 +1645,6 @@ async function carregarPeriodosDoCliente() {
             document.getElementById('res-card-rentabilidade-atual').innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
             document.getElementById('res-card-payback').innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
 
-            // 4. PREENCHIMENTO DA TABELA DE CUSTO HORA
             const tbodyCustoHora = document.getElementById('tbl-custo-hora-cc-body');
             tbodyCustoHora.innerHTML = '';
 
@@ -1645,7 +1679,6 @@ async function carregarPeriodosDoCliente() {
                 `;
             });
 
-            // 5. RANKING GERAL DE SETORES COM LUPA DE RAIO-X
             let rankingGeralCCs = [];
             const totalCustoPrimarioEmpresa = dreAtiva.cFixoFabril + dreAtiva.dFichaAdmin;
 
@@ -1682,7 +1715,6 @@ async function carregarPeriodosDoCliente() {
             setSyncStatus(false);
         }
 
-        // RAIO-X / COMPOSIÇÃO DO CUSTO-HORA E CONTAS (DRILL-DOWN CORRIGIDO V3.0)
         function abrirDrilldownCustoHora(ccId, ccNome) {
             const modal = document.getElementById('modal-drilldown-custohora');
             const container = document.getElementById('modal-dh-content');
@@ -1700,7 +1732,6 @@ async function carregarPeriodosDoCliente() {
                 return String(f.TCENTRO_CUSTO_ID) === String(ccId);
             });
 
-            // FILTRA CONTAS DO PLANO DE CONTAS IGNORANDO CONTAS VARIÁVEIS
             const planoDoCC = listaPlanoContas.filter(p => {
                 const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
                 if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return false;
@@ -1720,7 +1751,6 @@ async function carregarPeriodosDoCliente() {
 
             let htmlHtml = '';
 
-            // 1. RECURSOS
             htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
                 <h4 class="font-bold text-white uppercase text-xs">1. Recursos & Máquinas (${recsDoCC.length})</h4>`;
             if (recsDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhum recurso direto cadastrado neste setor.</p>`;
@@ -1731,7 +1761,6 @@ async function carregarPeriodosDoCliente() {
             }
             htmlHtml += `</div>`;
 
-            // 2. FUNCIONARIOS
             htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
                 <h4 class="font-bold text-white uppercase text-xs">2. Funcionários Alocados / Rateados (${funcsDoCC.length})</h4>`;
             if (funcsDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhum funcionário direto cadastrado neste setor.</p>`;
@@ -1758,7 +1787,6 @@ async function carregarPeriodosDoCliente() {
             }
             htmlHtml += `</div>`;
 
-            // 3. PLANO DE CONTAS (EXIBINDO APENAS A FRAÇÃO RATEADA ABSORVIDA)
             htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
                 <h4 class="font-bold text-white uppercase text-xs">3. Contas Fixas do Plano de Contas (${planoDoCC.length})</h4>`;
             if (planoDoCC.length === 0) htmlHtml += `<p class="text-xs text-brand-muted">Nenhuma conta fixa rateada diretamente para este setor.</p>`;
@@ -1796,7 +1824,6 @@ async function carregarPeriodosDoCliente() {
             }
             htmlHtml += `</div>`;
 
-            // 4. CUSTO INDIRETO
             if (custoIndiretoAbsorvido > 0) {
                 htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
                     <h4 class="font-bold text-white uppercase text-xs">4. Custo Indireto Absorvido (Coluna Q)</h4>
@@ -1804,7 +1831,6 @@ async function carregarPeriodosDoCliente() {
                 </div>`;
             }
 
-            // 5. RESUMO DE HORAS E PRODUTIVIDADE
             htmlHtml += `<div class="bg-brand-primary/10 p-3 rounded border border-brand-primary/30 text-xs space-y-1">
                 <div class="flex justify-between text-white font-bold"><span>Horas Brutas do Setor:</span><span>${horasBrutasCC.toFixed(1)} h</span></div>
                 <div class="flex justify-between text-brand-primary font-bold"><span>Fator de Produtividade:</span><span>${prodPct.toFixed(0)}%</span></div>
