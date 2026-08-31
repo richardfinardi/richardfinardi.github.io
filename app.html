@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V3.9 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.0 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- BIBLIOTECA PARA GERAR PDF DO RELATÓRIO DO CENTRO DE CUSTO -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
@@ -21,24 +19,22 @@
         }
       }
     </script>
-<style>
+    <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0d0d0f; color: #f4f4f5; }
         input[type="text"], input[type="email"] { text-transform: uppercase; }
         @keyframes pulse-fast { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .animate-pulse-fast { animation: pulse-fast 1s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 
-    @media print {
+        @media print {
             @page {
                 size: A4 portrait;
                 margin: 12mm;
             }
             
-            /* Oculta tudo na página por padrão */
             body * {
                 visibility: hidden !important;
             }
 
-            /* Exibe estritamente a área do modal de Raio-X */
             #modal-drilldown-custohora,
             #modal-drilldown-custohora * {
                 visibility: visible !important;
@@ -57,7 +53,6 @@
                 border: none !important;
             }
 
-            /* Trata a caixa do relatório para folha A4 limpa */
             #pdf-report-content {
                 max-height: none !important;
                 overflow: visible !important;
@@ -65,7 +60,6 @@
                 color: #0f172a !important;
             }
 
-            /* Converte caixas pretas da tela em caixas claras para o PDF */
             #pdf-report-content .bg-\[\#0d0d0f\] {
                 background-color: #f8fafc !important;
                 border: 1px solid #cbd5e1 !important;
@@ -90,7 +84,6 @@
                 color: #ea580c !important;
             }
 
-            /* Oculta botões, barras de rolagem e botão 'X' de fechar */
             button, .no-print, ::-webkit-scrollbar {
                 display: none !important;
             }
@@ -103,17 +96,15 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V3.9</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.0</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
-        <!-- INDICADOR DE SINCRONIZAÇÃO DA API -->
         <div id="sync-indicator" class="hidden items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold transition-all">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
             <span id="sync-text">Conectado</span>
         </div>
 
-        <!-- SELETOR GLOBAL DE PERÍODO -->
         <div id="wrapper-periodo-global" class="hidden flex items-center gap-2 bg-[#16161a] p-1.5 rounded-lg border border-brand-border">
             <span class="text-xs text-brand-muted pl-1">Período Ativo:</span>
             <select id="global-periodo-select" onchange="trocarPeriodoAtivo()" class="bg-[#0d0d0f] text-white text-xs font-bold p-1.5 rounded border border-brand-border outline-none max-w-[220px] truncate">
@@ -133,7 +124,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V3.9</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.0</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -156,12 +147,10 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main id="main-content" class="hidden flex-1 p-3 md:p-6 max-w-7xl mx-auto w-full space-y-6">
         
-        <!-- AVISO SE PERÍODO BLOQUEADO -->
         <div id="banner-periodo-bloqueado" class="hidden bg-amber-950/40 border border-amber-800 text-amber-300 p-3 rounded-xl text-xs font-bold flex justify-between items-center">
             <span>🔒 ESTE PERÍODO ESTÁ MARCADO COMO FECHADO. EDIÇÕES E NOVOS CADASTROS ESTÃO DESABILITADOS.</span>
         </div>
 
-        <!-- NAVEGAÇÃO DE ABAS CLIENTE -->
         <div id="nav-cliente-tabs" class="flex gap-2 border-b border-brand-border pb-2 overflow-x-auto">
             <button id="tab-btn-cfg" onclick="alternarAbaCliente('cfg')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap">Config. Período</button>
             <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Centros de Custo</button>
@@ -172,7 +161,6 @@
             <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Resultados & Análises</button>
         </div>
 
-        <!-- PAINEL ADMIN -->
         <section id="section-admin" class="hidden space-y-6">
             <div class="border-b border-brand-border pb-4 flex justify-between items-center">
                 <div>
@@ -300,7 +288,6 @@
                 </form>
             </div>
 
-            <!-- INVESTIMENTOS DO PERÍODO -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <h3 class="text-base font-bold text-white border-b border-brand-border/50 pb-2" id="inv-form-title">Cadastrar Investimento</h3>
@@ -341,7 +328,6 @@
                 </div>
             </div>
 
-            <!-- TABELA GERENCIAMENTO DE PERÍODOS DA EMPRESA -->
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="flex justify-between items-center border-b border-brand-border/50 pb-2">
                     <h3 class="text-base font-bold text-white">Histórico de Períodos da Empresa</h3>
@@ -730,14 +716,12 @@
                 <form id="form-plc" onsubmit="salvarPlanoConta(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input type="hidden" id="plc-editing-id" value="">
 
-                    <!-- CHECKBOX DE RATEIO SELETIVO / PORCENTAGEM -->
                     <div class="md:col-span-3 border-b border-brand-border/50 pb-3 space-y-3">
                         <div class="flex items-center gap-2">
                             <input type="checkbox" id="plc-is-rateio" onchange="alternarModoRateioPlanoConta()" class="w-4 h-4 accent-brand-primary rounded cursor-pointer">
                             <label for="plc-is-rateio" class="text-sm font-bold text-white cursor-pointer">É Conta de Rateio Seletivo / Porcentagem (Atende múltiplos Centros de Custo)?</label>
                         </div>
 
-                        <!-- RATEIO SELETIVO COM PORCENTAGENS E VALIDAÇÃO DE 100% OBRIGATÓRIO -->
                         <div id="wrapper-plc-cc-rateio" class="hidden space-y-2 bg-[#0d0d0f] p-3 rounded border border-brand-border">
                             <div class="flex justify-between items-center">
                                 <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%): <span class="text-amber-400 font-normal">(A SOMA DEVE SER EXATAMENTE 100%)</span></label>
@@ -825,7 +809,6 @@
         <!-- ABA 6: RESULTADOS & ANÁLISES -->
         <section id="section-resultados" class="hidden space-y-6">
             
-            <!-- CONTROLE DE COMPARATIVO DE PERÍODOS -->
             <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-bold text-white uppercase">🔍 Comparar Períodos:</span>
@@ -836,7 +819,6 @@
                 <span class="text-xs text-brand-muted">Compare metas, DRE e evolução do custo-hora com períodos anteriores</span>
             </div>
 
-            <!-- CARDS DE METRICAS PRINCIPAIS -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Investimento Total</span>
@@ -869,10 +851,7 @@
                 </div>
             </div>
 
-            <!-- DRE GERENCIAL & GRÁFICO DE COMPOSIÇÃO DE CUSTO -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
-                <!-- DRE GERENCIAL ESTRUTURADA SUPER VISUAL E COLORIDA -->
                 <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <div class="flex justify-between items-center border-b border-brand-border/50 pb-3">
                         <div>
@@ -885,11 +864,9 @@
                     </div>
 
                     <div id="container-dre-rows" class="space-y-2.5 text-xs md:text-sm">
-                        <!-- Preenchido via JS dinamicamente com paleta cromática temática -->
                     </div>
                 </div>
 
-                <!-- GRÁFICO DE DISTRIBUIÇÃO DOS CENTROS DE CUSTO -->
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4 flex flex-col justify-between">
                     <div class="border-b border-brand-border/50 pb-2">
                         <h3 class="text-base font-bold text-white">Composição de Custos Fabris</h3>
@@ -902,7 +879,6 @@
                 </div>
             </div>
 
-            <!-- TABELA DE CUSTO HORA DOS CENTROS DE CUSTO PRODUTIVOS DIRETOS -->
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="border-b border-brand-border/50 pb-2 flex justify-between items-center">
                     <div>
@@ -933,7 +909,6 @@
                 </div>
             </div>
 
-            <!-- RANKING DE CENTROS DE CUSTO MAIS CAROS COM LUPA / RAIO-X -->
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="border-b border-brand-border/50 pb-2">
                     <h3 class="text-base font-bold text-white">Ranking Geral de Impacto dos Setores</h3>
@@ -1004,7 +979,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE COMPOSIÇÃO DO CUSTO-HORA E RAIO-X DO SETOR (COM SUBTOTAIS E IMPRESSÃO DE PDF) -->
+    <!-- MODAL DE COMPOSIÇÃO DO CUSTO-HORA E RAIO-X DO SETOR -->
     <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
@@ -1020,9 +995,7 @@
                 </div>
             </div>
 
-            <!-- ÁREA DO CONTEÚDO QUE SERÁ EXIBIDA E FORMATADA NO PDF -->
             <div id="pdf-report-content" class="space-y-4 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm">
-                <!-- Conteúdo dinâmico via JS com subtotais em cada bloco -->
             </div>
 
             <div class="flex justify-between items-center border-t border-brand-border pt-3">
@@ -1489,7 +1462,6 @@
             document.getElementById('cfg-retirada').value = Number(periodoAtivoObj.TPERIODO_RETIRADA || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         }
 
-        // CORREÇÃO CRÍTICA NA GRAVAÇÃO DOS PARÂMETROS DO CONFIG. PERÍODO
         function salvarParametrosPeriodo(e) {
             e.preventDefault();
             if (!periodoAtivoObj) return;
@@ -1511,7 +1483,6 @@
             btn.disabled = true;
             setSyncStatus(true);
 
-            // Mapeamento correto das chaves na planilha TPERIODO
             const payload = {
                 sheet: "TPERIODO",
                 action: "UPDATE",
@@ -3044,239 +3015,242 @@
             setSyncStatus(false);
         }
 
-        // RAIO-X DO SETOR COM SUBTOTAIS E OCULTAÇÃO DE CUSTO-HORA PARA NÃO-PRODUTIVO DIRETO
-        // RAIO-X DO SETOR COM SUBTOTAIS LIMPOS E SEM DUPLICAÇÃO DE CABEÇALHO
-function abrirDrilldownCustoHora(ccId, ccNome) {
-    const modal = document.getElementById('modal-drilldown-custohora');
-    const container = document.getElementById('pdf-report-content');
-    if(!modal || !container) return;
+        function abrirDrilldownCustoHora(ccId, ccNome) {
+            const modal = document.getElementById('modal-drilldown-custohora');
+            const container = document.getElementById('pdf-report-content');
+            if(!modal || !container) return;
 
-    setorModalAtivo = { id: ccId, nome: ccNome };
-    document.getElementById('modal-dh-title').innerText = "RAIO-X: " + ccNome.toUpperCase();
+            setorModalAtivo = { id: ccId, nome: ccNome };
+            document.getElementById('modal-dh-title').innerText = "RAIO-X: " + ccNome.toUpperCase();
 
-    const recsDoCC = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase());
-    
-    const funcsDoCC = listaFuncionarios.filter(f => {
-        if (String(f.TFUNCIONARIO_RATEIO).toUpperCase() === "SIM") {
-            try {
-                let rawCC = String(f.TCENTRO_CUSTO_ID || "").trim();
-                if (rawCC.startsWith('"') && rawCC.endsWith('"')) rawCC = rawCC.substring(1, rawCC.length - 1);
-                rawCC = rawCC.replace(/""/g, '"');
-                const arr = JSON.parse(rawCC);
-                return Array.isArray(arr) && arr.some(x => String(x.id || x.ID).toUpperCase() === String(ccId).toUpperCase());
-            } catch(e) { return false; }
-        }
-        return String(f.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase();
-    });
-
-    const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase());
-    const tipoCC = String(ccObj ? ccObj.TCENTRO_CUSTO_TIPO : "").toUpperCase();
-    const isProdutivoDireto = tipoCC === 'PRODUTIVO DIRETO';
-
-    const custoFixoDireto = parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0) || 0;
-    const custoPredioAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0) || 0;
-    const custoIndiretoAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_INDIRETOS : 0) || 0;
-
-    let subtotalRecursos = 0;
-    let subtotalFuncionarios = 0;
-    let subtotalPlanoContas = 0;
-
-    let planoLinhasHtml = '';
-    let qtdContasAtivas = 0;
-
-    const planoDoCC = listaPlanoContas.filter(p => {
-        const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
-        if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return false;
-
-        if (crit === 'EXCLUSIVO') return String(p.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase();
-        
-        let rawJSON = String(p.TCENTRO_CUSTO_ID || "").trim();
-        if (rawJSON.startsWith('"') && rawJSON.endsWith('"')) rawJSON = rawJSON.substring(1, rawJSON.length - 1);
-        rawJSON = rawJSON.replace(/""/g, '"');
-
-        try {
-            const arr = JSON.parse(rawJSON);
-            return Array.isArray(arr) && arr.some(item => (typeof item === 'object' ? String(item.id || item.ID).toUpperCase() === String(ccId).toUpperCase() : String(item).toUpperCase() === String(ccId).toUpperCase()));
-        } catch(e) { return true; }
-    });
-
-    planoDoCC.forEach(p => {
-        let valAbsorvido = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
-        const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
-
-        let rawJSON = String(p.TCENTRO_CUSTO_ID || "").trim();
-        if (rawJSON.startsWith('"') && rawJSON.endsWith('"')) rawJSON = rawJSON.substring(1, rawJSON.length - 1);
-        rawJSON = rawJSON.replace(/""/g, '"');
-
-        if (crit === 'SELETIVO_PERCENTUAL' || rawJSON.includes('pct')) {
-            try {
-                const arr = JSON.parse(rawJSON);
-                if (Array.isArray(arr)) {
-                    const itemP = arr.find(x => String(x.id || x.ID).toUpperCase() === String(ccId).toUpperCase());
-                    if (itemP) {
-                        const pctVal = parseFloat(itemP.pct || itemP.PCT) || 0;
-                        valAbsorvido = valAbsorvido * (pctVal / 100);
-                    } else { valAbsorvido = 0; }
+            const recsDoCC = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase());
+            
+            const funcsDoCC = listaFuncionarios.filter(f => {
+                if (String(f.TFUNCIONARIO_RATEIO).toUpperCase() === "SIM") {
+                    try {
+                        let rawCC = String(f.TCENTRO_CUSTO_ID || "").trim();
+                        if (rawCC.startsWith('"') && rawCC.endsWith('"')) rawCC = rawCC.substring(1, rawCC.length - 1);
+                        rawCC = rawCC.replace(/""/g, '"');
+                        const arr = JSON.parse(rawCC);
+                        return Array.isArray(arr) && arr.some(x => String(x.id || x.ID).toUpperCase() === String(ccId).toUpperCase());
+                    } catch(e) { return false; }
                 }
-            } catch(e) { valAbsorvido = 0; }
-        } else if (crit !== 'EXCLUSIVO') {
-            let participantes = [];
-            try { participantes = JSON.parse(rawJSON); } catch(e) { participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID); }
-            if(!Array.isArray(participantes) || participantes.length === 0) participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID);
+                return String(f.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase();
+            });
 
-            let baseTotal = 0;
-            let baseEsteCC = 0;
+            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase());
+            const tipoCC = String(ccObj ? ccObj.TCENTRO_CUSTO_TIPO : "").toUpperCase();
+            const isProdutivoDireto = tipoCC === 'PRODUTIVO DIRETO';
 
-            participantes.forEach(id => {
-                const idTarget = typeof id === 'object' ? (id.id || id.ID) : id;
-                const cSearch = listaCC.find(x => String(x.TCENTRO_CUSTO_ID).toUpperCase() === String(idTarget).toUpperCase());
-                if (cSearch) {
-                    let bVal = 0;
-                    if (crit === 'AREA') bVal = parseFloat(cSearch.TCENTRO_CUSTO_AREA) || 0;
-                    else if (crit === 'RECURSOS') bVal = parseInt(cSearch.TCENTRO_CUSTO_QTDE_RECURSOS) || 0;
-                    else if (crit === 'HORAS') bVal = parseFloat(cSearch.TCENTRO_CUSTO_HORAS) || 0;
+            const custoFixoDireto = parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0) || 0;
+            const custoPredioAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0) || 0;
+            const custoIndiretoAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_INDIRETOS : 0) || 0;
 
-                    baseTotal += bVal;
-                    if (String(idTarget).toUpperCase() === String(ccId).toUpperCase()) baseEsteCC = bVal;
+            let subtotalRecursos = 0;
+            let subtotalFuncionarios = 0;
+            let subtotalPlanoContas = 0;
+
+            let planoLinhasHtml = '';
+            let qtdContasAtivas = 0;
+
+            const planoDoCC = listaPlanoContas.filter(p => {
+                const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
+                if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return false;
+
+                if (crit === 'EXCLUSIVO') return String(p.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase();
+                
+                let rawJSON = String(p.TCENTRO_CUSTO_ID || "").trim();
+                if (rawJSON.startsWith('"') && rawJSON.endsWith('"')) rawJSON = rawJSON.substring(1, rawJSON.length - 1);
+                rawJSON = rawJSON.replace(/""/g, '"');
+
+                try {
+                    const arr = JSON.parse(rawJSON);
+                    return Array.isArray(arr) && arr.some(item => (typeof item === 'object' ? String(item.id || item.ID).toUpperCase() === String(ccId).toUpperCase() : String(item).toUpperCase() === String(ccId).toUpperCase()));
+                } catch(e) { return true; }
+            });
+
+            planoDoCC.forEach(p => {
+                let valAbsorvido = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
+                const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
+
+                let rawJSON = String(p.TCENTRO_CUSTO_ID || "").trim();
+                if (rawJSON.startsWith('"') && rawJSON.endsWith('"')) rawJSON = rawJSON.substring(1, rawJSON.length - 1);
+                rawJSON = rawJSON.replace(/""/g, '"');
+
+                if (crit === 'SELETIVO_PERCENTUAL' || rawJSON.includes('pct')) {
+                    try {
+                        const arr = JSON.parse(rawJSON);
+                        if (Array.isArray(arr)) {
+                            const itemP = arr.find(x => String(x.id || x.ID).toUpperCase() === String(ccId).toUpperCase());
+                            if (itemP) {
+                                const pctVal = parseFloat(itemP.pct || itemP.PCT) || 0;
+                                valAbsorvido = valAbsorvido * (pctVal / 100);
+                            } else { valAbsorvido = 0; }
+                        }
+                    } catch(e) { valAbsorvido = 0; }
+                } else if (crit !== 'EXCLUSIVO') {
+                    let participantes = [];
+                    try { participantes = JSON.parse(rawJSON); } catch(e) { participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID); }
+                    if(!Array.isArray(participantes) || participantes.length === 0) participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID);
+
+                    let baseTotal = 0;
+                    let baseEsteCC = 0;
+
+                    participantes.forEach(id => {
+                        const idTarget = typeof id === 'object' ? (id.id || id.ID) : id;
+                        const cSearch = listaCC.find(x => String(x.TCENTRO_CUSTO_ID).toUpperCase() === String(idTarget).toUpperCase());
+                        if (cSearch) {
+                            let bVal = 0;
+                            if (crit === 'AREA') bVal = parseFloat(cSearch.TCENTRO_CUSTO_AREA) || 0;
+                            else if (crit === 'RECURSOS') bVal = parseInt(cSearch.TCENTRO_CUSTO_QTDE_RECURSOS) || 0;
+                            else if (crit === 'HORAS') bVal = parseFloat(cSearch.TCENTRO_CUSTO_HORAS) || 0;
+
+                            baseTotal += bVal;
+                            if (String(idTarget).toUpperCase() === String(ccId).toUpperCase()) baseEsteCC = bVal;
+                        }
+                    });
+
+                    if (baseTotal > 0) valAbsorvido = valAbsorvido * (baseEsteCC / baseTotal);
+                    else valAbsorvido = 0;
+                }
+
+                if (valAbsorvido > 0) {
+                    qtdContasAtivas++;
+                    subtotalPlanoContas += valAbsorvido;
+                    planoLinhasHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- ${p.TPLANO_CONTA_NOME} (${crit})</span><span>${formatarMoedaBR(valAbsorvido)}</span></div>`;
                 }
             });
 
-            if (baseTotal > 0) valAbsorvido = valAbsorvido * (baseEsteCC / baseTotal);
-            else valAbsorvido = 0;
-        }
+            let horasBrutasCC = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_HORAS : 176) || 176;
+            if(horasBrutasCC === 0) horasBrutasCC = 176;
+            
+            const prodPct = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PRODUTIVIDADE : 100) || 100;
+            const horasEfetivasCC = horasBrutasCC * (prodPct / 100);
 
-        if (valAbsorvido > 0) {
-            qtdContasAtivas++;
-            subtotalPlanoContas += valAbsorvido;
-            planoLinhasHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- ${p.TPLANO_CONTA_NOME} (${crit})</span><span>${formatarMoedaBR(valAbsorvido)}</span></div>`;
-        }
-    });
+            let htmlHtml = '';
 
-    let horasBrutasCC = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_HORAS : 176) || 176;
-    if(horasBrutasCC === 0) horasBrutasCC = 176;
-    
-    const prodPct = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PRODUTIVIDADE : 100) || 100;
-    const horasEfetivasCC = horasBrutasCC * (prodPct / 100);
-
-    let htmlHtml = '';
-
-    // 1. RECURSOS
-    htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded-lg border border-brand-border space-y-1.5">
-        <div class="border-b border-brand-border/50 pb-1">
-            <h4 class="font-bold text-white uppercase text-xs">1. RECURSOS & MÁQUINAS (${recsDoCC.length})</h4>
-        </div>`;
-    if (recsDoCC.length === 0) {
-        htmlHtml += `<p class="text-xs text-brand-muted">Nenhum recurso direto cadastrado neste setor.</p>`;
-    } else {
-        recsDoCC.forEach(r => {
-            const cMensalRec = parseFloat(r.TRECURSO_CUSTO_MENSAL) || 0;
-            subtotalRecursos += cMensalRec;
-            htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- ${r.TRECURSO_NOME}</span><span>${formatarMoedaBR(cMensalRec)}/mês</span></div>`;
-        });
-    }
-    htmlHtml += `<div class="flex justify-between text-xs font-bold text-white border-t border-brand-border/30 pt-1.5 mt-1"><span>Subtotal Recursos:</span><span>${formatarMoedaBR(subtotalRecursos)}</span></div></div>`;
-
-    // 2. FUNCIONÁRIOS
-    htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded-lg border border-brand-border space-y-1.5">
-        <div class="border-b border-brand-border/50 pb-1">
-            <h4 class="font-bold text-white uppercase text-xs">2. FUNCIONÁRIOS ALOCADOS / RATEADOS (${funcsDoCC.length})</h4>
-        </div>`;
-    if (funcsDoCC.length === 0) {
-        htmlHtml += `<p class="text-xs text-brand-muted">Nenhum funcionário direto cadastrado neste setor.</p>`;
-    } else {
-        funcsDoCC.forEach(f => {
-            let val = parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL) || 0;
-            let hrsF = parseFloat(f.TFUNCIONARIO_HORAS) || 176;
-            let infoRateio = `(${hrsF.toFixed(0)}h disps.)`;
-
-            if (String(f.TFUNCIONARIO_RATEIO).toUpperCase() === "SIM") {
-                try {
-                    let rawCC = String(f.TCENTRO_CUSTO_ID || "").trim();
-                    if (rawCC.startsWith('"') && rawCC.endsWith('"')) rawCC = rawCC.substring(1, rawCC.length - 1);
-                    rawCC = rawCC.replace(/""/g, '"');
-                    const arr = JSON.parse(rawCC);
-                    const itemP = arr.find(x => String(x.id || x.ID).toUpperCase() === String(ccId).toUpperCase());
-                    if (itemP) {
-                        const pctLoc = parseFloat(itemP.pct || itemP.PCT) || 0;
-                        val = val * (pctLoc / 100);
-                        const hrsRateadas = hrsF * (pctLoc / 100);
-                        infoRateio = `(Rateado ${pctLoc}% = ${hrsRateadas.toFixed(0)}h disps.)`;
-                    }
-                } catch(e) {}
+            // 1. RECURSOS
+            htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded-lg border border-brand-border space-y-1.5">
+                <div class="border-b border-brand-border/50 pb-1">
+                    <h4 class="font-bold text-white uppercase text-xs">1. RECURSOS & MÁQUINAS (${recsDoCC.length})</h4>
+                </div>`;
+            if (recsDoCC.length === 0) {
+                htmlHtml += `<p class="text-xs text-brand-muted">Nenhum recurso direto cadastrado neste setor.</p>`;
+            } else {
+                recsDoCC.forEach(r => {
+                    const cMensalRec = parseFloat(r.TRECURSO_CUSTO_MENSAL) || 0;
+                    subtotalRecursos += cMensalRec;
+                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- ${r.TRECURSO_NOME}</span><span>${formatarMoedaBR(cMensalRec)}/mês</span></div>`;
+                });
             }
-            subtotalFuncionarios += val;
-            htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- ${f.TFUNCIONARIO_NOME} <strong class="text-brand-primary">${infoRateio}</strong></span><span>${formatarMoedaBR(val)}/mês</span></div>`;
-        });
-    }
-    htmlHtml += `<div class="flex justify-between text-xs font-bold text-white border-t border-brand-border/30 pt-1.5 mt-1"><span>Subtotal Mão de Obra:</span><span>${formatarMoedaBR(subtotalFuncionarios)}</span></div></div>`;
+            htmlHtml += `<div class="flex justify-between text-xs font-bold text-white border-t border-brand-border/30 pt-1.5 mt-1"><span>Subtotal Recursos:</span><span>${formatarMoedaBR(subtotalRecursos)}</span></div></div>`;
 
-    // 3. PLANO DE CONTAS
-    htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded-lg border border-brand-border space-y-1.5">
-        <div class="border-b border-brand-border/50 pb-1">
-            <h4 class="font-bold text-white uppercase text-xs">3. CONTAS FIXAS DO PLANO DE CONTAS (${qtdContasAtivas})</h4>
-        </div>`;
-    if (qtdContasAtivas === 0) {
-        htmlHtml += `<p class="text-xs text-brand-muted">Nenhuma conta fixa rateada diretamente para este setor.</p>`;
-    } else {
-        htmlHtml += planoLinhasHtml;
-    }
-    htmlHtml += `<div class="flex justify-between text-xs font-bold text-white border-t border-brand-border/30 pt-1.5 mt-1"><span>Subtotal Contas Fixas:</span><span>${formatarMoedaBR(subtotalPlanoContas)}</span></div></div>`;
+            // 2. FUNCIONÁRIOS
+            htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded-lg border border-brand-border space-y-1.5">
+                <div class="border-b border-brand-border/50 pb-1">
+                    <h4 class="font-bold text-white uppercase text-xs">2. FUNCIONÁRIOS ALOCADOS / RATEADOS (${funcsDoCC.length})</h4>
+                </div>`;
+            if (funcsDoCC.length === 0) {
+                htmlHtml += `<p class="text-xs text-brand-muted">Nenhum funcionário direto cadastrado neste setor.</p>`;
+            } else {
+                funcsDoCC.forEach(f => {
+                    let val = parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL) || 0;
+                    let hrsF = parseFloat(f.TFUNCIONARIO_HORAS) || 176;
+                    let infoRateio = `(${hrsF.toFixed(0)}h disps.)`;
 
-    // 4. DEMAIS CUSTOS
-    let subtotalOutros = custoFixoDireto + custoPredioAbsorvido + custoIndiretoAbsorvido;
-    if (subtotalOutros > 0) {
-        htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded-lg border border-brand-border space-y-1.5">
-            <div class="border-b border-brand-border/50 pb-1">
-                <h4 class="font-bold text-white uppercase text-xs">4. OUTROS CUSTOS E RATEIOS DO SETOR</h4>
+                    if (String(f.TFUNCIONARIO_RATEIO).toUpperCase() === "SIM") {
+                        try {
+                            let rawCC = String(f.TCENTRO_CUSTO_ID || "").trim();
+                            if (rawCC.startsWith('"') && rawCC.endsWith('"')) rawCC = rawCC.substring(1, rawCC.length - 1);
+                            rawCC = rawCC.replace(/""/g, '"');
+                            const arr = JSON.parse(rawCC);
+                            const itemP = arr.find(x => String(x.id || x.ID).toUpperCase() === String(ccId).toUpperCase());
+                            if (itemP) {
+                                const pctLoc = parseFloat(itemP.pct || itemP.PCT) || 0;
+                                val = val * (pctLoc / 100);
+                                const hrsRateadas = hrsF * (pctLoc / 100);
+                                infoRateio = `(Rateado ${pctLoc}% = ${hrsRateadas.toFixed(0)}h disps.)`;
+                            }
+                        } catch(e) {}
+                    }
+                    subtotalFuncionarios += val;
+                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- ${f.TFUNCIONARIO_NOME} <strong class="text-brand-primary">${infoRateio}</strong></span><span>${formatarMoedaBR(val)}/mês</span></div>`;
+                });
+            }
+            htmlHtml += `<div class="flex justify-between text-xs font-bold text-white border-t border-brand-border/30 pt-1.5 mt-1"><span>Subtotal Mão de Obra:</span><span>${formatarMoedaBR(subtotalFuncionarios)}</span></div></div>`;
+
+            // 3. PLANO DE CONTAS
+            htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded-lg border border-brand-border space-y-1.5">
+                <div class="border-b border-brand-border/50 pb-1">
+                    <h4 class="font-bold text-white uppercase text-xs">3. CONTAS FIXAS DO PLANO DE CONTAS (${qtdContasAtivas})</h4>
+                </div>`;
+            if (qtdContasAtivas === 0) {
+                htmlHtml += `<p class="text-xs text-brand-muted">Nenhuma conta fixa rateada diretamente para este setor.</p>`;
+            } else {
+                htmlHtml += planoLinhasHtml;
+            }
+            htmlHtml += `<div class="flex justify-between text-xs font-bold text-white border-t border-brand-border/30 pt-1.5 mt-1"><span>Subtotal Contas Fixas:</span><span>${formatarMoedaBR(subtotalPlanoContas)}</span></div></div>`;
+
+            // 4. DEMAIS CUSTOS
+            let subtotalOutros = custoFixoDireto + custoPredioAbsorvido + custoIndiretoAbsorvido;
+            if (subtotalOutros > 0) {
+                htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded-lg border border-brand-border space-y-1.5">
+                    <div class="border-b border-brand-border/50 pb-1">
+                        <h4 class="font-bold text-white uppercase text-xs">4. OUTROS CUSTOS E RATEIOS DO SETOR</h4>
+                    </div>`;
+                
+                if (custoFixoDireto > 0) {
+                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- Custo Fixo Direto do Setor</span><span>${formatarMoedaBR(custoFixoDireto)}/mês</span></div>`;
+                }
+                if (custoPredioAbsorvido > 0) {
+                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- Rateio de Prédio (Área)</span><span>${formatarMoedaBR(custoPredioAbsorvido)}/mês</span></div>`;
+                }
+                if (custoIndiretoAbsorvido > 0) {
+                    htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- Absorção de Setores Indiretos + Sobra Mão Obra</span><span>${formatarMoedaBR(custoIndiretoAbsorvido)}/mês</span></div>`;
+                }
+                htmlHtml += `<div class="flex justify-between text-xs font-bold text-white border-t border-brand-border/30 pt-1.5 mt-1"><span>Subtotal Outros Rateios:</span><span>${formatarMoedaBR(subtotalOutros)}</span></div></div>`;
+            }
+
+            const custoTotalDoSetor = subtotalRecursos + subtotalFuncionarios + subtotalPlanoContas + subtotalOutros;
+
+            htmlHtml += `<div class="bg-brand-border/40 p-3.5 rounded-lg border border-brand-border flex justify-between items-center text-xs my-2">
+                <span class="font-bold text-white uppercase">CUSTO TOTAL MENSAL DO SETOR:</span>
+                <span class="font-extrabold text-white text-base">${formatarMoedaBR(custoTotalDoSetor)}</span>
             </div>`;
-        
-        if (custoFixoDireto > 0) {
-            htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- Custo Fixo Direto do Setor</span><span>${formatarMoedaBR(custoFixoDireto)}/mês</span></div>`;
+
+            if (isProdutivoDireto) {
+                htmlHtml += `<div class="bg-brand-primary/10 p-3.5 rounded-lg border border-brand-primary/30 text-xs space-y-1.5">
+                    <div class="flex justify-between text-white font-bold"><span>Horas Brutas do Setor:</span><span>${horasBrutasCC.toFixed(1)} h</span></div>
+                    <div class="flex justify-between text-brand-primary font-bold"><span>Fator de Produtividade:</span><span>${prodPct.toFixed(0)}%</span></div>
+                    <div class="flex justify-between text-emerald-400 font-extrabold border-t border-brand-border/50 pt-1 text-sm"><span>Horas Efetivas Consideradas no Custo-Hora:</span><span>${horasEfetivasCC.toFixed(1)} h</span></div>
+                </div>`;
+            }
+
+            container.innerHTML = htmlHtml;
+
+            const custoHoraCalculado = (isProdutivoDireto && horasEfetivasCC > 0) ? (custoTotalDoSetor / horasEfetivasCC) : 0;
+
+            const footerCustoHora = document.getElementById('modal-dh-custohora-total');
+            if (footerCustoHora) {
+                if (isProdutivoDireto) {
+                    footerCustoHora.innerText = formatarMoedaBR(custoHoraCalculado) + "/h";
+                    footerCustoHora.parentElement.classList.remove('hidden');
+                } else {
+                    footerCustoHora.parentElement.classList.add('hidden');
+                }
+            }
+
+            modal.classList.remove('hidden');
         }
-        if (custoPredioAbsorvido > 0) {
-            htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- Rateio de Prédio (Área)</span><span>${formatarMoedaBR(custoPredioAbsorvido)}/mês</span></div>`;
+
+        function fecharModalDrilldown() {
+            const modal = document.getElementById('modal-drilldown-custohora');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
         }
-        if (custoIndiretoAbsorvido > 0) {
-            htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- Absorção de Setores Indiretos + Sobra Mão Obra</span><span>${formatarMoedaBR(custoIndiretoAbsorvido)}/mês</span></div>`;
-        }
-        htmlHtml += `<div class="flex justify-between text-xs font-bold text-white border-t border-brand-border/30 pt-1.5 mt-1"><span>Subtotal Outros Rateios:</span><span>${formatarMoedaBR(subtotalOutros)}</span></div></div>`;
-    }
 
-    const custoTotalDoSetor = subtotalRecursos + subtotalFuncionarios + subtotalPlanoContas + subtotalOutros;
-
-    htmlHtml += `<div class="bg-brand-border/40 p-3.5 rounded-lg border border-brand-border flex justify-between items-center text-xs my-2">
-        <span class="font-bold text-white uppercase">CUSTO TOTAL MENSAL DO SETOR:</span>
-        <span class="font-extrabold text-white text-base">${formatarMoedaBR(custoTotalDoSetor)}</span>
-    </div>`;
-
-    if (isProdutivoDireto) {
-        htmlHtml += `<div class="bg-brand-primary/10 p-3.5 rounded-lg border border-brand-primary/30 text-xs space-y-1.5">
-            <div class="flex justify-between text-white font-bold"><span>Horas Brutas do Setor:</span><span>${horasBrutasCC.toFixed(1)} h</span></div>
-            <div class="flex justify-between text-brand-primary font-bold"><span>Fator de Produtividade:</span><span>${prodPct.toFixed(0)}%</span></div>
-            <div class="flex justify-between text-emerald-400 font-extrabold border-t border-brand-border/50 pt-1 text-sm"><span>Horas Efetivas Consideradas no Custo-Hora:</span><span>${horasEfetivasCC.toFixed(1)} h</span></div>
-        </div>`;
-    }
-
-    container.innerHTML = htmlHtml;
-
-    const custoHoraCalculado = (isProdutivoDireto && horasEfetivasCC > 0) ? (custoTotalDoSetor / horasEfetivasCC) : 0;
-
-    const footerCustoHora = document.getElementById('modal-dh-custohora-total');
-    if (footerCustoHora) {
-        if (isProdutivoDireto) {
-            footerCustoHora.innerText = formatarMoedaBR(custoHoraCalculado) + "/h";
-            footerCustoHora.parentElement.classList.remove('hidden');
-        } else {
-            footerCustoHora.parentElement.classList.add('hidden');
-        }
-    }
-
-    modal.classList.remove('hidden');
-}
-
-// GERAÇÃO DE PDF SEM TELA EM BRANCO E FORMATADO PARA IMPRESSÃO
-function gerarPDFRelatorioSetor() {
-            // Dispara a janela nativa de impressão do navegador (permite 'Salvar como PDF')
+        function gerarPDFRelatorioSetor() {
             window.print();
         }
 
