@@ -2366,57 +2366,61 @@ function baixarModeloCSVPlano() {
     link.click();
 }
 
-        function processarArquivoCSV(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+       function processarArquivoCSV(event) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-            document.getElementById('csv-file-name').innerText = file.name;
-            const reader = new FileReader();
+    document.getElementById('csv-file-name').innerText = file.name;
+    const reader = new FileReader();
 
-            reader.onload = function(e) {
-                const text = e.target.result;
-                const linhas = text.split(/\r\n|\n/);
-                dadosCSVImportacao = [];
+    reader.onload = function(e) {
+        const text = e.target.result;
+        const linhas = text.split(/\r\n|\n/);
+        dadosCSVImportacao = [];
 
-                if (linhas.length <= 1) {
-                    alert("O arquivo CSV está vazio ou em formato inválido.");
-                    return;
-                }
-
-                for (let i = 1; i < linhas.length; i++) {
-                    if (!linhas[i].trim()) continue;
-                    const colunas = linhas[i].split(/;|,/).map(c => c.trim());
-
-                    if (colunas.length >= 3) {
-                        let nome = colunas[0].toUpperCase();
-                        let criterio = colunas[1].toUpperCase() || 'AREA';
-                        let valor = parseMoedaBR(colunas[2]);
-                        let ccTargetInput = colunas[3] ? colunas[3].trim().toUpperCase() : '';
-
-                        let ccId = ccTargetInput;
-                        if (criterio === 'EXCLUSIVO' && ccTargetInput) {
-                            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === ccTargetInput || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === ccTargetInput);
-                            if (ccObj) ccId = ccObj.TCENTRO_CUSTO_ID;
-                        }
-
-                        if (nome && valor > 0) {
-                            dadosCSVImportacao.push({ nome, criterio, valor, ccId });
-                        }
-                    }
-                }
-
-                if (dadosCSVImportacao.length > 0) {
-                    const btn = document.getElementById('btn-confirmar-importacao');
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-40', 'cursor-not-allowed');
-                    alert(`${dadosCSVImportacao.length} contas identificadas com sucesso no arquivo! Clique em Confirmar Importação.`);
-                } else {
-                    alert("Nenhuma conta válida foi encontrada no arquivo. Verifique o formato.");
-                }
-            };
-
-            reader.readAsText(file, "UTF-8");
+        if (linhas.length <= 1) {
+            alert("O arquivo CSV está vazio ou em formato inválido.");
+            return;
         }
+
+        for (let i = 1; i < linhas.length; i++) {
+            if (!linhas[i].trim()) continue;
+            // Trata separador ; ou ,
+            const colunas = linhas[i].split(/;|,/).map(c => c.trim());
+
+            if (colunas.length >= 3) {
+                let nome = colunas[0].toUpperCase();
+                let criterio = colunas[1].toUpperCase() || 'AREA';
+                let valor = parseMoedaBR(colunas[2]);
+                
+                // UNIFICA E LIMPA ASPAS ESCAPADAS DO CSV (TRATA "" PARA ")
+                let rawCC = colunas.slice(3).join(';').trim();
+                rawCC = rawCC.replace(/^"+|"$/g, '').replace(/""/g, '"');
+
+                let ccId = rawCC;
+                if (criterio === 'EXCLUSIVO' && rawCC) {
+                    const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === rawCC.toUpperCase() || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === rawCC.toUpperCase());
+                    if (ccObj) ccId = ccObj.TCENTRO_CUSTO_ID;
+                }
+
+                if (nome && valor > 0) {
+                    dadosCSVImportacao.push({ nome, criterio, valor, ccId });
+                }
+            }
+        }
+
+        if (dadosCSVImportacao.length > 0) {
+            const btn = document.getElementById('btn-confirmar-importacao');
+            btn.disabled = false;
+            btn.classList.remove('opacity-40', 'cursor-not-allowed');
+            alert(`${dadosCSVImportacao.length} contas identificadas com sucesso no arquivo! Clique em Confirmar Importação.`);
+        } else {
+            alert("Nenhuma conta válida foi encontrada no arquivo. Verifique o formato.");
+        }
+    };
+
+    reader.readAsText(file, "UTF-8");
+}
 
         async function confirmarImportacaoCSV() {
             if (!dadosCSVImportacao || dadosCSVImportacao.length === 0) return;
@@ -2926,39 +2930,47 @@ function baixarModeloCSVPlano() {
 function abrirDrilldownCustoHora(ccId, ccNome) {
     const modal = document.getElementById('modal-drilldown-custohora');
     const container = document.getElementById('modal-dh-content');
-    if(!modal || !container) return;
+    if (!modal || !container) return;
 
     document.getElementById('modal-dh-title').innerText = "RAIO-X: " + ccNome;
 
-    const recsDoCC = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID) === String(ccId));
+    const recsDoCC = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase());
     
     const funcsDoCC = listaFuncionarios.filter(f => {
-        if (f.TFUNCIONARIO_RATEIO === "SIM") {
+        if (String(f.TFUNCIONARIO_RATEIO).toUpperCase() === "SIM") {
             try {
-                const arr = JSON.parse(f.TCENTRO_CUSTO_ID);
-                return arr.some(x => String(x.id) === String(ccId));
+                let rawCC = String(f.TCENTRO_CUSTO_ID || "").trim();
+                if (rawCC.startsWith('"') && rawCC.endsWith('"')) rawCC = rawCC.substring(1, rawCC.length - 1);
+                rawCC = rawCC.replace(/""/g, '"');
+                const arr = JSON.parse(rawCC);
+                return Array.isArray(arr) && arr.some(x => String(x.id || x.ID).toUpperCase() === String(ccId).toUpperCase());
             } catch(e) { return false; }
         }
-        return String(f.TCENTRO_CUSTO_ID) === String(ccId);
+        return String(f.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase();
     });
 
-    const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(ccId));
+    const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase());
     const custoFixoDireto = parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0) || 0;
     const custoPredioAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0) || 0;
     const custoIndiretoAbsorvido = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_INDIRETOS : 0) || 0;
 
-    // PROCESSA CONTAS DO PLANO DE CONTAS FILTRANDO APENAS AS COM VALOR ABSORVIDO > 0
     let planoLinhasHtml = '';
     let qtdContasAtivas = 0;
 
+    // FILTRA E TRATA O PLANO DE CONTAS COM HIGIENIZAÇÃO DE JSON
     const planoDoCC = listaPlanoContas.filter(p => {
         const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
         if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return false;
 
-        if (crit === 'EXCLUSIVO') return String(p.TCENTRO_CUSTO_ID) === String(ccId);
+        if (crit === 'EXCLUSIVO') return String(p.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase();
+        
+        let rawJSON = String(p.TCENTRO_CUSTO_ID || "").trim();
+        if (rawJSON.startsWith('"') && rawJSON.endsWith('"')) rawJSON = rawJSON.substring(1, rawJSON.length - 1);
+        rawJSON = rawJSON.replace(/""/g, '"');
+
         try {
-            const arr = JSON.parse(p.TCENTRO_CUSTO_ID);
-            return arr.some(item => (typeof item === 'object' ? String(item.id) === String(ccId) : String(item) === String(ccId)));
+            const arr = JSON.parse(rawJSON);
+            return Array.isArray(arr) && arr.some(item => (typeof item === 'object' ? String(item.id || item.ID).toUpperCase() === String(ccId).toUpperCase() : String(item).toUpperCase() === String(ccId).toUpperCase()));
         } catch(e) { return true; }
     });
 
@@ -2966,26 +2978,34 @@ function abrirDrilldownCustoHora(ccId, ccNome) {
         let valAbsorvido = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
         const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
 
-        if (crit === 'SELETIVO_PERCENTUAL' || (p.TCENTRO_CUSTO_ID && p.TCENTRO_CUSTO_ID.includes('pct'))) {
+        let rawJSON = String(p.TCENTRO_CUSTO_ID || "").trim();
+        if (rawJSON.startsWith('"') && rawJSON.endsWith('"')) rawJSON = rawJSON.substring(1, rawJSON.length - 1);
+        rawJSON = rawJSON.replace(/""/g, '"');
+
+        if (crit === 'SELETIVO_PERCENTUAL' || rawJSON.includes('pct')) {
             try {
-                const arr = JSON.parse(p.TCENTRO_CUSTO_ID);
-                const itemP = arr.find(x => String(x.id) === String(ccId));
-                if (itemP) {
-                    valAbsorvido = valAbsorvido * ((parseFloat(itemP.pct) || 0) / 100);
-                } else {
-                    valAbsorvido = 0;
+                const arr = JSON.parse(rawJSON);
+                if (Array.isArray(arr)) {
+                    const itemP = arr.find(x => String(x.id || x.ID).toUpperCase() === String(ccId).toUpperCase());
+                    if (itemP) {
+                        const pctVal = parseFloat(itemP.pct || itemP.PCT) || 0;
+                        valAbsorvido = valAbsorvido * (pctVal / 100);
+                    } else {
+                        valAbsorvido = 0;
+                    }
                 }
             } catch(e) { valAbsorvido = 0; }
         } else if (crit !== 'EXCLUSIVO') {
             let participantes = [];
-            try { participantes = JSON.parse(p.TCENTRO_CUSTO_ID); } catch(e) { participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID); }
+            try { participantes = JSON.parse(rawJSON); } catch(e) { participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID); }
             if(!Array.isArray(participantes) || participantes.length === 0) participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID);
 
             let baseTotal = 0;
             let baseEsteCC = 0;
 
             participantes.forEach(id => {
-                const cSearch = listaCC.find(x => String(x.TCENTRO_CUSTO_ID) === String(id));
+                const idTarget = typeof id === 'object' ? (id.id || id.ID) : id;
+                const cSearch = listaCC.find(x => String(x.TCENTRO_CUSTO_ID).toUpperCase() === String(idTarget).toUpperCase());
                 if (cSearch) {
                     let bVal = 0;
                     if (crit === 'AREA') bVal = parseFloat(cSearch.TCENTRO_CUSTO_AREA) || 0;
@@ -2993,7 +3013,7 @@ function abrirDrilldownCustoHora(ccId, ccNome) {
                     else if (crit === 'HORAS') bVal = parseFloat(cSearch.TCENTRO_CUSTO_HORAS) || 0;
 
                     baseTotal += bVal;
-                    if (String(id) === String(ccId)) baseEsteCC = bVal;
+                    if (String(idTarget).toUpperCase() === String(ccId).toUpperCase()) baseEsteCC = bVal;
                 }
             });
 
@@ -3001,7 +3021,6 @@ function abrirDrilldownCustoHora(ccId, ccNome) {
             else valAbsorvido = 0;
         }
 
-        // SE O VALOR ABSORVIDO FOR MAIOR QUE ZERO, ADICIONA NA LISTA
         if (valAbsorvido > 0) {
             qtdContasAtivas++;
             planoLinhasHtml += `<div class="flex justify-between text-xs text-brand-muted"><span>- ${p.TPLANO_CONTA_NOME} (${crit})</span><span>${formatarMoedaBR(valAbsorvido)}</span></div>`;
@@ -3037,12 +3056,15 @@ function abrirDrilldownCustoHora(ccId, ccNome) {
             let hrsF = parseFloat(f.TFUNCIONARIO_HORAS) || 176;
             let infoRateio = `(${hrsF.toFixed(0)}h disps.)`;
 
-            if (f.TFUNCIONARIO_RATEIO === "SIM") {
+            if (String(f.TFUNCIONARIO_RATEIO).toUpperCase() === "SIM") {
                 try {
-                    const arr = JSON.parse(f.TCENTRO_CUSTO_ID);
-                    const itemP = arr.find(x => String(x.id) === String(ccId));
+                    let rawCC = String(f.TCENTRO_CUSTO_ID || "").trim();
+                    if (rawCC.startsWith('"') && rawCC.endsWith('"')) rawCC = rawCC.substring(1, rawCC.length - 1);
+                    rawCC = rawCC.replace(/""/g, '"');
+                    const arr = JSON.parse(rawCC);
+                    const itemP = arr.find(x => String(x.id || x.ID).toUpperCase() === String(ccId).toUpperCase());
                     if (itemP) {
-                        const pctLoc = parseFloat(itemP.pct) || 0;
+                        const pctLoc = parseFloat(itemP.pct || itemP.PCT) || 0;
                         val = val * (pctLoc / 100);
                         const hrsRateadas = hrsF * (pctLoc / 100);
                         infoRateio = `(Rateado ${pctLoc}% = ${hrsRateadas.toFixed(0)}h disps.)`;
@@ -3054,7 +3076,7 @@ function abrirDrilldownCustoHora(ccId, ccNome) {
     }
     htmlHtml += `</div>`;
 
-    // 3. PLANO DE CONTAS (EXIBE SOMENTE AS COM CUSTO > 0)
+    // 3. PLANO DE CONTAS
     htmlHtml += `<div class="bg-[#0d0d0f] p-3 rounded border border-brand-border space-y-1">
         <h4 class="font-bold text-white uppercase text-xs">3. Contas Fixas do Plano de Contas (${qtdContasAtivas})</h4>`;
     if (qtdContasAtivas === 0) {
