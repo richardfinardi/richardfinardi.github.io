@@ -3,34 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz de Inglês - Units 3 & 4</title>
+  <title>Portal de Quizzes - 6º Ano</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f7f6;
+      background-color: #f0f2f5;
       color: #333;
       margin: 0;
       padding: 20px;
       display: flex;
       justify-content: center;
     }
-    .quiz-container {
+    .container {
       background: white;
-      max-width: 700px;
+      max-width: 750px;
       width: 100%;
       border-radius: 12px;
       padding: 25px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
     h1 {
-      color: #2c3e50;
+      color: #1a237e;
       text-align: center;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
     p.subtitulo {
       text-align: center;
       color: #666;
       margin-bottom: 25px;
+    }
+    
+    /* MENU PRINCIPAL */
+    #menu-principal {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .btn-quiz-menu {
+      padding: 18px;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 1.15em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-quiz-menu:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .btn-portugues { background-color: #0288d1; }
+    .btn-ingles1 { background-color: #388e3c; }
+    .btn-ingles2 { background-color: #f57c00; }
+    .btn-espanhol { background-color: #d32f2f; }
+
+    /* ESTILOS DOS QUIZZES */
+    .quiz-secao {
+      display: none;
+    }
+    .btn-voltar {
+      background-color: #757575;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 20px;
     }
     .card {
       background: #fafafa;
@@ -90,7 +135,6 @@
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 0.95em;
     }
     .feedback {
       display: none;
@@ -110,7 +154,7 @@
       border: 1px solid #ffe0b2;
       color: #e65100;
     }
-    #resultado-box {
+    .resultado-box {
       display: none;
       background: #e8eaf6;
       border: 2px solid #3f51b5;
@@ -144,182 +188,161 @@
 </head>
 <body>
 
-<div class="quiz-container">
-  <h1>English Activity - Units 3 & 4</h1>
-  <p class="subtitulo">Responda as questões abaixo (Múltipla Escolha e Digitação Curta).</p>
-  
-  <div style="text-align: center; margin-bottom: 20px;">
-    <label for="nome-aluno"><strong>Nome do Aluno(a):</strong></label><br>
-    <input type="text" id="nome-aluno" class="input-aluno" placeholder="Digite seu nome completo">
+<div class="container">
+
+  <!-- ================= MENU PRINCIPAL ================= -->
+  <div id="menu-principal">
+    <h1>Portal de Estudo e Desafios 🚀</h1>
+    <p class="subtitulo">Escolha uma matéria abaixo para começar o teste:</p>
+    
+    <button class="btn-quiz-menu btn-portugues" onclick="abrirQuiz('portugues')">
+      <span>📚 Quiz de Português (6º Ano)</span> <span>➜</span>
+    </button>
+
+    <button class="btn-quiz-menu btn-ingles1" onclick="abrirQuiz('ingles1')">
+      <span>🇬🇧 Quiz de Inglês (Unit 5 - My Week)</span> <span>➜</span>
+    </button>
+
+    <button class="btn-quiz-menu btn-ingles2" onclick="abrirQuiz('ingles2')">
+      <span>🇬🇧 Quiz de Inglês (Units 3 & 4)</span> <span>➜</span>
+    </button>
+
+    <button class="btn-quiz-menu btn-espanhol" onclick="abrirQuiz('espanhol')">
+      <span>🇪🇸 Quiz de Espanhol (Unidades 3, 5 + Caderno)</span> <span>➜</span>
+    </button>
   </div>
 
-  <div id="quiz-box"></div>
+  <!-- ================= CONTAINER DOS QUIZZES ================= -->
+  <div id="area-quiz" style="display: none;">
+    <button class="btn-voltar" onclick="voltarAoMenu()">⬅ Voltar ao Menu Principal</button>
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+      <label for="nome-aluno"><strong>Nome do Aluno(a):</strong></label><br>
+      <input type="text" id="nome-aluno" class="input-aluno" placeholder="Digite seu nome completo">
+    </div>
 
-  <!-- Painel do Resultado Final -->
-  <div id="resultado-box">
-    <h2>Atividade Concluída! 🎉</h2>
-    <p id="nota-texto" style="font-size: 1.3em; font-weight: bold;"></p>
-    <button class="btn-enviar" onclick="enviarRelatorioPorEmail()">Enviar Resultado para o Professor</button>
+    <div id="conteudo-quiz"></div>
+
+    <div id="resultado-box" class="resultado-box">
+      <h2>Atividade Concluída! 🎉</h2>
+      <p id="nota-texto" style="font-size: 1.3em; font-weight: bold;"></p>
+      <button class="btn-enviar" onclick="enviarRelatorioPorEmail()">Enviar Resultado para o Professor</button>
+    </div>
   </div>
+
 </div>
 
 <script>
 const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 
-const questoes = [
-  {
-    id: 1,
-    tipo: "opcoes",
-    topico: "Verbo Like",
-    pergunta: "Se alguém pergunta 'Do you like pop music?', qual é a resposta curta correta para SIM?",
-    opcoes: {
-      A: "Yes, I like.",
-      B: "Yes, I do.",
-      C: "Yes, I am.",
-      D: "Yes, I have."
-    },
-    respostaCorreta: "B",
-    explicacao: "Em respostas curtas em inglês não repetimos o verbo 'like'. Usamos o auxiliar 'Yes, I do'."
+// BANCO DE DADOS DOS QUIZZES
+const bancoQuizzes = {
+  portugues: {
+    titulo: "Quiz de Português - 6º Ano",
+    questoes: [
+      { tipo: "opcoes", topico: "Pronomes Retos", pergunta: "O Pedro estava jogando videogame e disse: 'O Pedro e o Lucas venceram a partida!'. Como trocar os nomes por um pronome?", opcoes: { A: "Nós vencemos a partida!", B: "Eles venceram a partida!", C: "Eu venci a partida!", D: "Vocês venceram a partida!" }, respostaCorreta: "A", explicacao: "Como o Pedro se inclui no grupo, ele usa 'Nós'." },
+      { tipo: "opcoes", topico: "Pronomes Oblíquos", pergunta: "Em vez de dizer 'Eu vi o livro e peguei o livro', qual é o jeito correto de juntar tudo?", opcoes: { A: "Eu vi ele e peguei ele.", B: "Eu o vi e o peguei.", C: "Eu vi si e peguei si.", D: "Eu vi consigo e peguei consigo." }, respostaCorreta: "B", explicacao: "Substituímos 'o livro' pelo pronome 'o' na norma culta." },
+      { tipo: "opcoes", topico: "Tempos Verbais", pergunta: "Qual frase mostra uma ação no Presente?", opcoes: { A: "Eu andei de bicicleta.", B: "Eu andarei de bicicleta.", C: "Eu ando de bicicleta.", D: "Eu andaria de bicicleta." }, respostaCorreta: "C", explicacao: "'Ando' indica uma ação que acontece no momento presente." },
+      { tipo: "opcoes", topico: "Pretérito Perfeito", pergunta: "O Leo disse: 'Naquele dia, nós comemos pizza e jogamos bola'. Essas ações foram concluídas. Qual o tempo verbal?", opcoes: { A: "Presente", B: "Pretérito Perfeito (Passado)", C: "Futuro do Presente", D: "Imperativo" }, respostaCorreta: "B", explicacao: "Ações concluídas no passado ficam no Pretérito Perfeito." },
+      { tipo: "opcoes", topico: "Acentuação Oxítonas", pergunta: "A palavra 'café' precisa de acento porque é oxítona e termina com qual letra?", opcoes: { A: "Termina em A", B: "Termina em E", C: "Termina em O", D: "Termina em EM" }, respostaCorreta: "B", explicacao: "Oxítonas terminadas em A, E, O levam acento gráfico." },
+      { tipo: "opcoes", topico: "Acentuação Oxítonas", pergunta: "Qual opção traz duas palavras oxítonas acentuadas pela mesma regra?", opcoes: { A: "Saci e Livro", B: "Picolé e Cipó", C: "Mesa e Cadeira", D: "Lápis e Régua" }, respostaCorreta: "B", explicacao: "Picolé e Cipó são oxítonas terminadas em E e O." },
+      { tipo: "opcoes", topico: "Modo Imperativo", pergunta: "A professora disse: 'Por favor, abram o livro na página 20!'. Qual é o modo do verbo?", opcoes: { A: "Modo Indicativo", B: "Modo Imperativo", C: "Modo Subjuntivo", D: "Modo Futuro" }, respostaCorreta: "B", explicacao: "O Imperativo expressa ordem, pedido ou orientação." },
+      { tipo: "opcoes", topico: "Pronomes Retos", pergunta: "'Mariana e Beatriz foram ao cinema. Mariana disse: ____ assistimos a um filme incrível!'. Complete:", opcoes: { A: "Elas", B: "Nós", C: "Vós", D: "Eu" }, respostaCorreta: "B", explicacao: "Mariana estava incluída na ação, por isso usa 'Nós'." },
+      { tipo: "opcoes", topico: "Pronomes Oblíquos", pergunta: "Para encurtar 'Vou enviar as tarefas para vocês amanhã', o professor pode dizer:", opcoes: { A: "Vou enviar-lhes as tarefas amanhã.", B: "Vou enviar eles as tarefas amanhã.", C: "Vou enviar si as tarefas amanhã.", D: "Vou enviar conosco as tarefas." }, respostaCorreta: "A", explicacao: "O pronome 'lhes' substitui 'para vocês/eles'." },
+      { tipo: "opcoes", topico: "Modo Indicativo - Futuro", pergunta: "O verbo 'jogaremos' na frase 'Nós jogaremos a final' indica algo que:", opcoes: { A: "Acontece agora.", B: "Terminou no passado.", C: "Ainda vai acontecer no futuro.", D: "É uma proibição." }, respostaCorreta: "C", explicacao: "'Jogaremos' é Futuro do Presente." },
+      { tipo: "opcoes", topico: "Acentuação Oxítonas", pergunta: "Qual oxítona precisa de acento por terminar em 'EM'?", opcoes: { A: "Também", B: "Jovem", C: "Nuvem", D: "Item" }, respostaCorreta: "A", explicacao: "Oxítonas terminadas em EM/ENS são acentuadas (Também, Porém)." },
+      { tipo: "opcoes", topico: "Modo Imperativo Negativo", pergunta: "'Não olhe as cartas do colega!'. A palavra 'Não' junto com o verbo forma o:", opcoes: { A: "Imperativo Negativo", B: "Indicativo Presente", C: "Pretérito Imperfeito", D: "Futuro" }, respostaCorreta: "A", explicacao: "Proibição com a palavra 'Não' forma o Imperativo Negativo." }
+    ]
   },
-  {
-    id: 2,
-    tipo: "texto",
-    topico: "Demonstrativos",
-    pergunta: "Qual palavra usamos para apontar para UMA coisa que está perto (singular/here)? Digite em inglês:",
-    respostasAceitas: ["this"],
-    explicacao: "'This' é usado para 1 coisa que está perto de nós."
+  ingles1: {
+    titulo: "Quiz de Inglês - Unit 5: My Week",
+    questoes: [
+      { tipo: "texto", topico: "Daily Routines", pergunta: "Como escrevemos 'almoçar' em inglês? (Digite apenas a expressão):", respostasAceitas: ["have lunch"], explicacao: "'Almoçar' é 'have lunch'." },
+      { tipo: "texto", topico: "Daily Routines", pergunta: "Como escrevemos 'fazer minha lição de casa' em inglês?", respostasAceitas: ["do my homework", "do homework"], explicacao: "'Fazer lição de casa' é 'do my homework'." },
+      { tipo: "opcoes", topico: "Chores", pergunta: "Qual expressão significa 'levar o lixo para fora'?", opcoes: { A: "Make my bed", B: "Take out the trash", C: "Wash the dishes", D: "Clear the table" }, respostaCorreta: "B", explicacao: "'Take out the trash' é levar o lixo para fora." },
+      { tipo: "opcoes", topico: "Chores", pergunta: "Qual expressão significa 'arrumar a cama'?", opcoes: { A: "Make my bed", B: "Clean my room", C: "Put away my clothes", D: "Dry the dishes" }, respostaCorreta: "A", explicacao: "'Make my bed' significa arrumar a cama." },
+      { tipo: "opcoes", topico: "Present Simple (He/She)", pergunta: "Complete: 'He ____ (go) to school by bus'.", opcoes: { A: "go", B: "gos", C: "goes", D: "goies" }, respostaCorreta: "C", explicacao: "Verbos terminados em -o ganham -es para He/She/It (goes)." },
+      { tipo: "opcoes", topico: "Present Simple (He/She)", pergunta: "Complete: 'She ____ (wash) the dishes'.", opcoes: { A: "washs", B: "washes", C: "wash", D: "washies" }, respostaCorreta: "B", explicacao: "Verbos terminados em -sh ganham -es para She (washes)." },
+      { tipo: "opcoes", topico: "Present Simple Negativa", pergunta: "Passe a frase para a negativa: 'I listen to rock'.", opcoes: { A: "I doesn't listen to rock.", B: "I don't listen to rock.", C: "I not listen to rock.", D: "I no listen to rock." }, respostaCorreta: "B", explicacao: "Usamos 'don't' para I, You, We e They." },
+      { tipo: "opcoes", topico: "Present Simple Negativa", pergunta: "Passe a frase para a negativa: 'He cleans his room'.", opcoes: { A: "He don't clean his room.", B: "He not cleans his room.", C: "He doesn't clean his room.", D: "He doesn't cleans his room." }, respostaCorreta: "C", explicacao: "Usamos 'doesn't' e o verbo volta ao normal (clean)." },
+      { tipo: "opcoes", topico: "Preposições de Tempo", pergunta: "Qual preposição usamos com dias da semana? '____ Mondays, I study'.", opcoes: { A: "In", B: "At", C: "On", D: "To" }, respostaCorreta: "C", explicacao: "Usamos 'On' para dias da semana (On Mondays)." },
+      { tipo: "opcoes", topico: "Preposições de Tempo", pergunta: "Complete: '____ the morning' e '____ night'.", opcoes: { A: "In / At", B: "At / In", C: "On / At", D: "In / On" }, respostaCorreta: "A", explicacao: "Dizemos 'In the morning' e 'At night'." }
+    ]
   },
-  {
-    id: 3,
-    tipo: "opcoes",
-    topico: "Demonstrativos",
-    pergunta: "Aponte para vários livros que estão longe de você (plural/there). Qual é a opção correta?",
-    opcoes: {
-      A: "This is my books.",
-      B: "That is my books.",
-      C: "These are my books.",
-      D: "Those are my books."
-    },
-    respostaCorreta: "D",
-    explicacao: "'Those are' é usado para indicar elementos no plural que estão longe (There)."
+  ingles2: {
+    titulo: "Quiz de Inglês - Units 3 & 4",
+    questoes: [
+      { tipo: "opcoes", topico: "Verbo Like", pergunta: "Qual é a resposta curta correta para 'Do you like pop music?' (SIM)?", opcoes: { A: "Yes, I like.", B: "Yes, I do.", C: "Yes, I am.", D: "Yes, I have." }, respostaCorreta: "B", explicacao: "Usamos o auxiliar 'Yes, I do'." },
+      { tipo: "texto", topico: "Demonstrativos", pergunta: "Palavra usada para apontar 1 coisa que está perto (singular/here). Digite em inglês:", respostasAceitas: ["this"], explicacao: "'This' é usado para 1 coisa perto." },
+      { tipo: "opcoes", topico: "Demonstrativos", pergunta: "Aponte para vários livros que estão longe (plural/there):", opcoes: { A: "This is my books.", B: "That is my books.", C: "These are my books.", D: "Those are my books." }, respostaCorreta: "D", explicacao: "'Those are' é plural e longe." },
+      { tipo: "opcoes", topico: "Verbo Can", pergunta: "Qual frase sobre habilidade está gramaticalmente correta?", opcoes: { A: "He can swims 100 meters.", B: "He can swim 100 meters.", C: "He can to swim 100 meters.", D: "He cans swim 100 meters." }, respostaCorreta: "B", explicacao: "Após 'can' o verbo fica na forma base (swim)." },
+      { tipo: "texto", topico: "Vocabulário", pergunta: "Como se diz a habilidade 'desenhar' em inglês?", respostasAceitas: ["draw"], explicacao: "'Desenhar' em inglês é 'draw'." },
+      { tipo: "opcoes", topico: "Have / Has", pergunta: "Complete: 'She ____ two guitars and he ____ a new bike'.", opcoes: { A: "have / has", B: "has / have", C: "has / has", D: "have / have" }, respostaCorreta: "C", explicacao: "Usamos 'has' para He e She." },
+      { tipo: "opcoes", topico: "Have Negativa", pergunta: "Como fica 'He has a watch' na NEGATIVA?", opcoes: { A: "He don't have a watch.", B: "He doesn't has a watch.", C: "He doesn't have a watch.", D: "He hasn't a watch." }, respostaCorreta: "C", explicacao: "Na negativa usamos 'doesn't have'." },
+      { tipo: "opcoes", topico: "Imperativo", pergunta: "Como damos uma ordem de proibição? ('Não corra!')", opcoes: { A: "No run!", B: "Not run!", C: "Don't run!", D: "Doesn't run!" }, respostaCorreta: "C", explicacao: "Imperativo negativo usa 'Don't'." },
+      { tipo: "texto", topico: "Plural Irregular", pergunta: "Digite o plural da palavra 'child' (criança) em inglês:", respostasAceitas: ["children"], explicacao: "O plural irregular de 'child' é 'children'." },
+      { tipo: "opcoes", topico: "Conectores", pergunta: "Complete: 'I like shopping, ____ I don't have money.'", opcoes: { A: "and", B: "but", C: "because", D: "or" }, respostaCorreta: "B", explicacao: "Usamos 'but' (mas) para indicar contraste." }
+    ]
   },
-  {
-    id: 4,
-    tipo: "opcoes",
-    topico: "Verbo Can (Habilidade)",
-    pergunta: "Qual frase está escrita de forma correta para indicar uma habilidade em inglês?",
-    opcoes: {
-      A: "He can swims 100 meters.",
-      B: "He can swim 100 meters.",
-      C: "He can to swim 100 meters.",
-      D: "He cans swim 100 meters."
-    },
-    respostaCorreta: "B",
-    explicacao: "Depois do verbo 'can', o verbo principal fica na forma normal sem 's' e sem 'to'."
-  },
-  {
-    id: 5,
-    tipo: "texto",
-    topico: "Vocabulário",
-    pergunta: "Como escrevemos a habilidade 'desenhar' em inglês? (Digite apenas a palavra):",
-    respostasAceitas: ["draw"],
-    explicacao: "'Desenhar' em inglês é 'draw'."
-  },
-  {
-    id: 6,
-    tipo: "opcoes",
-    topico: "Verbo Have / Has",
-    pergunta: "Qual opção completa a frase corretamente: 'She ____ two guitars and he ____ a new bike'?",
-    opcoes: {
-      A: "have / has",
-      B: "has / have",
-      C: "has / has",
-      D: "have / have"
-    },
-    respostaCorreta: "C",
-    explicacao: "Para He, She e It, usamos sempre 'has' na afirmativa."
-  },
-  {
-    id: 7,
-    tipo: "opcoes",
-    topico: "Verbo Have (Negativa)",
-    pergunta: "Como fica a frase 'He has a watch' na NEGATIVA?",
-    opcoes: {
-      A: "He don't have a watch.",
-      B: "He doesn't has a watch.",
-      C: "He doesn't have a watch.",
-      D: "He hasn't a watch."
-    },
-    respostaCorreta: "C",
-    explicacao: "Na negativa de He/She/It usamos 'doesn't' e o verbo volta para a forma base 'have'."
-  },
-  {
-    id: 8,
-    tipo: "opcoes",
-    topico: "Modo Imperativo",
-    pergunta: "Como damos um aviso ou proibição usando o Imperativo? (Ex: 'Não corra!')",
-    opcoes: {
-      A: "No run!",
-      B: "Not run!",
-      C: "Don't run!",
-      D: "Doesn't run!"
-    },
-    respostaCorreta: "C",
-    explicacao: "No imperativo negativo usamos 'Don't' antes do verbo."
-  },
-  {
-    id: 9,
-    tipo: "texto",
-    topico: "Plural Irregular",
-    pergunta: "Qual é o plural da palavra 'child' (criança) em inglês? (Digite apenas a palavra no plural):",
-    respostasAceitas: ["children"],
-    explicacao: "O plural de 'child' é irregular: 'children'."
-  },
-  {
-    id: 10,
-    tipo: "opcoes",
-    topico: "Conectores (And / But)",
-    pergunta: "Qual opção completa a frase corretamente: 'I like shopping, ____ I don't have money.'?",
-    opcoes: {
-      A: "and",
-      B: "but",
-      C: "because",
-      D: "or"
-    },
-    respostaCorreta: "B",
-    explicacao: "Usamos 'but' (mas) para conectar ideias contrárias/opostas."
+  espanhol: {
+    titulo: "Quiz de Espanhol - Unidades 3, 5 e Caderno",
+    questoes: [
+      { tipo: "texto", topico: "Objetos Escolares", pergunta: "¿Cómo se llama el objeto que 'sirve para borrar si nos equivocamos'? Digite em espanhol:", respostasAceitas: ["la goma", "goma"], explicacao: "'La goma' é a borracha em espanhol." },
+      { tipo: "opcoes", topico: "Objetos Escolares", pergunta: "Qual objeto escolar serve para 'cortar papeles'?", opcoes: { A: "La regla", B: "La tijera", C: "El compás", D: "El rotulador" }, respostaCorreta: "B", explicacao: "'La tijera' é a tesoura." },
+      { tipo: "opcoes", topico: "La Escuela", pergunta: "¿En qué parte de la escuela los alumnos pueden leer, estudiar o consultar libros?", opcoes: { A: "El patio", B: "La biblioteca", C: "El comedor", D: "El gimnasio" }, respostaCorreta: "B", explicacao: "Na biblioteca é onde se consultam livros e se lê." },
+      { tipo: "texto", topico: "La Familia", pergunta: "Como se diz 'avô' em espanhol? (Digite apenas a palavra):", respostasAceitas: ["el abuelo", "abuelo"], explicacao: "'Avô' em espanhol é 'abuelo'." },
+      { tipo: "opcoes", topico: "Verbos Irregulares (-g-)", pergunta: "Qual é a forma correta do verbo 'Hacer' para a 1ª pessoa 'Yo'?", opcoes: { A: "Haco", B: "Hago", C: "Hace", D: "Hacemos" }, respostaCorreta: "B", explicacao: "Hacer ganha a letra -g- no Yo: 'Yo hago'." },
+      { tipo: "opcoes", topico: "Verbos Irregulares (-g-)", pergunta: "Qual é a forma correta do verbo 'Tener' para 'Yo'?", opcoes: { A: "Teno", B: "Tengo", C: "Tiene", D: "Tenemos" }, respostaCorreta: "B", explicacao: "Tener fica 'Yo tengo' no Presente do Indicativo." },
+      { tipo: "opcoes", topico: "Verbos Irregulares (-zco)", pergunta: "Como fica o verbo 'Parecerse' para a pessoa 'Yo'?", opcoes: { A: "Yo me parezco", B: "Yo pareco", C: "Yo me parece", D: "Yo parezco me" }, respostaCorreta: "A", explicacao: "Parecerse no Yo fica 'me parezco'." },
+      { tipo: "opcoes", topico: "Cambio Vocálico (e->i)", pergunta: "Como fica a conjugação do verbo 'Pedir' na frase: 'Yo ____ un consejo'?", opcoes: { A: "Pedo", B: "Pido", C: "Pede", D: "Pedimos" }, respostaCorreta: "B", explicacao: "A vogal 'e' muda para 'i': Yo pido." },
+      { tipo: "opcoes", topico: "Expressões (¡OJO!)", pergunta: "Qual verbo usamos para dizer que a criança puxou ao pai/mãe? (Ex: '¡Salió ____ su padre!')", opcoes: { A: "a", B: "de", C: "por", D: "con" }, respostaCorreta: "A", explicacao: "A expressão é 'salir a' (Salió a su padre)." },
+      { tipo: "texto", topico: "Fônica", pergunta: "A letra 'H' em espanhol tem som ou é muda? (Digite 'som' ou 'muda'):", respostasAceitas: ["muda"], explicacao: "A letra 'H' em espanhol não tem som (é muda)." }
+    ]
   }
-];
+};
 
+let quizAtual = null;
 let respostasUsuario = {};
 let respostasRespondidas = 0;
 let acertos = 0;
 
-const quizBox = document.getElementById('quiz-box');
+function abrirQuiz(chave) {
+  quizAtual = bancoQuizzes[chave];
+  respostasUsuario = {};
+  respostasRespondidas = 0;
+  acertos = 0;
 
-questoes.forEach((q, idx) => {
-  const card = document.createElement('div');
-  card.className = 'card';
-  
-  let html = `<span class="topico">${q.topico}</span>`;
-  html += `<div class="pergunta">${idx + 1}. ${q.pergunta}</div>`;
-  
-  if (q.tipo === "opcoes") {
-    for (let letra in q.opcoes) {
-      html += `<button class="opcao" onclick="responderOpcao(${idx}, '${letra}', this)"><strong>${letra})</strong> ${q.opcoes[letra]}</button>`;
+  document.getElementById('menu-principal').style.display = 'none';
+  document.getElementById('area-quiz').style.display = 'block';
+  document.getElementById('resultado-box').style.display = 'none';
+
+  const container = document.getElementById('conteudo-quiz');
+  container.innerHTML = `<h2>${quizAtual.titulo}</h2>`;
+
+  quizAtual.questoes.forEach((q, idx) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    
+    let html = `<span class="topico">${q.topico}</span>`;
+    html += `<div class="pergunta">${idx + 1}. ${q.pergunta}</div>`;
+    
+    if (q.tipo === "opcoes") {
+      for (let letra in q.opcoes) {
+        html += `<button class="opcao" onclick="responderOpcao(${idx}, '${letra}', this)"><strong>${letra})</strong> ${q.opcoes[letra]}</button>`;
+      }
+    } else {
+      html += `<input type="text" id="input-${idx}" class="input-texto" placeholder="Digite sua resposta...">`;
+      html += `<button class="btn-responder" onclick="responderTexto(${idx})">Confirmar Resposta</button>`;
     }
-  } else {
-    html += `<input type="text" id="input-${idx}" class="input-texto" placeholder="Digite sua resposta em inglês...">`;
-    html += `<button class="btn-responder" onclick="responderTexto(${idx})">Confirmar Resposta</button>`;
-  }
-  
-  html += `<div id="fb-${idx}" class="feedback"></div>`;
-  card.innerHTML = html;
-  quizBox.appendChild(card);
-});
+    
+    html += `<div id="fb-${idx}" class="feedback"></div>`;
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
+}
 
 function responderOpcao(index, letraEscolhida, elemento) {
-  const q = questoes[index];
+  const q = quizAtual.questoes[index];
   const fbDiv = document.getElementById(`fb-${index}`);
   const card = elemento.parentElement;
   const botoes = card.querySelectorAll('.opcao');
@@ -343,12 +366,12 @@ function responderOpcao(index, letraEscolhida, elemento) {
     elemento.style.background = '#c8e6c9';
     elemento.style.borderColor = '#2e7d32';
     fbDiv.className = 'feedback correto';
-    fbDiv.innerHTML = `<strong>Very Good! Resposta correta (${q.respostaCorreta}).</strong><br>${q.explicacao}`;
+    fbDiv.innerHTML = `<strong>Muito bem! Resposta correta (${q.respostaCorreta}).</strong><br>${q.explicacao}`;
   } else {
     elemento.style.background = '#ffcdd2';
     elemento.style.borderColor = '#c62828';
     fbDiv.className = 'feedback incorreto';
-    fbDiv.innerHTML = `<strong>Você marcou a opção ${letraEscolhida}.</strong> A alternativa correta é a <strong>${q.respostaCorreta}</strong>.<br>${q.explicacao}`;
+    fbDiv.innerHTML = `<strong>Você marcou ${letraEscolhida}.</strong> A alternativa correta é <strong>${q.respostaCorreta}</strong>.<br>${q.explicacao}`;
   }
 
   fbDiv.style.display = 'block';
@@ -356,7 +379,7 @@ function responderOpcao(index, letraEscolhida, elemento) {
 }
 
 function responderTexto(index) {
-  const q = questoes[index];
+  const q = quizAtual.questoes[index];
   const inputEl = document.getElementById(`input-${index}`);
   const fbDiv = document.getElementById(`fb-${index}`);
   const valDigitado = inputEl.value.trim();
@@ -392,7 +415,7 @@ function responderTexto(index) {
     fbDiv.innerHTML = `<strong>Excelente! Resposta correta.</strong><br>${q.explicacao}`;
   } else {
     fbDiv.className = 'feedback incorreto';
-    fbDiv.innerHTML = `<strong>Resposta digitada: "${valDigitado}".</strong><br><strong>Resposta esperada:</strong> ${q.respostasAceitas[0]}<br>${q.explicacao}`;
+    fbDiv.innerHTML = `<strong>Resposta digitada: "${valDigitado}".</strong><br><strong>Esperado:</strong> ${q.respostasAceitas[0]}<br>${q.explicacao}`;
   }
 
   fbDiv.style.display = 'block';
@@ -400,8 +423,8 @@ function responderTexto(index) {
 }
 
 function conferirFim() {
-  if (respostasRespondidas === questoes.length) {
-    const total = questoes.length;
+  if (respostasRespondidas === quizAtual.questoes.length) {
+    const total = quizAtual.questoes.length;
     const nota = ((acertos / total) * 10).toFixed(1);
     const resBox = document.getElementById('resultado-box');
     const notaTexto = document.getElementById('nota-texto');
@@ -412,31 +435,36 @@ function conferirFim() {
   }
 }
 
+function voltarAoMenu() {
+  document.getElementById('area-quiz').style.display = 'none';
+  document.getElementById('menu-principal').style.display = 'flex';
+}
+
 function enviarRelatorioPorEmail() {
   const nomeAluno = document.getElementById('nome-aluno').value.trim();
 
   if (!nomeAluno) {
-    alert("Por favor, suba até o início da página e digite o seu nome antes de enviar!");
+    alert("Por favor, digite seu nome completo no campo do topo antes de enviar!");
     return;
   }
 
-  const nota = ((acertos / questoes.length) * 10).toFixed(1);
-  const assunto = encodeURIComponent(`Resultado Quiz de Inglês (Units 3 e 4) - Aluno(a): ${nomeAluno}`);
+  const nota = ((acertos / quizAtual.questoes.length) * 10).toFixed(1);
+  const assunto = encodeURIComponent(`Resultado: ${quizAtual.titulo} - Aluno(a): ${nomeAluno}`);
   
-  let relatorio = `RESULTADO DO QUIZ DE INGLÊS - UNITS 3 & 4\n`;
+  let relatorio = `RELATÓRIO DE ATIVIDADE - ${quizAtual.titulo.toUpperCase()}\n`;
   relatorio += `Aluno(a): ${nomeAluno}\n`;
-  relatorio += `Nota Final: ${nota} / 10,0 (${acertos} de ${questoes.length} acertos)\n\n`;
+  relatorio += `Nota Final: ${nota} / 10,0 (${acertos} de ${quizAtual.questoes.length} acertos)\n\n`;
   relatorio += `===============================================\n`;
-  relatorio += `DETALHAMENTO DE RESPOSTAS\n`;
+  relatorio += `DETALHAMENTO DAS RESPOSTAS\n`;
   relatorio += `===============================================\n\n`;
 
-  questoes.forEach((q, idx) => {
+  quizAtual.questoes.forEach((q, idx) => {
     const r = respostasUsuario[idx];
     const status = r.acertou ? "[ACERTOU]" : "[ERROU]";
     relatorio += `Q${idx + 1} (${r.topico}): ${status}\n`;
     relatorio += `Pergunta: ${r.pergunta}\n`;
-    relatorio += `• Marcada/Digitada pelo aluno: ${r.escolhida}\n`;
-    relatorio += `• Resposta Correta/Gabarito: ${r.correta}\n`;
+    relatorio += `• Marcada/Digitada: ${r.escolhida}\n`;
+    relatorio += `• Resposta Correta: ${r.correta}\n`;
     if (!r.acertou) {
       relatorio += `• Explicação: ${r.explicacao}\n`;
     }
