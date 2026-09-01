@@ -58,6 +58,7 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
+    .btn-matematica { background-color: #6a1b9a; }
     .btn-portugues { background-color: #0288d1; }
     .btn-ingles1 { background-color: #388e3c; }
     .btn-ingles2 { background-color: #f57c00; }
@@ -195,6 +196,10 @@
     <h1>Portal de Estudo e Desafios 🚀</h1>
     <p class="subtitulo">Escolha uma matéria abaixo para começar o teste:</p>
     
+    <button class="btn-quiz-menu btn-matematica" onclick="abrirQuiz('matematica')">
+      <span>🧮 Quiz de Matemática (6º Ano - Bimestral)</span> <span>➜</span>
+    </button>
+
     <button class="btn-quiz-menu btn-portugues" onclick="abrirQuiz('portugues')">
       <span>📚 Quiz de Português (6º Ano)</span> <span>➜</span>
     </button>
@@ -237,6 +242,21 @@ const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 
 // BANCO DE DADOS DOS QUIZZES
 const bancoQuizzes = {
+  matematica: {
+    titulo: "Quiz de Matemática - 6º Ano (Pegue papel e lápis!)",
+    questoes: [
+      { tipo: "texto", topico: "Potenciação", pergunta: "Calcule no rascunho: Quanto é 5³ + 4²? (Digite apenas o valor numérico):", respostasAceitas: ["141"], explicacao: "5³ = 5 × 5 × 5 = 125. 4² = 4 × 4 = 16. Somando: 125 + 16 = 141." },
+      { tipo: "opcoes", topico: "Regras de Potenciação", pergunta: "Aplicando as regras do expoente 0 e 1, qual o resultado de: 7⁰ + 8¹ + 250⁰?", opcoes: { A: "10", B: "259", C: "8", D: "0" }, respostaCorreta: "A", explicacao: "7⁰ = 1 | 8¹ = 8 | 250⁰ = 1. Somando tudo: 1 + 8 + 1 = 10." },
+      { tipo: "texto", topico: "Raiz Quadrada", pergunta: "Calcule no rascunho: √100 + √49 - √144:", respostasAceitas: ["5"], explicacao: "√100 = 10 | √49 = 7 | √144 = 12. Fazendo a conta: 10 + 7 - 12 = 5." },
+      { tipo: "texto", topico: "Expressões Numéricas", pergunta: "Siga o 'semáforo' da matemática e resolva no papel: (16 ÷ 4 + 2²) × √25:", respostasAceitas: ["40"], explicacao: "1º Potência: (16 ÷ 4 + 4) × √25 | 2º Divisão: (4 + 4) × √25 | 3º Parêntese: 8 × √25 | 4º Raiz: 8 × 5 = 40." },
+      { tipo: "opcoes", topico: "Critérios de Divisibilidade", pergunta: "Qual dos números abaixo é divisível por 3 e por 5 ao mesmo tempo?", opcoes: { A: "124", B: "135", C: "220", D: "304" }, respostaCorreta: "B", explicacao: "135 termina em 5 (divisível por 5) e a soma 1+3+5 = 9 (múltiplo de 3)." },
+      { tipo: "opcoes", topico: "Critérios de Divisibilidade", pergunta: "Para um número ser divisível por 6, ele precisa passar em quais testes?", opcoes: { A: "Ser ímpar e divisível por 5.", B: "Ser par (divisível por 2) e a soma ser divisível por 3.", C: "Terminar em 00 ou 000.", D: "Ser divisível por 4 e 8." }, respostaCorreta: "B", explicacao: "O critério do 6 exige passar na regra do 2 e do 3 simultaneamente." },
+      { tipo: "texto", topico: "Múltiplos", pergunta: "Qual o menor múltiplo de 8 que é MAIOR do que 30? (Ex: M(8) = {0, 8, ...}):", respostasAceitas: ["32"], explicacao: "M(8) = {0, 8, 16, 24, 32, 40...}. O primeiro maior que 30 é o 32." },
+      { tipo: "opcoes", topico: "Divisores", pergunta: "Qual das opções traz TODOS os divisores de 20?", opcoes: { A: "{0, 2, 4, 10, 20}", B: "{1, 2, 4, 5, 10, 20}", C: "{1, 2, 5, 10, 15, 20}", D: "{2, 4, 5, 10}" }, respostaCorreta: "B", explicacao: "D(20) = {1, 2, 4, 5, 10, 20}." },
+      { tipo: "texto", topico: "Número Misto", pergunta: "Transforme 2 ¾ em fração imprópria (multiplica embaixo, soma em cima). Digite no formatoexato 'numerador/denominador' (ex: 5/4):", respostasAceitas: ["11/4"], explicacao: "(4 × 2) + 3 = 11. Mantendo o denominador 4, fica 11/4." },
+      { tipo: "opcoes", topico: "Frações Equivalentes", pergunta: "Qual fração é EQUIVALENTE a ⅔?", opcoes: { A: "3/4", B: "4/6", C: "5/6", D: "2/6" }, respostaCorreta: "B", explicacao: "Multiplicando o numerador (2) e o denominador (3) por 2, temos 4/6." }
+    ]
+  },
   portugues: {
     titulo: "Quiz de Português - 6º Ano",
     questoes: [
@@ -396,8 +416,8 @@ function responderTexto(index) {
 
   respostasRespondidas++;
 
-  const valNorm = valDigitado.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
-  const acertou = q.respostasAceitas.some(aceita => aceita.toLowerCase().trim() === valNorm);
+  const valNorm = valDigitado.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").replace(/\s+/g, "").trim();
+  const acertou = q.respostasAceitas.some(aceita => aceita.toLowerCase().replace(/\s+/g, "").trim() === valNorm);
 
   if (acertou) acertos++;
 
