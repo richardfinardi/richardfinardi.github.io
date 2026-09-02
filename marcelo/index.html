@@ -58,6 +58,7 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
+    .btn-matematica2 { background-color: #00838f; }
     .btn-historia { background-color: #795548; }
     .btn-matematica { background-color: #6a1b9a; }
     .btn-portugues { background-color: #0288d1; }
@@ -197,12 +198,16 @@
     <h1>Portal de Estudo e Desafios 🚀</h1>
     <p class="subtitulo">Escolha uma matéria abaixo para começar o teste:</p>
 
+    <button class="btn-quiz-menu btn-matematica2" onclick="abrirQuiz('fracoes')">
+      <span>🍕 Quiz de Matemática: Frações (6º Ano)</span> <span>➜</span>
+    </button>
+
     <button class="btn-quiz-menu btn-historia" onclick="abrirQuiz('historia')">
       <span>📜 Quiz de História (Livros 03 e 04 - Bimestral)</span> <span>➜</span>
     </button>
     
     <button class="btn-quiz-menu btn-matematica" onclick="abrirQuiz('matematica')">
-      <span>🧮 Quiz de Matemática (6º Ano - Bimestral)</span> <span>➜</span>
+      <span>🧮 Quiz de Matemática (Operações/Potência)</span> <span>➜</span>
     </button>
 
     <button class="btn-quiz-menu btn-portugues" onclick="abrirQuiz('portugues')">
@@ -247,136 +252,118 @@ const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 
 // BANCO DE DADOS DOS QUIZZES
 const bancoQuizzes = {
-  historia: {
-    titulo: "Quiz de História - Livros 03 e 04 (Prova Bimestral)",
+  fracoes: {
+    titulo: "Quiz de Matemática: Frações - 6º Ano",
     questoes: [
-      { 
-        tipo: "opcoes", 
-        topico: "Povoamento da América", 
-        pergunta: "De acordo com os estudos arqueológicos, de qual continente saíram os primeiros grupos de Homo sapiens que povoaram a Terra?", 
-        opcoes: { A: "Europa", B: "América", C: "África", D: "Ásia" }, 
-        respostaCorreta: "C", 
-        explicacao: "A espécie Homo sapiens surgiu no continente africano e de lá migrou para as demais regiões do planeta." 
+      {
+        tipo: "texto",
+        topico: "Conceito de Fração",
+        pergunta: "Ana dividiu seu palmo em 6 partes iguais e mediu uma caneta que ocupou 5 dessas partes. Qual é a fração que representa a medida da caneta? (Digite no formato 'numerador/denominador', ex: 5/6):",
+        respostasAceitas: ["5/6", "5 / 6"],
+        explicacao: "O total de partes (6) fica no denominador e as partes consideradas (5) ficam no numerador: 5/6."
       },
-      { 
-        tipo: "opcoes", 
-        topico: "Teoria de Clóvis", 
-        pergunta: "Segundo a Teoria de Clóvis, como os primeiros seres humanos teriam chegado ao continente americano?", 
-        opcoes: { 
-          A: "Navegando pelo Oceano Atlântico em caravelas.", 
-          B: "Caminhando a pé através do Estreito de Bering congelado.", 
-          C: "Atravessando o Oceano Índico de barco.", 
-          D: "Voando em balões pré-históricos." 
-        }, 
-        respostaCorreta: "B", 
-        explicacao: "A Teoria de Clóvis defende a passagem a pé pelo Estreito de Bering durante a última glaciação há cerca de 11,5 mil anos." 
+      {
+        tipo: "opcoes",
+        topico: "Conceito de Fração",
+        pergunta: "Em uma fração, qual é a função do Denominador (número de baixo)?",
+        opcoes: {
+          A: "Indicar a quantidade de partes consideradas ou pintadas.",
+          B: "Indicar a quantidade de partes iguais em que o todo foi dividido.",
+          C: "Somar os valores dos objetos.",
+          D: "Multiplicar o resultado por dois."
+        },
+        respostaCorreta: "B",
+        explicacao: "O denominador (abaixo do traço) mostra em quantas partes iguais o inteiro foi dividido."
       },
-      { 
-        tipo: "opcoes", 
-        topico: "Novas Hipóteses", 
-        pergunta: "O que as pesquisas na Serra da Capivara (Piauí), lideradas por Niède Guidon, comprovaram sobre a chegada do homem à América?", 
-        opcoes: { 
-          A: "Que os humanos só chegaram há 5 mil anos.", 
-          B: "Que o homem já estava na América muito antes de 11,5 mil anos (há mais de 30 mil anos).", 
-          C: "Que não existiam fogueiras na pré-história.", 
-          D: "Que a Teoria de Clóvis era a única correta." 
-        }, 
-        respostaCorreta: "B", 
-        explicacao: "Achados como fogueiras e pedras lascadas de mais de 30 mil anos no Piauí provam que a ocupação da América é muito mais antiga do que propunha a Teoria de Clóvis." 
+      {
+        tipo: "texto",
+        topico: "Fração de Quantidade",
+        pergunta: "Faça a conta no rascunho: Em um torneio com 32 ciclistas inscritas, 1/4 delas se classificou para a prova final. Quantas ciclistas foram classificadas? (Digite apenas o número):",
+        respostasAceitas: ["8"],
+        explicacao: "Para calcular 1/4 de 32, dividimos pelo denominador e multiplicamos pelo numerador: 32 ÷ 4 = 8. (8 × 1 = 8)."
       },
-      { 
-        tipo: "texto", 
-        topico: "Sambaquis", 
-        pergunta: "Como são chamadas as grandes montanhas formadas por restos de conchas, peixes e esqueletos deixados por povos pescadores no litoral do Brasil?", 
-        respostasAceitas: ["sambaquis", "sambaqui", "os sambaquis"], 
-        explicacao: "Sambaquis são elevações formadas pelo acúmulo de restos orgânicos e conchas feitas por antigos povos pescadores do litoral brasileiro." 
+      {
+        tipo: "texto",
+        topico: "Fração de Quantidade",
+        pergunta: "Um circuito de bike tem 1.500 metros. O obstáculo mais difícil fica a 1/5 do trajeto a partir do início. A quantos metros fica esse obstáculo? (Digite apenas o número):",
+        respostasAceitas: ["300", "300m", "300 metros"],
+        explicacao: "1.500 ÷ 5 = 300. Multiplicado por 1 = 300 metros."
       },
-      { 
-        tipo: "opcoes", 
-        topico: "Mesopotâmia", 
-        pergunta: "O termo 'Mesopotâmia' significa 'terra entre rios'. Quais são esses dois rios históricos?", 
-        opcoes: { 
-          A: "Rio Nilo e Rio Amazonas", 
-          B: "Rio Tigre e Rio Eufrates", 
-          C: "Rio Jordão e Rio Danúbio", 
-          D: "Rio Ganges e Rio Amarelo" 
-        }, 
-        respostaCorreta: "B", 
-        explicacao: "A Mesopotâmia desenvolveu-se na região fértil localizada entre os rios Tigre e Eufrates." 
+      {
+        tipo: "texto",
+        topico: "Número Misto",
+        pergunta: "Transforme o número misto 3 1/2 em fração imprópria (multiplica embaixo, soma em cima). Digite no formato 'numerador/denominador' (ex: 7/2):",
+        respostasAceitas: ["7/2", "7 / 2"],
+        explicacao: "Multiplica o de baixo pelo inteiro e soma com o de cima: (2 × 3) + 1 = 7. Mantém o denominador 2, resultando em 7/2."
       },
-      { 
-        tipo: "opcoes", 
-        topico: "Código de Hamurábi", 
-        pergunta: "O Código de Hamurábi ficou famoso por seguir a Lei do Talião. Qual frase resume esse princípio?", 
-        opcoes: { 
-          A: "Perdoe a todos os inimigos.", 
-          B: "Olho por olho, dente por dente.", 
-          C: "Pague com moedas de ouro.", 
-          D: "Quem erra não recebe castigo." 
-        }, 
-        respostaCorreta: "B", 
-        explicacao: "A Lei do Talião estabelecia que a punição para um crime deveria ser exatamente proporcional ao dano causado ('Olho por olho, dente por dente')." 
+      {
+        tipo: "opcoes",
+        topico: "Número Misto",
+        pergunta: "Como se lê o número misto 1 1/4?",
+        opcoes: {
+          A: "Um quarto e um inteiro.",
+          B: "Um inteiro e um quarto.",
+          C: "Onze quartos.",
+          D: "Um dividido por quatro."
+        },
+        respostaCorreta: "B",
+        explicacao: "Lemos a parte inteira primeiro seguida da fração: 'Um inteiro e um quarto'."
       },
-      { 
-        tipo: "texto", 
-        topico: "Arquitetura Mesopotâmica", 
-        pergunta: "Como se chamavam as grandes torres em formato de pirâmide escalonada que serviam como templos religiosos e moradia dos deuses na Mesopotâmia?", 
-        respostasAceitas: ["zigurates", "zigurate", "os zigurates"], 
-        explicacao: "Os Zigurates eram templos em forma de torre escalonada construídos para os cultos religiosos e administração das cidades na Mesopotâmia." 
+      {
+        tipo: "opcoes",
+        topico: "Frações Equivalentes",
+        pergunta: "Quando multiplicamos ou dividimos o numerador e o denominador de uma fração pelo mesmo número (diferente de zero), obtemos:",
+        opcoes: {
+          A: "Uma fração maior.",
+          B: "Uma fração irredutível.",
+          C: "Uma fração equivalente (que representa a mesma quantidade).",
+          D: "Um número negativo."
+        },
+        respostaCorreta: "C",
+        explicacao: "Essa é a propriedade fundamental: multiplicar ou dividir em cima e embaixo pelo mesmo número gera uma fração equivalente."
       },
-      { 
-        tipo: "opcoes", 
-        topico: "Egito Antigo", 
-        pergunta: "Por que o historiador Heródoto disse que 'O Egito é uma dádiva (presente) do Nilo'?", 
-        opcoes: { 
-          A: "Porque o rio transportava ouro das montanhas.", 
-          B: "Porque as cheias do Nilo fertilizavam o solo no meio do deserto com o húmus.", 
-          C: "Porque o rio não tinha peixes.", 
-          D: "Porque o rio separava o Egito da Europa." 
-        }, 
-        respostaCorreta: "B", 
-        explicacao: "Sem as cheias periódicas do Rio Nilo que fertilizavam a terra, teria sido impossível praticar a agricultura e desenvolver a civilização egípcia no deserto." 
+      {
+        tipo: "texto",
+        topico: "Simplificação de Frações",
+        pergunta: "Simplifique a fração 60/36 até chegar na fração irredutível. Digite no formato 'numerador/denominador' (ex: 5/3):",
+        respostasAceitas: ["5/3", "5 / 3"],
+        explicacao: "Dividindo por 12 em cima e embaixo (ou por 2, 2 e 3 consecutivamente): 60 ÷ 12 = 5 e 36 ÷ 12 = 3. A fração irredutível é 5/3."
       },
-      { 
-        tipo: "opcoes", 
-        topico: "Unificação do Egito", 
-        pergunta: "Quem foi o rei responsável por unificar o Alto e o Baixo Egito por volta de 3300 a.C., tornando-se o primeiro Faraó?", 
-        opcoes: { A: "Hamurábi", B: "Sargão I", C: "Menés (ou Narmer)", D: "Ramsés II" }, 
-        respostaCorreta: "C", 
-        explicacao: "O rei Menés (Narmer) unificou os dois reinos egípcios e iniciou a era dos Faraós." 
+      {
+        tipo: "texto",
+        topico: "Adição de Frações",
+        pergunta: "Dra. Maíra dedica 1/10 do seu tempo para consultas em domicílio e 7/10 para consultas na clínica. Qual fração representa o tempo TOTAL dedicado a consultas? (Digite no formato 'numerador/denominador'):",
+        respostasAceitas: ["8/10", "8 / 10", "4/5", "4 / 5"],
+        explicacao: "Com denominadores iguais, mantemos o 10 e somamos os numeradores: 1/10 + 7/10 = 8/10."
       },
-      { 
-        tipo: "texto", 
-        topico: "O Faraó", 
-        pergunta: "Como o Faraó era considerado pela população egípcia na religião teocrática?", 
-        respostasAceitas: ["deus vivo", "um deus vivo", "deus", "deus na terra"], 
-        explicacao: "O Faraó era adorado como a encarnação viva de um deus na Terra (o deus Hórus)." 
-      },
-      { 
-        tipo: "opcoes", 
-        topico: "Sociedade Egípcia", 
-        pergunta: "Qual grupo social egípcio era muito respeitado por dominar a complexa escrita hieroglífica e controlar a cobrança de impostos?", 
-        opcoes: { A: "Os camponeses (felás)", B: "Os escribas", C: "Os escravizados", D: "Os soldados" }, 
-        respostaCorreta: "B", 
-        explicacao: "Os escribas detinham o monopólio da escrita e do cálculo, sendo fundamentais para a administração e cobrança de tributos." 
-      },
-      { 
-        tipo: "opcoes", 
-        topico: "Sociedade Egípcia", 
-        pergunta: "O que os camponeses egípcios (felás) faziam durante a época das cheias do Rio Nilo, quando não podiam plantar?", 
-        opcoes: { 
-          A: "Ficavam de férias sem trabalhar.", 
-          B: "Eram recrutados para trabalhar nas grandes obras públicas do governo, como pirâmides e canais.", 
-          C: "Mudavam-se para a Mesopotâmia.", 
-          D: "Dormiam durante todo o período." 
-        }, 
-        respostaCorreta: "B", 
-        explicacao: "Durante as inundações do Nilo, o Estado aproveitava a mão de obra camponesa para construir templos, tumbas, pirâmides e canais de irrigação." 
+      {
+        tipo: "texto",
+        topico: "Subtração de Frações",
+        pergunta: "Quanto do tempo a mais a Dra. Maíra dedica para consultas na clínica (7/10) do que em domicílio (1/10)? Faça a subtração e digite no formato 'numerador/denominador':",
+        respostasAceitas: ["6/10", "6 / 10", "3/5", "3 / 5"],
+        explicacao: "Denominadores iguais: 7/10 - 1/10 = (7 - 1) / 10 = 6/10."
       }
     ]
   },
+  historia: {
+    titulo: "Quiz de História - Livros 03 e 04 (Prova Bimestral)",
+    questoes: [
+      { tipo: "opcoes", topico: "Povoamento da América", pergunta: "De acordo com os estudos arqueológicos, de qual continente saíram os primeiros grupos de Homo sapiens que povoaram a Terra?", opcoes: { A: "Europa", B: "América", C: "África", D: "Ásia" }, respostaCorreta: "C", explicacao: "A espécie Homo sapiens surgiu no continente africano e de lá migrou para as demais regiões do planeta." },
+      { tipo: "opcoes", topico: "Teoria de Clóvis", pergunta: "Segundo a Teoria de Clóvis, como os primeiros seres humanos teriam chegado ao continente americano?", opcoes: { A: "Navegando pelo Oceano Atlântico em caravelas.", B: "Caminhando a pé através do Estreito de Bering congelado.", C: "Atravessando o Oceano Índico de barco.", D: "Voando em balões pré-históricos." }, respostaCorreta: "B", explicacao: "A Teoria de Clóvis defende a passagem a pé pelo Estreito de Bering durante a última glaciação há cerca de 11,5 mil anos." },
+      { tipo: "opcoes", topico: "Novas Hipóteses", pergunta: "O que as pesquisas na Serra da Capivara (Piauí), lideradas por Niède Guidon, comprovaram sobre a chegada do homem à América?", opcoes: { A: "Que os humanos só chegaram há 5 mil anos.", B: "Que o homem já estava na América muito antes de 11,5 mil anos (há mais de 30 mil anos).", C: "Que não existiam fogueiras na pré-história.", D: "Que a Teoria de Clóvis era a única correta." }, respostaCorreta: "B", explicacao: "Achados como fogueiras e pedras lascadas de mais de 30 mil anos no Piauí provam que a ocupação da América é muito mais antiga do que propunha a Teoria de Clóvis." },
+      { tipo: "texto", topico: "Sambaquis", pergunta: "Como são chamadas as grandes montanhas formadas por restos de conchas, peixes e esqueletos deixados por povos pescadores no litoral do Brasil?", respostasAceitas: ["sambaquis", "sambaqui", "os sambaquis"], explicacao: "Sambaquis são elevações formadas pelo acúmulo de restos orgânicos e conchas feitas por antigos povos pescadores do litoral brasileiro." },
+      { tipo: "opcoes", topico: "Mesopotâmia", pergunta: "O termo 'Mesopotâmia' significa 'terra entre rios'. Quais são esses dois rios históricos?", opcoes: { A: "Rio Nilo e Rio Amazonas", B: "Rio Tigre e Rio Eufrates", C: "Rio Jordão e Rio Danúbio", D: "Rio Ganges e Rio Amarelo" }, respostaCorreta: "B", explicacao: "A Mesopotâmia desenvolveu-se na região fértil localizada entre os rios Tigre e Eufrates." },
+      { tipo: "opcoes", topico: "Código de Hamurábi", pergunta: "O Código de Hamurábi ficou famoso por seguir a Lei do Talião. Qual frase resume esse princípio?", opcoes: { A: "Perdoe a todos os inimigos.", B: "Olho por olho, dente por dente.", C: "Pague com moedas de ouro.", D: "Quem erra não recebe castigo." }, respostaCorreta: "B", explicacao: "A Lei do Talião estabelecia que a punição para um crime deveria ser exatamente proporcional ao dano causado ('Olho por olho, dente por dente')." },
+      { tipo: "texto", topico: "Arquitetura Mesopotâmica", pergunta: "Como se chamavam as grandes torres em formato de pirâmide escalonada que serviam como templos religiosos e moradia dos deuses na Mesopotâmia?", respostasAceitas: ["zigurates", "zigurate", "os zigurates"], explicacao: "Os Zigurates eram templos em forma de torre escalonada construídos para os cultos religiosos e administração das cidades na Mesopotâmia." },
+      { tipo: "opcoes", topico: "Egito Antigo", pergunta: "Por que o historiador Heródoto disse que 'O Egito é uma dádiva (presente) do Nilo'?", opcoes: { A: "Porque o rio transportava ouro das montanhas.", B: "Porque as cheias do Nilo fertilizavam o solo no meio do deserto com o húmus.", C: "Porque o rio não tinha peixes.", D: "Porque o rio separava o Egito da Europa." }, respostaCorreta: "B", explicacao: "Sem as cheias periódicas do Rio Nilo que fertilizavam a terra, teria sido impossível praticar a agricultura e desenvolver a civilização egípcia no deserto." },
+      { tipo: "opcoes", topico: "Unificação do Egito", pergunta: "Quem foi o rei responsável por unificar o Alto e o Baixo Egito por volta de 3300 a.C., tornando-se o primeiro Faraó?", opcoes: { A: "Hamurábi", B: "Sargão I", C: "Menés", D: "Ramsés II" }, respostaCorreta: "C", explicacao: "O rei Menés (Narmer) unificou os dois reinos egípcios e iniciou a era dos Faraós." },
+      { tipo: "texto", topico: "O Faraó", pergunta: "Como o Faraó era considerado pela população egípcia na religião teocrática?", respostasAceitas: ["deus vivo", "um deus vivo", "deus", "deus na terra"], explicacao: "O Faraó era adorado como a encarnação viva de um deus na Terra (o deus Hórus)." },
+      { tipo: "opcoes", topico: "Sociedade Egípcia", pergunta: "Qual grupo social egípcio era muito respeitado por dominar a complexa escrita hieroglífica e controlar a cobrança de impostos?", opcoes: { A: "Os camponeses (felás)", B: "Os escribas", C: "Os escravizados", D: "Os soldados" }, respostaCorreta: "B", explicacao: "Os escribas detinham o monopólio da escrita e do cálculo, sendo fundamentais para a administração e cobrança de tributos." },
+      { tipo: "opcoes", topico: "Sociedade Egípcia", pergunta: "O que os camponeses egípcios (felás) faziam durante a época das cheias do Rio Nilo, quando não podiam plantar?", opcoes: { A: "Ficavam de férias sem trabalhar.", B: "Eram recrutados para trabalhar nas grandes obras públicas do governo, como pirâmides e canais.", C: "Mudavam-se para a Mesopotâmia.", D: "Dormiam durante todo o período." }, respostaCorreta: "B", explicacao: "Durante as inundações do Nilo, o Estado aproveitava a mão de obra camponesa para construir templos, tumbas, pirâmides e canais de irrigação." }
+    ]
+  },
   matematica: {
-    titulo: "Quiz de Matemática - 6º Ano (Pegue papel e lápis!)",
+    titulo: "Quiz de Matemática - Operações e Potência (Pegue papel e lápis!)",
     questoes: [
       { tipo: "texto", topico: "Potenciação", pergunta: "Calcule no rascunho: Quanto é 5³ + 4²? (Digite apenas o valor numérico):", respostasAceitas: ["141"], explicacao: "5³ = 5 × 5 × 5 = 125. 4² = 4 × 4 = 16. Somando: 125 + 16 = 141." },
       { tipo: "opcoes", topico: "Regras de Potenciação", pergunta: "Aplicando as regras do expoente 0 e 1, qual o resultado de: 7⁰ + 8¹ + 250⁰?", opcoes: { A: "10", B: "259", C: "8", D: "0" }, respostaCorreta: "A", explicacao: "7⁰ = 1 | 8¹ = 8 | 250⁰ = 1. Somando tudo: 1 + 8 + 1 = 10." },
@@ -386,7 +373,7 @@ const bancoQuizzes = {
       { tipo: "opcoes", topico: "Critérios de Divisibilidade", pergunta: "Para um número ser divisível por 6, ele precisa passar em quais testes?", opcoes: { A: "Ser ímpar e divisível por 5.", B: "Ser par (divisível por 2) e a soma ser divisível por 3.", C: "Terminar em 00 ou 000.", D: "Ser divisível por 4 e 8." }, respostaCorreta: "B", explicacao: "O critério do 6 exige passar na regra do 2 e do 3 simultaneamente." },
       { tipo: "texto", topico: "Múltiplos", pergunta: "Qual o menor múltiplo de 8 que é MAIOR do que 30? (Ex: M(8) = {0, 8, ...}):", respostasAceitas: ["32"], explicacao: "M(8) = {0, 8, 16, 24, 32, 40...}. O primeiro maior que 30 é o 32." },
       { tipo: "opcoes", topico: "Divisores", pergunta: "Qual das opções traz TODOS os divisores de 20?", opcoes: { A: "{0, 2, 4, 10, 20}", B: "{1, 2, 4, 5, 10, 20}", C: "{1, 2, 5, 10, 15, 20}", D: "{2, 4, 5, 10}" }, respostaCorreta: "B", explicacao: "D(20) = {1, 2, 4, 5, 10, 20}." },
-      { tipo: "texto", topico: "Número Misto", pergunta: "Transforme 2 ¾ em fração imprópria (multiplica embaixo, soma em cima). Digite no formatoexato 'numerador/denominador' (ex: 5/4):", respostasAceitas: ["11/4"], explicacao: "(4 × 2) + 3 = 11. Mantendo o denominador 4, fica 11/4." },
+      { tipo: "texto", topico: "Número Misto", pergunta: "Transforme 2 ¾ em fração imprópria (multiplica embaixo, soma em cima). Digite no formato 'numerador/denominador' (ex: 11/4):", respostasAceitas: ["11/4", "11 / 4"], explicacao: "(4 × 2) + 3 = 11. Mantendo o denominador 4, fica 11/4." },
       { tipo: "opcoes", topico: "Frações Equivalentes", pergunta: "Qual fração é EQUIVALENTE a ⅔?", opcoes: { A: "3/4", B: "4/6", C: "5/6", D: "2/6" }, respostaCorreta: "B", explicacao: "Multiplicando o numerador (2) e o denominador (3) por 2, temos 4/6." }
     ]
   },
@@ -458,6 +445,17 @@ let quizAtual = null;
 let respostasUsuario = {};
 let respostasRespondidas = 0;
 let acertos = 0;
+
+// Função auxiliar para normalizar texto prevenindo erros de digitação e acentos
+function normalizarTexto(str) {
+  return str.toString()
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "") // Remove pontuação
+            .replace(/\s+/g, "") // Remove todos os espaços em branco
+            .trim();
+}
 
 function abrirQuiz(chave) {
   quizAtual = bancoQuizzes[chave];
@@ -549,8 +547,8 @@ function responderTexto(index) {
 
   respostasRespondidas++;
 
-  const valNorm = valDigitado.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").replace(/\s+/g, "").trim();
-  const acertou = q.respostasAceitas.some(aceita => aceita.toLowerCase().replace(/\s+/g, "").trim() === valNorm);
+  const valNorm = normalizarTexto(valDigitado);
+  const acertou = q.respostasAceitas.some(aceita => normalizarTexto(aceita) === valNorm);
 
   if (acertou) acertos++;
 
