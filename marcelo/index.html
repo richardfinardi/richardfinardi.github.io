@@ -58,6 +58,7 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
+    .btn-historia { background-color: #795548; }
     .btn-matematica { background-color: #6a1b9a; }
     .btn-portugues { background-color: #0288d1; }
     .btn-ingles1 { background-color: #388e3c; }
@@ -195,6 +196,10 @@
   <div id="menu-principal">
     <h1>Portal de Estudo e Desafios 🚀</h1>
     <p class="subtitulo">Escolha uma matéria abaixo para começar o teste:</p>
+
+    <button class="btn-quiz-menu btn-historia" onclick="abrirQuiz('historia')">
+      <span>📜 Quiz de História (Livros 03 e 04 - Bimestral)</span> <span>➜</span>
+    </button>
     
     <button class="btn-quiz-menu btn-matematica" onclick="abrirQuiz('matematica')">
       <span>🧮 Quiz de Matemática (6º Ano - Bimestral)</span> <span>➜</span>
@@ -242,6 +247,134 @@ const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 
 // BANCO DE DADOS DOS QUIZZES
 const bancoQuizzes = {
+  historia: {
+    titulo: "Quiz de História - Livros 03 e 04 (Prova Bimestral)",
+    questoes: [
+      { 
+        tipo: "opcoes", 
+        topico: "Povoamento da América", 
+        pergunta: "De acordo com os estudos arqueológicos, de qual continente saíram os primeiros grupos de Homo sapiens que povoaram a Terra?", 
+        opcoes: { A: "Europa", B: "América", C: "África", D: "Ásia" }, 
+        respostaCorreta: "C", 
+        explicacao: "A espécie Homo sapiens surgiu no continente africano e de lá migrou para as demais regiões do planeta." 
+      },
+      { 
+        tipo: "opcoes", 
+        topico: "Teoria de Clóvis", 
+        pergunta: "Segundo a Teoria de Clóvis, como os primeiros seres humanos teriam chegado ao continente americano?", 
+        opcoes: { 
+          A: "Navegando pelo Oceano Atlântico em caravelas.", 
+          B: "Caminhando a pé através do Estreito de Bering congelado.", 
+          C: "Atravessando o Oceano Índico de barco.", 
+          D: "Voando em balões pré-históricos." 
+        }, 
+        respostaCorreta: "B", 
+        explicacao: "A Teoria de Clóvis defende a passagem a pé pelo Estreito de Bering durante a última glaciação há cerca de 11,5 mil anos." 
+      },
+      { 
+        tipo: "opcoes", 
+        topico: "Novas Hipóteses", 
+        pergunta: "O que as pesquisas na Serra da Capivara (Piauí), lideradas por Niède Guidon, comprovaram sobre a chegada do homem à América?", 
+        opcoes: { 
+          A: "Que os humanos só chegaram há 5 mil anos.", 
+          B: "Que o homem já estava na América muito antes de 11,5 mil anos (há mais de 30 mil anos).", 
+          C: "Que não existiam fogueiras na pré-história.", 
+          D: "Que a Teoria de Clóvis era a única correta." 
+        }, 
+        respostaCorreta: "B", 
+        explicacao: "Achados como fogueiras e pedras lascadas de mais de 30 mil anos no Piauí provam que a ocupação da América é muito mais antiga do que propunha a Teoria de Clóvis." 
+      },
+      { 
+        tipo: "texto", 
+        topico: "Sambaquis", 
+        pergunta: "Como são chamadas as grandes montanhas formadas por restos de conchas, peixes e esqueletos deixados por povos pescadores no litoral do Brasil?", 
+        respostasAceitas: ["sambaquis", "sambaqui", "os sambaquis"], 
+        explicacao: "Sambaquis são elevações formadas pelo acúmulo de restos orgânicos e conchas feitas por antigos povos pescadores do litoral brasileiro." 
+      },
+      { 
+        tipo: "opcoes", 
+        topico: "Mesopotâmia", 
+        pergunta: "O termo 'Mesopotâmia' significa 'terra entre rios'. Quais são esses dois rios históricos?", 
+        opcoes: { 
+          A: "Rio Nilo e Rio Amazonas", 
+          B: "Rio Tigre e Rio Eufrates", 
+          C: "Rio Jordão e Rio Danúbio", 
+          D: "Rio Ganges e Rio Amarelo" 
+        }, 
+        respostaCorreta: "B", 
+        explicacao: "A Mesopotâmia desenvolveu-se na região fértil localizada entre os rios Tigre e Eufrates." 
+      },
+      { 
+        tipo: "opcoes", 
+        topico: "Código de Hamurábi", 
+        pergunta: "O Código de Hamurábi ficou famoso por seguir a Lei do Talião. Qual frase resume esse princípio?", 
+        opcoes: { 
+          A: "Perdoe a todos os inimigos.", 
+          B: "Olho por olho, dente por dente.", 
+          C: "Pague com moedas de ouro.", 
+          D: "Quem erra não recebe castigo." 
+        }, 
+        respostaCorreta: "B", 
+        explicacao: "A Lei do Talião estabelecia que a punição para um crime deveria ser exatamente proporcional ao dano causado ('Olho por olho, dente por dente')." 
+      },
+      { 
+        tipo: "texto", 
+        topico: "Arquitetura Mesopotâmica", 
+        pergunta: "Como se chamavam as grandes torres em formato de pirâmide escalonada que serviam como templos religiosos e moradia dos deuses na Mesopotâmia?", 
+        respostasAceitas: ["zigurates", "zigurate", "os zigurates"], 
+        explicacao: "Os Zigurates eram templos em forma de torre escalonada construídos para os cultos religiosos e administração das cidades na Mesopotâmia." 
+      },
+      { 
+        tipo: "opcoes", 
+        topico: "Egito Antigo", 
+        pergunta: "Por que o historiador Heródoto disse que 'O Egito é uma dádiva (presente) do Nilo'?", 
+        opcoes: { 
+          A: "Porque o rio transportava ouro das montanhas.", 
+          B: "Porque as cheias do Nilo fertilizavam o solo no meio do deserto com o húmus.", 
+          C: "Porque o rio não tinha peixes.", 
+          D: "Porque o rio separava o Egito da Europa." 
+        }, 
+        respostaCorreta: "B", 
+        explicacao: "Sem as cheias periódicas do Rio Nilo que fertilizavam a terra, teria sido impossível praticar a agricultura e desenvolver a civilização egípcia no deserto." 
+      },
+      { 
+        tipo: "opcoes", 
+        topico: "Unificação do Egito", 
+        pergunta: "Quem foi o rei responsável por unificar o Alto e o Baixo Egito por volta de 3300 a.C., tornando-se o primeiro Faraó?", 
+        opcoes: { A: "Hamurábi", B: "Sargão I", C: "Menés (ou Narmer)", D: "Ramsés II" }, 
+        respostaCorreta: "C", 
+        explicacao: "O rei Menés (Narmer) unificou os dois reinos egípcios e iniciou a era dos Faraós." 
+      },
+      { 
+        tipo: "texto", 
+        topico: "O Faraó", 
+        pergunta: "Como o Faraó era considerado pela população egípcia na religião teocrática?", 
+        respostasAceitas: ["deus vivo", "um deus vivo", "deus", "deus na terra"], 
+        explicacao: "O Faraó era adorado como a encarnação viva de um deus na Terra (o deus Hórus)." 
+      },
+      { 
+        tipo: "opcoes", 
+        topico: "Sociedade Egípcia", 
+        pergunta: "Qual grupo social egípcio era muito respeitado por dominar a complexa escrita hieroglífica e controlar a cobrança de impostos?", 
+        opcoes: { A: "Os camponeses (felás)", B: "Os escribas", C: "Os escravizados", D: "Os soldados" }, 
+        respostaCorreta: "B", 
+        explicacao: "Os escribas detinham o monopólio da escrita e do cálculo, sendo fundamentais para a administração e cobrança de tributos." 
+      },
+      { 
+        tipo: "opcoes", 
+        topico: "Sociedade Egípcia", 
+        pergunta: "O que os camponeses egípcios (felás) faziam durante a época das cheias do Rio Nilo, quando não podiam plantar?", 
+        opcoes: { 
+          A: "Ficavam de férias sem trabalhar.", 
+          B: "Eram recrutados para trabalhar nas grandes obras públicas do governo, como pirâmides e canais.", 
+          C: "Mudavam-se para a Mesopotâmia.", 
+          D: "Dormiam durante todo o período." 
+        }, 
+        respostaCorreta: "B", 
+        explicacao: "Durante as inundações do Nilo, o Estado aproveitava a mão de obra camponesa para construir templos, tumbas, pirâmides e canais de irrigação." 
+      }
+    ]
+  },
   matematica: {
     titulo: "Quiz de Matemática - 6º Ano (Pegue papel e lápis!)",
     questoes: [
