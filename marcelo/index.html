@@ -58,6 +58,7 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
+    .btn-ciencias { background-color: #00695c; }
     .btn-matematica2 { background-color: #00838f; }
     .btn-historia { background-color: #795548; }
     .btn-matematica { background-color: #6a1b9a; }
@@ -198,6 +199,10 @@
     <h1>Portal de Estudo e Desafios 🚀</h1>
     <p class="subtitulo">Escolha uma matéria abaixo para começar o teste:</p>
 
+    <button class="btn-quiz-menu btn-ciencias" onclick="abrirQuiz('ciencias_ceu')">
+      <span>🌌 Quiz de Ciências: O Estudo do Céu (6º Ano)</span> <span>➜</span>
+    </button>
+
     <button class="btn-quiz-menu btn-matematica2" onclick="abrirQuiz('fracoes')">
       <span>🍕 Quiz de Matemática: Frações (6º Ano)</span> <span>➜</span>
     </button>
@@ -252,6 +257,137 @@ const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 
 // BANCO DE DADOS DOS QUIZZES
 const bancoQuizzes = {
+  ciencias_ceu: {
+    titulo: "Quiz de Ciências - O Estudo do Céu e Astronomia (6º Ano)",
+    questoes: [
+      {
+        tipo: "opcoes",
+        topico: "Evolução dos Instrumentos",
+        pergunta: "Qual astrônomo aperfeiçoou a luneta em 1609 para observar as crateras da Lua e descobrir as luas de Júpiter?",
+        opcoes: {
+          A: "Isaac Newton",
+          B: "Galileu Galilei",
+          C: "Johannes Kepler",
+          D: "Nicolau Copérnico"
+        },
+        respostaCorreta: "B",
+        explicacao: "Galileu Galilei aperfeiçoou a luneta em 1609 e fez descobertas fundamentais como as luas de Júpiter."
+      },
+      {
+        tipo: "texto",
+        topico: "Evolução dos Instrumentos",
+        pergunta: "Qual telescópio espacial, lançado em 1990 em órbita fora da atmosfera terrestre, gera imagens de altíssima resolução de galáxias distantes? (Digite o nome):",
+        respostasAceitas: ["hubble", "telescopio hubble", "telescopio espacial hubble"],
+        explicacao: "O Telescópio Espacial Hubble foi lançado em 1990 e revolucionou a observação de galáxias distantes."
+      },
+      {
+        tipo: "texto",
+        topico: "Coordenadas Celestes",
+        pergunta: "Como se chama o ponto de referência vertical superior localizado EXATAMENTE acima da cabeça do observador?",
+        respostasAceitas: ["zenite", "o zenite"],
+        explicacao: "O Zênite é o ponto do céu localizado verticalmente logo acima da cabeça do observador."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Coordenadas Celestes",
+        pergunta: "A Esfera Celeste é uma esfera imaginária onde os astros parecem projetados. Qual conceito da Terra é o equivalente ao 'Horizonte' no espaço celeste?",
+        opcoes: {
+          A: "Linha do Equador",
+          B: "Meridiano de Greenwich",
+          C: "Linha visual onde a Terra encontra o céu",
+          D: "Polo Norte Geográfico"
+        },
+        respostaCorreta: "C",
+        explicacao: "O Horizonte corresponde à linha visual imaginária onde a Terra encontra o céu."
+      },
+      {
+        tipo: "opcoes",
+        topico: "O Sol e as Sombras",
+        pergunta: "No uso do Gnômon (haste vertical), em qual momento do dia a sombra atinge o seu MENOR comprimento no Hemisfério Sul?",
+        opcoes: {
+          A: "Logo ao nascer do Sol",
+          B: "Ao meio-dia local",
+          C: "No fim da tarde",
+          D: "Durante a meia-noite"
+        },
+        respostaCorreta: "B",
+        explicacao: "Ao meio-dia local, o Sol está no ponto mais alto da sua trajetória diária aparente, produzindo a menor sombra do dia."
+      },
+      {
+        tipo: "texto",
+        topico: "Rotação da Terra",
+        pergunta: "Em qual sentido a Terra realiza seu movimento de rotação ao redor do seu próprio eixo? (Ex: de este para oeste / de oeste para leste):",
+        respostasAceitas: ["de oeste para leste", "oeste para leste"],
+        explicacao: "A Terra gira de oeste para leste, o que faz com que tenhamos o movimento aparente do Sol surgindo no leste."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Translação e Ano Bissexto",
+        pergunta: "A translação dura 365 dias e 6 horas. O que acontece com essas 6 horas excedentes acumuladas ao longo de 4 anos?",
+        opcoes: {
+          A: "São descartadas e perdidas.",
+          B: "Somam 24 horas e criam um dia a mais no mês de fevereiro (Ano Bissexto).",
+          C: "São somadas ao mês de dezembro.",
+          D: "Aumentam a velocidade de rotação da Terra."
+        },
+        respostaCorreta: "B",
+        explicacao: "6 horas x 4 anos = 24 horas (1 dia completo), que é adicionado ao dia 29 de fevereiro no ano bissexto."
+      },
+      {
+        tipo: "texto",
+        topico: "Estações do Ano",
+        pergunta: "Como se chama o fenômeno astronômico em que os dias e as noites têm exatamente a mesma duração (12 horas cada)?",
+        respostasAceitas: ["equinocio", "equinocios", "o equinocio"],
+        explicacao: "Nos equinócios (de primavera e outono), a iluminação solar atinge igualmente os dois hemisférios, deixando o dia claro e a noite com 12h cada."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Estações do Ano",
+        pergunta: "No Hemisfério Sul, o Solstício de Inverno ocorre em meados de junho. O que caracteriza esse dia?",
+        opcoes: {
+          A: "É o dia claro mais longo do ano.",
+          B: "É a noite mais longa do ano.",
+          C: "O dia e a noite têm 12 horas cada.",
+          D: "O Sol passa exatamente pelo Zênite."
+        },
+        respostaCorreta: "B",
+        explicacao: "O Solstício de Inverno marca o início do inverno, tendo a noite mais longa e o dia claro mais curto do ano."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Fenômenos Polares",
+        pergunta: "Nas regiões polares, próximo ao solstício de verão, ocorre um fenômeno único. Qual é ele?",
+        opcoes: {
+          A: "A noite dura 24 horas seguidas.",
+          B: "Sol da meia-noite (luz solar durante as 24 horas do dia).",
+          C: "Eclipse solar diário.",
+          D: "O Sol para completamente de se mover."
+        },
+        respostaCorreta: "B",
+        explicacao: "Devido à inclinação máxima em direção ao Sol, as regiões polares no verão recebem iluminação solar contínua por 24 horas."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Modelos do Universo",
+        pergunta: "Qual a diferença fundamental entre o Modelo Geocêntrico e o Modelo Heliocêntrico?",
+        opcoes: {
+          A: "No Geocêntrico a Terra fica no centro; no Heliocêntrico o Sol fica no centro do Sistema Solar.",
+          B: "No Geocêntrico o Sol fica no centro; no Heliocêntrico a Lua fica no centro.",
+          C: "O Geocêntrico foi criado por Isaac Newton; o Heliocêntrico por Galileu.",
+          D: "Não há diferença entre os dois modelos."
+        },
+        respostaCorreta: "A",
+        explicacao: "Geocêntrico = Terra no centro (Aristóteles). Heliocêntrico = Sol no centro (Aristarco, Copérnico e Galileu)."
+      },
+      {
+        tipo: "texto",
+        topico: "Leis de Kepler",
+        pergunta: "Johannes Kepler no século XVII descobriu que as órbitas dos planetas ao redor do Sol não são círculos perfeitos, mas sim qual formato? (Digite o formato):",
+        respostasAceitas: ["elipse", "elipses", "elipticas", "eliptica", "formato eliptico"],
+        explicacao: "Kepler provou matematicamente que as órbitas planetárias são elipses (círculos levemente achatados)."
+      }
+    ]
+  },
   fracoes: {
     titulo: "Quiz de Matemática: Frações - 6º Ano",
     questoes: [
@@ -446,7 +582,7 @@ let respostasUsuario = {};
 let respostasRespondidas = 0;
 let acertos = 0;
 
-// Função auxiliar para normalizar texto prevenindo erros de digitação e acentos
+// Função de normalização para evitar divergências em caixa, acentos e espaços
 function normalizarTexto(str) {
   return str.toString()
             .toLowerCase()
