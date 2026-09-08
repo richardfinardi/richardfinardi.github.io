@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.3 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.2 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -46,7 +46,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.3</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.2</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -74,7 +74,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.3</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.2</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -101,7 +101,6 @@
             <span>🔒 ESTE PERÍODO ESTÁ MARCADO COMO FECHADO. EDIÇÕES E NOVOS CADASTROS ESTÃO DESABILITADOS.</span>
         </div>
 
-        <!-- NAVEGAÇÃO DE ABAS CLIENTE -->
         <div id="nav-cliente-tabs" class="flex gap-2 border-b border-brand-border pb-2 overflow-x-auto">
             <button id="tab-btn-cfg" onclick="alternarAbaCliente('cfg')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap">Config. Período</button>
             <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Centros de Custo</button>
@@ -112,6 +111,45 @@
             <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Resultados & Análises</button>
         </div>
 
+        <!-- ABA CONFIG PERÍODO -->
+        <section id="section-config-periodo" class="space-y-6">
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
+                    <div>
+                        <h2 class="text-lg md:text-xl font-bold text-white">Parâmetros do Período Ativo</h2>
+                        <p class="text-xs text-brand-muted">Defina as metas financeiras, impostos e custos prediais do período selecionado</p>
+                    </div>
+                    <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                </div>
+
+                <form id="form-cfg-periodo" onsubmit="salvarParametrosPeriodo(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Faturamento Médio Mensal (R$)</label>
+                        <input type="text" id="cfg-faturamento" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Alíquota Média Impostos sobre Vendas (%)</label>
+                        <input type="number" step="0.01" id="cfg-aliquota" placeholder="0,00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Valor Total Prédio Próprio (R$)</label>
+                        <input type="text" id="cfg-predio" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Rentabilidade Objetiva Meta (%)</label>
+                        <input type="number" step="0.01" id="cfg-rentabilidade" placeholder="0,00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Retirada Média Mensal dos Sócios (R$)</label>
+                        <input type="text" id="cfg-retirada" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div class="flex items-end">
+                        <button type="submit" id="btn-salvar-cfg" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Parâmetros</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
         <!-- ABA CENTROS DE CUSTO -->
         <section id="section-centro-custo" class="hidden space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
@@ -120,9 +158,6 @@
                         <h2 class="text-lg md:text-xl font-bold text-white" id="cc-form-title">Cadastrar Centro de Custo</h2>
                         <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
                     </div>
-                    <button onclick="abrirModalGradeLote('TCENTRO_CUSTO')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary border border-brand-primary/50 text-brand-primary hover:text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
-                        <span>⚡ Entrada em Lote (Grade Dedicada)</span>
-                    </button>
                 </div>
 
                 <form id="form-cc" onsubmit="salvarCentroCusto(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -186,117 +221,81 @@
             </div>
         </section>
 
-        <!-- ABA RECURSOS -->
-        <section id="section-recursos" class="hidden space-y-6">
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-2">
-                    <div>
-                        <h2 class="text-lg md:text-xl font-bold text-white" id="rec-form-title">Cadastrar Recurso</h2>
-                        <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+        <!-- ABA RESULTADOS & ANÁLISES -->
+        <section id="section-resultados" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center border-b border-brand-border/50 pb-3">
+                        <div>
+                            <h2 class="text-lg font-bold text-white flex items-center gap-2">📊 DRE Gerencial Industrial</h2>
+                            <p class="text-xs text-brand-muted">💡 Clique na linha de qualquer grupo para ver o detalhamento de contas e valores</p>
+                        </div>
+                        <span class="text-xs font-bold text-brand-primary uppercase" id="dre-period-display">---</span>
                     </div>
-                    <button onclick="abrirModalGradeLote('TRECURSO')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary border border-brand-primary/50 text-brand-primary hover:text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
-                        <span>⚡ Entrada em Lote (Grade Dedicada)</span>
-                    </button>
+                    <div id="container-dre-rows" class="space-y-2.5 text-xs md:text-sm"></div>
                 </div>
 
-                <form id="form-rec" onsubmit="salvarRecurso(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <input type="hidden" id="rec-editing-id" value="">
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Centro de Custo</label>
-                        <select id="rec-cc-id" onchange="verificarSelecaoCCRecurso()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando...</option>
-                        </select>
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4 flex flex-col justify-between">
+                    <div class="border-b border-brand-border/50 pb-2">
+                        <h3 class="text-base font-bold text-white">Composição do Faturamento (DRE)</h3>
+                        <p class="text-xs text-brand-muted">Distribuição percentual do orçamento da DRE</p>
                     </div>
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Nome do Recurso</label>
-                        <input type="text" id="rec-nome" placeholder="EX: TORNO ROMI CENTUR 30V" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    <div class="relative w-full aspect-square flex items-center justify-center p-2">
+                        <canvas id="chart-cc-distribuicao"></canvas>
                     </div>
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Tipo de Recurso</label>
-                        <select id="rec-tipo" onchange="calcularCustoMensalRecurso()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando...</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Valor do Recurso (R$)</label>
-                        <input type="text" id="rec-valor" oninput="calcularCustoMensalRecurso()" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Custo Mensal / Depreciação (R$)</label>
-                        <input type="text" id="rec-custo-mensal" readonly placeholder="Calculado auto..." class="w-full p-2.5 rounded bg-[#0d0d0f]/50 border border-brand-border/50 text-sm text-emerald-400 font-bold outline-none cursor-not-allowed">
-                    </div>
-                    <div id="wrapper-rec-turnos" class="opacity-40 pointer-events-none">
-                        <label class="block text-xs text-brand-muted mb-1">Quantidade de Turnos (Produtivos Diretos)</label>
-                        <input type="number" min="1" step="1" id="rec-turnos" value="1" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-                    <div class="md:col-span-3 flex justify-end gap-2 pt-2">
-                        <button type="button" id="btn-cancelar-rec" onclick="limparFormRec()" class="hidden w-1/3 md:w-32 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
-                        <button type="submit" id="btn-salvar-rec" class="w-full md:w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Recurso</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-base md:text-lg font-bold text-white">Recursos Cadastrados</h3>
-                    <button onclick="carregarRecursos()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
-                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
-                            <tr>
-                                <th class="p-2 md:p-3">Centro Custo</th><th class="p-2 md:p-3">Nome Recurso</th><th class="p-2 md:p-3">Valor (R$)</th><th class="p-2 md:p-3">Tipo</th><th class="p-2 md:p-3">Turnos</th><th class="p-2 md:p-3">Custo Mensal (R$)</th><th class="p-2 md:p-3 text-right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl-rec-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="7" class="p-4 text-center">Carregando...</td></tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- MODAL DE INSERÇÃO EM LOTE COM DROPDOWNS E VALIDAÇÃO EXATA -->
-    <div id="modal-grade-lote" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-6xl w-full p-6 space-y-4 shadow-2xl flex flex-col max-h-[90vh]">
+    <!-- MODAL RAIO-X DO SETOR -->
+    <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
                 <div>
-                    <h3 id="grade-lote-title" class="text-lg font-bold text-white uppercase flex items-center gap-2">⚡ Entradas em Lote na Grade</h3>
-                    <p class="text-xs text-brand-muted">Use as caixas de seleção idênticas ao cadastro manual ou cole dados do Excel (`Ctrl+V`)</p>
+                    <h3 id="modal-dh-title" class="text-lg font-bold text-white uppercase">---</h3>
+                    <p class="text-xs text-brand-muted">Composição Detalhada do Custo e Horas Efetivas do Setor</p>
                 </div>
-                <button onclick="fecharModalGradeLote()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
-            </div>
-
-            <div class="flex justify-between items-center bg-[#0d0d0f] p-2.5 rounded border border-brand-border text-xs">
-                <span id="grade-lote-instrucao" class="text-brand-muted">Linhas ativas: <strong id="grade-rows-count" class="text-white">5</strong></span>
-                <div class="flex gap-2">
-                    <button onclick="colarDoClipboardGrade()" class="bg-brand-border hover:bg-brand-border/80 text-white font-bold px-3 py-1.5 rounded transition">📋 Colar do Clipboard (Ctrl+V)</button>
-                    <button onclick="adicionarLinhaGrade()" class="bg-brand-border hover:bg-brand-border/80 text-white font-bold px-3 py-1.5 rounded transition">+ Adicionar Linha</button>
-                    <button onclick="limparGradeLote()" class="bg-red-950/40 border border-red-800/50 text-red-300 hover:bg-red-900 px-3 py-1.5 rounded transition">Limpar Grade</button>
+                <div class="flex items-center gap-2">
+                    <button onclick="gerarPDFRelatorioSetor()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1 shadow">
+                        <span>📄 Gerar PDF do Setor</span>
+                    </button>
+                    <button onclick="fecharModalDrilldown()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
                 </div>
             </div>
 
-            <div class="flex-1 overflow-auto border border-brand-border rounded-xl bg-[#0d0d0f]">
-                <table class="w-full text-left text-xs text-white border-collapse">
-                    <thead id="grade-lote-thead" class="bg-[#16161a] sticky top-0 uppercase font-bold border-b border-brand-border z-10">
-                        <!-- Gerado dinamicamente -->
-                    </thead>
-                    <tbody id="grade-lote-tbody" class="divide-y divide-brand-border/40">
-                        <!-- Gerado dinamicamente com selects nativos -->
-                    </tbody>
-                </table>
+            <div id="pdf-report-content" class="space-y-4 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm"></div>
+
+            <div class="flex justify-between items-center border-t border-brand-border pt-3">
+                <span class="text-xs text-brand-muted">Custo-Hora Calculado: <strong id="modal-dh-custohora-total" class="text-emerald-400 font-extrabold text-base">R$ 0,00/h</strong></span>
+                <button onclick="fecharModalDrilldown()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DRE DRILLDOWN -->
+    <div id="modal-drilldown-dre" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3">
+                <div>
+                    <h3 id="modal-dre-title" class="text-lg font-bold text-white uppercase">---</h3>
+                    <p class="text-xs text-brand-muted">Composição Detalhada dos Itens da Linha da DRE</p>
+                </div>
+                <button onclick="fecharModalDRE()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
             </div>
 
-            <div class="flex justify-end gap-2 border-t border-brand-border pt-3">
-                <button onclick="fecharModalGradeLote()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Cancelar</button>
-                <button id="btn-salvar-grade-lote" onclick="salvarGradeLoteEmBloco()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2 rounded text-xs transition shadow-lg">🚀 Salvar Tudo em Lote</button>
+            <div id="modal-dre-content" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm"></div>
+
+            <div class="flex justify-between items-center border-t border-brand-border pt-3">
+                <span class="text-xs text-brand-muted">Total Acumulado da Linha: <strong id="modal-dre-total-val" class="text-emerald-400 font-extrabold text-base">R$ 0,00</strong></span>
+                <button onclick="fecharModalDRE()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Fechar</button>
             </div>
         </div>
     </div>
 
     <script>
+        // ENDPOINT DA API GOOGLE APPS SCRIPT
         const API_URL = "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
         let usuarioLogado = null;
@@ -309,7 +308,7 @@
         let listaFuncionarios = [];
         let listaPlanoContas = [];
         let tabelaPadroes = [];
-        let entidadeGradeAtiva = "";
+        let chartCCInstance = null;
 
         function setSyncStatus(isSyncing, msg = "Conectado") {
             const indicator = document.getElementById('sync-indicator');
@@ -328,274 +327,267 @@
             }
         }
 
-        // --- SISTEMA DE GRADE COM DROPDOWNS NATIVOS DAS TABELAS ---
-        function abrirModalGradeLote(entidade) {
-            entidadeGradeAtiva = entidade;
-            const modal = document.getElementById('modal-grade-lote');
-            const thead = document.getElementById('grade-lote-thead');
-            const title = document.getElementById('grade-lote-title');
-            
-            let colsHtml = '';
-            if (entidade === 'TCENTRO_CUSTO') {
-                title.innerText = "⚡ Grade em Lote: Centros de Custo";
-                colsHtml = `<tr>
-                    <th class="p-2 border-r border-brand-border">Nome Centro Custo</th>
-                    <th class="p-2 border-r border-brand-border">Tipo CC</th>
-                    <th class="p-2 border-r border-brand-border">Área (M²)</th>
-                    <th class="p-2 border-r border-brand-border">Custo Fixo Direto (R$)</th>
-                    <th class="p-2 border-r border-brand-border">Produtividade (%)</th>
-                    <th class="p-2 border-r border-brand-border">Tipo Rateio Horas</th>
-                    <th class="p-2 text-center">Cons. Mínimo</th>
-                </tr>`;
-            } else if (entidade === 'TRECURSO') {
-                title.innerText = "⚡ Grade em Lote: Recursos & Máquinas";
-                colsHtml = `<tr>
-                    <th class="p-2 border-r border-brand-border">Centro de Custo</th>
-                    <th class="p-2 border-r border-brand-border">Nome do Recurso</th>
-                    <th class="p-2 border-r border-brand-border">Valor Recurso (R$)</th>
-                    <th class="p-2 border-r border-brand-border">Tipo Recurso</th>
-                    <th class="p-2">Turnos</th>
-                </tr>`;
-            }
-
-            thead.innerHTML = colsHtml;
-            limparGradeLote();
-            modal.classList.remove('hidden');
+        function deslogar() {
+            localStorage.removeItem('usuarioLogadoRF');
+            location.reload();
         }
 
-        function fecharModalGradeLote() {
-            document.getElementById('modal-grade-lote').classList.add('hidden');
+        function formatarMoedaBR(valor) {
+            return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
 
-        function limparGradeLote() {
-            const tbody = document.getElementById('grade-lote-tbody');
-            tbody.innerHTML = '';
-            for (let i = 0; i < 5; i++) adicionarLinhaGrade();
+        function parseMoedaBR(str) {
+            if (typeof str === 'number') return str;
+            if (!str) return 0;
+            let limpo = str.toString().replace(/[^\d,-]/g, '').replace(',', '.');
+            return parseFloat(limpo) || 0;
         }
 
-        function adicionarLinhaGrade() {
-            const tbody = document.getElementById('grade-lote-tbody');
-            const tr = document.createElement('tr');
-            tr.className = "hover:bg-brand-border/20 transition";
-
-            if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
-                tr.innerHTML = `
-                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
-                    <td class="p-1 border-r border-brand-border">
-                        <select class="g-col-1 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
-                            <option value="PRODUTIVO DIRETO">PRODUTIVO DIRETO</option>
-                            <option value="PRODUTIVO INDIRETO">PRODUTIVO INDIRETO</option>
-                            <option value="ADMINISTRATIVO">ADMINISTRATIVO</option>
-                        </select>
-                    </td>
-                    <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="0" class="g-col-2 w-full bg-transparent outline-none p-1 text-right"></td>
-                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
-                    <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="100" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
-                    <td class="p-1 border-r border-brand-border">
-                        <select class="g-col-5 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
-                            <option value="MAQUINA">MAQUINA</option>
-                            <option value="HOMEM">HOMEM</option>
-                        </select>
-                    </td>
-                    <td class="p-1 text-center"><input type="checkbox" class="g-col-6 w-4 h-4 accent-brand-primary cursor-pointer"></td>
-                `;
-            } else if (entidadeGradeAtiva === 'TRECURSO') {
-                let optionsCC = '<option value="">-- SELECIONE CC --</option>';
-                listaCC.forEach(c => optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`);
-
-                let optionsTipoRec = '<option value="">-- TIPO --</option>';
-                tabelaPadroes.forEach(p => {
-                    if(p.TRECURSO_TIPO) optionsTipoRec += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO.toUpperCase()}</option>`;
+        function aplicarMascarasMonetarias() {
+            document.querySelectorAll('.mask-money').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    let v = e.target.value.replace(/\D/g, '');
+                    if(!v) { e.target.value = ''; return; }
+                    v = (parseFloat(v) / 100).toFixed(2);
+                    e.target.value = Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 });
-
-                tr.innerHTML = `
-                    <td class="p-1 border-r border-brand-border">
-                        <select class="g-col-0 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
-                            ${optionsCC}
-                        </select>
-                    </td>
-                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
-                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-2 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
-                    <td class="p-1 border-r border-brand-border">
-                        <select class="g-col-3 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
-                            ${optionsTipoRec}
-                        </select>
-                    </td>
-                    <td class="p-1"><input type="number" value="1" min="1" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
-                `;
-            }
-
-            tbody.appendChild(tr);
-            aplicarMascarasMonetarias();
-            document.getElementById('grade-rows-count').innerText = tbody.children.length;
-        }
-
-        async function colarDoClipboardGrade() {
-            try {
-                const text = await navigator.clipboard.readText();
-                if (!text) return alert("O clipboard está vazio.");
-
-                const linhas = text.split(/\r\n|\n/);
-                if (linhas.length === 0) return;
-
-                const tbody = document.getElementById('grade-lote-tbody');
-                tbody.innerHTML = '';
-
-                linhas.forEach(linhaStr => {
-                    if (!linhaStr.trim()) return;
-                    const cols = linhaStr.split('\t');
-
-                    const tr = document.createElement('tr');
-                    tr.className = "hover:bg-brand-border/20 transition";
-
-                    if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
-                        const valTipo = (cols[1] || 'PRODUTIVO DIRETO').toUpperCase().trim();
-                        const valRateio = (cols[5] || 'MAQUINA').toUpperCase().trim();
-                        const isMin = String(cols[6] || '').toUpperCase().includes('SIM') || cols[6] === '1';
-
-                        tr.innerHTML = `
-                            <td class="p-1 border-r border-brand-border"><input type="text" value="${(cols[0]||'').toUpperCase()}" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
-                            <td class="p-1 border-r border-brand-border">
-                                <select class="g-col-1 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
-                                    <option value="PRODUTIVO DIRETO" ${valTipo === 'PRODUTIVO DIRETO' ? 'selected' : ''}>PRODUTIVO DIRETO</option>
-                                    <option value="PRODUTIVO INDIRETO" ${valTipo === 'PRODUTIVO INDIRETO' ? 'selected' : ''}>PRODUTIVO INDIRETO</option>
-                                    <option value="ADMINISTRATIVO" ${valTipo === 'ADMINISTRATIVO' ? 'selected' : ''}>ADMINISTRATIVO</option>
-                                </select>
-                            </td>
-                            <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="${cols[2]||0}" class="g-col-2 w-full bg-transparent outline-none p-1 text-right"></td>
-                            <td class="p-1 border-r border-brand-border"><input type="text" value="${cols[3]||'0,00'}" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
-                            <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="${cols[4]||100}" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
-                            <td class="p-1 border-r border-brand-border">
-                                <select class="g-col-5 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
-                                    <option value="MAQUINA" ${valRateio === 'MAQUINA' ? 'selected' : ''}>MAQUINA</option>
-                                    <option value="HOMEM" ${valRateio === 'HOMEM' ? 'selected' : ''}>HOMEM</option>
-                                </select>
-                            </td>
-                            <td class="p-1 text-center"><input type="checkbox" ${isMin ? 'checked' : ''} class="g-col-6 w-4 h-4 accent-brand-primary cursor-pointer"></td>
-                        `;
-                    } else if (entidadeGradeAtiva === 'TRECURSO') {
-                        let valCC = (cols[0] || '').toUpperCase().trim();
-                        const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === valCC || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === valCC);
-                        if (ccObj) valCC = ccObj.TCENTRO_CUSTO_ID;
-
-                        let optionsCC = '<option value="">-- SELECIONE CC --</option>';
-                        listaCC.forEach(c => {
-                            optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}" ${String(c.TCENTRO_CUSTO_ID).toUpperCase() === valCC ? 'selected' : ''}>${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`;
-                        });
-
-                        let valTipoRec = (cols[3] || '').toUpperCase().trim();
-                        let optionsTipoRec = '<option value="">-- TIPO --</option>';
-                        tabelaPadroes.forEach(p => {
-                            if(p.TRECURSO_TIPO) {
-                                optionsTipoRec += `<option value="${p.TRECURSO_TIPO}" ${String(p.TRECURSO_TIPO).toUpperCase() === valTipoRec ? 'selected' : ''}>${p.TRECURSO_TIPO.toUpperCase()}</option>`;
-                            }
-                        });
-
-                        tr.innerHTML = `
-                            <td class="p-1 border-r border-brand-border">
-                                <select class="g-col-0 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
-                                    ${optionsCC}
-                                </select>
-                            </td>
-                            <td class="p-1 border-r border-brand-border"><input type="text" value="${(cols[1]||'').toUpperCase()}" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
-                            <td class="p-1 border-r border-brand-border"><input type="text" value="${cols[2]||'0,00'}" class="g-col-2 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
-                            <td class="p-1 border-r border-brand-border">
-                                <select class="g-col-3 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
-                                    ${optionsTipoRec}
-                                </select>
-                            </td>
-                            <td class="p-1"><input type="number" value="${cols[4]||1}" min="1" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
-                        `;
-                    }
-                    tbody.appendChild(tr);
-                });
-
-                aplicarMascarasMonetarias();
-                document.getElementById('grade-rows-count').innerText = tbody.children.length;
-            } catch(e) {
-                alert("Para colar, permita o acesso ao clipboard ou pressione Ctrl+V.");
-            }
-        }
-
-        async function salvarGradeLoteEmBloco() {
-            const tbody = document.getElementById('grade-lote-tbody');
-            const rows = tbody.querySelectorAll('tr');
-            let batchData = [];
-
-            rows.forEach(tr => {
-                if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
-                    const nome = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value.trim().toUpperCase() : '';
-                    if (!nome) return;
-
-                    const tipo = tr.querySelector('.g-col-1').value;
-                    const area = parseFloat(tr.querySelector('.g-col-2').value) || 0;
-                    const fx = parseMoedaBR(tr.querySelector('.g-col-3').value);
-                    const prod = parseFloat(tr.querySelector('.g-col-4').value) || 100;
-                    const rateio = tr.querySelector('.g-col-5').value;
-                    const min = tr.querySelector('.g-col-6').checked ? "SIM" : "NAO";
-
-                    batchData.push([
-                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, "", nome, tipo, min, area, fx, prod, rateio, 0, 0, 0, 0, 0, 0, 0
-                    ]);
-                } else if (entidadeGradeAtiva === 'TRECURSO') {
-                    const ccTarget = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value : '';
-                    const nome = tr.querySelector('.g-col-1') ? tr.querySelector('.g-col-1').value.trim().toUpperCase() : '';
-                    if (!ccTarget || !nome) return;
-
-                    const val = parseMoedaBR(tr.querySelector('.g-col-2').value);
-                    const tipo = tr.querySelector('.g-col-3').value;
-                    const turnos = parseInt(tr.querySelector('.g-col-4').value, 10) || 1;
-                    
-                    let taxaAnual = 0.10;
-                    const pTipo = tabelaPadroes.find(p => String(p.TRECURSO_TIPO).toUpperCase() === String(tipo).toUpperCase());
-                    if (pTipo && pTipo.TRECURSO_TAXA_DEPRECIACAO) taxaAnual = parseFloat(pTipo.TRECURSO_TAXA_DEPRECIACAO) || 0.10;
-                    const custoMensal = val * (taxaAnual / 12);
-
-                    batchData.push([
-                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, val, tipo, custoMensal, turnos
-                    ]);
-                }
             });
+        }
 
-            if (batchData.length === 0) {
-                alert("Nenhuma linha válida preenchida para gravação.");
+        function formatarNomePeriodoLimpo(p) {
+            if (!p) return "";
+            let nomeRaw = String(p.TPERIODO_NOME || "");
+            if (nomeRaw.includes("T") && nomeRaw.includes("Z")) {
+                let d = new Date(nomeRaw);
+                if (!isNaN(d.getTime())) {
+                    nomeRaw = d.getFullYear() + "." + (d.getMonth() < 6 ? "1" : "2");
+                }
+            }
+            return `${nomeRaw.toUpperCase()} [${p.TPERIODO_STATUS ? p.TPERIODO_STATUS.toUpperCase() : 'ABERTO'}]`;
+        }
+
+        function atualizarTagsPeriodoHeader() {
+            const tagStr = periodoAtivoObj ? formatarNomePeriodoLimpo(periodoAtivoObj) : "---";
+            document.querySelectorAll('.display-periodo-tag').forEach(el => el.innerText = tagStr);
+            document.querySelectorAll('.display-empresa-nome').forEach(el => el.innerText = empresaLogadaNome.toUpperCase());
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            aplicarMascarasMonetarias();
+            const savedUser = localStorage.getItem('usuarioLogadoRF');
+            if (savedUser) {
+                try {
+                    usuarioLogado = JSON.parse(savedUser);
+                    buscarNomeEmpresa().then(() => { iniciarSessao(); });
+                } catch(e) { localStorage.removeItem('usuarioLogadoRF'); }
+            }
+        });
+
+        async function fazerLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const pass = document.getElementById('login-password').value.trim();
+            const btn = document.getElementById('btn-login');
+
+            if (!email || !pass) return alert("Por favor, informe e-mail e senha.");
+
+            try {
+                btn.innerText = "Verificando...";
+                btn.disabled = true;
+                setSyncStatus(true);
+
+                const response = await fetch(`${API_URL}?action=TUSUARIO`);
+                const usuarios = await response.json();
+
+                const user = usuarios.find(u => 
+                    String(u.TUSUARIO_EMAIL).toLowerCase() === email.toLowerCase() &&
+                    String(u.TUSUARIO_SENHA) === pass &&
+                    String(u.TUSUARIO_ATIVO).toUpperCase() === 'SIM'
+                );
+
+                if (!user) {
+                    alert("Acesso negado: E-mail/Senha incorretos ou usuário inativo.");
+                    btn.innerText = "Entrar no Sistema";
+                    btn.disabled = false;
+                    setSyncStatus(false, "Erro de Login");
+                    return;
+                }
+
+                usuarioLogado = user;
+                localStorage.setItem('usuarioLogadoRF', JSON.stringify(user));
+                await buscarNomeEmpresa();
+                iniciarSessao();
+
+            } catch (err) {
+                console.error(err);
+                alert("Erro de conexão ao validar o acesso.");
+                btn.innerText = "Entrar no Sistema";
+                btn.disabled = false;
+                setSyncStatus(false, "Erro de Conexão");
+            }
+        }
+
+        async function buscarNomeEmpresa() {
+            try {
+                const res = await fetch(`${API_URL}?action=TCLIENTE`);
+                const clientes = await res.json();
+                const cli = clientes.find(c => String(c.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                if (cli) empresaLogadaNome = cli.TCLIENTE_NOME;
+            } catch (e) { empresaLogadaNome = usuarioLogado.TCLIENTE_ID; }
+        }
+
+        async function iniciarSessao() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            document.getElementById('user-menu').classList.remove('hidden');
+            document.getElementById('wrapper-periodo-global').classList.remove('hidden');
+            document.getElementById('user-display-name').innerText = usuarioLogado.TUSUARIO_NOME;
+
+            await carregarPeriodosDoCliente();
+            carregarTudoDoPeriodo();
+        }
+
+        async function carregarPeriodosDoCliente() {
+            const select = document.getElementById('global-periodo-select');
+            if(select) select.innerHTML = '<option value="">Carregando...</option>';
+
+            try {
+                setSyncStatus(true);
+                const res = await fetch(`${API_URL}?action=TPERIODO`);
+                const data = await res.json();
+
+                listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+
+                if(select) select.innerHTML = '';
+                listaPeriodos.forEach(p => {
+                    const optText = formatarNomePeriodoLimpo(p);
+                    if(select) select.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
+                });
+
+                const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
+                if(select && atual) select.value = atual.TPERIODO_ID;
+                periodoAtivoObj = atual;
+
+                atualizarTagsPeriodoHeader();
+                setSyncStatus(false);
+
+            } catch (e) { 
+                console.error(e);
+                setSyncStatus(false, "Erro API"); 
+            }
+        }
+
+        function trocarPeriodoAtivo() {
+            const id = document.getElementById('global-periodo-select').value;
+            if(!id) return;
+
+            periodoAtivoObj = listaPeriodos.find(p => String(p.TPERIODO_ID) === String(id));
+            if(!periodoAtivoObj) return;
+
+            atualizarTagsPeriodoHeader();
+            carregarTudoDoPeriodo();
+        }
+
+        function carregarTudoDoPeriodo() {
+            carregarCentrosDeCusto();
+        }
+
+        function alternarAbaCliente(aba) {
+            document.getElementById('section-config-periodo').classList.add('hidden');
+            document.getElementById('section-centro-custo').classList.add('hidden');
+            document.getElementById('section-resultados').classList.add('hidden');
+
+            const classInactive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap";
+            const classActive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap";
+
+            document.getElementById('tab-btn-cfg').className = classInactive;
+            document.getElementById('tab-btn-cc').className = classInactive;
+            document.getElementById('tab-btn-res').className = classInactive;
+
+            if (aba === 'cfg') {
+                document.getElementById('section-config-periodo').classList.remove('hidden');
+                document.getElementById('tab-btn-cfg').className = classActive;
+            } else if (aba === 'cc') {
+                document.getElementById('section-centro-custo').classList.remove('hidden');
+                document.getElementById('tab-btn-cc').className = classActive;
+                carregarCentrosDeCusto();
+            } else if (aba === 'res') {
+                document.getElementById('section-resultados').classList.remove('hidden');
+                document.getElementById('tab-btn-res').className = classActive;
+            }
+        }
+
+        async function carregarCentrosDeCusto() {
+            const tbody = document.getElementById('tbl-cc-body');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center">Buscando centros de custo...</td></tr>';
+
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    listaCC = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaCC = [];
+                }
+
+                renderizarTabelaCCLocal();
+                setSyncStatus(false);
+            } catch (e) { 
+                tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; 
+                setSyncStatus(false, "Erro API"); 
+            }
+        }
+
+        function renderizarTabelaCCLocal() {
+            const tbody = document.getElementById('tbl-cc-body');
+            if (!tbody) return;
+
+            if (listaCC.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center">Nenhum centro de custo cadastrado.</td></tr>';
                 return;
             }
 
-            const btn = document.getElementById('btn-salvar-grade-lote');
-            btn.innerText = "Gravando Lote...";
-            btn.disabled = true;
-            setSyncStatus(true, "Gravando lote...");
+            tbody.innerHTML = '';
+            listaCC.forEach(item => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-brand-primary uppercase text-xs font-mono">${item.TCENTRO_CUSTO_ID}</td>
+                        <td class="p-2 md:p-3 font-semibold text-white uppercase">${item.TCENTRO_CUSTO_NOME}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${item.TCENTRO_CUSTO_TIPO}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${item.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-'}</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_QTDE_RECURSOS || 0}</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_AREA || 0}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || item.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_CUSTO_MENSAL)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_PREDIO)}</td>
+                        <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(item.TCENTRO_CUSTO_INDIRETOS)}</td>
+                        <td class="p-2 md:p-3 font-bold text-white">${item.TCENTRO_CUSTO_HORAS || 0}h</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_PRODUTIVIDADE || 100}%</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_MINIMO || 'NAO'}</td>
+                        <td class="p-2 md:p-3 text-right">
+                            <button onclick="editarCentroCusto('${item.TCENTRO_CUSTO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
 
-            const payload = {
-                sheet: entidadeGradeAtiva,
-                action: "CREATE_BATCH",
-                clienteId: usuarioLogado.TCLIENTE_ID,
-                periodoId: periodoAtivoObj.TPERIODO_ID,
-                batchData: batchData
-            };
+        function fecharModalDrilldown() {
+            const modal = document.getElementById('modal-drilldown-custohora');
+            if (modal) modal.classList.add('hidden');
+        }
 
-            try {
-                await fetch(API_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+        function fecharModalDRE() {
+            const modal = document.getElementById('modal-drilldown-dre');
+            if (modal) modal.classList.add('hidden');
+        }
 
-                alert(`🎉 Sucesso! ${batchData.length} registros gravados com todas as regras e recalculados!`);
-                fecharModalGradeLote();
-                setSyncStatus(false);
-
-                if (entidadeGradeAtiva === 'TCENTRO_CUSTO') setTimeout(carregarCentrosDeCusto, 1500);
-                else if (entidadeGradeAtiva === 'TRECURSO') setTimeout(carregarRecursos, 1500);
-
-            } catch(e) {
-                alert("Erro ao enviar o lote de dados.");
-                btn.innerText = "🚀 Salvar Tudo em Lote";
-                btn.disabled = false;
-                setSyncStatus(false, "Erro ao gravar lote");
-            }
+        function gerarPDFRelatorioSetor() {
+            window.print();
         }
     </script>
 </body>
