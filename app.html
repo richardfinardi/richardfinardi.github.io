@@ -101,9 +101,14 @@
             <span>🔒 ESTE PERÍODO ESTÁ MARCADO COMO FECHADO. EDIÇÕES E NOVOS CADASTROS ESTÃO DESABILITADOS.</span>
         </div>
 
+        <!-- TODAS AS ABAS RESTAURADAS -->
         <div id="nav-cliente-tabs" class="flex gap-2 border-b border-brand-border pb-2 overflow-x-auto">
             <button id="tab-btn-cfg" onclick="alternarAbaCliente('cfg')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap">Config. Período</button>
             <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Centros de Custo</button>
+            <button id="tab-btn-rec" onclick="alternarAbaCliente('rec')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Recursos</button>
+            <button id="tab-btn-ben" onclick="alternarAbaCliente('ben')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Benefícios</button>
+            <button id="tab-btn-func" onclick="alternarAbaCliente('func')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Funcionários</button>
+            <button id="tab-btn-plc" onclick="alternarAbaCliente('plc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Plano de Contas</button>
             <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Resultados & Análises</button>
         </div>
 
@@ -200,6 +205,38 @@
             </div>
         </section>
 
+        <!-- ABA RECURSOS -->
+        <section id="section-recursos" class="hidden space-y-6">
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <h2 class="text-lg md:text-xl font-bold text-white">Recursos e Equipamentos</h2>
+                <p class="text-xs text-brand-muted">Gestão de máquinas, ferramentas e ativos alocados</p>
+            </div>
+        </section>
+
+        <!-- ABA BENEFÍCIOS -->
+        <section id="section-beneficios" class="hidden space-y-6">
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <h2 class="text-lg md:text-xl font-bold text-white">Benefícios de Funcionários</h2>
+                <p class="text-xs text-brand-muted">Cadastro de VTs, VRs, Planos de Saúde e adicionais</p>
+            </div>
+        </section>
+
+        <!-- ABA FUNCIONÁRIOS -->
+        <section id="section-funcionarios" class="hidden space-y-6">
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <h2 class="text-lg md:text-xl font-bold text-white">Quadro de Funcionários</h2>
+                <p class="text-xs text-brand-muted">Salários, encargos e rateios de equipe</p>
+            </div>
+        </section>
+
+        <!-- ABA PLANO DE CONTAS -->
+        <section id="section-plano-contas" class="hidden space-y-6">
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <h2 class="text-lg md:text-xl font-bold text-white">Plano de Contas Industrial</h2>
+                <p class="text-xs text-brand-muted">Estruturação de despesas e custos operacionais</p>
+            </div>
+        </section>
+
         <!-- ABA RESULTADOS & ANÁLISES -->
         <section id="section-resultados" class="hidden space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -228,7 +265,7 @@
 
     </main>
 
-    <!-- MODAL DRILLDOWN -->
+    <!-- MODAL RAIO-X DO SETOR -->
     <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
@@ -248,8 +285,28 @@
         </div>
     </div>
 
+    <!-- MODAL DRE DRILLDOWN -->
+    <div id="modal-drilldown-dre" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3">
+                <div>
+                    <h3 id="modal-dre-title" class="text-lg font-bold text-white uppercase">---</h3>
+                    <p class="text-xs text-brand-muted">Composição Detalhada dos Itens da Linha da DRE</p>
+                </div>
+                <button onclick="fecharModalDRE()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
+            </div>
+
+            <div id="modal-dre-content" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm"></div>
+
+            <div class="flex justify-between items-center border-t border-brand-border pt-3">
+                <span class="text-xs text-brand-muted">Total Acumulado da Linha: <strong id="modal-dre-total-val" class="text-emerald-400 font-extrabold text-base">R$ 0,00</strong></span>
+                <button onclick="fecharModalDRE()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Fechar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // COLE SUA URL ATUALIZADA DO APPS SCRIPT ABAIXO:
+        // COLE SUA URL NOVA DO APPS SCRIPT ABAIXO
         const API_URL = "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
         let usuarioLogado = null;
@@ -432,6 +489,10 @@
         function alternarAbaCliente(aba) {
             document.getElementById('section-config-periodo').classList.add('hidden');
             document.getElementById('section-centro-custo').classList.add('hidden');
+            document.getElementById('section-recursos').classList.add('hidden');
+            document.getElementById('section-beneficios').classList.add('hidden');
+            document.getElementById('section-funcionarios').classList.add('hidden');
+            document.getElementById('section-plano-contas').classList.add('hidden');
             document.getElementById('section-resultados').classList.add('hidden');
 
             const classInactive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap";
@@ -439,6 +500,10 @@
 
             document.getElementById('tab-btn-cfg').className = classInactive;
             document.getElementById('tab-btn-cc').className = classInactive;
+            document.getElementById('tab-btn-rec').className = classInactive;
+            document.getElementById('tab-btn-ben').className = classInactive;
+            document.getElementById('tab-btn-func').className = classInactive;
+            document.getElementById('tab-btn-plc').className = classInactive;
             document.getElementById('tab-btn-res').className = classInactive;
 
             if (aba === 'cfg') {
@@ -448,6 +513,18 @@
                 document.getElementById('section-centro-custo').classList.remove('hidden');
                 document.getElementById('tab-btn-cc').className = classActive;
                 carregarCentrosDeCusto();
+            } else if (aba === 'rec') {
+                document.getElementById('section-recursos').classList.remove('hidden');
+                document.getElementById('tab-btn-rec').className = classActive;
+            } else if (aba === 'ben') {
+                document.getElementById('section-beneficios').classList.remove('hidden');
+                document.getElementById('tab-btn-ben').className = classActive;
+            } else if (aba === 'func') {
+                document.getElementById('section-funcionarios').classList.remove('hidden');
+                document.getElementById('tab-btn-func').className = classActive;
+            } else if (aba === 'plc') {
+                document.getElementById('section-plano-contas').classList.remove('hidden');
+                document.getElementById('tab-btn-plc').className = classActive;
             } else if (aba === 'res') {
                 document.getElementById('section-resultados').classList.remove('hidden');
                 document.getElementById('tab-btn-res').className = classActive;
