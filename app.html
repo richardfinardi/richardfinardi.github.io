@@ -111,92 +111,7 @@
             <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Resultados & Análises</button>
         </div>
 
-        <!-- SECTION GERENCIAMENTO ADMIN -->
-        <section id="section-admin" class="hidden space-y-6">
-            <div class="border-b border-brand-border pb-4 flex justify-between items-center">
-                <div>
-                    <h1 class="text-xl md:text-2xl font-bold text-white">Gerenciamento do Sistema</h1>
-                    <p class="text-xs text-brand-muted">Cadastre empresas parceiras, bloqueie acessos e gerencie usuários</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <h2 class="text-base md:text-lg font-bold text-white border-b border-brand-border/50 pb-2">1. Cadastrar Cliente (Empresa)</h2>
-                    <form id="form-cliente" onsubmit="cadastrarCliente(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">Nome / Razão Social</label>
-                            <input type="text" id="cli-nome" placeholder="Empresa X Ltda" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">CNPJ</label>
-                            <input type="text" id="cli-cnpj" placeholder="00.000.000/0001-00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                        </div>
-                        <button type="submit" id="btn-salvar-cli" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded text-sm transition mt-2">Salvar Cliente</button>
-                    </form>
-                </div>
-
-                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <h2 class="text-base md:text-lg font-bold text-white border-b border-brand-border/50 pb-2">2. Cadastrar Usuário</h2>
-                    <form id="form-usuario" onsubmit="cadastrarUsuario(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">Vincular ao Cliente</label>
-                            <select id="usr-cli-id" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                                <option value="">Carregando...</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">É Administrador?</label>
-                            <select id="usr-adm" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                                <option value="NAO">NÃO</option>
-                                <option value="SIM">SIM</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">Nome Completo</label>
-                            <input type="text" id="usr-nome" placeholder="João Silva" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">E-mail de Acesso</label>
-                            <input type="email" id="usr-email" placeholder="joao@empresa.com" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs text-brand-muted mb-1">Celular</label>
-                                <input type="text" id="usr-celular" placeholder="(11) 99999-9999" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-brand-muted mb-1">Senha</label>
-                                <input type="password" id="usr-senha" placeholder="••••••••" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            </div>
-                        </div>
-                        <button type="submit" id="btn-salvar-usr" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition mt-2">Salvar Usuário</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <h2 class="text-base md:text-lg font-bold text-white border-b border-brand-border/50 pb-2">3. Clientes Cadastrados & Status de Acesso</h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
-                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
-                            <tr>
-                                <th class="p-2 md:p-3">ID</th>
-                                <th class="p-2 md:p-3">Razão Social / Nome</th>
-                                <th class="p-2 md:p-3">CNPJ</th>
-                                <th class="p-2 md:p-3">Status Acesso</th>
-                                <th class="p-2 md:p-3 text-right">Ação Bloqueio</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl-admin-clientes-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="5" class="p-4 text-center">Carregando clientes...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- ABA 0: CONFIG. PERÍODO -->
+        <!-- ABA CONFIG PERÍODO -->
         <section id="section-config-periodo" class="space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
@@ -212,99 +127,30 @@
                         <label class="block text-xs text-brand-muted mb-1">Faturamento Médio Mensal (R$)</label>
                         <input type="text" id="cfg-faturamento" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Alíquota Média Impostos sobre Vendas (%)</label>
                         <input type="number" step="0.01" id="cfg-aliquota" placeholder="0,00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Valor Total Prédio Próprio (R$)</label>
                         <input type="text" id="cfg-predio" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Rentabilidade Objetiva Meta (%)</label>
                         <input type="number" step="0.01" id="cfg-rentabilidade" placeholder="0,00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Retirada Média Mensal dos Sócios (R$)</label>
                         <input type="text" id="cfg-retirada" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div class="flex items-end">
                         <button type="submit" id="btn-salvar-cfg" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Parâmetros</button>
                     </div>
                 </form>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <h3 class="text-base font-bold text-white border-b border-brand-border/50 pb-2" id="inv-form-title">Cadastrar Investimento</h3>
-                    <form id="form-inv" onsubmit="salvarInvestimento(event)" class="space-y-3">
-                        <input type="hidden" id="inv-editing-id" value="">
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">Nome / Descrição Investimento</label>
-                            <input type="text" id="inv-nome" placeholder="EX: REFORMA PREDIAL" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">Valor do Investimento (R$)</label>
-                            <input type="text" id="inv-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                        </div>
-                        <div class="flex gap-2 pt-1">
-                            <button type="button" id="btn-cancelar-inv" onclick="limparFormInv()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-xs transition">Cancelar</button>
-                            <button type="submit" id="btn-salvar-inv" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-xs transition">Salvar Investimento</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <h3 class="text-base font-bold text-white border-b border-brand-border/50 pb-2">Investimentos Previstos no Período</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs md:text-sm text-brand-muted">
-                            <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
-                                <tr>
-                                    <th class="p-2 md:p-3">Descrição Investimento</th>
-                                    <th class="p-2 md:p-3">Valor (R$)</th>
-                                    <th class="p-2 md:p-3 text-right">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbl-inv-body" class="divide-y divide-brand-border/50">
-                                <tr><td colspan="3" class="p-4 text-center">Carregando investimentos...</td></tr>
-                            </tbody>
-                            <tfoot id="tbl-inv-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex justify-between items-center border-b border-brand-border/50 pb-2">
-                    <h3 class="text-base font-bold text-white">Histórico de Períodos da Empresa</h3>
-                    <button onclick="modalCriarNovoPeriodo()" class="text-xs bg-brand-primary hover:bg-brand-hover text-white px-3 py-1.5 rounded font-bold transition">+ Criar / Duplicar Período</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
-                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
-                            <tr>
-                                <th class="p-2 md:p-3">ID</th>
-                                <th class="p-2 md:p-3">Nome Período</th>
-                                <th class="p-2 md:p-3">Status</th>
-                                <th class="p-2 md:p-3">Faturamento Média (R$)</th>
-                                <th class="p-2 md:p-3">Prédio Próprio (R$)</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl-periodos-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="6" class="p-4 text-center">Carregando períodos...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </section>
 
-        <!-- ABA 1: CENTRO DE CUSTOS -->
+        <!-- ABA 1: CENTROS DE CUSTO -->
         <section id="section-centro-custo" class="hidden space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-2">
@@ -312,50 +158,45 @@
                         <h2 class="text-lg md:text-xl font-bold text-white" id="cc-form-title">Cadastrar Centro de Custo</h2>
                         <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
                     </div>
+                    <button onclick="abrirModalGradeLote('TCENTRO_CUSTO')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary border border-brand-primary/50 text-brand-primary hover:text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
+                        <span>⚡ Entrada em Lote (Grade Dedicada)</span>
+                    </button>
                 </div>
 
                 <form id="form-cc" onsubmit="salvarCentroCusto(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input type="hidden" id="cc-editing-id" value="">
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Nome Centro de Custo</label>
                         <input type="text" id="cc-nome" placeholder="EX: TORNO CNC" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Tipo Centro de Custo</label>
                         <select id="cc-tipo" onchange="verificarTipoCentroCusto()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                             <option value="">Carregando opções...</option>
                         </select>
                     </div>
-
                     <div id="wrapper-cc-tipo-rateio">
                         <label class="block text-xs text-brand-muted mb-1">Tipo Rateio de Horas</label>
                         <select id="cc-tipo-rateio" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                             <option value="">Carregando opções...</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Área (M²)</label>
                         <input type="number" step="0.01" id="cc-area" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div id="wrapper-cc-custo-fixo">
                         <label class="block text-xs text-brand-muted mb-1">Custo Fixo Direto (R$)</label>
                         <input type="text" id="cc-custo-fixo" placeholder="0,00" class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div id="wrapper-cc-produtividade">
                         <label class="block text-xs text-brand-muted mb-1">Produtividade (%)</label>
                         <input type="number" step="0.01" id="cc-produtividade" placeholder="100.00" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div class="md:col-span-2 flex items-center gap-2 pt-2">
                         <input type="checkbox" id="cc-considerar-minimo" class="w-4 h-4 accent-brand-primary bg-[#0d0d0f] border-brand-border rounded cursor-pointer">
                         <label for="cc-considerar-minimo" class="text-xs md:text-sm text-white cursor-pointer">Considerar Mínimo (Check = SIM)</label>
                     </div>
-
                     <div class="flex gap-2 pt-2">
                         <button type="button" id="btn-cancelar-cc" onclick="limparFormCC()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
                         <button type="submit" id="btn-salvar-cc" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Centro de Custo</button>
@@ -368,33 +209,16 @@
                     <h3 class="text-base md:text-lg font-bold text-white">Centros de Custos Cadastrados</h3>
                     <button onclick="carregarCentrosDeCusto()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">ID</th>
-                                <th class="p-2 md:p-3">Nome</th>
-                                <th class="p-2 md:p-3">Tipo</th>
-                                <th class="p-2 md:p-3">Tipo Rateio</th>
-                                <th class="p-2 md:p-3">Qtd Rec.</th>
-                                <th class="p-2 md:p-3">Área (M²)</th>
-                                <th class="p-2 md:p-3">Custo Fixo (R$)</th>
-                                <th class="p-2 md:p-3">Depreciação (R$)</th>
-                                <th class="p-2 md:p-3">Custo Func. (R$)</th>
-                                <th class="p-2 md:p-3">Plano Contas (R$)</th>
-                                <th class="p-2 md:p-3">Prédio (R$)</th>
-                                <th class="p-2 md:p-3">Indiretos (R$)</th>
-                                <th class="p-2 md:p-3">Horas Final</th>
-                                <th class="p-2 md:p-3">Prod. (%)</th>
-                                <th class="p-2 md:p-3">Cons. Min.</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
+                                <th class="p-2 md:p-3">ID</th><th class="p-2 md:p-3">Nome</th><th class="p-2 md:p-3">Tipo</th><th class="p-2 md:p-3">Tipo Rateio</th><th class="p-2 md:p-3">Qtd Rec.</th><th class="p-2 md:p-3">Área (M²)</th><th class="p-2 md:p-3">Custo Fixo (R$)</th><th class="p-2 md:p-3">Depreciação (R$)</th><th class="p-2 md:p-3">Custo Func. (R$)</th><th class="p-2 md:p-3">Plano Contas (R$)</th><th class="p-2 md:p-3">Prédio (R$)</th><th class="p-2 md:p-3">Indiretos (R$)</th><th class="p-2 md:p-3">Horas Final</th><th class="p-2 md:p-3">Prod. (%)</th><th class="p-2 md:p-3">Cons. Min.</th><th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
                             <tr><td colspan="16" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
-                        <tfoot id="tbl-cc-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
                 </div>
             </div>
@@ -403,48 +227,46 @@
         <!-- ABA 2: RECURSOS -->
         <section id="section-recursos" class="hidden space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
-                    <h2 class="text-lg md:text-xl font-bold text-white" id="rec-form-title">Cadastrar Recurso</h2>
-                    <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-2">
+                    <div>
+                        <h2 class="text-lg md:text-xl font-bold text-white" id="rec-form-title">Cadastrar Recurso</h2>
+                        <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                    </div>
+                    <button onclick="abrirModalGradeLote('TRECURSO')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary border border-brand-primary/50 text-brand-primary hover:text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
+                        <span>⚡ Entrada em Lote (Grade Dedicada)</span>
+                    </button>
                 </div>
 
                 <form id="form-rec" onsubmit="salvarRecurso(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input type="hidden" id="rec-editing-id" value="">
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Centro de Custo</label>
                         <select id="rec-cc-id" onchange="verificarSelecaoCCRecurso()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                             <option value="">Carregando...</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Nome do Recurso</label>
                         <input type="text" id="rec-nome" placeholder="EX: TORNO ROMI CENTUR 30V" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Tipo de Recurso</label>
                         <select id="rec-tipo" onchange="calcularCustoMensalRecurso()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                             <option value="">Carregando...</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Valor do Recurso (R$)</label>
                         <input type="text" id="rec-valor" oninput="calcularCustoMensalRecurso()" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Custo Mensal / Depreciação (R$)</label>
                         <input type="text" id="rec-custo-mensal" readonly placeholder="Calculado auto..." class="w-full p-2.5 rounded bg-[#0d0d0f]/50 border border-brand-border/50 text-sm text-emerald-400 font-bold outline-none cursor-not-allowed">
                     </div>
-
                     <div id="wrapper-rec-turnos" class="opacity-40 pointer-events-none">
                         <label class="block text-xs text-brand-muted mb-1">Quantidade de Turnos (Produtivos Diretos)</label>
                         <input type="number" min="1" step="1" id="rec-turnos" value="1" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div class="md:col-span-3 flex justify-end gap-2 pt-2">
                         <button type="button" id="btn-cancelar-rec" onclick="limparFormRec()" class="hidden w-1/3 md:w-32 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
                         <button type="submit" id="btn-salvar-rec" class="w-full md:w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Recurso</button>
@@ -457,24 +279,16 @@
                     <h3 class="text-base md:text-lg font-bold text-white">Recursos Cadastrados</h3>
                     <button onclick="carregarRecursos()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Centro Custo</th>
-                                <th class="p-2 md:p-3">Nome Recurso</th>
-                                <th class="p-2 md:p-3">Valor (R$)</th>
-                                <th class="p-2 md:p-3">Tipo</th>
-                                <th class="p-2 md:p-3">Turnos</th>
-                                <th class="p-2 md:p-3">Custo Mensal (R$)</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
+                                <th class="p-2 md:p-3">Centro Custo</th><th class="p-2 md:p-3">Nome Recurso</th><th class="p-2 md:p-3">Valor (R$)</th><th class="p-2 md:p-3">Tipo</th><th class="p-2 md:p-3">Turnos</th><th class="p-2 md:p-3">Custo Mensal (R$)</th><th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-rec-body" class="divide-y divide-brand-border/50">
                             <tr><td colspan="7" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
-                        <tfoot id="tbl-rec-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
                 </div>
             </div>
@@ -490,17 +304,14 @@
 
                 <form id="form-ben" onsubmit="salvarBeneficio(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input type="hidden" id="ben-editing-id" value="">
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Descrição do Benefício</label>
                         <input type="text" id="ben-nome" placeholder="EX: VALE REFEIÇÃO" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Valor Mensal por Funcionário (R$)</label>
                         <input type="text" id="ben-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-
                     <div class="md:col-span-1 flex items-end">
                         <div class="flex gap-2 w-full">
                             <button type="button" id="btn-cancelar-ben" onclick="limparFormBen()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
@@ -515,20 +326,16 @@
                     <h3 class="text-base md:text-lg font-bold text-white">Benefícios Cadastrados</h3>
                     <button onclick="carregarBeneficios()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Descrição Benefício</th>
-                                <th class="p-2 md:p-3">Valor Mensal (R$)</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
+                                <th class="p-2 md:p-3">Descrição Benefício</th><th class="p-2 md:p-3">Valor Mensal (R$)</th><th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-ben-body" class="divide-y divide-brand-border/50">
                             <tr><td colspan="3" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
-                        <tfoot id="tbl-ben-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
                 </div>
             </div>
@@ -537,9 +344,14 @@
         <!-- ABA 4: FUNCIONÁRIOS -->
         <section id="section-funcionarios" class="hidden space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
-                    <h2 class="text-lg md:text-xl font-bold text-white" id="func-form-title">Cadastrar Funcionário</h2>
-                    <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-2">
+                    <div>
+                        <h2 class="text-lg md:text-xl font-bold text-white" id="func-form-title">Cadastrar Funcionário</h2>
+                        <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                    </div>
+                    <button onclick="abrirModalGradeLote('TFUNCIONARIO')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary border border-brand-primary/50 text-brand-primary hover:text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
+                        <span>⚡ Entrada em Lote (Grade Dedicada)</span>
+                    </button>
                 </div>
 
                 <form id="form-func" onsubmit="salvarFuncionario(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -560,9 +372,7 @@
 
                         <div id="wrapper-func-cc-rateio" class="hidden space-y-2 bg-[#0d0d0f] p-3 rounded border border-brand-border">
                             <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%):</label>
-                            <div id="container-rateio-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
-                                <!-- Preenchido dinamicamente via JS -->
-                            </div>
+                            <div id="container-rateio-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
                             <div class="flex justify-between items-center text-xs font-bold pt-1 border-t border-brand-border/50">
                                 <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct" class="text-white">0%</strong></span>
                                 <span class="text-brand-muted">Sobra de Custo Não Rateado: <strong id="display-sobra-custo" class="text-emerald-400">R$ 0,00</strong></span>
@@ -629,25 +439,16 @@
                     <h3 class="text-base md:text-lg font-bold text-white">Funcionários Cadastrados</h3>
                     <button onclick="carregarFuncionarios()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Centro(s) Custo</th>
-                                <th class="p-2 md:p-3">Nome</th>
-                                <th class="p-2 md:p-3">Horas</th>
-                                <th class="p-2 md:p-3">Salário Base (R$)</th>
-                                <th class="p-2 md:p-3">Benefícios (R$)</th>
-                                <th class="p-2 md:p-3">Custo Mensal (R$)</th>
-                                <th class="p-2 md:p-3">Rateio?</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
+                                <th class="p-2 md:p-3">Centro(s) Custo</th><th class="p-2 md:p-3">Nome</th><th class="p-2 md:p-3">Horas</th><th class="p-2 md:p-3">Salário Base (R$)</th><th class="p-2 md:p-3">Benefícios (R$)</th><th class="p-2 md:p-3">Custo Mensal (R$)</th><th class="p-2 md:p-3">Rateio?</th><th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-func-body" class="divide-y divide-brand-border/50">
                             <tr><td colspan="8" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
-                        <tfoot id="tbl-func-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
                 </div>
             </div>
@@ -661,9 +462,14 @@
                         <h2 class="text-lg md:text-xl font-bold text-white" id="plc-form-title">Cadastrar Conta no Plano de Contas</h2>
                         <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
                     </div>
-                    <button onclick="abrirModalImportarPlano()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
-                        <span>📥 Importar Planilha (CSV)</span>
-                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="abrirModalGradeLote('TPLANO_CONTAS')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary border border-brand-primary/50 text-brand-primary hover:text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
+                            <span>⚡ Entrada em Lote (Grade Dedicada)</span>
+                        </button>
+                        <button onclick="abrirModalImportarPlano()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
+                            <span>📥 Importar Planilha (CSV)</span>
+                        </button>
+                    </div>
                 </div>
 
                 <form id="form-plc" onsubmit="salvarPlanoConta(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -683,9 +489,7 @@
                                     <button type="button" onclick="zerarPercentuaisPlanoCC()" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white">Zerar</button>
                                 </div>
                             </div>
-                            <div id="container-rateio-plc-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
-                                <!-- Preenchido dinamicamente via JS -->
-                            </div>
+                            <div id="container-rateio-plc-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
                             <div class="flex justify-between items-center text-xs font-bold pt-2 border-t border-brand-border/50">
                                 <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct-plc" class="text-red-400 text-sm">0%</strong></span>
                                 <span id="display-status-validacao-plc" class="text-red-400 font-extrabold">⚠️ A SOMA DEVE SER IGUAL A 100.0%</span>
@@ -738,22 +542,16 @@
                     <h3 class="text-base md:text-lg font-bold text-white">Contas Cadastradas</h3>
                     <button onclick="carregarPlanoContas()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Descrição da Conta</th>
-                                <th class="p-2 md:p-3">Critério Rateio / Destino</th>
-                                <th class="p-2 md:p-3">Participantes / Destino</th>
-                                <th class="p-2 md:p-3">Valor Mensal (R$)</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
+                                <th class="p-2 md:p-3">Descrição da Conta</th><th class="p-2 md:p-3">Critério Rateio / Destino</th><th class="p-2 md:p-3">Participantes / Destino</th><th class="p-2 md:p-3">Valor Mensal (R$)</th><th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-plc-body" class="divide-y divide-brand-border/50">
                             <tr><td colspan="5" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
-                        <tfoot id="tbl-plc-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
                 </div>
             </div>
@@ -761,7 +559,6 @@
 
         <!-- ABA 6: RESULTADOS & ANÁLISES -->
         <section id="section-resultados" class="hidden space-y-6">
-            
             <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-bold text-white uppercase">🔍 Comparar Períodos:</span>
@@ -778,25 +575,21 @@
                     <h3 id="res-card-investimento-total" class="text-lg md:text-xl font-extrabold text-white">R$ 0,00</h3>
                     <p class="text-[10px] text-brand-muted">Prédio + Máquinas + Período</p>
                 </div>
-
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Ponto de Equilíbrio</span>
                     <h3 id="res-card-ponto-equilibrio" class="text-lg md:text-xl font-extrabold text-brand-primary">R$ 0,00</h3>
                     <p class="text-[10px] text-brand-muted">Gastos + Perdas + Meta Rent.</p>
                 </div>
-
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Despesas Fixas / Fat.</span>
                     <h3 id="res-card-pct-despesa-fixa" class="text-lg md:text-xl font-extrabold text-amber-400">0,0%</h3>
                     <p class="text-[10px] text-brand-muted">Peso do Admin/Sócios no Fat.</p>
                 </div>
-
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Rentabilidade Atual</span>
                     <h3 id="res-card-rentabilidade-atual" class="text-lg md:text-xl font-extrabold text-emerald-400">0,0% a.m.</h3>
                     <p class="text-[10px] text-brand-muted">Lucro / Investimento Total</p>
                 </div>
-
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Payback Estimado</span>
                     <h3 id="res-card-payback" class="text-lg md:text-xl font-extrabold text-blue-400">0 meses</h3>
@@ -808,16 +601,12 @@
                 <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <div class="flex justify-between items-center border-b border-brand-border/50 pb-3">
                         <div>
-                            <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                                📊 DRE Gerencial Industrial
-                            </h2>
+                            <h2 class="text-lg font-bold text-white flex items-center gap-2">📊 DRE Gerencial Industrial</h2>
                             <p class="text-xs text-brand-muted">💡 Clique na linha de qualquer grupo para ver o detalhamento de contas e valores</p>
                         </div>
                         <span class="text-xs font-bold text-brand-primary uppercase" id="dre-period-display">---</span>
                     </div>
-
-                    <div id="container-dre-rows" class="space-y-2.5 text-xs md:text-sm">
-                    </div>
+                    <div id="container-dre-rows" class="space-y-2.5 text-xs md:text-sm"></div>
                 </div>
 
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4 flex flex-col justify-between">
@@ -825,7 +614,6 @@
                         <h3 class="text-base font-bold text-white">Composição do Faturamento (DRE)</h3>
                         <p class="text-xs text-brand-muted">Distribuição percentual do orçamento da DRE</p>
                     </div>
-
                     <div class="relative w-full aspect-square flex items-center justify-center p-2">
                         <canvas id="chart-cc-distribuicao"></canvas>
                     </div>
@@ -839,7 +627,6 @@
                         <p class="text-xs text-brand-muted">💡 Clique na linha de qualquer setor para ver a composição detalhada do Custo-Hora e Horas Efetivas</p>
                     </div>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
@@ -890,7 +677,45 @@
 
     </main>
 
-    <!-- MODAL DE IMPORTAÇÃO DE PLANO DE CONTAS POR CSV/EXCEL -->
+    <!-- MODAL DE INSERÇÃO EM LOTE COM DROPDOWNS DEDICADOS PARA AS 4 ABAS -->
+    <div id="modal-grade-lote" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-6xl w-full p-6 space-y-4 shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3">
+                <div>
+                    <h3 id="grade-lote-title" class="text-lg font-bold text-white uppercase flex items-center gap-2">⚡ Entradas em Lote na Grade</h3>
+                    <p class="text-xs text-brand-muted">Use as caixas de seleção idênticas ao cadastro manual ou cole dados do Excel (`Ctrl+V`)</p>
+                </div>
+                <button onclick="fecharModalGradeLote()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
+            </div>
+
+            <div class="flex justify-between items-center bg-[#0d0d0f] p-2.5 rounded border border-brand-border text-xs">
+                <span id="grade-lote-instrucao" class="text-brand-muted">Linhas ativas: <strong id="grade-rows-count" class="text-white">5</strong></span>
+                <div class="flex gap-2">
+                    <button onclick="colarDoClipboardGrade()" class="bg-brand-border hover:bg-brand-border/80 text-white font-bold px-3 py-1.5 rounded transition">📋 Colar do Clipboard (Ctrl+V)</button>
+                    <button onclick="adicionarLinhaGrade()" class="bg-brand-border hover:bg-brand-border/80 text-white font-bold px-3 py-1.5 rounded transition">+ Adicionar Linha</button>
+                    <button onclick="limparGradeLote()" class="bg-red-950/40 border border-red-800/50 text-red-300 hover:bg-red-900 px-3 py-1.5 rounded transition">Limpar Grade</button>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-auto border border-brand-border rounded-xl bg-[#0d0d0f]">
+                <table class="w-full text-left text-xs text-white border-collapse">
+                    <thead id="grade-lote-thead" class="bg-[#16161a] sticky top-0 uppercase font-bold border-b border-brand-border z-10">
+                        <!-- Gerado dinamicamente via JS -->
+                    </thead>
+                    <tbody id="grade-lote-tbody" class="divide-y divide-brand-border/40">
+                        <!-- Gerado dinamicamente via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-end gap-2 border-t border-brand-border pt-3">
+                <button onclick="fecharModalGradeLote()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Cancelar</button>
+                <button id="btn-salvar-grade-lote" onclick="salvarGradeLoteEmBloco()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2 rounded text-xs transition shadow-lg">🚀 Salvar Tudo em Lote</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL IMPORTAR CSV PLANO DE CONTAS -->
     <div id="modal-importar-plano" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-border rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
@@ -900,22 +725,6 @@
                 </div>
                 <button onclick="fecharModalImportarPlano()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
             </div>
-
-            <div class="space-y-3 text-xs text-brand-muted">
-                <p>O arquivo CSV deve conter o cabeçalho na primeira linha com as colunas:</p>
-                <div class="bg-[#0d0d0f] p-2.5 rounded font-mono text-[11px] border border-brand-border text-emerald-400">
-                    NOME; CRITERIO; VALOR; CENTRO_CUSTO_ID
-                </div>
-                <ul class="list-disc pl-4 space-y-1">
-                    <li><strong>CRITERIO:</strong> EXCLUSIVO, AREA, RECURSOS, HORAS, etc.</li>
-                    <li><strong>VALOR:</strong> Valor numérico (ex: 1200.00)</li>
-                    <li><strong>CENTRO_CUSTO_ID:</strong> Nome ou ID do Centro de Custo (opcional para rateios globais)</li>
-                </ul>
-                <div class="pt-1">
-                    <button onclick="baixarModeloCSVPlano()" class="text-brand-primary underline hover:text-brand-hover text-xs font-bold">📥 Baixar Planilha Modelo (.CSV)</button>
-                </div>
-            </div>
-
             <div class="border-2 border-dashed border-brand-border p-6 rounded-xl text-center space-y-2 bg-[#0d0d0f]">
                 <input type="file" id="csv-file-input" accept=".csv" class="hidden" onchange="processarArquivoCSV(event)">
                 <label for="csv-file-input" class="cursor-pointer bg-brand-border hover:bg-brand-border/80 text-white font-bold px-4 py-2 rounded-lg text-xs inline-block">
@@ -923,7 +732,6 @@
                 </label>
                 <p id="csv-file-name" class="text-xs text-brand-muted pt-1">Nenhum arquivo selecionado</p>
             </div>
-
             <div class="flex justify-end gap-2 border-t border-brand-border pt-3">
                 <button onclick="fecharModalImportarPlano()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Cancelar</button>
                 <button id="btn-confirmar-importacao" onclick="confirmarImportacaoCSV()" disabled class="bg-emerald-600 hover:bg-emerald-500 opacity-40 text-white font-bold px-4 py-2 rounded text-xs transition cursor-not-allowed">Confirmar Importação</button>
@@ -931,33 +739,26 @@
         </div>
     </div>
 
-    <!-- MODAL DE COMPOSIÇÃO DO CUSTO-HORA E RAIO-X DO SETOR -->
+    <!-- MODALS DRILLDOWN -->
     <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
                 <div>
                     <h3 id="modal-dh-title" class="text-lg font-bold text-white uppercase">---</h3>
-                    <p class="text-xs text-brand-muted">Composição Detalhada do Custo e Horas Efetivas do Setor</p>
+                    <p class="text-xs text-brand-muted">Composição Detalhada do Custo do Setor</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="gerarPDFRelatorioSetor()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1 shadow">
-                        <span>📄 Gerar PDF do Setor</span>
-                    </button>
+                    <button onclick="gerarPDFRelatorioSetor()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-1.5 rounded-lg transition">📄 Gerar PDF</button>
                     <button onclick="fecharModalDrilldown()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
                 </div>
             </div>
-
-            <div id="pdf-report-content" class="space-y-4 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm">
-            </div>
-
-            <div class="flex justify-between items-center border-t border-brand-border pt-3">
-                <span class="text-xs text-brand-muted">Custo-Hora Calculado: <strong id="modal-dh-custohora-total" class="text-emerald-400 font-extrabold text-base">R$ 0,00/h</strong></span>
+            <div id="pdf-report-content" class="space-y-4 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm"></div>
+            <div class="flex justify-end border-t border-brand-border pt-3">
                 <button onclick="fecharModalDrilldown()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Fechar</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL DE DRILL-DOWN DA DRE GERENCIAL -->
     <div id="modal-drilldown-dre" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
@@ -967,10 +768,7 @@
                 </div>
                 <button onclick="fecharModalDRE()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
             </div>
-
-            <div id="modal-dre-content" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm">
-            </div>
-
+            <div id="modal-dre-content" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm"></div>
             <div class="flex justify-between items-center border-t border-brand-border pt-3">
                 <span class="text-xs text-brand-muted">Total Acumulado da Linha: <strong id="modal-dre-total-val" class="text-emerald-400 font-extrabold text-base">R$ 0,00</strong></span>
                 <button onclick="fecharModalDRE()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Fechar</button>
@@ -979,6 +777,7 @@
     </div>
 
     <script>
+        // ENDPOINT DA API GOOGLE APPS SCRIPT
         const API_URL = "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
         let usuarioLogado = null;
@@ -996,7 +795,7 @@
         let tabelaPadroes = [];
         let chartCCInstance = null;
         let dadosCSVImportacao = [];
-        let setorModalAtivo = { id: "", nome: "" };
+        let entidadeGradeAtiva = "";
 
         function setSyncStatus(isSyncing, msg = "Conectado") {
             const indicator = document.getElementById('sync-indicator');
@@ -1053,12 +852,6 @@
         function formatarNomePeriodoLimpo(p) {
             if (!p) return "";
             let nomeRaw = String(p.TPERIODO_NOME || "");
-            if (nomeRaw.includes("T") && nomeRaw.includes("Z")) {
-                let d = new Date(nomeRaw);
-                if (!isNaN(d.getTime())) {
-                    nomeRaw = d.getFullYear() + "." + (d.getMonth() < 6 ? "1" : "2");
-                }
-            }
             return `${nomeRaw.toUpperCase()} [${p.TPERIODO_STATUS ? p.TPERIODO_STATUS.toUpperCase() : 'ABERTO'}]`;
         }
 
@@ -1108,109 +901,394 @@
             calcularCustoFuncionario();
         }
 
-        function verificarStatusBloqueioPeriodo() {
-            const banner = document.getElementById('banner-periodo-bloqueado');
-            if (periodoAtivoObj && String(periodoAtivoObj.TPERIODO_STATUS).toUpperCase() === 'FECHADO') {
-                if(banner) banner.classList.remove('hidden');
-                bloquearTodosFormularios(true);
-            } else {
-                if(banner) banner.classList.add('hidden');
-                bloquearTodosFormularios(false);
+        // --- SISTEMA DE GRADE EDITÁVEL EM LOTE (4 ABAS) ---
+        function abrirModalGradeLote(entidade) {
+            entidadeGradeAtiva = entidade;
+            const modal = document.getElementById('modal-grade-lote');
+            const thead = document.getElementById('grade-lote-thead');
+            const title = document.getElementById('grade-lote-title');
+            
+            let colsHtml = '';
+            if (entidade === 'TCENTRO_CUSTO') {
+                title.innerText = "⚡ Inserção em Lote: Centros de Custo";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Nome Centro Custo</th>
+                    <th class="p-2 border-r border-brand-border">Tipo CC</th>
+                    <th class="p-2 border-r border-brand-border">Área (M²)</th>
+                    <th class="p-2 border-r border-brand-border">Custo Fixo Direto (R$)</th>
+                    <th class="p-2 border-r border-brand-border">Produtividade (%)</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Rateio Horas</th>
+                    <th class="p-2 text-center">Cons. Mínimo</th>
+                </tr>`;
+            } else if (entidade === 'TRECURSO') {
+                title.innerText = "⚡ Inserção em Lote: Recursos & Máquinas";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Centro de Custo</th>
+                    <th class="p-2 border-r border-brand-border">Nome do Recurso</th>
+                    <th class="p-2 border-r border-brand-border">Valor Recurso (R$)</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Recurso</th>
+                    <th class="p-2">Turnos</th>
+                </tr>`;
+            } else if (entidade === 'TFUNCIONARIO') {
+                title.innerText = "⚡ Inserção em Lote: Funcionários";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Centro de Custo Único</th>
+                    <th class="p-2 border-r border-brand-border">Nome Completo</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Registro</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Salário</th>
+                    <th class="p-2 border-r border-brand-border">Salário Base (R$)</th>
+                    <th class="p-2 border-r border-brand-border">Benefícios (R$)</th>
+                    <th class="p-2">Horas Mensais</th>
+                </tr>`;
+            } else if (entidade === 'TPLANO_CONTAS') {
+                title.innerText = "⚡ Inserção em Lote: Plano de Contas";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Descrição da Conta</th>
+                    <th class="p-2 border-r border-brand-border">Critério Rateio / Destino</th>
+                    <th class="p-2 border-r border-brand-border">Centro Custo Exclusivo</th>
+                    <th class="p-2">Valor Mensal (R$)</th>
+                </tr>`;
             }
+
+            thead.innerHTML = colsHtml;
+            limparGradeLote();
+            modal.classList.remove('hidden');
         }
 
-        function bloquearTodosFormularios(bloquear) {
-            const btns = document.querySelectorAll('button[type="submit"]');
-            btns.forEach(b => {
-                b.disabled = bloquear;
-                if(bloquear) b.classList.add('opacity-40', 'cursor-not-allowed');
-                else b.classList.remove('opacity-40', 'cursor-not-allowed');
-            });
+        function fecharModalGradeLote() {
+            document.getElementById('modal-grade-lote').classList.add('hidden');
         }
 
-        function carregarClientesSelect() {
-            const sel = document.getElementById('usr-cli-id');
-            if (!sel) return;
-            sel.innerHTML = '<option value="">-- SELECIONE O CLIENTE --</option>';
-            if (Array.isArray(listaClientesAdmin)) {
-                listaClientesAdmin.forEach(c => {
-                    sel.innerHTML += `<option value="${c.TCLIENTE_ID}">${c.TCLIENTE_NOME.toUpperCase()}</option>`;
+        function limparGradeLote() {
+            const tbody = document.getElementById('grade-lote-tbody');
+            tbody.innerHTML = '';
+            for (let i = 0; i < 5; i++) adicionarLinhaGrade();
+        }
+
+        function adicionarLinhaGrade() {
+            const tbody = document.getElementById('grade-lote-tbody');
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-brand-border/20 transition";
+
+            if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
+                let optionsTipoCC = '<option value="PRODUTIVO DIRETO">PRODUTIVO DIRETO</option><option value="PRODUTIVO INDIRETO">PRODUTIVO INDIRETO</option><option value="ADMINISTRATIVO">ADMINISTRATIVO</option>';
+                if(Array.isArray(tabelaPadroes)) {
+                    let opts = '';
+                    tabelaPadroes.forEach(p => { if(p.TCENTRO_CUSTO_TIPO) opts += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO.toUpperCase()}</option>`; });
+                    if(opts) optionsTipoCC = opts;
+                }
+
+                let optionsRateio = '<option value="MAQUINA">MAQUINA</option><option value="HOMEM">HOMEM</option>';
+                if(Array.isArray(tabelaPadroes)) {
+                    let opts = '';
+                    tabelaPadroes.forEach(p => { if(p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS) opts += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS.toUpperCase()}</option>`; });
+                    if(opts) optionsRateio = opts;
+                }
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-1 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
+                            ${optionsTipoCC}
+                        </select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="0" class="g-col-2 w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="100" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-5 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
+                            ${optionsRateio}
+                        </select>
+                    </td>
+                    <td class="p-1 text-center"><input type="checkbox" class="g-col-6 w-4 h-4 accent-brand-primary cursor-pointer"></td>
+                `;
+            } else if (entidadeGradeAtiva === 'TRECURSO') {
+                let optionsCC = '<option value="">-- SELECIONE CC --</option>';
+                listaCC.forEach(c => optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`);
+
+                let optionsTipoRec = '<option value="">-- TIPO --</option>';
+                tabelaPadroes.forEach(p => {
+                    if(p.TRECURSO_TIPO) optionsTipoRec += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO.toUpperCase()}</option>`;
                 });
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-0 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
+                            ${optionsCC}
+                        </select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-2 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-3 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
+                            ${optionsTipoRec}
+                        </select>
+                    </td>
+                    <td class="p-1"><input type="number" value="1" min="1" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                `;
+            } else if (entidadeGradeAtiva === 'TFUNCIONARIO') {
+                let optionsCC = '<option value="">-- SELECIONE CC --</option>';
+                listaCC.forEach(c => optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`);
+
+                let optionsReg = '<option value="">-- REGISTRO --</option>';
+                tabelaPadroes.forEach(p => {
+                    if(p.TFUNCIONARIO_TP_REGISTRO) optionsReg += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO.toUpperCase()}</option>`;
+                });
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-0 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">${optionsCC}</select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-2 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">${optionsReg}</select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-3 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
+                            <option value="MENSALISTA">MENSALISTA</option>
+                            <option value="HORISTA">HORISTA</option>
+                        </select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-4 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-5 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1"><input type="number" value="176" class="g-col-6 w-full bg-transparent outline-none p-1 text-right"></td>
+                `;
+            } else if (entidadeGradeAtiva === 'TPLANO_CONTAS') {
+                let optionsCC = '<option value="">-- TODOS OS SETORES --</option>';
+                listaCC.forEach(c => optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`);
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-1 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
+                            <option value="EXCLUSIVO">EXCLUSIVO (CENTRO DE CUSTO ÚNICO)</option>
+                            <option value="AREA">RATEIO POR ÁREA (M²)</option>
+                            <option value="RECURSOS">RATEIO POR QUANTIDADE DE RECURSOS</option>
+                            <option value="HORAS">RATEIO POR HORAS FINAIS DO CC</option>
+                            <option value="NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)">NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)</option>
+                            <option value="NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)">NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)</option>
+                        </select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-2 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">${optionsCC}</select>
+                    </td>
+                    <td class="p-1"><input type="text" value="0,00" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                `;
+            }
+
+            tbody.appendChild(tr);
+            aplicarMascarasMonetarias();
+            document.getElementById('grade-rows-count').innerText = tbody.children.length;
+        }
+
+        async function colarDoClipboardGrade() {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (!text) return alert("O clipboard está vazio.");
+
+                const linhas = text.split(/\r\n|\n/);
+                if (linhas.length === 0) return;
+
+                const tbody = document.getElementById('grade-lote-tbody');
+                tbody.innerHTML = '';
+
+                linhas.forEach(linhaStr => {
+                    if (!linhaStr.trim()) return;
+                    const cols = linhaStr.split('\t');
+
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-brand-border/20 transition";
+
+                    if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
+                        const valTipo = (cols[1] || 'PRODUTIVO DIRETO').toUpperCase().trim();
+                        const valRateio = (cols[5] || 'MAQUINA').toUpperCase().trim();
+                        const isMin = String(cols[6] || '').toUpperCase().includes('SIM') || cols[6] === '1';
+
+                        tr.innerHTML = `
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${(cols[0]||'').toUpperCase()}" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-1 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
+                                    <option value="PRODUTIVO DIRETO" ${valTipo === 'PRODUTIVO DIRETO' ? 'selected' : ''}>PRODUTIVO DIRETO</option>
+                                    <option value="PRODUTIVO INDIRETO" ${valTipo === 'PRODUTIVO INDIRETO' ? 'selected' : ''}>PRODUTIVO INDIRETO</option>
+                                    <option value="ADMINISTRATIVO" ${valTipo === 'ADMINISTRATIVO' ? 'selected' : ''}>ADMINISTRATIVO</option>
+                                </select>
+                            </td>
+                            <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="${cols[2]||0}" class="g-col-2 w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${cols[3]||'0,00'}" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="${cols[4]||100}" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-5 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
+                                    <option value="MAQUINA" ${valRateio === 'MAQUINA' ? 'selected' : ''}>MAQUINA</option>
+                                    <option value="HOMEM" ${valRateio === 'HOMEM' ? 'selected' : ''}>HOMEM</option>
+                                </select>
+                            </td>
+                            <td class="p-1 text-center"><input type="checkbox" ${isMin ? 'checked' : ''} class="g-col-6 w-4 h-4 accent-brand-primary cursor-pointer"></td>
+                        `;
+                    } else if (entidadeGradeAtiva === 'TRECURSO') {
+                        let valCC = (cols[0] || '').toUpperCase().trim();
+                        const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === valCC || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === valCC);
+                        if (ccObj) valCC = ccObj.TCENTRO_CUSTO_ID;
+
+                        let optionsCC = '<option value="">-- SELECIONE CC --</option>';
+                        listaCC.forEach(c => {
+                            optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}" ${String(c.TCENTRO_CUSTO_ID).toUpperCase() === valCC ? 'selected' : ''}>${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`;
+                        });
+
+                        let valTipoRec = (cols[3] || '').toUpperCase().trim();
+                        let optionsTipoRec = '<option value="">-- TIPO --</option>';
+                        tabelaPadroes.forEach(p => {
+                            if(p.TRECURSO_TIPO) {
+                                optionsTipoRec += `<option value="${p.TRECURSO_TIPO}" ${String(p.TRECURSO_TIPO).toUpperCase() === valTipoRec ? 'selected' : ''}>${p.TRECURSO_TIPO.toUpperCase()}</option>`;
+                            }
+                        });
+
+                        tr.innerHTML = `
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-0 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
+                                    ${optionsCC}
+                                </select>
+                            </td>
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${(cols[1]||'').toUpperCase()}" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${cols[2]||'0,00'}" class="g-col-2 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-3 w-full bg-[#16161a] border border-brand-border rounded p-1 text-white outline-none">
+                                    ${optionsTipoRec}
+                                </select>
+                            </td>
+                            <td class="p-1"><input type="number" value="${cols[4]||1}" min="1" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                        `;
+                    }
+                    tbody.appendChild(tr);
+                });
+
+                aplicarMascarasMonetarias();
+                document.getElementById('grade-rows-count').innerText = tbody.children.length;
+            } catch(e) {
+                alert("Para colar, permita o acesso ao clipboard ou pressione Ctrl+V.");
             }
         }
 
-        function modalCriarNovoPeriodo() {
-            const nome = prompt("Informe o nome do novo período (Ex: 2026.2):");
-            if (!nome) return;
+        async function salvarGradeLoteEmBloco() {
+            const tbody = document.getElementById('grade-lote-tbody');
+            const rows = tbody.querySelectorAll('tr');
+            let batchData = [];
 
-            setSyncStatus(true);
+            rows.forEach(tr => {
+                if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
+                    const nome = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value.trim().toUpperCase() : '';
+                    if (!nome) return;
+
+                    const tipo = tr.querySelector('.g-col-1').value;
+                    const area = parseFloat(tr.querySelector('.g-col-2').value) || 0;
+                    const fx = parseMoedaBR(tr.querySelector('.g-col-3').value);
+                    const prod = parseFloat(tr.querySelector('.g-col-4').value) || 100;
+                    const rateio = tr.querySelector('.g-col-5').value;
+                    const min = tr.querySelector('.g-col-6').checked ? "SIM" : "NAO";
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, "", nome, tipo, min, area, fx, prod, rateio, 0, 0, 0, 0, 0, 0, 0
+                    ]);
+                } else if (entidadeGradeAtiva === 'TRECURSO') {
+                    const ccTarget = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value : '';
+                    const nome = tr.querySelector('.g-col-1') ? tr.querySelector('.g-col-1').value.trim().toUpperCase() : '';
+                    if (!ccTarget || !nome) return;
+
+                    const val = parseMoedaBR(tr.querySelector('.g-col-2').value);
+                    const tipo = tr.querySelector('.g-col-3').value;
+                    const turnos = parseInt(tr.querySelector('.g-col-4').value, 10) || 1;
+                    
+                    let taxaAnual = 0.10;
+                    const pTipo = tabelaPadroes.find(p => String(p.TRECURSO_TIPO).toUpperCase() === String(tipo).toUpperCase());
+                    if (pTipo && pTipo.TRECURSO_TAXA_DEPRECIACAO) taxaAnual = parseFloat(pTipo.TRECURSO_TAXA_DEPRECIACAO) || 0.10;
+                    const custoMensal = val * (taxaAnual / 12);
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, val, tipo, custoMensal, turnos
+                    ]);
+                } else if (entidadeGradeAtiva === 'TFUNCIONARIO') {
+                    const ccTarget = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value : '';
+                    const nome = tr.querySelector('.g-col-1') ? tr.querySelector('.g-col-1').value.trim().toUpperCase() : '';
+                    if (!ccTarget || !nome) return;
+
+                    const tpReg = tr.querySelector('.g-col-2').value;
+                    const tpSal = tr.querySelector('.g-col-3').value;
+                    const salBase = parseMoedaBR(tr.querySelector('.g-col-4').value);
+                    const valBen = parseMoedaBR(tr.querySelector('.g-col-5').value);
+                    const hrsMes = parseFloat(tr.querySelector('.g-col-6').value) || 176;
+
+                    const salario = (tpSal === 'HORISTA') ? (salBase * hrsMes) : salBase;
+                    const temRegistro = tpReg !== "SEM REGISTRO";
+                    const decimoTerceiro = temRegistro ? (salario / 12) : 0;
+                    const tercoFerias = temRegistro ? ((salario / 12) / 3) : 0;
+                    const feriasAdic = temRegistro ? (salario / 12) : 0;
+                    const totalBruto = salario + decimoTerceiro + tercoFerias + feriasAdic;
+                    const fgts = temRegistro ? (totalBruto * 0.08) : 0;
+                    const multaFgts = temRegistro ? (fgts * 0.50) : 0;
+                    const isNormal = (tpReg === "NORMAL" || tpReg === "CLT NORMAL" || tpReg === "REGULADO");
+                    const inss = isNormal ? (salario * 0.20) : 0;
+                    const sesc = isNormal ? (salario * 0.02) : 0;
+                    const senai = isNormal ? (salario * 0.025) : 0;
+                    const incra = isNormal ? (salario * 0.033) : 0;
+                    const custoTotal = salario + decimoTerceiro + tercoFerias + feriasAdic + fgts + multaFgts + inss + sesc + senai + incra + valBen;
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, tpReg, tpSal, salBase, valBen, custoTotal, "NAO", 0, hrsMes
+                    ]);
+                } else if (entidadeGradeAtiva === 'TPLANO_CONTAS') {
+                    const nome = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value.trim().toUpperCase() : '';
+                    if (!nome) return;
+
+                    const crit = tr.querySelector('.g-col-1').value;
+                    const ccTarget = tr.querySelector('.g-col-2').value;
+                    const val = parseMoedaBR(tr.querySelector('.g-col-3').value);
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, crit, val
+                    ]);
+                }
+            });
+
+            if (batchData.length === 0) {
+                alert("Nenhuma linha válida preenchida para gravação.");
+                return;
+            }
+
+            const btn = document.getElementById('btn-salvar-grade-lote');
+            btn.innerText = "Gravando Lote...";
+            btn.disabled = true;
+            setSyncStatus(true, "Gravando lote...");
+
             const payload = {
-                sheet: "TPERIODO",
-                action: "CLONE_PERIOD",
+                sheet: entidadeGradeAtiva,
+                action: "CREATE_BATCH",
                 clienteId: usuarioLogado.TCLIENTE_ID,
-                periodoOrigemId: periodoAtivoObj ? periodoAtivoObj.TPERIODO_ID : "",
-                novoNomePeriodo: nome.trim().toUpperCase()
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                batchData: batchData
             };
 
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                alert("Novo período criado com sucesso!");
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                alert(`🎉 Sucesso! ${batchData.length} registros gravados com todas as regras e recalculados!`);
+                fecharModalGradeLote();
                 setSyncStatus(false);
-                setTimeout(carregarPeriodosDoCliente, 1500);
-            });
-        }
 
-        function alternarStatusPeriodo(id, statusAtual) {
-            const novoStatus = String(statusAtual).toUpperCase() === 'ABERTO' ? 'FECHADO' : 'ABERTO';
-            const item = listaPeriodos.find(p => String(p.TPERIODO_ID) === String(id));
-            if (!item) return;
+                if (entidadeGradeAtiva === 'TCENTRO_CUSTO') setTimeout(carregarCentrosDeCusto, 1500);
+                else if (entidadeGradeAtiva === 'TRECURSO') setTimeout(carregarRecursos, 1500);
+                else if (entidadeGradeAtiva === 'TFUNCIONARIO') setTimeout(carregarFuncionarios, 1500);
+                else if (entidadeGradeAtiva === 'TPLANO_CONTAS') setTimeout(carregarPlanoContas, 1500);
 
-            setSyncStatus(true);
-            const payload = {
-                sheet: "TPERIODO",
-                action: "UPDATE",
-                id: id,
-                clienteId: usuarioLogado.TCLIENTE_ID,
-                periodoId: id,
-                data: [usuarioLogado.TCLIENTE_ID, id, item.TPERIODO_NOME, novoStatus, item.TPERIODO_ATUAL || "SIM", item.TPERIODO_FATURAMENTO || 0, item.TPERIODO_ALIQUOTA || 0, item.TPERIODO_PREDIO || 0, item.TPERIODO_RENTABILIDADE || 0, item.TPERIODO_RETIRADA || 0]
-            };
-
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                setSyncStatus(false);
-                setTimeout(carregarPeriodosDoCliente, 1500);
-            });
-        }
-
-        function alternarStatusCliente(id, nome, cnpj, isAtivo) {
-            const novoStatus = isAtivo ? 'NAO' : 'SIM';
-            setSyncStatus(true);
-
-            const payload = {
-                sheet: "TCLIENTE",
-                action: "UPDATE",
-                id: id,
-                clienteId: id,
-                data: [id, nome, cnpj, novoStatus]
-            };
-
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                setSyncStatus(false);
-                setTimeout(carregarTabelaClientesAdmin, 1500);
-            });
+            } catch(e) {
+                alert("Erro ao enviar o lote de dados.");
+                btn.innerText = "🚀 Salvar Tudo em Lote";
+                btn.disabled = false;
+                setSyncStatus(false, "Erro ao gravar lote");
+            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
