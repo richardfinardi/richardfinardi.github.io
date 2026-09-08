@@ -104,10 +104,6 @@
         <div id="nav-cliente-tabs" class="flex gap-2 border-b border-brand-border pb-2 overflow-x-auto">
             <button id="tab-btn-cfg" onclick="alternarAbaCliente('cfg')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap">Config. Período</button>
             <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Centros de Custo</button>
-            <button id="tab-btn-rec" onclick="alternarAbaCliente('rec')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Recursos</button>
-            <button id="tab-btn-ben" onclick="alternarAbaCliente('ben')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Benefícios</button>
-            <button id="tab-btn-func" onclick="alternarAbaCliente('func')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Funcionários</button>
-            <button id="tab-btn-plc" onclick="alternarAbaCliente('plc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Plano de Contas</button>
             <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Resultados & Análises</button>
         </div>
 
@@ -168,35 +164,18 @@
                     </div>
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Tipo Centro de Custo</label>
-                        <select id="cc-tipo" onchange="verificarTipoCentroCusto()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando opções...</option>
-                        </select>
-                    </div>
-                    <div id="wrapper-cc-tipo-rateio">
-                        <label class="block text-xs text-brand-muted mb-1">Tipo Rateio de Horas</label>
-                        <select id="cc-tipo-rateio" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando opções...</option>
+                        <select id="cc-tipo" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <option value="PRODUTIVO DIRETO">PRODUTIVO DIRETO</option>
+                            <option value="PRODUTIVO INDIRETO">PRODUTIVO INDIRETO</option>
+                            <option value="ADMINISTRATIVO">ADMINISTRATIVO</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Área (M²)</label>
                         <input type="number" step="0.01" id="cc-area" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
-                    <div id="wrapper-cc-custo-fixo">
-                        <label class="block text-xs text-brand-muted mb-1">Custo Fixo Direto (R$)</label>
-                        <input type="text" id="cc-custo-fixo" placeholder="0,00" class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-                    <div id="wrapper-cc-produtividade">
-                        <label class="block text-xs text-brand-muted mb-1">Produtividade (%)</label>
-                        <input type="number" step="0.01" id="cc-produtividade" placeholder="100.00" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-                    <div class="md:col-span-2 flex items-center gap-2 pt-2">
-                        <input type="checkbox" id="cc-considerar-minimo" class="w-4 h-4 accent-brand-primary bg-[#0d0d0f] border-brand-border rounded cursor-pointer">
-                        <label for="cc-considerar-minimo" class="text-xs md:text-sm text-white cursor-pointer">Considerar Mínimo (Check = SIM)</label>
-                    </div>
-                    <div class="flex gap-2 pt-2">
-                        <button type="button" id="btn-cancelar-cc" onclick="limparFormCC()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
-                        <button type="submit" id="btn-salvar-cc" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Centro de Custo</button>
+                    <div class="flex gap-2 pt-2 md:col-span-3 justify-end">
+                        <button type="submit" id="btn-salvar-cc" class="bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 px-6 rounded text-sm transition">Salvar Centro de Custo</button>
                     </div>
                 </form>
             </div>
@@ -210,11 +189,11 @@
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">ID</th><th class="p-2 md:p-3">Nome</th><th class="p-2 md:p-3">Tipo</th><th class="p-2 md:p-3">Tipo Rateio</th><th class="p-2 md:p-3">Qtd Rec.</th><th class="p-2 md:p-3">Área (M²)</th><th class="p-2 md:p-3">Custo Fixo (R$)</th><th class="p-2 md:p-3">Depreciação (R$)</th><th class="p-2 md:p-3">Custo Func. (R$)</th><th class="p-2 md:p-3">Plano Contas (R$)</th><th class="p-2 md:p-3">Prédio (R$)</th><th class="p-2 md:p-3">Indiretos (R$)</th><th class="p-2 md:p-3">Horas Final</th><th class="p-2 md:p-3">Prod. (%)</th><th class="p-2 md:p-3">Cons. Min.</th><th class="p-2 md:p-3 text-right">Ações</th>
+                                <th class="p-2 md:p-3">ID</th><th class="p-2 md:p-3">Nome</th><th class="p-2 md:p-3">Tipo</th><th class="p-2 md:p-3">Área (M²)</th><th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="16" class="p-4 text-center">Carregando...</td></tr>
+                            <tr><td colspan="5" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -249,53 +228,28 @@
 
     </main>
 
-    <!-- MODAL RAIO-X DO SETOR -->
+    <!-- MODAL DRILLDOWN -->
     <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-brand-border pb-3">
                 <div>
                     <h3 id="modal-dh-title" class="text-lg font-bold text-white uppercase">---</h3>
-                    <p class="text-xs text-brand-muted">Composição Detalhada do Custo e Horas Efetivas do Setor</p>
+                    <p class="text-xs text-brand-muted">Composição Detalhada do Custo do Setor</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="gerarPDFRelatorioSetor()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-1.5 rounded-lg transition flex items-center gap-1 shadow">
-                        <span>📄 Gerar PDF do Setor</span>
-                    </button>
+                    <button onclick="gerarPDFRelatorioSetor()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-1.5 rounded-lg transition">📄 Gerar PDF</button>
                     <button onclick="fecharModalDrilldown()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
                 </div>
             </div>
-
             <div id="pdf-report-content" class="space-y-4 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm"></div>
-
-            <div class="flex justify-between items-center border-t border-brand-border pt-3">
-                <span class="text-xs text-brand-muted">Custo-Hora Calculado: <strong id="modal-dh-custohora-total" class="text-emerald-400 font-extrabold text-base">R$ 0,00/h</strong></span>
+            <div class="flex justify-end border-t border-brand-border pt-3">
                 <button onclick="fecharModalDrilldown()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Fechar</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL DRE DRILLDOWN -->
-    <div id="modal-drilldown-dre" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
-            <div class="flex justify-between items-center border-b border-brand-border pb-3">
-                <div>
-                    <h3 id="modal-dre-title" class="text-lg font-bold text-white uppercase">---</h3>
-                    <p class="text-xs text-brand-muted">Composição Detalhada dos Itens da Linha da DRE</p>
-                </div>
-                <button onclick="fecharModalDRE()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
-            </div>
-
-            <div id="modal-dre-content" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm"></div>
-
-            <div class="flex justify-between items-center border-t border-brand-border pt-3">
-                <span class="text-xs text-brand-muted">Total Acumulado da Linha: <strong id="modal-dre-total-val" class="text-emerald-400 font-extrabold text-base">R$ 0,00</strong></span>
-                <button onclick="fecharModalDRE()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Fechar</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // ENDPOINT DA API GOOGLE APPS SCRIPT
+        // COLE SUA URL ATUALIZADA DO APPS SCRIPT ABAIXO:
         const API_URL = "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
         let usuarioLogado = null;
@@ -303,12 +257,6 @@
         let listaPeriodos = [];
         let periodoAtivoObj = null;
         let listaCC = [];
-        let listaRecursos = [];
-        let listaBeneficios = [];
-        let listaFuncionarios = [];
-        let listaPlanoContas = [];
-        let tabelaPadroes = [];
-        let chartCCInstance = null;
 
         function setSyncStatus(isSyncing, msg = "Conectado") {
             const indicator = document.getElementById('sync-indicator');
@@ -357,12 +305,6 @@
         function formatarNomePeriodoLimpo(p) {
             if (!p) return "";
             let nomeRaw = String(p.TPERIODO_NOME || "");
-            if (nomeRaw.includes("T") && nomeRaw.includes("Z")) {
-                let d = new Date(nomeRaw);
-                if (!isNaN(d.getTime())) {
-                    nomeRaw = d.getFullYear() + "." + (d.getMonth() < 6 ? "1" : "2");
-                }
-            }
             return `${nomeRaw.toUpperCase()} [${p.TPERIODO_STATUS ? p.TPERIODO_STATUS.toUpperCase() : 'ABERTO'}]`;
         }
 
@@ -443,7 +385,7 @@
             document.getElementById('user-display-name').innerText = usuarioLogado.TUSUARIO_NOME;
 
             await carregarPeriodosDoCliente();
-            carregarTudoDoPeriodo();
+            carregarCentrosDeCusto();
         }
 
         async function carregarPeriodosDoCliente() {
@@ -484,10 +426,6 @@
             if(!periodoAtivoObj) return;
 
             atualizarTagsPeriodoHeader();
-            carregarTudoDoPeriodo();
-        }
-
-        function carregarTudoDoPeriodo() {
             carregarCentrosDeCusto();
         }
 
@@ -519,7 +457,7 @@
         async function carregarCentrosDeCusto() {
             const tbody = document.getElementById('tbl-cc-body');
             if(!tbody) return;
-            tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center">Buscando centros de custo...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando centros de custo...</td></tr>';
 
             try {
                 setSyncStatus(true);
@@ -535,7 +473,7 @@
                 renderizarTabelaCCLocal();
                 setSyncStatus(false);
             } catch (e) { 
-                tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; 
+                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; 
                 setSyncStatus(false, "Erro API"); 
             }
         }
@@ -545,7 +483,7 @@
             if (!tbody) return;
 
             if (listaCC.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center">Nenhum centro de custo cadastrado.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Nenhum centro de custo cadastrado.</td></tr>';
                 return;
             }
 
@@ -556,18 +494,7 @@
                         <td class="p-2 md:p-3 font-semibold text-brand-primary uppercase text-xs font-mono">${item.TCENTRO_CUSTO_ID}</td>
                         <td class="p-2 md:p-3 font-semibold text-white uppercase">${item.TCENTRO_CUSTO_NOME}</td>
                         <td class="p-2 md:p-3 uppercase text-xs">${item.TCENTRO_CUSTO_TIPO}</td>
-                        <td class="p-2 md:p-3 uppercase text-xs">${item.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-'}</td>
-                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_QTDE_RECURSOS || 0}</td>
                         <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_AREA || 0}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || item.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_CUSTO_MENSAL)}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(item.TCENTRO_CUSTO_PREDIO)}</td>
-                        <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(item.TCENTRO_CUSTO_INDIRETOS)}</td>
-                        <td class="p-2 md:p-3 font-bold text-white">${item.TCENTRO_CUSTO_HORAS || 0}h</td>
-                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_PRODUTIVIDADE || 100}%</td>
-                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_MINIMO || 'NAO'}</td>
                         <td class="p-2 md:p-3 text-right">
                             <button onclick="editarCentroCusto('${item.TCENTRO_CUSTO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
                         </td>
