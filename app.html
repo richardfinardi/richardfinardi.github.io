@@ -1933,16 +1933,32 @@
             calcularCustoMensalRecurso();
         }
 
-        function calcularCustoMensalRecurso() {
+function calcularCustoMensalRecurso() {
             const val = parseMoedaBR(document.getElementById('rec-valor').value);
-            const tipo = document.getElementById('rec-tipo').value;
-            let taxaAnual = 0.10;
+            const tipoSelecionado = String(document.getElementById('rec-tipo').value || "").trim().toUpperCase();
+            let taxaAnual = 0.10; // Taxa padrão caso não encontre
 
-            const pTipo = tabelaPadroes.find(p => String(p.TRECURSO_TIPO).toUpperCase() === String(tipo).toUpperCase());
-            if (pTipo && pTipo.TRECURSO_TAXA_DEPRECIACAO) {
-                taxaAnual = parseFloat(pTipo.TRECURSO_TAXA_DEPRECIACAO) || 0.10;
+            if (Array.isArray(tabelaPadroes) && tipoSelecionado) {
+                const itemPadrao = tabelaPadroes.find(p => {
+                    const tipoPadrao = String(p.TRECURSO_TIPO || "").trim().toUpperCase();
+                    return tipoPadrao === tipoSelecionado;
+                });
+
+                if (itemPadrao) {
+                    // Busca a taxa em percentual (ex: 10 para 10% ou 0.10)
+                    let taxaRaw = itemPadrao.TRECURSO_TAXA_DEPRECIACAO;
+                    if (typeof taxaRaw === 'string') {
+                        taxaRaw = parseFloat(taxaRaw.replace(',', '.')) || 0;
+                    }
+                    if (taxaRaw > 1) {
+                        taxaAnual = taxaRaw / 100; // Converte de % para decimal
+                    } else if (taxaRaw > 0) {
+                        taxaAnual = taxaRaw;
+                    }
+                }
             }
 
+            // Cálculo exato: (Valor * Taxa Anual) / 12 meses
             const custoMensal = val * (taxaAnual / 12);
             document.getElementById('rec-custo-mensal').value = formatarMoedaBR(custoMensal);
         }
