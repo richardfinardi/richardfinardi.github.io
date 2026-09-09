@@ -1490,19 +1490,31 @@
                     if (!ccTarget || !nome) return;
 
                     const val = parseMoedaBR(tr.querySelector('.g-col-2').value);
-                    const tipo = tr.querySelector('.g-col-3').value;
+                    const tipo = tr.querySelector('.g-col-3') ? tr.querySelector('.g-col-3').value.trim().toUpperCase() : '';
                     const turnos = parseInt(tr.querySelector('.g-col-4').value, 10) || 1;
                     
-                    let taxaMensal = 0.0083;
-                    const pTipo = tabelaPadroes.find(p => String(p.TRECURSO_TIPO).toUpperCase() === String(tipo).toUpperCase());
-                    if (pTipo && pTipo.TRECURSO_PERCENTUAL_DEPRECIACAO) {
-                        let taxaRaw = pTipo.TRECURSO_PERCENTUAL_DEPRECIACAO;
-                        if (typeof taxaRaw === 'string') {
-                            taxaRaw = parseFloat(taxaRaw.replace('%', '').replace(',', '.')) || 0;
+                    let taxaMensal = 0.0083; // Taxa padrão caso não encontre no cadastro de Padrões (~0,83% ao mês)
+
+                    if (Array.isArray(tabelaPadroes) && tipo) {
+                        const itemPadrao = tabelaPadroes.find(p => {
+                            const tipoPadrao = String(p.TRECURSO_TIPO || "").trim().toUpperCase();
+                            return tipoPadrao === tipo;
+                        });
+
+                        if (itemPadrao) {
+                            let taxaRaw = itemPadrao.TRECURSO_PERCENTUAL_DEPRECIACAO;
+                            if (typeof taxaRaw === 'string') {
+                                taxaRaw = parseFloat(taxaRaw.replace('%', '').replace(',', '.')) || 0;
+                            }
+                            if (taxaRaw > 1) {
+                                taxaMensal = taxaRaw / 100;
+                            } else if (taxaRaw > 0) {
+                                taxaMensal = taxaRaw;
+                            }
                         }
-                        if (taxaRaw > 1) taxaMensal = taxaRaw / 100;
-                        else if (taxaRaw > 0) taxaMensal = taxaRaw;
                     }
+
+                    // Cálculo direto conforme a taxa percentual mensal do cadastro de Padrões
                     const custoMensal = val * taxaMensal;
 
                     batchData.push([
@@ -1593,18 +1605,7 @@
                 setSyncStatus(false, "Erro ao gravar lote");
             }
         }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            aplicarMascarasMonetarias();
-            const savedUser = localStorage.getItem('usuarioLogadoRF');
-            if (savedUser) {
-                try {
-                    usuarioLogado = JSON.parse(savedUser);
-                    buscarNomeEmpresa().then(() => { iniciarSessao(); });
-                } catch(e) { localStorage.removeItem('usuarioLogadoRF'); }
-            }
-        });
-
+        
         async function fazerLogin() {
             const email = document.getElementById('login-email').value.trim();
             const pass = document.getElementById('login-password').value.trim();
