@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.3 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.5 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -46,7 +46,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.3</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.5</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -74,7 +74,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.3</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.5</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -111,7 +111,7 @@
             <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Resultados & Análises</button>
         </div>
 
-        <!-- ABA GERENCIAMENTO ADMIN -->
+        <!-- PAINEL ADMIN -->
         <section id="section-admin" class="hidden space-y-6">
             <div class="border-b border-brand-border pb-4 flex justify-between items-center">
                 <div>
@@ -573,9 +573,7 @@
 
                         <div id="wrapper-func-cc-rateio" class="hidden space-y-2 bg-[#0d0d0f] p-3 rounded border border-brand-border">
                             <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%):</label>
-                            <div id="container-rateio-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
-                                <!-- Preenchido dinamicamente via JS -->
-                            </div>
+                            <div id="container-rateio-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
                             <div class="flex justify-between items-center text-xs font-bold pt-1 border-t border-brand-border/50">
                                 <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct" class="text-white">0%</strong></span>
                                 <span class="text-brand-muted">Sobra de Custo Não Rateado: <strong id="display-sobra-custo" class="text-emerald-400">R$ 0,00</strong></span>
@@ -642,25 +640,16 @@
                     <h3 class="text-base md:text-lg font-bold text-white">Funcionários Cadastrados</h3>
                     <button onclick="carregarFuncionarios()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Centro(s) Custo</th>
-                                <th class="p-2 md:p-3">Nome</th>
-                                <th class="p-2 md:p-3">Horas</th>
-                                <th class="p-2 md:p-3">Salário Base (R$)</th>
-                                <th class="p-2 md:p-3">Benefícios (R$)</th>
-                                <th class="p-2 md:p-3">Custo Mensal (R$)</th>
-                                <th class="p-2 md:p-3">Rateio?</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
+                                <th class="p-2 md:p-3">Centro(s) Custo</th><th class="p-2 md:p-3">Nome</th><th class="p-2 md:p-3">Horas</th><th class="p-2 md:p-3">Salário Base (R$)</th><th class="p-2 md:p-3">Benefícios (R$)</th><th class="p-2 md:p-3">Custo Mensal (R$)</th><th class="p-2 md:p-3">Rateio?</th><th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-func-body" class="divide-y divide-brand-border/50">
                             <tr><td colspan="8" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
-                        <tfoot id="tbl-func-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
                 </div>
             </div>
@@ -701,9 +690,7 @@
                                     <button type="button" onclick="zerarPercentuaisPlanoCC()" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white">Zerar</button>
                                 </div>
                             </div>
-                            <div id="container-rateio-plc-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
-                                <!-- Preenchido dinamicamente via JS -->
-                            </div>
+                            <div id="container-rateio-plc-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
                             <div class="flex justify-between items-center text-xs font-bold pt-2 border-t border-brand-border/50">
                                 <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct-plc" class="text-red-400 text-sm">0%</strong></span>
                                 <span id="display-status-validacao-plc" class="text-red-400 font-extrabold">⚠️ A SOMA DEVE SER IGUAL A 100.0%</span>
@@ -756,22 +743,16 @@
                     <h3 class="text-base md:text-lg font-bold text-white">Contas Cadastradas</h3>
                     <button onclick="carregarPlanoContas()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Descrição da Conta</th>
-                                <th class="p-2 md:p-3">Critério Rateio / Destino</th>
-                                <th class="p-2 md:p-3">Participantes / Destino</th>
-                                <th class="p-2 md:p-3">Valor Mensal (R$)</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
+                                <th class="p-2 md:p-3">Descrição da Conta</th><th class="p-2 md:p-3">Critério Rateio / Destino</th><th class="p-2 md:p-3">Participantes / Destino</th><th class="p-2 md:p-3">Valor Mensal (R$)</th><th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-plc-body" class="divide-y divide-brand-border/50">
                             <tr><td colspan="5" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
-                        <tfoot id="tbl-plc-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
                 </div>
             </div>
@@ -779,7 +760,6 @@
 
         <!-- ABA 6: RESULTADOS & ANÁLISES -->
         <section id="section-resultados" class="hidden space-y-6">
-            
             <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-bold text-white uppercase">🔍 Comparar Períodos:</span>
@@ -796,25 +776,21 @@
                     <h3 id="res-card-investimento-total" class="text-lg md:text-xl font-extrabold text-white">R$ 0,00</h3>
                     <p class="text-[10px] text-brand-muted">Prédio + Máquinas + Período</p>
                 </div>
-
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Ponto de Equilíbrio</span>
                     <h3 id="res-card-ponto-equilibrio" class="text-lg md:text-xl font-extrabold text-brand-primary">R$ 0,00</h3>
                     <p class="text-[10px] text-brand-muted">Gastos + Perdas + Meta Rent.</p>
                 </div>
-
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Despesas Fixas / Fat.</span>
                     <h3 id="res-card-pct-despesa-fixa" class="text-lg md:text-xl font-extrabold text-amber-400">0,0%</h3>
                     <p class="text-[10px] text-brand-muted">Peso do Admin/Sócios no Fat.</p>
                 </div>
-
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Rentabilidade Atual</span>
                     <h3 id="res-card-rentabilidade-atual" class="text-lg md:text-xl font-extrabold text-emerald-400">0,0% a.m.</h3>
                     <p class="text-[10px] text-brand-muted">Lucro / Investimento Total</p>
                 </div>
-
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Payback Estimado</span>
                     <h3 id="res-card-payback" class="text-lg md:text-xl font-extrabold text-blue-400">0 meses</h3>
@@ -826,16 +802,12 @@
                 <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <div class="flex justify-between items-center border-b border-brand-border/50 pb-3">
                         <div>
-                            <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                                📊 DRE Gerencial Industrial
-                            </h2>
+                            <h2 class="text-lg font-bold text-white flex items-center gap-2">📊 DRE Gerencial Industrial</h2>
                             <p class="text-xs text-brand-muted">💡 Clique na linha de qualquer grupo para ver o detalhamento de contas e valores</p>
                         </div>
                         <span class="text-xs font-bold text-brand-primary uppercase" id="dre-period-display">---</span>
                     </div>
-
-                    <div id="container-dre-rows" class="space-y-2.5 text-xs md:text-sm">
-                    </div>
+                    <div id="container-dre-rows" class="space-y-2.5 text-xs md:text-sm"></div>
                 </div>
 
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4 flex flex-col justify-between">
@@ -843,7 +815,6 @@
                         <h3 class="text-base font-bold text-white">Composição do Faturamento (DRE)</h3>
                         <p class="text-xs text-brand-muted">Distribuição percentual do orçamento da DRE</p>
                     </div>
-
                     <div class="relative w-full aspect-square flex items-center justify-center p-2">
                         <canvas id="chart-cc-distribuicao"></canvas>
                     </div>
@@ -857,7 +828,6 @@
                         <p class="text-xs text-brand-muted">💡 Clique na linha de qualquer setor para ver a composição detalhada do Custo-Hora e Horas Efetivas</p>
                     </div>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
@@ -1204,6 +1174,13 @@
             const thead = document.getElementById('grade-lote-thead');
             const title = document.getElementById('grade-lote-title');
             
+            // RESET DO BOTÃO DE SALVAR AO ABRIR O MODAL
+            const btn = document.getElementById('btn-salvar-grade-lote');
+            if (btn) {
+                btn.innerText = "🚀 Salvar Tudo em Lote";
+                btn.disabled = false;
+            }
+
             let colsHtml = '';
             if (entidade === 'TCENTRO_CUSTO') {
                 title.innerText = "⚡ Inserção em Lote: Centros de Custo";
@@ -1493,7 +1470,7 @@
                     const tipo = tr.querySelector('.g-col-3') ? tr.querySelector('.g-col-3').value.trim().toUpperCase() : '';
                     const turnos = parseInt(tr.querySelector('.g-col-4').value, 10) || 1;
                     
-                    let taxaMensal = 0.0083; // Taxa padrão caso não encontre no cadastro de Padrões (~0,83% ao mês)
+                    let taxaMensal = 0.0083; // Taxa padrão (~0,83% a.m.)
 
                     if (Array.isArray(tabelaPadroes) && tipo) {
                         const itemPadrao = tabelaPadroes.find(p => {
@@ -1506,15 +1483,11 @@
                             if (typeof taxaRaw === 'string') {
                                 taxaRaw = parseFloat(taxaRaw.replace('%', '').replace(',', '.')) || 0;
                             }
-                            if (taxaRaw > 1) {
-                                taxaMensal = taxaRaw / 100;
-                            } else if (taxaRaw > 0) {
-                                taxaMensal = taxaRaw;
-                            }
+                            if (taxaRaw > 1) taxaMensal = taxaRaw / 100;
+                            else if (taxaRaw > 0) taxaMensal = taxaRaw;
                         }
                     }
 
-                    // Cálculo direto conforme a taxa percentual mensal do cadastro de Padrões
                     const custoMensal = val * taxaMensal;
 
                     batchData.push([
@@ -1590,6 +1563,11 @@
                 });
 
                 alert(`🎉 Sucesso! ${batchData.length} registros gravados com todas as regras e recalculados!`);
+                
+                // RESTAURAÇÃO DO BOTÃO APÓS GRAVAÇÃO
+                btn.innerText = "🚀 Salvar Tudo em Lote";
+                btn.disabled = false;
+
                 fecharModalGradeLote();
                 setSyncStatus(false);
 
@@ -1605,7 +1583,18 @@
                 setSyncStatus(false, "Erro ao gravar lote");
             }
         }
-        
+
+        window.addEventListener('DOMContentLoaded', () => {
+            aplicarMascarasMonetarias();
+            const savedUser = localStorage.getItem('usuarioLogadoRF');
+            if (savedUser) {
+                try {
+                    usuarioLogado = JSON.parse(savedUser);
+                    buscarNomeEmpresa().then(() => { iniciarSessao(); });
+                } catch(e) { localStorage.removeItem('usuarioLogadoRF'); }
+            }
+        });
+
         async function fazerLogin() {
             const email = document.getElementById('login-email').value.trim();
             const pass = document.getElementById('login-password').value.trim();
