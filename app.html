@@ -1172,7 +1172,7 @@
 function calcularCustoMensalRecurso() {
             const val = parseMoedaBR(document.getElementById('rec-valor').value);
             const tipoSelecionado = String(document.getElementById('rec-tipo').value || "").trim().toUpperCase();
-            let taxaAnual = 0.10; // Taxa padrão caso não encontre
+            let taxaMensal = 0.0083; // Valor padrão de segurança (~0,83% ao mês)
 
             if (Array.isArray(tabelaPadroes) && tipoSelecionado) {
                 const itemPadrao = tabelaPadroes.find(p => {
@@ -1181,21 +1181,23 @@ function calcularCustoMensalRecurso() {
                 });
 
                 if (itemPadrao) {
-                    // Busca a taxa em percentual (ex: 10 para 10% ou 0.10)
-                    let taxaRaw = itemPadrao.TRECURSO_TAXA_DEPRECIACAO;
+                    // Puxa o valor da coluna exata: TRECURSO_PERCENTUAL_DEPRECIACAO
+                    let taxaRaw = itemPadrao.TRECURSO_PERCENTUAL_DEPRECIACAO;
                     if (typeof taxaRaw === 'string') {
-                        taxaRaw = parseFloat(taxaRaw.replace(',', '.')) || 0;
+                        taxaRaw = parseFloat(taxaRaw.replace('%', '').replace(',', '.')) || 0;
                     }
+                    
+                    // Se estiver gravado como 0.83 (porcentagem inteira), converte para decimal (0.0083)
                     if (taxaRaw > 1) {
-                        taxaAnual = taxaRaw / 100; // Converte de % para decimal
+                        taxaMensal = taxaRaw / 100;
                     } else if (taxaRaw > 0) {
-                        taxaAnual = taxaRaw;
+                        taxaMensal = taxaRaw;
                     }
                 }
             }
 
-            // Cálculo exato: (Valor * Taxa Anual) / 12 meses
-            const custoMensal = val * (taxaAnual / 12);
+            // Cálculo exato e direto: Valor do Item x Taxa Mensal
+            const custoMensal = val * taxaMensal;
             document.getElementById('rec-custo-mensal').value = formatarMoedaBR(custoMensal);
         }
 
