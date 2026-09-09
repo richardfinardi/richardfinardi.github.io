@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.5 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.6 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -46,7 +46,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.5</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.6</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -74,7 +74,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.5</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.6</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -111,7 +111,7 @@
             <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Resultados & Análises</button>
         </div>
 
-        <!-- PAINEL ADMIN -->
+        <!-- ABA GERENCIAMENTO ADMIN -->
         <section id="section-admin" class="hidden space-y-6">
             <div class="border-b border-brand-border pb-4 flex justify-between items-center">
                 <div>
@@ -573,7 +573,9 @@
 
                         <div id="wrapper-func-cc-rateio" class="hidden space-y-2 bg-[#0d0d0f] p-3 rounded border border-brand-border">
                             <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%):</label>
-                            <div id="container-rateio-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
+                            <div id="container-rateio-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
+                                <!-- Preenchido dinamicamente via JS -->
+                            </div>
                             <div class="flex justify-between items-center text-xs font-bold pt-1 border-t border-brand-border/50">
                                 <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct" class="text-white">0%</strong></span>
                                 <span class="text-brand-muted">Sobra de Custo Não Rateado: <strong id="display-sobra-custo" class="text-emerald-400">R$ 0,00</strong></span>
@@ -640,16 +642,25 @@
                     <h3 class="text-base md:text-lg font-bold text-white">Funcionários Cadastrados</h3>
                     <button onclick="carregarFuncionarios()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
                 </div>
+
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Centro(s) Custo</th><th class="p-2 md:p-3">Nome</th><th class="p-2 md:p-3">Horas</th><th class="p-2 md:p-3">Salário Base (R$)</th><th class="p-2 md:p-3">Benefícios (R$)</th><th class="p-2 md:p-3">Custo Mensal (R$)</th><th class="p-2 md:p-3">Rateio?</th><th class="p-2 md:p-3 text-right">Ações</th>
+                                <th class="p-2 md:p-3">Centro(s) Custo</th>
+                                <th class="p-2 md:p-3">Nome</th>
+                                <th class="p-2 md:p-3">Horas</th>
+                                <th class="p-2 md:p-3">Salário Base (R$)</th>
+                                <th class="p-2 md:p-3">Benefícios (R$)</th>
+                                <th class="p-2 md:p-3">Custo Mensal (R$)</th>
+                                <th class="p-2 md:p-3">Rateio?</th>
+                                <th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-func-body" class="divide-y divide-brand-border/50">
                             <tr><td colspan="8" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
+                        <tfoot id="tbl-func-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
                 </div>
             </div>
@@ -690,7 +701,9 @@
                                     <button type="button" onclick="zerarPercentuaisPlanoCC()" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white">Zerar</button>
                                 </div>
                             </div>
-                            <div id="container-rateio-plc-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
+                            <div id="container-rateio-plc-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
+                                <!-- Preenchido dinamicamente via JS -->
+                            </div>
                             <div class="flex justify-between items-center text-xs font-bold pt-2 border-t border-brand-border/50">
                                 <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct-plc" class="text-red-400 text-sm">0%</strong></span>
                                 <span id="display-status-validacao-plc" class="text-red-400 font-extrabold">⚠️ A SOMA DEVE SER IGUAL A 100.0%</span>
@@ -743,16 +756,22 @@
                     <h3 class="text-base md:text-lg font-bold text-white">Contas Cadastradas</h3>
                     <button onclick="carregarPlanoContas()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
                 </div>
+
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Descrição da Conta</th><th class="p-2 md:p-3">Critério Rateio / Destino</th><th class="p-2 md:p-3">Participantes / Destino</th><th class="p-2 md:p-3">Valor Mensal (R$)</th><th class="p-2 md:p-3 text-right">Ações</th>
+                                <th class="p-2 md:p-3">Descrição da Conta</th>
+                                <th class="p-2 md:p-3">Critério Rateio / Destino</th>
+                                <th class="p-2 md:p-3">Participantes / Destino</th>
+                                <th class="p-2 md:p-3">Valor Mensal (R$)</th>
+                                <th class="p-2 md:p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-plc-body" class="divide-y divide-brand-border/50">
                             <tr><td colspan="5" class="p-4 text-center">Carregando...</td></tr>
                         </tbody>
+                        <tfoot id="tbl-plc-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
                     </table>
                 </div>
             </div>
@@ -760,6 +779,7 @@
 
         <!-- ABA 6: RESULTADOS & ANÁLISES -->
         <section id="section-resultados" class="hidden space-y-6">
+            
             <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-bold text-white uppercase">🔍 Comparar Períodos:</span>
@@ -776,21 +796,25 @@
                     <h3 id="res-card-investimento-total" class="text-lg md:text-xl font-extrabold text-white">R$ 0,00</h3>
                     <p class="text-[10px] text-brand-muted">Prédio + Máquinas + Período</p>
                 </div>
+
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Ponto de Equilíbrio</span>
                     <h3 id="res-card-ponto-equilibrio" class="text-lg md:text-xl font-extrabold text-brand-primary">R$ 0,00</h3>
                     <p class="text-[10px] text-brand-muted">Gastos + Perdas + Meta Rent.</p>
                 </div>
+
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Despesas Fixas / Fat.</span>
                     <h3 id="res-card-pct-despesa-fixa" class="text-lg md:text-xl font-extrabold text-amber-400">0,0%</h3>
                     <p class="text-[10px] text-brand-muted">Peso do Admin/Sócios no Fat.</p>
                 </div>
+
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Rentabilidade Atual</span>
                     <h3 id="res-card-rentabilidade-atual" class="text-lg md:text-xl font-extrabold text-emerald-400">0,0% a.m.</h3>
                     <p class="text-[10px] text-brand-muted">Lucro / Investimento Total</p>
                 </div>
+
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Payback Estimado</span>
                     <h3 id="res-card-payback" class="text-lg md:text-xl font-extrabold text-blue-400">0 meses</h3>
@@ -802,12 +826,16 @@
                 <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <div class="flex justify-between items-center border-b border-brand-border/50 pb-3">
                         <div>
-                            <h2 class="text-lg font-bold text-white flex items-center gap-2">📊 DRE Gerencial Industrial</h2>
+                            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                                📊 DRE Gerencial Industrial
+                            </h2>
                             <p class="text-xs text-brand-muted">💡 Clique na linha de qualquer grupo para ver o detalhamento de contas e valores</p>
                         </div>
                         <span class="text-xs font-bold text-brand-primary uppercase" id="dre-period-display">---</span>
                     </div>
-                    <div id="container-dre-rows" class="space-y-2.5 text-xs md:text-sm"></div>
+
+                    <div id="container-dre-rows" class="space-y-2.5 text-xs md:text-sm">
+                    </div>
                 </div>
 
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4 flex flex-col justify-between">
@@ -815,6 +843,7 @@
                         <h3 class="text-base font-bold text-white">Composição do Faturamento (DRE)</h3>
                         <p class="text-xs text-brand-muted">Distribuição percentual do orçamento da DRE</p>
                     </div>
+
                     <div class="relative w-full aspect-square flex items-center justify-center p-2">
                         <canvas id="chart-cc-distribuicao"></canvas>
                     </div>
@@ -828,6 +857,7 @@
                         <p class="text-xs text-brand-muted">💡 Clique na linha de qualquer setor para ver a composição detalhada do Custo-Hora e Horas Efetivas</p>
                     </div>
                 </div>
+
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
@@ -926,6 +956,30 @@
                 </div>
                 <button onclick="fecharModalImportarPlano()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
             </div>
+
+            <!-- INSTRUÇÕES E BOTÃO DE DOWNLOAD DO CSV EXEMPLO COMPLETO -->
+            <div class="space-y-3 text-xs text-brand-muted">
+                <div class="bg-brand-primary/10 border border-brand-primary/30 p-3 rounded-lg flex items-center justify-between gap-2">
+                    <div>
+                        <strong class="text-white block text-xs">Precisa do modelo de preenchimento?</strong>
+                        <span>Baixe a planilha modelo com exemplos de todos os critérios de rateio.</span>
+                    </div>
+                    <button onclick="baixarModeloCSVPlano()" class="bg-brand-primary hover:bg-brand-hover text-white font-bold px-3 py-2 rounded text-xs whitespace-nowrap transition shadow">
+                        📥 Baixar Modelo (.CSV)
+                    </button>
+                </div>
+
+                <p>O arquivo CSV deve conter o cabeçalho na primeira linha com a estrutura:</p>
+                <div class="bg-[#0d0d0f] p-2.5 rounded font-mono text-[11px] border border-brand-border text-emerald-400">
+                    NOME; CRITERIO; VALOR; CENTRO_CUSTO_ID
+                </div>
+                <ul class="list-disc pl-4 space-y-1">
+                    <li><strong>CRITERIO:</strong> EXCLUSIVO, AREA, RECURSOS, HORAS, SELETIVO_PERCENTUAL, etc.</li>
+                    <li><strong>VALOR:</strong> Valor numérico da conta (ex: 1500.00)</li>
+                    <li><strong>CENTRO_CUSTO_ID:</strong> Nome/ID do CC ou estrutura em % para rateio seletivo</li>
+                </ul>
+            </div>
+
             <div class="border-2 border-dashed border-brand-border p-6 rounded-xl text-center space-y-2 bg-[#0d0d0f]">
                 <input type="file" id="csv-file-input" accept=".csv" class="hidden" onchange="processarArquivoCSV(event)">
                 <label for="csv-file-input" class="cursor-pointer bg-brand-border hover:bg-brand-border/80 text-white font-bold px-4 py-2 rounded-lg text-xs inline-block">
@@ -933,6 +987,7 @@
                 </label>
                 <p id="csv-file-name" class="text-xs text-brand-muted pt-1">Nenhum arquivo selecionado</p>
             </div>
+
             <div class="flex justify-end gap-2 border-t border-brand-border pt-3">
                 <button onclick="fecharModalImportarPlano()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Cancelar</button>
                 <button id="btn-confirmar-importacao" onclick="confirmarImportacaoCSV()" disabled class="bg-emerald-600 hover:bg-emerald-500 opacity-40 text-white font-bold px-4 py-2 rounded text-xs transition cursor-not-allowed">Confirmar Importação</button>
@@ -1138,11 +1193,11 @@
             }
         }
 
-        // CALCULO DE DEPRECIAÇÃO DE RECURSOS (COLUNA TRECURSO_PERCENTUAL_DEPRECIACAO)
+        // CALCULO DE DEPRECIAÇÃO DE RECURSOS
         function calcularCustoMensalRecurso() {
             const val = parseMoedaBR(document.getElementById('rec-valor').value);
             const tipoSelecionado = String(document.getElementById('rec-tipo').value || "").trim().toUpperCase();
-            let taxaMensal = 0.0083; // Valor padrão de segurança (~0,83% ao mês)
+            let taxaMensal = 0.0083; // Padrao ~0.83% a.m.
 
             if (Array.isArray(tabelaPadroes) && tipoSelecionado) {
                 const itemPadrao = tabelaPadroes.find(p => {
@@ -1167,6 +1222,27 @@
             document.getElementById('rec-custo-mensal').value = formatarMoedaBR(custoMensal);
         }
 
+        // GERAR E BAIXAR MODELO CSV COMPLETO COM EXEMPLOS DE TODOS OS CRITÉRIOS
+        function baixarModeloCSVPlano() {
+            const emps = listaCC.length > 0 ? listaCC[0].TCENTRO_CUSTO_ID : 'CC-001';
+            const emps2 = listaCC.length > 1 ? listaCC[1].TCENTRO_CUSTO_ID : 'CC-002';
+
+            const conteudo = `NOME;CRITERIO;VALOR;CENTRO_CUSTO_ID
+MATERIAL DE ESCRITORIO;EXCLUSIVO;350.00;${emps}
+ALUGUEL DO PREDIO FABRIL;AREA;8500.00;
+MANUTENCAO PREVENTIVA;RECURSOS;2400.00;
+SUPERVISAO DE TURNO;HORAS;4200.00;
+SISTEMA DE GESTAO ERP;SELETIVO_PERCENTUAL;1800.00;[{"id":"${emps}","pct":60},{"id":"${emps2}","pct":40}]
+EMBALAGENS PLASTICAS POR ENCOMENDA;NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO);3200.00;
+COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500.00;`;
+
+            const blob = new Blob(["\ufeff" + conteudo], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "modelo_plano_de_contas_completo.csv";
+            link.click();
+        }
+
         // SISTEMA DE GRADE EDITÁVEL EM LOTE (4 ABAS)
         function abrirModalGradeLote(entidade) {
             entidadeGradeAtiva = entidade;
@@ -1174,7 +1250,7 @@
             const thead = document.getElementById('grade-lote-thead');
             const title = document.getElementById('grade-lote-title');
             
-            // RESET DO BOTÃO DE SALVAR AO ABRIR O MODAL
+            // RESTAURAR ESTADO DO BOTÃO DE SALVAR AO ABRIR O MODAL
             const btn = document.getElementById('btn-salvar-grade-lote');
             if (btn) {
                 btn.innerText = "🚀 Salvar Tudo em Lote";
@@ -1563,8 +1639,8 @@
                 });
 
                 alert(`🎉 Sucesso! ${batchData.length} registros gravados com todas as regras e recalculados!`);
-                
-                // RESTAURAÇÃO DO BOTÃO APÓS GRAVAÇÃO
+
+                // RESTAURAÇÃO DO BOTÃO APÓS CONCLUSÃO
                 btn.innerText = "🚀 Salvar Tudo em Lote";
                 btn.disabled = false;
 
@@ -1582,6 +1658,110 @@
                 btn.disabled = false;
                 setSyncStatus(false, "Erro ao gravar lote");
             }
+        }
+
+        function abrirModalImportarPlano() {
+            dadosCSVImportacao = [];
+            document.getElementById('csv-file-input').value = '';
+            document.getElementById('csv-file-name').innerText = 'Nenhum arquivo selecionado';
+            document.getElementById('btn-confirmar-importacao').disabled = true;
+            document.getElementById('btn-confirmar-importacao').classList.add('opacity-40', 'cursor-not-allowed');
+            document.getElementById('modal-importar-plano').classList.remove('hidden');
+        }
+
+        function fecharModalImportarPlano() {
+            document.getElementById('modal-importar-plano').classList.add('hidden');
+        }
+
+        function processarArquivoCSV(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            document.getElementById('csv-file-name').innerText = file.name;
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const linhas = text.split(/\r\n|\n/);
+                dadosCSVImportacao = [];
+
+                if (linhas.length <= 1) {
+                    alert("O arquivo CSV está vazio ou em formato inválido.");
+                    return;
+                }
+
+                for (let i = 1; i < linhas.length; i++) {
+                    if (!linhas[i].trim()) continue;
+                    const colunas = linhas[i].split(/;|,/).map(c => c.trim());
+
+                    if (colunas.length >= 3) {
+                        let nome = colunas[0].toUpperCase();
+                        let criterio = colunas[1].toUpperCase() || 'AREA';
+                        let valor = parseMoedaBR(colunas[2]);
+                        
+                        let rawCC = colunas.slice(3).join(';').trim();
+                        rawCC = rawCC.replace(/^"+|"$/g, '').replace(/""/g, '"');
+                        rawCC = rawCC.replace(/;\s*"/g, ',"').replace(/;\s*\{/g, ',{');
+
+                        let ccId = rawCC;
+                        if (criterio === 'EXCLUSIVO' && rawCC) {
+                            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === rawCC.toUpperCase() || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === rawCC.toUpperCase());
+                            if (ccObj) ccId = ccObj.TCENTRO_CUSTO_ID;
+                        }
+
+                        if (nome && valor > 0) {
+                            dadosCSVImportacao.push({ nome, criterio, valor, ccId });
+                        }
+                    }
+                }
+
+                if (dadosCSVImportacao.length > 0) {
+                    const btn = document.getElementById('btn-confirmar-importacao');
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-40', 'cursor-not-allowed');
+                    alert(`${dadosCSVImportacao.length} contas identificadas com sucesso no arquivo! Clique em Confirmar Importação.`);
+                } else {
+                    alert("Nenhuma conta válida foi encontrada no arquivo. Verifique o formato.");
+                }
+            };
+
+            reader.readAsText(file, "UTF-8");
+        }
+
+        async function confirmarImportacaoCSV() {
+            if (!dadosCSVImportacao || dadosCSVImportacao.length === 0) return;
+
+            const btn = document.getElementById('btn-confirmar-importacao');
+            btn.innerText = "Importando...";
+            btn.disabled = true;
+            setSyncStatus(true, "Importando lote...");
+
+            let sucessos = 0;
+
+            for (const item of dadosCSVImportacao) {
+                const payload = {
+                    sheet: "TPLANO_CONTAS",
+                    action: "CREATE",
+                    clienteId: usuarioLogado.TCLIENTE_ID,
+                    periodoId: periodoAtivoObj.TPERIODO_ID,
+                    data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, item.ccId, "", item.nome, item.criterio, item.valor]
+                };
+
+                try {
+                    await fetch(API_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    sucessos++;
+                } catch(e) {}
+            }
+
+            alert(`${sucessos} contas do Plano de Contas foram importadas com sucesso!`);
+            fecharModalImportarPlano();
+            setSyncStatus(false);
+            setTimeout(carregarPlanoContas, 1500);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -2762,119 +2942,6 @@
                 }
             }
             return isValido;
-        }
-
-        function abrirModalImportarPlano() {
-            dadosCSVImportacao = [];
-            document.getElementById('csv-file-input').value = '';
-            document.getElementById('csv-file-name').innerText = 'Nenhum arquivo selecionado';
-            document.getElementById('btn-confirmar-importacao').disabled = true;
-            document.getElementById('btn-confirmar-importacao').classList.add('opacity-40', 'cursor-not-allowed');
-            document.getElementById('modal-importar-plano').classList.remove('hidden');
-        }
-
-        function fecharModalImportarPlano() {
-            document.getElementById('modal-importar-plano').classList.add('hidden');
-        }
-
-        function baixarModeloCSVPlano() {
-            const conteudo = "NOME;CRITERIO;VALOR;CENTRO_CUSTO_ID\nENERGIA ELETRICA;AREA;1500.00;\nALUGUEL PREDIO;AREA;5000.00;\nSISTEMA ERP;SELETIVO_PERCENTUAL;1000.00;[{\"id\":\"CC-001\",\"pct\":60},{\"id\":\"CC-002\",\"pct\":40}]\nMANUTENCAO MAQUINAS;RECURSOS;800.00;\nMATERIAL ESCRITORIO;EXCLUSIVO;200.00;CC-001\nCOMISSAO VENDAS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1200.00;";
-            const blob = new Blob(["\ufeff" + conteudo], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "modelo_plano_de_contas.csv";
-            link.click();
-        }
-
-        function processarArquivoCSV(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            document.getElementById('csv-file-name').innerText = file.name;
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                const text = e.target.result;
-                const linhas = text.split(/\r\n|\n/);
-                dadosCSVImportacao = [];
-
-                if (linhas.length <= 1) {
-                    alert("O arquivo CSV está vazio ou em formato inválido.");
-                    return;
-                }
-
-                for (let i = 1; i < linhas.length; i++) {
-                    if (!linhas[i].trim()) continue;
-                    const colunas = linhas[i].split(/;|,/).map(c => c.trim());
-
-                    if (colunas.length >= 3) {
-                        let nome = colunas[0].toUpperCase();
-                        let criterio = colunas[1].toUpperCase() || 'AREA';
-                        let valor = parseMoedaBR(colunas[2]);
-                        
-                        let rawCC = colunas.slice(3).join(';').trim();
-                        rawCC = rawCC.replace(/^"+|"$/g, '').replace(/""/g, '"');
-                        rawCC = rawCC.replace(/;\s*"/g, ',"').replace(/;\s*\{/g, ',{');
-
-                        let ccId = rawCC;
-                        if (criterio === 'EXCLUSIVO' && rawCC) {
-                            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === rawCC.toUpperCase() || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === rawCC.toUpperCase());
-                            if (ccObj) ccId = ccObj.TCENTRO_CUSTO_ID;
-                        }
-
-                        if (nome && valor > 0) {
-                            dadosCSVImportacao.push({ nome, criterio, valor, ccId });
-                        }
-                    }
-                }
-
-                if (dadosCSVImportacao.length > 0) {
-                    const btn = document.getElementById('btn-confirmar-importacao');
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-40', 'cursor-not-allowed');
-                    alert(`${dadosCSVImportacao.length} contas identificadas com sucesso no arquivo! Clique em Confirmar Importação.`);
-                } else {
-                    alert("Nenhuma conta válida foi encontrada no arquivo. Verifique o formato.");
-                }
-            };
-
-            reader.readAsText(file, "UTF-8");
-        }
-
-        async function confirmarImportacaoCSV() {
-            if (!dadosCSVImportacao || dadosCSVImportacao.length === 0) return;
-
-            const btn = document.getElementById('btn-confirmar-importacao');
-            btn.innerText = "Importando...";
-            btn.disabled = true;
-            setSyncStatus(true, "Importando lote...");
-
-            let sucessos = 0;
-
-            for (const item of dadosCSVImportacao) {
-                const payload = {
-                    sheet: "TPLANO_CONTAS",
-                    action: "CREATE",
-                    clienteId: usuarioLogado.TCLIENTE_ID,
-                    periodoId: periodoAtivoObj.TPERIODO_ID,
-                    data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, item.ccId, "", item.nome, item.criterio, item.valor]
-                };
-
-                try {
-                    await fetch(API_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    sucessos++;
-                } catch(e) {}
-            }
-
-            alert(`${sucessos} contas do Plano de Contas foram importadas com sucesso!`);
-            fecharModalImportarPlano();
-            setSyncStatus(false);
-            setTimeout(carregarPlanoContas, 1500);
         }
 
         function verificarCriterioPlanoContas() {
