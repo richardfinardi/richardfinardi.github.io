@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.4 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.3 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -46,7 +46,7 @@
     <header class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.4</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.3</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -74,7 +74,7 @@
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.4</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.3</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -111,7 +111,7 @@
             <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Resultados & Análises</button>
         </div>
 
-        <!-- PAINEL ADMIN -->
+        <!-- ABA GERENCIAMENTO ADMIN -->
         <section id="section-admin" class="hidden space-y-6">
             <div class="border-b border-brand-border pb-4 flex justify-between items-center">
                 <div>
@@ -1168,8 +1168,8 @@
             }
         }
 
-        // CALCULO AJUSTADO DE DEPRECIAÇÃO DE RECURSOS (BUSCA EXATA EM PADROES)
-function calcularCustoMensalRecurso() {
+        // CALCULO DE DEPRECIAÇÃO DE RECURSOS (COLUNA TRECURSO_PERCENTUAL_DEPRECIACAO)
+        function calcularCustoMensalRecurso() {
             const val = parseMoedaBR(document.getElementById('rec-valor').value);
             const tipoSelecionado = String(document.getElementById('rec-tipo').value || "").trim().toUpperCase();
             let taxaMensal = 0.0083; // Valor padrão de segurança (~0,83% ao mês)
@@ -1181,13 +1181,10 @@ function calcularCustoMensalRecurso() {
                 });
 
                 if (itemPadrao) {
-                    // Puxa o valor da coluna exata: TRECURSO_PERCENTUAL_DEPRECIACAO
                     let taxaRaw = itemPadrao.TRECURSO_PERCENTUAL_DEPRECIACAO;
                     if (typeof taxaRaw === 'string') {
                         taxaRaw = parseFloat(taxaRaw.replace('%', '').replace(',', '.')) || 0;
                     }
-                    
-                    // Se estiver gravado como 0.83 (porcentagem inteira), converte para decimal (0.0083)
                     if (taxaRaw > 1) {
                         taxaMensal = taxaRaw / 100;
                     } else if (taxaRaw > 0) {
@@ -1196,7 +1193,6 @@ function calcularCustoMensalRecurso() {
                 }
             }
 
-            // Cálculo exato e direto: Valor do Item x Taxa Mensal
             const custoMensal = val * taxaMensal;
             document.getElementById('rec-custo-mensal').value = formatarMoedaBR(custoMensal);
         }
@@ -1497,10 +1493,17 @@ function calcularCustoMensalRecurso() {
                     const tipo = tr.querySelector('.g-col-3').value;
                     const turnos = parseInt(tr.querySelector('.g-col-4').value, 10) || 1;
                     
-                    let taxaAnual = 0.10;
+                    let taxaMensal = 0.0083;
                     const pTipo = tabelaPadroes.find(p => String(p.TRECURSO_TIPO).toUpperCase() === String(tipo).toUpperCase());
-                    if (pTipo && pTipo.TRECURSO_TAXA_DEPRECIACAO) taxaAnual = parseFloat(pTipo.TRECURSO_TAXA_DEPRECIACAO) || 0.10;
-                    const custoMensal = val * (taxaAnual / 12);
+                    if (pTipo && pTipo.TRECURSO_PERCENTUAL_DEPRECIACAO) {
+                        let taxaRaw = pTipo.TRECURSO_PERCENTUAL_DEPRECIACAO;
+                        if (typeof taxaRaw === 'string') {
+                            taxaRaw = parseFloat(taxaRaw.replace('%', '').replace(',', '.')) || 0;
+                        }
+                        if (taxaRaw > 1) taxaMensal = taxaRaw / 100;
+                        else if (taxaRaw > 0) taxaMensal = taxaRaw;
+                    }
+                    const custoMensal = val * taxaMensal;
 
                     batchData.push([
                         usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, val, tipo, custoMensal, turnos
