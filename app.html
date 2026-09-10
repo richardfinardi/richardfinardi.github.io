@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF GPT | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.9 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -39,7 +39,7 @@
             button, .no-print, ::-webkit-scrollbar { display: none !important; }
         }
 
-        /* ===== GPT UX/UI LAYER ===== */
+        /* ===== V4.9 UX/UI LAYER ===== */
         :root { --ui-bg:#0d0d0f; --ui-card:#16161a; --ui-border:#242429; --ui-text:#f4f4f5; --ui-muted:#9ea0a6; }
         body { background:var(--ui-bg); color:var(--ui-text); transition:background .2s,color .2s; }
         body.light-mode { --ui-bg:#f5f7fb; --ui-card:#ffffff; --ui-border:#dbe1ea; --ui-text:#111827; --ui-muted:#64748b; }
@@ -89,7 +89,7 @@
     </style>
 
 <style id="v49-ui-fix">
-/* ===== GPT.1 — SIDEBAR / TABLE ENGINE FIX ===== */
+/* ===== V4.9.1 — SIDEBAR / TABLE ENGINE FIX ===== */
 #app-header { padding-left:68px !important; min-height:64px; }
 #sidebar-toggle { left:12px !important; top:12px !important; }
 #nav-cliente-tabs {
@@ -162,15 +162,50 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
     body.sidebar-collapsed #main-content { margin-left:0 !important; width:100% !important; }
 }
 </style>
+
+<style id="v49-sidebar-final-fix">
+/* V4.9.2 — ÚNICO botão do menu: somente no rodapé da barra lateral */
+#app-header > #sidebar-toggle { display:none !important; }
+#sidebar-tools {
+    position:absolute !important;
+    left:12px !important; right:12px !important; bottom:14px !important;
+    display:flex !important; flex-direction:column !important; gap:7px !important;
+    padding-top:10px !important; border-top:1px solid #292b31 !important;
+    background:inherit;
+}
+#sidebar-toggle {
+    position:relative !important;
+    inset:auto !important;
+    z-index:1 !important;
+    display:flex !important; align-items:center !important; justify-content:flex-start !important;
+    gap:10px !important; width:100% !important; min-height:38px !important;
+    padding:9px 12px !important; border:1px solid #30333a !important;
+    border-radius:10px !important; background:#191b20 !important;
+    color:#d8dbe1 !important; font-size:12px !important; font-weight:800 !important;
+    cursor:pointer !important; box-shadow:none !important;
+}
+#sidebar-toggle:hover { background:#24272e !important; color:#fff !important; border-color:#ff8838 !important; }
+#sidebar-toggle::before { content:none !important; }
+body.light-mode #sidebar-toggle { background:#f1f5f9 !important; color:#334155 !important; border-color:#dbe1ea !important; }
+body.light-mode #sidebar-toggle:hover { background:#fff7ed !important; color:#111827 !important; border-color:#fdba74 !important; }
+body.sidebar-collapsed #sidebar-toggle { justify-content:center !important; padding:9px !important; font-size:0 !important; gap:0 !important; }
+body.sidebar-collapsed #sidebar-toggle::after { content:'☰'; font-size:18px !important; line-height:1 !important; }
+body.sidebar-collapsed #sidebar-toggle .sidebar-toggle-label { display:none !important; }
+body.sidebar-collapsed #theme-toggle { font-size:0 !important; padding:8px !important; }
+body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !important; }
+@media (max-width:1023px) {
+    #sidebar-toggle { display:flex !important; }
+    #sidebar-tools { bottom:14px !important; }
+}
+</style>
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
     <!-- CABEÇALHO -->
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
-        <button id="sidebar-toggle" onclick="toggleSidebar()" class="hidden lg:flex fixed left-3 top-3 z-[70] w-10 h-10 items-center justify-center rounded-xl bg-brand-card border border-brand-border text-white hover:bg-brand-primary transition font-bold text-lg shadow-lg" aria-label="Alternar menu lateral">☰</button>
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">GPT</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -198,7 +233,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE GPT</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -234,6 +269,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
             <button id="tab-btn-plc" onclick="alternarAbaCliente('plc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Plano de Contas</button>
             <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Resultados & Análises</button>
         <div id="sidebar-tools">
+            <button id="sidebar-toggle" onclick="toggleSidebar()" aria-label="Abrir ou recolher menu lateral" title="Abrir / recolher menu">☰ <span class="sidebar-toggle-label">Menu</span></button>
             <button id="theme-toggle" onclick="toggleTheme()">☾ Tema Escuro</button>
         </div>
         </div>
@@ -3991,7 +4027,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         }
 
         /* ================================================================
-           GPT.1 UX/UI — correções sem alterar a lógica de negócio V4.6
+           V4.9.1 UX/UI — correções sem alterar a lógica de negócio V4.6
            ================================================================ */
         let v49SidebarCollapsed = localStorage.getItem('rf_sidebar_collapsed') === '1';
         let v49Theme = localStorage.getItem('rf_theme') || 'dark';
