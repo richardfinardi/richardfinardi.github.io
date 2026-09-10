@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.8 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.9 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -62,16 +62,15 @@
     <!-- SIDEBAR / MENU LATERAL EXPANSÍVEL -->
     <aside id="sidebar" class="sidebar-transition w-full md:w-64 bg-custom-card border-r border-custom flex flex-col justify-between z-40 shrink-0 sticky top-0 md:h-screen">
         <div class="p-4 space-y-6">
+            <!-- Botão de Expandir/Recolher Menu -->
             <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 overflow-hidden sidebar-text">
-                    <img id="app-logo" src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-7 w-auto">
-                    <span class="text-[10px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-1.5 py-0.5 rounded font-mono font-bold">V4.8</span>
-                </div>
-                <button onclick="toggleSidebar()" class="p-1.5 rounded-lg hover:bg-brand-primary/10 text-custom-muted hover:text-brand-primary transition">
+                <button onclick="toggleSidebar()" class="p-2 rounded-lg hover:bg-brand-primary/10 text-custom-muted hover:text-brand-primary transition flex items-center gap-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <span class="sidebar-text font-bold text-xs">Menu Navegação</span>
                 </button>
             </div>
 
+            <!-- Navegação Principal (Abas) -->
             <nav class="space-y-1">
                 <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-bold bg-brand-primary text-white transition">
                     <span class="text-base">📊</span>
@@ -120,11 +119,16 @@
         </div>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
+    <!-- CONTEÚDO PRINCIPAL (DIREITA) -->
     <div class="flex-1 flex flex-col min-w-0">
 
+        <!-- CABEÇALHO SUPERIOR - LOGO E VERSÃO FIXOS NO SITE -->
         <header class="border-b border-custom bg-custom-card px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-30 gap-3">
+            <!-- LOGO DA APLICAÇÃO E BADGE DA VERSÃO (SEMPRE VISÍVEIS) -->
             <div class="flex items-center gap-3">
+                <img id="app-logo" src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-8 md:h-9 w-auto">
+                <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">V4.9</span>
+                
                 <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2.5 py-1 rounded-full font-bold uppercase"></span>
                 <div id="sync-indicator" class="hidden items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold transition-all">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -132,6 +136,7 @@
                 </div>
             </div>
 
+            <!-- SELETOR DE PERÍODO GLOBAL -->
             <div id="wrapper-periodo-global" class="hidden flex items-center gap-2 bg-custom-bg p-1.5 rounded-lg border border-custom">
                 <span class="text-xs text-custom-muted pl-1">Período Ativo:</span>
                 <select id="global-periodo-select" onchange="trocarPeriodoAtivo()" class="bg-custom-card text-xs font-bold p-1.5 rounded border border-custom outline-none max-w-[200px] truncate">
@@ -145,7 +150,7 @@
             <div class="bg-custom-card p-6 md:p-8 rounded-2xl border border-custom w-full max-w-md space-y-6 shadow-2xl">
                 <div class="text-center space-y-2">
                     <img id="login-logo" src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                    <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.8</span>
+                    <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9</span>
                     <h1 class="text-xl md:text-2xl font-bold pt-2">Painel de Acesso</h1>
                     <p class="text-custom-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
                 </div>
@@ -277,7 +282,7 @@
                     <div class="border-b border-custom pb-2 flex flex-col md:flex-row justify-between items-center gap-3">
                         <div>
                             <h3 class="text-base font-bold">Ranking Geral de Impacto dos Setores</h3>
-                            <p class="text-xs text-custom-muted">💡 Clique no cabeçalho das colunas para reordenar</p>
+                            <p class="text-xs text-custom-muted">💡 Clique em qualquer setor para ver o Raio-X detalhado de seus custos</p>
                         </div>
                         <input type="text" oninput="filtrarTabelaCascata('tbl-ranking-cc-body', this.value)" placeholder="🔍 Filtrar ranking..." class="input-custom p-1.5 px-3 rounded-lg text-xs outline-none w-full md:w-56">
                     </div>
@@ -478,7 +483,6 @@
                                 <input type="text" id="rec-valor" oninput="calcularCustoMensalRecurso()" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
                             </div>
 
-                            <!-- CAMPO AJUSTADO COM ESTILO CLEAN / SEM FUNDO BRANCO -->
                             <div>
                                 <label class="block text-xs text-custom-muted mb-1">Custo Mensal / Depreciação (R$)</label>
                                 <input type="text" id="rec-custo-mensal" readonly placeholder="Calculado auto..." class="input-custom w-full p-2.5 rounded text-sm text-emerald-400 font-extrabold outline-none cursor-not-allowed opacity-90">
@@ -777,7 +781,6 @@
             }
         }
 
-        // FILTRO EM CASCATA COM RECALCULO DE KPIS
         function filtrarTabelaCascata(tbodyId, query) {
             const tbody = document.getElementById(tbodyId);
             if (!tbody) return;
@@ -878,7 +881,6 @@
             return `${nomeRaw.toUpperCase()} [${p.TPERIODO_STATUS ? p.TPERIODO_STATUS.toUpperCase() : 'ABERTO'}]`;
         }
 
-        // REGRAS DE NEGÓCIO NO CADASTRO DE CENTRO DE CUSTO
         function verificarTipoRateioCC() {
             const rateio = document.getElementById('cc-tipo-rateio').value;
             const wrapFixo = document.getElementById('wrapper-cc-custo-fixo');
