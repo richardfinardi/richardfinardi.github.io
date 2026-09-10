@@ -288,6 +288,7 @@
                         </table>
                     </div>
                 </div>
+
             </section>
 
             <!-- ABA CONFIG PERÍODO -->
@@ -306,22 +307,27 @@
                             <label class="block text-xs text-theme-muted mb-1">Faturamento Médio Mensal (R$)</label>
                             <input type="text" id="cfg-faturamento" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
                         </div>
+
                         <div>
                             <label class="block text-xs text-theme-muted mb-1">Alíquota Média Impostos sobre Vendas (%)</label>
                             <input type="number" step="0.01" id="cfg-aliquota" placeholder="0,00" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
                         </div>
+
                         <div>
                             <label class="block text-xs text-theme-muted mb-1">Valor Total Prédio Próprio (R$)</label>
                             <input type="text" id="cfg-predio" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
                         </div>
+
                         <div>
                             <label class="block text-xs text-theme-muted mb-1">Rentabilidade Objetiva Meta (%)</label>
                             <input type="number" step="0.01" id="cfg-rentabilidade" placeholder="0,00" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
                         </div>
+
                         <div>
                             <label class="block text-xs text-theme-muted mb-1">Retirada Média Mensal dos Sócios (R$)</label>
                             <input type="text" id="cfg-retirada" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
                         </div>
+
                         <div class="flex items-end">
                             <button type="submit" id="btn-salvar-cfg" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg">Salvar Parâmetros</button>
                         </div>
@@ -358,7 +364,7 @@
                     <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                         <div class="flex justify-between items-center border-b border-brand-border/50 pb-2 gap-2">
                             <h3 class="text-base font-bold text-theme-main">Investimentos Previstos no Período</h3>
-                            <input type="text" onkeyup="filtrarTabelaGenerica('tbl-inv-body', this.value)" placeholder="🔍 Buscar investimento..." class="bg-input-bg text-xs p-1.5 rounded border border-brand-border outline-none w-48">
+                            <input type="text" onkeyup="filtrarTabelaGenerica('tbl-inv-body', this.value)" placeholder="🔍 Buscar..." class="bg-input-bg text-xs p-1.5 rounded border border-brand-border outline-none w-48">
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs md:text-sm text-theme-muted">
@@ -1335,80 +1341,565 @@
             }
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            carregarTemaSalvo();
-            aplicarMascarasMonetarias();
-            const savedUser = localStorage.getItem('usuarioLogadoRF');
-            if (savedUser) {
-                try {
-                    usuarioLogado = JSON.parse(savedUser);
-                    buscarNomeEmpresa().then(() => { iniciarSessao(); });
-                } catch(e) { localStorage.removeItem('usuarioLogadoRF'); }
+        // CALCULO DE DEPRECIAÇÃO DE RECURSOS
+        function calcularCustoMensalRecurso() {
+            const val = parseMoedaBR(document.getElementById('rec-valor').value);
+            const tipoSelecionado = String(document.getElementById('rec-tipo').value || "").trim().toUpperCase();
+            let taxaMensal = 0.0083;
+
+            if (Array.isArray(tabelaPadroes) && tipoSelecionado) {
+                const itemPadrao = tabelaPadroes.find(p => {
+                    const tipoPadrao = String(p.TRECURSO_TIPO || "").trim().toUpperCase();
+                    return tipoPadrao === tipoSelecionado;
+                });
+
+                if (itemPadrao) {
+                    let taxaRaw = itemPadrao.TRECURSO_PERCENTUAL_DEPRECIACAO;
+                    if (typeof taxaRaw === 'string') {
+                        taxaRaw = parseFloat(taxaRaw.replace('%', '').replace(',', '.')) || 0;
+                    }
+                    if (taxaRaw > 1) {
+                        taxaMensal = taxaRaw / 100;
+                    } else if (taxaRaw > 0) {
+                        taxaMensal = taxaRaw;
+                    }
+                }
             }
-        });
 
-        async function fazerLogin() {
-            const email = document.getElementById('login-email').value.trim();
-            const pass = document.getElementById('login-password').value.trim();
-            const btn = document.getElementById('btn-login');
+            const custoMensal = val * taxaMensal;
+            document.getElementById('rec-custo-mensal').value = formatarMoedaBR(custoMensal);
+        }
 
-            if (!email || !pass) return alert("Por favor, informe e-mail e senha.");
+        // MODELO CSV
+        function baixarModeloCSVPlano() {
+            const emps = listaCC.length > 0 ? listaCC[0].TCENTRO_CUSTO_ID : 'CC-001';
+            const emps2 = listaCC.length > 1 ? listaCC[1].TCENTRO_CUSTO_ID : 'CC-002';
 
-            try {
-                btn.innerText = "Verificando...";
-                btn.disabled = true;
-                setSyncStatus(true);
+            const conteudo = `NOME;CRITERIO;VALOR;CENTRO_CUSTO_ID
+MATERIAL DE ESCRITORIO;EXCLUSIVO;350.00;${emps}
+ALUGUEL DO PREDIO FABRIL;AREA;8500.00;
+MANUTENCAO PREVENTIVA;RECURSOS;2400.00;
+SUPERVISAO DE TURNO;HORAS;4200.00;
+SISTEMA DE GESTAO ERP;SELETIVO_PERCENTUAL;1800.00;[{"id":"${emps}","pct":60},{"id":"${emps2}","pct":40}]
+EMBALAGENS PLASTICAS POR ENCOMENDA;NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO);3200.00;
+COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500.00;`;
 
-                const response = await fetch(`${API_URL}?action=TUSUARIO`);
-                const usuarios = await response.json();
+            const blob = new Blob(["\ufeff" + conteudo], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "modelo_plano_de_contas_completo.csv";
+            link.click();
+        }
 
-                const user = usuarios.find(u => 
-                    String(u.TUSUARIO_EMAIL).toLowerCase() === email.toLowerCase() &&
-                    String(u.TUSUARIO_SENHA) === pass &&
-                    String(u.TUSUARIO_ATIVO).toUpperCase() === 'SIM'
-                );
-
-                if (!user) {
-                    alert("Acesso negado: E-mail/Senha incorretos ou usuário inativo.");
-                    btn.innerText = "Entrar no Sistema";
-                    btn.disabled = false;
-                    setSyncStatus(false, "Erro de Login");
-                    return;
-                }
-
-                const resCli = await fetch(`${API_URL}?action=TCLIENTE`);
-                const clientes = await resCli.json();
-                const empresa = clientes.find(c => String(c.TCLIENTE_ID) === String(user.TCLIENTE_ID));
-
-                if (empresa && String(empresa.TCLIENTE_ATIVO).toUpperCase() === 'NAO') {
-                    alert("ACESSO BLOQUEADO: A empresa deste usuário está inativada no sistema.");
-                    btn.innerText = "Entrar no Sistema";
-                    btn.disabled = false;
-                    setSyncStatus(false, "Empresa Inativa");
-                    return;
-                }
-
-                usuarioLogado = user;
-                localStorage.setItem('usuarioLogadoRF', JSON.stringify(user));
-                await buscarNomeEmpresa();
-                iniciarSessao();
-
-            } catch (err) {
-                console.error(err);
-                alert("Erro de conexão ao validar o acesso.");
-                btn.innerText = "Entrar no Sistema";
+        // GRADE DE LOTE
+        function abrirModalGradeLote(entidade) {
+            entidadeGradeAtiva = entidade;
+            const modal = document.getElementById('modal-grade-lote');
+            const thead = document.getElementById('grade-lote-thead');
+            const title = document.getElementById('grade-lote-title');
+            
+            const btn = document.getElementById('btn-salvar-grade-lote');
+            if (btn) {
+                btn.innerText = "🚀 Salvar Tudo em Lote";
                 btn.disabled = false;
-                setSyncStatus(false, "Erro de Conexão");
+            }
+
+            let colsHtml = '';
+            if (entidade === 'TCENTRO_CUSTO') {
+                title.innerText = "⚡ Inserção em Lote: Centros de Custo";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Nome Centro Custo</th>
+                    <th class="p-2 border-r border-brand-border">Tipo CC</th>
+                    <th class="p-2 border-r border-brand-border">Área (M²)</th>
+                    <th class="p-2 border-r border-brand-border">Custo Fixo Direto (R$)</th>
+                    <th class="p-2 border-r border-brand-border">Produtividade (%)</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Rateio Horas</th>
+                    <th class="p-2 text-center">Cons. Mínimo</th>
+                </tr>`;
+            } else if (entidade === 'TRECURSO') {
+                title.innerText = "⚡ Inserção em Lote: Recursos & Máquinas";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Centro de Custo</th>
+                    <th class="p-2 border-r border-brand-border">Nome do Recurso</th>
+                    <th class="p-2 border-r border-brand-border">Valor Recurso (R$)</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Recurso</th>
+                    <th class="p-2">Turnos</th>
+                </tr>`;
+            } else if (entidade === 'TFUNCIONARIO') {
+                title.innerText = "⚡ Inserção em Lote: Funcionários";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Centro de Custo Único</th>
+                    <th class="p-2 border-r border-brand-border">Nome Completo</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Registro</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Salário</th>
+                    <th class="p-2 border-r border-brand-border">Salário Base (R$)</th>
+                    <th class="p-2 border-r border-brand-border">Benefícios (R$)</th>
+                    <th class="p-2">Horas Mensais</th>
+                </tr>`;
+            } else if (entidade === 'TPLANO_CONTAS') {
+                title.innerText = "⚡ Inserção em Lote: Plano de Contas";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Descrição da Conta</th>
+                    <th class="p-2 border-r border-brand-border">Critério Rateio / Destino</th>
+                    <th class="p-2 border-r border-brand-border">Centro Custo Exclusivo</th>
+                    <th class="p-2">Valor Mensal (R$)</th>
+                </tr>`;
+            }
+
+            thead.innerHTML = colsHtml;
+            limparGradeLote();
+            modal.classList.remove('hidden');
+        }
+
+        function fecharModalGradeLote() {
+            document.getElementById('modal-grade-lote').classList.add('hidden');
+        }
+
+        function limparGradeLote() {
+            const tbody = document.getElementById('grade-lote-tbody');
+            tbody.innerHTML = '';
+            for (let i = 0; i < 5; i++) adicionarLinhaGrade();
+        }
+
+        function adicionarLinhaGrade() {
+            const tbody = document.getElementById('grade-lote-tbody');
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-brand-border/20 transition";
+
+            if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
+                let optionsTipoCC = '<option value="PRODUTIVO DIRETO">PRODUTIVO DIRETO</option><option value="PRODUTIVO INDIRETO">PRODUTIVO INDIRETO</option><option value="ADMINISTRATIVO">ADMINISTRATIVO</option>';
+                if(Array.isArray(tabelaPadroes)) {
+                    let opts = '';
+                    tabelaPadroes.forEach(p => { if(p.TCENTRO_CUSTO_TIPO) opts += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO.toUpperCase()}</option>`; });
+                    if(opts) optionsTipoCC = opts;
+                }
+
+                let optionsRateio = '<option value="MAQUINA">MAQUINA</option><option value="HOMEM">HOMEM</option>';
+                if(Array.isArray(tabelaPadroes)) {
+                    let opts = '';
+                    tabelaPadroes.forEach(p => { if(p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS) opts += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS.toUpperCase()}</option>`; });
+                    if(opts) optionsRateio = opts;
+                }
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-1 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                            ${optionsTipoCC}
+                        </select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="0" class="g-col-2 w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="100" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-5 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                            ${optionsRateio}
+                        </select>
+                    </td>
+                    <td class="p-1 text-center"><input type="checkbox" class="g-col-6 w-4 h-4 accent-brand-primary cursor-pointer"></td>
+                `;
+            } else if (entidadeGradeAtiva === 'TRECURSO') {
+                let optionsCC = '<option value="">-- SELECIONE CC --</option>';
+                listaCC.forEach(c => optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`);
+
+                let optionsTipoRec = '<option value="">-- TIPO --</option>';
+                tabelaPadroes.forEach(p => {
+                    if(p.TRECURSO_TIPO) optionsTipoRec += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO.toUpperCase()}</option>`;
+                });
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-0 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">${optionsCC}</select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-2 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-3 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">${optionsTipoRec}</select>
+                    </td>
+                    <td class="p-1"><input type="number" value="1" min="1" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                `;
+            } else if (entidadeGradeAtiva === 'TFUNCIONARIO') {
+                let optionsCC = '<option value="">-- SELECIONE CC --</option>';
+                listaCC.forEach(c => optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`);
+
+                let optionsReg = '<option value="">-- REGISTRO --</option>';
+                tabelaPadroes.forEach(p => {
+                    if(p.TFUNCIONARIO_TP_REGISTRO) optionsReg += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO.toUpperCase()}</option>`;
+                });
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-0 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">${optionsCC}</select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-2 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">${optionsReg}</select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-3 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                            <option value="MENSALISTA">MENSALISTA</option>
+                            <option value="HORISTA">HORISTA</option>
+                        </select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-4 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-5 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1"><input type="number" value="176" class="g-col-6 w-full bg-transparent outline-none p-1 text-right"></td>
+                `;
+            } else if (entidadeGradeAtiva === 'TPLANO_CONTAS') {
+                let optionsCC = '<option value="">-- TODOS OS SETORES --</option>';
+                listaCC.forEach(c => optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`);
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-1 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                            <option value="EXCLUSIVO">EXCLUSIVO (CENTRO DE CUSTO ÚNICO)</option>
+                            <option value="AREA">RATEIO POR ÁREA (M²)</option>
+                            <option value="RECURSOS">RATEIO POR QUANTIDADE DE RECURSOS</option>
+                            <option value="HORAS">RATEIO POR HORAS FINAIS DO CC</option>
+                            <option value="NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)">NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)</option>
+                            <option value="NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)">NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)</option>
+                        </select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-2 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">${optionsCC}</select>
+                    </td>
+                    <td class="p-1"><input type="text" value="0,00" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                `;
+            }
+
+            tbody.appendChild(tr);
+            aplicarMascarasMonetarias();
+            document.getElementById('grade-rows-count').innerText = tbody.children.length;
+        }
+
+        async function colarDoClipboardGrade() {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (!text) return alert("O clipboard está vazio.");
+
+                const linhas = text.split(/\r\n|\n/);
+                if (linhas.length === 0) return;
+
+                const tbody = document.getElementById('grade-lote-tbody');
+                tbody.innerHTML = '';
+
+                linhas.forEach(linhaStr => {
+                    if (!linhaStr.trim()) return;
+                    const cols = linhaStr.split('\t');
+
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-brand-border/20 transition";
+
+                    if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
+                        const valTipo = (cols[1] || 'PRODUTIVO DIRETO').toUpperCase().trim();
+                        const valRateio = (cols[5] || 'MAQUINA').toUpperCase().trim();
+                        const isMin = String(cols[6] || '').toUpperCase().includes('SIM') || cols[6] === '1';
+
+                        tr.innerHTML = `
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${(cols[0]||'').toUpperCase()}" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-1 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                                    <option value="PRODUTIVO DIRETO" ${valTipo === 'PRODUTIVO DIRETO' ? 'selected' : ''}>PRODUTIVO DIRETO</option>
+                                    <option value="PRODUTIVO INDIRETO" ${valTipo === 'PRODUTIVO INDIRETO' ? 'selected' : ''}>PRODUTIVO INDIRETO</option>
+                                    <option value="ADMINISTRATIVO" ${valTipo === 'ADMINISTRATIVO' ? 'selected' : ''}>ADMINISTRATIVO</option>
+                                </select>
+                            </td>
+                            <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="${cols[2]||0}" class="g-col-2 w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${cols[3]||'0,00'}" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="${cols[4]||100}" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-5 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                                    <option value="MAQUINA" ${valRateio === 'MAQUINA' ? 'selected' : ''}>MAQUINA</option>
+                                    <option value="HOMEM" ${valRateio === 'HOMEM' ? 'selected' : ''}>HOMEM</option>
+                                </select>
+                            </td>
+                            <td class="p-1 text-center"><input type="checkbox" ${isMin ? 'checked' : ''} class="g-col-6 w-4 h-4 accent-brand-primary cursor-pointer"></td>
+                        `;
+                    } else if (entidadeGradeAtiva === 'TRECURSO') {
+                        let valCC = (cols[0] || '').toUpperCase().trim();
+                        const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === valCC || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === valCC);
+                        if (ccObj) valCC = ccObj.TCENTRO_CUSTO_ID;
+
+                        let optionsCC = '<option value="">-- SELECIONE CC --</option>';
+                        listaCC.forEach(c => {
+                            optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}" ${String(c.TCENTRO_CUSTO_ID).toUpperCase() === valCC ? 'selected' : ''}>${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`;
+                        });
+
+                        let valTipoRec = (cols[3] || '').toUpperCase().trim();
+                        let optionsTipoRec = '<option value="">-- TIPO --</option>';
+                        tabelaPadroes.forEach(p => {
+                            if(p.TRECURSO_TIPO) {
+                                optionsTipoRec += `<option value="${p.TRECURSO_TIPO}" ${String(p.TRECURSO_TIPO).toUpperCase() === valTipoRec ? 'selected' : ''}>${p.TRECURSO_TIPO.toUpperCase()}</option>`;
+                            }
+                        });
+
+                        tr.innerHTML = `
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-0 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                                    ${optionsCC}
+                                </select>
+                            </td>
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${(cols[1]||'').toUpperCase()}" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${cols[2]||'0,00'}" class="g-col-2 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-3 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                                    ${optionsTipoRec}
+                                </select>
+                            </td>
+                            <td class="p-1"><input type="number" value="${cols[4]||1}" min="1" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                        `;
+                    }
+                    tbody.appendChild(tr);
+                });
+
+                aplicarMascarasMonetarias();
+                document.getElementById('grade-rows-count').innerText = tbody.children.length;
+            } catch(e) {
+                alert("Para colar, permita o acesso ao clipboard ou pressione Ctrl+V.");
             }
         }
 
-        async function buscarNomeEmpresa() {
+        async function salvarGradeLoteEmBloco() {
+            const tbody = document.getElementById('grade-lote-tbody');
+            const rows = tbody.querySelectorAll('tr');
+            let batchData = [];
+
+            rows.forEach(tr => {
+                if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
+                    const nome = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value.trim().toUpperCase() : '';
+                    if (!nome) return;
+
+                    const tipo = tr.querySelector('.g-col-1').value;
+                    const area = parseFloat(tr.querySelector('.g-col-2').value) || 0;
+                    const fx = parseMoedaBR(tr.querySelector('.g-col-3').value);
+                    const prod = parseFloat(tr.querySelector('.g-col-4').value) || 100;
+                    const rateio = tr.querySelector('.g-col-5').value;
+                    const min = tr.querySelector('.g-col-6').checked ? "SIM" : "NAO";
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, "", nome, tipo, min, area, fx, prod, rateio, 0, 0, 0, 0, 0, 0, 0
+                    ]);
+                } else if (entidadeGradeAtiva === 'TRECURSO') {
+                    const ccTarget = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value : '';
+                    const nome = tr.querySelector('.g-col-1') ? tr.querySelector('.g-col-1').value.trim().toUpperCase() : '';
+                    if (!ccTarget || !nome) return;
+
+                    const val = parseMoedaBR(tr.querySelector('.g-col-2').value);
+                    const tipo = tr.querySelector('.g-col-3') ? tr.querySelector('.g-col-3').value.trim().toUpperCase() : '';
+                    const turnos = parseInt(tr.querySelector('.g-col-4').value, 10) || 1;
+                    
+                    let taxaMensal = 0.0083;
+
+                    if (Array.isArray(tabelaPadroes) && tipo) {
+                        const itemPadrao = tabelaPadroes.find(p => {
+                            const tipoPadrao = String(p.TRECURSO_TIPO || "").trim().toUpperCase();
+                            return tipoPadrao === tipo;
+                        });
+
+                        if (itemPadrao) {
+                            let taxaRaw = itemPadrao.TRECURSO_PERCENTUAL_DEPRECIACAO;
+                            if (typeof taxaRaw === 'string') {
+                                taxaRaw = parseFloat(taxaRaw.replace('%', '').replace(',', '.')) || 0;
+                            }
+                            if (taxaRaw > 1) taxaMensal = taxaRaw / 100;
+                            else if (taxaRaw > 0) taxaMensal = taxaRaw;
+                        }
+                    }
+
+                    const custoMensal = val * taxaMensal;
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, val, tipo, custoMensal, turnos
+                    ]);
+                } else if (entidadeGradeAtiva === 'TFUNCIONARIO') {
+                    const ccTarget = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value : '';
+                    const nome = tr.querySelector('.g-col-1') ? tr.querySelector('.g-col-1').value.trim().toUpperCase() : '';
+                    if (!ccTarget || !nome) return;
+
+                    const tpReg = tr.querySelector('.g-col-2').value;
+                    const tpSal = tr.querySelector('.g-col-3').value;
+                    const salBase = parseMoedaBR(tr.querySelector('.g-col-4').value);
+                    const valBen = parseMoedaBR(tr.querySelector('.g-col-5').value);
+                    const hrsMes = parseFloat(tr.querySelector('.g-col-6').value) || 176;
+
+                    const salario = (tpSal === 'HORISTA') ? (salBase * hrsMes) : salBase;
+                    const temRegistro = tpReg !== "SEM REGISTRO";
+                    const decimoTerceiro = temRegistro ? (salario / 12) : 0;
+                    const tercoFerias = temRegistro ? ((salario / 12) / 3) : 0;
+                    const feriasAdic = temRegistro ? (salario / 12) : 0;
+                    const totalBruto = salario + decimoTerceiro + tercoFerias + feriasAdic;
+                    const fgts = temRegistro ? (totalBruto * 0.08) : 0;
+                    const multaFgts = temRegistro ? (fgts * 0.50) : 0;
+                    const isNormal = (tpReg === "NORMAL" || tpReg === "CLT NORMAL" || tpReg === "REGULADO");
+                    const inss = isNormal ? (salario * 0.20) : 0;
+                    const sesc = isNormal ? (salario * 0.02) : 0;
+                    const senai = isNormal ? (salario * 0.025) : 0;
+                    const incra = isNormal ? (salario * 0.033) : 0;
+                    const custoTotal = salario + decimoTerceiro + tercoFerias + feriasAdic + fgts + multaFgts + inss + sesc + senai + incra + valBen;
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, tpReg, tpSal, salBase, valBen, custoTotal, "NAO", 0, hrsMes
+                    ]);
+                } else if (entidadeGradeAtiva === 'TPLANO_CONTAS') {
+                    const nome = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value.trim().toUpperCase() : '';
+                    if (!nome) return;
+
+                    const crit = tr.querySelector('.g-col-1').value;
+                    const ccTarget = tr.querySelector('.g-col-2').value;
+                    const val = parseMoedaBR(tr.querySelector('.g-col-3').value);
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, crit, val
+                    ]);
+                }
+            });
+
+            if (batchData.length === 0) {
+                alert("Nenhuma linha válida preenchida para gravação.");
+                return;
+            }
+
+            const btn = document.getElementById('btn-salvar-grade-lote');
+            btn.innerText = "Gravando Lote...";
+            btn.disabled = true;
+            setSyncStatus(true, "Gravando lote...");
+
+            const payload = {
+                sheet: entidadeGradeAtiva,
+                action: "CREATE_BATCH",
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                batchData: batchData
+            };
+
             try {
-                const res = await fetch(`${API_URL}?action=TCLIENTE`);
-                const clientes = await res.json();
-                const cli = clientes.find(c => String(c.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
-                if (cli) empresaLogadaNome = cli.TCLIENTE_NOME;
-            } catch (e) { empresaLogadaNome = usuarioLogado.TCLIENTE_ID; }
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                alert(`🎉 Sucesso! ${batchData.length} registros gravados com todas as regras e recalculados!`);
+
+                btn.innerText = "🚀 Salvar Tudo em Lote";
+                btn.disabled = false;
+
+                fecharModalGradeLote();
+                setSyncStatus(false);
+
+                if (entidadeGradeAtiva === 'TCENTRO_CUSTO') setTimeout(carregarCentrosDeCusto, 1500);
+                else if (entidadeGradeAtiva === 'TRECURSO') setTimeout(carregarRecursos, 1500);
+                else if (entidadeGradeAtiva === 'TFUNCIONARIO') setTimeout(carregarFuncionarios, 1500);
+                else if (entidadeGradeAtiva === 'TPLANO_CONTAS') setTimeout(carregarPlanoContas, 1500);
+
+            } catch(e) {
+                alert("Erro ao enviar o lote de dados.");
+                btn.innerText = "🚀 Salvar Tudo em Lote";
+                btn.disabled = false;
+                setSyncStatus(false, "Erro ao gravar lote");
+            }
+        }
+
+        function processarArquivoCSV(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            document.getElementById('csv-file-name').innerText = file.name;
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const linhas = text.split(/\r\n|\n/);
+                dadosCSVImportacao = [];
+
+                if (linhas.length <= 1) {
+                    alert("O arquivo CSV está vazio ou em formato inválido.");
+                    return;
+                }
+
+                for (let i = 1; i < linhas.length; i++) {
+                    if (!linhas[i].trim()) continue;
+                    const colunas = linhas[i].split(/;|,/).map(c => c.trim());
+
+                    if (colunas.length >= 3) {
+                        let nome = colunas[0].toUpperCase();
+                        let criterio = colunas[1].toUpperCase() || 'AREA';
+                        let valor = parseMoedaBR(colunas[2]);
+                        
+                        let rawCC = colunas.slice(3).join(';').trim();
+                        rawCC = rawCC.replace(/^"+|"$/g, '').replace(/""/g, '"');
+                        rawCC = rawCC.replace(/;\s*"/g, ',"').replace(/;\s*\{/g, ',{');
+
+                        let ccId = rawCC;
+                        if (criterio === 'EXCLUSIVO' && rawCC) {
+                            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === rawCC.toUpperCase() || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === rawCC.toUpperCase());
+                            if (ccObj) ccId = ccObj.TCENTRO_CUSTO_ID;
+                        }
+
+                        if (nome && valor > 0) {
+                            dadosCSVImportacao.push({ nome, criterio, valor, ccId });
+                        }
+                    }
+                }
+
+                if (dadosCSVImportacao.length > 0) {
+                    const btn = document.getElementById('btn-confirmar-importacao');
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-40', 'cursor-not-allowed');
+                    alert(`${dadosCSVImportacao.length} contas identificadas com sucesso no arquivo! Clique em Confirmar Importação.`);
+                } else {
+                    alert("Nenhuma conta válida foi encontrada no arquivo. Verifique o formato.");
+                }
+            };
+
+            reader.readAsText(file, "UTF-8");
+        }
+
+        async function confirmarImportacaoCSV() {
+            if (!dadosCSVImportacao || dadosCSVImportacao.length === 0) return;
+
+            const btn = document.getElementById('btn-confirmar-importacao');
+            btn.innerText = "Importando...";
+            btn.disabled = true;
+            setSyncStatus(true, "Importando lote...");
+
+            let sucessos = 0;
+
+            for (const item of dadosCSVImportacao) {
+                const payload = {
+                    sheet: "TPLANO_CONTAS",
+                    action: "CREATE",
+                    clienteId: usuarioLogado.TCLIENTE_ID,
+                    periodoId: periodoAtivoObj.TPERIODO_ID,
+                    data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, item.ccId, "", item.nome, item.criterio, item.valor]
+                };
+
+                try {
+                    await fetch(API_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    sucessos++;
+                } catch(e) {}
+            }
+
+            alert(`${sucessos} contas do Plano de Contas foram importadas com sucesso!`);
+            fecharModalImportarPlano();
+            setSyncStatus(false);
+            setTimeout(carregarPlanoContas, 1500);
+        }
+
+        async function carregarTudoDoPeriodo() {
+            carregarInvestimentos();
+            carregarCentrosDeCusto();
+            carregarRecursos();
+            carregarBeneficios();
+            carregarFuncionarios();
+            carregarPlanoContas();
         }
 
         async function iniciarSessao() {
@@ -1441,7 +1932,6 @@
             await carregarPadroes();
             carregarTudoDoPeriodo();
             
-            // ABA INICIAL PADRÃO: RESULTADOS & ANÁLISES
             alternarAbaCliente('res');
         }
 
@@ -1550,143 +2040,60 @@
             }, 300);
         }
 
-        function preencherFormularioConfigPeriodo() {
-            if (!periodoAtivoObj) return;
+        function alternarAbaCliente(aba) {
+            document.getElementById('section-config-periodo').classList.add('hidden');
+            document.getElementById('section-centro-custo').classList.add('hidden');
+            document.getElementById('section-recursos').classList.add('hidden');
+            document.getElementById('section-beneficios').classList.add('hidden');
+            document.getElementById('section-funcionarios').classList.add('hidden');
+            document.getElementById('section-plano-contas').classList.add('hidden');
+            document.getElementById('section-resultados').classList.add('hidden');
+            document.getElementById('section-admin').classList.add('hidden');
 
-            const nameDisplay = document.getElementById('cfg-period-name-display');
-            if (nameDisplay) {
-                nameDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
+            const classInactive = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold text-theme-muted hover:bg-brand-primary/10 hover:text-brand-primary transition";
+            const classActive = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition";
+
+            document.getElementById('nav-btn-res').className = classInactive;
+            document.getElementById('nav-btn-cfg').className = classInactive;
+            document.getElementById('nav-btn-cc').className = classInactive;
+            document.getElementById('nav-btn-rec').className = classInactive;
+            document.getElementById('nav-btn-ben').className = classInactive;
+            document.getElementById('nav-btn-func').className = classInactive;
+            document.getElementById('nav-btn-plc').className = classInactive;
+            document.getElementById('nav-btn-adm').className = classInactive + " border-t border-brand-border mt-2 pt-3";
+
+            if (aba === 'res') {
+                document.getElementById('section-resultados').classList.remove('hidden');
+                document.getElementById('nav-btn-res').className = classActive;
+                gerarAnalisesEResultados();
+            } else if (aba === 'cfg') {
+                document.getElementById('section-config-periodo').classList.remove('hidden');
+                document.getElementById('nav-btn-cfg').className = classActive;
+                carregarInvestimentos();
+            } else if (aba === 'cc') {
+                document.getElementById('section-centro-custo').classList.remove('hidden');
+                document.getElementById('nav-btn-cc').className = classActive;
+                carregarCentrosDeCusto();
+            } else if (aba === 'rec') {
+                document.getElementById('section-recursos').classList.remove('hidden');
+                document.getElementById('nav-btn-rec').className = classActive;
+                carregarRecursos();
+            } else if (aba === 'ben') {
+                document.getElementById('section-beneficios').classList.remove('hidden');
+                document.getElementById('nav-btn-ben').className = classActive;
+                carregarBeneficios();
+            } else if (aba === 'func') {
+                document.getElementById('section-funcionarios').classList.remove('hidden');
+                document.getElementById('nav-btn-func').className = classActive;
+                carregarFuncionarios();
+            } else if (aba === 'plc') {
+                document.getElementById('section-plano-contas').classList.remove('hidden');
+                document.getElementById('nav-btn-plc').className = classActive;
+                carregarPlanoContas();
+            } else if (aba === 'adm') {
+                document.getElementById('section-admin').classList.remove('hidden');
+                document.getElementById('nav-btn-adm').className = classActive + " border-t border-brand-border mt-2 pt-3";
             }
-            
-            document.getElementById('cfg-faturamento').value = Number(periodoAtivoObj.TPERIODO_FATURAMENTO || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            document.getElementById('cfg-aliquota').value = periodoAtivoObj.TPERIODO_ALIQUOTA || 0;
-            document.getElementById('cfg-predio').value = Number(periodoAtivoObj.TPERIODO_PREDIO || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            document.getElementById('cfg-rentabilidade').value = periodoAtivoObj.TPERIODO_RENTABILIDADE || 0;
-            document.getElementById('cfg-retirada').value = Number(periodoAtivoObj.TPERIODO_RETIRADA || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-        }
-
-        function salvarParametrosPeriodo(e) {
-            e.preventDefault();
-            if (!periodoAtivoObj) return;
-
-            const fat = parseMoedaBR(document.getElementById('cfg-faturamento').value);
-            const aliq = parseFloat(document.getElementById('cfg-aliquota').value) || 0;
-            const pred = parseMoedaBR(document.getElementById('cfg-predio').value);
-            const rent = parseFloat(document.getElementById('cfg-rentabilidade').value) || 0;
-            const ret = parseMoedaBR(document.getElementById('cfg-retirada').value);
-
-            periodoAtivoObj.TPERIODO_FATURAMENTO = fat;
-            periodoAtivoObj.TPERIODO_ALIQUOTA = aliq;
-            periodoAtivoObj.TPERIODO_PREDIO = pred;
-            periodoAtivoObj.TPERIODO_RENTABILIDADE = rent;
-            periodoAtivoObj.TPERIODO_RETIRADA = ret;
-
-            const btn = document.getElementById('btn-salvar-cfg');
-            btn.innerText = "Salvando...";
-            btn.disabled = true;
-            setSyncStatus(true);
-
-            const payload = {
-                sheet: "TPERIODO",
-                action: "UPDATE",
-                id: periodoAtivoObj.TPERIODO_ID,
-                clienteId: usuarioLogado.TCLIENTE_ID,
-                periodoId: periodoAtivoObj.TPERIODO_ID,
-                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, periodoAtivoObj.TPERIODO_NOME, periodoAtivoObj.TPERIODO_STATUS || "ABERTO", periodoAtivoObj.TPERIODO_ATUAL || "SIM", fat, aliq, pred, rent, ret]
-            };
-
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                alert("Parâmetros do período atualizados!");
-                btn.innerText = "Salvar Parâmetros";
-                btn.disabled = false;
-                setSyncStatus(false);
-                setTimeout(() => {
-                    carregarPeriodosDoCliente();
-                    carregarCentrosDeCusto();
-                }, 1000);
-            });
-        }
-
-        function renderizarTabelaPeriodosHist() {
-            const tbody = document.getElementById('tbl-periodos-body');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-
-            listaPeriodos.forEach(p => {
-                const isAtivo = p.TPERIODO_ID === periodoAtivoObj.TPERIODO_ID;
-                const isAberto = String(p.TPERIODO_STATUS).toUpperCase() === 'ABERTO';
-
-                tbody.innerHTML += `
-                    <tr class="hover:bg-brand-border/30 transition ${isAtivo ? 'bg-brand-primary/10 border-l-2 border-brand-primary' : ''}">
-                        <td class="p-2 md:p-3 font-semibold text-theme-main">${p.TPERIODO_ID}</td>
-                        <td class="p-2 md:p-3 font-bold text-theme-main uppercase">${formatarNomePeriodoLimpo(p)}</td>
-                        <td class="p-2 md:p-3">${isAberto ? '<span class="text-emerald-400 font-bold">ABERTO</span>' : '<span class="text-amber-500 font-bold">FECHADO</span>'}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(p.TPERIODO_FATURAMENTO)}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(p.TPERIODO_PREDIO)}</td>
-                        <td class="p-2 md:p-3 text-right space-x-1">
-                            <button onclick="alternarStatusPeriodo('${p.TPERIODO_ID}', '${p.TPERIODO_STATUS}')" class="text-[10px] md:text-xs px-2.5 py-1 rounded font-bold ${isAberto ? 'bg-amber-950/60 text-amber-400 border border-amber-800' : 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'}">
-                                ${isAberto ? 'Fechar Período' : 'Reabrir Período'}
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        function modalCriarNovoPeriodo() {
-            const nome = prompt("Informe o nome do novo período (Ex: 2026.2):");
-            if (!nome) return;
-
-            setSyncStatus(true);
-            const payload = {
-                sheet: "TPERIODO",
-                action: "CLONE_PERIOD",
-                clienteId: usuarioLogado.TCLIENTE_ID,
-                periodoOrigemId: periodoAtivoObj ? periodoAtivoObj.TPERIODO_ID : "",
-                novoNomePeriodo: nome.trim().toUpperCase()
-            };
-
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                alert("Novo período criado com sucesso!");
-                setSyncStatus(false);
-                setTimeout(carregarPeriodosDoCliente, 1500);
-            });
-        }
-
-        function alternarStatusPeriodo(id, statusAtual) {
-            const novoStatus = String(statusAtual).toUpperCase() === 'ABERTO' ? 'FECHADO' : 'ABERTO';
-            const item = listaPeriodos.find(p => String(p.TPERIODO_ID) === String(id));
-            if (!item) return;
-
-            setSyncStatus(true);
-            const payload = {
-                sheet: "TPERIODO",
-                action: "UPDATE",
-                id: id,
-                clienteId: usuarioLogado.TCLIENTE_ID,
-                periodoId: id,
-                data: [usuarioLogado.TCLIENTE_ID, id, item.TPERIODO_NOME, novoStatus, item.TPERIODO_ATUAL || "SIM", item.TPERIODO_FATURAMENTO || 0, item.TPERIODO_ALIQUOTA || 0, item.TPERIODO_PREDIO || 0, item.TPERIODO_RENTABILIDADE || 0, item.TPERIODO_RETIRADA || 0]
-            };
-
-            fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                setSyncStatus(false);
-                setTimeout(carregarPeriodosDoCliente, 1500);
-            });
         }
     </script>
 </body>
