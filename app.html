@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.9 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V5.0 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -23,7 +23,7 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         
-        /* Tema Escuro (Padrão) */
+        /* Tema Escuro */
         html.dark body { background-color: #0d0d0f; color: #f4f4f5; }
         html.dark .bg-custom-card { background-color: #16161a; border-color: #242429; }
         html.dark .bg-custom-bg { background-color: #0d0d0f; }
@@ -59,10 +59,9 @@
 </head>
 <body class="min-h-screen flex flex-col md:flex-row overflow-x-hidden">
 
-    <!-- SIDEBAR / MENU LATERAL EXPANSÍVEL -->
+    <!-- SIDEBAR -->
     <aside id="sidebar" class="sidebar-transition w-full md:w-64 bg-custom-card border-r border-custom flex flex-col justify-between z-40 shrink-0 sticky top-0 md:h-screen">
         <div class="p-4 space-y-6">
-            <!-- Botão de Expandir/Recolher Menu -->
             <div class="flex items-center justify-between">
                 <button onclick="toggleSidebar()" class="p-2 rounded-lg hover:bg-brand-primary/10 text-custom-muted hover:text-brand-primary transition flex items-center gap-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -70,7 +69,6 @@
                 </button>
             </div>
 
-            <!-- Navegação Principal (Abas) -->
             <nav class="space-y-1">
                 <button id="tab-btn-res" onclick="alternarAbaCliente('res')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-bold bg-brand-primary text-white transition">
                     <span class="text-base">📊</span>
@@ -119,15 +117,14 @@
         </div>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL (DIREITA) -->
+    <!-- CONTEÚDO PRINCIPAL -->
     <div class="flex-1 flex flex-col min-w-0">
 
-        <!-- CABEÇALHO SUPERIOR - LOGO E VERSÃO FIXOS NO SITE -->
+        <!-- CABEÇALHO SUPERIOR -->
         <header class="border-b border-custom bg-custom-card px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-30 gap-3">
-            <!-- LOGO DA APLICAÇÃO E BADGE DA VERSÃO (SEMPRE VISÍVEIS) -->
             <div class="flex items-center gap-3">
                 <img id="app-logo" src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-8 md:h-9 w-auto">
-                <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">V4.9</span>
+                <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">V5.0</span>
                 
                 <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2.5 py-1 rounded-full font-bold uppercase"></span>
                 <div id="sync-indicator" class="hidden items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold transition-all">
@@ -136,7 +133,6 @@
                 </div>
             </div>
 
-            <!-- SELETOR DE PERÍODO GLOBAL -->
             <div id="wrapper-periodo-global" class="hidden flex items-center gap-2 bg-custom-bg p-1.5 rounded-lg border border-custom">
                 <span class="text-xs text-custom-muted pl-1">Período Ativo:</span>
                 <select id="global-periodo-select" onchange="trocarPeriodoAtivo()" class="bg-custom-card text-xs font-bold p-1.5 rounded border border-custom outline-none max-w-[200px] truncate">
@@ -150,7 +146,7 @@
             <div class="bg-custom-card p-6 md:p-8 rounded-2xl border border-custom w-full max-w-md space-y-6 shadow-2xl">
                 <div class="text-center space-y-2">
                     <img id="login-logo" src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                    <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9</span>
+                    <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.0</span>
                     <h1 class="text-xl md:text-2xl font-bold pt-2">Painel de Acesso</h1>
                     <p class="text-custom-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
                 </div>
@@ -176,7 +172,7 @@
                 <span>🔒 ESTE PERÍODO ESTÁ MARCADO COMO FECHADO. EDIÇÕES E NOVOS CADASTROS ESTÃO DESABILITADOS.</span>
             </div>
 
-            <!-- RESULTADOS & ANÁLISES (ABA PADRÃO INICIAL) -->
+            <!-- 1. RESULTADOS & ANÁLISES -->
             <section id="section-resultados" class="space-y-6">
                 
                 <div class="bg-custom-card p-4 rounded-xl border border-custom flex flex-col md:flex-row justify-between items-center gap-4">
@@ -308,7 +304,15 @@
 
             </section>
 
-            <!-- CENTROS DE CUSTO -->
+            <!-- 2. CONFIGURAÇÃO DE PERÍODO -->
+            <section id="section-config-periodo" class="hidden space-y-6">
+                <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
+                    <h2 class="text-lg font-bold border-b border-custom pb-2">Parâmetros do Período</h2>
+                    <p class="text-xs text-custom-muted">Configure metas, alíquotas e pró-labore do período ativo.</p>
+                </div>
+            </section>
+
+            <!-- 3. CENTROS DE CUSTO -->
             <section id="section-centro-custo" class="hidden space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="bg-custom-card p-4 rounded-xl border border-custom space-y-1">
@@ -325,75 +329,10 @@
                     </div>
                 </div>
 
-                <div class="bg-custom-card rounded-xl border border-custom overflow-hidden transition-all">
-                    <button onclick="toggleFormAccordion('acc-cc')" class="w-full p-4 md:p-5 flex justify-between items-center bg-custom-bg/50 hover:bg-custom-bg transition">
-                        <div class="text-left">
-                            <h2 class="text-base md:text-lg font-bold" id="cc-form-title">Cadastrar Centro de Custo</h2>
-                            <p class="text-xs text-custom-muted">Clique para expandir e cadastrar novos setores</p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span id="acc-cc-icon" class="text-xs bg-brand-primary text-white font-bold px-3 py-1.5 rounded-lg transition">+ Cadastrar Novo</span>
-                        </div>
-                    </button>
-
-                    <div id="acc-cc-content" class="hidden p-5 md:p-6 border-t border-custom space-y-4">
-                        <form id="form-cc" onsubmit="salvarCentroCusto(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <input type="hidden" id="cc-editing-id" value="">
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Nome Centro de Custo</label>
-                                <input type="text" id="cc-nome" placeholder="EX: TORNO CNC" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Tipo Centro de Custo</label>
-                                <select id="cc-tipo" onchange="verificarTipoCentroCusto()" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                                    <option value="">Carregando opções...</option>
-                                </select>
-                            </div>
-
-                            <div id="wrapper-cc-tipo-rateio">
-                                <label class="block text-xs text-custom-muted mb-1">Tipo Rateio de Horas</label>
-                                <select id="cc-tipo-rateio" onchange="verificarTipoRateioCC()" class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                                    <option value="">Carregando opções...</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Área (M²)</label>
-                                <input type="number" step="0.01" id="cc-area" placeholder="0.00" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div id="wrapper-cc-custo-fixo">
-                                <label class="block text-xs text-custom-muted mb-1">Custo Fixo Direto (R$)</label>
-                                <input type="text" id="cc-custo-fixo" placeholder="0,00" class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div id="wrapper-cc-produtividade">
-                                <label class="block text-xs text-custom-muted mb-1">Produtividade (%)</label>
-                                <input type="number" step="0.01" id="cc-produtividade" placeholder="100.00" class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div class="md:col-span-2 flex items-center gap-2 pt-2">
-                                <input type="checkbox" id="cc-considerar-minimo" onchange="verificarConsiderarMinimoCC()" class="w-4 h-4 accent-brand-primary rounded cursor-pointer">
-                                <label for="cc-considerar-minimo" class="text-xs md:text-sm cursor-pointer font-semibold">Considerar Mínimo (Check = 130h Disp. / 100% Prod.)</label>
-                            </div>
-
-                            <div class="flex gap-2 pt-2">
-                                <button type="button" id="btn-cancelar-cc" onclick="limparFormCC()" class="hidden w-1/3 bg-custom-bg border border-custom text-xs font-bold py-2.5 rounded transition">Cancelar</button>
-                                <button type="submit" id="btn-salvar-cc" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Centro de Custo</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
                 <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-3">
                         <h3 class="text-base md:text-lg font-bold">Centros de Custos Cadastrados</h3>
-                        <div class="flex items-center gap-2 w-full md:w-auto">
-                            <input type="text" id="search-cc" oninput="filtrarTabelaCascata('tbl-cc-body', this.value)" placeholder="🔍 Filtrar setores..." class="input-custom p-1.5 px-3 rounded-lg text-xs outline-none w-full md:w-56">
-                            <button onclick="carregarCentrosDeCusto()" class="text-xs bg-custom-bg border border-custom px-3 py-1.5 rounded text-custom-muted hover:text-white transition">Atualizar</button>
-                        </div>
+                        <input type="text" id="search-cc" oninput="filtrarTabelaCascata('tbl-cc-body', this.value)" placeholder="🔍 Filtrar setores..." class="input-custom p-1.5 px-3 rounded-lg text-xs outline-none w-full md:w-56">
                     </div>
 
                     <div class="overflow-x-auto">
@@ -421,13 +360,12 @@
                             <tbody id="tbl-cc-body" class="divide-y divide-custom">
                                 <tr><td colspan="16" class="p-4 text-center">Carregando...</td></tr>
                             </tbody>
-                            <tfoot id="tbl-cc-foot" class="bg-custom-bg font-bold border-t border-custom"></tfoot>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- RECURSOS -->
+            <!-- 4. RECURSOS -->
             <section id="section-recursos" class="hidden space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="bg-custom-card p-4 rounded-xl border border-custom space-y-1">
@@ -444,70 +382,10 @@
                     </div>
                 </div>
 
-                <div class="bg-custom-card rounded-xl border border-custom overflow-hidden transition-all">
-                    <button onclick="toggleFormAccordion('acc-rec')" class="w-full p-4 md:p-5 flex justify-between items-center bg-custom-bg/50 hover:bg-custom-bg transition">
-                        <div class="text-left">
-                            <h2 class="text-base md:text-lg font-bold" id="rec-form-title">Cadastrar Recurso</h2>
-                            <p class="text-xs text-custom-muted">Clique para expandir e cadastrar novas máquinas e ativos</p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span id="acc-rec-icon" class="text-xs bg-brand-primary text-white font-bold px-3 py-1.5 rounded-lg transition">+ Cadastrar Novo</span>
-                        </div>
-                    </button>
-
-                    <div id="acc-rec-content" class="hidden p-5 md:p-6 border-t border-custom space-y-4">
-                        <form id="form-rec" onsubmit="salvarRecurso(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <input type="hidden" id="rec-editing-id" value="">
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Centro de Custo</label>
-                                <select id="rec-cc-id" onchange="verificarSelecaoCCRecurso()" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                                    <option value="">Carregando...</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Nome do Recurso</label>
-                                <input type="text" id="rec-nome" placeholder="EX: TORNO ROMI CENTUR 30V" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Tipo de Recurso</label>
-                                <select id="rec-tipo" onchange="calcularCustoMensalRecurso()" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                                    <option value="">Carregando...</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Valor do Recurso (R$)</label>
-                                <input type="text" id="rec-valor" oninput="calcularCustoMensalRecurso()" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Custo Mensal / Depreciação (R$)</label>
-                                <input type="text" id="rec-custo-mensal" readonly placeholder="Calculado auto..." class="input-custom w-full p-2.5 rounded text-sm text-emerald-400 font-extrabold outline-none cursor-not-allowed opacity-90">
-                            </div>
-
-                            <div id="wrapper-rec-turnos" class="opacity-40 pointer-events-none">
-                                <label class="block text-xs text-custom-muted mb-1">Quantidade de Turnos (Produtivos Diretos)</label>
-                                <input type="number" min="1" step="1" id="rec-turnos" value="1" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div class="md:col-span-3 flex justify-end gap-2 pt-2">
-                                <button type="button" id="btn-cancelar-rec" onclick="limparFormRec()" class="hidden w-1/3 md:w-32 bg-custom-bg border border-custom font-bold py-2.5 rounded text-sm transition">Cancelar</button>
-                                <button type="submit" id="btn-salvar-rec" class="w-full md:w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Recurso</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
                 <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-3">
                         <h3 class="text-base md:text-lg font-bold">Recursos Cadastrados</h3>
-                        <div class="flex items-center gap-2 w-full md:w-auto">
-                            <input type="text" id="search-rec" oninput="filtrarTabelaCascata('tbl-rec-body', this.value)" placeholder="🔍 Filtrar recursos..." class="input-custom p-1.5 px-3 rounded-lg text-xs outline-none w-full md:w-56">
-                            <button onclick="carregarRecursos()" class="text-xs bg-custom-bg border border-custom px-3 py-1.5 rounded text-custom-muted hover:text-white transition">Atualizar</button>
-                        </div>
+                        <input type="text" id="search-rec" oninput="filtrarTabelaCascata('tbl-rec-body', this.value)" placeholder="🔍 Filtrar recursos..." class="input-custom p-1.5 px-3 rounded-lg text-xs outline-none w-full md:w-56">
                     </div>
 
                     <div class="overflow-x-auto">
@@ -526,13 +404,32 @@
                             <tbody id="tbl-rec-body" class="divide-y divide-custom">
                                 <tr><td colspan="7" class="p-4 text-center">Carregando...</td></tr>
                             </tbody>
-                            <tfoot id="tbl-rec-foot" class="bg-custom-bg font-bold border-t border-custom"></tfoot>
                         </table>
                     </div>
                 </div>
             </section>
 
-            <!-- FUNCIONÁRIOS -->
+            <!-- 5. BENEFÍCIOS -->
+            <section id="section-beneficios" class="hidden space-y-6">
+                <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
+                    <h3 class="text-base md:text-lg font-bold">Benefícios Cadastrados</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm text-custom-muted">
+                            <thead class="bg-custom-bg text-[10px] md:text-xs uppercase border-b border-custom">
+                                <tr>
+                                    <th class="p-2 md:p-3">Descrição Benefício</th>
+                                    <th class="p-2 md:p-3">Valor Mensal (R$)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-ben-body" class="divide-y divide-custom">
+                                <tr><td colspan="2" class="p-4 text-center">Carregando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. FUNCIONÁRIOS -->
             <section id="section-funcionarios" class="hidden space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="bg-custom-card p-4 rounded-xl border border-custom space-y-1">
@@ -540,7 +437,7 @@
                         <h3 id="card-func-total" class="text-xl font-bold">0</h3>
                     </div>
                     <div class="bg-custom-card p-4 rounded-xl border border-custom space-y-1">
-                        <span class="text-xs text-custom-muted uppercase font-semibold">Custo Mensal da Folha (com encargos)</span>
+                        <span class="text-xs text-custom-muted uppercase font-semibold">Custo Mensal da Folha</span>
                         <h3 id="card-func-folha" class="text-xl font-bold text-amber-400">R$ 0,00</h3>
                     </div>
                     <div class="bg-custom-card p-4 rounded-xl border border-custom space-y-1">
@@ -549,106 +446,10 @@
                     </div>
                 </div>
 
-                <div class="bg-custom-card rounded-xl border border-custom overflow-hidden transition-all">
-                    <button onclick="toggleFormAccordion('acc-func')" class="w-full p-4 md:p-5 flex justify-between items-center bg-custom-bg/50 hover:bg-custom-bg transition">
-                        <div class="text-left">
-                            <h2 class="text-base md:text-lg font-bold" id="func-form-title">Cadastrar Funcionário</h2>
-                            <p class="text-xs text-custom-muted">Clique para expandir e cadastrar novos colaboradores</p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span id="acc-func-icon" class="text-xs bg-brand-primary text-white font-bold px-3 py-1.5 rounded-lg transition">+ Cadastrar Novo</span>
-                        </div>
-                    </button>
-
-                    <div id="acc-func-content" class="hidden p-5 md:p-6 border-t border-custom space-y-4">
-                        <form id="form-func" onsubmit="salvarFuncionario(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <input type="hidden" id="func-editing-id" value="">
-
-                            <div class="md:col-span-3 border-b border-custom pb-3 space-y-3">
-                                <div class="flex items-center gap-2">
-                                    <input type="checkbox" id="func-is-rateio" onchange="alternarModoRateioFuncionario()" class="w-4 h-4 accent-brand-primary rounded cursor-pointer">
-                                    <label for="func-is-rateio" class="text-sm font-bold cursor-pointer">É Funcionário de Rateio (Atende múltiplos Centros de Custo)?</label>
-                                </div>
-
-                                <div id="wrapper-func-cc-unico">
-                                    <label class="block text-xs text-custom-muted mb-1">Centro de Custo Único</label>
-                                    <select id="func-cc-id" class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                                        <option value="">Carregando...</option>
-                                    </select>
-                                </div>
-
-                                <div id="wrapper-func-cc-rateio" class="hidden space-y-2 bg-custom-bg p-3 rounded border border-custom">
-                                    <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%):</label>
-                                    <div id="container-rateio-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
-                                    <div class="flex justify-between items-center text-xs font-bold pt-1 border-t border-custom">
-                                        <span class="text-custom-muted">Soma dos Percentuais: <strong id="display-total-pct">0%</strong></span>
-                                        <span class="text-custom-muted">Sobra de Custo Não Rateado: <strong id="display-sobra-custo" class="text-emerald-400">R$ 0,00</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Nome Completo</label>
-                                <input type="text" id="func-nome" placeholder="EX: DIEGO HENRIQUE DIAS" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Tipo de Registro</label>
-                                <select id="func-tp-registro" onchange="calcularCustoFuncionario()" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                                    <option value="">Carregando...</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Tipo de Salário</label>
-                                <select id="func-tp-salario" onchange="calcularCustoFuncionario()" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                                    <option value="MENSALISTA">MENSALISTA</option>
-                                    <option value="HORISTA">HORISTA</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Salário Base (R$)</label>
-                                <input type="text" id="func-salario-base" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Horas Mensais</label>
-                                <input type="number" step="0.01" id="func-horas-mes" oninput="calcularCustoFuncionario()" value="176" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div class="md:col-span-2">
-                                <label class="block text-xs text-custom-muted mb-1">Selecione Benefícios</label>
-                                <div id="container-beneficios-checkboxes" class="grid grid-cols-2 md:grid-cols-3 gap-2 bg-custom-bg p-3 rounded border border-custom max-h-32 overflow-y-auto">
-                                    <span class="text-xs text-custom-muted">Nenhum benefício cadastrado</span>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs text-custom-muted mb-1">Valor Total Benefícios (R$)</label>
-                                <input type="text" id="func-beneficios-valor" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
-                            </div>
-
-                            <div class="md:col-span-2">
-                                <label class="block text-xs text-custom-muted mb-1">Custo Mensal Calculado (R$)</label>
-                                <input type="text" id="func-custo-mensal" readonly placeholder="Calculado auto..." class="w-full p-2.5 rounded bg-custom-bg/50 border border-custom text-base text-emerald-400 font-extrabold outline-none cursor-not-allowed">
-                            </div>
-
-                            <div class="flex gap-2 pt-2 md:items-end">
-                                <button type="button" id="btn-cancelar-func" onclick="limparFormFunc()" class="hidden w-1/3 bg-custom-bg border border-custom font-bold py-2.5 rounded text-sm transition">Cancelar</button>
-                                <button type="submit" id="btn-salvar-func" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Funcionário</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
                 <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-3">
                         <h3 class="text-base md:text-lg font-bold">Funcionários Cadastrados</h3>
-                        <div class="flex items-center gap-2 w-full md:w-auto">
-                            <input type="text" id="search-func" oninput="filtrarTabelaCascata('tbl-func-body', this.value)" placeholder="🔍 Filtrar funcionários..." class="input-custom p-1.5 px-3 rounded-lg text-xs outline-none w-full md:w-56">
-                            <button onclick="carregarFuncionarios()" class="text-xs bg-custom-bg border border-custom px-3 py-1.5 rounded text-custom-muted hover:text-white transition">Atualizar</button>
-                        </div>
+                        <input type="text" id="search-func" oninput="filtrarTabelaCascata('tbl-func-body', this.value)" placeholder="🔍 Filtrar funcionários..." class="input-custom p-1.5 px-3 rounded-lg text-xs outline-none w-full md:w-56">
                     </div>
 
                     <div class="overflow-x-auto">
@@ -668,7 +469,27 @@
                             <tbody id="tbl-func-body" class="divide-y divide-custom">
                                 <tr><td colspan="8" class="p-4 text-center">Carregando...</td></tr>
                             </tbody>
-                            <tfoot id="tbl-func-foot" class="bg-custom-bg font-bold border-t border-custom"></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. PLANO DE CONTAS -->
+            <section id="section-plano-contas" class="hidden space-y-6">
+                <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
+                    <h3 class="text-base md:text-lg font-bold">Contas Cadastradas</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm text-custom-muted">
+                            <thead class="bg-custom-bg text-[10px] md:text-xs uppercase border-b border-custom">
+                                <tr>
+                                    <th class="p-2 md:p-3">Descrição da Conta</th>
+                                    <th class="p-2 md:p-3">Critério Rateio</th>
+                                    <th class="p-2 md:p-3">Valor Mensal (R$)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-plc-body" class="divide-y divide-custom">
+                                <tr><td colspan="3" class="p-4 text-center">Carregando...</td></tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -677,7 +498,7 @@
         </main>
     </div>
 
-    <!-- MODAL DE DRILLDOWN DA DRE -->
+    <!-- MODAIS DE DRILLDOWN -->
     <div id="modal-drilldown-dre" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-custom-card border border-custom rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-custom pb-3">
@@ -695,7 +516,6 @@
         </div>
     </div>
 
-    <!-- MODAL DRILLDOWN CUSTO HORA -->
     <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-custom-card border border-custom rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-custom pb-3">
@@ -769,16 +589,40 @@
             }
         }
 
-        function toggleFormAccordion(id) {
-            const content = document.getElementById(`${id}-content`);
-            const icon = document.getElementById(`${id}-icon`);
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                if(icon) icon.innerText = "▲ Recolher Formulário";
-            } else {
-                content.classList.add('hidden');
-                if(icon) icon.innerText = "+ Cadastrar Novo";
+        // ALTERNAR ABAS DE FORMA SEGURA (SEM CRASH POR ELEMENTO NULO)
+        function alternarAbaCliente(aba) {
+            const abasMap = {
+                'res': 'section-resultados',
+                'cfg': 'section-config-periodo',
+                'cc': 'section-centro-custo',
+                'rec': 'section-recursos',
+                'ben': 'section-beneficios',
+                'func': 'section-funcionarios',
+                'plc': 'section-plano-contas'
+            };
+
+            Object.values(abasMap).forEach(secId => {
+                const el = document.getElementById(secId);
+                if (el) el.classList.add('hidden');
+            });
+
+            const targetSec = abasMap[aba];
+            if (targetSec && document.getElementById(targetSec)) {
+                document.getElementById(targetSec).classList.remove('hidden');
             }
+
+            const classInactive = "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-custom-muted hover:text-brand-primary hover:bg-brand-primary/10 transition";
+            const classActive = "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-bold bg-brand-primary text-white transition";
+
+            Object.keys(abasMap).forEach(aKey => {
+                const btn = document.getElementById(`tab-btn-${aKey}`);
+                if (btn) btn.className = classInactive;
+            });
+
+            const activeBtn = document.getElementById(`tab-btn-${aba}`);
+            if (activeBtn) activeBtn.className = classActive;
+
+            if (aba === 'res') gerarAnalisesEResultados();
         }
 
         function filtrarTabelaCascata(tbodyId, query) {
@@ -881,34 +725,6 @@
             return `${nomeRaw.toUpperCase()} [${p.TPERIODO_STATUS ? p.TPERIODO_STATUS.toUpperCase() : 'ABERTO'}]`;
         }
 
-        function verificarTipoRateioCC() {
-            const rateio = document.getElementById('cc-tipo-rateio').value;
-            const wrapFixo = document.getElementById('wrapper-cc-custo-fixo');
-            const wrapProd = document.getElementById('wrapper-cc-produtividade');
-
-            if (rateio === 'FUNCIONARIO') {
-                wrapFixo.classList.add('hidden');
-                wrapProd.classList.add('hidden');
-                document.getElementById('cc-custo-fixo').value = '0,00';
-                document.getElementById('cc-produtividade').value = '0.00';
-            } else {
-                wrapFixo.classList.remove('hidden');
-                wrapProd.classList.remove('hidden');
-                if (document.getElementById('cc-produtividade').value === '0.00') {
-                    document.getElementById('cc-produtividade').value = '100.00';
-                }
-            }
-        }
-
-        function verificarConsiderarMinimoCC() {
-            const isMin = document.getElementById('cc-considerar-minimo').checked;
-            const prodInput = document.getElementById('cc-produtividade');
-
-            if (isMin) {
-                prodInput.value = '100.00';
-            }
-        }
-
         window.addEventListener('DOMContentLoaded', () => {
             aplicarMascarasMonetarias();
             const savedUser = localStorage.getItem('usuarioLogadoRF');
@@ -988,25 +804,6 @@
                 setSyncStatus(true);
                 const response = await fetch(`${API_URL}?action=PADROES`);
                 tabelaPadroes = await response.json();
-
-                const selectTipo = document.getElementById('cc-tipo');
-                const selectRateio = document.getElementById('cc-tipo-rateio');
-                const selectTipoRec = document.getElementById('rec-tipo');
-                const selectTpRegFunc = document.getElementById('func-tp-registro');
-
-                if (selectTipo) selectTipo.innerHTML = '<option value="">-- SELECIONE O TIPO --</option>';
-                if (selectRateio) selectRateio.innerHTML = '<option value="">-- SELECIONE O TIPO RATEIO --</option>';
-                if (selectTipoRec) selectTipoRec.innerHTML = '<option value="">-- SELECIONE O TIPO RECURSO --</option>';
-                if (selectTpRegFunc) selectTpRegFunc.innerHTML = '<option value="">-- SELECIONE TIPO REGISTRO --</option>';
-
-                if (Array.isArray(tabelaPadroes)) {
-                    tabelaPadroes.forEach(p => {
-                        if (p.TCENTRO_CUSTO_TIPO && selectTipo) selectTipo.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO.toUpperCase()}</option>`;
-                        if (p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS && selectRateio) selectRateio.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS.toUpperCase()}</option>`;
-                        if (p.TRECURSO_TIPO && selectTipoRec) selectTipoRec.innerHTML += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO.toUpperCase()}</option>`;
-                        if (p.TFUNCIONARIO_TP_REGISTRO && selectTpRegFunc) selectTpRegFunc.innerHTML += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO.toUpperCase()}</option>`;
-                    });
-                }
                 setSyncStatus(false);
             } catch(e) { setSyncStatus(false, "Erro Padrões"); }
         }
@@ -1055,25 +852,6 @@
             gerarAnalisesEResultados();
         }
 
-        function alternarAbaCliente(aba) {
-            ['section-config-periodo', 'section-centro-custo', 'section-recursos', 'section-beneficios', 'section-funcionarios', 'section-plano-contas', 'section-resultados'].forEach(s => {
-                document.getElementById(s).classList.add('hidden');
-            });
-
-            const classInactive = "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-custom-muted hover:text-brand-primary hover:bg-brand-primary/10 transition";
-            const classActive = "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs md:text-sm font-bold bg-brand-primary text-white transition";
-
-            ['cfg', 'cc', 'rec', 'ben', 'func', 'plc', 'res'].forEach(a => {
-                const btn = document.getElementById(`tab-btn-${a}`);
-                if (btn) btn.className = classInactive;
-            });
-
-            document.getElementById(`section-${aba === 'res' ? 'resultados' : (aba === 'cfg' ? 'config-periodo' : (aba === 'cc' ? 'centro-custo' : (aba === 'rec' ? 'recursos' : (aba === 'ben' ? 'beneficios' : (aba === 'func' ? 'funcionarios' : 'plano-contas')))))}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${aba}`).className = classActive;
-
-            if (aba === 'res') gerarAnalisesEResultados();
-        }
-
         async function carregarCentrosDeCusto() {
             try {
                 const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
@@ -1087,7 +865,8 @@
         function atualizarKPIsCentrosCusto() {
             const rowsVisiveis = Array.from(document.querySelectorAll('#tbl-cc-body tr')).filter(r => r.style.display !== 'none');
             
-            document.getElementById('card-cc-total').innerText = rowsVisiveis.length;
+            const cardTotal = document.getElementById('card-cc-total');
+            if (cardTotal) cardTotal.innerText = rowsVisiveis.length;
 
             let totalValorSetores = 0;
             let totalHoras = 0;
@@ -1110,8 +889,10 @@
                 }
             });
 
-            document.getElementById('card-cc-custo-fixo').innerText = formatarMoedaBR(totalValorSetores);
-            document.getElementById('card-cc-horas').innerText = `${totalHoras.toFixed(0)} h`;
+            const cardFixo = document.getElementById('card-cc-custo-fixo');
+            const cardHoras = document.getElementById('card-cc-horas');
+            if (cardFixo) cardFixo.innerText = formatarMoedaBR(totalValorSetores);
+            if (cardHoras) cardHoras.innerText = `${totalHoras.toFixed(0)} h`;
         }
 
         function renderizarTabelaCCLocal() {
@@ -1149,7 +930,6 @@
                         <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_PRODUTIVIDADE || 100}%</td>
                         <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_MINIMO || 'NAO'}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
-                            <button onclick="editarCentroCusto('${item.TCENTRO_CUSTO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
                             <button onclick="deletarItemAPI('TCENTRO_CUSTO', '${item.TCENTRO_CUSTO_ID}', carregarCentrosDeCusto)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
                         </td>
                     </tr>
@@ -1170,7 +950,8 @@
         function atualizarKPIsRecursos() {
             const rowsVisiveis = Array.from(document.querySelectorAll('#tbl-rec-body tr')).filter(r => r.style.display !== 'none');
             
-            document.getElementById('card-rec-total').innerText = rowsVisiveis.length;
+            const cardTotal = document.getElementById('card-rec-total');
+            if (cardTotal) cardTotal.innerText = rowsVisiveis.length;
 
             let totalInvest = 0;
             let totalDeprec = 0;
@@ -1182,8 +963,10 @@
                 totalDeprec += depRec;
             });
 
-            document.getElementById('card-rec-valor-total').innerText = formatarMoedaBR(totalInvest);
-            document.getElementById('card-rec-depreciacao').innerText = formatarMoedaBR(totalDeprec);
+            const cardVal = document.getElementById('card-rec-valor-total');
+            const cardDep = document.getElementById('card-rec-depreciacao');
+            if (cardVal) cardVal.innerText = formatarMoedaBR(totalInvest);
+            if (cardDep) cardDep.innerText = formatarMoedaBR(totalDeprec);
         }
 
         function renderizarTabelaRecursosLocal() {
@@ -1204,7 +987,6 @@
                         <td class="p-2 md:p-3">${r.TRECURSO_TURNOS || 1}</td>
                         <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(r.TRECURSO_CUSTO_MENSAL)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
-                            <button onclick="editarRecurso('${r.TRECURSO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
                             <button onclick="deletarItemAPI('TRECURSO', '${r.TRECURSO_ID}', carregarRecursos)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
                         </td>
                     </tr>
@@ -1225,7 +1007,8 @@
         function atualizarKPIsFuncionarios() {
             const rowsVisiveis = Array.from(document.querySelectorAll('#tbl-func-body tr')).filter(r => r.style.display !== 'none');
             
-            document.getElementById('card-func-total').innerText = rowsVisiveis.length;
+            const cardTotal = document.getElementById('card-func-total');
+            if (cardTotal) cardTotal.innerText = rowsVisiveis.length;
 
             let totalFolha = 0;
             rowsVisiveis.forEach(r => {
@@ -1234,8 +1017,10 @@
 
             const mediaCusto = rowsVisiveis.length > 0 ? (totalFolha / rowsVisiveis.length) : 0;
 
-            document.getElementById('card-func-folha').innerText = formatarMoedaBR(totalFolha);
-            document.getElementById('card-func-media').innerText = formatarMoedaBR(mediaCusto);
+            const cardFolha = document.getElementById('card-func-folha');
+            const cardMedia = document.getElementById('card-func-media');
+            if (cardFolha) cardFolha.innerText = formatarMoedaBR(totalFolha);
+            if (cardMedia) cardMedia.innerText = formatarMoedaBR(mediaCusto);
         }
 
         function renderizarTabelaFuncionariosLocal() {
@@ -1262,7 +1047,6 @@
                         <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL)}</td>
                         <td class="p-2 md:p-3 uppercase text-xs">${f.TFUNCIONARIO_RATEIO || 'NAO'}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
-                            <button onclick="editarFuncionario('${f.TFUNCIONARIO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
                             <button onclick="deletarItemAPI('TFUNCIONARIO', '${f.TFUNCIONARIO_ID}', carregarFuncionarios)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
                         </td>
                     </tr>
@@ -1275,6 +1059,13 @@
                 const response = await fetch(`${API_URL}?action=TBENEFICIOS`);
                 const data = await response.json();
                 listaBeneficios = Array.isArray(data) ? data.filter(i => String(i.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(i.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID)) : [];
+                
+                const tbody = document.getElementById('tbl-ben-body');
+                if(!tbody) return;
+                tbody.innerHTML = '';
+                listaBeneficios.forEach(b => {
+                    tbody.innerHTML += `<tr><td class="p-2 font-semibold uppercase">${b.TBENEFICIO_NOME}</td><td class="p-2">${formatarMoedaBR(b.TBENEFICIO_VALOR)}</td></tr>`;
+                });
             } catch (e) {}
         }
 
@@ -1283,6 +1074,13 @@
                 const response = await fetch(`${API_URL}?action=TPLANO_CONTAS`);
                 const data = await response.json();
                 listaPlanoContas = Array.isArray(data) ? data.filter(i => String(i.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(i.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID)) : [];
+                
+                const tbody = document.getElementById('tbl-plc-body');
+                if(!tbody) return;
+                tbody.innerHTML = '';
+                listaPlanoContas.forEach(p => {
+                    tbody.innerHTML += `<tr><td class="p-2 font-semibold uppercase">${p.TPLANO_CONTA_NOME}</td><td class="p-2 text-xs uppercase">${p.TPLANO_CONTA_CRITERIO}</td><td class="p-2 font-bold">${formatarMoedaBR(p.TPLANO_CONTA_VALOR)}</td></tr>`;
+                });
             } catch (e) {}
         }
 
@@ -1496,6 +1294,23 @@
         }
 
         function gerarPDFRelatorioSetor() { window.print(); }
+
+        async function deletarItemAPI(sheet, id, callback) {
+            if (!confirm("Confirma a exclusão deste item?")) return;
+            setSyncStatus(true, "Excluindo...");
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sheet, action: "DELETE", id, clienteId: usuarioLogado.TCLIENTE_ID, periodoId: periodoAtivoObj.TPERIODO_ID })
+                });
+                setSyncStatus(false);
+                setTimeout(callback, 1000);
+            } catch(e) {
+                setSyncStatus(false, "Erro ao excluir");
+            }
+        }
     </script>
 </body>
 </html>
