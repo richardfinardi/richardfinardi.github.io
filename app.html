@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.0 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V5.1 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -124,7 +124,7 @@
         <header class="border-b border-custom bg-custom-card px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-30 gap-3">
             <div class="flex items-center gap-3">
                 <img id="app-logo" src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-8 md:h-9 w-auto">
-                <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">V5.0</span>
+                <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">V5.1</span>
                 
                 <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2.5 py-1 rounded-full font-bold uppercase"></span>
                 <div id="sync-indicator" class="hidden items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold transition-all">
@@ -146,7 +146,7 @@
             <div class="bg-custom-card p-6 md:p-8 rounded-2xl border border-custom w-full max-w-md space-y-6 shadow-2xl">
                 <div class="text-center space-y-2">
                     <img id="login-logo" src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="h-10 w-auto mx-auto mb-2">
-                    <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.0</span>
+                    <span class="text-[11px] bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.1</span>
                     <h1 class="text-xl md:text-2xl font-bold pt-2">Painel de Acesso</h1>
                     <p class="text-custom-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
                 </div>
@@ -306,9 +306,87 @@
 
             <!-- 2. CONFIGURAÇÃO DE PERÍODO -->
             <section id="section-config-periodo" class="hidden space-y-6">
-                <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
-                    <h2 class="text-lg font-bold border-b border-custom pb-2">Parâmetros do Período</h2>
-                    <p class="text-xs text-custom-muted">Configure metas, alíquotas e pró-labore do período ativo.</p>
+                <div class="bg-custom-card rounded-xl border border-custom overflow-hidden transition-all">
+                    <button onclick="toggleFormAccordion('acc-cfg')" class="w-full p-4 md:p-5 flex justify-between items-center bg-custom-bg/50 hover:bg-custom-bg transition">
+                        <div class="text-left">
+                            <h2 class="text-base md:text-lg font-bold">⚙️ Parâmetros Financeiros do Período</h2>
+                            <p class="text-xs text-custom-muted">Defina as metas financeiras, impostos e custos prediais</p>
+                        </div>
+                        <span id="acc-cfg-icon" class="text-xs bg-brand-primary text-white font-bold px-3 py-1.5 rounded-lg transition">+ Editar Parâmetros</span>
+                    </button>
+
+                    <div id="acc-cfg-content" class="hidden p-5 md:p-6 border-t border-custom space-y-4">
+                        <form id="form-cfg-periodo" onsubmit="salvarParametrosPeriodo(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Faturamento Médio Mensal (R$)</label>
+                                <input type="text" id="cfg-faturamento" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Alíquota Média Impostos sobre Vendas (%)</label>
+                                <input type="number" step="0.01" id="cfg-aliquota" placeholder="0,00" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Valor Total Prédio Próprio (R$)</label>
+                                <input type="text" id="cfg-predio" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Rentabilidade Objetiva Meta (%)</label>
+                                <input type="number" step="0.01" id="cfg-rentabilidade" placeholder="0,00" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Retirada Média Mensal dos Sócios (R$)</label>
+                                <input type="text" id="cfg-retirada" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div class="flex items-end">
+                                <button type="submit" id="btn-salvar-cfg" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Parâmetros</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
+                        <h3 class="text-base font-bold border-b border-custom pb-2" id="inv-form-title">Cadastrar Investimento</h3>
+                        <form id="form-inv" onsubmit="salvarInvestimento(event)" class="space-y-3">
+                            <input type="hidden" id="inv-editing-id" value="">
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Nome / Descrição Investimento</label>
+                                <input type="text" id="inv-nome" placeholder="EX: REFORMA PREDIAL" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Valor do Investimento (R$)</label>
+                                <input type="text" id="inv-valor" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+                            <div class="flex gap-2 pt-1">
+                                <button type="button" id="btn-cancelar-inv" onclick="limparFormInv()" class="hidden w-1/3 bg-custom-bg border border-custom text-xs font-bold py-2.5 rounded transition">Cancelar</button>
+                                <button type="submit" id="btn-salvar-inv" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-xs transition">Salvar Investimento</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-2 bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
+                        <h3 class="text-base font-bold border-b border-custom pb-2">Investimentos Previstos no Período</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs md:text-sm text-custom-muted">
+                                <thead class="bg-custom-bg text-[10px] md:text-xs uppercase border-b border-custom">
+                                    <tr>
+                                        <th class="p-2 md:p-3">Descrição Investimento</th>
+                                        <th class="p-2 md:p-3">Valor (R$)</th>
+                                        <th class="p-2 md:p-3 text-right">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbl-inv-body" class="divide-y divide-custom">
+                                    <tr><td colspan="3" class="p-4 text-center">Carregando investimentos...</td></tr>
+                                </tbody>
+                                <tfoot id="tbl-inv-foot" class="bg-custom-bg font-bold border-t border-custom"></tfoot>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -326,6 +404,66 @@
                     <div class="bg-custom-card p-4 rounded-xl border border-custom space-y-1">
                         <span class="text-xs text-custom-muted uppercase font-semibold">Horas Efetivas Produzidas</span>
                         <h3 id="card-cc-horas" class="text-xl font-bold text-emerald-400">0 h</h3>
+                    </div>
+                </div>
+
+                <div class="bg-custom-card rounded-xl border border-custom overflow-hidden transition-all">
+                    <button onclick="toggleFormAccordion('acc-cc')" class="w-full p-4 md:p-5 flex justify-between items-center bg-custom-bg/50 hover:bg-custom-bg transition">
+                        <div class="text-left">
+                            <h2 class="text-base md:text-lg font-bold" id="cc-form-title">Cadastrar Centro de Custo</h2>
+                            <p class="text-xs text-custom-muted">Clique para expandir e cadastrar novos setores</p>
+                        </div>
+                        <span id="acc-cc-icon" class="text-xs bg-brand-primary text-white font-bold px-3 py-1.5 rounded-lg transition">+ Cadastrar Novo</span>
+                    </button>
+
+                    <div id="acc-cc-content" class="hidden p-5 md:p-6 border-t border-custom space-y-4">
+                        <form id="form-cc" onsubmit="salvarCentroCusto(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="hidden" id="cc-editing-id" value="">
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Nome Centro de Custo</label>
+                                <input type="text" id="cc-nome" placeholder="EX: TORNO CNC" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Tipo Centro de Custo</label>
+                                <select id="cc-tipo" onchange="verificarTipoCentroCusto()" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                                    <option value="">Carregando opções...</option>
+                                </select>
+                            </div>
+
+                            <div id="wrapper-cc-tipo-rateio">
+                                <label class="block text-xs text-custom-muted mb-1">Tipo Rateio de Horas</label>
+                                <select id="cc-tipo-rateio" onchange="verificarTipoRateioCC()" class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                                    <option value="">Carregando opções...</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Área (M²)</label>
+                                <input type="number" step="0.01" id="cc-area" placeholder="0.00" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div id="wrapper-cc-custo-fixo">
+                                <label class="block text-xs text-custom-muted mb-1">Custo Fixo Direto (R$)</label>
+                                <input type="text" id="cc-custo-fixo" placeholder="0,00" class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div id="wrapper-cc-produtividade">
+                                <label class="block text-xs text-custom-muted mb-1">Produtividade (%)</label>
+                                <input type="number" step="0.01" id="cc-produtividade" placeholder="100.00" class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div class="md:col-span-2 flex items-center gap-2 pt-2">
+                                <input type="checkbox" id="cc-considerar-minimo" onchange="verificarConsiderarMinimoCC()" class="w-4 h-4 accent-brand-primary rounded cursor-pointer">
+                                <label for="cc-considerar-minimo" class="text-xs md:text-sm cursor-pointer font-semibold">Considerar Mínimo (Check = 130h Disp. / 100% Prod.)</label>
+                            </div>
+
+                            <div class="flex gap-2 pt-2">
+                                <button type="button" id="btn-cancelar-cc" onclick="limparFormCC()" class="hidden w-1/3 bg-custom-bg border border-custom text-xs font-bold py-2.5 rounded transition">Cancelar</button>
+                                <button type="submit" id="btn-salvar-cc" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Centro de Custo</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -382,6 +520,61 @@
                     </div>
                 </div>
 
+                <div class="bg-custom-card rounded-xl border border-custom overflow-hidden transition-all">
+                    <button onclick="toggleFormAccordion('acc-rec')" class="w-full p-4 md:p-5 flex justify-between items-center bg-custom-bg/50 hover:bg-custom-bg transition">
+                        <div class="text-left">
+                            <h2 class="text-base md:text-lg font-bold" id="rec-form-title">Cadastrar Recurso</h2>
+                            <p class="text-xs text-custom-muted">Clique para expandir e cadastrar novas máquinas e ativos</p>
+                        </div>
+                        <span id="acc-rec-icon" class="text-xs bg-brand-primary text-white font-bold px-3 py-1.5 rounded-lg transition">+ Cadastrar Novo</span>
+                    </button>
+
+                    <div id="acc-rec-content" class="hidden p-5 md:p-6 border-t border-custom space-y-4">
+                        <form id="form-rec" onsubmit="salvarRecurso(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="hidden" id="rec-editing-id" value="">
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Centro de Custo</label>
+                                <select id="rec-cc-id" onchange="verificarSelecaoCCRecurso()" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                                    <option value="">Carregando...</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Nome do Recurso</label>
+                                <input type="text" id="rec-nome" placeholder="EX: TORNO ROMI CENTUR 30V" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Tipo de Recurso</label>
+                                <select id="rec-tipo" onchange="calcularCustoMensalRecurso()" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                                    <option value="">Carregando...</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Valor do Recurso (R$)</label>
+                                <input type="text" id="rec-valor" oninput="calcularCustoMensalRecurso()" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Custo Mensal / Depreciação (R$)</label>
+                                <input type="text" id="rec-custo-mensal" readonly placeholder="Calculado auto..." class="input-custom w-full p-2.5 rounded text-sm text-emerald-400 font-extrabold outline-none cursor-not-allowed opacity-90">
+                            </div>
+
+                            <div id="wrapper-rec-turnos" class="opacity-40 pointer-events-none">
+                                <label class="block text-xs text-custom-muted mb-1">Quantidade de Turnos</label>
+                                <input type="number" min="1" step="1" id="rec-turnos" value="1" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div class="md:col-span-3 flex justify-end gap-2 pt-2">
+                                <button type="button" id="btn-cancelar-rec" onclick="limparFormRec()" class="hidden w-1/3 md:w-32 bg-custom-bg border border-custom font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                                <button type="submit" id="btn-salvar-rec" class="w-full md:w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Recurso</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-3">
                         <h3 class="text-base md:text-lg font-bold">Recursos Cadastrados</h3>
@@ -411,6 +604,36 @@
 
             <!-- 5. BENEFÍCIOS -->
             <section id="section-beneficios" class="hidden space-y-6">
+                <div class="bg-custom-card rounded-xl border border-custom overflow-hidden transition-all">
+                    <button onclick="toggleFormAccordion('acc-ben')" class="w-full p-4 md:p-5 flex justify-between items-center bg-custom-bg/50 hover:bg-custom-bg transition">
+                        <div class="text-left">
+                            <h2 class="text-base md:text-lg font-bold" id="ben-form-title">Cadastrar Benefício</h2>
+                            <p class="text-xs text-custom-muted">Clique para expandir e cadastrar novos benefícios</p>
+                        </div>
+                        <span id="acc-ben-icon" class="text-xs bg-brand-primary text-white font-bold px-3 py-1.5 rounded-lg transition">+ Cadastrar Novo</span>
+                    </button>
+
+                    <div id="acc-ben-content" class="hidden p-5 md:p-6 border-t border-custom space-y-4">
+                        <form id="form-ben" onsubmit="salvarBeneficio(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="hidden" id="ben-editing-id" value="">
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Descrição do Benefício</label>
+                                <input type="text" id="ben-nome" placeholder="EX: VALE REFEIÇÃO" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Valor Mensal por Funcionário (R$)</label>
+                                <input type="text" id="ben-valor" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div class="flex items-end">
+                                <button type="submit" id="btn-salvar-ben" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Benefício</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
                     <h3 class="text-base md:text-lg font-bold">Benefícios Cadastrados</h3>
                     <div class="overflow-x-auto">
@@ -419,10 +642,11 @@
                                 <tr>
                                     <th class="p-2 md:p-3">Descrição Benefício</th>
                                     <th class="p-2 md:p-3">Valor Mensal (R$)</th>
+                                    <th class="p-2 md:p-3 text-right">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="tbl-ben-body" class="divide-y divide-custom">
-                                <tr><td colspan="2" class="p-4 text-center">Carregando...</td></tr>
+                                <tr><td colspan="3" class="p-4 text-center">Carregando...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -443,6 +667,41 @@
                     <div class="bg-custom-card p-4 rounded-xl border border-custom space-y-1">
                         <span class="text-xs text-custom-muted uppercase font-semibold">Custo Médio Mensal</span>
                         <h3 id="card-func-media" class="text-xl font-bold text-emerald-400">R$ 0,00</h3>
+                    </div>
+                </div>
+
+                <div class="bg-custom-card rounded-xl border border-custom overflow-hidden transition-all">
+                    <button onclick="toggleFormAccordion('acc-func')" class="w-full p-4 md:p-5 flex justify-between items-center bg-custom-bg/50 hover:bg-custom-bg transition">
+                        <div class="text-left">
+                            <h2 class="text-base md:text-lg font-bold" id="func-form-title">Cadastrar Funcionário</h2>
+                            <p class="text-xs text-custom-muted">Clique para expandir e cadastrar novos colaboradores</p>
+                        </div>
+                        <span id="acc-func-icon" class="text-xs bg-brand-primary text-white font-bold px-3 py-1.5 rounded-lg transition">+ Cadastrar Novo</span>
+                    </button>
+
+                    <div id="acc-func-content" class="hidden p-5 md:p-6 border-t border-custom space-y-4">
+                        <form id="form-func" onsubmit="salvarFuncionario(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="hidden" id="func-editing-id" value="">
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Nome Completo</label>
+                                <input type="text" id="func-nome" placeholder="EX: DIEGO HENRIQUE" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Salário Base (R$)</label>
+                                <input type="text" id="func-salario-base" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Horas Mensais</label>
+                                <input type="number" step="0.01" id="func-horas-mes" value="176" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div class="flex items-end">
+                                <button type="submit" id="btn-salvar-func" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Funcionário</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -476,19 +735,64 @@
 
             <!-- 7. PLANO DE CONTAS -->
             <section id="section-plano-contas" class="hidden space-y-6">
+                <div class="bg-custom-card rounded-xl border border-custom overflow-hidden transition-all">
+                    <button onclick="toggleFormAccordion('acc-plc')" class="w-full p-4 md:p-5 flex justify-between items-center bg-custom-bg/50 hover:bg-custom-bg transition">
+                        <div class="text-left">
+                            <h2 class="text-base md:text-lg font-bold" id="plc-form-title">Cadastrar Conta no Plano de Contas</h2>
+                            <p class="text-xs text-custom-muted">Clique para expandir e cadastrar novas contas</p>
+                        </div>
+                        <span id="acc-plc-icon" class="text-xs bg-brand-primary text-white font-bold px-3 py-1.5 rounded-lg transition">+ Cadastrar Novo</span>
+                    </button>
+
+                    <div id="acc-plc-content" class="hidden p-5 md:p-6 border-t border-custom space-y-4">
+                        <form id="form-plc" onsubmit="salvarPlanoConta(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="hidden" id="plc-editing-id" value="">
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Descrição da Conta</label>
+                                <input type="text" id="plc-nome" placeholder="EX: ENERGIA ELÉTRICA" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Critério Rateio</label>
+                                <select id="plc-criterio" required class="input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                                    <option value="EXCLUSIVO">EXCLUSIVO</option>
+                                    <option value="AREA">AREA (M²)</option>
+                                    <option value="HORAS">HORAS FINAIS</option>
+                                    <option value="NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)">CUSTO VARIÁVEL (PRODUÇÃO)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-custom-muted mb-1">Valor Mensal (R$)</label>
+                                <input type="text" id="plc-valor" placeholder="0,00" required class="mask-money input-custom w-full p-2.5 rounded text-sm outline-none focus:border-brand-primary">
+                            </div>
+
+                            <div class="flex items-end">
+                                <button type="submit" id="btn-salvar-plc" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Conta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="bg-custom-card p-5 md:p-6 rounded-xl border border-custom space-y-4">
-                    <h3 class="text-base md:text-lg font-bold">Contas Cadastradas</h3>
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+                        <h3 class="text-base md:text-lg font-bold">Contas Cadastradas</h3>
+                        <input type="text" id="search-plc" oninput="filtrarTabelaCascata('tbl-plc-body', this.value)" placeholder="🔍 Filtrar contas..." class="input-custom p-1.5 px-3 rounded-lg text-xs outline-none w-full md:w-56">
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs md:text-sm text-custom-muted">
                             <thead class="bg-custom-bg text-[10px] md:text-xs uppercase border-b border-custom">
                                 <tr>
-                                    <th class="p-2 md:p-3">Descrição da Conta</th>
-                                    <th class="p-2 md:p-3">Critério Rateio</th>
-                                    <th class="p-2 md:p-3">Valor Mensal (R$)</th>
+                                    <th class="p-2 md:p-3 cursor-pointer" onclick="ordenarTabela('tbl-plc-body', 0)">Descrição da Conta ↕</th>
+                                    <th class="p-2 md:p-3 cursor-pointer" onclick="ordenarTabela('tbl-plc-body', 1)">Critério Rateio ↕</th>
+                                    <th class="p-2 md:p-3 cursor-pointer" onclick="ordenarTabela('tbl-plc-body', 2)">Valor Mensal (R$) ↕</th>
+                                    <th class="p-2 md:p-3 text-right">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="tbl-plc-body" class="divide-y divide-custom">
-                                <tr><td colspan="3" class="p-4 text-center">Carregando...</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center">Carregando...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -498,7 +802,7 @@
         </main>
     </div>
 
-    <!-- MODAIS DE DRILLDOWN -->
+    <!-- MODAIS DE DRILLDOWN DA DRE E RAIO-X REINTEGRADOS -->
     <div id="modal-drilldown-dre" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-custom-card border border-custom rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-custom pb-3">
@@ -589,7 +893,18 @@
             }
         }
 
-        // ALTERNAR ABAS DE FORMA SEGURA (SEM CRASH POR ELEMENTO NULO)
+        function toggleFormAccordion(id) {
+            const content = document.getElementById(`${id}-content`);
+            const icon = document.getElementById(`${id}-icon`);
+            if (content && content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                if(icon) icon.innerText = "▲ Recolher Formulário";
+            } else if (content) {
+                content.classList.add('hidden');
+                if(icon) icon.innerText = "+ Cadastrar Novo";
+            }
+        }
+
         function alternarAbaCliente(aba) {
             const abasMap = {
                 'res': 'section-resultados',
@@ -633,11 +948,7 @@
 
             rows.forEach(tr => {
                 const text = tr.innerText.toLowerCase();
-                if (text.includes(q)) {
-                    tr.style.display = "";
-                } else {
-                    tr.style.display = "none";
-                }
+                tr.style.display = text.includes(q) ? "" : "none";
             });
 
             if (tbodyId === 'tbl-cc-body') atualizarKPIsCentrosCusto();
@@ -1122,6 +1433,36 @@
             const resFabril = margemContrib - cFixoFabril;
             const resLiquido = resFabril - dFichaAdmin - retSocios;
 
+            // CALCULO DE KPIS SUPERIORES REAL
+            let totalMaquinas = 0; listaRecursos.forEach(r => totalMaquinas += (parseFloat(r.TRECURSO_VALOR)||0));
+            let totalInvest = 0; listaInvestimentos.forEach(i => totalInvest += (parseFloat(i.TINVESTIMENTO_VALOR)||0));
+            const investimentoTotal = (parseFloat(periodoAtivoObj.TPERIODO_PREDIO)||0) + totalMaquinas + totalInvest;
+
+            const gastoFixoPE = cFixoFabril + dFichaAdmin + retSocios;
+            const metaRent = investimentoTotal * ((parseFloat(periodoAtivoObj.TPERIODO_RENTABILIDADE)||0)/100);
+            const dividendoPE = gastoFixoPE + metaRent;
+
+            const pctImpostosEComissoes = fatBruto > 0 ? (impostosDeducoes / fatBruto) : 0;
+            const pctCustosVariaveis = fatBruto > 0 ? (cVariavel / fatBruto) : 0;
+            const divisorPE = 1 - pctImpostosEComissoes - pctCustosVariaveis;
+
+            const pontoEquilibrio = divisorPE > 0 ? (dividendoPE / divisorPE) : 0;
+            const pctDespesaFixaTotal = fatBruto > 0 ? (((dFichaAdmin + retSocios) / fatBruto) * 100) : 0;
+            const rentabilidadeAtualPct = investimentoTotal > 0 ? ((resLiquido / investimentoTotal) * 100) : 0;
+            const paybackMeses = resLiquido > 0 ? (investimentoTotal / resLiquido) : 0;
+
+            const elInv = document.getElementById('res-card-investimento-total');
+            const elPE = document.getElementById('res-card-ponto-equilibrio');
+            const elDF = document.getElementById('res-card-pct-despesa-fixa');
+            const elRent = document.getElementById('res-card-rentabilidade-atual');
+            const elPB = document.getElementById('res-card-payback');
+
+            if(elInv) elInv.innerText = formatarMoedaBR(investimentoTotal);
+            if(elPE) elPE.innerText = formatarMoedaBR(pontoEquilibrio);
+            if(elDF) elDF.innerText = pctDespesaFixaTotal.toFixed(1) + "%";
+            if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
+            if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
+
             const containerDRE = document.getElementById('container-dre-rows');
             if(containerDRE) {
                 containerDRE.innerHTML = '';
@@ -1265,13 +1606,63 @@
             });
         }
 
+        // DETALHAMENTO REAL DO MODAL DA DRE
         function abrirDrilldownDRE(keyLinha, labelLinha) {
             const modal = document.getElementById('modal-drilldown-dre');
             const container = document.getElementById('modal-dre-content');
             if(!modal || !container) return;
 
             document.getElementById('modal-dre-title').innerText = labelLinha;
-            container.innerHTML = `<div class="p-3 bg-custom-bg border border-custom rounded text-xs">Detalhamento consolidado da linha: <strong>${labelLinha}</strong></div>`;
+
+            let html = '';
+            let total = 0;
+
+            if (keyLinha === 'fatBruto') {
+                const fat = parseFloat(periodoAtivoObj.TPERIODO_FATURAMENTO) || 0;
+                total = fat;
+                html = `<div class="flex justify-between p-2.5 bg-custom-bg rounded border border-custom"><span>FATURAMENTO MENSAL ESPERADO</span><strong>${formatarMoedaBR(fat)}</strong></div>`;
+            } else if (keyLinha === 'impostosDeducoes') {
+                const aliq = parseFloat(periodoAtivoObj.TPERIODO_ALIQUOTA) || 0;
+                const fat = parseFloat(periodoAtivoObj.TPERIODO_FATURAMENTO) || 0;
+                const imp = fat * (aliq / 100);
+                total += imp;
+
+                html += `<div class="flex justify-between p-2 bg-custom-bg rounded border border-custom"><span>IMPOSTO SOBRE VENDAS (${aliq}%)</span><strong class="text-red-400">${formatarMoedaBR(imp)}</strong></div>`;
+
+                listaPlanoContas.filter(p => String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase().includes('DESPESA VARIÁVEL')).forEach(p => {
+                    const v = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
+                    total += v;
+                    html += `<div class="flex justify-between p-2 bg-custom-bg rounded border border-custom"><span>${p.TPLANO_CONTA_NOME}</span><strong class="text-red-400">${formatarMoedaBR(v)}</strong></div>`;
+                });
+            } else if (keyLinha === 'cVariavel') {
+                listaPlanoContas.filter(p => String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase().includes('CUSTO VARIÁVEL')).forEach(p => {
+                    const v = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
+                    total += v;
+                    html += `<div class="flex justify-between p-2 bg-custom-bg rounded border border-custom"><span>${p.TPLANO_CONTA_NOME}</span><strong class="text-red-400">${formatarMoedaBR(v)}</strong></div>`;
+                });
+                if(total === 0) html = `<p class="text-center text-xs text-custom-muted py-2">Nenhum custo variável direto no Plano de Contas.</p>`;
+            } else if (keyLinha === 'cFixoFabril') {
+                listaCC.filter(c => String(c.TCENTRO_CUSTO_TIPO).toUpperCase().includes('PRODUTIVO')).forEach(c => {
+                    const v = (parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0) + (parseFloat(c.TCENTRO_CUSTO_PREDIO)||0);
+                    total += v;
+                    html += `<div class="flex justify-between p-2 bg-custom-bg rounded border border-custom"><span>${c.TCENTRO_CUSTO_NOME}</span><strong class="text-amber-400">${formatarMoedaBR(v)}</strong></div>`;
+                });
+            } else if (keyLinha === 'dFichaAdmin') {
+                listaCC.filter(c => !String(c.TCENTRO_CUSTO_TIPO).toUpperCase().includes('PRODUTIVO')).forEach(c => {
+                    const v = (parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0) + (parseFloat(c.TCENTRO_CUSTO_PREDIO)||0);
+                    total += v;
+                    html += `<div class="flex justify-between p-2 bg-custom-bg rounded border border-custom"><span>${c.TCENTRO_CUSTO_NOME}</span><strong class="text-red-400">${formatarMoedaBR(v)}</strong></div>`;
+                });
+            } else if (keyLinha === 'retSocios') {
+                const ret = parseFloat(periodoAtivoObj.TPERIODO_RETIRADA) || 0;
+                total = ret;
+                html = `<div class="flex justify-between p-2.5 bg-custom-bg rounded border border-custom"><span>PRÓ-LABORE / RETIRADA MENSAL DOS SÓCIOS</span><strong class="text-red-400">${formatarMoedaBR(ret)}</strong></div>`;
+            } else {
+                html = `<p class="text-center text-xs text-custom-muted py-2">Linha de resultado consolidado da DRE.</p>`;
+            }
+
+            container.innerHTML = html;
+            document.getElementById('modal-dre-total-val').innerText = formatarMoedaBR(total);
             modal.classList.remove('hidden');
         }
 
@@ -1279,13 +1670,57 @@
             document.getElementById('modal-drilldown-dre').classList.add('hidden');
         }
 
+        // DETALHAMENTO REAL DO MODAL RAIO-X
         function abrirDrilldownCustoHora(ccId, ccNome) {
             const modal = document.getElementById('modal-drilldown-custohora');
             const container = document.getElementById('pdf-report-content');
             if(!modal || !container) return;
 
             document.getElementById('modal-dh-title').innerText = "RAIO-X: " + ccNome.toUpperCase();
-            container.innerHTML = `<div class="p-3 bg-custom-bg border border-custom rounded text-xs">Detalhamento dos custos diretos do setor: <strong>${ccNome}</strong></div>`;
+
+            const recs = listaRecursos.filter(r => String(r.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase());
+            const funcs = listaFuncionarios.filter(f => String(f.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase());
+            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase());
+
+            let sumRec = 0; recs.forEach(r => sumRec += parseFloat(r.TRECURSO_CUSTO_MENSAL)||0);
+            let sumFunc = 0; funcs.forEach(f => sumFunc += parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL)||0);
+
+            const fx = parseFloat(ccObj ? (ccObj.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || ccObj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) : 0) || 0;
+            const dep = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_MENSAL : 0) || 0;
+            const plc = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0) || 0;
+            const prd = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_PREDIO : 0) || 0;
+            const ind = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_INDIRETOS : 0) || 0;
+
+            const totalSetor = fx + dep + sumFunc + plc + prd + ind;
+
+            container.innerHTML = `
+                <div class="space-y-3 text-xs">
+                    <div class="bg-custom-bg p-3 rounded-lg border border-custom">
+                        <strong class="block text-xs uppercase text-brand-primary mb-1">1. Máquinas / Recursos (${recs.length})</strong>
+                        ${recs.map(r => `<div class="flex justify-between py-0.5"><span>${r.TRECURSO_NOME}</span><span>${formatarMoedaBR(r.TRECURSO_CUSTO_MENSAL)}</span></div>`).join('') || '<span class="text-custom-muted">Nenhum recurso.</span>'}
+                        <div class="flex justify-between font-bold border-t border-custom pt-1 mt-1"><span>Subtotal Recursos:</span><span>${formatarMoedaBR(sumRec)}</span></div>
+                    </div>
+
+                    <div class="bg-custom-bg p-3 rounded-lg border border-custom">
+                        <strong class="block text-xs uppercase text-brand-primary mb-1">2. Mão de Obra (${funcs.length})</strong>
+                        ${funcs.map(f => `<div class="flex justify-between py-0.5"><span>${f.TFUNCIONARIO_NOME}</span><span>${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL)}</span></div>`).join('') || '<span class="text-custom-muted">Nenhum funcionário direto.</span>'}
+                        <div class="flex justify-between font-bold border-t border-custom pt-1 mt-1"><span>Subtotal Funcionários:</span><span>${formatarMoedaBR(sumFunc)}</span></div>
+                    </div>
+
+                    <div class="bg-custom-bg p-3 rounded-lg border border-custom space-y-1">
+                        <strong class="block text-xs uppercase text-brand-primary mb-1">3. Outros Rateios do Setor</strong>
+                        <div class="flex justify-between"><span>Custo Fixo Direto:</span><span>${formatarMoedaBR(fx)}</span></div>
+                        <div class="flex justify-between"><span>Plano de Contas Rateado:</span><span>${formatarMoedaBR(plc)}</span></div>
+                        <div class="flex justify-between"><span>Prédio / Instalações:</span><span>${formatarMoedaBR(prd)}</span></div>
+                        <div class="flex justify-between text-brand-primary"><span>Absorção de Setores Indiretos:</span><span>${formatarMoedaBR(ind)}</span></div>
+                    </div>
+
+                    <div class="bg-brand-primary/10 p-3 rounded-lg border border-brand-primary/30 flex justify-between font-extrabold text-sm text-white">
+                        <span>CUSTO TOTAL MENSAL DO SETOR:</span>
+                        <span class="text-emerald-400">${formatarMoedaBR(totalSetor)}</span>
+                    </div>
+                </div>
+            `;
             modal.classList.remove('hidden');
         }
 
