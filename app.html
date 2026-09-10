@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+<head>V
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CONSULTORIA.RF V4.9 | Gestão de Custos</title>
@@ -144,7 +144,7 @@ body.light-mode #sidebar-tools { border-color:#dbe1ea; }
 #main-content { margin-left:250px !important; width:calc(100% - 250px) !important; max-width:none !important; }
 body.sidebar-collapsed #nav-cliente-tabs { width:72px !important; padding-left:10px !important; padding-right:10px !important; }
 body.sidebar-collapsed #main-content { margin-left:72px !important; width:calc(100% - 72px) !important; }
-body.sidebar-collapsed #nav-cliente-tabs::before { content:'☰'; text-align:center; padding:5px 0 9px; font-size:18px; color:#ff8838; }
+body.sidebar-collapsed #nav-cliente-tabs::before { content:none !important; display:none !important; }
 body.sidebar-collapsed #nav-cliente-tabs button { justify-content:center !important; padding:9px !important; font-size:0 !important; gap:0 !important; }
 body.sidebar-collapsed #nav-cliente-tabs button::before { flex-basis:30px; width:30px; height:30px; font-size:17px; }
 body.sidebar-collapsed #sidebar-tools { left:10px !important; right:10px !important; }
@@ -185,6 +185,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
     cursor:pointer !important; box-shadow:none !important;
 }
 #sidebar-toggle:hover { background:#24272e !important; color:#fff !important; border-color:#ff8838 !important; }
+#sidebar-tools #sidebar-toggle { pointer-events:auto !important; user-select:none !important; }
 #sidebar-toggle::before { content:none !important; }
 body.light-mode #sidebar-toggle { background:#f1f5f9 !important; color:#334155 !important; border-color:#dbe1ea !important; }
 body.light-mode #sidebar-toggle:hover { background:#fff7ed !important; color:#111827 !important; border-color:#fdba74 !important; }
@@ -2986,13 +2987,36 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('func-horas-mes').value = item.TFUNCIONARIO_HORAS || 176;
             document.getElementById('func-beneficios-valor').value = Number(item.TFUNCIONARIO_VALOR_BENEFICIOS || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
-            const isRateio = String(item.TFUNCIONARIO_RATEIO).toUpperCase() === 'SIM';
+            const isRateio = String(item.TFUNCIONARIO_RATEIO || '').trim().toUpperCase() === 'SIM';
             document.getElementById('func-is-rateio').checked = isRateio;
             alternarModoRateioFuncionario();
 
             if (!isRateio) {
-                document.getElementById('func-cc-id').value = item.TCENTRO_CUSTO_ID;
+                document.getElementById('func-cc-id').value = item.TCENTRO_CUSTO_ID || '';
+            } else {
+                // Ao editar um funcionário rateado, restaura os percentuais já gravados.
+                // Antes, a lista era recriada zerada e ao salvar sobrescrevia o rateio existente.
+                let rawCC = String(item.TCENTRO_CUSTO_ID || '').trim();
+                try {
+                    if (rawCC.startsWith('"') && rawCC.endsWith('"')) rawCC = rawCC.substring(1, rawCC.length - 1);
+                    rawCC = rawCC.replace(/""/g, '"').replace(/;/g, ',');
+                    const rateios = JSON.parse(rawCC);
+                    if (Array.isArray(rateios)) {
+                        rateios.forEach(r => {
+                            const ccId = String(r.id ?? r.ID ?? '');
+                            const pct = parseFloat(r.pct ?? r.PCT ?? 0) || 0;
+                            const input = Array.from(document.querySelectorAll('.input-rateio-pct'))
+                                .find(el => String(el.getAttribute('data-cc-id')) === ccId);
+                            if (input) input.value = pct;
+                        });
+                    }
+                } catch (err) {
+                    console.warn('Não foi possível restaurar o rateio do funcionário:', err);
+                }
             }
+
+            // Recalcula depois de todos os campos e percentuais terem sido restaurados.
+            calcularCustoFuncionario();
 
             document.getElementById('btn-salvar-func').innerText = "Atualizar Funcionário";
             document.getElementById('btn-cancelar-func').classList.remove('hidden');
