@@ -79,6 +79,7 @@
                 <button onclick="modalCriarNovoPeriodo()" class="text-xs bg-brand-primary hover:bg-brand-hover text-white px-2 py-1 rounded font-bold transition whitespace-nowrap">+ Novo</button>
             </div>
 
+            <!-- BOTÃO ALTERNAR TEMA CLARO/ESCURO -->
             <button onclick="alternarTema()" class="p-1.5 rounded-lg bg-brand-card border border-brand-border text-theme-main hover:border-brand-primary transition text-sm flex items-center gap-1" title="Alternar Tema Claro/Escuro">
                 <span id="theme-btn-icon">🌙</span>
             </button>
@@ -115,50 +116,64 @@
         </div>
     </div>
 
-    <!-- WRAPPER PRINCIPAL -->
+    <!-- WRAPPER COM SIDEBAR E MAIN -->
     <div id="main-content" class="hidden flex-1 flex overflow-hidden">
+
+        <!-- MENU SIDEBAR LATERAL -->
         <aside id="sidebar-menu" class="w-64 bg-brand-card border-r border-brand-border transition-all duration-300 flex flex-col justify-between shrink-0 sticky top-[53px] h-[calc(100vh-53px)] z-40">
             <div class="p-3 space-y-4 overflow-y-auto">
                 <div class="text-[10px] font-bold uppercase text-theme-muted px-2 tracking-wider sidebar-text">Navegação Principal</div>
+                
                 <nav class="space-y-1">
                     <button id="nav-btn-res" onclick="alternarAbaCliente('res')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition">
-                        <span class="text-base">📊</span><span class="sidebar-text truncate">Resultados & Análises</span>
+                        <span class="text-base">📊</span>
+                        <span class="sidebar-text truncate">Resultados & Análises</span>
                     </button>
                     <button id="nav-btn-cfg" onclick="alternarAbaCliente('cfg')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold text-theme-muted hover:bg-brand-primary/10 hover:text-brand-primary transition">
-                        <span class="text-base">⚙️</span><span class="sidebar-text truncate">Config. Período</span>
+                        <span class="text-base">⚙️</span>
+                        <span class="sidebar-text truncate">Config. Período</span>
                     </button>
                     <button id="nav-btn-cc" onclick="alternarAbaCliente('cc')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold text-theme-muted hover:bg-brand-primary/10 hover:text-brand-primary transition">
-                        <span class="text-base">🏭</span><span class="sidebar-text truncate">Centros de Custo</span>
+                        <span class="text-base">🏭</span>
+                        <span class="sidebar-text truncate">Centros de Custo</span>
                     </button>
                     <button id="nav-btn-rec" onclick="alternarAbaCliente('rec')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold text-theme-muted hover:bg-brand-primary/10 hover:text-brand-primary transition">
-                        <span class="text-base">🚜</span><span class="sidebar-text truncate">Recursos e Ativos</span>
+                        <span class="text-base">🚜</span>
+                        <span class="sidebar-text truncate">Recursos e Ativos</span>
                     </button>
                     <button id="nav-btn-ben" onclick="alternarAbaCliente('ben')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold text-theme-muted hover:bg-brand-primary/10 hover:text-brand-primary transition">
-                        <span class="text-base">🏥</span><span class="sidebar-text truncate">Benefícios</span>
+                        <span class="text-base">🏥</span>
+                        <span class="sidebar-text truncate">Benefícios</span>
                     </button>
                     <button id="nav-btn-func" onclick="alternarAbaCliente('func')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold text-theme-muted hover:bg-brand-primary/10 hover:text-brand-primary transition">
-                        <span class="text-base">👥</span><span class="sidebar-text truncate">Funcionários</span>
+                        <span class="text-base">👥</span>
+                        <span class="sidebar-text truncate">Funcionários</span>
                     </button>
                     <button id="nav-btn-plc" onclick="alternarAbaCliente('plc')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold text-theme-muted hover:bg-brand-primary/10 hover:text-brand-primary transition">
-                        <span class="text-base">📋</span><span class="sidebar-text truncate">Plano de Contas</span>
+                        <span class="text-base">📋</span>
+                        <span class="sidebar-text truncate">Plano de Contas</span>
                     </button>
                     <button id="nav-btn-adm" onclick="alternarAbaCliente('adm')" class="hidden w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold text-theme-muted hover:bg-brand-primary/10 hover:text-brand-primary transition border-t border-brand-border mt-2 pt-3">
-                        <span class="text-base">🔑</span><span class="sidebar-text truncate">Gerenciamento Admin</span>
+                        <span class="text-base">🔑</span>
+                        <span class="sidebar-text truncate">Gerenciamento Admin</span>
                     </button>
                 </nav>
             </div>
+
             <div class="p-3 border-t border-brand-border text-[11px] text-theme-muted sidebar-text space-y-1">
                 <div>Empresa: <strong class="display-empresa-nome text-theme-main uppercase">---</strong></div>
                 <div>Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></div>
             </div>
         </aside>
 
+        <!-- ÁREA PRINCIPAL DE CONTEÚDO -->
         <div class="flex-1 p-3 md:p-6 max-w-7xl mx-auto w-full space-y-6 overflow-y-auto">
+            
             <div id="banner-periodo-bloqueado" class="hidden bg-amber-950/40 border border-amber-800 text-amber-300 p-3 rounded-xl text-xs font-bold flex justify-between items-center">
                 <span>🔒 ESTE PERÍODO ESTÁ MARCADO COMO FECHADO. EDIÇÕES E NOVOS CADASTROS ESTÃO DESABILITADOS.</span>
             </div>
 
-            <!-- RESULTADOS -->
+            <!-- ABA 1: RESULTADOS & ANÁLISES (PRIMEIRA TELA) -->
             <section id="section-resultados" class="space-y-6">
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex flex-col md:flex-row justify-between items-center gap-4">
                     <div class="flex items-center gap-2">
@@ -174,36 +189,47 @@
                     <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                         <span class="text-xs text-theme-muted uppercase font-semibold">Investimento Total</span>
                         <h3 id="res-card-investimento-total" class="text-lg md:text-xl font-extrabold text-theme-main">R$ 0,00</h3>
+                        <p class="text-[10px] text-theme-muted">Prédio + Máquinas + Período</p>
                     </div>
                     <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                         <span class="text-xs text-theme-muted uppercase font-semibold">Ponto de Equilíbrio</span>
                         <h3 id="res-card-ponto-equilibrio" class="text-lg md:text-xl font-extrabold text-brand-primary">R$ 0,00</h3>
+                        <p class="text-[10px] text-theme-muted">Gastos + Perdas + Meta Rent.</p>
                     </div>
                     <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                         <span class="text-xs text-theme-muted uppercase font-semibold">Despesas Fixas / Fat.</span>
                         <h3 id="res-card-pct-despesa-fixa" class="text-lg md:text-xl font-extrabold text-amber-400">0,0%</h3>
+                        <p class="text-[10px] text-theme-muted">Peso do Admin/Sócios no Fat.</p>
                     </div>
                     <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                         <span class="text-xs text-theme-muted uppercase font-semibold">Rentabilidade Atual</span>
                         <h3 id="res-card-rentabilidade-atual" class="text-lg md:text-xl font-extrabold text-emerald-400">0,0% a.m.</h3>
+                        <p class="text-[10px] text-theme-muted">Lucro / Investimento Total</p>
                     </div>
                     <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                         <span class="text-xs text-theme-muted uppercase font-semibold">Payback Estimado</span>
                         <h3 id="res-card-payback" class="text-lg md:text-xl font-extrabold text-blue-400">0 meses</h3>
+                        <p class="text-[10px] text-theme-muted">Retorno do Investimento</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                         <div class="flex justify-between items-center border-b border-brand-border/50 pb-3">
-                            <h2 class="text-lg font-bold text-theme-main flex items-center gap-2">📊 DRE Gerencial Industrial</h2>
+                            <div>
+                                <h2 class="text-lg font-bold text-theme-main flex items-center gap-2">📊 DRE Gerencial Industrial</h2>
+                                <p class="text-xs text-theme-muted">💡 Clique na linha de qualquer grupo para ver o detalhamento de contas e valores</p>
+                            </div>
                             <span class="text-xs font-bold text-brand-primary uppercase" id="dre-period-display">---</span>
                         </div>
                         <div id="container-dre-rows" class="space-y-2.5 text-xs md:text-sm"></div>
                     </div>
 
                     <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4 flex flex-col justify-between">
-                        <h3 class="text-base font-bold text-theme-main border-b border-brand-border/50 pb-2">Composição do Faturamento (DRE)</h3>
+                        <div class="border-b border-brand-border/50 pb-2">
+                            <h3 class="text-base font-bold text-theme-main">Composição do Faturamento (DRE)</h3>
+                            <p class="text-xs text-theme-muted">Distribuição percentual do orçamento da DRE</p>
+                        </div>
                         <div class="relative w-full aspect-square flex items-center justify-center p-2">
                             <canvas id="chart-cc-distribuicao"></canvas>
                         </div>
@@ -211,7 +237,12 @@
                 </div>
 
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <h3 class="text-base font-bold text-theme-main border-b border-brand-border/50 pb-2">Custo-Hora dos Centros de Custo Produtivos Diretos</h3>
+                    <div class="border-b border-brand-border/50 pb-2 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-base font-bold text-theme-main">Custo-Hora dos Centros de Custo Produtivos Diretos</h3>
+                            <p class="text-xs text-theme-muted">💡 Clique na linha de qualquer setor para ver a composição detalhada do Custo-Hora e Horas Efetivas</p>
+                        </div>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs md:text-sm text-theme-muted">
                             <thead class="bg-input-bg text-[10px] md:text-xs uppercase text-theme-main border-b border-brand-border">
@@ -222,8 +253,8 @@
                                     <th class="p-2 md:p-3">Custo Indireto Absorvido (R$)</th>
                                     <th class="p-2 md:p-3">Custo Total Setor (R$)</th>
                                     <th class="p-2 md:p-3">Prod. (%)</th>
-                                    <th class="p-2 md:p-3">Horas Finais</th>
-                                    <th class="p-2 md:p-3 text-emerald-400 font-bold">Custo-Hora (R$/h)</th>
+                                    <th class="p-2 md:p-3">Horas Finais (Brutas / Efetivas)</th>
+                                    <th class="p-2 md:p-3 text-emerald-400 font-bold">Custo-Hora Específico (R$/h)</th>
                                 </tr>
                             </thead>
                             <tbody id="tbl-custo-hora-cc-body" class="divide-y divide-brand-border/50">
@@ -234,16 +265,20 @@
                 </div>
 
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <h3 class="text-base font-bold text-theme-main border-b border-brand-border/50 pb-2">Ranking Geral de Impacto dos Setores</h3>
+                    <div class="border-b border-brand-border/50 pb-2">
+                        <h3 class="text-base font-bold text-theme-main">Ranking Geral de Impacto dos Setores</h3>
+                        <p class="text-xs text-theme-muted">💡 Clique em qualquer setor para ver o Raio-X detalhado de seus custos</p>
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs md:text-sm text-theme-muted">
                             <thead class="bg-input-bg text-[10px] md:text-xs uppercase text-theme-main border-b border-brand-border">
                                 <tr>
                                     <th class="p-2 md:p-3">Posição / Setor</th>
                                     <th class="p-2 md:p-3">Tipo Setor</th>
-                                    <th class="p-2 md:p-3">Custo Primário (R$)</th>
-                                    <th class="p-2 md:p-3 text-center">Peso Total (%)</th>
-                                    <th class="p-2 md:p-3">Progresso</th>
+                                    <th class="p-2 md:p-3">Custo Primário Bruto (R$)</th>
+                                    <th class="p-2 md:p-3 text-center">Peso no Orçamento Total (%)</th>
+                                    <th class="p-2 md:p-3">Barra de Progresso</th>
                                     <th class="p-2 md:p-3 text-right">Raio-X</th>
                                 </tr>
                             </thead>
@@ -255,24 +290,831 @@
                 </div>
             </section>
 
-            <!-- OUTRAS SEÇÕES (CONFIG, CC, RECURSOS, BEN, FUNC, PLC, ADMIN) PERMANECEM IGUAIS -->
-            <section id="section-config-periodo" class="hidden space-y-6"></section>
-            <section id="section-centro-custo" class="hidden space-y-6"></section>
-            <section id="section-recursos" class="hidden space-y-6"></section>
-            <section id="section-beneficios" class="hidden space-y-6"></section>
-            <section id="section-funcionarios" class="hidden space-y-6"></section>
-            <section id="section-plano-contas" class="hidden space-y-6"></section>
-            <section id="section-admin" class="hidden space-y-6"></section>
+            <!-- ABA CONFIG PERÍODO -->
+            <section id="section-config-periodo" class="hidden space-y-6">
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
+                        <div>
+                            <h2 class="text-lg md:text-xl font-bold text-theme-main">Parâmetros do Período Ativo</h2>
+                            <p class="text-xs text-theme-muted">Defina as metas financeiras, impostos e custos prediais do período selecionado</p>
+                        </div>
+                        <span class="text-xs text-theme-muted">Empresa: <strong class="display-empresa-nome text-theme-main uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                    </div>
+
+                    <form id="form-cfg-periodo" onsubmit="salvarParametrosPeriodo(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs text-theme-muted mb-1">Faturamento Médio Mensal (R$)</label>
+                            <input type="text" id="cfg-faturamento" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-theme-muted mb-1">Alíquota Média Impostos sobre Vendas (%)</label>
+                            <input type="number" step="0.01" id="cfg-aliquota" placeholder="0,00" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-theme-muted mb-1">Valor Total Prédio Próprio (R$)</label>
+                            <input type="text" id="cfg-predio" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-theme-muted mb-1">Rentabilidade Objetiva Meta (%)</label>
+                            <input type="number" step="0.01" id="cfg-rentabilidade" placeholder="0,00" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-theme-muted mb-1">Retirada Média Mensal dos Sócios (R$)</label>
+                            <input type="text" id="cfg-retirada" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" id="btn-salvar-cfg" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg">Salvar Parâmetros</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                        <div class="flex justify-between items-center border-b border-brand-border/50 pb-2">
+                            <h3 class="text-base font-bold text-theme-main" id="inv-form-title">Cadastrar Investimento</h3>
+                            <button type="button" onclick="toggleFormulariosAccordion('form-inv-wrapper')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2.5 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">
+                                <span id="form-inv-wrapper-btn-text">+ Cadastrar Novo</span>
+                            </button>
+                        </div>
+                        <div id="form-inv-wrapper" class="hidden space-y-3 pt-2">
+                            <form id="form-inv" onsubmit="salvarInvestimento(event)" class="space-y-3">
+                                <input type="hidden" id="inv-editing-id" value="">
+                                <div>
+                                    <label class="block text-xs text-theme-muted mb-1">Nome / Descrição Investimento</label>
+                                    <input type="text" id="inv-nome" placeholder="EX: REFORMA PREDIAL" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-theme-muted mb-1">Valor do Investimento (R$)</label>
+                                    <input type="text" id="inv-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                </div>
+                                <div class="flex gap-2 pt-1">
+                                    <button type="button" id="btn-cancelar-inv" onclick="limparFormInv()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-xs transition">Cancelar</button>
+                                    <button type="submit" id="btn-salvar-inv" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-xs transition">Salvar Investimento</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                        <div class="flex justify-between items-center border-b border-brand-border/50 pb-2 gap-2">
+                            <h3 class="text-base font-bold text-theme-main">Investimentos Previstos no Período</h3>
+                            <input type="text" onkeyup="filtrarTabelaGenerica('tbl-inv-body', this.value)" placeholder="🔍 Buscar..." class="bg-input-bg text-xs p-1.5 rounded border border-brand-border outline-none w-48">
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs md:text-sm text-theme-muted">
+                                <thead class="bg-input-bg text-[10px] md:text-xs uppercase text-theme-main border-b border-brand-border">
+                                    <tr>
+                                        <th onclick="ordenarTabelaGenerica('tbl-inv-body', 0)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Descrição Investimento ⇅</th>
+                                        <th onclick="ordenarTabelaGenerica('tbl-inv-body', 1, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Valor (R$) ⇅</th>
+                                        <th class="p-2 md:p-3 text-right">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbl-inv-body" class="divide-y divide-brand-border/50">
+                                    <tr><td colspan="3" class="p-4 text-center">Carregando investimentos...</td></tr>
+                                </tbody>
+                                <tfoot id="tbl-inv-foot" class="bg-input-bg font-bold text-theme-main border-t border-brand-border"></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center border-b border-brand-border/50 pb-2">
+                        <h3 class="text-base font-bold text-theme-main">Histórico de Períodos da Empresa</h3>
+                        <button onclick="modalCriarNovoPeriodo()" class="text-xs bg-brand-primary hover:bg-brand-hover text-white px-3 py-1.5 rounded font-bold transition">+ Criar / Duplicar Período</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm text-theme-muted">
+                            <thead class="bg-input-bg text-[10px] md:text-xs uppercase text-theme-main border-b border-brand-border">
+                                <tr>
+                                    <th class="p-2 md:p-3">ID</th>
+                                    <th class="p-2 md:p-3">Nome Período</th>
+                                    <th class="p-2 md:p-3">Status</th>
+                                    <th class="p-2 md:p-3">Faturamento Média (R$)</th>
+                                    <th class="p-2 md:p-3">Prédio Próprio (R$)</th>
+                                    <th class="p-2 md:p-3 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-periodos-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="6" class="p-4 text-center">Carregando períodos...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA CENTROS DE CUSTO -->
+            <section id="section-centro-custo" class="hidden space-y-6">
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center border-b border-brand-border/50 pb-3 gap-2">
+                        <div>
+                            <h2 class="text-lg md:text-xl font-bold text-theme-main" id="cc-form-title">Cadastrar Centro de Custo</h2>
+                            <span class="text-xs text-theme-muted">Empresa: <strong class="display-empresa-nome text-theme-main uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="toggleFormulariosAccordion('form-cc-wrapper')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-3 py-2 rounded-lg hover:bg-brand-primary hover:text-white transition font-bold">
+                                <span id="form-cc-wrapper-btn-text">+ Cadastrar Novo</span>
+                            </button>
+                            <button onclick="abrirModalGradeLote('TCENTRO_CUSTO')" class="text-xs bg-brand-primary hover:bg-brand-hover text-white font-bold px-3 py-2 rounded-lg transition shadow-lg">
+                                <span>⚡ Inserção em Lote</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="form-cc-wrapper" class="hidden pt-2">
+                        <form id="form-cc" onsubmit="salvarCentroCusto(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="hidden" id="cc-editing-id" value="">
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Nome Centro de Custo</label>
+                                <input type="text" id="cc-nome" placeholder="EX: TORNO CNC" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Tipo Centro de Custo</label>
+                                <select id="cc-tipo" onchange="verificarTipoCentroCusto()" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                    <option value="">Carregando opções...</option>
+                                </select>
+                            </div>
+
+                            <div id="wrapper-cc-tipo-rateio">
+                                <label class="block text-xs text-theme-muted mb-1">Tipo Rateio de Horas</label>
+                                <select id="cc-tipo-rateio" class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                    <option value="">Carregando opções...</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Área (M²)</label>
+                                <input type="number" step="0.01" id="cc-area" placeholder="0.00" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div id="wrapper-cc-custo-fixo">
+                                <label class="block text-xs text-theme-muted mb-1">Custo Fixo Direto (R$)</label>
+                                <input type="text" id="cc-custo-fixo" placeholder="0,00" class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div id="wrapper-cc-produtividade">
+                                <label class="block text-xs text-theme-muted mb-1">Produtividade (%)</label>
+                                <input type="number" step="0.01" id="cc-produtividade" placeholder="100.00" class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div class="md:col-span-2 flex items-center gap-2 pt-2">
+                                <input type="checkbox" id="cc-considerar-minimo" class="w-4 h-4 accent-brand-primary bg-input-bg border-brand-border rounded cursor-pointer">
+                                <label for="cc-considerar-minimo" class="text-xs md:text-sm text-theme-main cursor-pointer">Considerar Mínimo (Check = SIM)</label>
+                            </div>
+
+                            <div class="flex gap-2 pt-2 justify-end md:col-span-3">
+                                <button type="button" id="btn-cancelar-cc" onclick="limparFormCC()" class="hidden w-32 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                                <button type="submit" id="btn-salvar-cc" class="bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 px-6 rounded text-sm transition shadow-lg">Salvar Centro de Custo</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="text-base md:text-lg font-bold text-theme-main">Centros de Custos Cadastrados</h3>
+                        <div class="flex items-center gap-2">
+                            <input type="text" onkeyup="filtrarTabelaGenerica('tbl-cc-body', this.value)" placeholder="🔍 Buscar..." class="bg-input-bg text-xs p-1.5 rounded border border-brand-border outline-none w-48">
+                            <button onclick="carregarCentrosDeCusto()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-theme-muted">Atualizar</button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm text-theme-muted">
+                            <thead class="bg-input-bg text-[10px] md:text-xs uppercase text-theme-main border-b border-brand-border">
+                                <tr>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 0)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">ID ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 1)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Nome ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 2)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Tipo ⇅</th>
+                                    <th class="p-2 md:p-3">Rateio</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 4, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Qtd Rec ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 5, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Área (M²) ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 6, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Custo Fixo ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 7, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Depreciação ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 8, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Func. ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 9, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Plano Contas ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 10, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Prédio ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-cc-body', 11, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Indiretos ⇅</th>
+                                    <th class="p-2 md:p-3">Horas</th>
+                                    <th class="p-2 md:p-3">Prod (%)</th>
+                                    <th class="p-2 md:p-3">Mínimo</th>
+                                    <th class="p-2 md:p-3 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="16" class="p-4 text-center">Carregando...</td></tr>
+                            </tbody>
+                            <tfoot id="tbl-cc-foot" class="bg-input-bg font-bold text-theme-main border-t border-brand-border"></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA RECURSOS -->
+            <section id="section-recursos" class="hidden space-y-6">
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center border-b border-brand-border/50 pb-3 gap-2">
+                        <div>
+                            <h2 class="text-lg md:text-xl font-bold text-theme-main" id="rec-form-title">Cadastrar Recurso</h2>
+                            <span class="text-xs text-theme-muted">Empresa: <strong class="display-empresa-nome text-theme-main uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="toggleFormulariosAccordion('form-rec-wrapper')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-3 py-2 rounded-lg hover:bg-brand-primary hover:text-white transition font-bold">
+                                <span id="form-rec-wrapper-btn-text">+ Cadastrar Novo</span>
+                            </button>
+                            <button onclick="abrirModalGradeLote('TRECURSO')" class="text-xs bg-brand-primary hover:bg-brand-hover text-white font-bold px-3 py-2 rounded-lg transition shadow-lg">
+                                <span>⚡ Inserção em Lote</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="form-rec-wrapper" class="hidden pt-2">
+                        <form id="form-rec" onsubmit="salvarRecurso(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="hidden" id="rec-editing-id" value="">
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Centro de Custo</label>
+                                <select id="rec-cc-id" onchange="verificarSelecaoCCRecurso()" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                    <option value="">Carregando...</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Nome do Recurso</label>
+                                <input type="text" id="rec-nome" placeholder="EX: TORNO ROMI CENTUR 30V" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Tipo de Recurso</label>
+                                <select id="rec-tipo" onchange="calcularCustoMensalRecurso()" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                    <option value="">Carregando...</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Valor do Recurso (R$)</label>
+                                <input type="text" id="rec-valor" oninput="calcularCustoMensalRecurso()" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Custo Mensal / Depreciação (R$)</label>
+                                <input type="text" id="rec-custo-mensal" readonly placeholder="Calculado auto..." class="w-full p-2.5 rounded bg-input-bg/50 border border-brand-border/50 text-sm text-emerald-400 font-bold outline-none cursor-not-allowed">
+                            </div>
+
+                            <div id="wrapper-rec-turnos" class="opacity-40 pointer-events-none">
+                                <label class="block text-xs text-theme-muted mb-1">Quantidade de Turnos (Produtivos Diretos)</label>
+                                <input type="number" min="1" step="1" id="rec-turnos" value="1" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div class="md:col-span-3 flex justify-end gap-2 pt-2">
+                                <button type="button" id="btn-cancelar-rec" onclick="limparFormRec()" class="hidden w-32 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                                <button type="submit" id="btn-salvar-rec" class="w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg">Salvar Recurso</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="text-base md:text-lg font-bold text-theme-main">Recursos Cadastrados</h3>
+                        <div class="flex items-center gap-2">
+                            <input type="text" onkeyup="filtrarTabelaGenerica('tbl-rec-body', this.value)" placeholder="🔍 Buscar..." class="bg-input-bg text-xs p-1.5 rounded border border-brand-border outline-none w-48">
+                            <button onclick="carregarRecursos()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-theme-muted">Atualizar</button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm text-theme-muted">
+                            <thead class="bg-input-bg text-[10px] md:text-xs uppercase text-theme-main border-b border-brand-border">
+                                <tr>
+                                    <th onclick="ordenarTabelaGenerica('tbl-rec-body', 0)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Centro Custo ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-rec-body', 1)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Nome Recurso ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-rec-body', 2, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Valor (R$) ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-rec-body', 3)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Tipo ⇅</th>
+                                    <th class="p-2 md:p-3">Turnos</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-rec-body', 5, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Custo Mensal (R$) ⇅</th>
+                                    <th class="p-2 md:p-3 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-rec-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="7" class="p-4 text-center">Carregando...</td></tr>
+                            </tbody>
+                            <tfoot id="tbl-rec-foot" class="bg-input-bg font-bold text-theme-main border-t border-brand-border"></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA BENEFÍCIOS -->
+            <section id="section-beneficios" class="hidden space-y-6">
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center border-b border-brand-border/50 pb-3 gap-1">
+                        <div>
+                            <h2 class="text-lg md:text-xl font-bold text-theme-main" id="ben-form-title">Cadastrar Benefício</h2>
+                            <span class="text-xs text-theme-muted">Empresa: <strong class="display-empresa-nome text-theme-main uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                        </div>
+                        <button type="button" onclick="toggleFormulariosAccordion('form-ben-wrapper')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-3 py-2 rounded-lg hover:bg-brand-primary hover:text-white transition font-bold">
+                            <span id="form-ben-wrapper-btn-text">+ Cadastrar Novo</span>
+                        </button>
+                    </div>
+
+                    <div id="form-ben-wrapper" class="hidden pt-2">
+                        <form id="form-ben" onsubmit="salvarBeneficio(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="hidden" id="ben-editing-id" value="">
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Descrição do Benefício</label>
+                                <input type="text" id="ben-nome" placeholder="EX: VALE REFEIÇÃO" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Valor Mensal por Funcionário (R$)</label>
+                                <input type="text" id="ben-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+                            <div class="md:col-span-1 flex items-end">
+                                <div class="flex gap-2 w-full">
+                                    <button type="button" id="btn-cancelar-ben" onclick="limparFormBen()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                                    <button type="submit" id="btn-salvar-ben" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg">Salvar Benefício</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="text-base md:text-lg font-bold text-theme-main">Benefícios Cadastrados</h3>
+                        <div class="flex items-center gap-2">
+                            <input type="text" onkeyup="filtrarTabelaGenerica('tbl-ben-body', this.value)" placeholder="🔍 Buscar..." class="bg-input-bg text-xs p-1.5 rounded border border-brand-border outline-none w-48">
+                            <button onclick="carregarBeneficios()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-theme-muted">Atualizar</button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm text-theme-muted">
+                            <thead class="bg-input-bg text-[10px] md:text-xs uppercase text-theme-main border-b border-brand-border">
+                                <tr>
+                                    <th onclick="ordenarTabelaGenerica('tbl-ben-body', 0)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Descrição Benefício ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-ben-body', 1, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Valor Mensal (R$) ⇅</th>
+                                    <th class="p-2 md:p-3 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-ben-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="3" class="p-4 text-center">Carregando...</td></tr>
+                            </tbody>
+                            <tfoot id="tbl-ben-foot" class="bg-input-bg font-bold text-theme-main border-t border-brand-border"></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA FUNCIONÁRIOS -->
+            <section id="section-funcionarios" class="hidden space-y-6">
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center border-b border-brand-border/50 pb-3 gap-2">
+                        <div>
+                            <h2 class="text-lg md:text-xl font-bold text-theme-main" id="func-form-title">Cadastrar Funcionário</h2>
+                            <span class="text-xs text-theme-muted">Empresa: <strong class="display-empresa-nome text-theme-main uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="toggleFormulariosAccordion('form-func-wrapper')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-3 py-2 rounded-lg hover:bg-brand-primary hover:text-white transition font-bold">
+                                <span id="form-func-wrapper-btn-text">+ Cadastrar Novo</span>
+                            </button>
+                            <button onclick="abrirModalGradeLote('TFUNCIONARIO')" class="text-xs bg-brand-primary hover:bg-brand-hover text-white font-bold px-3 py-2 rounded-lg transition shadow-lg">
+                                <span>⚡ Inserção em Lote</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="form-func-wrapper" class="hidden pt-2">
+                        <form id="form-func" onsubmit="salvarFuncionario(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="hidden" id="func-editing-id" value="">
+
+                            <div class="md:col-span-3 border-b border-brand-border/50 pb-3 space-y-3">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="func-is-rateio" onchange="alternarModoRateioFuncionario()" class="w-4 h-4 accent-brand-primary rounded cursor-pointer">
+                                    <label for="func-is-rateio" class="text-sm font-bold text-theme-main cursor-pointer">É Funcionário de Rateio (Atende múltiplos Centros de Custo)?</label>
+                                </div>
+
+                                <div id="wrapper-func-cc-unico">
+                                    <label class="block text-xs text-theme-muted mb-1">Centro de Custo Único</label>
+                                    <select id="func-cc-id" class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                        <option value="">Carregando...</option>
+                                    </select>
+                                </div>
+
+                                <div id="wrapper-func-cc-rateio" class="hidden space-y-2 bg-input-bg p-3 rounded border border-brand-border">
+                                    <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%):</label>
+                                    <div id="container-rateio-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
+                                    <div class="flex justify-between items-center text-xs font-bold pt-1 border-t border-brand-border/50">
+                                        <span class="text-theme-muted">Soma dos Percentuais: <strong id="display-total-pct" class="text-theme-main">0%</strong></span>
+                                        <span class="text-theme-muted">Sobra de Custo Não Rateado: <strong id="display-sobra-custo" class="text-emerald-400">R$ 0,00</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Nome Completo</label>
+                                <input type="text" id="func-nome" placeholder="EX: DIEGO HENRIQUE DIAS" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Tipo de Registro</label>
+                                <select id="func-tp-registro" onchange="calcularCustoFuncionario()" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                    <option value="">Carregando...</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Tipo de Salário</label>
+                                <select id="func-tp-salario" onchange="calcularCustoFuncionario()" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                    <option value="MENSALISTA">MENSALISTA</option>
+                                    <option value="HORISTA">HORISTA</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Salário Base (R$)</label>
+                                <input type="text" id="func-salario-base" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Horas Mensais</label>
+                                <input type="number" step="0.01" id="func-horas-mes" oninput="calcularCustoFuncionario()" value="176" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-xs text-theme-muted mb-1">Selecione Benefícios (Aba TBENEFICIOS)</label>
+                                <div id="container-beneficios-checkboxes" class="grid grid-cols-2 md:grid-cols-3 gap-2 bg-input-bg p-3 rounded border border-brand-border max-h-32 overflow-y-auto">
+                                    <span class="text-xs text-theme-muted">Nenhum benefício cadastrado</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Valor Total Benefícios (R$) (Editável)</label>
+                                <input type="text" id="func-beneficios-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-xs text-theme-muted mb-1">Custo Mensal Calculado do Funcionário (R$)</label>
+                                <input type="text" id="func-custo-mensal" readonly placeholder="Calculado auto..." class="w-full p-2.5 rounded bg-input-bg/50 border border-brand-border/50 text-base text-emerald-400 font-extrabold outline-none cursor-not-allowed">
+                            </div>
+
+                            <div class="flex gap-2 pt-2 md:items-end">
+                                <button type="button" id="btn-cancelar-func" onclick="limparFormFunc()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                                <button type="submit" id="btn-salvar-func" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg">Salvar Funcionário</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="text-base md:text-lg font-bold text-theme-main">Funcionários Cadastrados</h3>
+                        <div class="flex items-center gap-2">
+                            <input type="text" onkeyup="filtrarTabelaGenerica('tbl-func-body', this.value)" placeholder="🔍 Buscar..." class="bg-input-bg text-xs p-1.5 rounded border border-brand-border outline-none w-48">
+                            <button onclick="carregarFuncionarios()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-theme-muted">Atualizar</button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm text-theme-muted">
+                            <thead class="bg-input-bg text-[10px] md:text-xs uppercase text-theme-main border-b border-brand-border">
+                                <tr>
+                                    <th onclick="ordenarTabelaGenerica('tbl-func-body', 0)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Centro(s) Custo ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-func-body', 1)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Nome ⇅</th>
+                                    <th class="p-2 md:p-3">Horas</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-func-body', 3, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Salário Base ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-func-body', 4, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Benefícios ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-func-body', 5, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Custo Mensal ⇅</th>
+                                    <th class="p-2 md:p-3">Rateio?</th>
+                                    <th class="p-2 md:p-3 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-func-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="8" class="p-4 text-center">Carregando...</td></tr>
+                            </tbody>
+                            <tfoot id="tbl-func-foot" class="bg-input-bg font-bold text-theme-main border-t border-brand-border"></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA PLANO DE CONTAS -->
+            <section id="section-plano-contas" class="hidden space-y-6">
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center border-b border-brand-border/50 pb-3 gap-2">
+                        <div>
+                            <h2 class="text-lg md:text-xl font-bold text-theme-main" id="plc-form-title">Cadastrar Conta no Plano de Contas</h2>
+                            <span class="text-xs text-theme-muted">Empresa: <strong class="display-empresa-nome text-theme-main uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="toggleFormulariosAccordion('form-plc-wrapper')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-3 py-2 rounded-lg hover:bg-brand-primary hover:text-white transition font-bold">
+                                <span id="form-plc-wrapper-btn-text">+ Cadastrar Novo</span>
+                            </button>
+                            <button onclick="abrirModalGradeLote('TPLANO_CONTAS')" class="text-xs bg-brand-primary hover:bg-brand-hover text-white font-bold px-3 py-2 rounded-lg transition shadow-lg">
+                                <span>⚡ Inserção em Lote</span>
+                            </button>
+                            <button onclick="abrirModalImportarPlano()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-2 rounded-lg transition shadow-lg">
+                                <span>📥 Importar CSV</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="form-plc-wrapper" class="hidden pt-2">
+                        <form id="form-plc" onsubmit="salvarPlanoConta(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="hidden" id="plc-editing-id" value="">
+
+                            <div class="md:col-span-3 border-b border-brand-border/50 pb-3 space-y-3">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" id="plc-is-rateio" onchange="alternarModoRateioPlanoConta()" class="w-4 h-4 accent-brand-primary rounded cursor-pointer">
+                                    <label for="plc-is-rateio" class="text-sm font-bold text-theme-main cursor-pointer">É Conta de Rateio Seletivo / Porcentagem (Atende múltiplos Centros de Custo)?</label>
+                                </div>
+
+                                <div id="wrapper-plc-cc-rateio" class="hidden space-y-2 bg-input-bg p-3 rounded border border-brand-border">
+                                    <div class="flex justify-between items-center">
+                                        <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%): <span class="text-amber-400 font-normal">(A SOMA DEVE SER EXATAMENTE 100%)</span></label>
+                                        <div class="flex gap-2">
+                                            <button type="button" onclick="dividirIgualmentePlanoCC()" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white font-bold">Dividir Igualmente</button>
+                                            <button type="button" onclick="zerarPercentuaisPlanoCC()" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white">Zerar</button>
+                                        </div>
+                                    </div>
+                                    <div id="container-rateio-plc-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
+                                    <div class="flex justify-between items-center text-xs font-bold pt-2 border-t border-brand-border/50">
+                                        <span class="text-theme-muted">Soma dos Percentuais: <strong id="display-total-pct-plc" class="text-red-400 text-sm">0%</strong></span>
+                                        <span id="display-status-validacao-plc" class="text-red-400 font-extrabold">⚠️ A SOMA DEVE SER IGUAL A 100.0%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Descrição / Nome da Conta</label>
+                                <input type="text" id="plc-nome" placeholder="EX: ENERGIA ELÉTRICA / ALUGUEL" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Critério de Destino / Rateio</label>
+                                <select id="plc-criterio" onchange="verificarCriterioPlanoContas()" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                    <option value="EXCLUSIVO">EXCLUSIVO (CENTRO DE CUSTO ÚNICO)</option>
+                                    <option value="AREA">RATEIO POR ÁREA (M²)</option>
+                                    <option value="RECURSOS">RATEIO POR QUANTIDADE DE RECURSOS</option>
+                                    <option value="HORAS">RATEIO POR HORAS FINAIS DO CC</option>
+                                    <option value="NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)">NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)</option>
+                                    <option value="NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)">NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)</option>
+                                </select>
+                            </div>
+
+                            <div id="wrapper-plc-cc-exclusivo">
+                                <label class="block text-xs text-theme-muted mb-1">Centro de Custo Exclusivo</label>
+                                <select id="plc-cc-id" class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                    <option value="">Carregando...</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Valor Mensal (R$)</label>
+                                <input type="text" id="plc-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+
+                            <div id="wrapper-plc-aviso-variavel" class="hidden md:col-span-3 bg-amber-950/30 border border-amber-800/50 p-2.5 rounded text-xs text-amber-300">
+                                ⚡ <strong>GASTO VARIÁVEL:</strong> Esta conta é diretamente vinculada a vendas ou produção por encomenda. Não é rateada entre Centros de Custo e vai direto para a composição da DRE Gerencial.
+                            </div>
+
+                            <div class="md:col-span-3 flex justify-end gap-2 pt-2 items-end">
+                                <button type="button" id="btn-cancelar-plc" onclick="limparFormPLC()" class="hidden w-32 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
+                                <button type="submit" id="btn-salvar-plc" class="w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg">Salvar Conta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="text-base md:text-lg font-bold text-theme-main">Contas Cadastradas</h3>
+                        <div class="flex items-center gap-2">
+                            <input type="text" onkeyup="filtrarTabelaGenerica('tbl-plc-body', this.value)" placeholder="🔍 Buscar..." class="bg-input-bg text-xs p-1.5 rounded border border-brand-border outline-none w-48">
+                            <button onclick="carregarPlanoContas()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-theme-muted">Atualizar</button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm text-theme-muted">
+                            <thead class="bg-input-bg text-[10px] md:text-xs uppercase text-theme-main border-b border-brand-border">
+                                <tr>
+                                    <th onclick="ordenarTabelaGenerica('tbl-plc-body', 0)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Descrição da Conta ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-plc-body', 1)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Critério Rateio / Destino ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-plc-body', 2)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Participantes / Destino ⇅</th>
+                                    <th onclick="ordenarTabelaGenerica('tbl-plc-body', 3, true)" class="p-2 md:p-3 cursor-pointer hover:text-brand-primary">Valor Mensal (R$) ⇅</th>
+                                    <th class="p-2 md:p-3 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-plc-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="5" class="p-4 text-center">Carregando...</td></tr>
+                            </tbody>
+                            <tfoot id="tbl-plc-foot" class="bg-input-bg font-bold text-theme-main border-t border-brand-border"></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA ADMIN -->
+            <section id="section-admin" class="hidden space-y-6">
+                <div class="border-b border-brand-border pb-4 flex justify-between items-center">
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-bold text-theme-main">Gerenciamento do Sistema</h1>
+                        <p class="text-xs text-theme-muted">Cadastre empresas parceiras, bloqueie acessos e gerencie usuários</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                        <h2 class="text-base md:text-lg font-bold text-theme-main border-b border-brand-border/50 pb-2">1. Cadastrar Cliente (Empresa)</h2>
+                        <form id="form-cliente" onsubmit="cadastrarCliente(event)" class="space-y-3">
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Nome / Razão Social</label>
+                                <input type="text" id="cli-nome" placeholder="Empresa X Ltda" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">CNPJ</label>
+                                <input type="text" id="cli-cnpj" placeholder="00.000.000/0001-00" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+                            <button type="submit" id="btn-salvar-cli" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded text-sm transition mt-2">Salvar Cliente</button>
+                        </form>
+                    </div>
+
+                    <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                        <h2 class="text-base md:text-lg font-bold text-theme-main border-b border-brand-border/50 pb-2">2. Cadastrar Usuário</h2>
+                        <form id="form-usuario" onsubmit="cadastrarUsuario(event)" class="space-y-3">
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Vincular ao Cliente</label>
+                                <select id="usr-cli-id" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                    <option value="">Carregando...</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">É Administrador?</label>
+                                <select id="usr-adm" class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                    <option value="NAO">NÃO</option>
+                                    <option value="SIM">SIM</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">Nome Completo</label>
+                                <input type="text" id="usr-nome" placeholder="João Silva" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-theme-muted mb-1">E-mail de Acesso</label>
+                                <input type="email" id="usr-email" placeholder="joao@empresa.com" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs text-theme-muted mb-1">Celular</label>
+                                    <input type="text" id="usr-celular" placeholder="(11) 99999-9999" class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-theme-muted mb-1">Senha</label>
+                                    <input type="password" id="usr-senha" placeholder="••••••••" required class="w-full p-2.5 rounded bg-input-bg border border-brand-border text-sm outline-none">
+                                </div>
+                            </div>
+                            <button type="submit" id="btn-salvar-usr" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition mt-2">Salvar Usuário</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <h2 class="text-base md:text-lg font-bold text-theme-main border-b border-brand-border/50 pb-2">3. Clientes Cadastrados & Status de Acesso</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs md:text-sm text-theme-muted">
+                            <thead class="bg-input-bg text-[10px] md:text-xs uppercase text-theme-main border-b border-brand-border">
+                                <tr>
+                                    <th class="p-2 md:p-3">ID</th>
+                                    <th class="p-2 md:p-3">Razão Social / Nome</th>
+                                    <th class="p-2 md:p-3">CNPJ</th>
+                                    <th class="p-2 md:p-3">Status Acesso</th>
+                                    <th class="p-2 md:p-3 text-right">Ação Bloqueio</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-admin-clientes-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="5" class="p-4 text-center">Carregando clientes...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
 
-    <!-- MODAIS -->
-    <div id="modal-grade-lote" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4"></div>
-    <div id="modal-importar-plano" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"></div>
-    <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"></div>
-    <div id="modal-drilldown-dre" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"></div>
+    <!-- MODAIS DE LOTE E IMPORTAÇÃO -->
+    <div id="modal-grade-lote" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-6xl w-full p-6 space-y-4 shadow-2xl flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3">
+                <div>
+                    <h3 id="grade-lote-title" class="text-lg font-bold text-theme-main uppercase flex items-center gap-2">⚡ Entradas em Lote na Grade</h3>
+                    <p class="text-xs text-theme-muted">Use as caixas de seleção idênticas ao cadastro manual ou cole dados do Excel (`Ctrl+V`)</p>
+                </div>
+                <button onclick="fecharModalGradeLote()" class="text-theme-muted hover:text-theme-main font-bold text-lg px-2">✕</button>
+            </div>
 
-<script>
+            <div class="flex justify-between items-center bg-input-bg p-2.5 rounded border border-brand-border text-xs">
+                <span id="grade-lote-instrucao" class="text-theme-muted">Linhas ativas: <strong id="grade-rows-count" class="text-theme-main">5</strong></span>
+                <div class="flex gap-2">
+                    <button onclick="colarDoClipboardGrade()" class="bg-brand-border hover:bg-brand-border/80 text-white font-bold px-3 py-1.5 rounded transition">📋 Colar do Clipboard (Ctrl+V)</button>
+                    <button onclick="adicionarLinhaGrade()" class="bg-brand-border hover:bg-brand-border/80 text-white font-bold px-3 py-1.5 rounded transition">+ Adicionar Linha</button>
+                    <button onclick="limparGradeLote()" class="bg-red-950/40 border border-red-800/50 text-red-300 hover:bg-red-900 px-3 py-1.5 rounded transition">Limpar Grade</button>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-auto border border-brand-border rounded-xl bg-input-bg">
+                <table class="w-full text-left text-xs text-theme-main border-collapse">
+                    <thead id="grade-lote-thead" class="bg-brand-card sticky top-0 uppercase font-bold border-b border-brand-border z-10"></thead>
+                    <tbody id="grade-lote-tbody" class="divide-y divide-brand-border/40"></tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-end gap-2 border-t border-brand-border pt-3">
+                <button onclick="fecharModalGradeLote()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Cancelar</button>
+                <button id="btn-salvar-grade-lote" onclick="salvarGradeLoteEmBloco()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2 rounded text-xs transition shadow-lg">🚀 Salvar Tudo em Lote</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-importar-plano" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3">
+                <div>
+                    <h3 class="text-lg font-bold text-theme-main uppercase flex items-center gap-2">📥 Importar Plano de Contas</h3>
+                    <p class="text-xs text-theme-muted">Selecione um arquivo CSV com suas contas para importar em lote</p>
+                </div>
+                <button onclick="fecharModalImportarPlano()" class="text-theme-muted hover:text-theme-main font-bold text-lg px-2">✕</button>
+            </div>
+
+            <div class="space-y-3 text-xs text-theme-muted">
+                <div class="bg-brand-primary/10 border border-brand-primary/30 p-3 rounded-lg flex items-center justify-between gap-2">
+                    <div>
+                        <strong class="text-theme-main block text-xs">Precisa do modelo de preenchimento?</strong>
+                        <span>Baixe a planilha modelo com exemplos de todos os critérios de rateio.</span>
+                    </div>
+                    <button onclick="baixarModeloCSVPlano()" class="bg-brand-primary hover:bg-brand-hover text-white font-bold px-3 py-2 rounded text-xs whitespace-nowrap transition shadow">
+                        📥 Baixar Modelo (.CSV)
+                    </button>
+                </div>
+            </div>
+
+            <div class="border-2 border-dashed border-brand-border p-6 rounded-xl text-center space-y-2 bg-input-bg">
+                <input type="file" id="csv-file-input" accept=".csv" class="hidden" onchange="processarArquivoCSV(event)">
+                <label for="csv-file-input" class="cursor-pointer bg-brand-border hover:bg-brand-border/80 text-white font-bold px-4 py-2 rounded-lg text-xs inline-block">
+                    📁 Selecionar Arquivo CSV
+                </label>
+                <p id="csv-file-name" class="text-xs text-theme-muted pt-1">Nenhum arquivo selecionado</p>
+            </div>
+
+            <div class="flex justify-end gap-2 border-t border-brand-border pt-3">
+                <button onclick="fecharModalImportarPlano()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Cancelar</button>
+                <button id="btn-confirmar-importacao" onclick="confirmarImportacaoCSV()" disabled class="bg-emerald-600 hover:bg-emerald-500 opacity-40 text-white font-bold px-4 py-2 rounded text-xs transition cursor-not-allowed">Confirmar Importação</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAIS DRILLDOWN -->
+    <div id="modal-drilldown-custohora" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3">
+                <div>
+                    <h3 id="modal-dh-title" class="text-lg font-bold text-theme-main uppercase">---</h3>
+                    <p class="text-xs text-theme-muted">Composição Detalhada do Custo do Setor</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="gerarPDFRelatorioSetor()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-1.5 rounded-lg transition">📄 Gerar PDF</button>
+                    <button onclick="fecharModalDrilldown()" class="text-theme-muted hover:text-theme-main font-bold text-lg px-2">✕</button>
+                </div>
+            </div>
+            <div id="pdf-report-content" class="space-y-4 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm"></div>
+            <div class="flex justify-end border-t border-brand-border pt-3">
+                <button onclick="fecharModalDrilldown()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-drilldown-dre" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-brand-border pb-3">
+                <div>
+                    <h3 id="modal-dre-title" class="text-lg font-bold text-theme-main uppercase">---</h3>
+                    <p class="text-xs text-theme-muted">Composição Detalhada dos Itens da Linha da DRE</p>
+                </div>
+                <button onclick="fecharModalDRE()" class="text-theme-muted hover:text-theme-main font-bold text-lg px-2">✕</button>
+            </div>
+            <div id="modal-dre-content" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1 text-xs md:text-sm"></div>
+            <div class="flex justify-between items-center border-t border-brand-border pt-3">
+                <span class="text-xs text-theme-muted">Total Acumulado da Linha: <strong id="modal-dre-total-val" class="text-emerald-400 font-extrabold text-base">R$ 0,00</strong></span>
+                <button onclick="fecharModalDRE()" class="bg-brand-border hover:bg-brand-border/70 text-white font-bold px-4 py-2 rounded text-xs">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT JS INTEGRAL -->
+    <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
         let usuarioLogado = null;
@@ -356,6 +1198,81 @@
             }
         }
 
+        function toggleFormulariosAccordion(idWrapper) {
+            const wrap = document.getElementById(idWrapper);
+            const btnText = document.getElementById(`${idWrapper}-btn-text`);
+            if(!wrap) return;
+
+            if (wrap.classList.contains('hidden')) {
+                wrap.classList.remove('hidden');
+                if(btnText) btnText.innerText = '▲ Fechar Formulário';
+            } else {
+                wrap.classList.add('hidden');
+                if(btnText) btnText.innerText = '+ Cadastrar Novo';
+            }
+        }
+
+        function abrirFormularioAccordion(idWrapper) {
+            const wrap = document.getElementById(idWrapper);
+            const btnText = document.getElementById(`${idWrapper}-btn-text`);
+            if(wrap) {
+                wrap.classList.remove('hidden');
+                if(btnText) btnText.innerText = '▲ Fechar Formulário';
+            }
+        }
+
+        function filtrarTabelaGenerica(tbodyId, termo) {
+            const tbody = document.getElementById(tbodyId);
+            if(!tbody) return;
+            const rows = tbody.querySelectorAll('tr');
+            const termoClean = String(termo || "").toLowerCase().trim();
+
+            rows.forEach(tr => {
+                const txt = tr.innerText.toLowerCase();
+                if(!termoClean || txt.includes(termoClean)) {
+                    tr.style.display = '';
+                } else {
+                    tr.style.display = 'none';
+                }
+            });
+            recalcularTotaisRodape(tbodyId);
+        }
+
+        let direcaoOrdenacao = {};
+        function ordenarTabelaGenerica(tbodyId, colIndex, isNumeric = false) {
+            const tbody = document.getElementById(tbodyId);
+            if(!tbody) return;
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            direcaoOrdenacao[colIndex] = !direcaoOrdenacao[colIndex];
+            const ascendente = direcaoOrdenacao[colIndex];
+
+            rows.sort((a, b) => {
+                const cellA = a.children[colIndex] ? a.children[colIndex].innerText.trim() : '';
+                const cellB = b.children[colIndex] ? b.children[colIndex].innerText.trim() : '';
+
+                if (isNumeric) {
+                    const valA = parseMoedaBR(cellA);
+                    const valB = parseMoedaBR(cellB);
+                    return ascendente ? valA - valB : valB - valA;
+                } else {
+                    return ascendente ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+                }
+            });
+
+            tbody.innerHTML = '';
+            rows.forEach(r => tbody.appendChild(r));
+        }
+
+        function recalcularTotaisRodape(tbodyId) {
+            if (tbodyId === 'tbl-cc-body') renderizarTabelaCCLocal();
+            else if (tbodyId === 'tbl-rec-body') renderizarTabelaRecursosLocal();
+            else if (tbodyId === 'tbl-ben-body') renderizarTabelaBeneficiosLocal();
+            else if (tbodyId === 'tbl-func-body') renderizarTabelaFuncionariosLocal();
+            else if (tbodyId === 'tbl-plc-body') renderizarTabelaPlanoContasLocal();
+            else if (tbodyId === 'tbl-inv-body') renderizarTabelaInvestimentosLocal();
+        }
+
         function setSyncStatus(isSyncing, msg = "Conectado") {
             const indicator = document.getElementById('sync-indicator');
             const syncText = document.getElementById('sync-text');
@@ -396,6 +1313,14 @@
                     if(!v) { e.target.value = ''; return; }
                     v = (parseFloat(v) / 100).toFixed(2);
                     e.target.value = Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    
+                    if (e.target.id === 'func-salario-base' || e.target.id === 'func-beneficios-valor') {
+                        if (typeof calcularCustoFuncionario === 'function') calcularCustoFuncionario();
+                    } else if (e.target.id === 'rec-valor') {
+                        if (typeof calcularCustoMensalRecurso === 'function') calcularCustoMensalRecurso();
+                    } else if (e.target.id === 'plc-valor') {
+                        if (typeof calcularPercentuaisPlanoConta === 'function') calcularPercentuaisPlanoConta();
+                    }
                 });
             });
         }
@@ -403,6 +1328,12 @@
         function formatarNomePeriodoLimpo(p) {
             if (!p) return "";
             let nomeRaw = String(p.TPERIODO_NOME || "");
+            if (nomeRaw.includes("T") && nomeRaw.includes("Z")) {
+                let d = new Date(nomeRaw);
+                if (!isNaN(d.getTime())) {
+                    nomeRaw = d.getFullYear() + "." + (d.getMonth() < 6 ? "1" : "2");
+                }
+            }
             return `${nomeRaw.toUpperCase()} [${p.TPERIODO_STATUS ? p.TPERIODO_STATUS.toUpperCase() : 'ABERTO'}]`;
         }
 
@@ -412,57 +1343,1319 @@
             document.querySelectorAll('.display-empresa-nome').forEach(el => el.innerText = empresaLogadaNome.toUpperCase());
         }
 
-        // LOGIN DO USUÁRIO
-        async function fazerLogin() {
-            const email = document.getElementById('login-email').value.trim();
-            const pass = document.getElementById('login-password').value.trim();
-            const btn = document.getElementById('btn-login');
-
-            if (!email || !pass) return alert("Por favor, informe e-mail e senha.");
-
-            try {
-                btn.innerText = "Verificando...";
-                btn.disabled = true;
-                setSyncStatus(true);
-
-                const response = await fetch(`${API_URL}?action=TUSUARIO`);
-                const usuarios = await response.json();
-
-                const user = usuarios.find(u => 
-                    String(u.TUSUARIO_EMAIL).toLowerCase() === email.toLowerCase() &&
-                    String(u.TUSUARIO_SENHA) === pass &&
-                    String(u.TUSUARIO_ATIVO).toUpperCase() === 'SIM'
-                );
-
-                if (!user) {
-                    alert("Acesso negado: E-mail/Senha incorretos ou usuário inativo.");
-                    btn.innerText = "Entrar no Sistema";
-                    btn.disabled = false;
-                    setSyncStatus(false, "Erro de Login");
-                    return;
+        function preencherSelectsCentrosDeCusto() {
+            const selectsCC = ['rec-cc-id', 'func-cc-id', 'plc-cc-id'];
+            selectsCC.forEach(id => {
+                const sel = document.getElementById(id);
+                if (sel) {
+                    sel.innerHTML = '<option value="">-- SELECIONE O CENTRO DE CUSTO --</option>';
+                    listaCC.forEach(c => {
+                        sel.innerHTML += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`;
+                    });
                 }
+            });
+        }
 
-                usuarioLogado = user;
-                localStorage.setItem('usuarioLogadoRF', JSON.stringify(user));
-                await buscarNomeEmpresa();
-                iniciarSessao();
+        function preencherCheckboxesBeneficios() {
+            const container = document.getElementById('container-beneficios-checkboxes');
+            if (!container) return;
+            if (!listaBeneficios || listaBeneficios.length === 0) {
+                container.innerHTML = '<span class="text-xs text-theme-muted">Nenhum benefício cadastrado</span>';
+                return;
+            }
+            container.innerHTML = '';
+            listaBeneficios.forEach(b => {
+                container.innerHTML += `
+                    <label class="flex items-center gap-2 text-xs text-theme-main cursor-pointer bg-brand-card p-1.5 rounded border border-brand-border">
+                        <input type="checkbox" value="${b.TBENEFICIO_VALOR}" onchange="atualizarValorTotalBeneficiosFuncionario()" class="chk-func-beneficio accent-brand-primary">
+                        <span class="truncate uppercase">${b.TBENEFICIO_NOME}</span>
+                    </label>
+                `;
+            });
+        }
 
-            } catch (err) {
-                console.error(err);
-                alert("Erro de conexão ao validar o acesso.");
-                btn.innerText = "Entrar no Sistema";
-                btn.disabled = false;
-                setSyncStatus(false, "Erro de Conexão");
+        function atualizarValorTotalBeneficiosFuncionario() {
+            let total = 0;
+            document.querySelectorAll('.chk-func-beneficio:checked').forEach(chk => {
+                total += parseMoedaBR(chk.value);
+            });
+            document.getElementById('func-beneficios-valor').value = Number(total).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            calcularCustoFuncionario();
+        }
+
+        function verificarStatusBloqueioPeriodo() {
+            const banner = document.getElementById('banner-periodo-bloqueado');
+            if (periodoAtivoObj && String(periodoAtivoObj.TPERIODO_STATUS).toUpperCase() === 'FECHADO') {
+                if(banner) banner.classList.remove('hidden');
+                bloquearTodosFormularios(true);
+            } else {
+                if(banner) banner.classList.add('hidden');
+                bloquearTodosFormularios(false);
             }
         }
 
-        async function buscarNomeEmpresa() {
+        function bloquearTodosFormularios(bloquear) {
+            const btns = document.querySelectorAll('button[type="submit"]');
+            btns.forEach(b => {
+                b.disabled = bloquear;
+                if(bloquear) b.classList.add('opacity-40', 'cursor-not-allowed');
+                else b.classList.remove('opacity-40', 'cursor-not-allowed');
+            });
+        }
+
+        function carregarClientesSelect() {
+            const sel = document.getElementById('usr-cli-id');
+            if (!sel) return;
+            sel.innerHTML = '<option value="">-- SELECIONE O CLIENTE --</option>';
+            if (Array.isArray(listaClientesAdmin)) {
+                listaClientesAdmin.forEach(c => {
+                    sel.innerHTML += `<option value="${c.TCLIENTE_ID}">${c.TCLIENTE_NOME.toUpperCase()}</option>`;
+                });
+            }
+        }
+
+        // CALCULO DE DEPRECIAÇÃO DE RECURSOS (TRECURSO_PERCENTUAL_DEPRECIACAO)
+        function calcularCustoMensalRecurso() {
+            const val = parseMoedaBR(document.getElementById('rec-valor').value);
+            const tipoSelecionado = String(document.getElementById('rec-tipo').value || "").trim().toUpperCase();
+            let taxaMensal = 0.0083; // Padrao ~0.83% a.m.
+
+            if (Array.isArray(tabelaPadroes) && tipoSelecionado) {
+                const itemPadrao = tabelaPadroes.find(p => {
+                    const tipoPadrao = String(p.TRECURSO_TIPO || "").trim().toUpperCase();
+                    return tipoPadrao === tipoSelecionado;
+                });
+
+                if (itemPadrao) {
+                    let taxaRaw = itemPadrao.TRECURSO_PERCENTUAL_DEPRECIACAO;
+                    if (typeof taxaRaw === 'string') {
+                        taxaRaw = parseFloat(taxaRaw.replace('%', '').replace(',', '.')) || 0;
+                    }
+                    if (taxaRaw > 1) {
+                        taxaMensal = taxaRaw / 100;
+                    } else if (taxaRaw > 0) {
+                        taxaMensal = taxaRaw;
+                    }
+                }
+            }
+
+            const custoMensal = val * taxaMensal;
+            document.getElementById('rec-custo-mensal').value = formatarMoedaBR(custoMensal);
+        }
+
+        // MODELO CSV
+        function baixarModeloCSVPlano() {
+            const emps = listaCC.length > 0 ? listaCC[0].TCENTRO_CUSTO_ID : 'CC-001';
+            const emps2 = listaCC.length > 1 ? listaCC[1].TCENTRO_CUSTO_ID : 'CC-002';
+
+            const conteudo = `NOME;CRITERIO;VALOR;CENTRO_CUSTO_ID
+MATERIAL DE ESCRITORIO;EXCLUSIVO;350.00;${emps}
+ALUGUEL DO PREDIO FABRIL;AREA;8500.00;
+MANUTENCAO PREVENTIVA;RECURSOS;2400.00;
+SUPERVISAO DE TURNO;HORAS;4200.00;
+SISTEMA DE GESTAO ERP;SELETIVO_PERCENTUAL;1800.00;[{"id":"${emps}","pct":60},{"id":"${emps2}","pct":40}]
+EMBALAGENS PLASTICAS POR ENCOMENDA;NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO);3200.00;
+COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500.00;`;
+
+            const blob = new Blob(["\ufeff" + conteudo], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "modelo_plano_de_contas_completo.csv";
+            link.click();
+        }
+
+        // GRADE DE LOTE
+        function abrirModalGradeLote(entidade) {
+            entidadeGradeAtiva = entidade;
+            const modal = document.getElementById('modal-grade-lote');
+            const thead = document.getElementById('grade-lote-thead');
+            const title = document.getElementById('grade-lote-title');
+            
+            const btn = document.getElementById('btn-salvar-grade-lote');
+            if (btn) {
+                btn.innerText = "🚀 Salvar Tudo em Lote";
+                btn.disabled = false;
+            }
+
+            let colsHtml = '';
+            if (entidade === 'TCENTRO_CUSTO') {
+                title.innerText = "⚡ Inserção em Lote: Centros de Custo";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Nome Centro Custo</th>
+                    <th class="p-2 border-r border-brand-border">Tipo CC</th>
+                    <th class="p-2 border-r border-brand-border">Área (M²)</th>
+                    <th class="p-2 border-r border-brand-border">Custo Fixo Direto (R$)</th>
+                    <th class="p-2 border-r border-brand-border">Produtividade (%)</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Rateio Horas</th>
+                    <th class="p-2 text-center">Cons. Mínimo</th>
+                </tr>`;
+            } else if (entidade === 'TRECURSO') {
+                title.innerText = "⚡ Inserção em Lote: Recursos & Máquinas";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Centro de Custo</th>
+                    <th class="p-2 border-r border-brand-border">Nome do Recurso</th>
+                    <th class="p-2 border-r border-brand-border">Valor Recurso (R$)</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Recurso</th>
+                    <th class="p-2">Turnos</th>
+                </tr>`;
+            } else if (entidade === 'TFUNCIONARIO') {
+                title.innerText = "⚡ Inserção em Lote: Funcionários";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Centro de Custo Único</th>
+                    <th class="p-2 border-r border-brand-border">Nome Completo</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Registro</th>
+                    <th class="p-2 border-r border-brand-border">Tipo Salário</th>
+                    <th class="p-2 border-r border-brand-border">Salário Base (R$)</th>
+                    <th class="p-2 border-r border-brand-border">Benefícios (R$)</th>
+                    <th class="p-2">Horas Mensais</th>
+                </tr>`;
+            } else if (entidade === 'TPLANO_CONTAS') {
+                title.innerText = "⚡ Inserção em Lote: Plano de Contas";
+                colsHtml = `<tr>
+                    <th class="p-2 border-r border-brand-border">Descrição da Conta</th>
+                    <th class="p-2 border-r border-brand-border">Critério Rateio / Destino</th>
+                    <th class="p-2 border-r border-brand-border">Centro Custo Exclusivo</th>
+                    <th class="p-2">Valor Mensal (R$)</th>
+                </tr>`;
+            }
+
+            thead.innerHTML = colsHtml;
+            limparGradeLote();
+            modal.classList.remove('hidden');
+        }
+
+        function fecharModalGradeLote() {
+            document.getElementById('modal-grade-lote').classList.add('hidden');
+        }
+
+        function limparGradeLote() {
+            const tbody = document.getElementById('grade-lote-tbody');
+            tbody.innerHTML = '';
+            for (let i = 0; i < 5; i++) adicionarLinhaGrade();
+        }
+
+        function adicionarLinhaGrade() {
+            const tbody = document.getElementById('grade-lote-tbody');
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-brand-border/20 transition";
+
+            if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
+                let optionsTipoCC = '<option value="PRODUTIVO DIRETO">PRODUTIVO DIRETO</option><option value="PRODUTIVO INDIRETO">PRODUTIVO INDIRETO</option><option value="ADMINISTRATIVO">ADMINISTRATIVO</option>';
+                if(Array.isArray(tabelaPadroes)) {
+                    let opts = '';
+                    tabelaPadroes.forEach(p => { if(p.TCENTRO_CUSTO_TIPO) opts += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO.toUpperCase()}</option>`; });
+                    if(opts) optionsTipoCC = opts;
+                }
+
+                let optionsRateio = '<option value="MAQUINA">MAQUINA</option><option value="HOMEM">HOMEM</option>';
+                if(Array.isArray(tabelaPadroes)) {
+                    let opts = '';
+                    tabelaPadroes.forEach(p => { if(p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS) opts += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS.toUpperCase()}</option>`; });
+                    if(opts) optionsRateio = opts;
+                }
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-1 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                            ${optionsTipoCC}
+                        </select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="0" class="g-col-2 w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="100" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-5 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                            ${optionsRateio}
+                        </select>
+                    </td>
+                    <td class="p-1 text-center"><input type="checkbox" class="g-col-6 w-4 h-4 accent-brand-primary cursor-pointer"></td>
+                `;
+            } else if (entidadeGradeAtiva === 'TRECURSO') {
+                let optionsCC = '<option value="">-- SELECIONE CC --</option>';
+                listaCC.forEach(c => optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`);
+
+                let optionsTipoRec = '<option value="">-- TIPO --</option>';
+                tabelaPadroes.forEach(p => {
+                    if(p.TRECURSO_TIPO) optionsTipoRec += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO.toUpperCase()}</option>`;
+                });
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-0 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">${optionsCC}</select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-2 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-3 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">${optionsTipoRec}</select>
+                    </td>
+                    <td class="p-1"><input type="number" value="1" min="1" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                `;
+            } else if (entidadeGradeAtiva === 'TFUNCIONARIO') {
+                let optionsCC = '<option value="">-- SELECIONE CC --</option>';
+                listaCC.forEach(c => optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`);
+
+                let optionsReg = '<option value="">-- REGISTRO --</option>';
+                tabelaPadroes.forEach(p => {
+                    if(p.TFUNCIONARIO_TP_REGISTRO) optionsReg += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO.toUpperCase()}</option>`;
+                });
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-0 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">${optionsCC}</select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-2 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">${optionsReg}</select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-3 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                            <option value="MENSALISTA">MENSALISTA</option>
+                            <option value="HORISTA">HORISTA</option>
+                        </select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-4 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1 border-r border-brand-border"><input type="text" value="0,00" class="g-col-5 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                    <td class="p-1"><input type="number" value="176" class="g-col-6 w-full bg-transparent outline-none p-1 text-right"></td>
+                `;
+            } else if (entidadeGradeAtiva === 'TPLANO_CONTAS') {
+                let optionsCC = '<option value="">-- TODOS OS SETORES --</option>';
+                listaCC.forEach(c => optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}">${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`);
+
+                tr.innerHTML = `
+                    <td class="p-1 border-r border-brand-border"><input type="text" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-1 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                            <option value="EXCLUSIVO">EXCLUSIVO (CENTRO DE CUSTO ÚNICO)</option>
+                            <option value="AREA">RATEIO POR ÁREA (M²)</option>
+                            <option value="RECURSOS">RATEIO POR QUANTIDADE DE RECURSOS</option>
+                            <option value="HORAS">RATEIO POR HORAS FINAIS DO CC</option>
+                            <option value="NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)">NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)</option>
+                            <option value="NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)">NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)</option>
+                        </select>
+                    </td>
+                    <td class="p-1 border-r border-brand-border">
+                        <select class="g-col-2 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">${optionsCC}</select>
+                    </td>
+                    <td class="p-1"><input type="text" value="0,00" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                `;
+            }
+
+            tbody.appendChild(tr);
+            aplicarMascarasMonetarias();
+            document.getElementById('grade-rows-count').innerText = tbody.children.length;
+        }
+
+        async function colarDoClipboardGrade() {
             try {
-                const res = await fetch(`${API_URL}?action=TCLIENTE`);
-                const clientes = await res.json();
-                const cli = clientes.find(c => String(c.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
-                if (cli) empresaLogadaNome = cli.TCLIENTE_NOME;
-            } catch (e) { empresaLogadaNome = usuarioLogado.TCLIENTE_ID; }
+                const text = await navigator.clipboard.readText();
+                if (!text) return alert("O clipboard está vazio.");
+
+                const linhas = text.split(/\r\n|\n/);
+                if (linhas.length === 0) return;
+
+                const tbody = document.getElementById('grade-lote-tbody');
+                tbody.innerHTML = '';
+
+                linhas.forEach(linhaStr => {
+                    if (!linhaStr.trim()) return;
+                    const cols = linhaStr.split('\t');
+
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-brand-border/20 transition";
+
+                    if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
+                        const valTipo = (cols[1] || 'PRODUTIVO DIRETO').toUpperCase().trim();
+                        const valRateio = (cols[5] || 'MAQUINA').toUpperCase().trim();
+                        const isMin = String(cols[6] || '').toUpperCase().includes('SIM') || cols[6] === '1';
+
+                        tr.innerHTML = `
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${(cols[0]||'').toUpperCase()}" class="g-col-0 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-1 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                                    <option value="PRODUTIVO DIRETO" ${valTipo === 'PRODUTIVO DIRETO' ? 'selected' : ''}>PRODUTIVO DIRETO</option>
+                                    <option value="PRODUTIVO INDIRETO" ${valTipo === 'PRODUTIVO INDIRETO' ? 'selected' : ''}>PRODUTIVO INDIRETO</option>
+                                    <option value="ADMINISTRATIVO" ${valTipo === 'ADMINISTRATIVO' ? 'selected' : ''}>ADMINISTRATIVO</option>
+                                </select>
+                            </td>
+                            <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="${cols[2]||0}" class="g-col-2 w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${cols[3]||'0,00'}" class="g-col-3 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border"><input type="number" step="0.01" value="${cols[4]||100}" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-5 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                                    <option value="MAQUINA" ${valRateio === 'MAQUINA' ? 'selected' : ''}>MAQUINA</option>
+                                    <option value="HOMEM" ${valRateio === 'HOMEM' ? 'selected' : ''}>HOMEM</option>
+                                </select>
+                            </td>
+                            <td class="p-1 text-center"><input type="checkbox" ${isMin ? 'checked' : ''} class="g-col-6 w-4 h-4 accent-brand-primary cursor-pointer"></td>
+                        `;
+                    } else if (entidadeGradeAtiva === 'TRECURSO') {
+                        let valCC = (cols[0] || '').toUpperCase().trim();
+                        const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === valCC || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === valCC);
+                        if (ccObj) valCC = ccObj.TCENTRO_CUSTO_ID;
+
+                        let optionsCC = '<option value="">-- SELECIONE CC --</option>';
+                        listaCC.forEach(c => {
+                            optionsCC += `<option value="${c.TCENTRO_CUSTO_ID}" ${String(c.TCENTRO_CUSTO_ID).toUpperCase() === valCC ? 'selected' : ''}>${c.TCENTRO_CUSTO_NOME.toUpperCase()}</option>`;
+                        });
+
+                        let valTipoRec = (cols[3] || '').toUpperCase().trim();
+                        let optionsTipoRec = '<option value="">-- TIPO --</option>';
+                        tabelaPadroes.forEach(p => {
+                            if(p.TRECURSO_TIPO) {
+                                optionsTipoRec += `<option value="${p.TRECURSO_TIPO}" ${String(p.TRECURSO_TIPO).toUpperCase() === valTipoRec ? 'selected' : ''}>${p.TRECURSO_TIPO.toUpperCase()}</option>`;
+                            }
+                        });
+
+                        tr.innerHTML = `
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-0 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                                    ${optionsCC}
+                                </select>
+                            </td>
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${(cols[1]||'').toUpperCase()}" class="g-col-1 uppercase w-full bg-transparent outline-none p-1 font-semibold"></td>
+                            <td class="p-1 border-r border-brand-border"><input type="text" value="${cols[2]||'0,00'}" class="g-col-2 mask-money w-full bg-transparent outline-none p-1 text-right"></td>
+                            <td class="p-1 border-r border-brand-border">
+                                <select class="g-col-3 w-full bg-input-bg border border-brand-border rounded p-1 outline-none">
+                                    ${optionsTipoRec}
+                                </select>
+                            </td>
+                            <td class="p-1"><input type="number" value="${cols[4]||1}" min="1" class="g-col-4 w-full bg-transparent outline-none p-1 text-right"></td>
+                        `;
+                    }
+                    tbody.appendChild(tr);
+                });
+
+                aplicarMascarasMonetarias();
+                document.getElementById('grade-rows-count').innerText = tbody.children.length;
+            } catch(e) {
+                alert("Para colar, permita o acesso ao clipboard ou pressione Ctrl+V.");
+            }
+        }
+
+        async function salvarGradeLoteEmBloco() {
+            const tbody = document.getElementById('grade-lote-tbody');
+            const rows = tbody.querySelectorAll('tr');
+            let batchData = [];
+
+            rows.forEach(tr => {
+                if (entidadeGradeAtiva === 'TCENTRO_CUSTO') {
+                    const nome = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value.trim().toUpperCase() : '';
+                    if (!nome) return;
+
+                    const tipo = tr.querySelector('.g-col-1').value;
+                    const area = parseFloat(tr.querySelector('.g-col-2').value) || 0;
+                    const fx = parseMoedaBR(tr.querySelector('.g-col-3').value);
+                    const prod = parseFloat(tr.querySelector('.g-col-4').value) || 100;
+                    const rateio = tr.querySelector('.g-col-5').value;
+                    const min = tr.querySelector('.g-col-6').checked ? "SIM" : "NAO";
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, "", nome, tipo, min, area, fx, prod, rateio, 0, 0, 0, 0, 0, 0, 0
+                    ]);
+                } else if (entidadeGradeAtiva === 'TRECURSO') {
+                    const ccTarget = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value : '';
+                    const nome = tr.querySelector('.g-col-1') ? tr.querySelector('.g-col-1').value.trim().toUpperCase() : '';
+                    if (!ccTarget || !nome) return;
+
+                    const val = parseMoedaBR(tr.querySelector('.g-col-2').value);
+                    const tipo = tr.querySelector('.g-col-3') ? tr.querySelector('.g-col-3').value.trim().toUpperCase() : '';
+                    const turnos = parseInt(tr.querySelector('.g-col-4').value, 10) || 1;
+                    
+                    let taxaMensal = 0.0083;
+
+                    if (Array.isArray(tabelaPadroes) && tipo) {
+                        const itemPadrao = tabelaPadroes.find(p => {
+                            const tipoPadrao = String(p.TRECURSO_TIPO || "").trim().toUpperCase();
+                            return tipoPadrao === tipo;
+                        });
+
+                        if (itemPadrao) {
+                            let taxaRaw = itemPadrao.TRECURSO_PERCENTUAL_DEPRECIACAO;
+                            if (typeof taxaRaw === 'string') {
+                                taxaRaw = parseFloat(taxaRaw.replace('%', '').replace(',', '.')) || 0;
+                            }
+                            if (taxaRaw > 1) taxaMensal = taxaRaw / 100;
+                            else if (taxaRaw > 0) taxaMensal = taxaRaw;
+                        }
+                    }
+
+                    const custoMensal = val * taxaMensal;
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, val, tipo, custoMensal, turnos
+                    ]);
+                } else if (entidadeGradeAtiva === 'TFUNCIONARIO') {
+                    const ccTarget = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value : '';
+                    const nome = tr.querySelector('.g-col-1') ? tr.querySelector('.g-col-1').value.trim().toUpperCase() : '';
+                    if (!ccTarget || !nome) return;
+
+                    const tpReg = tr.querySelector('.g-col-2').value;
+                    const tpSal = tr.querySelector('.g-col-3').value;
+                    const salBase = parseMoedaBR(tr.querySelector('.g-col-4').value);
+                    const valBen = parseMoedaBR(tr.querySelector('.g-col-5').value);
+                    const hrsMes = parseFloat(tr.querySelector('.g-col-6').value) || 176;
+
+                    const salario = (tpSal === 'HORISTA') ? (salBase * hrsMes) : salBase;
+                    const temRegistro = tpReg !== "SEM REGISTRO";
+                    const decimoTerceiro = temRegistro ? (salario / 12) : 0;
+                    const tercoFerias = temRegistro ? ((salario / 12) / 3) : 0;
+                    const feriasAdic = temRegistro ? (salario / 12) : 0;
+                    const totalBruto = salario + decimoTerceiro + tercoFerias + feriasAdic;
+                    const fgts = temRegistro ? (totalBruto * 0.08) : 0;
+                    const multaFgts = temRegistro ? (fgts * 0.50) : 0;
+                    const isNormal = (tpReg === "NORMAL" || tpReg === "CLT NORMAL" || tpReg === "REGULADO");
+                    const inss = isNormal ? (salario * 0.20) : 0;
+                    const sesc = isNormal ? (salario * 0.02) : 0;
+                    const senai = isNormal ? (salario * 0.025) : 0;
+                    const incra = isNormal ? (salario * 0.033) : 0;
+                    const custoTotal = salario + decimoTerceiro + tercoFerias + feriasAdic + fgts + multaFgts + inss + sesc + senai + incra + valBen;
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, tpReg, tpSal, salBase, valBen, custoTotal, "NAO", 0, hrsMes
+                    ]);
+                } else if (entidadeGradeAtiva === 'TPLANO_CONTAS') {
+                    const nome = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value.trim().toUpperCase() : '';
+                    if (!nome) return;
+
+                    const crit = tr.querySelector('.g-col-1').value;
+                    const ccTarget = tr.querySelector('.g-col-2').value;
+                    const val = parseMoedaBR(tr.querySelector('.g-col-3').value);
+
+                    batchData.push([
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, ccTarget, "", nome, crit, val
+                    ]);
+                }
+            });
+
+            if (batchData.length === 0) {
+                alert("Nenhuma linha válida preenchida para gravação.");
+                return;
+            }
+
+            const btn = document.getElementById('btn-salvar-grade-lote');
+            btn.innerText = "Gravando Lote...";
+            btn.disabled = true;
+            setSyncStatus(true, "Gravando lote...");
+
+            const payload = {
+                sheet: entidadeGradeAtiva,
+                action: "CREATE_BATCH",
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: periodoAtivoObj.TPERIODO_ID,
+                batchData: batchData
+            };
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                alert(`🎉 Sucesso! ${batchData.length} registros gravados com todas as regras e recalculados!`);
+
+                btn.innerText = "🚀 Salvar Tudo em Lote";
+                btn.disabled = false;
+
+                fecharModalGradeLote();
+                setSyncStatus(false);
+
+                if (entidadeGradeAtiva === 'TCENTRO_CUSTO') setTimeout(carregarCentrosDeCusto, 1500);
+                else if (entidadeGradeAtiva === 'TRECURSO') setTimeout(carregarRecursos, 1500);
+                else if (entidadeGradeAtiva === 'TFUNCIONARIO') setTimeout(carregarFuncionarios, 1500);
+                else if (entidadeGradeAtiva === 'TPLANO_CONTAS') setTimeout(carregarPlanoContas, 1500);
+
+            } catch(e) {
+                alert("Erro ao enviar o lote de dados.");
+                btn.innerText = "🚀 Salvar Tudo em Lote";
+                btn.disabled = false;
+                setSyncStatus(false, "Erro ao gravar lote");
+            }
+        }
+
+        // CARREGAMENTO E NAVEGAÇÃO ENTRE ABAS
+        async function carregarTudoDoPeriodo() {
+            carregarInvestimentos();
+            carregarCentrosDeCusto();
+            carregarRecursos();
+            carregarBeneficios();
+            carregarFuncionarios();
+            carregarPlanoContas();
+            gerarAnalisesEResultados();
+        }
+
+        function alternarAbaCliente(aba) {
+            document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
+
+            const classInactive = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold text-theme-muted hover:bg-brand-primary/10 hover:text-brand-primary transition";
+            const classActive = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition";
+
+            document.querySelectorAll('#sidebar-menu nav button').forEach(btn => btn.className = classInactive);
+
+            const btnTarget = document.getElementById(`nav-btn-${aba}`);
+            const secTarget = document.getElementById(`section-${aba === 'res' ? 'resultados' : aba === 'cfg' ? 'config-periodo' : aba === 'cc' ? 'centro-custo' : aba === 'rec' ? 'recursos' : aba === 'ben' ? 'beneficios' : aba === 'func' ? 'funcionarios' : aba === 'plc' ? 'plano-contas' : 'admin'}`);
+
+            if(btnTarget) btnTarget.className = classActive;
+            if(secTarget) secTarget.classList.remove('hidden');
+
+            if (aba === 'res') gerarAnalisesEResultados();
+        }
+
+        async function gerarAnalisesEResultados() {
+            if (!periodoAtivoObj) return;
+
+            const compareElem = document.getElementById('res-compare-select');
+            const periodoCompareId = compareElem ? compareElem.value : "";
+            const periodDisplay = document.getElementById('dre-period-display');
+            if(periodDisplay) periodDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
+
+            let periodoCompareObj = null;
+            let listaCCCompare = [], listaPlanoCompare = [], listaFuncCompare = [];
+
+            if (periodoCompareId && periodoCompareId !== "") {
+                setSyncStatus(true, "Buscando comparativo...");
+                periodoCompareObj = listaPeriodos.find(p => String(p.TPERIODO_ID) === String(periodoCompareId));
+                
+                try {
+                    const [resCC, resPlano, resFunc] = await Promise.all([
+                        fetch(`${API_URL}?action=TCENTRO_CUSTO`).then(r=>r.json()),
+                        fetch(`${API_URL}?action=TPLANO_CONTAS`).then(r=>r.json()),
+                        fetch(`${API_URL}?action=TFUNCIONARIO`).then(r=>r.json())
+                    ]);
+
+                    listaCCCompare = resCC.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoCompareId));
+                    listaPlanoCompare = resPlano.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoCompareId));
+                    listaFuncCompare = resFunc.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoCompareId));
+                } catch(e) { console.error("Erro ao carregar comparativo", e); }
+            }
+
+            const calcPeriodoDRE = (pObj, ccsList, planoList, funcList) => {
+                const fatBruto = parseFloat(pObj.TPERIODO_FATURAMENTO) || 0;
+                const aliqImpostos = parseFloat(pObj.TPERIODO_ALIQUOTA) || 0;
+                const retSocios = parseFloat(pObj.TPERIODO_RETIRADA) || 0;
+
+                let cVariavel = 0, dVariavel = 0;
+
+                planoList.forEach(p => {
+                    const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
+                    const val = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
+                    if (crit.includes('CUSTO VARIÁVEL') || crit.includes('CUSTO VARIAVEL')) cVariavel += val;
+                    else if (crit.includes('DESPESA VARIÁVEL') || crit.includes('DESPESA VARIAVEL')) dVariavel += val;
+                });
+
+                let sobraMaoObra = 0;
+                funcList.forEach(f => { sobraMaoObra += (parseFloat(f.TFUNCIONARIO_VALOR_RATEIO) || 0); });
+
+                let cFixoFabril = 0, dFichaAdmin = 0;
+
+                ccsList.forEach(c => {
+                    const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
+                    const dep = parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL) || 0;
+                    const func = parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO) || 0;
+                    const plc = parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS) || 0;
+                    const prd = parseFloat(c.TCENTRO_CUSTO_PREDIO) || 0;
+                    const cBruto = fx + dep + func + plc + prd;
+
+                    const tipoCC = String(c.TCENTRO_CUSTO_TIPO || "").toUpperCase();
+                    if (tipoCC.includes('PRODUTIVO')) cFixoFabril += cBruto;
+                    else dFichaAdmin += cBruto;
+                });
+
+                const impostosDeducoes = (fatBruto * (aliqImpostos / 100)) + dVariavel;
+                const recLiquida = fatBruto - impostosDeducoes;
+                const margemContrib = recLiquida - cVariavel;
+                const resFabril = margemContrib - cFixoFabril;
+                const resLiquido = resFabril - dFichaAdmin - sobraMaoObra - retSocios;
+
+                return {
+                    fatBruto, impostosDeducoes, recLiquida, cVariavel, margemContrib,
+                    cFixoFabril, resFabril, dFichaAdmin, sobraMaoObra, retSocios, resLiquido
+                };
+            };
+
+            const dreAtiva = calcPeriodoDRE(periodoAtivoObj, listaCC, listaPlanoContas, listaFuncionarios);
+            let dreCompare = periodoCompareObj ? calcPeriodoDRE(periodoCompareObj, listaCCCompare, listaPlanoCompare, listaFuncCompare) : null;
+
+            const containerDRE = document.getElementById('container-dre-rows');
+            if(containerDRE) {
+                containerDRE.innerHTML = '';
+
+                const montarLinhaDRE = (label, keyLinha, valAtivo, valCompare, tipoEstilo = 'normal') => {
+                    const pctA = dreAtiva.fatBruto > 0 ? ((valAtivo / dreAtiva.fatBruto) * 100).toFixed(1) + "%" : "0.0%";
+                    let compHtml = '';
+
+                    if (dreCompare) {
+                        const pctC = dreCompare.fatBruto > 0 ? ((valCompare / dreCompare.fatBruto) * 100).toFixed(1) + "%" : "0.0%";
+                        const diffVal = valAtivo - valCompare;
+                        const varPct = valCompare !== 0 ? (((valAtivo - valCompare) / Math.abs(valCompare)) * 100).toFixed(1) + "%" : "0%";
+                        const colorVar = diffVal >= 0 ? "text-emerald-400" : "text-red-400";
+
+                        compHtml = `
+                            <div class="flex items-center gap-3 font-mono text-xs">
+                                <span class="text-theme-muted hidden md:inline">${formatarMoedaBR(valCompare)} (${pctC})</span>
+                                <span class="${colorVar} font-bold">Δ ${varPct}</span>
+                            </div>
+                        `;
+                    }
+
+                    let bgStyle = 'py-2 border-b border-brand-border/30 pl-3 text-theme-muted hover:bg-brand-primary/10 cursor-pointer transition';
+                    let textClass = 'text-theme-main font-bold';
+
+                    if (tipoEstilo === 'receita') {
+                        bgStyle = 'bg-emerald-950/30 border-l-4 border-emerald-500 p-2.5 rounded-r-md font-bold text-emerald-300 shadow-sm hover:bg-emerald-900/40 cursor-pointer transition';
+                        textClass = 'text-emerald-300 text-sm font-extrabold';
+                    } else if (tipoEstilo === 'deducao') {
+                        bgStyle = 'py-1.5 border-b border-brand-border/30 pl-3 text-red-300/80 hover:bg-red-950/30 cursor-pointer transition';
+                        textClass = 'text-red-300 font-medium';
+                    } else if (tipoEstilo === 'margem') {
+                        bgStyle = 'bg-blue-950/40 border-l-4 border-blue-500 p-2.5 rounded-r-md font-bold text-blue-300 shadow-sm hover:bg-blue-900/40 cursor-pointer transition';
+                        textClass = 'text-blue-300 text-sm font-extrabold';
+                    } else if (tipoEstilo === 'custo_fabril') {
+                        bgStyle = 'py-1.5 border-b border-brand-border/30 pl-3 text-amber-300/80 hover:bg-amber-950/30 cursor-pointer transition';
+                        textClass = 'text-amber-300 font-medium';
+                    } else if (tipoEstilo === 'res_fabril') {
+                        bgStyle = 'bg-amber-950/40 border-l-4 border-amber-500 p-2.5 rounded-r-md font-bold text-amber-300 shadow-sm hover:bg-amber-900/40 cursor-pointer transition';
+                        textClass = 'text-amber-300 text-sm font-extrabold';
+                    } else if (tipoEstilo === 'resultado_final') {
+                        const isPositivo = valAtivo >= 0;
+                        bgStyle = isPositivo 
+                            ? 'bg-gradient-to-r from-emerald-950/80 to-emerald-900/40 border-2 border-emerald-500 p-3.5 rounded-xl font-extrabold text-emerald-400 shadow-xl hover:from-emerald-900/90 cursor-pointer transition' 
+                            : 'bg-gradient-to-r from-red-950/80 to-red-900/40 border-2 border-red-500 p-3.5 rounded-xl font-extrabold text-red-400 shadow-xl hover:from-red-900/90 cursor-pointer transition';
+                        textClass = isPositivo ? 'text-emerald-400 text-lg font-black' : 'text-red-400 text-lg font-black';
+                    }
+
+                    containerDRE.innerHTML += `
+                        <div onclick="abrirDrilldownDRE('${keyLinha}', '${label}')" class="flex justify-between items-center ${bgStyle}">
+                            <span class="${tipoEstilo === 'resultado_final' ? (valAtivo >= 0 ? 'text-emerald-400 font-black text-sm' : 'text-red-400 font-black text-sm') : ''}">${label}</span>
+                            <div class="flex items-center gap-4">
+                                <div class="space-x-2 text-right">
+                                    <span class="${textClass}">${formatarMoedaBR(valAtivo)}</span>
+                                    <span class="text-[11px] font-mono text-theme-muted">(${pctA})</span>
+                                </div>
+                                ${compHtml}
+                            </div>
+                        </div>
+                    `;
+                };
+
+                montarLinhaDRE("(+) RECEITA BRUTA ESPERADA", 'fatBruto', dreAtiva.fatBruto, dreCompare ? dreCompare.fatBruto : 0, 'receita');
+                montarLinhaDRE("(-) Impostos sobre Vendas & Deduções Variáveis", 'impostosDeducoes', dreAtiva.impostosDeducoes, dreCompare ? dreCompare.impostosDeducoes : 0, 'deducao');
+                montarLinhaDRE("(=) RECEITA LÍQUIDA", 'recLiquida', dreAtiva.recLiquida, dreCompare ? dreCompare.recLiquida : 0, 'receita');
+                montarLinhaDRE("(-) Custos Variáveis de Produção (CPV)", 'cVariavel', dreAtiva.cVariavel, dreCompare ? dreCompare.cVariavel : 0, 'deducao');
+                montarLinhaDRE("(=) MARGEM DE CONTRIBUIÇÃO BRUTA", 'margemContrib', dreAtiva.margemContrib, dreCompare ? dreCompare.margemContrib : 0, 'margem');
+                montarLinhaDRE("(-) Custos Fixos Industriais (Fábrica / Diretos e Indiretos)", 'cFixoFabril', dreAtiva.cFixoFabril, dreCompare ? dreCompare.cFixoFabril : 0, 'custo_fabril');
+                montarLinhaDRE("(=) RESULTADO BRUTO INDUSTRIAL", 'resFabril', dreAtiva.resFabril, dreCompare ? dreCompare.resFabril : 0, 'res_fabril');
+                montarLinhaDRE("(-) Despesas Fixas Operacionais (Admin, Vendas, Financeiro)", 'dFichaAdmin', dreAtiva.dFichaAdmin, dreCompare ? dreCompare.dFichaAdmin : 0, 'deducao');
+                montarLinhaDRE("(-) Perdas / Sobra de Mão de Obra Não Alocada", 'sobraMaoObra', dreAtiva.sobraMaoObra, dreCompare ? dreCompare.sobraMaoObra : 0, 'deducao');
+                montarLinhaDRE("(-) Retiradas dos Sócios & Pró-Labore", 'retSocios', dreAtiva.retSocios, dreCompare ? dreCompare.retSocios : 0, 'deducao');
+                montarLinhaDRE("(=) RESULTADO LÍQUIDO FINAL", 'resLiquido', dreAtiva.resLiquido, dreCompare ? dreCompare.resLiquido : 0, 'resultado_final');
+            }
+
+            let totalMaquinas = 0; listaRecursos.forEach(r => totalMaquinas += (parseFloat(r.TRECURSO_VALOR)||0));
+            let totalInvest = 0; listaInvestimentos.forEach(i => totalInvest += (parseFloat(i.TINVESTIMENTO_VALOR)||0));
+            const investimentoTotal = (parseFloat(periodoAtivoObj.TPERIODO_PREDIO)||0) + totalMaquinas + totalInvest;
+
+            const gastoFixoPE = dreAtiva.cFixoFabril + dreAtiva.dFichaAdmin + dreAtiva.sobraMaoObra + dreAtiva.retSocios;
+            const metaRent = investimentoTotal * ((parseFloat(periodoAtivoObj.TPERIODO_RENTABILIDADE)||0)/100);
+            const dividendoPE = gastoFixoPE + metaRent;
+
+            const pctImpostosEComissoes = dreAtiva.fatBruto > 0 ? (dreAtiva.impostosDeducoes / dreAtiva.fatBruto) : 0;
+            const pctCustosVariaveis = dreAtiva.fatBruto > 0 ? (dreAtiva.cVariavel / dreAtiva.fatBruto) : 0;
+            const divisorPE = 1 - pctImpostosEComissoes - pctCustosVariaveis;
+
+            const pontoEquilibrio = divisorPE > 0 ? (dividendoPE / divisorPE) : 0;
+            const pctDespesaFixaTotal = dreAtiva.fatBruto > 0 ? (((dreAtiva.dFichaAdmin + dreAtiva.retSocios) / dreAtiva.fatBruto) * 100) : 0;
+            const rentabilidadeAtualPct = investimentoTotal > 0 ? ((dreAtiva.resLiquido / investimentoTotal) * 100) : 0;
+            const paybackMeses = dreAtiva.resLiquido > 0 ? (investimentoTotal / dreAtiva.resLiquido) : 0;
+
+            const elInv = document.getElementById('res-card-investimento-total');
+            const elPE = document.getElementById('res-card-ponto-equilibrio');
+            const elDF = document.getElementById('res-card-pct-despesa-fixa');
+            const elRent = document.getElementById('res-card-rentabilidade-atual');
+            const elPB = document.getElementById('res-card-payback');
+
+            if(elInv) elInv.innerText = formatarMoedaBR(investimentoTotal);
+            if(elPE) elPE.innerText = formatarMoedaBR(pontoEquilibrio);
+            if(elDF) elDF.innerText = pctDespesaFixaTotal.toFixed(1) + "%";
+            if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
+            if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
+
+            const tbodyCustoHora = document.getElementById('tbl-custo-hora-cc-body');
+            if(tbodyCustoHora) {
+                tbodyCustoHora.innerHTML = '';
+                listaCC.filter(c => String(c.TCENTRO_CUSTO_TIPO).toUpperCase() === 'PRODUTIVO DIRETO').forEach(c => {
+                    const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
+                    const dep = parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL) || 0;
+                    const func = parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO) || 0;
+                    const plc = parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS) || 0;
+                    const prd = parseFloat(c.TCENTRO_CUSTO_PREDIO) || 0;
+                    const ind = parseFloat(c.TCENTRO_CUSTO_INDIRETOS) || 0;
+                    
+                    let hrsBrutas = parseFloat(c.TCENTRO_CUSTO_HORAS) || 0;
+                    if (hrsBrutas === 0 && (c.TCENTRO_CUSTO_HORAS_FINAIS || c.HORAS_FINAIS)) {
+                        hrsBrutas = parseFloat(c.TCENTRO_CUSTO_HORAS_FINAIS || c.HORAS_FINAIS) || 0;
+                    }
+                    if (hrsBrutas === 0) hrsBrutas = 176;
+
+                    const prodPct = parseFloat(c.TCENTRO_CUSTO_PRODUTIVIDADE) || 100;
+
+                    const cProprio = fx + dep + func + plc + prd;
+                    const cTotal = cProprio + ind;
+                    const hrsEfetivas = hrsBrutas * (prodPct / 100);
+                    const cHora = hrsEfetivas > 0 ? (cTotal / hrsEfetivas) : 0;
+
+                    tbodyCustoHora.innerHTML += `
+                        <tr onclick="abrirDrilldownCustoHora('${c.TCENTRO_CUSTO_ID}', '${c.TCENTRO_CUSTO_NOME}')" class="hover:bg-brand-primary/10 cursor-pointer transition">
+                            <td class="p-2 md:p-3 font-bold text-theme-main uppercase flex items-center gap-1.5">
+                                <span>🔍</span> <span>${c.TCENTRO_CUSTO_NOME}</span>
+                            </td>
+                            <td class="p-2 md:p-3 uppercase text-brand-primary font-semibold">${c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-'}</td>
+                            <td class="p-2 md:p-3">${formatarMoedaBR(cProprio)}</td>
+                            <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(ind)}</td>
+                            <td class="p-2 md:p-3 font-bold text-theme-main">${formatarMoedaBR(cTotal)}</td>
+                            <td class="p-2 md:p-3 font-bold text-brand-primary">${prodPct.toFixed(0)}%</td>
+                            <td class="p-2 md:p-3 font-bold text-theme-main">${hrsBrutas.toFixed(1)}h / <strong class="text-emerald-400">${hrsEfetivas.toFixed(1)}h</strong></td>
+                            <td class="p-2 md:p-3 font-extrabold text-emerald-400">${formatarMoedaBR(cHora)}/h</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            let rankingGeralCCs = [];
+            const totalCustoPrimarioEmpresa = dreAtiva.cFixoFabril + dreAtiva.dFichaAdmin;
+
+            listaCC.forEach(c => {
+                const cBruto = (parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0) + (parseFloat(c.TCENTRO_CUSTO_PREDIO)||0);
+                rankingGeralCCs.push({ id: c.TCENTRO_CUSTO_ID, nome: c.TCENTRO_CUSTO_NOME, tipo: c.TCENTRO_CUSTO_TIPO, custo: cBruto });
+            });
+
+            rankingGeralCCs.sort((a, b) => b.custo - a.custo);
+            const tbodyRanking = document.getElementById('tbl-ranking-cc-body');
+            if(tbodyRanking) {
+                tbodyRanking.innerHTML = '';
+
+                rankingGeralCCs.forEach((item, index) => {
+                    const pesoPct = totalCustoPrimarioEmpresa > 0 ? ((item.custo / totalCustoPrimarioEmpresa) * 100) : 0;
+                    tbodyRanking.innerHTML += `
+                        <tr onclick="abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="hover:bg-brand-primary/10 cursor-pointer transition">
+                            <td class="p-2 md:p-3 font-bold text-theme-main uppercase flex items-center gap-1.5">
+                                <span>${index + 1}º</span> - <span>${item.nome}</span>
+                            </td>
+                            <td class="p-2 md:p-3 uppercase text-theme-muted">${item.tipo}</td>
+                            <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(item.custo)}</td>
+                            <td class="p-2 md:p-3 text-center font-bold text-brand-primary">${pesoPct.toFixed(1)}%</td>
+                            <td class="p-2 md:p-3">
+                                <div class="w-full bg-input-bg h-2.5 rounded-full overflow-hidden border border-brand-border">
+                                    <div class="bg-brand-primary h-full rounded-full" style="width: ${pesoPct.toFixed(1)}%"></div>
+                                </div>
+                            </td>
+                            <td class="p-2 md:p-3 text-right">
+                                <button onclick="event.stopPropagation(); abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary text-brand-primary hover:text-white border border-brand-primary/40 px-2.5 py-1 rounded transition font-bold">🔍 Raio-X</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            renderizarGraficoRoscaDRE(dreAtiva);
+            setSyncStatus(false);
+        }
+
+        async function carregarInvestimentos() {
+            const tbody = document.getElementById('tbl-inv-body');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Buscando investimentos...</td></tr>';
+
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=TINVESTIMENTOS`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    listaInvestimentos = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaInvestimentos = [];
+                }
+
+                renderizarTabelaInvestimentosLocal();
+                setSyncStatus(false);
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar investimentos.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        function renderizarTabelaInvestimentosLocal() {
+            const tbody = document.getElementById('tbl-inv-body');
+            const tfoot = document.getElementById('tbl-inv-foot');
+            if (!tbody) return;
+
+            if (listaInvestimentos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Nenhum investimento cadastrado neste período.</td></tr>';
+                if(tfoot) tfoot.innerHTML = '';
+                return;
+            }
+
+            let total = 0;
+            tbody.innerHTML = '';
+            listaInvestimentos.forEach(item => {
+                const val = parseFloat(item.TINVESTIMENTO_VALOR) || 0;
+                total += val;
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-theme-main uppercase">${item.TINVESTIMENTO_NOME}</td>
+                        <td class="p-2 md:p-3 font-bold text-theme-main">${formatarMoedaBR(val)}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="editarInvestimento('${item.TINVESTIMENTO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
+                            <button onclick="deletarItemAPI('TINVESTIMENTOS', '${item.TINVESTIMENTO_ID}', carregarInvestimentos)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            if(tfoot) {
+                tfoot.innerHTML = `
+                    <tr>
+                        <td class="p-2 md:p-3 uppercase">Total Investimentos</td>
+                        <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(total)}</td>
+                        <td></td>
+                    </tr>
+                `;
+            }
+        }
+
+        async function carregarCentrosDeCusto() {
+            const tbody = document.getElementById('tbl-cc-body');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center">Buscando centros de custo...</td></tr>';
+
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=TCENTRO_CUSTO`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    listaCC = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaCC = [];
+                }
+
+                preencherSelectsCentrosDeCusto();
+                renderizarTabelaCCLocal();
+                setSyncStatus(false);
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        function renderizarTabelaCCLocal() {
+            const tbody = document.getElementById('tbl-cc-body');
+            const tfoot = document.getElementById('tbl-cc-foot');
+            if (!tbody) return;
+
+            if (listaCC.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center">Nenhum centro de custo cadastrado.</td></tr>';
+                if(tfoot) tfoot.innerHTML = '';
+                return;
+            }
+
+            let sumRecs = 0, sumArea = 0, sumFixo = 0, sumDep = 0, sumFunc = 0, sumPlc = 0, sumPred = 0, sumInd = 0, sumHrs = 0;
+
+            tbody.innerHTML = '';
+            listaCC.forEach(item => {
+                const recs = parseInt(item.TCENTRO_CUSTO_QTDE_RECURSOS) || 0;
+                const area = parseFloat(item.TCENTRO_CUSTO_AREA) || 0;
+                const fx = parseFloat(item.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || item.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
+                const dep = parseFloat(item.TCENTRO_CUSTO_CUSTO_MENSAL) || 0;
+                const func = parseFloat(item.TCENTRO_CUSTO_CUSTO_FUNCIONARIO) || 0;
+                const plc = parseFloat(item.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS) || 0;
+                const pred = parseFloat(item.TCENTRO_CUSTO_PREDIO) || 0;
+                const ind = parseFloat(item.TCENTRO_CUSTO_INDIRETOS) || 0;
+                const hrs = parseFloat(item.TCENTRO_CUSTO_HORAS) || 0;
+
+                sumRecs += recs; sumArea += area; sumFixo += fx; sumDep += dep; sumFunc += func; sumPlc += plc; sumPred += pred; sumInd += ind; sumHrs += hrs;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-brand-primary uppercase text-xs font-mono">${item.TCENTRO_CUSTO_ID}</td>
+                        <td class="p-2 md:p-3 font-semibold text-theme-main uppercase">${item.TCENTRO_CUSTO_NOME}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${item.TCENTRO_CUSTO_TIPO}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${item.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-'}</td>
+                        <td class="p-2 md:p-3">${recs}</td>
+                        <td class="p-2 md:p-3">${area.toFixed(2)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(fx)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(dep)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(func)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(plc)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(pred)}</td>
+                        <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(ind)}</td>
+                        <td class="p-2 md:p-3 font-bold text-theme-main">${hrs}h</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_PRODUTIVIDADE || 100}%</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_MINIMO || 'NAO'}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="editarCentroCusto('${item.TCENTRO_CUSTO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
+                            <button onclick="deletarItemAPI('TCENTRO_CUSTO', '${item.TCENTRO_CUSTO_ID}', carregarCentrosDeCusto)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            if(tfoot) {
+                tfoot.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="p-2 md:p-3 uppercase">TOTAIS CONSOLIDADOS:</td>
+                        <td class="p-2 md:p-3">${sumRecs}</td>
+                        <td class="p-2 md:p-3">${sumArea.toFixed(2)} M²</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(sumFixo)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(sumDep)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(sumFunc)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(sumPlc)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(sumPred)}</td>
+                        <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(sumInd)}</td>
+                        <td class="p-2 md:p-3">${sumHrs}h</td>
+                        <td colspan="3"></td>
+                    </tr>
+                `;
+            }
+        }
+
+        async function carregarRecursos() {
+            const tbody = document.getElementById('tbl-rec-body');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">Buscando recursos...</td></tr>';
+
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=TRECURSO`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    listaRecursos = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaRecursos = [];
+                }
+
+                renderizarTabelaRecursosLocal();
+                setSyncStatus(false);
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-red-400">Erro ao carregar recursos.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        function renderizarTabelaRecursosLocal() {
+            const tbody = document.getElementById('tbl-rec-body');
+            const tfoot = document.getElementById('tbl-rec-foot');
+            if(!tbody) return;
+
+            if(listaRecursos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center">Nenhum recurso cadastrado.</td></tr>';
+                if(tfoot) tfoot.innerHTML = '';
+                return;
+            }
+
+            let sumValor = 0, sumCusto = 0;
+
+            tbody.innerHTML = '';
+            listaRecursos.forEach(r => {
+                const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(r.TCENTRO_CUSTO_ID));
+                const nomeCC = ccObj ? ccObj.TCENTRO_CUSTO_NOME : r.TCENTRO_CUSTO_ID;
+
+                const valRecurso = parseFloat(r.TRECURSO_VALOR) || 0;
+                const custoMensal = parseFloat(r.TRECURSO_CUSTO_MENSAL) || 0;
+
+                sumValor += valRecurso;
+                sumCusto += custoMensal;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 text-xs uppercase font-semibold text-theme-main">${nomeCC}</td>
+                        <td class="p-2 md:p-3 font-semibold text-theme-main uppercase">${r.TRECURSO_NOME}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(valRecurso)}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${r.TRECURSO_TIPO}</td>
+                        <td class="p-2 md:p-3">${r.TRECURSO_TURNOS || 1}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(custoMensal)}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="editarRecurso('${r.TRECURSO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
+                            <button onclick="deletarItemAPI('TRECURSO', '${r.TRECURSO_ID}', carregarRecursos)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            if(tfoot) {
+                tfoot.innerHTML = `
+                    <tr>
+                        <td colspan="2" class="p-2 md:p-3 uppercase">TOTAIS CONSOLIDADOS (${listaRecursos.length} ITENS):</td>
+                        <td class="p-2 md:p-3 text-theme-main">${formatarMoedaBR(sumValor)}</td>
+                        <td colspan="2"></td>
+                        <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(sumCusto)}</td>
+                        <td></td>
+                    </tr>
+                `;
+            }
+        }
+
+        async function carregarBeneficios() {
+            const tbody = document.getElementById('tbl-ben-body');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Buscando benefícios...</td></tr>';
+
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=TBENEFICIOS`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    listaBeneficios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaBeneficios = [];
+                }
+
+                preencherCheckboxesBeneficios();
+                renderizarTabelaBeneficiosLocal();
+                setSyncStatus(false);
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar benefícios.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        function renderizarTabelaBeneficiosLocal() {
+            const tbody = document.getElementById('tbl-ben-body');
+            const tfoot = document.getElementById('tbl-ben-foot');
+            if(!tbody) return;
+
+            if(listaBeneficios.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center">Nenhum benefício cadastrado.</td></tr>';
+                if(tfoot) tfoot.innerHTML = '';
+                return;
+            }
+
+            let sumValor = 0;
+
+            tbody.innerHTML = '';
+            listaBeneficios.forEach(b => {
+                const val = parseFloat(b.TBENEFICIO_VALOR) || 0;
+                sumValor += val;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-theme-main uppercase">${b.TBENEFICIO_NOME}</td>
+                        <td class="p-2 md:p-3 font-bold text-theme-main">${formatarMoedaBR(val)}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="editarBeneficio('${b.TBENEFICIO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
+                            <button onclick="deletarItemAPI('TBENEFICIOS', '${b.TBENEFICIO_ID}', carregarBeneficios)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            if(tfoot) {
+                tfoot.innerHTML = `
+                    <tr>
+                        <td class="p-2 md:p-3 uppercase">TOTAL MENSAL BENEFÍCIOS:</td>
+                        <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(sumValor)}</td>
+                        <td></td>
+                    </tr>
+                `;
+            }
+        }
+
+        async function carregarFuncionarios() {
+            const tbody = document.getElementById('tbl-func-body');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Buscando funcionários...</td></tr>';
+
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=TFUNCIONARIO`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    listaFuncionarios = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaFuncionarios = [];
+                }
+
+                renderizarTabelaFuncionariosLocal();
+                setSyncStatus(false);
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        function renderizarTabelaFuncionariosLocal() {
+            const tbody = document.getElementById('tbl-func-body');
+            const tfoot = document.getElementById('tbl-func-foot');
+            if(!tbody) return;
+
+            if(listaFuncionarios.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">Nenhum funcionário cadastrado.</td></tr>';
+                if(tfoot) tfoot.innerHTML = '';
+                return;
+            }
+
+            let sumSal = 0, sumBen = 0, sumCusto = 0;
+
+            tbody.innerHTML = '';
+            listaFuncionarios.forEach(f => {
+                let ccDisplay = f.TCENTRO_CUSTO_ID;
+                if (f.TFUNCIONARIO_RATEIO === "SIM") {
+                    ccDisplay = "MÚLTIPLOS (RATEIO)";
+                } else {
+                    const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(f.TCENTRO_CUSTO_ID));
+                    if (ccObj) ccDisplay = ccObj.TCENTRO_CUSTO_NOME;
+                }
+
+                const salBase = parseFloat(f.TFUNCIONARIO_SALARIO_BASE) || 0;
+                const benVal = parseFloat(f.TFUNCIONARIO_VALOR_BENEFICIOS) || 0;
+                const custoMensal = parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL) || 0;
+
+                sumSal += salBase; sumBen += benVal; sumCusto += custoMensal;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 text-xs uppercase font-semibold text-theme-main">${ccDisplay || 'NÃO DEFINIDO'}</td>
+                        <td class="p-2 md:p-3 font-semibold text-theme-main uppercase">${f.TFUNCIONARIO_NOME}</td>
+                        <td class="p-2 md:p-3">${f.TFUNCIONARIO_HORAS || 176}h</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(salBase)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(benVal)}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(custoMensal)}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${f.TFUNCIONARIO_RATEIO || 'NAO'}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="editarFuncionario('${f.TFUNCIONARIO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
+                            <button onclick="deletarItemAPI('TFUNCIONARIO', '${f.TFUNCIONARIO_ID}', carregarFuncionarios)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            if(tfoot) {
+                tfoot.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="p-2 md:p-3 uppercase">TOTAL FOLHA DE PAGAMENTO (${listaFuncionarios.length} FUNC):</td>
+                        <td class="p-2 md:p-3 text-theme-main">${formatarMoedaBR(sumSal)}</td>
+                        <td class="p-2 md:p-3 text-theme-main">${formatarMoedaBR(sumBen)}</td>
+                        <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(sumCusto)}</td>
+                        <td colspan="2"></td>
+                    </tr>
+                `;
+            }
+        }
+
+        async function carregarPlanoContas() {
+            const tbody = document.getElementById('tbl-plc-body');
+            if(!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Buscando contas...</td></tr>';
+
+            try {
+                setSyncStatus(true);
+                const response = await fetch(`${API_URL}?action=TPLANO_CONTAS`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    listaPlanoContas = data.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID) && String(item.TPERIODO_ID) === String(periodoAtivoObj.TPERIODO_ID));
+                } else {
+                    listaPlanoContas = [];
+                }
+
+                renderizarTabelaPlanoContasLocal();
+                setSyncStatus(false);
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar plano de contas.</td></tr>'; setSyncStatus(false, "Erro API"); }
+        }
+
+        function renderizarTabelaPlanoContasLocal() {
+            const tbody = document.getElementById('tbl-plc-body');
+            const tfoot = document.getElementById('tbl-plc-foot');
+            if(!tbody) return;
+
+            if(listaPlanoContas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Nenhuma conta cadastrada.</td></tr>';
+                if(tfoot) tfoot.innerHTML = '';
+                return;
+            }
+
+            let sumValor = 0;
+
+            tbody.innerHTML = '';
+            listaPlanoContas.forEach(p => {
+                let destDisplay = p.TCENTRO_CUSTO_ID;
+                if (p.TPLANO_CONTA_CRITERIO === 'EXCLUSIVO') {
+                    const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(p.TCENTRO_CUSTO_ID));
+                    if (ccObj) destDisplay = ccObj.TCENTRO_CUSTO_NOME;
+                } else if (p.TCENTRO_CUSTO_ID && p.TCENTRO_CUSTO_ID.includes("[")) {
+                    try {
+                        let rawCC = String(p.TCENTRO_CUSTO_ID || "").trim();
+                        if (rawCC.startsWith('"') && rawCC.endsWith('"')) rawCC = rawCC.substring(1, rawCC.length - 1);
+                        rawCC = rawCC.replace(/""/g, '"').replace(/;/g, ',');
+                        const arr = JSON.parse(rawCC);
+                        let nomes = [];
+                        arr.forEach(item => {
+                            const idBusca = typeof item === 'object' ? (item.id || item.ID) : item;
+                            const pctBusca = typeof item === 'object' ? ` (${item.pct || item.PCT}%)` : '';
+                            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === String(idBusca).toUpperCase());
+                            if(ccObj) nomes.push(ccObj.TCENTRO_CUSTO_NOME + pctBusca);
+                        });
+                        destDisplay = nomes.join(", ");
+                    } catch(e) {}
+                }
+
+                const val = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
+                sumValor += val;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-brand-border/30 transition">
+                        <td class="p-2 md:p-3 font-semibold text-theme-main uppercase">${p.TPLANO_CONTA_NOME}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${p.TPLANO_CONTA_CRITERIO}</td>
+                        <td class="p-2 md:p-3 text-xs uppercase">${destDisplay || 'TODOS OS SETORES'}</td>
+                        <td class="p-2 md:p-3 font-bold text-theme-main">${formatarMoedaBR(val)}</td>
+                        <td class="p-2 md:p-3 text-right space-x-1">
+                            <button onclick="editarPlanoConta('${p.TPLANO_CONTA_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
+                            <button onclick="deletarItemAPI('TPLANO_CONTAS', '${p.TPLANO_CONTA_ID}', carregarPlanoContas)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            if(tfoot) {
+                tfoot.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="p-2 md:p-3 uppercase">TOTAL PLANO DE CONTAS MENSAL:</td>
+                        <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(sumValor)}</td>
+                        <td></td>
+                    </tr>
+                `;
+            }
+        }
+
+        function renderizarGraficoRoscaDRE(dreData) {
+            const canvas = document.getElementById('chart-cc-distribuicao');
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            if (chartCCInstance) {
+                chartCCInstance.destroy();
+            }
+
+            const labels = ['Impostos & Deduções', 'CPV (Custos Var.)', 'Custos Fixos Industriais', 'Despesas Operacionais', 'Sobra Mão Obra', 'Retirada Sócios', 'Resultado Líquido Final'];
+            const dataValores = [dreData.impostosDeducoes, dreData.cVariavel, dreData.cFixoFabril, dreData.dFichaAdmin, dreData.sobraMaoObra, dreData.retSocios, Math.max(0, dreData.resLiquido)];
+            const cores = ['#EF4444', '#F97316', '#F59E0B', '#3B82F6', '#8B5CF6', '#EC4899', '#10B981'];
+
+            chartCCInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{ data: dataValores, backgroundColor: cores, borderColor: '#16161a', borderWidth: 2 }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#9ea0a6', font: { size: 10, family: 'Plus Jakarta Sans' }, boxWidth: 12 } },
+                        tooltip: { callbacks: { label: function(context) { return context.label + ': ' + formatarMoedaBR(context.raw || 0); } } }
+                    }
+                }
+            });
+        }
+
+        async function carregarTudoDoPeriodo() {
+            carregarInvestimentos();
+            carregarCentrosDeCusto();
+            carregarRecursos();
+            carregarBeneficios();
+            carregarFuncionarios();
+            carregarPlanoContas();
+            gerarAnalisesEResultados();
         }
 
         async function iniciarSessao() {
@@ -472,6 +2665,23 @@
             document.getElementById('user-menu').classList.remove('hidden');
             document.getElementById('wrapper-periodo-global').classList.remove('hidden');
             document.getElementById('user-display-name').innerText = usuarioLogado.TUSUARIO_NOME;
+
+            const isAdm = String(usuarioLogado.TUSUARIO_ADM).toUpperCase() === 'SIM' || String(usuarioLogado.TUSUARIO_ADM).toUpperCase() === 'TRUE';
+            
+            const badge = document.getElementById('role-badge');
+            if (badge) badge.classList.remove('hidden');
+
+            const navBtnAdm = document.getElementById('nav-btn-adm');
+            if (navBtnAdm) {
+                if (isAdm) {
+                    if (badge) badge.innerText = "ADMINISTRADOR";
+                    navBtnAdm.classList.remove('hidden');
+                    carregarClientesSelect();
+                } else {
+                    if (badge) badge.innerText = "PORTAL CLIENTE";
+                    navBtnAdm.classList.add('hidden');
+                }
+            }
 
             await carregarPeriodosDoCliente();
             await carregarPadroes();
@@ -534,30 +2744,36 @@
             carregarTudoDoPeriodo();
         }
 
-        function carregarTudoDoPeriodo() {
-            gerarAnalisesEResultados();
-        }
-
         function alternarAbaCliente(aba) {
-            document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
+            const idsSeçoes = ['section-resultados', 'section-config-periodo', 'section-centro-custo', 'section-recursos', 'section-beneficios', 'section-funcionarios', 'section-plano-contas', 'section-admin'];
+            idsSeçoes.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.add('hidden');
+            });
 
             const classInactive = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold text-theme-muted hover:bg-brand-primary/10 hover:text-brand-primary transition";
             const classActive = "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition";
 
             document.querySelectorAll('#sidebar-menu nav button').forEach(btn => btn.className = classInactive);
 
+            const mapaAbaSection = {
+                'res': 'section-resultados',
+                'cfg': 'section-config-periodo',
+                'cc': 'section-centro-custo',
+                'rec': 'section-recursos',
+                'ben': 'section-beneficios',
+                'func': 'section-funcionarios',
+                'plc': 'section-plano-contas',
+                'adm': 'section-admin'
+            };
+
             const btnTarget = document.getElementById(`nav-btn-${aba}`);
-            const secTarget = document.getElementById(`section-${aba === 'res' ? 'resultados' : aba === 'cfg' ? 'config-periodo' : aba === 'cc' ? 'centro-custo' : aba === 'rec' ? 'recursos' : aba === 'ben' ? 'beneficios' : aba === 'func' ? 'funcionarios' : aba === 'plc' ? 'plano-contas' : 'admin'}`);
+            const secTarget = document.getElementById(mapaAbaSection[aba]);
 
             if(btnTarget) btnTarget.className = classActive;
             if(secTarget) secTarget.classList.remove('hidden');
 
             if (aba === 'res') gerarAnalisesEResultados();
-        }
-
-        async function gerarAnalisesEResultados() {
-            // Lógica de cálculo dos Resultados e DRE
-            setSyncStatus(false);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
