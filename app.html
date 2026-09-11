@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.11 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.11">
+    <title>CONSULTORIA.RF V5.2.12 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.12">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1185,7 +1185,7 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
 
 <style id="v5210-diagnostico-inteligente">
 /* ================================================================
-   V5.2.11 — DIAGNÓSTICO INTELIGENTE COMPACTO + HISTÓRICO
+   V5.2.12 — DIAGNÓSTICO INTELIGENTE COMPACTO + HISTÓRICO
    Recolhido por padrão. Não compara custos entre centros de custo.
    ================================================================ */
 #rf-diagnostico-inteligente { overflow:hidden; }
@@ -1236,7 +1236,7 @@ body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065
 
 <style id="v5211-historico-evolucao">
 /* ================================================================
-   V5.2.11 — EVOLUÇÃO HISTÓRICA
+   V5.2.12 — EVOLUÇÃO HISTÓRICA
    Somente períodos anteriores reais. Visual de tendência + comparação.
    ================================================================ */
 .rf-history-reading {
@@ -1305,7 +1305,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.11</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.12</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1341,7 +1341,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.11</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.12</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2175,7 +2175,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
             </div>
 
 
-            <!-- V5.2.11 — DIAGNÓSTICO INTELIGENTE COMPACTO -->
+            <!-- V5.2.12 — DIAGNÓSTICO INTELIGENTE COMPACTO -->
             <div id="rf-diagnostico-inteligente" class="bg-brand-card px-4 py-3 rounded-xl border border-brand-border">
                 <div class="rf-diag-compact-header">
                     <div class="rf-diag-compact-title">
@@ -2484,6 +2484,101 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         let dadosCSVImportacao = [];
         let entidadeGradeAtiva = "";
 
+        // ======================================================
+        // V5.2.12 — ESTADO DE EDIÇÃO RESILIENTE / ANTI-DUPLICAÇÃO
+        // ======================================================
+        // Antes, cada formulário dependia exclusivamente de um input hidden para
+        // decidir entre UPDATE e CREATE. Se esse hidden fosse limpo/recriado por
+        // qualquer interação de UI, um registro que estava sendo editado podia ser
+        // salvo como uma nova linha. Agora o ID de edição fica redundante em 4
+        // lugares (hidden + form + botão + memória) e, se a tela estiver em modo
+        // edição sem ID válido, o sistema bloqueia o salvamento em vez de criar
+        // uma duplicata.
+        const rfEditState = Object.create(null);
+
+        function rfMarcarEdicao(chave, id, hiddenId, formId, buttonId) {
+            const editingId = String(id || '').trim();
+            if (!editingId) {
+                alert('Não foi possível editar este registro porque ele não possui um ID válido. Atualize a tela e tente novamente.');
+                return false;
+            }
+
+            rfEditState[chave] = editingId;
+
+            const hidden = document.getElementById(hiddenId);
+            const form = document.getElementById(formId);
+            const btn = document.getElementById(buttonId);
+
+            if (hidden) hidden.value = editingId;
+            if (form) {
+                form.dataset.editingId = editingId;
+                form.dataset.rfMode = 'edit';
+            }
+            if (btn) {
+                btn.dataset.editingId = editingId;
+                btn.dataset.rfMode = 'edit';
+            }
+            return true;
+        }
+
+        function rfObterEdicao(chave, hiddenId, formId, buttonId) {
+            const hidden = document.getElementById(hiddenId);
+            const form = document.getElementById(formId);
+            const btn = document.getElementById(buttonId);
+
+            const candidatos = [
+                hidden?.value,
+                form?.dataset?.editingId,
+                btn?.dataset?.editingId,
+                rfEditState[chave]
+            ];
+
+            for (const valor of candidatos) {
+                const id = String(valor || '').trim();
+                if (id) return id;
+            }
+            return '';
+        }
+
+        function rfValidarModoEdicao(chave, editingId, formId, buttonId) {
+            const form = document.getElementById(formId);
+            const btn = document.getElementById(buttonId);
+            const modoEdicao = form?.dataset?.rfMode === 'edit' || btn?.dataset?.rfMode === 'edit' || !!rfEditState[chave];
+
+            if (modoEdicao && !String(editingId || '').trim()) {
+                alert('A edição perdeu a referência do registro original. O salvamento foi cancelado para evitar criar uma linha duplicada. Atualize a tela e tente novamente.');
+                return false;
+            }
+            return true;
+        }
+
+        function rfConfirmarRegistroEmEdicao(editingId, lista, campoId, rotulo) {
+            if (!editingId) return true; // CREATE normal
+            const existe = Array.isArray(lista) && lista.some(item => String(item?.[campoId] || '').trim() === String(editingId).trim());
+            if (!existe) {
+                alert(`O registro que estava sendo editado (${rotulo}) não está mais na lista carregada. O salvamento foi cancelado para evitar duplicação ou alteração no registro errado.`);
+                return false;
+            }
+            return true;
+        }
+
+        function rfLimparEdicao(chave, hiddenId, formId, buttonId) {
+            delete rfEditState[chave];
+            const hidden = document.getElementById(hiddenId);
+            const form = document.getElementById(formId);
+            const btn = document.getElementById(buttonId);
+
+            if (hidden) hidden.value = '';
+            if (form) {
+                delete form.dataset.editingId;
+                delete form.dataset.rfMode;
+            }
+            if (btn) {
+                delete btn.dataset.editingId;
+                delete btn.dataset.rfMode;
+            }
+        }
+
         function setSyncStatus(isSyncing, msg = "Conectado") {
             const indicator = document.getElementById('sync-indicator');
             const syncText = document.getElementById('sync-text');
@@ -2781,7 +2876,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
             const c = listaClientesAdmin.find(x => String(x.TCLIENTE_ID) === String(id));
             if (!c) return;
             abrirAccordionParaEdicao('form-cliente');
-            document.getElementById('cli-editing-id').value = c.TCLIENTE_ID || '';
+            if (!rfMarcarEdicao('TCLIENTE', c.TCLIENTE_ID, 'cli-editing-id', 'form-cliente', 'btn-salvar-cli')) return;
             document.getElementById('cli-nome').value = c.TCLIENTE_NOME || '';
             document.getElementById('cli-cnpj').value = c.TCLIENTE_CNPJ || '';
             document.getElementById('btn-salvar-cli').innerText = 'Atualizar Empresa';
@@ -2791,7 +2886,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
 
         function limparFormClienteAdmin() {
             document.getElementById('form-cliente')?.reset();
-            document.getElementById('cli-editing-id').value = '';
+            rfLimparEdicao('TCLIENTE', 'cli-editing-id', 'form-cliente', 'btn-salvar-cli');
             document.getElementById('btn-salvar-cli').innerText = 'Salvar Empresa';
             document.getElementById('btn-cancelar-cli').classList.add('hidden');
         }
@@ -2799,7 +2894,9 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         async function cadastrarCliente(e) {
             e.preventDefault();
             if (!rfAdminEhAdministrador()) return;
-            const id = document.getElementById('cli-editing-id').value;
+            const id = rfObterEdicao('TCLIENTE', 'cli-editing-id', 'form-cliente', 'btn-salvar-cli');
+            if (!rfValidarModoEdicao('TCLIENTE', id, 'form-cliente', 'btn-salvar-cli')) return;
+            if (!rfConfirmarRegistroEmEdicao(id, listaClientesAdmin, 'TCLIENTE_ID', 'empresa')) return;
             const existente = listaClientesAdmin.find(c => String(c.TCLIENTE_ID) === String(id));
             const template = existente || listaClientesAdmin[0];
             if (!template) return alert('Não foi possível identificar a estrutura de TCLIENTE.');
@@ -2826,7 +2923,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
                 setTimeout(() => rfAdminCarregarTudo(true), 1200);
             } finally {
                 btn.disabled = false;
-                if (!document.getElementById('cli-editing-id').value) btn.innerText = 'Salvar Empresa';
+                if (!rfObterEdicao('TCLIENTE', 'cli-editing-id', 'form-cliente', 'btn-salvar-cli')) btn.innerText = 'Salvar Empresa';
             }
         }
 
@@ -2846,7 +2943,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
             const u = listaUsuariosAdmin.find(x => String(x.TUSUARIO_ID) === String(id));
             if (!u) return;
             abrirAccordionParaEdicao('form-usuario');
-            document.getElementById('usr-editing-id').value = u.TUSUARIO_ID || '';
+            if (!rfMarcarEdicao('TUSUARIO', u.TUSUARIO_ID, 'usr-editing-id', 'form-usuario', 'btn-salvar-usr')) return;
             document.getElementById('usr-cli-id').value = u.TCLIENTE_ID || '';
             document.getElementById('usr-adm').value = ['SIM','TRUE'].includes(String(u.TUSUARIO_ADM || '').toUpperCase()) ? 'SIM' : 'NAO';
             document.getElementById('usr-nome').value = u.TUSUARIO_NOME || '';
@@ -2861,7 +2958,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
 
         function limparFormUsuarioAdmin() {
             document.getElementById('form-usuario')?.reset();
-            document.getElementById('usr-editing-id').value = '';
+            rfLimparEdicao('TUSUARIO', 'usr-editing-id', 'form-usuario', 'btn-salvar-usr');
             document.getElementById('usr-senha-help').innerText = '(obrigatória no cadastro)';
             document.getElementById('btn-salvar-usr').innerText = 'Salvar Usuário';
             document.getElementById('btn-cancelar-usr').classList.add('hidden');
@@ -2870,7 +2967,9 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         async function cadastrarUsuario(e) {
             e.preventDefault();
             if (!rfAdminEhAdministrador()) return;
-            const id = document.getElementById('usr-editing-id').value;
+            const id = rfObterEdicao('TUSUARIO', 'usr-editing-id', 'form-usuario', 'btn-salvar-usr');
+            if (!rfValidarModoEdicao('TUSUARIO', id, 'form-usuario', 'btn-salvar-usr')) return;
+            if (!rfConfirmarRegistroEmEdicao(id, listaUsuariosAdmin, 'TUSUARIO_ID', 'usuário')) return;
             const existente = listaUsuariosAdmin.find(u => String(u.TUSUARIO_ID) === String(id));
             const template = existente || listaUsuariosAdmin[0];
             if (!template) return alert('Não foi possível identificar a estrutura de TUSUARIO.');
@@ -2904,7 +3003,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
                 setTimeout(() => rfAdminCarregarTudo(true), 1200);
             } finally {
                 btn.disabled = false;
-                if (!document.getElementById('usr-editing-id').value) btn.innerText = 'Salvar Usuário';
+                if (!rfObterEdicao('TUSUARIO', 'usr-editing-id', 'form-usuario', 'btn-salvar-usr')) btn.innerText = 'Salvar Usuário';
             }
         }
 
@@ -3825,7 +3924,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.11', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.12', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -4092,7 +4191,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         // ======================================================
-        // V5.2.11 — CONTROLES DE PERÍODO
+        // V5.2.12 — CONTROLES DE PERÍODO
         // Corrige os botões "+ Novo / Clonar", "+ Criar / Duplicar Período"
         // e "Fechar / Reabrir Período", que existiam no HTML sem as funções JS.
         // ======================================================
@@ -4533,7 +4632,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const item = listaInvestimentos.find(i => String(i.TINVESTIMENTO_ID) === String(id));
             if(!item) return;
 
-            document.getElementById('inv-editing-id').value = item.TINVESTIMENTO_ID;
+            if (!rfMarcarEdicao('TINVESTIMENTOS', item.TINVESTIMENTO_ID, 'inv-editing-id', 'form-inv', 'btn-salvar-inv')) return;
             document.getElementById('inv-nome').value = item.TINVESTIMENTO_NOME;
             document.getElementById('inv-valor').value = Number(item.TINVESTIMENTO_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
@@ -4544,7 +4643,9 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         async function salvarInvestimento(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-salvar-inv');
-            const editingId = document.getElementById('inv-editing-id').value;
+            const editingId = rfObterEdicao('TINVESTIMENTOS', 'inv-editing-id', 'form-inv', 'btn-salvar-inv');
+            if (!rfValidarModoEdicao('TINVESTIMENTOS', editingId, 'form-inv', 'btn-salvar-inv')) return;
+            if (!rfConfirmarRegistroEmEdicao(editingId, listaInvestimentos, 'TINVESTIMENTO_ID', 'investimento')) return;
             btn.innerText = "Gravando...";
             btn.disabled = true;
             setSyncStatus(true);
@@ -4582,7 +4683,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
         function limparFormInv() {
             document.getElementById('form-inv').reset();
-            document.getElementById('inv-editing-id').value = '';
+            rfLimparEdicao('TINVESTIMENTOS', 'inv-editing-id', 'form-inv', 'btn-salvar-inv');
             document.getElementById('btn-salvar-inv').innerText = "Salvar Investimento";
             document.getElementById('btn-salvar-inv').disabled = false;
             document.getElementById('btn-cancelar-inv').classList.add('hidden');
@@ -4939,7 +5040,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const item = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(id));
             if(!item) return;
 
-            document.getElementById('cc-editing-id').value = item.TCENTRO_CUSTO_ID;
+            if (!rfMarcarEdicao('TCENTRO_CUSTO', item.TCENTRO_CUSTO_ID, 'cc-editing-id', 'form-cc', 'btn-salvar-cc')) return;
             document.getElementById('cc-nome').value = item.TCENTRO_CUSTO_NOME;
             document.getElementById('cc-tipo').value = item.TCENTRO_CUSTO_TIPO;
             verificarTipoCentroCusto();
@@ -4959,7 +5060,9 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         async function salvarCentroCusto(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-salvar-cc');
-            const editingId = document.getElementById('cc-editing-id').value;
+            const editingId = rfObterEdicao('TCENTRO_CUSTO', 'cc-editing-id', 'form-cc', 'btn-salvar-cc');
+            if (!rfValidarModoEdicao('TCENTRO_CUSTO', editingId, 'form-cc', 'btn-salvar-cc')) return;
+            if (!rfConfirmarRegistroEmEdicao(editingId, listaCC, 'TCENTRO_CUSTO_ID', 'centro de custo')) return;
             btn.innerText = "Gravando...";
             btn.disabled = true;
             setSyncStatus(true);
@@ -5009,7 +5112,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
         function limparFormCC() {
             document.getElementById('form-cc').reset();
-            document.getElementById('cc-editing-id').value = '';
+            rfLimparEdicao('TCENTRO_CUSTO', 'cc-editing-id', 'form-cc', 'btn-salvar-cc');
             document.getElementById('btn-salvar-cc').innerText = "Salvar Centro de Custo";
             document.getElementById('btn-salvar-cc').disabled = false;
             document.getElementById('btn-cancelar-cc').classList.add('hidden');
@@ -5090,7 +5193,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const item = listaRecursos.find(r => String(r.TRECURSO_ID) === String(id));
             if(!item) return;
 
-            document.getElementById('rec-editing-id').value = item.TRECURSO_ID;
+            if (!rfMarcarEdicao('TRECURSO', item.TRECURSO_ID, 'rec-editing-id', 'form-rec', 'btn-salvar-rec')) return;
             document.getElementById('rec-cc-id').value = item.TCENTRO_CUSTO_ID;
             document.getElementById('rec-nome').value = item.TRECURSO_NOME;
             document.getElementById('rec-tipo').value = item.TRECURSO_TIPO;
@@ -5106,7 +5209,9 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         async function salvarRecurso(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-salvar-rec');
-            const editingId = document.getElementById('rec-editing-id').value;
+            const editingId = rfObterEdicao('TRECURSO', 'rec-editing-id', 'form-rec', 'btn-salvar-rec');
+            if (!rfValidarModoEdicao('TRECURSO', editingId, 'form-rec', 'btn-salvar-rec')) return;
+            if (!rfConfirmarRegistroEmEdicao(editingId, listaRecursos, 'TRECURSO_ID', 'recurso')) return;
             btn.innerText = "Gravando...";
             btn.disabled = true;
             setSyncStatus(true);
@@ -5148,7 +5253,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
         function limparFormRec() {
             document.getElementById('form-rec').reset();
-            document.getElementById('rec-editing-id').value = '';
+            rfLimparEdicao('TRECURSO', 'rec-editing-id', 'form-rec', 'btn-salvar-rec');
             document.getElementById('btn-salvar-rec').innerText = "Salvar Recurso";
             document.getElementById('btn-salvar-rec').disabled = false;
             document.getElementById('btn-cancelar-rec').classList.add('hidden');
@@ -5205,7 +5310,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const item = listaBeneficios.find(b => String(b.TBENEFICIO_ID) === String(id));
             if(!item) return;
 
-            document.getElementById('ben-editing-id').value = item.TBENEFICIO_ID;
+            if (!rfMarcarEdicao('TBENEFICIOS', item.TBENEFICIO_ID, 'ben-editing-id', 'form-ben', 'btn-salvar-ben')) return;
             document.getElementById('ben-nome').value = item.TBENEFICIO_NOME;
             document.getElementById('ben-valor').value = Number(item.TBENEFICIO_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
@@ -5217,7 +5322,9 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         async function salvarBeneficio(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-salvar-ben');
-            const editingId = document.getElementById('ben-editing-id').value;
+            const editingId = rfObterEdicao('TBENEFICIOS', 'ben-editing-id', 'form-ben', 'btn-salvar-ben');
+            if (!rfValidarModoEdicao('TBENEFICIOS', editingId, 'form-ben', 'btn-salvar-ben')) return;
+            if (!rfConfirmarRegistroEmEdicao(editingId, listaBeneficios, 'TBENEFICIO_ID', 'benefício')) return;
             btn.innerText = "Gravando...";
             btn.disabled = true;
             setSyncStatus(true);
@@ -5255,7 +5362,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
         function limparFormBen() {
             document.getElementById('form-ben').reset();
-            document.getElementById('ben-editing-id').value = '';
+            rfLimparEdicao('TBENEFICIOS', 'ben-editing-id', 'form-ben', 'btn-salvar-ben');
             document.getElementById('btn-salvar-ben').innerText = "Salvar Benefício";
             document.getElementById('btn-salvar-ben').disabled = false;
             document.getElementById('btn-cancelar-ben').classList.add('hidden');
@@ -5431,7 +5538,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const item = listaFuncionarios.find(f => String(f.TFUNCIONARIO_ID) === String(id));
             if(!item) return;
 
-            document.getElementById('func-editing-id').value = item.TFUNCIONARIO_ID;
+            if (!rfMarcarEdicao('TFUNCIONARIO', item.TFUNCIONARIO_ID, 'func-editing-id', 'form-func', 'btn-salvar-func')) return;
             document.getElementById('func-nome').value = item.TFUNCIONARIO_NOME;
             document.getElementById('func-tp-registro').value = item.TFUNCIONARIO_TP_REGISTRO;
             document.getElementById('func-tp-salario').value = item.TFUNCIONARIO_TP_SALARIO || 'MENSALISTA';
@@ -5478,7 +5585,9 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         async function salvarFuncionario(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-salvar-func');
-            const editingId = document.getElementById('func-editing-id').value;
+            const editingId = rfObterEdicao('TFUNCIONARIO', 'func-editing-id', 'form-func', 'btn-salvar-func');
+            if (!rfValidarModoEdicao('TFUNCIONARIO', editingId, 'form-func', 'btn-salvar-func')) return;
+            if (!rfConfirmarRegistroEmEdicao(editingId, listaFuncionarios, 'TFUNCIONARIO_ID', 'funcionário')) return;
 
             const isRateio = document.getElementById('func-is-rateio').checked;
             let ccTarget = document.getElementById('func-cc-id').value;
@@ -5547,7 +5656,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
         function limparFormFunc() {
             document.getElementById('form-func').reset();
-            document.getElementById('func-editing-id').value = '';
+            rfLimparEdicao('TFUNCIONARIO', 'func-editing-id', 'form-func', 'btn-salvar-func');
             document.getElementById('btn-salvar-func').innerText = "Salvar Funcionário";
             document.getElementById('btn-salvar-func').disabled = false;
             document.getElementById('btn-cancelar-func').classList.add('hidden');
@@ -5729,7 +5838,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const item = listaPlanoContas.find(p => String(p.TPLANO_CONTA_ID) === String(id));
             if(!item) return;
 
-            document.getElementById('plc-editing-id').value = item.TPLANO_CONTA_ID;
+            if (!rfMarcarEdicao('TPLANO_CONTAS', item.TPLANO_CONTA_ID, 'plc-editing-id', 'form-plc', 'btn-salvar-plc')) return;
             document.getElementById('plc-nome').value = item.TPLANO_CONTA_NOME;
             document.getElementById('plc-criterio').value = item.TPLANO_CONTA_CRITERIO;
             document.getElementById('plc-valor').value = Number(item.TPLANO_CONTA_VALOR || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
@@ -5750,7 +5859,9 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         async function salvarPlanoConta(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-salvar-plc');
-            const editingId = document.getElementById('plc-editing-id').value;
+            const editingId = rfObterEdicao('TPLANO_CONTAS', 'plc-editing-id', 'form-plc', 'btn-salvar-plc');
+            if (!rfValidarModoEdicao('TPLANO_CONTAS', editingId, 'form-plc', 'btn-salvar-plc')) return;
+            if (!rfConfirmarRegistroEmEdicao(editingId, listaPlanoContas, 'TPLANO_CONTA_ID', 'conta')) return;
             const isRateioSeletivo = document.getElementById('plc-is-rateio').checked;
 
             let crit = document.getElementById('plc-criterio').value;
@@ -5815,7 +5926,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
         function limparFormPLC() {
             document.getElementById('form-plc').reset();
-            document.getElementById('plc-editing-id').value = '';
+            rfLimparEdicao('TPLANO_CONTAS', 'plc-editing-id', 'form-plc', 'btn-salvar-plc');
             document.getElementById('btn-salvar-plc').innerText = "Salvar Conta";
             document.getElementById('btn-salvar-plc').disabled = false;
             document.getElementById('btn-cancelar-plc').classList.add('hidden');
@@ -5875,7 +5986,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.11 — MOTOR DE DIAGNÓSTICO INTELIGENTE
+        // V5.2.12 — MOTOR DE DIAGNÓSTICO INTELIGENTE
         // Regras determinísticas usando somente números já calculados no sistema.
         // Não compara custo-hora/custos entre centros de custo.
         // ======================================================
@@ -5930,7 +6041,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const ativoId = String(periodoAtivoObj.TPERIODO_ID || '');
             const ordemAtiva = rfV5210PeriodoOrdem(periodoAtivoObj);
 
-            // Regra V5.2.11: se não houver ordem confiável, NÃO compara automaticamente.
+            // Regra V5.2.12: se não houver ordem confiável, NÃO compara automaticamente.
             // Isso evita usar um período superior/futuro como histórico do período atual.
             if (ordemAtiva === null) return [];
 
@@ -6376,7 +6487,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const dreAtiva = calcPeriodoDRE(periodoAtivoObj, listaCC, listaPlanoContas, listaFuncionarios);
             let dreCompare = periodoCompareObj ? calcPeriodoDRE(periodoCompareObj, listaCCCompare, listaPlanoCompare, listaFuncCompare) : null;
 
-            // V5.2.11 — histórico automático: compara o atual somente com períodos realmente anteriores; superiores/futuros são ignorados.
+            // V5.2.12 — histórico automático: compara o atual somente com períodos realmente anteriores; superiores/futuros são ignorados.
             const periodosAnteriores = rfV5210PeriodosAnteriores();
             let historicoDRE = [];
             if (periodosAnteriores.length) {
@@ -6514,7 +6625,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
             if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
 
-            // V5.2.11 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
+            // V5.2.12 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
             const dreAnteriorMaisRecente = historicoDRE.length ? historicoDRE[0].dre : null;
             const rfV5210Diagnosticos = rfV528GerarDiagnosticos(
                 dreAtiva, dreAnteriorMaisRecente, investimentoTotal, pontoEquilibrio, rentabilidadeAtualPct
