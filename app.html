@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>V
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.9 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.9.3 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -164,7 +164,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
 </style>
 
 <style id="v49-sidebar-final-fix">
-/* V4.9.2 — ÚNICO botão do menu: somente no rodapé da barra lateral */
+/* V4.9.3 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
 #app-header > #sidebar-toggle { display:none !important; }
 #sidebar-tools {
     position:absolute !important;
@@ -199,6 +199,168 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
     #sidebar-tools { bottom:14px !important; }
 }
 </style>
+
+<style id="v493-mobile-ui">
+/* ================================================================
+   V4.9.3 — MOBILE UX
+   No celular o menu lateral vira uma gaveta inferior. O mesmo botão
+   Menu permanece único e fica sempre acessível no rodapé.
+   ================================================================ */
+@media (max-width: 767px) {
+    html, body { max-width:100%; overflow-x:hidden !important; }
+    body { padding-bottom:66px !important; }
+
+    /* HEADER MOBILE: compacto e organizado em duas linhas */
+    #app-header {
+        min-height:auto !important;
+        padding:9px 10px !important;
+        display:grid !important;
+        grid-template-columns:minmax(0,1fr) auto !important;
+        align-items:center !important;
+        gap:8px 10px !important;
+    }
+    #app-header > div:first-child { min-width:0; gap:7px !important; }
+    #app-logo-header { height:24px !important; max-width:165px !important; object-fit:contain; }
+    #role-badge { display:none !important; }
+    #sync-indicator { display:none !important; }
+    #user-menu { justify-self:end !important; gap:6px !important; }
+    #user-menu #user-display-name { display:none !important; }
+    #user-menu button { min-height:34px; padding:7px 10px !important; }
+
+    #wrapper-periodo-global {
+        grid-column:1 / -1 !important;
+        width:100% !important;
+        display:grid !important;
+        grid-template-columns:auto minmax(0,1fr) auto !important;
+        gap:6px !important;
+        padding:6px !important;
+        border-radius:10px !important;
+    }
+    #wrapper-periodo-global > span { font-size:10px !important; white-space:nowrap; }
+    #global-periodo-select {
+        width:100% !important; max-width:none !important; min-width:0 !important;
+        height:34px !important; padding:6px 8px !important; font-size:11px !important;
+    }
+    #wrapper-periodo-global button {
+        min-height:34px !important; padding:6px 9px !important; font-size:10px !important;
+    }
+
+    /* CONTEÚDO MOBILE ocupa a tela inteira */
+    #main-content {
+        margin-left:0 !important; width:100% !important; max-width:100% !important;
+        padding:10px !important; padding-top:10px !important; gap:12px !important;
+    }
+    #main-content > section { width:100% !important; max-width:100% !important; }
+    #main-content .rounded-xl, #main-content .rounded-2xl { border-radius:12px !important; }
+    #main-content .p-5, #main-content .md\\:p-6 { padding:14px !important; }
+    .accordion-toggle { min-height:42px !important; padding:10px 11px !important; }
+    .kpi-strip { grid-template-columns:1fr !important; gap:8px !important; }
+    .kpi-mini { padding:11px 12px !important; border-radius:11px !important; }
+    .kpi-mini .kpi-value { font-size:16px !important; }
+    .table-tools { justify-content:stretch !important; margin-bottom:8px !important; }
+    .table-search { width:100% !important; min-height:40px !important; font-size:13px !important; }
+
+    /* Tabelas: rolagem horizontal limpa, sem comprimir colunas */
+    .overflow-x-auto {
+        max-width:100% !important; overflow-x:auto !important; -webkit-overflow-scrolling:touch;
+        scrollbar-width:thin;
+    }
+    .overflow-x-auto > table { min-width:720px !important; }
+    table th, table td { white-space:nowrap; }
+    table button { min-height:32px !important; }
+
+    /* MENU MOBILE = BOTTOM SHEET. Nunca mais ocupa uma faixa lateral. */
+    #nav-cliente-tabs {
+        display:flex !important;
+        position:fixed !important;
+        left:8px !important; right:8px !important; bottom:8px !important; top:auto !important;
+        width:auto !important; height:50px !important;
+        padding:0 !important; margin:0 !important;
+        z-index:90 !important;
+        border:1px solid #30333a !important;
+        border-radius:15px !important;
+        background:rgba(17,18,22,.97) !important;
+        box-shadow:0 12px 34px rgba(0,0,0,.42) !important;
+        overflow:hidden !important;
+        transform:none !important;
+        transition:height .22s ease, border-radius .22s ease !important;
+    }
+    body.light-mode #nav-cliente-tabs {
+        background:rgba(255,255,255,.98) !important; border-color:#dbe1ea !important;
+    }
+    #nav-cliente-tabs::before, #nav-cliente-tabs::after { display:none !important; }
+
+    /* Itens do menu ficam escondidos até abrir a gaveta */
+    #nav-cliente-tabs > button:not(#sidebar-toggle):not(#theme-toggle) {
+        display:none !important;
+    }
+    #sidebar-tools {
+        position:absolute !important; inset:auto 0 0 0 !important;
+        height:50px !important; padding:5px !important; margin:0 !important;
+        display:grid !important; grid-template-columns:1fr 46px !important; gap:6px !important;
+        border:0 !important; background:transparent !important;
+    }
+    #sidebar-toggle {
+        width:100% !important; height:40px !important; min-height:40px !important;
+        justify-content:center !important; border-radius:10px !important;
+        font-size:12px !important; padding:8px 12px !important;
+    }
+    #sidebar-toggle .sidebar-toggle-label { display:inline !important; }
+    #theme-toggle {
+        width:46px !important; height:40px !important; min-height:40px !important;
+        padding:0 !important; font-size:0 !important; border-radius:10px !important;
+    }
+    #theme-toggle::before { content:'☾'; font-size:17px !important; }
+    body.light-mode #theme-toggle::before { content:'☀'; }
+
+    /* GAVETA ABERTA */
+    body.sidebar-open::before {
+        content:''; position:fixed; inset:0; z-index:80;
+        background:rgba(0,0,0,.58); backdrop-filter:blur(2px);
+    }
+    body.sidebar-open #nav-cliente-tabs {
+        height:min(72vh,560px) !important;
+        border-radius:18px !important;
+        padding:12px 10px 62px !important;
+        overflow-y:auto !important;
+        gap:6px !important;
+    }
+    body.sidebar-open #nav-cliente-tabs::before {
+        content:'MENU PRINCIPAL'; display:block !important;
+        padding:4px 8px 8px !important; color:#8b8f98 !important;
+        font-size:10px !important; font-weight:800 !important; letter-spacing:.11em !important;
+    }
+    body.sidebar-open #nav-cliente-tabs > button:not(#sidebar-toggle):not(#theme-toggle) {
+        display:flex !important;
+        min-height:44px !important; font-size:12px !important;
+        padding:10px 12px !important; border-radius:10px !important;
+    }
+    body.sidebar-open #sidebar-tools {
+        position:absolute !important; left:10px !important; right:10px !important; bottom:8px !important;
+        width:auto !important; border-top:1px solid #292b31 !important;
+        padding-top:6px !important;
+    }
+    body.light-mode.sidebar-open #sidebar-tools { border-color:#dbe1ea !important; }
+
+    /* Ignora o estado desktop "collapsed" no celular */
+    body.sidebar-collapsed #nav-cliente-tabs { width:auto !important; }
+    body.sidebar-collapsed #sidebar-toggle {
+        font-size:12px !important; justify-content:center !important; padding:8px 12px !important;
+    }
+    body.sidebar-collapsed #sidebar-toggle::after { content:none !important; }
+    body.sidebar-collapsed #sidebar-toggle .sidebar-toggle-label { display:inline !important; }
+
+    /* Modais no celular */
+    [class*="fixed inset-0"] > .bg-brand-card {
+        max-width:calc(100vw - 16px) !important;
+        max-height:calc(100vh - 24px) !important;
+        overflow-y:auto !important;
+        padding:14px !important;
+        border-radius:14px !important;
+    }
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -206,7 +368,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.3</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -234,7 +396,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.3</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -4060,6 +4222,10 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         let v49ObserverTimer = null;
 
         function toggleSidebar() {
+            if (window.innerWidth < 768) {
+                document.body.classList.toggle('sidebar-open');
+                return;
+            }
             if (window.innerWidth < 1024) {
                 document.body.classList.toggle('sidebar-open');
                 return;
@@ -4352,6 +4518,17 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         window.addEventListener('DOMContentLoaded', () => {
+            // V4.9.3: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
+            const navMobile = document.getElementById('nav-cliente-tabs');
+            if (navMobile && navMobile.dataset.mobileCloseBound !== '1') {
+                navMobile.dataset.mobileCloseBound = '1';
+                navMobile.addEventListener('click', (ev) => {
+                    const btn = ev.target.closest('button[id^="tab-btn-"]');
+                    if (btn && window.innerWidth < 768) {
+                        document.body.classList.remove('sidebar-open');
+                    }
+                });
+            }
             applyThemeV49();
             document.body.classList.toggle('sidebar-collapsed', v49SidebarCollapsed);
             v49MoveSidebar();
