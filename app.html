@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.1 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V5.2 | Gestão de Custos</title>
     <link rel="manifest" href="./manifest.json?v=5.0">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
@@ -1078,7 +1078,7 @@ body.light-mode .rf-loading-message { color:#667085; }
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.1</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1114,7 +1114,7 @@ body.light-mode .rf-loading-message { color:#667085; }
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.1</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -1839,6 +1839,11 @@ body.light-mode .rf-loading-message { color:#667085; }
                             <option value="AREA">RATEIO POR ÁREA (M²)</option>
                             <option value="RECURSOS">RATEIO POR QUANTIDADE DE RECURSOS</option>
                             <option value="HORAS">RATEIO POR HORAS FINAIS DO CC</option>
+                            <option value="PD_AREA">RATEAR APENAS PARA PRODUTIVOS DIRETOS (ÁREA)</option>
+                            <option value="PD_RECURSOS">RATEAR APENAS PARA PRODUTIVOS DIRETOS (QTDE RECURSOS)</option>
+                            <option value="PD_HORAS">RATEAR APENAS PARA PRODUTIVOS DIRETOS (HORAS FINAIS)</option>
+                            <option value="PI_AREA">RATEAR APENAS PARA PRODUTIVOS INDIRETOS (ÁREA)</option>
+                            <option value="ADM_AREA">RATEAR APENAS PARA ADMINISTRATIVOS (ÁREA)</option>
                             <option value="NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)">NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)</option>
                             <option value="NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)">NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)</option>
                         </select>
@@ -2095,7 +2100,7 @@ body.light-mode .rf-loading-message { color:#667085; }
                     NOME; CRITERIO; VALOR; CENTRO_CUSTO_ID
                 </div>
                 <ul class="list-disc pl-4 space-y-1">
-                    <li><strong>CRITERIO:</strong> EXCLUSIVO, AREA, RECURSOS, HORAS, SELETIVO_PERCENTUAL, etc.</li>
+                    <li><strong>CRITERIO:</strong> EXCLUSIVO, AREA, RECURSOS, HORAS, PD_AREA, PD_RECURSOS, PD_HORAS, PI_AREA, ADM_AREA, SELETIVO_PERCENTUAL, etc.</li>
                     <li><strong>VALOR:</strong> Valor numérico da conta (ex: 1500.00)</li>
                     <li><strong>CENTRO_CUSTO_ID:</strong> Nome/ID do CC ou estrutura em % para rateio seletivo</li>
                 </ul>
@@ -2849,6 +2854,11 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                             <option value="AREA">RATEIO POR ÁREA (M²)</option>
                             <option value="RECURSOS">RATEIO POR QUANTIDADE DE RECURSOS</option>
                             <option value="HORAS">RATEIO POR HORAS FINAIS DO CC</option>
+                            <option value="PD_AREA">RATEAR APENAS PARA PRODUTIVOS DIRETOS (ÁREA)</option>
+                            <option value="PD_RECURSOS">RATEAR APENAS PARA PRODUTIVOS DIRETOS (QTDE RECURSOS)</option>
+                            <option value="PD_HORAS">RATEAR APENAS PARA PRODUTIVOS DIRETOS (HORAS FINAIS)</option>
+                            <option value="PI_AREA">RATEAR APENAS PARA PRODUTIVOS INDIRETOS (ÁREA)</option>
+                            <option value="ADM_AREA">RATEAR APENAS PARA ADMINISTRATIVOS (ÁREA)</option>
                             <option value="NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)">NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)</option>
                             <option value="NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)">NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)</option>
                         </select>
@@ -4645,7 +4655,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 renderizarListaRateioPlanoCCs();
             } else {
                 wrapRateio.classList.add('hidden');
-                critSel.value = 'EXCLUSIVO';
+                if (critSel.value === 'SELETIVO_PERCENTUAL') critSel.value = 'EXCLUSIVO';
                 verificarCriterioPlanoContas();
             }
         }
@@ -4713,6 +4723,8 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
 
             if (isRateioSeletivo) return;
 
+            const criteriosAutomaticos = ['AREA','RECURSOS','HORAS','PD_AREA','PD_RECURSOS','PD_HORAS','PI_AREA','ADM_AREA'];
+
             if (crit === 'EXCLUSIVO') {
                 wrapExclusivo.classList.remove('hidden');
                 wrapAviso.classList.add('hidden');
@@ -4755,7 +4767,16 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             }
             tbody.innerHTML = '';
             listaPlanoContas.forEach(p => {
+                const criterioLabels = {
+                    PD_AREA: 'RATEAR APENAS PARA PRODUTIVOS DIRETOS (ÁREA)',
+                    PD_RECURSOS: 'RATEAR APENAS PARA PRODUTIVOS DIRETOS (QTDE RECURSOS)',
+                    PD_HORAS: 'RATEAR APENAS PARA PRODUTIVOS DIRETOS (HORAS FINAIS)',
+                    PI_AREA: 'RATEAR APENAS PARA PRODUTIVOS INDIRETOS (ÁREA)',
+                    ADM_AREA: 'RATEAR APENAS PARA ADMINISTRATIVOS (ÁREA)'
+                };
+                const criterioDisplay = criterioLabels[p.TPLANO_CONTA_CRITERIO] || p.TPLANO_CONTA_CRITERIO;
                 let destDisplay = p.TCENTRO_CUSTO_ID;
+                if (criterioLabels[p.TPLANO_CONTA_CRITERIO]) destDisplay = 'AUTOMÁTICO PELO TIPO DE CENTRO';
                 if (p.TPLANO_CONTA_CRITERIO === 'EXCLUSIVO') {
                     const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID) === String(p.TCENTRO_CUSTO_ID));
                     if (ccObj) destDisplay = ccObj.TCENTRO_CUSTO_NOME;
@@ -4779,7 +4800,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 tbody.innerHTML += `
                     <tr class="hover:bg-brand-border/30 transition">
                         <td class="p-2 md:p-3 font-semibold text-white uppercase">${p.TPLANO_CONTA_NOME}</td>
-                        <td class="p-2 md:p-3 uppercase text-xs">${p.TPLANO_CONTA_CRITERIO}</td>
+                        <td class="p-2 md:p-3 uppercase text-xs">${criterioDisplay}</td>
                         <td class="p-2 md:p-3 text-xs uppercase">${destDisplay || 'TODOS OS SETORES'}</td>
                         <td class="p-2 md:p-3 font-bold text-white">${formatarMoedaBR(p.TPLANO_CONTA_VALOR)}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
@@ -4821,6 +4842,10 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
 
             let crit = document.getElementById('plc-criterio').value;
             let ccTarget = document.getElementById('plc-cc-id').value;
+
+            if (!isRateioSeletivo && crit !== 'EXCLUSIVO') {
+                ccTarget = '';
+            }
 
             if (isRateioSeletivo) {
                 if (!calcularPercentuaisPlanoConta()) {
@@ -4914,7 +4939,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         }
 
         // --- RESULTADOS & ANÁLISES ---
-        // V5.1 — regra de período: depreciação pode ser mantida cadastrada e ignorada nos cálculos
+        // V5.2 — regra de período: depreciação pode ser mantida cadastrada e ignorada nos cálculos
         function v51IgnorarDepreciacao(pObj = periodoAtivoObj) {
             return String(pObj && pObj.TPERIODO_DESCONSIDERAR_DEPRECIACAO || 'NAO').trim().toUpperCase() === 'SIM';
         }
@@ -5060,7 +5085,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                     `;
                 };
 
-                montarLinhaDRE("(+) RECEITA BRUTA ESPERADA", 'fatBruto', dreAtiva.fatBruto, dreCompare ? dreCompare.fatBruto : 0, 'receita');
+                montarLinhaDRE("(+) FATURAMENTO", 'fatBruto', dreAtiva.fatBruto, dreCompare ? dreCompare.fatBruto : 0, 'receita');
                 montarLinhaDRE("(-) Impostos sobre Vendas & Deduções Variáveis", 'impostosDeducoes', dreAtiva.impostosDeducoes, dreCompare ? dreCompare.impostosDeducoes : 0, 'deducao');
                 montarLinhaDRE("(=) RECEITA LÍQUIDA", 'recLiquida', dreAtiva.recLiquida, dreCompare ? dreCompare.recLiquida : 0, 'receita');
                 montarLinhaDRE("(-) Custos Variáveis de Produção (CPV)", 'cVariavel', dreAtiva.cVariavel, dreCompare ? dreCompare.cVariavel : 0, 'deducao');
@@ -5585,6 +5610,18 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             }
         }
 
+        function v50PdfLogoDimensions(maxW, maxH) {
+            const img = document.getElementById('app-logo-header');
+            const nw = img && img.naturalWidth ? img.naturalWidth : 0;
+            const nh = img && img.naturalHeight ? img.naturalHeight : 0;
+            if (!nw || !nh) return { w: maxW, h: maxH };
+            const ratio = nw / nh;
+            let w = maxW;
+            let h = w / ratio;
+            if (h > maxH) { h = maxH; w = h * ratio; }
+            return { w, h };
+        }
+
         function v50PdfMoeda(v) {
             return Number(v || 0).toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
         }
@@ -5605,8 +5642,8 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 const doc = new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
                 const W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight(), mx=14, cw=W-mx*2;
                 const orange=[255,132,54], dark=[28,31,38], gray=[100,108,120], green=[14,145,105], red=[205,70,70], blue=[55,110,210];
-                const logo=await v50LogoDataURL(), now=new Date();
-                const header=()=>{ doc.setFillColor(...dark);doc.rect(0,0,W,25,'F'); if(logo) try{doc.addImage(logo,'PNG',mx,5,48,12)}catch(e){} doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('RELATÓRIO DE ANÁLISE GERENCIAL',W-mx,10,{align:'right'});doc.setFontSize(7.5);doc.setFont('helvetica','normal');doc.text(`${r.empresa}  •  ${r.periodo}`,W-mx,16,{align:'right'}); if(r.periodoCompare) doc.text(`Comparativo: ${r.periodoCompare}`,W-mx,20,{align:'right'}); };
+                const logo=await v50LogoDataURL(), logoDim=v50PdfLogoDimensions(48,12), now=new Date();
+                const header=()=>{ doc.setFillColor(...dark);doc.rect(0,0,W,25,'F'); if(logo) try{doc.addImage(logo,'PNG',mx,5,logoDim.w,logoDim.h,undefined,'FAST')}catch(e){} doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('RELATÓRIO DE ANÁLISE GERENCIAL',W-mx,10,{align:'right'});doc.setFontSize(7.5);doc.setFont('helvetica','normal');doc.text(`${r.empresa}  •  ${r.periodo}`,W-mx,16,{align:'right'}); if(r.periodoCompare) doc.text(`Comparativo: ${r.periodoCompare}`,W-mx,20,{align:'right'}); };
                 const footer=(n,t)=>{doc.setDrawColor(210);doc.line(mx,H-12,W-mx,H-12);doc.setTextColor(...gray);doc.setFontSize(7);doc.text(`CONSULTORIA.RF • Gerado em ${now.toLocaleString('pt-BR')}`,mx,H-7);doc.text(`Página ${n} de ${t}`,W-mx,H-7,{align:'right'});};
                 const section=(title,y)=>{if(y>H-35){doc.addPage();header();y=32;}doc.setFillColor(255,245,237);doc.roundedRect(mx,y,cw,8,1.5,1.5,'F');doc.setTextColor(...orange);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(title,mx+3,y+5.3);return y+11;};
                 header(); let y=32;
@@ -5615,7 +5652,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 const k=r.kpis;
                 doc.autoTable({startY:y,margin:{left:mx,right:mx},head:[['Indicador','Resultado']],body:[['Investimento Total',v50PdfMoeda(k.investimentoTotal)],['Ponto de Equilíbrio',v50PdfMoeda(k.pontoEquilibrio)],['Despesas Fixas / Faturamento',v50PdfNumero(k.pctDespesaFixaTotal,1)+'%'],['Rentabilidade Atual',v50PdfNumero(k.rentabilidadeAtualPct,2)+'% a.m.'],['Payback Estimado',k.paybackMeses>0?v50PdfNumero(k.paybackMeses,1)+' meses':'N/A']],theme:'grid',styles:{fontSize:8,cellPadding:2.2},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{1:{halign:'right',fontStyle:'bold'}}}); y=doc.lastAutoTable.finalY+7;
                 y=section('DRE GERENCIAL INDUSTRIAL',y);
-                const labels=[['Receita Bruta Esperada','fatBruto'],['(-) Impostos / Deduções','impostosDeducoes'],['Receita Líquida','recLiquida'],['(-) Custos Variáveis de Produção','cVariavel'],['Margem de Contribuição Bruta','margemContrib'],['(-) Custos Fixos Industriais','cFixoFabril'],['Resultado Bruto Industrial','resFabril'],['(-) Despesas Fixas Operacionais','dFichaAdmin'],['(-) Perdas / Sobra M.O.','sobraMaoObra'],['(-) Retiradas Sócios / Pró-Labore','retSocios'],['RESULTADO LÍQUIDO FINAL','resLiquido']];
+                const labels=[['Faturamento','fatBruto'],['(-) Impostos / Deduções','impostosDeducoes'],['Receita Líquida','recLiquida'],['(-) Custos Variáveis de Produção','cVariavel'],['Margem de Contribuição Bruta','margemContrib'],['(-) Custos Fixos Industriais','cFixoFabril'],['Resultado Bruto Industrial','resFabril'],['(-) Despesas Fixas Operacionais','dFichaAdmin'],['(-) Perdas / Sobra M.O.','sobraMaoObra'],['(-) Retiradas Sócios / Pró-Labore','retSocios'],['RESULTADO LÍQUIDO FINAL','resLiquido']];
                 const head=r.dreCompare?['Linha','Período Atual','Comparativo','Variação']:['Linha','Período Atual'];
                 const body=labels.map(([lab,key])=>{const a=r.dreAtiva[key]||0;if(!r.dreCompare)return[lab,v50PdfMoeda(a)];const c=r.dreCompare[key]||0;const vp=c!==0?((a-c)/Math.abs(c))*100:0;return[lab,v50PdfMoeda(a),v50PdfMoeda(c),(vp>=0?'+':'')+v50PdfNumero(vp,1)+'%'];});
                 doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[head],body,theme:'grid',styles:{fontSize:7.2,cellPadding:1.8,overflow:'linebreak'},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:r.dreCompare?{1:{halign:'right'},2:{halign:'right'},3:{halign:'right'}}:{1:{halign:'right'}},didParseCell:d=>{if(d.section==='body'&&d.row.index===10){d.cell.styles.fontStyle='bold';d.cell.styles.fillColor=[232,247,240];d.cell.styles.textColor=green;}}}); y=doc.lastAutoTable.finalY+7;
@@ -5659,12 +5696,13 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 const blue = [55, 110, 210];
                 const generatedAt = new Date();
                 const logo = await v50LogoDataURL();
+                const logoDim = v50PdfLogoDimensions(50, 11);
 
                 const addHeader = (pageNo) => {
                     doc.setFillColor(...dark);
                     doc.rect(0, 0, pageW, 23, 'F');
                     if (logo) {
-                        try { doc.addImage(logo, 'PNG', marginX, 5, 50, 11, undefined, 'FAST'); } catch(e) {}
+                        try { doc.addImage(logo, 'PNG', marginX, 5, logoDim.w, logoDim.h, undefined, 'FAST'); } catch(e) {}
                     } else {
                         doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(13);
                         doc.text('CONSULTORIA.RF', marginX, 13);
