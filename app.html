@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.8 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.8">
+    <title>CONSULTORIA.RF V5.2.9 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.9">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1185,7 +1185,7 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
 
 <style id="v528-diagnostico-inteligente">
 /* ================================================================
-   V5.2.8 — DIAGNÓSTICO INTELIGENTE (REGRAS GERENCIAIS)
+   V5.2.9 — DIAGNÓSTICO INTELIGENTE (REGRAS GERENCIAIS)
    Não compara custos entre centros de custo.
    ================================================================ */
 #rf-diag-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
@@ -1214,7 +1214,7 @@ body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.8</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.9</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1250,7 +1250,7 @@ body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.8</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.9</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2084,7 +2084,7 @@ body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065
             </div>
 
 
-            <!-- V5.2.8 — DIAGNÓSTICO INTELIGENTE -->
+            <!-- V5.2.9 — DIAGNÓSTICO INTELIGENTE -->
             <div id="rf-diagnostico-inteligente" class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-brand-border/50 pb-4">
                     <div>
@@ -3707,7 +3707,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.8', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.9', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -3969,6 +3969,256 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 console.error("Erro em carregarPeriodosDoCliente:", e);
                 if(select) select.innerHTML = '<option value="">Erro ao carregar</option>'; 
                 setSyncStatus(false, "Erro API"); 
+            }
+        }
+
+        // ======================================================
+        // V5.2.9 — CONTROLES DE PERÍODO
+        // Corrige os botões "+ Novo / Clonar", "+ Criar / Duplicar Período"
+        // e "Fechar / Reabrir Período", que existiam no HTML sem as funções JS.
+        // ======================================================
+        function rfSugerirNomeNovoPeriodo() {
+            const atual = String(periodoAtivoObj?.TPERIODO_NOME || '').trim();
+            const m = atual.match(/^(\d{4})[.\-_/ ]([12])$/);
+            if (m) {
+                const ano = Number(m[1]);
+                const sem = Number(m[2]);
+                return sem === 1 ? `${ano}.2` : `${ano + 1}.1`;
+            }
+
+            const hoje = new Date();
+            return `${hoje.getFullYear()}.${hoje.getMonth() < 6 ? 1 : 2}`;
+        }
+
+        function rfPayloadPeriodoCompleto(p, overrides = {}) {
+            const obj = { ...(p || {}), ...overrides };
+            return [
+                usuarioLogado.TCLIENTE_ID,
+                obj.TPERIODO_ID || '',
+                obj.TPERIODO_NOME || '',
+                obj.TPERIODO_STATUS || 'ABERTO',
+                obj.TPERIODO_ATUAL || 'NAO',
+                parseFloat(obj.TPERIODO_FATURAMENTO) || 0,
+                parseFloat(obj.TPERIODO_ALIQUOTA) || 0,
+                parseFloat(obj.TPERIODO_PREDIO) || 0,
+                parseFloat(obj.TPERIODO_RENTABILIDADE) || 0,
+                parseFloat(obj.TPERIODO_RETIRADA) || 0,
+                String(obj.TPERIODO_DESCONSIDERAR_DEPRECIACAO || 'NAO').toUpperCase() === 'SIM' ? 'SIM' : 'NAO'
+            ];
+        }
+
+        async function rfBuscarPeriodosClienteDireto() {
+            const res = await fetch(`${API_URL}?action=TPERIODO&_=${Date.now()}`, { cache: 'no-store' });
+            const data = await v49ResponseJSON(res, 'TPERIODO');
+            if (!Array.isArray(data)) return [];
+            return data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+        }
+
+        async function modalCriarNovoPeriodo() {
+            if (!usuarioLogado?.TCLIENTE_ID || !periodoAtivoObj) {
+                alert('Aguarde o carregamento do período atual antes de criar um novo período.');
+                return;
+            }
+
+            const sugestao = rfSugerirNomeNovoPeriodo();
+            const nomeDigitado = prompt(
+                'Informe o nome do novo período.\n\nExemplo: 2026.2',
+                sugestao
+            );
+            if (nomeDigitado === null) return;
+
+            const novoNome = String(nomeDigitado || '').trim().toUpperCase();
+            if (!novoNome) {
+                alert('Informe um nome para o novo período.');
+                return;
+            }
+
+            const duplicado = listaPeriodos.some(p =>
+                String(p.TPERIODO_NOME || '').trim().toUpperCase() === novoNome
+            );
+            if (duplicado) {
+                alert(`Já existe um período chamado ${novoNome}. Use outro nome.`);
+                return;
+            }
+
+            const modo = prompt(
+                `Como deseja criar ${novoNome}?\n\n` +
+                `C = CLONAR o período atual (${String(periodoAtivoObj.TPERIODO_NOME || periodoAtivoObj.TPERIODO_ID).toUpperCase()})\n` +
+                `N = criar um período NOVO e vazio\n\n` +
+                `Digite C ou N:`,
+                'C'
+            );
+            if (modo === null) return;
+
+            const opcao = String(modo || '').trim().toUpperCase();
+            if (!['C', 'N'].includes(opcao)) {
+                alert('Opção inválida. Digite C para clonar ou N para criar vazio.');
+                return;
+            }
+
+            const periodoOrigem = { ...periodoAtivoObj };
+            setSyncStatus(true, opcao === 'C' ? 'Clonando período...' : 'Criando período...');
+
+            try {
+                let payload;
+
+                if (opcao === 'C') {
+                    payload = {
+                        action: 'CLONE_PERIOD',
+                        clienteId: usuarioLogado.TCLIENTE_ID,
+                        periodoOrigemId: periodoOrigem.TPERIODO_ID,
+                        novoNomePeriodo: novoNome
+                    };
+                } else {
+                    payload = {
+                        sheet: 'TPERIODO',
+                        clienteId: usuarioLogado.TCLIENTE_ID,
+                        data: [
+                            usuarioLogado.TCLIENTE_ID,
+                            '',
+                            novoNome,
+                            'ABERTO',
+                            'SIM',
+                            0, 0, 0, 0, 0,
+                            'NAO'
+                        ]
+                    };
+                }
+
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // Como POST para Apps Script é opaco (no-cors), confirmamos a criação
+                // consultando TPERIODO antes de alterar o período anterior.
+                let periodosAtualizados = [];
+                let novoPeriodo = null;
+
+                for (let tentativa = 0; tentativa < 5; tentativa++) {
+                    await new Promise(resolve => setTimeout(resolve, tentativa === 0 ? 900 : 700));
+                    periodosAtualizados = await rfBuscarPeriodosClienteDireto();
+                    const candidatos = periodosAtualizados.filter(p =>
+                        String(p.TPERIODO_NOME || '').trim().toUpperCase() === novoNome
+                    );
+                    if (candidatos.length) {
+                        novoPeriodo = candidatos.sort((a, b) => {
+                            const na = Number(String(a.TPERIODO_ID || '').replace(/\D/g, '')) || 0;
+                            const nb = Number(String(b.TPERIODO_ID || '').replace(/\D/g, '')) || 0;
+                            return nb - na;
+                        })[0];
+                        break;
+                    }
+                }
+
+                if (!novoPeriodo) {
+                    throw new Error('O novo período ainda não apareceu na planilha. Tente novamente em alguns segundos.');
+                }
+
+                // Mantém apenas o novo período como "ATUAL" sem depender da ordem das linhas.
+                if (
+                    periodoOrigem?.TPERIODO_ID &&
+                    String(periodoOrigem.TPERIODO_ID) !== String(novoPeriodo.TPERIODO_ID) &&
+                    String(periodoOrigem.TPERIODO_ATUAL || '').toUpperCase() === 'SIM'
+                ) {
+                    const payloadDesativarOrigem = {
+                        sheet: 'TPERIODO',
+                        action: 'UPDATE_STATUS_PERIODO',
+                        id: periodoOrigem.TPERIODO_ID,
+                        clienteId: usuarioLogado.TCLIENTE_ID,
+                        periodoId: periodoOrigem.TPERIODO_ID,
+                        data: rfPayloadPeriodoCompleto(periodoOrigem, { TPERIODO_ATUAL: 'NAO' })
+                    };
+
+                    await fetch(API_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payloadDesativarOrigem)
+                    });
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+
+                await carregarPeriodosDoCliente();
+
+                const criadoLocal = listaPeriodos.find(p =>
+                    String(p.TPERIODO_ID) === String(novoPeriodo.TPERIODO_ID)
+                );
+                if (criadoLocal) {
+                    periodoAtivoObj = criadoLocal;
+                    const select = document.getElementById('global-periodo-select');
+                    if (select) select.value = criadoLocal.TPERIODO_ID;
+                    atualizarTagsPeriodoHeader();
+                    preencherFormularioConfigPeriodo();
+                    verificarStatusBloqueioPeriodo();
+                    await carregarTudoDoPeriodo();
+                }
+
+                setSyncStatus(false);
+                alert(
+                    opcao === 'C'
+                        ? `Período ${novoNome} criado e clonado com sucesso.`
+                        : `Período ${novoNome} criado com sucesso.`
+                );
+            } catch (e) {
+                console.error('Erro ao criar/clonar período:', e);
+                setSyncStatus(false, 'Erro ao criar período');
+                alert(`Não foi possível criar o período.\n\n${e.message || e}`);
+            }
+        }
+
+        async function alternarStatusPeriodo(periodoId, statusAtual) {
+            const p = listaPeriodos.find(x => String(x.TPERIODO_ID) === String(periodoId));
+            if (!p) {
+                alert('Período não encontrado na lista carregada.');
+                return;
+            }
+
+            const atual = String(statusAtual || p.TPERIODO_STATUS || 'ABERTO').toUpperCase();
+            const novoStatus = atual === 'ABERTO' ? 'FECHADO' : 'ABERTO';
+            const verbo = novoStatus === 'FECHADO' ? 'fechar' : 'reabrir';
+
+            if (!confirm(`Deseja ${verbo} o período ${String(p.TPERIODO_NOME || p.TPERIODO_ID).toUpperCase()}?`)) {
+                return;
+            }
+
+            const payload = {
+                sheet: 'TPERIODO',
+                action: 'UPDATE_STATUS_PERIODO',
+                id: p.TPERIODO_ID,
+                clienteId: usuarioLogado.TCLIENTE_ID,
+                periodoId: p.TPERIODO_ID,
+                data: rfPayloadPeriodoCompleto(p, { TPERIODO_STATUS: novoStatus })
+            };
+
+            setSyncStatus(true, novoStatus === 'FECHADO' ? 'Fechando período...' : 'Reabrindo período...');
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // Atualiza imediatamente a interface e depois reconcilia com a planilha.
+                p.TPERIODO_STATUS = novoStatus;
+                if (periodoAtivoObj && String(periodoAtivoObj.TPERIODO_ID) === String(p.TPERIODO_ID)) {
+                    periodoAtivoObj.TPERIODO_STATUS = novoStatus;
+                }
+                renderizarTabelaPeriodosHist();
+                atualizarTagsPeriodoHeader();
+                verificarStatusBloqueioPeriodo();
+
+                await new Promise(resolve => setTimeout(resolve, 800));
+                await carregarPeriodosDoCliente();
+                setSyncStatus(false);
+            } catch (e) {
+                console.error('Erro ao alterar status do período:', e);
+                setSyncStatus(false, 'Erro no período');
+                alert(`Não foi possível ${verbo} o período.`);
             }
         }
 
@@ -5505,7 +5755,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.8 — MOTOR DE DIAGNÓSTICO INTELIGENTE
+        // V5.2.9 — MOTOR DE DIAGNÓSTICO INTELIGENTE
         // Regras determinísticas usando somente números já calculados no sistema.
         // Não compara custo-hora/custos entre centros de custo.
         // ======================================================
@@ -5836,7 +6086,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
             if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
 
-            // V5.2.8 — gera diagnóstico somente com os números já calculados acima.
+            // V5.2.9 — gera diagnóstico somente com os números já calculados acima.
             const rfV528Diagnosticos = rfV528GerarDiagnosticos(
                 dreAtiva, dreCompare, investimentoTotal, pontoEquilibrio, rentabilidadeAtualPct
             );
