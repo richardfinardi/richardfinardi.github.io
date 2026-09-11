@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.13 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.13">
+    <title>CONSULTORIA.RF V5.2.14 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.14">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1185,7 +1185,7 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
 
 <style id="v5210-diagnostico-inteligente">
 /* ================================================================
-   V5.2.13 — DIAGNÓSTICO AUTOMÁTICO COMPACTO + HISTÓRICO
+   V5.2.14 — DIAGNÓSTICO AUTOMÁTICO COMPACTO + HISTÓRICO
    Recolhido por padrão. Não compara custos entre centros de custo.
    ================================================================ */
 #rf-diagnostico-inteligente { overflow:hidden; }
@@ -1246,7 +1246,7 @@ body.light-mode .rf-diag-calculo { background:#f8fafc !important; }
 
 <style id="v5211-historico-evolucao">
 /* ================================================================
-   V5.2.13 — EVOLUÇÃO HISTÓRICA
+   V5.2.14 — EVOLUÇÃO HISTÓRICA
    Somente períodos anteriores reais. Visual de tendência + comparação.
    ================================================================ */
 .rf-history-reading {
@@ -1308,65 +1308,70 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
 }
 </style>
 
+
+<style id="v5214-resultados-pdf-layout">
+/* ================================================================
+   V5.2.14 — RESULTADOS: KPIs SEM QUEBRA + PDF MAIS ESTÁVEL
+   ================================================================ */
+.rf-result-kpi-grid > div { min-width:0; }
+.rf-result-kpi-value {
+    white-space:nowrap !important;
+    overflow:visible;
+    text-overflow:clip;
+    font-size:clamp(1rem,1.45vw,1.25rem) !important;
+    line-height:1.25 !important;
+}
+@media (min-width:1536px) {
+    .rf-result-kpi-value { font-size:1.08rem !important; }
+}
+@media (max-width:640px) {
+    .rf-result-kpi-value { overflow:visible; text-overflow:clip; font-size:1.08rem !important; }
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
-<!-- CABEÇALHO -->
-<header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
-    <div class="flex items-center gap-2 md:gap-3">
-        <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-        <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.13</span>
-        <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
-    </div>
+    <!-- CABEÇALHO -->
+    <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
+        <div class="flex items-center gap-2 md:gap-3">
+            <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.14</span>
+            <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
+        </div>
 
-    <div id="sync-indicator" class="hidden items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold transition-all">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span id="sync-text">Conectado</span>
-    </div>
+        <div id="sync-indicator" class="hidden items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold transition-all">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="sync-text">Conectado</span>
+        </div>
 
-    <div id="wrapper-admin-cliente-global" class="hidden flex items-center gap-2 bg-[#16161a] p-1.5 rounded-lg border border-brand-border">
-        <span class="text-xs text-brand-muted pl-1">Empresa:</span>
-        <select id="admin-cliente-global-select"
-                onchange="trocarClienteAdmin()"
-                class="bg-[#0d0d0f] text-white text-xs font-bold p-1.5 rounded border border-brand-border outline-none max-w-[230px] truncate">
-            <option value="">Carregando...</option>
-        </select>
-    </div>
+        <div id="wrapper-admin-cliente-global" class="hidden flex items-center gap-2 bg-[#16161a] p-1.5 rounded-lg border border-brand-border">
+            <span class="text-xs text-brand-muted pl-1">Empresa:</span>
+            <select id="admin-cliente-global-select" onchange="trocarClienteAdmin()" class="bg-[#0d0d0f] text-white text-xs font-bold p-1.5 rounded border border-brand-border outline-none max-w-[230px] truncate">
+                <option value="">Carregando...</option>
+            </select>
+        </div>
 
-    <div id="wrapper-periodo-global" class="hidden flex items-center gap-2 bg-[#16161a] p-1.5 rounded-lg border border-brand-border">
-        <span class="text-xs text-brand-muted pl-1">Período Ativo:</span>
+        <div id="wrapper-periodo-global" class="hidden flex items-center gap-2 bg-[#16161a] p-1.5 rounded-lg border border-brand-border">
+            <span class="text-xs text-brand-muted pl-1">Período Ativo:</span>
+            <select id="global-periodo-select" onchange="trocarPeriodoAtivo()" class="bg-[#0d0d0f] text-white text-xs font-bold p-1.5 rounded border border-brand-border outline-none max-w-[220px] truncate">
+                <option value="">Carregando...</option>
+            </select>
+        </div>
 
-        <select id="global-periodo-select"
-                onchange="trocarPeriodoAtivo()"
-                class="bg-[#0d0d0f] text-white text-xs font-bold p-1.5 rounded border border-brand-border outline-none max-w-[220px] truncate">
-            <option value="">Carregando...</option>
-        </select>
-    </div>
+        <div id="user-menu" class="hidden flex items-center gap-3">
+            <span class="text-xs md:text-sm text-brand-muted"><strong class="text-white uppercase" id="user-display-name">---</strong></span>
+            <button id="btn-install-app" onclick="instalarAppRF()" class="text-xs bg-slate-700 border border-slate-600 hover:bg-slate-600 text-white px-2.5 py-1 rounded-lg transition font-semibold" title="Instalar CONSULTORIA.RF neste dispositivo">⬇ Instalar App</button>
+            <button onclick="deslogar()" class="text-xs bg-red-950/50 border border-red-800/50 hover:bg-red-900 text-red-200 px-2.5 py-1 rounded-lg transition font-semibold">Sair</button>
+        </div>
+    </header>
 
-    <div id="user-menu" class="hidden flex items-center gap-3">
-        <span class="text-xs md:text-sm text-brand-muted">
-            <strong class="text-white uppercase" id="user-display-name">---</strong>
-        </span>
-
-        <button id="btn-install-app"
-                onclick="instalarAppRF()"
-                class="text-xs bg-slate-700 border border-slate-600 hover:bg-slate-600 text-white px-2.5 py-1 rounded-lg transition font-semibold"
-                title="Instalar CONSULTORIA.RF neste dispositivo">
-            ⬇ Instalar App
-        </button>
-
-        <button onclick="deslogar()"
-                class="text-xs bg-red-950/50 border border-red-800/50 hover:bg-red-900 text-red-200 px-2.5 py-1 rounded-lg transition font-semibold">
-            Sair
-        </button>
-    </div>
-</header>
     <!-- TELA DE LOGIN -->
     <div id="login-screen" class="flex-1 flex items-center justify-center p-4">
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.13</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.14</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2162,46 +2167,46 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
                 <button type="button" onclick="gerarPDFAnaliseGeral(event)" class="bg-brand-primary hover:bg-brand-hover text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-lg shadow-brand-primary/20 whitespace-nowrap">📄 Gerar PDF da Análise</button>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+            <div class="rf-result-kpi-grid grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6 gap-4">
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Investimento Total</span>
-                    <h3 id="res-card-investimento-total" class="text-lg md:text-xl font-extrabold text-white">R$ 0,00</h3>
+                    <h3 id="res-card-investimento-total" class="rf-result-kpi-value text-lg md:text-xl font-extrabold text-white">R$ 0,00</h3>
                     <p class="text-[10px] text-brand-muted">Prédio + Máquinas + Período</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Ponto de Equilíbrio</span>
-                    <h3 id="res-card-ponto-equilibrio" class="text-lg md:text-xl font-extrabold text-brand-primary">R$ 0,00</h3>
+                    <h3 id="res-card-ponto-equilibrio" class="rf-result-kpi-value text-lg md:text-xl font-extrabold text-brand-primary">R$ 0,00</h3>
                     <p class="text-[10px] text-brand-muted">Faturamento para resultado líquido = zero</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Ponto de Equilíbrio Econômico</span>
-                    <h3 id="res-card-ponto-equilibrio-economico" class="text-lg md:text-xl font-extrabold text-orange-400">R$ 0,00</h3>
+                    <h3 id="res-card-ponto-equilibrio-economico" class="rf-result-kpi-value text-lg md:text-xl font-extrabold text-orange-400">R$ 0,00</h3>
                     <p class="text-[10px] text-brand-muted">Inclui a rentabilidade esperada</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Despesas Fixas Operacionais / Fat.</span>
-                    <h3 id="res-card-pct-despesa-fixa" class="text-lg md:text-xl font-extrabold text-amber-400">0,0%</h3>
+                    <h3 id="res-card-pct-despesa-fixa" class="rf-result-kpi-value text-lg md:text-xl font-extrabold text-amber-400">0,0%</h3>
                     <p class="text-[10px] text-brand-muted">Administrativo + Vendas + Financeiro</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Rentabilidade Atual</span>
-                    <h3 id="res-card-rentabilidade-atual" class="text-lg md:text-xl font-extrabold text-emerald-400">0,0% a.m.</h3>
+                    <h3 id="res-card-rentabilidade-atual" class="rf-result-kpi-value text-lg md:text-xl font-extrabold text-emerald-400">0,0% a.m.</h3>
                     <p class="text-[10px] text-brand-muted">Resultado Líquido / Investimento Total</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Payback Estimado</span>
-                    <h3 id="res-card-payback" class="text-lg md:text-xl font-extrabold text-blue-400">0 meses</h3>
+                    <h3 id="res-card-payback" class="rf-result-kpi-value text-lg md:text-xl font-extrabold text-blue-400">0 meses</h3>
                     <p class="text-[10px] text-brand-muted">Retorno do Investimento</p>
                 </div>
             </div>
 
 
-            <!-- V5.2.13 — DIAGNÓSTICO AUTOMÁTICO COMPACTO -->
+            <!-- V5.2.14 — DIAGNÓSTICO AUTOMÁTICO COMPACTO -->
             <div id="rf-diagnostico-inteligente" class="bg-brand-card px-4 py-3 rounded-xl border border-brand-border">
                 <div class="rf-diag-compact-header">
                     <div class="rf-diag-compact-title">
@@ -2509,7 +2514,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         let entidadeGradeAtiva = "";
 
         // ======================================================
-        // V5.2.13 — ESTADO DE EDIÇÃO RESILIENTE / ANTI-DUPLICAÇÃO
+        // V5.2.14 — ESTADO DE EDIÇÃO RESILIENTE / ANTI-DUPLICAÇÃO
         // ======================================================
         // Antes, cada formulário dependia exclusivamente de um input hidden para
         // decidir entre UPDATE e CREATE. Se esse hidden fosse limpo/recriado por
@@ -3949,7 +3954,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.13', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.14', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -4223,7 +4228,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         // ======================================================
-        // V5.2.13 — CONTROLES DE PERÍODO
+        // V5.2.14 — CONTROLES DE PERÍODO
         // Corrige os botões "+ Novo / Clonar", "+ Criar / Duplicar Período"
         // e "Fechar / Reabrir Período", que existiam no HTML sem as funções JS.
         // ======================================================
@@ -6024,7 +6029,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.13 — MOTOR DE DIAGNÓSTICO AUTOMÁTICO
+        // V5.2.14 — MOTOR DE DIAGNÓSTICO AUTOMÁTICO
         // Regras determinísticas usando somente números já calculados no sistema.
         // Não compara custo-hora/custos entre centros de custo.
         // ======================================================
@@ -6053,7 +6058,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         function rfV5210PeriodoOrdem(p) {
-            // V5.2.13 — a ordem histórica NÃO usa o nome do período.
+            // V5.2.14 — a ordem histórica NÃO usa o nome do período.
             // O cliente pode nomear livremente; a sequência é determinada apenas pelo ID gerado pelo sistema.
             const rawId = String(p?.TPERIODO_ID || '').trim().toUpperCase();
             const m = rawId.match(/(\d+)$/);
@@ -6065,7 +6070,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const ativoId = String(periodoAtivoObj.TPERIODO_ID || '');
             const ordemAtiva = rfV5210PeriodoOrdem(periodoAtivoObj);
 
-            // Regra V5.2.13: se não houver ordem confiável, NÃO compara automaticamente.
+            // Regra V5.2.14: se não houver ordem confiável, NÃO compara automaticamente.
             // Isso evita usar um período superior/futuro como histórico do período atual.
             if (ordemAtiva === null) return [];
 
@@ -6458,7 +6463,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         async function gerarAnalisesEResultadosCore() {
             if (!periodoAtivoObj) return;
 
-            const periodoCompareId = ""; // V5.2.13: comparativo manual removido; histórico é automático.
+            const periodoCompareId = ""; // V5.2.14: comparativo manual removido; histórico é automático.
             const periodDisplay = document.getElementById('dre-period-display');
             if(periodDisplay) periodDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
 
@@ -6539,7 +6544,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const dreAtiva = calcPeriodoDRE(periodoAtivoObj, listaCC, listaPlanoContas, listaFuncionarios);
             let dreCompare = periodoCompareObj ? calcPeriodoDRE(periodoCompareObj, listaCCCompare, listaPlanoCompare, listaFuncCompare) : null;
 
-            // V5.2.13 — histórico automático: compara o atual somente com períodos realmente anteriores; superiores/futuros são ignorados.
+            // V5.2.14 — histórico automático: compara o atual somente com períodos realmente anteriores; superiores/futuros são ignorados.
             const periodosAnteriores = rfV5210PeriodosAnteriores();
             let historicoDRE = [];
             if (periodosAnteriores.length) {
@@ -6681,7 +6686,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
             if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
 
-            // V5.2.13 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
+            // V5.2.14 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
             const dreAnteriorMaisRecente = historicoDRE.length ? historicoDRE[0].dre : null;
             const rfV5210Diagnosticos = rfV528GerarDiagnosticos(
                 dreAtiva, dreAnteriorMaisRecente, investimentoTotal, pontoEquilibrioEconomico, rentabilidadeAtualPct, pontoEquilibrio
@@ -7204,43 +7209,162 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
                 const W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight(), mx=14, cw=W-mx*2;
-                const orange=[255,132,54], dark=[28,31,38], gray=[100,108,120], green=[14,145,105], red=[205,70,70], blue=[55,110,210];
+                const orange=[255,132,54], dark=[28,31,38], gray=[100,108,120], green=[14,145,105], red=[205,70,70], blue=[55,110,210], amber=[230,160,25];
                 const logo=await v50LogoDataURL(), logoDim=v50PdfLogoDimensions(48,12), now=new Date();
-                const header=()=>{ doc.setFillColor(...dark);doc.rect(0,0,W,25,'F'); if(logo) try{doc.addImage(logo,'PNG',mx,5,logoDim.w,logoDim.h,undefined,'FAST')}catch(e){} doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('RELATÓRIO DE ANÁLISE GERENCIAL',W-mx,9,{align:'right'});doc.setFontSize(7.3);doc.setFont('helvetica','normal');doc.text(`${r.empresa || '-'}  •  CNPJ: ${r.cnpj || '-'}`,W-mx,15,{align:'right'});doc.text(`Período: ${r.periodo || '-'}`,W-mx,20,{align:'right'}); };
-                const footer=(n,t)=>{doc.setDrawColor(210);doc.line(mx,H-12,W-mx,H-12);doc.setTextColor(...gray);doc.setFontSize(7);doc.text(`CONSULTORIA.RF • Gerado em ${now.toLocaleString('pt-BR')}`,mx,H-7);doc.text(`Página ${n} de ${t}`,W-mx,H-7,{align:'right'});};
-                const section=(title,y)=>{if(y>H-35){doc.addPage();header();y=32;}doc.setFillColor(255,245,237);doc.roundedRect(mx,y,cw,8,1.5,1.5,'F');doc.setTextColor(...orange);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(title,mx+3,y+5.3);return y+11;};
+                const header=()=>{
+                    doc.setFillColor(...dark); doc.rect(0,0,W,25,'F');
+                    if(logo) try{doc.addImage(logo,'PNG',mx,5,logoDim.w,logoDim.h,undefined,'FAST')}catch(e){}
+                    doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(12);
+                    doc.text('RELATÓRIO DE ANÁLISE GERENCIAL',W-mx,9,{align:'right'});
+                    doc.setFontSize(7.3); doc.setFont('helvetica','normal');
+                    doc.text(`${r.empresa || '-'}  •  CNPJ: ${r.cnpj || '-'}`,W-mx,15,{align:'right'});
+                    doc.text(`Período: ${r.periodo || '-'}`,W-mx,20,{align:'right'});
+                };
+                const footer=(n,t)=>{
+                    doc.setDrawColor(210); doc.line(mx,H-12,W-mx,H-12);
+                    doc.setTextColor(...gray); doc.setFontSize(7);
+                    doc.text(`CONSULTORIA.RF • Gerado em ${now.toLocaleString('pt-BR')}`,mx,H-7);
+                    doc.text(`Página ${n} de ${t}`,W-mx,H-7,{align:'right'});
+                };
+                const newPage=()=>{ doc.addPage(); header(); return 32; };
+                const ensure=(y,needed)=> (y + needed > H - 18 ? newPage() : y);
+                const section=(title,y,needed=18)=>{
+                    y=ensure(y,needed);
+                    doc.setFillColor(255,245,237); doc.roundedRect(mx,y,cw,8,1.5,1.5,'F');
+                    doc.setTextColor(...orange); doc.setFont('helvetica','bold'); doc.setFontSize(9);
+                    doc.text(title,mx+3,y+5.3);
+                    return y+11;
+                };
+                const money=v=>v50PdfMoeda(v);
+                const pct=(v,c=1)=>`${v50PdfNumero(v,c)}%`;
+                const varPct=(atual,anterior)=> Number(anterior||0)!==0 ? ((Number(atual||0)-Number(anterior||0))/Math.abs(Number(anterior||0)))*100 : null;
+                const fmtVar=v=>v===null?'—':`${v>=0?'+':''}${v50PdfNumero(v,1)}%`;
+                const fmtPP=v=>`${v>=0?'+':''}${v50PdfNumero(v,1)} p.p.`;
+                const drawMetricCard=(x,y,w,h,label,value,sub,delta,deltaGood=true)=>{
+                    doc.setFillColor(250,250,251); doc.setDrawColor(224,226,231); doc.roundedRect(x,y,w,h,2,2,'FD');
+                    doc.setTextColor(...gray); doc.setFont('helvetica','bold'); doc.setFontSize(6.4); doc.text(String(label).toUpperCase(),x+3,y+5);
+                    doc.setTextColor(...dark); doc.setFontSize(10); doc.text(String(value),x+3,y+11.2,{maxWidth:w-6});
+                    doc.setFont('helvetica','normal'); doc.setFontSize(6.1); doc.setTextColor(...gray); doc.text(String(sub||''),x+3,y+h-4.2,{maxWidth:w-24});
+                    if(delta){
+                        const bad = deltaGood === false;
+                        doc.setFont('helvetica','bold'); doc.setFontSize(6.3); doc.setTextColor(...(bad?red:green));
+                        doc.text(String(delta),x+w-3,y+h-4.2,{align:'right'});
+                    }
+                };
+                const drawHistoryPeriod=(item,y)=>{
+                    const d=item.dre||{};
+                    const fatA=Number(r.dreAtiva.fatBruto||0), resA=Number(r.dreAtiva.resLiquido||0), gastosA=fatA-resA, margemA=fatA?(resA/fatA*100):0;
+                    const fat=Number(d.fatBruto||0), res=Number(d.resLiquido||0), gastos=fat-res, margem=fat?(res/fat*100):0;
+                    const vf=varPct(fatA,fat), vg=varPct(gastosA,gastos), vr=varPct(resA,res), dm=margemA-margem;
+                    const boxH=35; y=ensure(y,boxH+5);
+                    doc.setFillColor(252,252,253); doc.setDrawColor(222,225,230); doc.roundedRect(mx,y,cw,boxH,2,2,'FD');
+                    doc.setTextColor(...dark); doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.text(item.periodo||'PERÍODO ANTERIOR',mx+3,y+5.5);
+                    doc.setFont('helvetica','normal'); doc.setFontSize(5.8); doc.setTextColor(...gray); doc.text(`comparado com ${r.periodo||'período atual'}`,mx+3,y+9.2);
+                    doc.setDrawColor(230); doc.line(mx,y+12,cw+mx,y+12);
+                    const colW=cw/4;
+                    const vals=[
+                        ['FATURAMENTO',money(fat),fmtVar(vf),vf===null||vf>=0],
+                        ['GASTOS',money(gastos),fmtVar(vg),vg===null||vg<=0],
+                        ['RESULTADO',money(res),fmtVar(vr),vr===null||vr>=0],
+                        ['MARGEM',pct(margem,1),fmtPP(dm),dm>=0]
+                    ];
+                    vals.forEach((v,i)=>{
+                        const x=mx+i*colW;
+                        if(i>0){doc.setDrawColor(232);doc.line(x,y+12,x,y+boxH);}
+                        doc.setTextColor(...gray); doc.setFont('helvetica','bold'); doc.setFontSize(5.8); doc.text(v[0],x+3,y+17);
+                        doc.setTextColor(...dark); doc.setFontSize(7.7); doc.text(v[1],x+3,y+22.5,{maxWidth:colW-6});
+                        doc.setTextColor(...(v[3]?green:red)); doc.setFontSize(5.9); doc.text(`${v[2]} até o atual`,x+3,y+28.5,{maxWidth:colW-6});
+                    });
+                    return y+boxH+5;
+                };
+
                 header(); let y=32;
-                doc.setTextColor(...dark);doc.setFont('helvetica','bold');doc.setFontSize(15);doc.text('Visão Geral do Período',mx,y); y+=7;
-                if(r.semDepreciacao){doc.setFillColor(255,247,237);doc.setDrawColor(...orange);doc.roundedRect(mx,y,cw,9,1.5,1.5,'FD');doc.setTextColor(...orange);doc.setFontSize(8);doc.text('ATENÇÃO: este período está configurado para DESCONSIDERAR DEPRECIAÇÃO nos cálculos.',mx+3,y+5.8);y+=13;}
+                doc.setTextColor(...dark); doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.text('Visão Geral do Período',mx,y); y+=7;
+                if(r.semDepreciacao){
+                    y=ensure(y,13); doc.setFillColor(255,247,237); doc.setDrawColor(...orange); doc.roundedRect(mx,y,cw,9,1.5,1.5,'FD');
+                    doc.setTextColor(...orange); doc.setFontSize(8); doc.text('ATENÇÃO: este período está configurado para DESCONSIDERAR DEPRECIAÇÃO nos cálculos.',mx+3,y+5.8); y+=13;
+                }
                 const k=r.kpis;
-                doc.autoTable({startY:y,margin:{left:mx,right:mx},head:[['Indicador','Resultado']],body:[['Investimento Total',v50PdfMoeda(k.investimentoTotal)],['Ponto de Equilíbrio',v50PdfMoeda(k.pontoEquilibrio)],['Ponto de Equilíbrio Econômico',v50PdfMoeda(k.pontoEquilibrioEconomico)],['Despesas Fixas Operacionais / Faturamento',v50PdfNumero(k.pctDespesaFixaTotal,1)+'%'],['Rentabilidade Atual',v50PdfNumero(k.rentabilidadeAtualPct,2)+'% a.m.'],['Payback Estimado',k.paybackMeses>0?v50PdfNumero(k.paybackMeses,1)+' meses':'N/A']],theme:'grid',styles:{fontSize:8,cellPadding:2.2},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{1:{halign:'right',fontStyle:'bold'}}}); y=doc.lastAutoTable.finalY+7;
+                doc.autoTable({
+                    startY:y, margin:{left:mx,right:mx,bottom:18}, pageBreak:'avoid', rowPageBreak:'avoid',
+                    head:[['Indicador','Resultado']],
+                    body:[['Investimento Total',money(k.investimentoTotal)],['Ponto de Equilíbrio',money(k.pontoEquilibrio)],['Ponto de Equilíbrio Econômico',money(k.pontoEquilibrioEconomico)],['Despesas Fixas Operacionais / Faturamento',pct(k.pctDespesaFixaTotal,1)],['Rentabilidade Atual',pct(k.rentabilidadeAtualPct,2)+' a.m.'],['Payback Estimado',k.paybackMeses>0?v50PdfNumero(k.paybackMeses,1)+' meses':'N/A']],
+                    theme:'grid', styles:{fontSize:8,cellPadding:2.2,overflow:'ellipsize'}, headStyles:{fillColor:dark,textColor:[255,255,255]},
+                    columnStyles:{0:{cellWidth:105},1:{cellWidth:77,halign:'right',fontStyle:'bold',overflow:'visible'}}
+                }); y=doc.lastAutoTable.finalY+7;
 
                 if (r.diagnostico) {
-                    y=section('DIAGNÓSTICO AUTOMÁTICO',y);
-                    doc.setTextColor(...dark);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text(`Saúde econômica: ${r.diagnostico.score}/100 — ${r.diagnostico.classificacao}`,mx,y); y+=5;
-                    doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(...gray);doc.text(`Pontuação ponderada: ${v50PdfNumero(r.diagnostico.pontos,1)} de ${v50PdfNumero(r.diagnostico.pesoAvaliado,0)} pontos.`,mx,y); y+=4;
+                    y=section('DIAGNÓSTICO AUTOMÁTICO',y,54);
+                    doc.setTextColor(...dark); doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.text(`Saúde econômica: ${r.diagnostico.score}/100 — ${r.diagnostico.classificacao}`,mx,y); y+=5;
+                    doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...gray); doc.text(`Pontuação ponderada: ${v50PdfNumero(r.diagnostico.pontos,1)} de ${v50PdfNumero(r.diagnostico.pesoAvaliado,0)} pontos.`,mx,y); y+=4;
                     const nivelPdf={PRIORIDADE:'PRIORIDADE',CRITICO:'CRÍTICO',ATENCAO:'ATENÇÃO',SAUDAVEL:'SAUDÁVEL'};
-                    doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[['Indicador','Nível','Leitura','Ação sugerida']],body:(r.diagnostico.indicadores||[]).map(d=>[d.titulo,nivelPdf[d.nivel]||d.nivel,d.valorTexto,d.sugestao]),theme:'grid',styles:{fontSize:6.6,cellPadding:1.7,overflow:'linebreak'},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{1:{fontStyle:'bold'},2:{halign:'right'}}}); y=doc.lastAutoTable.finalY+7;
+                    doc.autoTable({
+                        startY:y,margin:{left:mx,right:mx,bottom:18},rowPageBreak:'avoid',
+                        head:[['Indicador','Nível','Leitura','Ação sugerida']],
+                        body:(r.diagnostico.indicadores||[]).map(d=>[d.titulo,nivelPdf[d.nivel]||d.nivel,d.valorTexto,d.sugestao]),
+                        theme:'grid',styles:{fontSize:6.5,cellPadding:1.7,overflow:'linebreak'},headStyles:{fillColor:dark,textColor:[255,255,255]},
+                        columnStyles:{0:{cellWidth:42},1:{cellWidth:23,fontStyle:'bold'},2:{cellWidth:32,halign:'right'},3:{cellWidth:85}}
+                    }); y=doc.lastAutoTable.finalY+7;
                 }
 
-                y=section('DRE GERENCIAL',y);
+                // DRE inteira na mesma página sempre que couber.
+                y=section('DRE GERENCIAL',y,92);
                 const labels=[['Faturamento','fatBruto'],['(-) Impostos / Deduções','impostosDeducoes'],['Receita Líquida','recLiquida'],['(-) Custos Variáveis de Produção','cVariavel'],['Margem de Contribuição Bruta','margemContrib'],['(-) Custos Fixos Industriais','cFixoFabril'],['Resultado Bruto Industrial','resFabril'],['(-) Despesas Fixas Operacionais','dFichaAdmin'],['(-) Perdas / Sobra M.O.','sobraMaoObra'],['(-) Retiradas Sócios / Pró-Labore','retSocios'],['RESULTADO LÍQUIDO FINAL','resLiquido']];
-                const head=['Linha','Período Atual'];
-                const body=labels.map(([lab,key])=>[lab,v50PdfMoeda(r.dreAtiva[key]||0)]);
-                doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[head],body,theme:'grid',styles:{fontSize:7.2,cellPadding:1.8,overflow:'linebreak'},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{1:{halign:'right'}},didParseCell:d=>{if(d.section==='body'&&d.row.index===10){d.cell.styles.fontStyle='bold';d.cell.styles.fillColor=[232,247,240];d.cell.styles.textColor=green;}}}); y=doc.lastAutoTable.finalY+7;
+                const body=labels.map(([lab,key])=>[lab,money(r.dreAtiva[key]||0)]);
+                doc.autoTable({
+                    startY:y,margin:{left:mx,right:mx,bottom:18},pageBreak:'avoid',rowPageBreak:'avoid',
+                    head:[['Linha','Período Atual']],body,theme:'grid',
+                    styles:{fontSize:7.1,cellPadding:1.8,overflow:'ellipsize'},headStyles:{fillColor:dark,textColor:[255,255,255]},
+                    columnStyles:{0:{cellWidth:120},1:{cellWidth:62,halign:'right',overflow:'visible'}},
+                    didParseCell:d=>{if(d.section==='body'&&d.row.index===10){d.cell.styles.fontStyle='bold';d.cell.styles.fillColor=[232,247,240];d.cell.styles.textColor=green;}}
+                }); y=doc.lastAutoTable.finalY+7;
+
                 if (Array.isArray(r.historico) && r.historico.length) {
-                    y=section('EVOLUÇÃO HISTÓRICA AUTOMÁTICA',y);
-                    const margemAtualPdf = r.dreAtiva.fatBruto ? (r.dreAtiva.resLiquido / r.dreAtiva.fatBruto) * 100 : 0;
-                    doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[['Período anterior','Faturamento','Gastos','Resultado','Margem','Δ Resultado até atual']],body:r.historico.map(h=>{const d=h.dre||{};const gastos=(d.fatBruto||0)-(d.resLiquido||0);const margem=(d.fatBruto||0)?((d.resLiquido||0)/(d.fatBruto||0))*100:0;const vr=(d.resLiquido||0)!==0?(((r.dreAtiva.resLiquido-(d.resLiquido||0))/Math.abs(d.resLiquido||0))*100):0;return[h.periodo,v50PdfMoeda(d.fatBruto||0),v50PdfMoeda(gastos),v50PdfMoeda(d.resLiquido||0),v50PdfNumero(margem,1)+'%',(vr>=0?'+':'')+v50PdfNumero(vr,1)+'%'];}),theme:'striped',styles:{fontSize:6.5,cellPadding:1.6},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{1:{halign:'right'},2:{halign:'right'},3:{halign:'right'},4:{halign:'right'},5:{halign:'right'}}}); y=doc.lastAutoTable.finalY+7;
+                    // Mesmo desenho lógico da tela: atual x anterior mais próximo + cards detalhados.
+                    y=section('EVOLUÇÃO HISTÓRICA AUTOMÁTICA',y,65);
+                    const h0=r.historico[0], d0=h0.dre||{};
+                    const fatA=Number(r.dreAtiva.fatBruto||0), resA=Number(r.dreAtiva.resLiquido||0), gastosA=fatA-resA, margemA=fatA?(resA/fatA*100):0;
+                    const fat0=Number(d0.fatBruto||0), res0=Number(d0.resLiquido||0), gastos0=fat0-res0, margem0=fat0?(res0/fat0*100):0;
+                    const vf=varPct(fatA,fat0), vg=varPct(gastosA,gastos0), vr=varPct(resA,res0), dm=margemA-margem0;
+                    const gap=3, cardW=(cw-gap*3)/4, cardH=25;
+                    y=ensure(y,cardH+5);
+                    drawMetricCard(mx,y,cardW,cardH,'Faturamento atual',money(fatA),`Anterior: ${money(fat0)}`,fmtVar(vf),vf===null||vf>=0);
+                    drawMetricCard(mx+(cardW+gap),y,cardW,cardH,'Gastos atuais',money(gastosA),`Anterior: ${money(gastos0)}`,fmtVar(vg),vg===null||vg<=0);
+                    drawMetricCard(mx+2*(cardW+gap),y,cardW,cardH,'Resultado atual',money(resA),`Anterior: ${money(res0)}`,fmtVar(vr),vr===null||vr>=0);
+                    drawMetricCard(mx+3*(cardW+gap),y,cardW,cardH,'Margem atual',pct(margemA,1),`Anterior: ${pct(margem0,1)}`,fmtPP(dm),dm>=0);
+                    y+=cardH+7;
+                    doc.setTextColor(...dark); doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.text('Comparação detalhada com o período atual',mx,y); y+=4;
+                    for(const item of r.historico) y=drawHistoryPeriod(item,y);
                 }
 
-                y=section(`CUSTO-HORA — CENTROS PRODUTIVOS DIRETOS (${r.custoHora.length})`,y);
-                doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[['Centro de Custo','Rateio','Horas Finais','Custo Total','Custo-Hora']],body:r.custoHora.map(x=>[x.nome,x.rateio,v50PdfNumero(x.horas,1)+' h',v50PdfMoeda(x.total),v50PdfMoeda(x.custoHora)+'/h']),theme:'striped',styles:{fontSize:6.8,cellPadding:1.8},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{2:{halign:'right'},3:{halign:'right'},4:{halign:'right',fontStyle:'bold',textColor:green}}}); y=doc.lastAutoTable.finalY+7;
-                y=section('RANKING GERAL DE IMPACTO DOS SETORES',y);
-                doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[['Pos.','Centro de Custo','Tipo','Custo Total']],body:r.ranking.map(x=>[x.pos+'º',x.nome,x.tipo,v50PdfMoeda(x.custo)]),theme:'striped',styles:{fontSize:7,cellPadding:1.8},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{0:{halign:'center',fontStyle:'bold'},3:{halign:'right',fontStyle:'bold'}}});
-                const pages=doc.internal.getNumberOfPages();for(let i=1;i<=pages;i++){doc.setPage(i);if(i>1)header();footer(i,pages);}
-                const safe=String(r.periodo||'periodo').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_');doc.save(`CONSULTORIA_RF_ANALISE_${safe}.pdf`);
-            } catch(err){console.error(err);alert('Não foi possível gerar o PDF da análise. '+(err.message||err));} finally {if(btn){btn.disabled=false;btn.innerHTML=original;}}
+                y=section(`CUSTO-HORA — CENTROS PRODUTIVOS DIRETOS (${r.custoHora.length})`,y,40);
+                doc.autoTable({
+                    startY:y,margin:{left:mx,right:mx,bottom:18},rowPageBreak:'avoid',
+                    head:[['Centro de Custo','Rateio','Horas Finais','Custo Total','Custo-Hora']],
+                    body:r.custoHora.map(x=>[x.nome,x.rateio,v50PdfNumero(x.horas,1)+' h',money(x.total),money(x.custoHora)+'/h']),
+                    theme:'striped',styles:{fontSize:6.7,cellPadding:1.8,overflow:'ellipsize'},headStyles:{fillColor:dark,textColor:[255,255,255]},
+                    columnStyles:{0:{cellWidth:62},1:{cellWidth:29},2:{cellWidth:29,halign:'right'},3:{cellWidth:34,halign:'right',overflow:'visible'},4:{cellWidth:28,halign:'right',fontStyle:'bold',textColor:green,overflow:'visible'}}
+                }); y=doc.lastAutoTable.finalY+7;
+
+                y=section('RANKING GERAL DE IMPACTO DOS SETORES',y,72);
+                const faturamentoRanking=Number(r.dreAtiva.fatBruto||0);
+                doc.autoTable({
+                    startY:y,margin:{left:mx,right:mx,bottom:18},pageBreak:'avoid',rowPageBreak:'avoid',
+                    head:[['Pos.','Centro de Custo','Tipo','Custo Total','% do Faturamento']],
+                    body:r.ranking.map(x=>[x.pos+'º',x.nome,x.tipo,money(x.custo),faturamentoRanking>0?pct((Number(x.custo||0)/faturamentoRanking)*100,1):'0,0%']),
+                    theme:'striped',styles:{fontSize:6.8,cellPadding:1.7,overflow:'ellipsize'},headStyles:{fillColor:dark,textColor:[255,255,255]},
+                    columnStyles:{0:{cellWidth:13,halign:'center',fontStyle:'bold'},1:{cellWidth:68},2:{cellWidth:42},3:{cellWidth:32,halign:'right',fontStyle:'bold',overflow:'visible'},4:{cellWidth:27,halign:'right',fontStyle:'bold',overflow:'visible'}}
+                });
+
+                const pages=doc.internal.getNumberOfPages();
+                for(let i=1;i<=pages;i++){ doc.setPage(i); if(i>1)header(); footer(i,pages); }
+                const safe=String(r.periodo||'periodo').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_');
+                doc.save(`CONSULTORIA_RF_ANALISE_${safe}.pdf`);
+            } catch(err){
+                console.error(err); alert('Não foi possível gerar o PDF da análise. '+(err.message||err));
+            } finally {
+                if(btn){btn.disabled=false;btn.innerHTML=original;}
+            }
         }
 
         async function gerarPDFRelatorioSetor() {
