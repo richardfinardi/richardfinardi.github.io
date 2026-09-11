@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.9.11 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=4.9.11">
+    <title>CONSULTORIA.RF V4.9.12 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=4.9.12">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -177,7 +177,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
 </style>
 
 <style id="v49-sidebar-final-fix">
-/* V4.9.11 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
+/* V4.9.12 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
 #app-header > #sidebar-toggle { display:none !important; }
 #sidebar-tools {
     position:absolute !important;
@@ -215,7 +215,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v493-mobile-ui">
 /* ================================================================
-   V4.9.11 — MOBILE UX
+   V4.9.12 — MOBILE UX
    No celular o menu lateral vira uma gaveta inferior. O mesmo botão
    Menu permanece único e fica sempre acessível no rodapé.
    ================================================================ */
@@ -377,7 +377,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v494-light-theme">
 /* ================================================================
-   V4.9.11 — LIGHT THEME REFINEMENT
+   V4.9.12 — LIGHT THEME REFINEMENT
    Mantém contraste, hierarquia e identidade laranja sem lavar a tela.
    ================================================================ */
 body.light-mode {
@@ -463,7 +463,7 @@ body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !im
 
 <style id="v496-final-visual">
 /* ================================================================
-   V4.9.11 — ÍCONES MONOCROMÁTICOS + LIGHT THEME REFINADO
+   V4.9.12 — ÍCONES MONOCROMÁTICOS + LIGHT THEME REFINADO
    ================================================================ */
 #nav-cliente-tabs button::before {
     font-family: Arial, "Segoe UI Symbol", sans-serif !important;
@@ -589,7 +589,7 @@ body.light-mode .text-red-400 { color:#b94b4b !important; }
 
 
 <style id="v497-light-accessibility">
-/* V4.9.11 — tema claro de trabalho: contraste neutro e botões legíveis */
+/* V4.9.12 — tema claro de trabalho: contraste neutro e botões legíveis */
 body.light-mode { background:#e9edf2 !important; color:#18202c !important; }
 body.light-mode #main-content { background:#e9edf2 !important; }
 body.light-mode .bg-brand-card, body.light-mode .bg-\[\#16161a\] { background:#fff !important; border-color:#cbd3dd !important; }
@@ -606,7 +606,7 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
 
 <style id="v4910-admin-mobile">
 /* ================================================================
-   V4.9.11 — HEADER MOBILE + ADMINISTRAÇÃO
+   V4.9.12 — HEADER MOBILE + ADMINISTRAÇÃO
    ================================================================ */
 #tab-btn-admin::before { content:'⊞'; }
 
@@ -727,7 +727,7 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
 
 
 <style id="v4910-menu-order">
-/* V4.9.11 — ordem oficial do menu */
+/* V4.9.12 — ordem oficial do menu */
 #tab-btn-res  { order: 10; }
 #tab-btn-cfg  { order: 20; }
 #tab-btn-cc   { order: 30; }
@@ -747,7 +747,7 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
 
 <style id="v4911-sidebar-mobile-fix">
 /* ================================================================
-   V4.9.11 — MENU / MOBILE
+   V4.9.12 — MENU / MOBILE
    ================================================================ */
 
 /* Desktop: ferramentas do menu sempre presentes no rodapé */
@@ -897,6 +897,188 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
 }
 </style>
 
+
+<style id="v4912-loading-mobile-results">
+/* ================================================================
+   V4.9.12 — CARREGAMENTO INICIAL
+   ================================================================ */
+#app-loading-overlay {
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:9998;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:#0b0c0f;
+}
+html.rf-has-session body:not(.rf-app-ready) #app-loading-overlay {
+    display:flex;
+}
+.rf-loading-card {
+    width:min(420px, 92vw);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:14px;
+    padding:28px 24px;
+    border:1px solid #282b31;
+    border-radius:18px;
+    background:#141519;
+    box-shadow:0 20px 55px rgba(0,0,0,.38);
+}
+.rf-loading-logo {
+    width:min(290px, 72vw);
+    max-height:58px;
+    object-fit:contain;
+}
+.rf-loading-spinner {
+    width:38px;
+    height:38px;
+    border:4px solid #292c32;
+    border-top-color:#ff8438;
+    border-radius:50%;
+    animation:rfSpin .75s linear infinite;
+}
+.rf-loading-title {
+    color:#fff;
+    font-size:16px;
+    font-weight:800;
+}
+.rf-loading-message {
+    color:#9ba2ad;
+    font-size:12px;
+    min-height:18px;
+}
+@keyframes rfSpin { to { transform:rotate(360deg); } }
+
+body.light-mode #app-loading-overlay { background:#eef1f5; }
+body.light-mode .rf-loading-card {
+    background:#fff;
+    border-color:#d7dce3;
+    box-shadow:0 20px 55px rgba(33,43,54,.12);
+}
+body.light-mode .rf-loading-title { color:#151922; }
+body.light-mode .rf-loading-message { color:#667085; }
+
+/* ================================================================
+   V4.9.12 — RESULTADOS MOBILE SEM ROLAGEM HORIZONTAL
+   ================================================================ */
+@media (max-width:767px) {
+    /* Custo-hora: somente Centro de Custo + Custo-Hora */
+    #table-custo-hora-resultados {
+        width:100% !important;
+        table-layout:fixed !important;
+        min-width:0 !important;
+    }
+    #table-custo-hora-resultados th:nth-child(n+2):nth-child(-n+7),
+    #table-custo-hora-resultados td:nth-child(n+2):nth-child(-n+7) {
+        display:none !important;
+    }
+    #table-custo-hora-resultados th:first-child,
+    #table-custo-hora-resultados td:first-child {
+        width:68% !important;
+        min-width:0 !important;
+        padding:11px 8px !important;
+    }
+    #table-custo-hora-resultados th:last-child,
+    #table-custo-hora-resultados td:last-child {
+        width:32% !important;
+        padding:11px 7px !important;
+        text-align:right !important;
+        white-space:nowrap !important;
+    }
+    #table-custo-hora-resultados th:last-child {
+        font-size:0 !important;
+    }
+    #table-custo-hora-resultados th:last-child::after {
+        content:'CUSTO-HORA';
+        font-size:10px;
+        color:#fff;
+    }
+    #table-custo-hora-resultados td:first-child {
+        font-size:12px !important;
+        line-height:1.25 !important;
+        word-break:normal !important;
+        overflow-wrap:anywhere !important;
+    }
+    #table-custo-hora-resultados td:last-child {
+        font-size:12px !important;
+    }
+    #table-custo-hora-resultados.closest,
+    #table-custo-hora-resultados {
+        overflow:visible !important;
+    }
+
+    /* Ranking: somente Centro de Custo + ícone Raio-X */
+    #table-ranking-resultados {
+        width:100% !important;
+        table-layout:fixed !important;
+        min-width:0 !important;
+    }
+    #table-ranking-resultados th:nth-child(2),
+    #table-ranking-resultados th:nth-child(3),
+    #table-ranking-resultados th:nth-child(4),
+    #table-ranking-resultados th:nth-child(5),
+    #table-ranking-resultados td:nth-child(2),
+    #table-ranking-resultados td:nth-child(3),
+    #table-ranking-resultados td:nth-child(4),
+    #table-ranking-resultados td:nth-child(5) {
+        display:none !important;
+    }
+    #table-ranking-resultados th:first-child,
+    #table-ranking-resultados td:first-child {
+        width:82% !important;
+        padding:12px 8px !important;
+    }
+    #table-ranking-resultados th:last-child,
+    #table-ranking-resultados td:last-child {
+        width:18% !important;
+        padding:8px 6px !important;
+        text-align:center !important;
+    }
+    #table-ranking-resultados th:last-child {
+        font-size:0 !important;
+    }
+    #table-ranking-resultados th:last-child::after {
+        content:'RAIO-X';
+        font-size:10px;
+        color:#fff;
+    }
+    #table-ranking-resultados .ranking-position,
+    #table-ranking-resultados .ranking-ray-label {
+        display:none !important;
+    }
+    #table-ranking-resultados .ranking-name {
+        display:block !important;
+        font-size:12px !important;
+        line-height:1.25 !important;
+        overflow-wrap:anywhere !important;
+    }
+    #table-ranking-resultados .ranking-ray-icon {
+        font-size:18px !important;
+        line-height:1 !important;
+    }
+    #table-ranking-resultados td:last-child button {
+        width:38px !important;
+        min-width:38px !important;
+        height:34px !important;
+        padding:0 !important;
+        display:inline-flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        border-radius:9px !important;
+    }
+
+    /* Os wrappers destas duas tabelas não precisam rolar lateralmente no celular */
+    #table-custo-hora-resultados,
+    #table-ranking-resultados {
+        max-width:100% !important;
+    }
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -904,7 +1086,7 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.11</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.12</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -940,7 +1122,7 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.11</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.12</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -961,7 +1143,17 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
     </div>
 
     <!-- CONTEÚDO PRINCIPAL -->
-    <main id="main-content" class="hidden flex-1 p-3 md:p-6 max-w-7xl mx-auto w-full space-y-6">
+    
+    <div id="app-loading-overlay" aria-live="polite">
+        <div class="rf-loading-card">
+            <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" class="rf-loading-logo">
+            <div class="rf-loading-spinner"></div>
+            <div class="rf-loading-title">Carregando seus dados...</div>
+            <div id="rf-loading-message" class="rf-loading-message">Preparando o período e as análises.</div>
+        </div>
+    </div>
+
+<main id="main-content" class="hidden flex-1 p-3 md:p-6 max-w-7xl mx-auto w-full space-y-6">
         
         <div id="banner-periodo-bloqueado" class="hidden bg-amber-950/40 border border-amber-800 text-amber-300 p-3 rounded-xl text-xs font-bold flex justify-between items-center">
             <span>🔒 ESTE PERÍODO ESTÁ MARCADO COMO FECHADO. EDIÇÕES E NOVOS CADASTROS ESTÃO DESABILITADOS.</span>
@@ -1787,7 +1979,7 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                    <table id="table-custo-hora-resultados" class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
                                 <th class="p-2 md:p-3">Centro de Custo Direto</th>
@@ -1814,10 +2006,10 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                    <table id="table-ranking-resultados" class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Posição / Setor</th>
+                                <th class="p-2 md:p-3">Centro de Custo</th>
                                 <th class="p-2 md:p-3">Tipo Setor</th>
                                 <th class="p-2 md:p-3">Custo Primário Bruto (R$)</th>
                                 <th class="p-2 md:p-3 text-center">Peso no Orçamento Total (%)</th>
@@ -2145,7 +2337,7 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
 
 
         // ======================================================
-        // V4.9.11 — ADMINISTRAÇÃO / CONTEXTO DE EMPRESA
+        // V4.9.12 — ADMINISTRAÇÃO / CONTEXTO DE EMPRESA
         // ======================================================
         function rfAdminEhAdministrador() {
             return usuarioLogado && ['SIM','TRUE'].includes(String(usuarioLogado.TUSUARIO_ADM || '').toUpperCase());
@@ -3018,7 +3210,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         // ======================================================
-        // V4.9.11 — SESSÃO PERSISTENTE + VALIDAÇÃO DIÁRIA + PWA
+        // V4.9.12 — SESSÃO PERSISTENTE + VALIDAÇÃO DIÁRIA + PWA
         // ======================================================
         const RF_VALIDACAO_INTERVALO = 24 * 60 * 60 * 1000;
         let rfDeferredInstallPrompt = null;
@@ -3127,7 +3319,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=4.9.8', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=4.9.12', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -3210,12 +3402,20 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             } catch (e) { empresaLogadaNome = usuarioLogado.TCLIENTE_ID; }
         }
 
+        function rfAtualizarMensagemCarregamento(texto) {
+            const el = document.getElementById('rf-loading-message');
+            if (el && texto) el.textContent = texto;
+        }
+
         async function iniciarSessao() {
             if (!(await validarSessaoPersistente(false))) return;
 
+            document.body.classList.remove('rf-app-ready');
+            rfAtualizarMensagemCarregamento('Validando acesso e preparando o ambiente...');
+
             document.documentElement.classList.add('rf-has-session');
             document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('main-content').classList.remove('hidden');
+            document.getElementById('main-content').classList.add('hidden');
             document.body.classList.add('rf-authenticated');
             document.getElementById('user-menu').classList.remove('hidden');
             document.getElementById('wrapper-periodo-global').classList.remove('hidden');
@@ -3266,16 +3466,33 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 if (localStorage.getItem('rf_ultima_aba') === 'admin') localStorage.setItem('rf_ultima_aba', 'res');
             }
 
-            if (!isAdm) await buscarNomeEmpresa();
+            if (!isAdm) {
+                rfAtualizarMensagemCarregamento('Identificando sua empresa...');
+                await buscarNomeEmpresa();
+            }
 
+            rfAtualizarMensagemCarregamento('Carregando períodos...');
             await carregarPeriodosDoCliente();
+
+            rfAtualizarMensagemCarregamento('Carregando configurações...');
             await carregarPadroes();
+
+            rfAtualizarMensagemCarregamento('Carregando centros de custo, recursos e dados financeiros...');
             await carregarTudoDoPeriodo();
+
             atualizarTagsPeriodoHeader();
 
             const ultimaAba = localStorage.getItem('rf_ultima_aba');
             const abaInicial = ultimaAba || (isAdm ? 'admin' : 'res');
-            alternarAbaCliente(abaInicial === 'admin' && !isAdm ? 'res' : abaInicial);
+            const abaFinal = abaInicial === 'admin' && !isAdm ? 'res' : abaInicial;
+
+            rfAtualizarMensagemCarregamento('Montando a tela...');
+            alternarAbaCliente(abaFinal);
+
+            document.getElementById('main-content').classList.remove('hidden');
+            requestAnimationFrame(() => {
+                document.body.classList.add('rf-app-ready');
+            });
         }
 
         async function carregarPadroes() {
@@ -3605,7 +3822,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 carregarPlanoContas()
             ]);
 
-            // V4.9.11: se Resultados estiver aberto, só calcula depois que
+            // V4.9.12: se Resultados estiver aberto, só calcula depois que
             // todas as bases do período já terminaram de carregar.
             const secResultados = document.getElementById('section-resultados');
             if (secResultados && !secResultados.classList.contains('hidden')) {
@@ -4935,7 +5152,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                     tbodyRanking.innerHTML += `
                         <tr onclick="abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="hover:bg-brand-primary/10 cursor-pointer transition">
                             <td class="p-2 md:p-3 font-bold text-white uppercase flex items-center gap-1.5">
-                                <span>${index + 1}º</span> - <span>${item.nome}</span>
+                                <span class="ranking-position">${index + 1}º - </span><span class="ranking-name">${item.nome}</span>
                             </td>
                             <td class="p-2 md:p-3 uppercase text-brand-muted">${item.tipo}</td>
                             <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(item.custo)}</td>
@@ -4946,7 +5163,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                                 </div>
                             </td>
                             <td class="p-2 md:p-3 text-right">
-                                <button onclick="event.stopPropagation(); abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary text-brand-primary hover:text-white border border-brand-primary/40 px-2.5 py-1 rounded transition font-bold">🔍 Raio-X</button>
+                                <button onclick="event.stopPropagation(); abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary text-brand-primary hover:text-white border border-brand-primary/40 px-2.5 py-1 rounded transition font-bold"><span class="ranking-ray-icon">🔍</span><span class="ranking-ray-label"> Raio-X</span></button>
                             </td>
                         </tr>
                     `;
@@ -5664,7 +5881,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            // V4.9.11: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
+            // V4.9.12: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
             const navMobile = document.getElementById('nav-cliente-tabs');
             if (navMobile && navMobile.dataset.mobileCloseBound !== '1') {
                 navMobile.dataset.mobileCloseBound = '1';
@@ -5683,7 +5900,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             v49PrepareTables();
             v49PatchCCEvents();
             setTimeout(() => {
-                // V4.9.11: não força Resultados aqui; iniciarSessao restaura a última aba.
+                // V4.9.12: não força Resultados aqui; iniciarSessao restaura a última aba.
                 v49MoveSidebar();
                 v49OrderResultsFirst();
                 v49PrepareTables();

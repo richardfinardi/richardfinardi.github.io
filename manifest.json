@@ -1,8 +1,8 @@
 {
   "id": "/app.html",
-  "name": "Gestão de Custos | RF",
+  "name": "CONSULTORIA.RF | Gestão de Custos",
   "short_name": "CONSULTORIA.RF",
-  "description": "Gestão de Custos",
+  "description": "Gestão de Custos e Precificação Industrial",
   "start_url": "/app.html",
   "scope": "/",
   "display": "standalone",
