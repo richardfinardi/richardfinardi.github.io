@@ -1,16 +1,15 @@
-const CACHE = 'consultoria-rf-v4.9.9';
+const CACHE = 'consultoria-rf-v4.9.10';
 const APP_SHELL = [
   './app.html',
   './manifest.json',
-  './rf-icon-192-v499.png',
-  './rf-icon-512-v499.png'
+  './rf-icon-32-v4910.png',
+  './rf-icon-192-v4910.png',
+  './rf-icon-512-v4910.png'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE)
-      .then(cache => cache.addAll(APP_SHELL))
-      .catch(err => console.warn('Falha ao pré-carregar app shell:', err))
+    caches.open(CACHE).then(cache => cache.addAll(APP_SHELL)).catch(console.warn)
   );
   self.skipWaiting();
 });
