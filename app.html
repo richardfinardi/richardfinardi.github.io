@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.1 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.0">
+    <title>CONSULTORIA.RF V5.2.2 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.2">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1078,7 +1078,7 @@ body.light-mode .rf-loading-message { color:#667085; }
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.1</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.2</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1114,7 +1114,7 @@ body.light-mode .rf-loading-message { color:#667085; }
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.1</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.2</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -3330,7 +3330,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.0', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.2', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -3977,16 +3977,18 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
 
             if (tipo === 'PRODUTIVO DIRETO') {
                 wrapperRateio.classList.remove('hidden');
-                const funcionario = !minimoAtivo && String(rateio || '').toUpperCase() === 'FUNCIONARIO';
-                if (funcionario) {
-                    wrapperCustoFixo.classList.add('hidden');
-                    wrapperProdutividade.classList.add('hidden');
-                    if (inpFx) inpFx.value = '0,00';
-                    if (inpProd) { inpProd.value = '0'; inpProd.disabled = true; }
-                } else {
-                    wrapperCustoFixo.classList.remove('hidden');
-                    wrapperProdutividade.classList.remove('hidden');
-                    if (inpProd) inpProd.disabled = minimoAtivo;
+
+                // V5.2.2:
+                // Mesmo quando o rateio de horas for FUNCIONARIO,
+                // Custo Fixo Direto e Produtividade continuam disponíveis.
+                wrapperCustoFixo.classList.remove('hidden');
+                wrapperProdutividade.classList.remove('hidden');
+
+                if (inpProd) {
+                    inpProd.disabled = minimoAtivo;
+                    if (!minimoAtivo && (!inpProd.value || Number(inpProd.value) <= 0)) {
+                        inpProd.value = '100';
+                    }
                 }
             } else {
                 // Para os demais tipos, mantém o comportamento visual existente.
@@ -4098,9 +4100,13 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             const area = parseFloat(document.getElementById('cc-area').value) || 0;
             const minChecked = document.getElementById('cc-considerar-minimo').checked;
             if (minChecked) rateio = 'MINIMO';
-            const isFuncionarioRateio = !minChecked && String(rateio || '').toUpperCase() === 'FUNCIONARIO';
-            const fx = isFuncionarioRateio ? 0 : parseMoedaBR(document.getElementById('cc-custo-fixo').value);
-            const prod = minChecked ? 100 : (isFuncionarioRateio ? 0 : (parseFloat(document.getElementById('cc-produtividade').value) || 100));
+            // V5.2.2:
+            // Rateio FUNCIONARIO define apenas a origem das HORAS.
+            // Ele NÃO zera custo fixo direto nem produtividade.
+            const fx = parseMoedaBR(document.getElementById('cc-custo-fixo').value);
+            const prod = minChecked
+                ? 100
+                : (parseFloat(document.getElementById('cc-produtividade').value) || 100);
             const min = minChecked ? "SIM" : "NAO";
 
             const payload = {
@@ -4939,7 +4945,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         }
 
         // --- RESULTADOS & ANÁLISES ---
-        // V5.2.1 — regra de período: depreciação pode ser mantida cadastrada e ignorada nos cálculos
+        // V5.1 — regra de período: depreciação pode ser mantida cadastrada e ignorada nos cálculos
         function v51IgnorarDepreciacao(pObj = periodoAtivoObj) {
             return String(pObj && pObj.TPERIODO_DESCONSIDERAR_DEPRECIACAO || 'NAO').trim().toUpperCase() === 'SIM';
         }
@@ -6126,9 +6132,12 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 minimo.dataset.v49 = '1';
                 minimo.addEventListener('change', () => {
                     const p = document.getElementById('cc-produtividade');
-                    const isFunc = String(rateio?.value || '').toUpperCase() === 'FUNCIONARIO';
-                    if (minimo.checked && !isFunc) { p.value = '100'; p.disabled = true; }
-                    else if (!isFunc) p.disabled = false;
+                    if (minimo.checked) {
+                        p.value = '100';
+                        p.disabled = true;
+                    } else {
+                        p.disabled = false;
+                    }
                     verificarTipoCentroCusto();
                 });
             }
