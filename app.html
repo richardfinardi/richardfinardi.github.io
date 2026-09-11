@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.2 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.2">
+    <title>CONSULTORIA.RF V5.2.6 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.6">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1071,6 +1071,102 @@ body.light-mode .rf-loading-message { color:#667085; }
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
 
+
+<style id="v523-table-ux">
+/* ================================================================
+   V5.2.3 — TABELAS / SCROLL / CABEÇALHO
+   ================================================================ */
+
+/* Header principal sempre visível durante rolagem vertical da página */
+#app-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    backdrop-filter: blur(10px);
+}
+
+/* Scrollbars mais discretas e compatíveis com os dois temas */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #424751 transparent;
+}
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+    background: #3c414a;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: #555c68;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+body.light-mode * {
+    scrollbar-color: #aeb6c2 transparent;
+}
+body.light-mode *::-webkit-scrollbar-thumb {
+    background: #b6bec9;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+body.light-mode *::-webkit-scrollbar-thumb:hover {
+    background: #929daa;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+/* Tabela de Centros de Custo */
+#cc-table-scroll {
+    border-radius: 10px;
+    position: relative;
+}
+#table-centros-custo {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Cabeçalho da tabela acompanha a rolagem vertical */
+#table-centros-custo thead th {
+    position: sticky;
+    top: 64px;
+    z-index: 25;
+    background: #0d0d0f;
+    box-shadow: 0 1px 0 #2a2c31;
+}
+body.light-mode #table-centros-custo thead th {
+    background: #f4f6f8 !important;
+    box-shadow: 0 1px 0 #cfd5dd;
+}
+
+/* Total bem destacado no rodapé */
+#tbl-cc-foot .rf-cc-total-row td {
+    position: sticky;
+    bottom: 0;
+    z-index: 15;
+    background: #111318;
+    border-top: 2px solid #363a42;
+    white-space: nowrap;
+}
+body.light-mode #tbl-cc-foot .rf-cc-total-row td {
+    background: #eef1f5 !important;
+    border-top-color: #c5ccd6;
+    color: #1f2937 !important;
+}
+
+/* Em telas menores a tabela ainda pode rolar horizontalmente, mas com barra discreta */
+.rf-table-scroll {
+    overscroll-behavior-x: contain;
+    scrollbar-gutter: stable;
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1078,7 +1174,7 @@ body.light-mode .rf-loading-message { color:#667085; }
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.2</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.6</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1114,7 +1210,7 @@ body.light-mode .rf-loading-message { color:#667085; }
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.2</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.6</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -1392,8 +1488,8 @@ body.light-mode .rf-loading-message { color:#667085; }
                     <h3 class="text-base font-bold text-white">Histórico de Períodos da Empresa</h3>
                     <button onclick="modalCriarNovoPeriodo()" class="text-xs bg-brand-primary hover:bg-brand-hover text-white px-3 py-1.5 rounded font-bold transition">+ Criar / Duplicar Período</button>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                <div id="cc-table-scroll" class="overflow-x-auto rf-table-scroll">
+                    <table id="table-centros-custo" class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
                                 <th class="p-2 md:p-3">ID</th>
@@ -2100,7 +2196,19 @@ body.light-mode .rf-loading-message { color:#667085; }
                     NOME; CRITERIO; VALOR; CENTRO_CUSTO_ID
                 </div>
                 <ul class="list-disc pl-4 space-y-1">
-                    <li><strong>CRITERIO:</strong> EXCLUSIVO, AREA, RECURSOS, HORAS, PD_AREA, PD_RECURSOS, PD_HORAS, PI_AREA, ADM_AREA, SELETIVO_PERCENTUAL, etc.</li>
+                    <li><strong>CRITERIO:</strong> use exatamente um destes valores:</li>
+                    <li class="ml-4"><code>EXCLUSIVO</code> — centro de custo único</li>
+                    <li class="ml-4"><code>AREA</code> — rateio por área entre todos os centros</li>
+                    <li class="ml-4"><code>RECURSOS</code> — rateio por quantidade de recursos entre todos os centros</li>
+                    <li class="ml-4"><code>HORAS</code> — rateio por horas finais entre todos os centros</li>
+                    <li class="ml-4"><code>PD_AREA</code> — somente Produtivos Diretos, por área</li>
+                    <li class="ml-4"><code>PD_RECURSOS</code> — somente Produtivos Diretos, por quantidade de recursos</li>
+                    <li class="ml-4"><code>PD_HORAS</code> — somente Produtivos Diretos, por horas finais</li>
+                    <li class="ml-4"><code>PI_AREA</code> — somente Produtivos Indiretos, por área</li>
+                    <li class="ml-4"><code>ADM_AREA</code> — somente Administrativos, por área</li>
+                    <li class="ml-4"><code>SELETIVO_PERCENTUAL</code> — percentuais informados por centro de custo</li>
+                    <li class="ml-4"><code>NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)</code></li>
+                    <li class="ml-4"><code>NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)</code></li>
                     <li><strong>VALOR:</strong> Valor numérico da conta (ex: 1500.00)</li>
                     <li><strong>CENTRO_CUSTO_ID:</strong> Nome/ID do CC ou estrutura em % para rateio seletivo</li>
                 </ul>
@@ -2204,7 +2312,7 @@ body.light-mode .rf-loading-message { color:#667085; }
             indicator.classList.add('flex');
 
             if (isSyncing) {
-                indicator.className = "flex items-center gap-1.5 bg-amber-950/60 border border-amber-800 text-amber-300 px-2.5 py-1 rounded-full text-xs font-bold animate-pulse-fast";
+                indicator.className = "flex items-center gap-1.5 bg-amber-950/60 border border-amber-800 text-amber-300 px-2.5 py-1 rounded-full text-xs font-bold";
                 syncText.innerText = "🔄 Sincronizando...";
             } else {
                 indicator.className = "flex items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold";
@@ -2664,24 +2772,44 @@ body.light-mode .rf-loading-message { color:#667085; }
 
         // GERAR E BAIXAR MODELO CSV COMPLETO COM EXEMPLOS DE TODOS OS CRITÉRIOS
         function baixarModeloCSVPlano() {
-            const emps = listaCC.length > 0 ? listaCC[0].TCENTRO_CUSTO_ID : 'CC-001';
-            const emps2 = listaCC.length > 1 ? listaCC[1].TCENTRO_CUSTO_ID : 'CC-002';
+            const cc1 = listaCC.length > 0 ? listaCC[0].TCENTRO_CUSTO_ID : 'CC-001';
+            const cc2 = listaCC.length > 1 ? listaCC[1].TCENTRO_CUSTO_ID : 'CC-002';
 
+            // V5.2.5 — modelo oficial com TODOS os critérios aceitos.
+            // Para os rateios automáticos, CENTRO_CUSTO_ID fica vazio.
+            // Para EXCLUSIVO, informar 1 CC.
+            // Para SELETIVO_PERCENTUAL, informar JSON e totalizar 100%.
             const conteudo = `NOME;CRITERIO;VALOR;CENTRO_CUSTO_ID
-MATERIAL DE ESCRITORIO;EXCLUSIVO;350.00;${emps}
-ALUGUEL DO PREDIO FABRIL;AREA;8500.00;
-MANUTENCAO PREVENTIVA;RECURSOS;2400.00;
-SUPERVISAO DE TURNO;HORAS;4200.00;
-SISTEMA DE GESTAO ERP;SELETIVO_PERCENTUAL;1800.00;[{"id":"${emps}","pct":60},{"id":"${emps2}","pct":40}]
-EMBALAGENS PLASTICAS POR ENCOMENDA;NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO);3200.00;
-COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500.00;`;
+MATERIAL DE ESCRITORIO;EXCLUSIVO;350.00;${cc1}
+ALUGUEL GERAL;AREA;8500.00;
+MANUTENCAO GERAL;RECURSOS;2400.00;
+SUPERVISAO GERAL;HORAS;4200.00;
+FERRAMENTAS DOS SETORES PRODUTIVOS;PD_AREA;5000.00;
+MANUTENCAO DE MAQUINAS PRODUTIVAS;PD_RECURSOS;3500.00;
+APOIO A PRODUCAO POR HORAS;PD_HORAS;2800.00;
+SUPERVISAO DOS SETORES INDIRETOS;PI_AREA;4000.00;
+DESPESAS ADMINISTRATIVAS;ADM_AREA;6000.00;
+SISTEMA DE GESTAO ERP;SELETIVO_PERCENTUAL;1800.00;[{"id":"${cc1}","pct":60},{"id":"${cc2}","pct":40}]
+EMBALAGENS VARIAVEIS DE PRODUCAO;NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO);3200.00;
+COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500.00;`;
 
-            const blob = new Blob(["\ufeff" + conteudo], { type: 'text/csv;charset=utf-8;' });
+            const blob = new Blob(
+                ["\ufeff" + conteudo],
+                { type: 'text/csv;charset=utf-8;' }
+            );
+
             const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "modelo_plano_de_contas_completo.csv";
+            const url = URL.createObjectURL(blob);
+
+            link.href = url;
+            link.download = "modelo_plano_de_contas_V5.2.5_todos_criterios.csv";
+            document.body.appendChild(link);
             link.click();
+            link.remove();
+
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
         }
+
 
         // SISTEMA DE GRADE EDITÁVEL EM LOTE (4 ABAS)
         function abrirModalGradeLote(entidade) {
@@ -3118,6 +3246,68 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('modal-importar-plano').classList.add('hidden');
         }
 
+        function normalizarCriterioCSVPlano(valor) {
+            const original = String(valor || '').trim();
+            const upper = original.toUpperCase();
+
+            const mapa = {
+                'EXCLUSIVO': 'EXCLUSIVO',
+                'AREA': 'AREA',
+                'ÁREA': 'AREA',
+                'RECURSOS': 'RECURSOS',
+                'HORAS': 'HORAS',
+
+                'PD_AREA': 'PD_AREA',
+                'PD_RECURSOS': 'PD_RECURSOS',
+                'PD_HORAS': 'PD_HORAS',
+                'PI_AREA': 'PI_AREA',
+                'ADM_AREA': 'ADM_AREA',
+
+                'SELETIVO_PERCENTUAL': 'SELETIVO_PERCENTUAL',
+
+                'NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)': 'NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)',
+                'NAO RATEAR - CUSTO VARIAVEL (PRODUCAO)': 'NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)',
+
+                'NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)': 'NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)',
+                'NAO RATEAR - DESPESA VARIAVEL (DEDUCAO DA VENDA)': 'NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)'
+            };
+
+            return mapa[upper] || null;
+        }
+
+        function validarRateioSeletivoCSV(rawCC) {
+            try {
+                const arr = JSON.parse(rawCC);
+                if (!Array.isArray(arr) || arr.length === 0) {
+                    return { ok:false, mensagem:'JSON de rateio seletivo vazio ou inválido.' };
+                }
+
+                let soma = 0;
+
+                for (const item of arr) {
+                    const id = String(item?.id ?? item?.ID ?? '').trim();
+                    const pct = parseFloat(item?.pct ?? item?.PCT ?? NaN);
+
+                    if (!id || !Number.isFinite(pct) || pct < 0) {
+                        return { ok:false, mensagem:'Cada item do rateio deve ter id e pct válidos.' };
+                    }
+
+                    soma += pct;
+                }
+
+                if (Math.abs(soma - 100) > 0.01) {
+                    return {
+                        ok:false,
+                        mensagem:`A soma do SELETIVO_PERCENTUAL deve ser 100%. Atual: ${soma.toFixed(2)}%.`
+                    };
+                }
+
+                return { ok:true };
+            } catch (e) {
+                return { ok:false, mensagem:'JSON inválido no CENTRO_CUSTO_ID do SELETIVO_PERCENTUAL.' };
+            }
+        }
+
         function processarArquivoCSV(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -3126,52 +3316,176 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             const reader = new FileReader();
 
             reader.onload = function(e) {
-                const text = e.target.result;
+                const text = String(e.target.result || '').replace(/^\uFEFF/, '');
                 const linhas = text.split(/\r\n|\n/);
                 dadosCSVImportacao = [];
+
+                const erros = [];
 
                 if (linhas.length <= 1) {
                     alert("O arquivo CSV está vazio ou em formato inválido.");
                     return;
                 }
 
-                for (let i = 1; i < linhas.length; i++) {
-                    if (!linhas[i].trim()) continue;
-                    const colunas = linhas[i].split(/;|,/).map(c => c.trim());
+                const cabecalho = linhas[0]
+                    .split(';')
+                    .map(x => String(x || '').trim().toUpperCase());
 
-                    if (colunas.length >= 3) {
-                        let nome = colunas[0].toUpperCase();
-                        let criterio = colunas[1].toUpperCase() || 'AREA';
-                        let valor = parseMoedaBR(colunas[2]);
-                        
-                        let rawCC = colunas.slice(3).join(';').trim();
-                        rawCC = rawCC.replace(/^"+|"$/g, '').replace(/""/g, '"');
-                        rawCC = rawCC.replace(/;\s*"/g, ',"').replace(/;\s*\{/g, ',{');
+                const esperado = ['NOME', 'CRITERIO', 'VALOR', 'CENTRO_CUSTO_ID'];
 
-                        let ccId = rawCC;
-                        if (criterio === 'EXCLUSIVO' && rawCC) {
-                            const ccObj = listaCC.find(c => String(c.TCENTRO_CUSTO_ID).toUpperCase() === rawCC.toUpperCase() || String(c.TCENTRO_CUSTO_NOME).toUpperCase() === rawCC.toUpperCase());
-                            if (ccObj) ccId = ccObj.TCENTRO_CUSTO_ID;
-                        }
-
-                        if (nome && valor > 0) {
-                            dadosCSVImportacao.push({ nome, criterio, valor, ccId });
-                        }
-                    }
+                if (
+                    cabecalho.length < 4 ||
+                    esperado.some((h, i) => cabecalho[i] !== h)
+                ) {
+                    alert(
+                        "Cabeçalho inválido.\n\n" +
+                        "Use exatamente:\n" +
+                        "NOME;CRITERIO;VALOR;CENTRO_CUSTO_ID"
+                    );
+                    return;
                 }
 
+                for (let i = 1; i < linhas.length; i++) {
+                    const linhaOriginal = linhas[i];
+                    if (!linhaOriginal.trim()) continue;
+
+                    // O arquivo oficial usa ; como delimitador.
+                    // Assim as vírgulas internas do JSON não quebram as colunas.
+                    const colunas = linhaOriginal.split(';');
+
+                    if (colunas.length < 3) {
+                        erros.push(`Linha ${i + 1}: quantidade insuficiente de colunas.`);
+                        continue;
+                    }
+
+                    const nome = String(colunas[0] || '').trim().toUpperCase();
+                    const criterio = normalizarCriterioCSVPlano(colunas[1]);
+                    const valor = parseMoedaBR(String(colunas[2] || '').trim());
+
+                    // Tudo após a 3ª coluna pertence ao CENTRO_CUSTO_ID.
+                    // Isso mantém compatibilidade com JSON e conteúdos que contenham ';'.
+                    let rawCC = colunas.slice(3).join(';').trim();
+                    rawCC = rawCC.replace(/^"+|"$/g, '').replace(/""/g, '"');
+
+                    if (!nome) {
+                        erros.push(`Linha ${i + 1}: NOME não informado.`);
+                        continue;
+                    }
+
+                    if (!criterio) {
+                        erros.push(
+                            `Linha ${i + 1}: CRITERIO inválido "${String(colunas[1] || '').trim()}".`
+                        );
+                        continue;
+                    }
+
+                    if (!(valor > 0)) {
+                        erros.push(`Linha ${i + 1}: VALOR deve ser maior que zero.`);
+                        continue;
+                    }
+
+                    let ccId = rawCC;
+
+                    if (criterio === 'EXCLUSIVO') {
+                        if (!rawCC) {
+                            erros.push(`Linha ${i + 1}: EXCLUSIVO exige CENTRO_CUSTO_ID.`);
+                            continue;
+                        }
+
+                        const ccObj = listaCC.find(c =>
+                            String(c.TCENTRO_CUSTO_ID || '').toUpperCase() === rawCC.toUpperCase() ||
+                            String(c.TCENTRO_CUSTO_NOME || '').toUpperCase() === rawCC.toUpperCase()
+                        );
+
+                        if (!ccObj) {
+                            erros.push(
+                                `Linha ${i + 1}: Centro de custo "${rawCC}" não encontrado para EXCLUSIVO.`
+                            );
+                            continue;
+                        }
+
+                        ccId = ccObj.TCENTRO_CUSTO_ID;
+                    }
+
+                    if (criterio === 'SELETIVO_PERCENTUAL') {
+                        if (!rawCC) {
+                            erros.push(
+                                `Linha ${i + 1}: SELETIVO_PERCENTUAL exige o JSON em CENTRO_CUSTO_ID.`
+                            );
+                            continue;
+                        }
+
+                        const validacao = validarRateioSeletivoCSV(rawCC);
+
+                        if (!validacao.ok) {
+                            erros.push(`Linha ${i + 1}: ${validacao.mensagem}`);
+                            continue;
+                        }
+
+                        ccId = rawCC;
+                    }
+
+                    // Rateios automáticos e NÃO RATEAR não precisam de CC.
+                    if (
+                        [
+                            'AREA',
+                            'RECURSOS',
+                            'HORAS',
+                            'PD_AREA',
+                            'PD_RECURSOS',
+                            'PD_HORAS',
+                            'PI_AREA',
+                            'ADM_AREA',
+                            'NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)',
+                            'NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)'
+                        ].includes(criterio)
+                    ) {
+                        ccId = '';
+                    }
+
+                    dadosCSVImportacao.push({
+                        nome,
+                        criterio,
+                        valor,
+                        ccId
+                    });
+                }
+
+                const btn = document.getElementById('btn-confirmar-importacao');
+
                 if (dadosCSVImportacao.length > 0) {
-                    const btn = document.getElementById('btn-confirmar-importacao');
                     btn.disabled = false;
                     btn.classList.remove('opacity-40', 'cursor-not-allowed');
-                    alert(`${dadosCSVImportacao.length} contas identificadas com sucesso no arquivo! Clique em Confirmar Importação.`);
+
+                    let msg =
+                        `${dadosCSVImportacao.length} conta(s) válida(s) identificada(s).`;
+
+                    if (erros.length) {
+                        msg +=
+                            `\n\n${erros.length} linha(s) foram ignoradas:\n\n` +
+                            erros.slice(0, 12).join('\n');
+
+                        if (erros.length > 12) {
+                            msg += `\n... e mais ${erros.length - 12} erro(s).`;
+                        }
+                    }
+
+                    msg += '\n\nClique em Confirmar Importação para gravar as contas válidas.';
+                    alert(msg);
                 } else {
-                    alert("Nenhuma conta válida foi encontrada no arquivo. Verifique o formato.");
+                    btn.disabled = true;
+                    btn.classList.add('opacity-40', 'cursor-not-allowed');
+
+                    alert(
+                        "Nenhuma conta válida foi encontrada.\n\n" +
+                        (erros.length ? erros.slice(0, 15).join('\n') : 'Verifique o formato do arquivo.')
+                    );
                 }
             };
 
             reader.readAsText(file, "UTF-8");
         }
+
 
         async function confirmarImportacaoCSV() {
             if (!dadosCSVImportacao || dadosCSVImportacao.length === 0) return;
@@ -3330,7 +3644,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.2', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.6', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -3583,6 +3897,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
 
                 atualizarTagsPeriodoHeader();
                 preencherFormularioConfigPeriodo();
+                requestAnimationFrame(() => preencherFormularioConfigPeriodo());
                 renderizarTabelaPeriodosHist();
                 verificarStatusBloqueioPeriodo();
                 setSyncStatus(false);
@@ -3607,28 +3922,42 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
 
             setSyncStatus(true, "Carregando período...");
             await carregarTudoDoPeriodo();
-
-            const secResultados = document.getElementById('section-resultados');
-            if (secResultados && !secResultados.classList.contains('hidden')) {
-                await gerarAnalisesEResultados();
-            }
             setSyncStatus(false);
         }
 
         function preencherFormularioConfigPeriodo() {
             if (!periodoAtivoObj) return;
 
+            const moeda = valor => {
+                const n = Number(valor ?? 0);
+                return (Number.isFinite(n) ? n : 0).toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            };
+
             const nameDisplay = document.getElementById('cfg-period-name-display');
-            if (nameDisplay) {
-                nameDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
+            if (nameDisplay) nameDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
+
+            const fat = document.getElementById('cfg-faturamento');
+            const aliq = document.getElementById('cfg-aliquota');
+            const predio = document.getElementById('cfg-predio');
+            const rent = document.getElementById('cfg-rentabilidade');
+            const retirada = document.getElementById('cfg-retirada');
+            const semDep = document.getElementById('cfg-desconsiderar-depreciacao');
+
+            if (fat) fat.value = moeda(periodoAtivoObj.TPERIODO_FATURAMENTO);
+            if (aliq) aliq.value = periodoAtivoObj.TPERIODO_ALIQUOTA ?? 0;
+            if (predio) predio.value = moeda(periodoAtivoObj.TPERIODO_PREDIO);
+            if (rent) rent.value = periodoAtivoObj.TPERIODO_RENTABILIDADE ?? 0;
+            if (retirada) retirada.value = moeda(periodoAtivoObj.TPERIODO_RETIRADA);
+            if (semDep) {
+                semDep.checked = String(
+                    periodoAtivoObj.TPERIODO_DESCONSIDERAR_DEPRECIACAO ?? 'NAO'
+                ).trim().toUpperCase() === 'SIM';
             }
-            
-            document.getElementById('cfg-faturamento').value = Number(periodoAtivoObj.TPERIODO_FATURAMENTO || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            document.getElementById('cfg-aliquota').value = periodoAtivoObj.TPERIODO_ALIQUOTA || 0;
-            document.getElementById('cfg-predio').value = Number(periodoAtivoObj.TPERIODO_PREDIO || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            document.getElementById('cfg-rentabilidade').value = periodoAtivoObj.TPERIODO_RENTABILIDADE || 0;
-            document.getElementById('cfg-retirada').value = Number(periodoAtivoObj.TPERIODO_RETIRADA || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            document.getElementById('cfg-desconsiderar-depreciacao').checked = String(periodoAtivoObj.TPERIODO_DESCONSIDERAR_DEPRECIACAO || 'NAO').trim().toUpperCase() === 'SIM';
+
+            atualizarTagsPeriodoHeader();
         }
 
         function salvarParametrosPeriodo(e) {
@@ -3826,22 +4155,120 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('btn-cancelar-inv').classList.add('hidden');
         }
 
-        async function carregarTudoDoPeriodo() {
-            await Promise.all([
-                carregarInvestimentos(),
-                carregarCentrosDeCusto(),
-                carregarRecursos(),
-                carregarBeneficios(),
-                carregarFuncionarios(),
-                carregarPlanoContas()
-            ]);
+        let rfCarregamentoPeriodoPromise = null;
 
-            // V5.0: se Resultados estiver aberto, só calcula depois que
-            // todas as bases do período já terminaram de carregar.
-            const secResultados = document.getElementById('section-resultados');
-            if (secResultados && !secResultados.classList.contains('hidden')) {
-                await gerarAnalisesEResultados();
+        async function carregarTudoDoPeriodo() {
+            if (!usuarioLogado || !periodoAtivoObj) return;
+
+            // Impede dois carregamentos completos simultâneos.
+            if (rfCarregamentoPeriodoPromise) {
+                return rfCarregamentoPeriodoPromise;
             }
+
+            rfCarregamentoPeriodoPromise = (async () => {
+                setSyncStatus(true, "Carregando período...");
+
+                const clienteId = encodeURIComponent(usuarioLogado.TCLIENTE_ID);
+                const periodoId = encodeURIComponent(periodoAtivoObj.TPERIODO_ID);
+
+                try {
+                    // V5.2.6:
+                    // Em vez de 6 chamadas HTTP separadas, busca todas as bases
+                    // do período em uma única requisição ao Apps Script.
+                    const response = await fetch(
+                        `${API_URL}?action=PERIODO_BUNDLE&clienteId=${clienteId}&periodoId=${periodoId}`,
+                        { cache: 'no-store' }
+                    );
+
+                    const bundle = await v49ResponseJSON(response, "PERIODO_BUNDLE");
+
+                    if (
+                        !bundle ||
+                        bundle.status !== "success" ||
+                        !bundle.data
+                    ) {
+                        throw new Error(bundle?.message || "Bundle do período indisponível.");
+                    }
+
+                    listaInvestimentos = Array.isArray(bundle.data.TINVESTIMENTOS)
+                        ? bundle.data.TINVESTIMENTOS : [];
+
+                    listaCC = Array.isArray(bundle.data.TCENTRO_CUSTO)
+                        ? bundle.data.TCENTRO_CUSTO : [];
+
+                    listaRecursos = Array.isArray(bundle.data.TRECURSO)
+                        ? bundle.data.TRECURSO : [];
+
+                    listaBeneficios = Array.isArray(bundle.data.TBENEFICIOS)
+                        ? bundle.data.TBENEFICIOS : [];
+
+                    listaFuncionarios = Array.isArray(bundle.data.TFUNCIONARIO)
+                        ? bundle.data.TFUNCIONARIO : [];
+
+                    listaPlanoContas = Array.isArray(bundle.data.TPLANO_CONTAS)
+                        ? bundle.data.TPLANO_CONTAS : [];
+
+                    // Dependências dos formulários
+                    preencherSelectsCentrosDeCusto();
+                    preencherCheckboxesBeneficios();
+
+                    // Renderiza tudo localmente, sem novas chamadas HTTP.
+                    renderizarTabelaInvestimentosLocal();
+                    renderizarTabelaCCLocal();
+                    renderizarTabelaRecursosLocal();
+                    renderizarTabelaBeneficiosLocal();
+                    renderizarTabelaFuncionariosLocal();
+                    renderizarTabelaPlanoContasLocal();
+
+                    // Atualiza KPIs/totais depois que todas as linhas já existem.
+                    requestAnimationFrame(() => {
+                        try {
+                            v49PrepareTables();
+                            v49UpdateKPIs();
+                        } catch (e) {
+                            console.warn("Atualização visual pós-bundle:", e);
+                        }
+                    });
+
+                    const secResultados = document.getElementById('section-resultados');
+                    if (secResultados && !secResultados.classList.contains('hidden')) {
+                        await gerarAnalisesEResultados();
+                    }
+
+                    setSyncStatus(false);
+                    return true;
+
+                } catch (bundleErr) {
+                    console.warn(
+                        "PERIODO_BUNDLE indisponível. Usando carregamento compatível:",
+                        bundleErr
+                    );
+
+                    // Fallback: mantém compatibilidade caso o frontend seja
+                    // publicado alguns minutos antes do backend V5.2.6.
+                    await Promise.all([
+                        carregarInvestimentos(),
+                        carregarCentrosDeCusto(),
+                        carregarRecursos(),
+                        carregarBeneficios(),
+                        carregarFuncionarios(),
+                        carregarPlanoContas()
+                    ]);
+
+                    const secResultados = document.getElementById('section-resultados');
+                    if (secResultados && !secResultados.classList.contains('hidden')) {
+                        await gerarAnalisesEResultados();
+                    }
+
+                    setSyncStatus(false);
+                    return true;
+
+                } finally {
+                    rfCarregamentoPeriodoPromise = null;
+                }
+            })();
+
+            return rfCarregamentoPeriodoPromise;
         }
 
         function alternarAbaCliente(aba) {
@@ -3882,6 +4309,16 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             } else if (aba === 'cfg') {
                 document.getElementById('section-config-periodo').classList.remove('hidden');
                 document.getElementById('tab-btn-cfg').className = classActive;
+
+                const selPeriodo = document.getElementById('global-periodo-select');
+                if (selPeriodo && selPeriodo.value && Array.isArray(listaPeriodos)) {
+                    const periodoSelecionado = listaPeriodos.find(
+                        p => String(p.TPERIODO_ID) === String(selPeriodo.value)
+                    );
+                    if (periodoSelecionado) periodoAtivoObj = periodoSelecionado;
+                }
+
+                preencherFormularioConfigPeriodo();
                 carregarInvestimentos();
             } else if (aba === 'cc') {
                 document.getElementById('section-centro-custo').classList.remove('hidden');
@@ -4485,6 +4922,43 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             } catch (e) { tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
+        function rfFuncionarioBeneficios(f) {
+            // Aceita o cabeçalho atual e variações antigas.
+            const candidatos = [
+                'TFUNCIONARIO_VALOR_BENEFICIOS',
+                'TFUNCIONARIO_BENEFICIOS',
+                'TFUNCIONARIO_VAL_BENEFICIOS',
+                'TFUNCIONARIO_VALOR_BENEFICIO',
+                'TFUNCIONARIO_BENEFICIO'
+            ];
+            for (const k of candidatos) {
+                if (f && f[k] !== undefined && f[k] !== null && f[k] !== '') {
+                    return f[k];
+                }
+            }
+
+            // Estrutura física da TFUNCIONARIO:
+            // A cliente, B período, C CC, D ID, E nome, F registro,
+            // G tipo salário, H salário base, I benefícios, J custo mensal...
+            const vals = Object.values(f || {});
+            return vals.length > 8 ? vals[8] : 0;
+        }
+
+        function rfFuncionarioCustoMensal(f) {
+            const candidatos = [
+                'TFUNCIONARIO_CUSTO_MENSAL',
+                'TFUNCIONARIO_CUSTO_TOTAL',
+                'TFUNCIONARIO_VALOR_CUSTO_MENSAL'
+            ];
+            for (const k of candidatos) {
+                if (f && f[k] !== undefined && f[k] !== null && f[k] !== '') {
+                    return f[k];
+                }
+            }
+            const vals = Object.values(f || {});
+            return vals.length > 9 ? vals[9] : 0;
+        }
+
         function renderizarTabelaFuncionariosLocal() {
             const tbody = document.getElementById('tbl-func-body');
             if(!tbody) return;
@@ -4508,8 +4982,8 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                         <td class="p-2 md:p-3 font-semibold text-white uppercase">${f.TFUNCIONARIO_NOME}</td>
                         <td class="p-2 md:p-3">${f.TFUNCIONARIO_HORAS || 176}h</td>
                         <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_SALARIO_BASE)}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_VALOR_BENEFICIOS)}</td>
-                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(rfFuncionarioBeneficios(f))}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(rfFuncionarioCustoMensal(f))}</td>
                         <td class="p-2 md:p-3 uppercase text-xs">${f.TFUNCIONARIO_RATEIO || 'NAO'}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="editarFuncionario('${f.TFUNCIONARIO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
@@ -4530,7 +5004,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('func-tp-salario').value = item.TFUNCIONARIO_TP_SALARIO || 'MENSALISTA';
             document.getElementById('func-salario-base').value = Number(item.TFUNCIONARIO_SALARIO_BASE || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('func-horas-mes').value = item.TFUNCIONARIO_HORAS || 176;
-            document.getElementById('func-beneficios-valor').value = Number(item.TFUNCIONARIO_VALOR_BENEFICIOS || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            document.getElementById('func-beneficios-valor').value = Number(rfFuncionarioBeneficios(item) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
             const isRateio = String(item.TFUNCIONARIO_RATEIO || '').trim().toUpperCase() === 'SIM';
             document.getElementById('func-is-rateio').checked = isRateio;
@@ -4950,7 +5424,23 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             return String(pObj && pObj.TPERIODO_DESCONSIDERAR_DEPRECIACAO || 'NAO').trim().toUpperCase() === 'SIM';
         }
 
+        let rfResultadosPromise = null;
+
         async function gerarAnalisesEResultados() {
+            if (rfResultadosPromise) return rfResultadosPromise;
+
+            rfResultadosPromise = (async () => {
+                try {
+                    return await gerarAnalisesEResultadosCore();
+                } finally {
+                    rfResultadosPromise = null;
+                }
+            })();
+
+            return rfResultadosPromise;
+        }
+
+        async function gerarAnalisesEResultadosCore() {
             if (!periodoAtivoObj) return;
 
             const compareElem = document.getElementById('res-compare-select');
@@ -5476,7 +5966,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 htmlHtml += `<p class="text-xs text-brand-muted">Nenhum funcionário direto cadastrado neste setor.</p>`;
             } else {
                 funcsDoCC.forEach(f => {
-                    let val = parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL) || 0;
+                    let val = parseFloat(rfFuncionarioCustoMensal(f)) || 0;
                     let hrsF = parseFloat(f.TFUNCIONARIO_HORAS) || 176;
                     let infoRateio = `(${hrsF.toFixed(0)}h disps.)`;
 
@@ -6056,6 +6546,35 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             return `<div class="kpi-mini"><div class="kpi-label">${label}</div><div class="kpi-value">${val}</div></div>`;
         }
 
+        function rfAtualizarTotaisCC(rows) {
+            const foot = document.getElementById('tbl-cc-foot');
+            if (!foot) return;
+
+            const soma = i => rows.reduce((s, r) => s + (v49ParseCell(r.cells[i]?.innerText) || 0), 0);
+            const money = i => formatarMoedaBR(soma(i));
+            const num = i => v49FormatNum(soma(i));
+
+            foot.innerHTML = `
+                <tr class="rf-cc-total-row">
+                    <td class="p-2 md:p-3" colspan="2">TOTAL / FILTRADO</td>
+                    <td class="p-2 md:p-3"></td>
+                    <td class="p-2 md:p-3"></td>
+                    <td class="p-2 md:p-3">${num(4)}</td>
+                    <td class="p-2 md:p-3">${num(5)}</td>
+                    <td class="p-2 md:p-3">${money(6)}</td>
+                    <td class="p-2 md:p-3">${money(7)}</td>
+                    <td class="p-2 md:p-3">${money(8)}</td>
+                    <td class="p-2 md:p-3">${money(9)}</td>
+                    <td class="p-2 md:p-3">${money(10)}</td>
+                    <td class="p-2 md:p-3 text-brand-primary">${money(11)}</td>
+                    <td class="p-2 md:p-3">${num(12)}h</td>
+                    <td class="p-2 md:p-3"></td>
+                    <td class="p-2 md:p-3"></td>
+                    <td class="p-2 md:p-3"></td>
+                </tr>
+            `;
+        }
+
         function v49UpdateKPIs() {
             let rows = v49VisibleRows('tbl-rec-body');
             const krec = document.getElementById('kpi-rec');
@@ -6096,10 +6615,21 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             rows = v49VisibleRows('tbl-cc-body');
             const kc = document.getElementById('kpi-cc');
             if (kc) {
-                const total = rows.reduce((s, r) => s + [6,7,8,9,10,11].reduce((a, i) => a + (v49ParseCell(r.cells[i]?.innerText) || 0), 0), 0);
+                // O custo indireto da coluna 11 é uma ALOCAÇÃO dos custos dos
+                // Produtivos Indiretos para os Produtivos Diretos. Somá-lo ao total
+                // geral duplicaria o mesmo custo. O total econômico usa apenas os
+                // custos originais das colunas 6 a 10.
+                const total = rows.reduce((s, r) =>
+                    s + [6,7,8,9,10].reduce((a, i) =>
+                        a + (v49ParseCell(r.cells[i]?.innerText) || 0), 0
+                    ), 0
+                );
+
+                rfAtualizarTotaisCC(rows);
+
                 kc.innerHTML = [
                     v49KpiCard('Qtd. de Centros de Custos', v49FormatNum(rows.length)),
-                    v49KpiCard('Valor Total (Custo Fixo + Rateios)', formatarMoedaBR(total)),
+                    v49KpiCard('Valor Total (sem duplicar rateio indireto)', formatarMoedaBR(total)),
                     v49KpiCard('Horas Efetivas Produzidas', v49FormatNum(v49SumCol(rows, 12)) + ' h')
                 ].join('');
             }
@@ -6167,7 +6697,14 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         function v49OrderResultsFirst() {
             const nav = document.getElementById('nav-cliente-tabs');
             const b = document.getElementById('tab-btn-res');
-            if (nav && b) nav.insertBefore(b, nav.querySelector('#tab-btn-cfg') || nav.firstElementChild);
+            const cfg = document.getElementById('tab-btn-cfg');
+            if (!nav || !b) return;
+
+            if (cfg) {
+                if (b.nextElementSibling !== cfg) nav.insertBefore(b, cfg);
+            } else if (nav.firstElementChild !== b) {
+                nav.insertBefore(b, nav.firstElementChild);
+            }
         }
 
         function v49ScheduleRefresh() {
@@ -6182,12 +6719,27 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
 
         const v49Observer = new MutationObserver(mutations => {
             if (v49ObserverBusy) return;
-            const relevant = mutations.some(m => {
-                const t = m.target;
-                return !(t && (t.id === 'kpi-rec' || t.id === 'kpi-func' || t.id === 'kpi-plc' || t.id === 'kpi-cc' || t.classList?.contains('table-tools')));
-            });
+            const relevant = mutations.some(m => m.target && m.target.tagName === 'TBODY');
             if (relevant) v49ScheduleRefresh();
         });
+
+        function v524ObserveDataTables() {
+            try { v49Observer.disconnect(); } catch (_) {}
+
+            [
+                'tbl-inv-body',
+                'tbl-cc-body',
+                'tbl-rec-body',
+                'tbl-ben-body',
+                'tbl-func-body',
+                'tbl-plc-body',
+                'tbl-custo-hora-cc-body',
+                'tbl-ranking-cc-body'
+            ].forEach(id => {
+                const tb = document.getElementById(id);
+                if (tb) v49Observer.observe(tb, { childList: true });
+            });
+        }
 
         window.addEventListener('DOMContentLoaded', () => {
             // V5.0: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
@@ -6205,7 +6757,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.body.classList.toggle('sidebar-collapsed', v49SidebarCollapsed);
             v49MoveSidebar();
             v49OrderResultsFirst();
-            v49Observer.observe(document.getElementById('main-content') || document.body, { childList:true, subtree:true });
+            v524ObserveDataTables();
             v49PrepareTables();
             v49PatchCCEvents();
             setTimeout(() => {
