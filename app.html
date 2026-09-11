@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.9.5 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.9.6 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -124,15 +124,15 @@ body.rf-authenticated #nav-cliente-tabs { display:flex !important; }
     width:22px; height:22px; font-size:15px; line-height:1;
     border-radius:7px; background:#1b1d22; color:#9ea0a6;
 }
-#tab-btn-res::before { content:'📊'; }
-#tab-btn-cfg::before { content:'🗓'; }
-#tab-btn-cc::before { content:'🏭'; }
-#tab-btn-rec::before { content:'🛠'; }
-#tab-btn-ben::before { content:'🎁'; }
-#tab-btn-func::before { content:'👥'; }
-#tab-btn-plc::before { content:'🧾'; }
+#tab-btn-res::before { content:'▥'; }
+#tab-btn-cfg::before { content:'◷'; }
+#tab-btn-cc::before { content:'▦'; }
+#tab-btn-rec::before { content:'⚙'; }
+#tab-btn-ben::before { content:'✦'; }
+#tab-btn-func::before { content:'♙'; }
+#tab-btn-plc::before { content:'☷'; }
 #nav-cliente-tabs button.bg-brand-primary { background:linear-gradient(90deg,rgba(255,136,56,.18),rgba(255,136,56,.07)) !important; border-color:rgba(255,136,56,.35) !important; color:#fff !important; }
-#nav-cliente-tabs button.bg-brand-primary::before { background:#ff8838; color:#fff; }
+#nav-cliente-tabs button.bg-brand-primary::before { background:#34373e; color:#f3f4f6; }
 #sidebar-tools { position:absolute !important; left:12px !important; right:12px !important; bottom:14px !important; padding-top:10px; border-top:1px solid #292b31; }
 #theme-toggle { background:#191b20 !important; border-color:#30333a !important; color:#d8dbe1 !important; min-height:38px; }
 body.light-mode #nav-cliente-tabs { background:#fff !important; border-color:#dbe1ea !important; box-shadow:12px 0 35px rgba(15,23,42,.08); }
@@ -164,7 +164,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
 </style>
 
 <style id="v49-sidebar-final-fix">
-/* V4.9.5 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
+/* V4.9.6 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
 #app-header > #sidebar-toggle { display:none !important; }
 #sidebar-tools {
     position:absolute !important;
@@ -202,7 +202,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v493-mobile-ui">
 /* ================================================================
-   V4.9.5 — MOBILE UX
+   V4.9.6 — MOBILE UX
    No celular o menu lateral vira uma gaveta inferior. O mesmo botão
    Menu permanece único e fica sempre acessível no rodapé.
    ================================================================ */
@@ -364,7 +364,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v494-light-theme">
 /* ================================================================
-   V4.9.5 — LIGHT THEME REFINEMENT
+   V4.9.6 — LIGHT THEME REFINEMENT
    Mantém contraste, hierarquia e identidade laranja sem lavar a tela.
    ================================================================ */
 body.light-mode {
@@ -426,8 +426,8 @@ body.light-mode #nav-cliente-tabs button.bg-brand-primary {
     color:#9a4310 !important;
 }
 body.light-mode #nav-cliente-tabs button.bg-brand-primary::before {
-    background:#ff8838 !important;
-    color:#fff !important;
+    background:#d9dee7 !important;
+    color:#344054 !important;
 }
 body.light-mode .accordion-toggle {
     background:#f1f4f8 !important;
@@ -447,6 +447,133 @@ body.light-mode .text-amber-300 { color:#a75a00 !important; }
 body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !important; }
 </style>
 
+
+<style id="v496-final-visual">
+/* ================================================================
+   V4.9.6 — ÍCONES MONOCROMÁTICOS + LIGHT THEME REFINADO
+   ================================================================ */
+#nav-cliente-tabs button::before {
+    font-family: Arial, "Segoe UI Symbol", sans-serif !important;
+    font-weight:700 !important;
+    background:#1d2026 !important;
+    color:#aeb4bd !important;
+    filter:none !important;
+}
+#nav-cliente-tabs button:hover::before {
+    background:#262a31 !important;
+    color:#e5e7eb !important;
+}
+#nav-cliente-tabs button.bg-brand-primary::before {
+    background:#353941 !important;
+    color:#f3f4f6 !important;
+    box-shadow:inset 0 0 0 1px #4a4f59 !important;
+}
+body.light-mode {
+    background:#f4f6f9 !important;
+    color:#202936 !important;
+}
+body.light-mode #main-content { background:#f4f6f9 !important; }
+body.light-mode #app-header {
+    background:#ffffff !important;
+    border-color:#e1e6ed !important;
+    box-shadow:0 1px 7px rgba(16,24,40,.06) !important;
+}
+body.light-mode .bg-brand-card,
+body.light-mode .bg-\[\#16161a\] {
+    background:#ffffff !important;
+    border-color:#e1e6ed !important;
+    box-shadow:0 1px 3px rgba(16,24,40,.025);
+}
+body.light-mode .bg-\[\#0d0d0f\],
+body.light-mode .bg-brand-dark { background:#f8fafc !important; }
+body.light-mode .text-white { color:#202936 !important; }
+body.light-mode .text-brand-muted { color:#667085 !important; }
+body.light-mode .border-brand-border { border-color:#e1e6ed !important; }
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea {
+    background:#ffffff !important;
+    color:#202936 !important;
+    border-color:#cfd6df !important;
+}
+body.light-mode input::placeholder,
+body.light-mode textarea::placeholder { color:#98a2b3 !important; }
+body.light-mode input:disabled,
+body.light-mode select:disabled,
+body.light-mode textarea:disabled {
+    background:#eef1f5 !important;
+    color:#596273 !important;
+    opacity:1 !important;
+}
+body.light-mode input:focus,
+body.light-mode select:focus,
+body.light-mode textarea:focus {
+    border-color:#d97735 !important;
+    box-shadow:0 0 0 3px rgba(217,119,53,.10) !important;
+}
+body.light-mode .kpi-mini {
+    background:#ffffff !important;
+    border-color:#e1e6ed !important;
+    box-shadow:0 2px 10px rgba(16,24,40,.035) !important;
+}
+body.light-mode table { color:#344054 !important; }
+body.light-mode table thead {
+    background:#f2f4f7 !important;
+    color:#344054 !important;
+}
+body.light-mode table tbody tr { border-color:#e7ebf0 !important; }
+body.light-mode table tbody tr:hover { background:#f8fafc !important; }
+body.light-mode #nav-cliente-tabs {
+    background:#f9fafb !important;
+    border-color:#e1e6ed !important;
+    box-shadow:10px 0 26px rgba(16,24,40,.055) !important;
+}
+body.light-mode #nav-cliente-tabs button { color:#5f6878 !important; }
+body.light-mode #nav-cliente-tabs button:hover {
+    background:#eef1f5 !important;
+    color:#202936 !important;
+}
+body.light-mode #nav-cliente-tabs button::before {
+    background:#e7eaf0 !important;
+    color:#5d6675 !important;
+}
+body.light-mode #nav-cliente-tabs button:hover::before {
+    background:#dde2e9 !important;
+    color:#303846 !important;
+}
+body.light-mode #nav-cliente-tabs button.bg-brand-primary {
+    background:#eceff3 !important;
+    border-color:#cfd5dd !important;
+    color:#202936 !important;
+}
+body.light-mode #nav-cliente-tabs button.bg-brand-primary::before {
+    background:#d7dce3 !important;
+    color:#303846 !important;
+    box-shadow:inset 0 0 0 1px #c6ccd5 !important;
+}
+body.light-mode .accordion-toggle {
+    background:#eef1f5 !important;
+    color:#344054 !important;
+    border-color:#d9dee6 !important;
+}
+body.light-mode .accordion-toggle:hover { background:#e6eaf0 !important; }
+body.light-mode .bg-emerald-950\/30,
+body.light-mode .bg-emerald-950\/80 { background:#edf7f3 !important; }
+body.light-mode .bg-blue-950\/40 { background:#eef4fb !important; }
+body.light-mode .bg-amber-950\/40 { background:#fff8e8 !important; }
+body.light-mode .bg-red-950\/30,
+body.light-mode .bg-red-950\/80 { background:#fff5f4 !important; }
+body.light-mode #container-dre-rows > div { box-shadow:none !important; }
+body.light-mode #container-dre-rows .text-red-300\/80 { color:#c65a5a !important; }
+body.light-mode #container-dre-rows .text-amber-300\/80 { color:#a66a16 !important; }
+body.light-mode .text-emerald-300,
+body.light-mode .text-emerald-400 { color:#08785a !important; }
+body.light-mode .text-blue-300 { color:#2f67a8 !important; }
+body.light-mode .text-amber-300 { color:#a46716 !important; }
+body.light-mode .text-red-300,
+body.light-mode .text-red-400 { color:#b94b4b !important; }
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -454,7 +581,7 @@ body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !im
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.5</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.6</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -482,7 +609,7 @@ body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !im
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.5</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.6</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -770,7 +897,7 @@ body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !im
                     </div>
 
                     <div class="md:col-span-2 flex items-center gap-2 pt-2">
-                        <input type="checkbox" id="cc-considerar-minimo" class="w-4 h-4 accent-brand-primary bg-[#0d0d0f] border-brand-border rounded cursor-pointer">
+                        <input type="checkbox" id="cc-considerar-minimo" onchange="aplicarRegraMinimoCC()" class="w-4 h-4 accent-brand-primary bg-[#0d0d0f] border-brand-border rounded cursor-pointer">
                         <label for="cc-considerar-minimo" class="text-xs md:text-sm text-white cursor-pointer">Considerar Mínimo</label>
                     </div>
 
@@ -2307,7 +2434,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             await carregarPadroes();
             await carregarTudoDoPeriodo();
 
-            // V4.9.5: tela inicial é Resultados & Análises.
+            // V4.9.6: tela inicial é Resultados & Análises.
             // A abertura acontece somente após os dados do período terem sido carregados.
             alternarAbaCliente('res');
         }
@@ -2639,7 +2766,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 carregarPlanoContas()
             ]);
 
-            // V4.9.5: se Resultados estiver aberto, só calcula depois que
+            // V4.9.6: se Resultados estiver aberto, só calcula depois que
             // todas as bases do período já terminaram de carregar.
             const secResultados = document.getElementById('section-resultados');
             if (secResultados && !secResultados.classList.contains('hidden')) {
@@ -2699,19 +2826,73 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         }
 
         // --- ABA CENTROS DE CUSTO ---
+        function garantirOpcaoMinimoCC() {
+            const selectRateio = document.getElementById('cc-tipo-rateio');
+            if (!selectRateio) return;
+            const existe = Array.from(selectRateio.options).some(o => String(o.value).toUpperCase() === 'MINIMO');
+            if (!existe) {
+                const opt = document.createElement('option');
+                opt.value = 'MINIMO';
+                opt.textContent = 'MINIMO';
+                selectRateio.appendChild(opt);
+            }
+        }
+
+        function aplicarRegraMinimoCC() {
+            const chkMin = document.getElementById('cc-considerar-minimo');
+            const selectRateio = document.getElementById('cc-tipo-rateio');
+            const inpProd = document.getElementById('cc-produtividade');
+            if (!chkMin || !selectRateio || !inpProd) return;
+
+            if (chkMin.checked) {
+                if (String(selectRateio.value || '').toUpperCase() !== 'MINIMO') {
+                    selectRateio.dataset.rateioAnterior = selectRateio.value || '';
+                }
+                garantirOpcaoMinimoCC();
+                selectRateio.value = 'MINIMO';
+                selectRateio.disabled = true;
+                inpProd.value = '100';
+                inpProd.disabled = true;
+            } else {
+                selectRateio.disabled = false;
+                if (String(selectRateio.value || '').toUpperCase() === 'MINIMO') {
+                    selectRateio.value = selectRateio.dataset.rateioAnterior || '';
+                }
+                inpProd.disabled = false;
+            }
+
+            verificarTipoCentroCusto();
+        }
+
         function verificarTipoCentroCusto() {
             const tipo = document.getElementById('cc-tipo').value;
-            const rateio = document.getElementById('cc-tipo-rateio').value;
+            const selectRateio = document.getElementById('cc-tipo-rateio');
+            const rateio = selectRateio ? selectRateio.value : '';
             const wrapperRateio = document.getElementById('wrapper-cc-tipo-rateio');
             const wrapperCustoFixo = document.getElementById('wrapper-cc-custo-fixo');
             const wrapperProdutividade = document.getElementById('wrapper-cc-produtividade');
             const inpFx = document.getElementById('cc-custo-fixo');
             const inpProd = document.getElementById('cc-produtividade');
             const chkMin = document.getElementById('cc-considerar-minimo');
+            const minimoAtivo = !!(chkMin && chkMin.checked);
+
+            if (minimoAtivo) {
+                garantirOpcaoMinimoCC();
+                if (selectRateio) {
+                    selectRateio.value = 'MINIMO';
+                    selectRateio.disabled = true;
+                }
+                if (inpProd) {
+                    inpProd.value = '100';
+                    inpProd.disabled = true;
+                }
+            } else if (selectRateio) {
+                selectRateio.disabled = false;
+            }
 
             if (tipo === 'PRODUTIVO DIRETO') {
                 wrapperRateio.classList.remove('hidden');
-                const funcionario = String(rateio || '').toUpperCase() === 'FUNCIONARIO';
+                const funcionario = !minimoAtivo && String(rateio || '').toUpperCase() === 'FUNCIONARIO';
                 if (funcionario) {
                     wrapperCustoFixo.classList.add('hidden');
                     wrapperProdutividade.classList.add('hidden');
@@ -2720,18 +2901,21 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 } else {
                     wrapperCustoFixo.classList.remove('hidden');
                     wrapperProdutividade.classList.remove('hidden');
-                    if (inpProd) inpProd.disabled = !!(chkMin && chkMin.checked);
+                    if (inpProd) inpProd.disabled = minimoAtivo;
                 }
             } else {
+                // Para os demais tipos, mantém o comportamento visual existente.
+                // Se Mínimo estiver marcado, o backend ainda força RATEIO=MINIMO,
+                // PRODUTIVIDADE=100% e HORAS FINAIS=130h.
                 wrapperRateio.classList.add('hidden');
                 wrapperCustoFixo.classList.add('hidden');
                 wrapperProdutividade.classList.add('hidden');
-                document.getElementById('cc-tipo-rateio').value = '';
+                if (!minimoAtivo && selectRateio) selectRateio.value = '';
                 if (inpFx) inpFx.value = '0,00';
-                if (inpProd) { inpProd.value = '100.00'; inpProd.disabled = true; }
-            }
-            if (chkMin && chkMin.checked && String(rateio || '').toUpperCase() !== 'FUNCIONARIO' && tipo === 'PRODUTIVO DIRETO') {
-                if (inpProd) { inpProd.value = '100'; inpProd.disabled = true; }
+                if (inpProd) {
+                    inpProd.value = minimoAtivo ? '100' : '100.00';
+                    inpProd.disabled = true;
+                }
             }
         }
 
@@ -2802,11 +2986,13 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('cc-nome').value = item.TCENTRO_CUSTO_NOME;
             document.getElementById('cc-tipo').value = item.TCENTRO_CUSTO_TIPO;
             verificarTipoCentroCusto();
+            garantirOpcaoMinimoCC();
             document.getElementById('cc-tipo-rateio').value = item.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '';
             document.getElementById('cc-area').value = item.TCENTRO_CUSTO_AREA || 0;
             document.getElementById('cc-custo-fixo').value = Number(item.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || item.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('cc-produtividade').value = item.TCENTRO_CUSTO_PRODUTIVIDADE || 100;
             document.getElementById('cc-considerar-minimo').checked = String(item.TCENTRO_CUSTO_CONSIDERAR_MINIMO).toUpperCase() === 'SIM';
+            aplicarRegraMinimoCC();
 
             document.getElementById('btn-salvar-cc').innerText = "Atualizar Centro de Custo";
             document.getElementById('btn-cancelar-cc').classList.remove('hidden');
@@ -2823,12 +3009,13 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
 
             const nome = document.getElementById('cc-nome').value.trim().toUpperCase();
             const tipo = document.getElementById('cc-tipo').value;
-            const rateio = document.getElementById('cc-tipo-rateio').value;
+            let rateio = document.getElementById('cc-tipo-rateio').value;
             const area = parseFloat(document.getElementById('cc-area').value) || 0;
-            const isFuncionarioRateio = String(rateio || '').toUpperCase() === 'FUNCIONARIO';
             const minChecked = document.getElementById('cc-considerar-minimo').checked;
+            if (minChecked) rateio = 'MINIMO';
+            const isFuncionarioRateio = !minChecked && String(rateio || '').toUpperCase() === 'FUNCIONARIO';
             const fx = isFuncionarioRateio ? 0 : parseMoedaBR(document.getElementById('cc-custo-fixo').value);
-            const prod = isFuncionarioRateio ? 0 : (minChecked ? 100 : (parseFloat(document.getElementById('cc-produtividade').value) || 100));
+            const prod = minChecked ? 100 : (isFuncionarioRateio ? 0 : (parseFloat(document.getElementById('cc-produtividade').value) || 100));
             const min = minChecked ? "SIM" : "NAO";
 
             const payload = {
@@ -2865,6 +3052,8 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('btn-salvar-cc').innerText = "Salvar Centro de Custo";
             document.getElementById('btn-salvar-cc').disabled = false;
             document.getElementById('btn-cancelar-cc').classList.add('hidden');
+            const rateioCC = document.getElementById('cc-tipo-rateio');
+            if (rateioCC) { rateioCC.disabled = false; delete rateioCC.dataset.rateioAnterior; }
             verificarTipoCentroCusto();
         }
 
@@ -4621,7 +4810,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            // V4.9.5: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
+            // V4.9.6: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
             const navMobile = document.getElementById('nav-cliente-tabs');
             if (navMobile && navMobile.dataset.mobileCloseBound !== '1') {
                 navMobile.dataset.mobileCloseBound = '1';
