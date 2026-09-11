@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.9.8 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.9.9 | Gestão de Custos</title>
     <link rel="manifest" href="./manifest.json?v=4.9.8">
-    <link rel="icon" type="image/png" sizes="192x192" href="./rf-icon-192-v498.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="./rf-icon-512-v498.png">
-    <link rel="shortcut icon" type="image/png" href="./rf-icon-192-v498.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="./rf-icon-192-v498.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./rf-icon-192-v499.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./rf-icon-512-v499.png">
+    <link rel="shortcut icon" type="image/png" href="./rf-icon-192-v499.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="./rf-icon-192-v499.png">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -181,7 +181,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
 </style>
 
 <style id="v49-sidebar-final-fix">
-/* V4.9.8 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
+/* V4.9.9 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
 #app-header > #sidebar-toggle { display:none !important; }
 #sidebar-tools {
     position:absolute !important;
@@ -219,7 +219,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v493-mobile-ui">
 /* ================================================================
-   V4.9.8 — MOBILE UX
+   V4.9.9 — MOBILE UX
    No celular o menu lateral vira uma gaveta inferior. O mesmo botão
    Menu permanece único e fica sempre acessível no rodapé.
    ================================================================ */
@@ -381,7 +381,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v494-light-theme">
 /* ================================================================
-   V4.9.8 — LIGHT THEME REFINEMENT
+   V4.9.9 — LIGHT THEME REFINEMENT
    Mantém contraste, hierarquia e identidade laranja sem lavar a tela.
    ================================================================ */
 body.light-mode {
@@ -467,7 +467,7 @@ body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !im
 
 <style id="v496-final-visual">
 /* ================================================================
-   V4.9.8 — ÍCONES MONOCROMÁTICOS + LIGHT THEME REFINADO
+   V4.9.9 — ÍCONES MONOCROMÁTICOS + LIGHT THEME REFINADO
    ================================================================ */
 #nav-cliente-tabs button::before {
     font-family: Arial, "Segoe UI Symbol", sans-serif !important;
@@ -593,7 +593,7 @@ body.light-mode .text-red-400 { color:#b94b4b !important; }
 
 
 <style id="v497-light-accessibility">
-/* V4.9.8 — tema claro de trabalho: contraste neutro e botões legíveis */
+/* V4.9.9 — tema claro de trabalho: contraste neutro e botões legíveis */
 body.light-mode { background:#e9edf2 !important; color:#18202c !important; }
 body.light-mode #main-content { background:#e9edf2 !important; }
 body.light-mode .bg-brand-card, body.light-mode .bg-\[\#16161a\] { background:#fff !important; border-color:#cbd3dd !important; }
@@ -607,6 +607,128 @@ body.light-mode #btn-install-app { background:#344054 !important; color:#fff !im
 body.light-mode #btn-install-app:hover { background:#1f2937 !important; }
 body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !important; border-color:#a8d8c7 !important; }
 </style>
+
+<style id="v499-admin-mobile">
+/* ================================================================
+   V4.9.9 — HEADER MOBILE + ADMINISTRAÇÃO
+   ================================================================ */
+#tab-btn-admin::before { content:'⊞'; }
+
+.admin-secondary-btn {
+    background:#23262c; color:#d9dde4; border:1px solid #353942;
+}
+.admin-secondary-btn:hover { background:#2d3139; color:#fff; }
+.admin-edit-btn, .admin-inactivate-btn, .admin-activate-btn {
+    display:inline-flex; align-items:center; justify-content:center;
+    min-height:31px; padding:5px 9px; margin-left:5px;
+    border-radius:7px; font-size:11px; font-weight:800; transition:.15s;
+}
+.admin-edit-btn { background:#20242a; color:#d7dce4; border:1px solid #3a3f49; }
+.admin-edit-btn:hover { border-color:#8b93a1; background:#2b3038; color:#fff; }
+.admin-inactivate-btn { background:#2a1c1c; color:#e7aaaa; border:1px solid #633636; }
+.admin-inactivate-btn:hover { background:#713838; color:#fff; }
+.admin-activate-btn { background:#173027; color:#98d8be; border:1px solid #315f4e; }
+.admin-activate-btn:hover { background:#276048; color:#fff; }
+.admin-status {
+    display:inline-flex; align-items:center; padding:4px 8px; border-radius:999px;
+    font-size:10px; font-weight:800; border:1px solid;
+}
+.admin-status.is-active { background:#143327; color:#8fd5b9; border-color:#2d6b52; }
+.admin-status.is-inactive { background:#342020; color:#e4a4a4; border-color:#704040; }
+.admin-table-wrap { border:1px solid var(--ui-border); border-radius:11px; }
+
+body.light-mode .admin-secondary-btn,
+body.light-mode .admin-edit-btn {
+    background:#edf0f4 !important; color:#344054 !important; border-color:#cbd2dc !important;
+}
+body.light-mode .admin-secondary-btn:hover,
+body.light-mode .admin-edit-btn:hover { background:#e2e7ed !important; color:#111827 !important; }
+body.light-mode .admin-inactivate-btn { background:#fff !important; color:#a63b3b !important; border-color:#d8a1a1 !important; }
+body.light-mode .admin-inactivate-btn:hover { background:#a63b3b !important; color:#fff !important; }
+body.light-mode .admin-activate-btn { background:#fff !important; color:#187451 !important; border-color:#8fcab4 !important; }
+body.light-mode .admin-activate-btn:hover { background:#187451 !important; color:#fff !important; }
+body.light-mode .admin-status.is-active { background:#eaf6f1 !important; color:#17684c !important; border-color:#a8d5c4 !important; }
+body.light-mode .admin-status.is-inactive { background:#faeeee !important; color:#9e3d3d !important; border-color:#e0b0b0 !important; }
+
+@media (max-width:767px) {
+    #app-header {
+        position:sticky !important; top:0 !important;
+        padding:8px 10px 9px !important;
+        grid-template-columns:minmax(0,1fr) auto !important;
+        gap:7px 8px !important;
+        box-shadow:0 4px 18px rgba(0,0,0,.22) !important;
+    }
+    #app-header > div:first-child {
+        grid-column:1 !important; grid-row:1 !important;
+        min-width:0 !important; overflow:hidden !important;
+    }
+    #app-logo-header { height:25px !important; max-width:185px !important; }
+    #app-header > div:first-child > span:first-of-type { flex:0 0 auto; }
+    #role-badge { display:none !important; }
+
+    #user-menu {
+        grid-column:2 !important; grid-row:1 !important;
+        justify-self:end !important; display:flex !important; gap:5px !important;
+    }
+    #user-menu #user-display-name { display:none !important; }
+    #btn-install-app {
+        width:34px !important; min-width:34px !important; height:34px !important;
+        padding:0 !important; overflow:hidden !important; font-size:0 !important;
+        border-radius:9px !important;
+    }
+    #btn-install-app::before { content:'↓'; font-size:18px !important; font-weight:900; }
+    #user-menu button:last-child {
+        width:34px !important; min-width:34px !important; height:34px !important;
+        padding:0 !important; font-size:0 !important; border-radius:9px !important;
+    }
+    #user-menu button:last-child::before { content:'↪'; font-size:17px !important; }
+
+    #wrapper-admin-cliente-global,
+    #wrapper-periodo-global {
+        grid-column:1 / -1 !important;
+        width:100% !important; min-width:0 !important;
+        min-height:40px !important; padding:4px !important;
+        border-radius:10px !important;
+    }
+    #wrapper-admin-cliente-global {
+        grid-row:2 !important;
+        display:grid !important; grid-template-columns:58px minmax(0,1fr) !important;
+        gap:4px !important;
+    }
+    #wrapper-admin-cliente-global.hidden { display:none !important; }
+    #wrapper-periodo-global {
+        grid-row:3 !important;
+        grid-template-columns:58px minmax(0,1fr) 42px !important;
+        gap:4px !important;
+    }
+    #wrapper-admin-cliente-global > span,
+    #wrapper-periodo-global > span {
+        font-size:9px !important; padding-left:5px !important; color:var(--ui-muted) !important;
+    }
+    #admin-cliente-global-select,
+    #global-periodo-select {
+        width:100% !important; min-width:0 !important; max-width:none !important;
+        height:32px !important; padding:4px 6px !important; font-size:10px !important;
+    }
+    #wrapper-periodo-global button {
+        width:42px !important; height:32px !important; min-height:32px !important;
+        padding:0 !important; font-size:0 !important; border-radius:7px !important;
+    }
+    #wrapper-periodo-global button::before { content:'＋'; font-size:18px !important; }
+
+    #main-content { padding-top:9px !important; }
+    #section-admin .bg-brand-card { padding:13px !important; }
+    #section-admin h1 { font-size:18px !important; }
+    #section-admin h2 { font-size:15px !important; }
+    #section-admin .table-search { min-height:38px !important; }
+    #section-admin .admin-table-wrap > table { min-width:760px !important; }
+}
+
+@media (min-width:768px) {
+    #wrapper-admin-cliente-global select { min-width:190px; }
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -614,13 +736,20 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.8</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.9</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
         <div id="sync-indicator" class="hidden items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold transition-all">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
             <span id="sync-text">Conectado</span>
+        </div>
+
+        <div id="wrapper-admin-cliente-global" class="hidden flex items-center gap-2 bg-[#16161a] p-1.5 rounded-lg border border-brand-border">
+            <span class="text-xs text-brand-muted pl-1">Empresa:</span>
+            <select id="admin-cliente-global-select" onchange="trocarClienteAdmin()" class="bg-[#0d0d0f] text-white text-xs font-bold p-1.5 rounded border border-brand-border outline-none max-w-[230px] truncate">
+                <option value="">Carregando...</option>
+            </select>
         </div>
 
         <div id="wrapper-periodo-global" class="hidden flex items-center gap-2 bg-[#16161a] p-1.5 rounded-lg border border-brand-border">
@@ -643,7 +772,7 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.8</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.9</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -671,6 +800,8 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
         </div>
 
         <div id="nav-cliente-tabs" class="flex gap-2 border-b border-brand-border pb-2 overflow-x-auto">
+            <button id="tab-btn-admin" onclick="alternarAbaCliente('admin')" class="hidden px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Administração</button>
+
             <button id="tab-btn-cfg" onclick="alternarAbaCliente('cfg')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap">Config. Período</button>
             <button id="tab-btn-cc" onclick="alternarAbaCliente('cc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Centros de Custo</button>
             <button id="tab-btn-rec" onclick="alternarAbaCliente('rec')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Recursos</button>
@@ -686,90 +817,135 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
 
         <!-- ABA GERENCIAMENTO ADMIN -->
         <section id="section-admin" class="hidden space-y-6">
-            <div class="border-b border-brand-border pb-4 flex justify-between items-center">
-                <div>
-                    <h1 class="text-xl md:text-2xl font-bold text-white">Gerenciamento do Sistema</h1>
-                    <p class="text-xs text-brand-muted">Cadastre empresas parceiras, bloqueie acessos e gerencie usuários</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <h2 class="text-base md:text-lg font-bold text-white border-b border-brand-border/50 pb-2">1. Cadastrar Cliente (Empresa)</h2>
-                    <form id="form-cliente" onsubmit="cadastrarCliente(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">Nome / Razão Social</label>
-                            <input type="text" id="cli-nome" placeholder="Empresa X Ltda" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">CNPJ</label>
-                            <input type="text" id="cli-cnpj" placeholder="00.000.000/0001-00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                        </div>
-                        <button type="submit" id="btn-salvar-cli" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded text-sm transition mt-2">Salvar Cliente</button>
-                    </form>
-                </div>
-
-                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <h2 class="text-base md:text-lg font-bold text-white border-b border-brand-border/50 pb-2">2. Cadastrar Usuário</h2>
-                    <form id="form-usuario" onsubmit="cadastrarUsuario(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">Vincular ao Cliente</label>
-                            <select id="usr-cli-id" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                                <option value="">Carregando...</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">É Administrador?</label>
-                            <select id="usr-adm" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                                <option value="NAO">NÃO</option>
-                                <option value="SIM">SIM</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">Nome Completo</label>
-                            <input type="text" id="usr-nome" placeholder="João Silva" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-brand-muted mb-1">E-mail de Acesso</label>
-                            <input type="email" id="usr-email" placeholder="joao@empresa.com" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs text-brand-muted mb-1">Celular</label>
-                                <input type="text" id="usr-celular" placeholder="(11) 99999-9999" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-brand-muted mb-1">Senha</label>
-                                <input type="password" id="usr-senha" placeholder="••••••••" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            </div>
-                        </div>
-                        <button type="submit" id="btn-salvar-usr" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition mt-2">Salvar Usuário</button>
-                    </form>
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-bold text-white">Administração</h1>
+                        <p class="text-xs text-brand-muted mt-1">Cadastros, manutenção de empresas e controle de acesso dos usuários.</p>
+                    </div>
+                    <button type="button" onclick="rfAdminCarregarTudo(true)" class="admin-secondary-btn px-4 py-2 rounded-lg text-xs font-bold transition">↻ Atualizar cadastros</button>
                 </div>
             </div>
 
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <h2 class="text-base md:text-lg font-bold text-white border-b border-brand-border/50 pb-2">3. Clientes Cadastrados & Status de Acesso</h2>
-                <div class="overflow-x-auto">
+                <button type="button" class="accordion-toggle bg-brand-border/40 hover:bg-brand-border/60 border border-brand-border rounded-lg px-3 py-2 text-xs font-bold text-white transition" onclick="toggleAccordion('form-cliente')">
+                    <span>＋ Cadastrar / Editar Empresa</span><span id="form-cliente-icon">＋</span>
+                </button>
+
+                <form id="form-cliente" onsubmit="cadastrarCliente(event)" class="accordion-form is-collapsed grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="hidden" id="cli-editing-id" value="">
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Nome / Razão Social</label>
+                        <input type="text" id="cli-nome" placeholder="EMPRESA X LTDA" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">CNPJ</label>
+                        <input type="text" id="cli-cnpj" placeholder="00.000.000/0001-00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div class="md:col-span-2 flex justify-end gap-2">
+                        <button type="button" id="btn-cancelar-cli" onclick="limparFormClienteAdmin()" class="hidden admin-secondary-btn px-4 py-2 rounded-lg text-xs font-bold">Cancelar</button>
+                        <button type="submit" id="btn-salvar-cli" class="bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 px-6 rounded-lg text-sm transition">Salvar Empresa</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <div>
+                        <h2 class="text-base md:text-lg font-bold text-white">Empresas Cadastradas</h2>
+                        <p class="text-xs text-brand-muted">Empresas não são excluídas. O acesso pode ser inativado e reativado.</p>
+                    </div>
+                    <input id="admin-busca-clientes" oninput="renderizarTabelaClientesAdmin()" type="text" placeholder="Buscar empresa..." class="table-search">
+                </div>
+                <div class="overflow-x-auto admin-table-wrap">
                     <table class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">ID</th>
-                                <th class="p-2 md:p-3">Razão Social / Nome</th>
-                                <th class="p-2 md:p-3">CNPJ</th>
-                                <th class="p-2 md:p-3">Status Acesso</th>
-                                <th class="p-2 md:p-3 text-right">Ação Bloqueio</th>
+                                <th class="p-3">ID</th>
+                                <th class="p-3">Razão Social / Nome</th>
+                                <th class="p-3">CNPJ</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-admin-clientes-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="5" class="p-4 text-center">Carregando clientes...</td></tr>
+                            <tr><td colspan="5" class="p-4 text-center">Carregando empresas...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <button type="button" class="accordion-toggle bg-brand-border/40 hover:bg-brand-border/60 border border-brand-border rounded-lg px-3 py-2 text-xs font-bold text-white transition" onclick="toggleAccordion('form-usuario')">
+                    <span>＋ Cadastrar / Editar Usuário</span><span id="form-usuario-icon">＋</span>
+                </button>
+
+                <form id="form-usuario" onsubmit="cadastrarUsuario(event)" class="accordion-form is-collapsed grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <input type="hidden" id="usr-editing-id" value="">
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Vincular à Empresa</label>
+                        <select id="usr-cli-id" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <option value="">Carregando...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Nome Completo</label>
+                        <input type="text" id="usr-nome" placeholder="JOÃO SILVA" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">E-mail de Acesso</label>
+                        <input type="email" id="usr-email" placeholder="joao@empresa.com" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Celular</label>
+                        <input type="text" id="usr-celular" placeholder="(11) 99999-9999" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Administrador?</label>
+                        <select id="usr-adm" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                            <option value="NAO">NÃO</option>
+                            <option value="SIM">SIM</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-brand-muted mb-1">Senha <span id="usr-senha-help" class="opacity-70">(obrigatória no cadastro)</span></label>
+                        <input type="password" id="usr-senha" placeholder="••••••••" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
+                    </div>
+                    <div class="md:col-span-2 lg:col-span-3 flex justify-end gap-2">
+                        <button type="button" id="btn-cancelar-usr" onclick="limparFormUsuarioAdmin()" class="hidden admin-secondary-btn px-4 py-2 rounded-lg text-xs font-bold">Cancelar</button>
+                        <button type="submit" id="btn-salvar-usr" class="bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 px-6 rounded-lg text-sm transition">Salvar Usuário</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <div>
+                        <h2 class="text-base md:text-lg font-bold text-white">Usuários Cadastrados</h2>
+                        <p class="text-xs text-brand-muted">Edite dados ou inative o acesso. Nenhum usuário é excluído.</p>
+                    </div>
+                    <input id="admin-busca-usuarios" oninput="renderizarTabelaUsuariosAdmin()" type="text" placeholder="Buscar usuário..." class="table-search">
+                </div>
+                <div class="overflow-x-auto admin-table-wrap">
+                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                            <tr>
+                                <th class="p-3">Usuário</th>
+                                <th class="p-3">Empresa</th>
+                                <th class="p-3">E-mail</th>
+                                <th class="p-3">Perfil</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-admin-usuarios-body" class="divide-y divide-brand-border/50">
+                            <tr><td colspan="6" class="p-4 text-center">Carregando usuários...</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- ABA 0: CONFIG. PERÍODO -->
         <section id="section-config-periodo" class="space-y-6">
             <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                 <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
@@ -1637,6 +1813,8 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
         let usuarioLogado = null;
         let empresaLogadaNome = "---";
         let listaClientesAdmin = [];
+        let listaUsuariosAdmin = [];
+        let adminClienteSelecionadoId = '';
         let listaPeriodos = [];
         let periodoAtivoObj = null;
 
@@ -1672,6 +1850,8 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
             localStorage.removeItem('usuarioLogadoRF');
             localStorage.removeItem('rf_validacao_usuario_em');
             localStorage.removeItem('rf_ultima_aba');
+            localStorage.removeItem('rf_admin_cliente_contexto');
+            localStorage.removeItem('rf_admin_cliente_login');
             document.documentElement.classList.remove('rf-has-session');
             location.reload();
         }
@@ -1794,6 +1974,298 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
                 });
             }
         }
+
+
+        // ======================================================
+        // V4.9.9 — ADMINISTRAÇÃO / CONTEXTO DE EMPRESA
+        // ======================================================
+        function rfAdminEhAdministrador() {
+            return usuarioLogado && ['SIM','TRUE'].includes(String(usuarioLogado.TUSUARIO_ADM || '').toUpperCase());
+        }
+
+        function rfAdminValor(obj, nomes, fallback = '') {
+            for (const nome of nomes) {
+                if (obj && Object.prototype.hasOwnProperty.call(obj, nome)) return obj[nome];
+            }
+            return fallback;
+        }
+
+        function rfAdminMontarLinha(templateObj, updates = {}) {
+            const keys = Object.keys(templateObj || {});
+            if (!keys.length) throw new Error('Não foi possível identificar a estrutura da tabela.');
+            return keys.map(k => Object.prototype.hasOwnProperty.call(updates, k) ? updates[k] : (templateObj[k] ?? ''));
+        }
+
+        async function rfAdminCarregarTudo(mostrarSync = true) {
+            if (!rfAdminEhAdministrador()) return;
+            try {
+                if (mostrarSync) setSyncStatus(true);
+                const [rCli, rUsr] = await Promise.all([
+                    fetch(`${API_URL}?action=TCLIENTE`),
+                    fetch(`${API_URL}?action=TUSUARIO`)
+                ]);
+                const clientes = await v49ResponseJSON(rCli, 'TCLIENTE');
+                const usuarios = await v49ResponseJSON(rUsr, 'TUSUARIO');
+                listaClientesAdmin = Array.isArray(clientes) ? clientes : [];
+                listaUsuariosAdmin = Array.isArray(usuarios) ? usuarios : [];
+                carregarClientesSelect();
+                rfAdminPreencherContextoEmpresas();
+                renderizarTabelaClientesAdmin();
+                renderizarTabelaUsuariosAdmin();
+                if (mostrarSync) setSyncStatus(false);
+            } catch (e) {
+                console.error('Erro ao carregar administração:', e);
+                if (mostrarSync) setSyncStatus(false, 'Erro Administração');
+            }
+        }
+
+        function carregarTabelaClientesAdmin() {
+            return rfAdminCarregarTudo(false);
+        }
+
+        function rfAdminPreencherContextoEmpresas() {
+            const sel = document.getElementById('admin-cliente-global-select');
+            if (!sel) return;
+            const atual = adminClienteSelecionadoId || localStorage.getItem('rf_admin_cliente_contexto') || '';
+            sel.innerHTML = '<option value="">-- SELECIONE A EMPRESA --</option>';
+            listaClientesAdmin.forEach(c => {
+                const id = String(c.TCLIENTE_ID || '');
+                const ativo = String(c.TCLIENTE_ATIVO || 'SIM').toUpperCase() !== 'NAO';
+                const nome = String(c.TCLIENTE_NOME || id).toUpperCase();
+                sel.innerHTML += `<option value="${id}">${nome}${ativo ? '' : ' [INATIVA]'}</option>`;
+            });
+            if (atual && Array.from(sel.options).some(o => o.value === atual)) sel.value = atual;
+        }
+
+        async function trocarClienteAdmin() {
+            if (!rfAdminEhAdministrador()) return;
+            const sel = document.getElementById('admin-cliente-global-select');
+            const id = String(sel?.value || '');
+            if (!id) return;
+
+            const cliente = listaClientesAdmin.find(c => String(c.TCLIENTE_ID) === id);
+            if (!cliente) return;
+
+            adminClienteSelecionadoId = id;
+            usuarioLogado.TCLIENTE_ID = id; // contexto de trabalho, não altera o usuário salvo no login
+            empresaLogadaNome = cliente.TCLIENTE_NOME || id;
+            localStorage.setItem('rf_admin_cliente_contexto', id);
+
+            periodoAtivoObj = null;
+            listaPeriodos = [];
+            atualizarTagsPeriodoHeader();
+            await carregarPeriodosDoCliente();
+            await carregarPadroes();
+            await carregarTudoDoPeriodo();
+
+            const abaAtual = localStorage.getItem('rf_ultima_aba') || 'res';
+            if (abaAtual === 'res') gerarAnalisesEResultados();
+        }
+
+        function renderizarTabelaClientesAdmin() {
+            const tbody = document.getElementById('tbl-admin-clientes-body');
+            if (!tbody) return;
+            const q = String(document.getElementById('admin-busca-clientes')?.value || '').trim().toUpperCase();
+            const itens = listaClientesAdmin.filter(c => {
+                const txt = `${c.TCLIENTE_ID || ''} ${c.TCLIENTE_NOME || ''} ${c.TCLIENTE_CNPJ || ''}`.toUpperCase();
+                return !q || txt.includes(q);
+            });
+            if (!itens.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">Nenhuma empresa encontrada.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = itens.map(c => {
+                const ativo = String(c.TCLIENTE_ATIVO || 'SIM').toUpperCase() !== 'NAO';
+                return `<tr>
+                    <td class="p-3 font-mono">${c.TCLIENTE_ID || ''}</td>
+                    <td class="p-3 font-bold text-white uppercase">${c.TCLIENTE_NOME || ''}</td>
+                    <td class="p-3">${c.TCLIENTE_CNPJ || ''}</td>
+                    <td class="p-3"><span class="admin-status ${ativo ? 'is-active' : 'is-inactive'}">${ativo ? 'ATIVA' : 'INATIVA'}</span></td>
+                    <td class="p-3 text-right whitespace-nowrap">
+                        <button onclick="editarClienteAdmin('${c.TCLIENTE_ID}')" class="admin-edit-btn">Editar</button>
+                        <button onclick="alternarAtivoClienteAdmin('${c.TCLIENTE_ID}')" class="${ativo ? 'admin-inactivate-btn' : 'admin-activate-btn'}">${ativo ? 'Inativar' : 'Ativar'}</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function renderizarTabelaUsuariosAdmin() {
+            const tbody = document.getElementById('tbl-admin-usuarios-body');
+            if (!tbody) return;
+            const q = String(document.getElementById('admin-busca-usuarios')?.value || '').trim().toUpperCase();
+            const itens = listaUsuariosAdmin.filter(u => {
+                const cli = listaClientesAdmin.find(c => String(c.TCLIENTE_ID) === String(u.TCLIENTE_ID));
+                const txt = `${u.TUSUARIO_ID || ''} ${u.TUSUARIO_NOME || ''} ${u.TUSUARIO_EMAIL || ''} ${cli?.TCLIENTE_NOME || ''}`.toUpperCase();
+                return !q || txt.includes(q);
+            });
+            if (!itens.length) {
+                tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center">Nenhum usuário encontrado.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = itens.map(u => {
+                const ativo = String(u.TUSUARIO_ATIVO || 'SIM').toUpperCase() !== 'NAO';
+                const adm = ['SIM','TRUE'].includes(String(u.TUSUARIO_ADM || '').toUpperCase());
+                const cli = listaClientesAdmin.find(c => String(c.TCLIENTE_ID) === String(u.TCLIENTE_ID));
+                const proprio = String(u.TUSUARIO_ID || '') === String(usuarioLogado?.TUSUARIO_ID || '');
+                return `<tr>
+                    <td class="p-3"><div class="font-bold text-white uppercase">${u.TUSUARIO_NOME || ''}</div><div class="text-[10px] opacity-70">${u.TUSUARIO_ID || ''}</div></td>
+                    <td class="p-3 uppercase">${cli?.TCLIENTE_NOME || u.TCLIENTE_ID || ''}</td>
+                    <td class="p-3">${u.TUSUARIO_EMAIL || ''}</td>
+                    <td class="p-3">${adm ? 'ADMINISTRADOR' : 'USUÁRIO'}</td>
+                    <td class="p-3"><span class="admin-status ${ativo ? 'is-active' : 'is-inactive'}">${ativo ? 'ATIVO' : 'INATIVO'}</span></td>
+                    <td class="p-3 text-right whitespace-nowrap">
+                        <button onclick="editarUsuarioAdmin('${u.TUSUARIO_ID}')" class="admin-edit-btn">Editar</button>
+                        <button ${proprio ? 'disabled title="O usuário atual não pode inativar a si mesmo"' : ''} onclick="alternarAtivoUsuarioAdmin('${u.TUSUARIO_ID}')" class="${ativo ? 'admin-inactivate-btn' : 'admin-activate-btn'} ${proprio ? 'opacity-35 cursor-not-allowed' : ''}">${ativo ? 'Inativar' : 'Ativar'}</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function editarClienteAdmin(id) {
+            const c = listaClientesAdmin.find(x => String(x.TCLIENTE_ID) === String(id));
+            if (!c) return;
+            abrirAccordionParaEdicao('form-cliente');
+            document.getElementById('cli-editing-id').value = c.TCLIENTE_ID || '';
+            document.getElementById('cli-nome').value = c.TCLIENTE_NOME || '';
+            document.getElementById('cli-cnpj').value = c.TCLIENTE_CNPJ || '';
+            document.getElementById('btn-salvar-cli').innerText = 'Atualizar Empresa';
+            document.getElementById('btn-cancelar-cli').classList.remove('hidden');
+            document.getElementById('form-cliente').scrollIntoView({behavior:'smooth', block:'center'});
+        }
+
+        function limparFormClienteAdmin() {
+            document.getElementById('form-cliente')?.reset();
+            document.getElementById('cli-editing-id').value = '';
+            document.getElementById('btn-salvar-cli').innerText = 'Salvar Empresa';
+            document.getElementById('btn-cancelar-cli').classList.add('hidden');
+        }
+
+        async function cadastrarCliente(e) {
+            e.preventDefault();
+            if (!rfAdminEhAdministrador()) return;
+            const id = document.getElementById('cli-editing-id').value;
+            const existente = listaClientesAdmin.find(c => String(c.TCLIENTE_ID) === String(id));
+            const template = existente || listaClientesAdmin[0];
+            if (!template) return alert('Não foi possível identificar a estrutura de TCLIENTE.');
+
+            const updates = {};
+            Object.keys(template).forEach(k => updates[k] = template[k] ?? '');
+            updates.TCLIENTE_ID = id || '';
+            updates.TCLIENTE_NOME = document.getElementById('cli-nome').value.trim().toUpperCase();
+            updates.TCLIENTE_CNPJ = document.getElementById('cli-cnpj').value.trim();
+            updates.TCLIENTE_ATIVO = existente ? (existente.TCLIENTE_ATIVO || 'SIM') : 'SIM';
+
+            const payload = {
+                sheet:'TCLIENTE',
+                action:id ? 'UPDATE' : 'CREATE',
+                id:id,
+                data:rfAdminMontarLinha(template, updates)
+            };
+
+            const btn = document.getElementById('btn-salvar-cli');
+            btn.disabled = true; btn.innerText = 'Gravando...';
+            try {
+                await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+                limparFormClienteAdmin();
+                setTimeout(() => rfAdminCarregarTudo(true), 1200);
+            } finally {
+                btn.disabled = false;
+                if (!document.getElementById('cli-editing-id').value) btn.innerText = 'Salvar Empresa';
+            }
+        }
+
+        async function alternarAtivoClienteAdmin(id) {
+            const c = listaClientesAdmin.find(x => String(x.TCLIENTE_ID) === String(id));
+            if (!c) return;
+            const ativo = String(c.TCLIENTE_ATIVO || 'SIM').toUpperCase() !== 'NAO';
+            const novo = ativo ? 'NAO' : 'SIM';
+            if (ativo && !confirm(`Inativar a empresa ${c.TCLIENTE_NOME}? Os usuários vinculados deixarão de conseguir acessar.`)) return;
+            const updates = {...c, TCLIENTE_ATIVO:novo};
+            const payload = {sheet:'TCLIENTE',action:'UPDATE',id:c.TCLIENTE_ID,data:rfAdminMontarLinha(c,updates)};
+            await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+            setTimeout(() => rfAdminCarregarTudo(true), 1200);
+        }
+
+        function editarUsuarioAdmin(id) {
+            const u = listaUsuariosAdmin.find(x => String(x.TUSUARIO_ID) === String(id));
+            if (!u) return;
+            abrirAccordionParaEdicao('form-usuario');
+            document.getElementById('usr-editing-id').value = u.TUSUARIO_ID || '';
+            document.getElementById('usr-cli-id').value = u.TCLIENTE_ID || '';
+            document.getElementById('usr-adm').value = ['SIM','TRUE'].includes(String(u.TUSUARIO_ADM || '').toUpperCase()) ? 'SIM' : 'NAO';
+            document.getElementById('usr-nome').value = u.TUSUARIO_NOME || '';
+            document.getElementById('usr-email').value = u.TUSUARIO_EMAIL || '';
+            document.getElementById('usr-celular').value = u.TUSUARIO_CELULAR || '';
+            document.getElementById('usr-senha').value = '';
+            document.getElementById('usr-senha-help').innerText = '(deixe vazio para manter a atual)';
+            document.getElementById('btn-salvar-usr').innerText = 'Atualizar Usuário';
+            document.getElementById('btn-cancelar-usr').classList.remove('hidden');
+            document.getElementById('form-usuario').scrollIntoView({behavior:'smooth', block:'center'});
+        }
+
+        function limparFormUsuarioAdmin() {
+            document.getElementById('form-usuario')?.reset();
+            document.getElementById('usr-editing-id').value = '';
+            document.getElementById('usr-senha-help').innerText = '(obrigatória no cadastro)';
+            document.getElementById('btn-salvar-usr').innerText = 'Salvar Usuário';
+            document.getElementById('btn-cancelar-usr').classList.add('hidden');
+        }
+
+        async function cadastrarUsuario(e) {
+            e.preventDefault();
+            if (!rfAdminEhAdministrador()) return;
+            const id = document.getElementById('usr-editing-id').value;
+            const existente = listaUsuariosAdmin.find(u => String(u.TUSUARIO_ID) === String(id));
+            const template = existente || listaUsuariosAdmin[0];
+            if (!template) return alert('Não foi possível identificar a estrutura de TUSUARIO.');
+
+            const senhaDigitada = document.getElementById('usr-senha').value;
+            if (!id && !senhaDigitada) return alert('Informe uma senha para o novo usuário.');
+
+            const updates = {};
+            Object.keys(template).forEach(k => updates[k] = template[k] ?? '');
+            updates.TCLIENTE_ID = document.getElementById('usr-cli-id').value;
+            updates.TUSUARIO_ID = id || '';
+            updates.TUSUARIO_NOME = document.getElementById('usr-nome').value.trim().toUpperCase();
+            updates.TUSUARIO_EMAIL = document.getElementById('usr-email').value.trim().toUpperCase();
+            updates.TUSUARIO_CELULAR = document.getElementById('usr-celular').value.trim();
+            updates.TUSUARIO_ADM = document.getElementById('usr-adm').value;
+            updates.TUSUARIO_ATIVO = existente ? (existente.TUSUARIO_ATIVO || 'SIM') : 'SIM';
+            if (senhaDigitada) updates.TUSUARIO_SENHA = senhaDigitada;
+
+            const payload = {
+                sheet:'TUSUARIO',
+                action:id ? 'UPDATE' : 'CREATE',
+                id:id,
+                data:rfAdminMontarLinha(template, updates)
+            };
+
+            const btn = document.getElementById('btn-salvar-usr');
+            btn.disabled = true; btn.innerText = 'Gravando...';
+            try {
+                await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+                limparFormUsuarioAdmin();
+                setTimeout(() => rfAdminCarregarTudo(true), 1200);
+            } finally {
+                btn.disabled = false;
+                if (!document.getElementById('usr-editing-id').value) btn.innerText = 'Salvar Usuário';
+            }
+        }
+
+        async function alternarAtivoUsuarioAdmin(id) {
+            const u = listaUsuariosAdmin.find(x => String(x.TUSUARIO_ID) === String(id));
+            if (!u) return;
+            if (String(u.TUSUARIO_ID) === String(usuarioLogado?.TUSUARIO_ID)) return alert('Você não pode inativar o usuário que está logado.');
+            const ativo = String(u.TUSUARIO_ATIVO || 'SIM').toUpperCase() !== 'NAO';
+            const novo = ativo ? 'NAO' : 'SIM';
+            if (ativo && !confirm(`Inativar o usuário ${u.TUSUARIO_NOME}?`)) return;
+            const updates = {...u, TUSUARIO_ATIVO:novo};
+            const payload = {sheet:'TUSUARIO',action:'UPDATE',id:u.TUSUARIO_ID,data:rfAdminMontarLinha(u,updates)};
+            await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+            setTimeout(() => rfAdminCarregarTudo(true), 1200);
+        }
+
 
         // CALCULO DE DEPRECIAÇÃO DE RECURSOS
         function calcularCustoMensalRecurso() {
@@ -2378,7 +2850,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         // ======================================================
-        // V4.9.8 — SESSÃO PERSISTENTE + VALIDAÇÃO DIÁRIA + PWA
+        // V4.9.9 — SESSÃO PERSISTENTE + VALIDAÇÃO DIÁRIA + PWA
         // ======================================================
         const RF_VALIDACAO_INTERVALO = 24 * 60 * 60 * 1000;
         let rfDeferredInstallPrompt = null;
@@ -2402,7 +2874,8 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                     (idUser && String(u.TUSUARIO_ID || '').trim().toUpperCase() === idUser) ||
                     (!idUser && String(u.TUSUARIO_EMAIL || '').trim().toLowerCase() === email)
                 );
-                const cliente = clientes.find(c => String(c.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                const clienteIdValidacao = localStorage.getItem('rf_admin_cliente_login') || usuarioLogado.TCLIENTE_ID;
+                const cliente = clientes.find(c => String(c.TCLIENTE_ID) === String(clienteIdValidacao));
                 const usuarioAtivo = atual && String(atual.TUSUARIO_ATIVO || '').trim().toUpperCase() === 'SIM';
                 const clienteAtivo = !cliente || String(cliente.TCLIENTE_ATIVO || 'SIM').trim().toUpperCase() !== 'NAO';
 
@@ -2542,6 +3015,9 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 }
 
                 usuarioLogado = user;
+                const loginEhAdm = ['SIM','TRUE'].includes(String(user.TUSUARIO_ADM || '').toUpperCase());
+                if (loginEhAdm) localStorage.setItem('rf_admin_cliente_login', String(user.TCLIENTE_ID || ''));
+                else localStorage.removeItem('rf_admin_cliente_login');
                 localStorage.setItem('usuarioLogadoRF', JSON.stringify(user));
                 localStorage.setItem('rf_validacao_usuario_em', String(Date.now()));
                 document.documentElement.classList.add('rf-has-session');
@@ -2568,6 +3044,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
 
         async function iniciarSessao() {
             if (!(await validarSessaoPersistente(false))) return;
+
             document.documentElement.classList.add('rf-has-session');
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('main-content').classList.remove('hidden');
@@ -2576,31 +3053,60 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('wrapper-periodo-global').classList.remove('hidden');
             document.getElementById('user-display-name').innerText = usuarioLogado.TUSUARIO_NOME;
 
-            const isAdm = String(usuarioLogado.TUSUARIO_ADM).toUpperCase() === 'SIM' || String(usuarioLogado.TUSUARIO_ADM).toUpperCase() === 'TRUE';
-            
+            const isAdm = ['SIM','TRUE'].includes(String(usuarioLogado.TUSUARIO_ADM || '').toUpperCase());
             const badge = document.getElementById('role-badge');
+            const sectionAdmin = document.getElementById('section-admin');
+            const tabAdmin = document.getElementById('tab-btn-admin');
+            const wrapperAdminCliente = document.getElementById('wrapper-admin-cliente-global');
+
             if (badge) badge.classList.remove('hidden');
 
-            const sectionAdmin = document.getElementById('section-admin');
-            if (sectionAdmin) {
-                if (isAdm) {
-                    if (badge) badge.innerText = "ADMINISTRADOR";
-                    sectionAdmin.classList.remove('hidden');
-                    carregarClientesSelect();
-                    carregarTabelaClientesAdmin();
-                } else {
-                    if (badge) badge.innerText = "PORTAL CLIENTE";
-                    sectionAdmin.classList.add('hidden');
+            if (isAdm) {
+                if (badge) badge.innerText = "ADMINISTRADOR";
+                if (tabAdmin) tabAdmin.classList.remove('hidden');
+                if (wrapperAdminCliente) wrapperAdminCliente.classList.remove('hidden');
+
+                // Preserva o cliente original usado na autenticação.
+                if (!localStorage.getItem('rf_admin_cliente_login')) {
+                    localStorage.setItem('rf_admin_cliente_login', String(usuarioLogado.TCLIENTE_ID || ''));
                 }
+
+                await rfAdminCarregarTudo(false);
+
+                const contextoSalvo = localStorage.getItem('rf_admin_cliente_contexto');
+                const clienteValido = listaClientesAdmin.find(c =>
+                    String(c.TCLIENTE_ID) === String(contextoSalvo || '') &&
+                    String(c.TCLIENTE_ATIVO || 'SIM').toUpperCase() !== 'NAO'
+                );
+                const primeiroAtivo = listaClientesAdmin.find(c =>
+                    String(c.TCLIENTE_ATIVO || 'SIM').toUpperCase() !== 'NAO'
+                );
+
+                const contexto = clienteValido || primeiroAtivo;
+                if (contexto) {
+                    adminClienteSelecionadoId = String(contexto.TCLIENTE_ID);
+                    usuarioLogado.TCLIENTE_ID = adminClienteSelecionadoId;
+                    empresaLogadaNome = contexto.TCLIENTE_NOME || contexto.TCLIENTE_ID;
+                    const sel = document.getElementById('admin-cliente-global-select');
+                    if (sel) sel.value = adminClienteSelecionadoId;
+                }
+            } else {
+                if (badge) badge.innerText = "PORTAL CLIENTE";
+                if (sectionAdmin) sectionAdmin.classList.add('hidden');
+                if (tabAdmin) tabAdmin.classList.add('hidden');
+                if (wrapperAdminCliente) wrapperAdminCliente.classList.add('hidden');
             }
+
+            if (!isAdm) await buscarNomeEmpresa();
 
             await carregarPeriodosDoCliente();
             await carregarPadroes();
             await carregarTudoDoPeriodo();
+            atualizarTagsPeriodoHeader();
 
-            // V4.9.8: restaura a última tela usada. No primeiro acesso, abre Resultados.
-            const ultimaAba = localStorage.getItem('rf_ultima_aba') || 'res';
-            alternarAbaCliente(ultimaAba);
+            const ultimaAba = localStorage.getItem('rf_ultima_aba');
+            const abaInicial = ultimaAba || (isAdm ? 'admin' : 'res');
+            alternarAbaCliente(abaInicial === 'admin' && !isAdm ? 'res' : abaInicial);
         }
 
         async function carregarPadroes() {
@@ -2930,7 +3436,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 carregarPlanoContas()
             ]);
 
-            // V4.9.8: se Resultados estiver aberto, só calcula depois que
+            // V4.9.9: se Resultados estiver aberto, só calcula depois que
             // todas as bases do período já terminaram de carregar.
             const secResultados = document.getElementById('section-resultados');
             if (secResultados && !secResultados.classList.contains('hidden')) {
@@ -2940,6 +3446,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
 
         function alternarAbaCliente(aba) {
             if (usuarioLogado) localStorage.setItem('rf_ultima_aba', aba);
+            if (window.innerWidth < 768) document.body.classList.remove('sidebar-open');
             document.getElementById('section-config-periodo').classList.add('hidden');
             document.getElementById('section-centro-custo').classList.add('hidden');
             document.getElementById('section-recursos').classList.add('hidden');
@@ -2947,6 +3454,8 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('section-funcionarios').classList.add('hidden');
             document.getElementById('section-plano-contas').classList.add('hidden');
             document.getElementById('section-resultados').classList.add('hidden');
+            const secAdmin = document.getElementById('section-admin');
+            if (secAdmin) secAdmin.classList.add('hidden');
 
             const classInactive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap";
             const classActive = "px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-primary text-white transition whitespace-nowrap";
@@ -2958,8 +3467,19 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('tab-btn-func').className = classInactive;
             document.getElementById('tab-btn-plc').className = classInactive;
             document.getElementById('tab-btn-res').className = classInactive;
+            const btnAdmin = document.getElementById('tab-btn-admin');
+            if (btnAdmin && !btnAdmin.classList.contains('hidden')) btnAdmin.className = classInactive;
 
-            if (aba === 'cfg') {
+            if (aba === 'admin') {
+                const isAdm = usuarioLogado && ['SIM','TRUE'].includes(String(usuarioLogado.TUSUARIO_ADM || '').toUpperCase());
+                if (!isAdm) return alternarAbaCliente('res');
+                document.getElementById('section-admin').classList.remove('hidden');
+                if (btnAdmin) {
+                    btnAdmin.className = classActive;
+                    btnAdmin.classList.remove('hidden');
+                }
+                rfAdminCarregarTudo(false);
+            } else if (aba === 'cfg') {
                 document.getElementById('section-config-periodo').classList.remove('hidden');
                 document.getElementById('tab-btn-cfg').className = classActive;
                 carregarInvestimentos();
@@ -4975,7 +5495,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            // V4.9.8: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
+            // V4.9.9: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
             const navMobile = document.getElementById('nav-cliente-tabs');
             if (navMobile && navMobile.dataset.mobileCloseBound !== '1') {
                 navMobile.dataset.mobileCloseBound = '1';
@@ -4994,7 +5514,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             v49PrepareTables();
             v49PatchCCEvents();
             setTimeout(() => {
-                // V4.9.8: não força Resultados aqui; iniciarSessao restaura a última aba.
+                // V4.9.9: não força Resultados aqui; iniciarSessao restaura a última aba.
                 v49MoveSidebar();
                 v49OrderResultsFirst();
                 v49PrepareTables();
