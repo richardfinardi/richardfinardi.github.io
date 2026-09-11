@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.9.3 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.9.4 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -124,13 +124,13 @@ body.rf-authenticated #nav-cliente-tabs { display:flex !important; }
     width:22px; height:22px; font-size:15px; line-height:1;
     border-radius:7px; background:#1b1d22; color:#9ea0a6;
 }
-#tab-btn-res::before { content:'◈'; }
-#tab-btn-cfg::before { content:'⚙'; }
-#tab-btn-cc::before { content:'▦'; }
-#tab-btn-rec::before { content:'⚙'; }
-#tab-btn-ben::before { content:'✦'; }
-#tab-btn-func::before { content:'♙'; }
-#tab-btn-plc::before { content:'☷'; }
+#tab-btn-res::before { content:'📊'; }
+#tab-btn-cfg::before { content:'🗓'; }
+#tab-btn-cc::before { content:'🏭'; }
+#tab-btn-rec::before { content:'🛠'; }
+#tab-btn-ben::before { content:'🎁'; }
+#tab-btn-func::before { content:'👥'; }
+#tab-btn-plc::before { content:'🧾'; }
 #nav-cliente-tabs button.bg-brand-primary { background:linear-gradient(90deg,rgba(255,136,56,.18),rgba(255,136,56,.07)) !important; border-color:rgba(255,136,56,.35) !important; color:#fff !important; }
 #nav-cliente-tabs button.bg-brand-primary::before { background:#ff8838; color:#fff; }
 #sidebar-tools { position:absolute !important; left:12px !important; right:12px !important; bottom:14px !important; padding-top:10px; border-top:1px solid #292b31; }
@@ -164,7 +164,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
 </style>
 
 <style id="v49-sidebar-final-fix">
-/* V4.9.3 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
+/* V4.9.4 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
 #app-header > #sidebar-toggle { display:none !important; }
 #sidebar-tools {
     position:absolute !important;
@@ -202,7 +202,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v493-mobile-ui">
 /* ================================================================
-   V4.9.3 — MOBILE UX
+   V4.9.4 — MOBILE UX
    No celular o menu lateral vira uma gaveta inferior. O mesmo botão
    Menu permanece único e fica sempre acessível no rodapé.
    ================================================================ */
@@ -361,6 +361,92 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 }
 </style>
 
+
+<style id="v494-light-theme">
+/* ================================================================
+   V4.9.4 — LIGHT THEME REFINEMENT
+   Mantém contraste, hierarquia e identidade laranja sem lavar a tela.
+   ================================================================ */
+body.light-mode {
+    background:#eef2f7 !important;
+    color:#172033 !important;
+}
+body.light-mode #app-header {
+    background:rgba(255,255,255,.98) !important;
+    border-color:#d7dee8 !important;
+    box-shadow:0 1px 10px rgba(15,23,42,.07);
+}
+body.light-mode #main-content { background:#eef2f7 !important; }
+body.light-mode .bg-brand-card,
+body.light-mode .bg-\[\#16161a\] {
+    background:#ffffff !important;
+    border-color:#d7dee8 !important;
+}
+body.light-mode .bg-\[\#0d0d0f\],
+body.light-mode .bg-brand-dark { background:#f7f9fc !important; }
+body.light-mode .text-white { color:#172033 !important; }
+body.light-mode .text-brand-muted { color:#667085 !important; }
+body.light-mode .border-brand-border { border-color:#d7dee8 !important; }
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea {
+    background:#f8fafc !important;
+    color:#172033 !important;
+    border-color:#cfd8e6 !important;
+}
+body.light-mode input::placeholder,
+body.light-mode textarea::placeholder { color:#98a2b3 !important; }
+body.light-mode input:focus,
+body.light-mode select:focus,
+body.light-mode textarea:focus {
+    background:#fff !important;
+    border-color:#ff8838 !important;
+    box-shadow:0 0 0 3px rgba(255,136,56,.12) !important;
+}
+body.light-mode .kpi-mini {
+    background:#ffffff !important;
+    border-color:#d7dee8 !important;
+    box-shadow:0 4px 18px rgba(15,23,42,.05);
+}
+body.light-mode table thead { background:#f1f4f8 !important; }
+body.light-mode table tbody tr { border-color:#e3e8ef !important; }
+body.light-mode table tbody tr:hover { background:#fff7ed !important; }
+body.light-mode #nav-cliente-tabs {
+    background:#ffffff !important;
+    border-color:#d7dee8 !important;
+}
+body.light-mode #nav-cliente-tabs button { color:#566176 !important; }
+body.light-mode #nav-cliente-tabs button::before {
+    background:#eef2f7 !important;
+    color:#344054 !important;
+}
+body.light-mode #nav-cliente-tabs button.bg-brand-primary {
+    background:#fff3e8 !important;
+    border-color:#ffb580 !important;
+    color:#9a4310 !important;
+}
+body.light-mode #nav-cliente-tabs button.bg-brand-primary::before {
+    background:#ff8838 !important;
+    color:#fff !important;
+}
+body.light-mode .accordion-toggle {
+    background:#f1f4f8 !important;
+    color:#344054 !important;
+    border-color:#d7dee8 !important;
+}
+body.light-mode .accordion-toggle:hover { background:#e8edf4 !important; }
+body.light-mode .bg-emerald-950\/30,
+body.light-mode .bg-emerald-950\/80 { background:#e8f7f1 !important; }
+body.light-mode .bg-blue-950\/40 { background:#eaf2ff !important; }
+body.light-mode .bg-amber-950\/40 { background:#fff6df !important; }
+body.light-mode .bg-red-950\/30,
+body.light-mode .bg-red-950\/80 { background:#fff0f0 !important; }
+body.light-mode .text-emerald-300, body.light-mode .text-emerald-400 { color:#087a55 !important; }
+body.light-mode .text-blue-300 { color:#2563b8 !important; }
+body.light-mode .text-amber-300 { color:#a75a00 !important; }
+body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !important; }
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -368,7 +454,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.3</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.4</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -396,7 +482,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.3</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.4</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -685,7 +771,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
                     <div class="md:col-span-2 flex items-center gap-2 pt-2">
                         <input type="checkbox" id="cc-considerar-minimo" class="w-4 h-4 accent-brand-primary bg-[#0d0d0f] border-brand-border rounded cursor-pointer">
-                        <label for="cc-considerar-minimo" class="text-xs md:text-sm text-white cursor-pointer">Considerar Mínimo (Check = SIM)</label>
+                        <label for="cc-considerar-minimo" class="text-xs md:text-sm text-white cursor-pointer">Considerar Mínimo</label>
                     </div>
 
                     <div class="flex gap-2 pt-2">
@@ -2219,7 +2305,11 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
 
             await carregarPeriodosDoCliente();
             await carregarPadroes();
-            carregarTudoDoPeriodo();
+            await carregarTudoDoPeriodo();
+
+            // V4.9.4: tela inicial é Resultados & Análises.
+            // A abertura acontece somente após os dados do período terem sido carregados.
+            alternarAbaCliente('res');
         }
 
         async function carregarPadroes() {
@@ -2310,7 +2400,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             }
         }
 
-        function trocarPeriodoAtivo() {
+        async function trocarPeriodoAtivo() {
             const id = document.getElementById('global-periodo-select').value;
             if(!id) return;
 
@@ -2320,11 +2410,15 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             atualizarTagsPeriodoHeader();
             verificarStatusBloqueioPeriodo();
             preencherFormularioConfigPeriodo();
-            
+
             setSyncStatus(true, "Carregando período...");
-            setTimeout(() => {
-                carregarTudoDoPeriodo();
-            }, 300);
+            await carregarTudoDoPeriodo();
+
+            const secResultados = document.getElementById('section-resultados');
+            if (secResultados && !secResultados.classList.contains('hidden')) {
+                await gerarAnalisesEResultados();
+            }
+            setSyncStatus(false);
         }
 
         function preencherFormularioConfigPeriodo() {
@@ -2535,13 +2629,22 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('btn-cancelar-inv').classList.add('hidden');
         }
 
-        function carregarTudoDoPeriodo() {
-            carregarInvestimentos();
-            carregarCentrosDeCusto();
-            carregarRecursos();
-            carregarBeneficios();
-            carregarFuncionarios();
-            carregarPlanoContas();
+        async function carregarTudoDoPeriodo() {
+            await Promise.all([
+                carregarInvestimentos(),
+                carregarCentrosDeCusto(),
+                carregarRecursos(),
+                carregarBeneficios(),
+                carregarFuncionarios(),
+                carregarPlanoContas()
+            ]);
+
+            // V4.9.4: se Resultados estiver aberto, só calcula depois que
+            // todas as bases do período já terminaram de carregar.
+            const secResultados = document.getElementById('section-resultados');
+            if (secResultados && !secResultados.classList.contains('hidden')) {
+                await gerarAnalisesEResultados();
+            }
         }
 
         function alternarAbaCliente(aba) {
@@ -4518,7 +4621,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            // V4.9.3: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
+            // V4.9.4: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
             const navMobile = document.getElementById('nav-cliente-tabs');
             if (navMobile && navMobile.dataset.mobileCloseBound !== '1') {
                 navMobile.dataset.mobileCloseBound = '1';
