@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.9.12 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=4.9.12">
+    <title>CONSULTORIA.RF V5.0 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.0">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -177,7 +177,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
 </style>
 
 <style id="v49-sidebar-final-fix">
-/* V4.9.12 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
+/* V5.0 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
 #app-header > #sidebar-toggle { display:none !important; }
 #sidebar-tools {
     position:absolute !important;
@@ -215,7 +215,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v493-mobile-ui">
 /* ================================================================
-   V4.9.12 — MOBILE UX
+   V5.0 — MOBILE UX
    No celular o menu lateral vira uma gaveta inferior. O mesmo botão
    Menu permanece único e fica sempre acessível no rodapé.
    ================================================================ */
@@ -377,7 +377,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v494-light-theme">
 /* ================================================================
-   V4.9.12 — LIGHT THEME REFINEMENT
+   V5.0 — LIGHT THEME REFINEMENT
    Mantém contraste, hierarquia e identidade laranja sem lavar a tela.
    ================================================================ */
 body.light-mode {
@@ -463,7 +463,7 @@ body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !im
 
 <style id="v496-final-visual">
 /* ================================================================
-   V4.9.12 — ÍCONES MONOCROMÁTICOS + LIGHT THEME REFINADO
+   V5.0 — ÍCONES MONOCROMÁTICOS + LIGHT THEME REFINADO
    ================================================================ */
 #nav-cliente-tabs button::before {
     font-family: Arial, "Segoe UI Symbol", sans-serif !important;
@@ -589,7 +589,7 @@ body.light-mode .text-red-400 { color:#b94b4b !important; }
 
 
 <style id="v497-light-accessibility">
-/* V4.9.12 — tema claro de trabalho: contraste neutro e botões legíveis */
+/* V5.0 — tema claro de trabalho: contraste neutro e botões legíveis */
 body.light-mode { background:#e9edf2 !important; color:#18202c !important; }
 body.light-mode #main-content { background:#e9edf2 !important; }
 body.light-mode .bg-brand-card, body.light-mode .bg-\[\#16161a\] { background:#fff !important; border-color:#cbd3dd !important; }
@@ -606,7 +606,7 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
 
 <style id="v4910-admin-mobile">
 /* ================================================================
-   V4.9.12 — HEADER MOBILE + ADMINISTRAÇÃO
+   V5.0 — HEADER MOBILE + ADMINISTRAÇÃO
    ================================================================ */
 #tab-btn-admin::before { content:'⊞'; }
 
@@ -727,7 +727,7 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
 
 
 <style id="v4910-menu-order">
-/* V4.9.12 — ordem oficial do menu */
+/* V5.0 — ordem oficial do menu */
 #tab-btn-res  { order: 10; }
 #tab-btn-cfg  { order: 20; }
 #tab-btn-cc   { order: 30; }
@@ -747,7 +747,7 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
 
 <style id="v4911-sidebar-mobile-fix">
 /* ================================================================
-   V4.9.12 — MENU / MOBILE
+   V5.0 — MENU / MOBILE
    ================================================================ */
 
 /* Desktop: ferramentas do menu sempre presentes no rodapé */
@@ -900,7 +900,7 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
 
 <style id="v4912-loading-mobile-results">
 /* ================================================================
-   V4.9.12 — CARREGAMENTO INICIAL
+   V5.0 — CARREGAMENTO INICIAL
    ================================================================ */
 #app-loading-overlay {
     display:none;
@@ -962,8 +962,10 @@ body.light-mode .rf-loading-card {
 body.light-mode .rf-loading-title { color:#151922; }
 body.light-mode .rf-loading-message { color:#667085; }
 
+.ranking-mobile-position { display:none; }
+
 /* ================================================================
-   V4.9.12 — RESULTADOS MOBILE SEM ROLAGEM HORIZONTAL
+   V5.0 — RESULTADOS MOBILE SEM ROLAGEM HORIZONTAL
    ================================================================ */
 @media (max-width:767px) {
     /* Custo-hora: somente Centro de Custo + Custo-Hora */
@@ -1011,66 +1013,52 @@ body.light-mode .rf-loading-message { color:#667085; }
         overflow:visible !important;
     }
 
-    /* Ranking: somente Centro de Custo + ícone Raio-X */
+    /* Ranking mobile: Colocação + Centro de Custo + Custo Total.
+       A linha inteira continua clicável para abrir o Raio-X. */
     #table-ranking-resultados {
         width:100% !important;
         table-layout:fixed !important;
         min-width:0 !important;
     }
-    #table-ranking-resultados th:nth-child(2),
-    #table-ranking-resultados th:nth-child(3),
-    #table-ranking-resultados th:nth-child(4),
-    #table-ranking-resultados th:nth-child(5),
-    #table-ranking-resultados td:nth-child(2),
-    #table-ranking-resultados td:nth-child(3),
-    #table-ranking-resultados td:nth-child(4),
-    #table-ranking-resultados td:nth-child(5) {
-        display:none !important;
-    }
-    #table-ranking-resultados th:first-child,
-    #table-ranking-resultados td:first-child {
-        width:82% !important;
-        padding:12px 8px !important;
-    }
-    #table-ranking-resultados th:last-child,
-    #table-ranking-resultados td:last-child {
-        width:18% !important;
-        padding:8px 6px !important;
+    #table-ranking-resultados .ranking-mobile-position {
+        display:table-cell !important;
+        width:14% !important;
         text-align:center !important;
+        padding:10px 4px !important;
+        white-space:nowrap !important;
     }
-    #table-ranking-resultados th:last-child {
-        font-size:0 !important;
+    #table-ranking-resultados .ranking-col-name {
+        display:table-cell !important;
+        width:53% !important;
+        padding:10px 6px !important;
     }
-    #table-ranking-resultados th:last-child::after {
-        content:'RAIO-X';
-        font-size:10px;
-        color:#fff;
+    #table-ranking-resultados .ranking-col-cost {
+        display:table-cell !important;
+        width:33% !important;
+        padding:10px 5px !important;
+        text-align:right !important;
+        white-space:nowrap !important;
     }
-    #table-ranking-resultados .ranking-position,
-    #table-ranking-resultados .ranking-ray-label {
+    #table-ranking-resultados .ranking-col-type,
+    #table-ranking-resultados .ranking-col-weight,
+    #table-ranking-resultados .ranking-col-progress,
+    #table-ranking-resultados .ranking-col-action {
         display:none !important;
     }
+    #table-ranking-resultados .ranking-position { display:none !important; }
     #table-ranking-resultados .ranking-name {
         display:block !important;
-        font-size:12px !important;
-        line-height:1.25 !important;
+        font-size:11px !important;
+        line-height:1.22 !important;
         overflow-wrap:anywhere !important;
     }
-    #table-ranking-resultados .ranking-ray-icon {
-        font-size:18px !important;
-        line-height:1 !important;
+    #table-ranking-resultados thead th {
+        font-size:9px !important;
+        line-height:1.1 !important;
     }
-    #table-ranking-resultados td:last-child button {
-        width:38px !important;
-        min-width:38px !important;
-        height:34px !important;
-        padding:0 !important;
-        display:inline-flex !important;
-        align-items:center !important;
-        justify-content:center !important;
-        border-radius:9px !important;
+    #table-ranking-resultados tbody td {
+        vertical-align:middle !important;
     }
-
     /* Os wrappers destas duas tabelas não precisam rolar lateralmente no celular */
     #table-custo-hora-resultados,
     #table-ranking-resultados {
@@ -1079,6 +1067,10 @@ body.light-mode .rf-loading-message { color:#667085; }
 }
 </style>
 
+    <!-- V5.0 — PDF profissional gerado como documento, não como print da tela -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1086,7 +1078,7 @@ body.light-mode .rf-loading-message { color:#667085; }
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.12</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.0</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1122,7 +1114,7 @@ body.light-mode .rf-loading-message { color:#667085; }
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.12</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.0</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2009,16 +2001,17 @@ body.light-mode .rf-loading-message { color:#667085; }
                     <table id="table-ranking-resultados" class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
-                                <th class="p-2 md:p-3">Centro de Custo</th>
-                                <th class="p-2 md:p-3">Tipo Setor</th>
-                                <th class="p-2 md:p-3">Custo Primário Bruto (R$)</th>
-                                <th class="p-2 md:p-3 text-center">Peso no Orçamento Total (%)</th>
-                                <th class="p-2 md:p-3">Barra de Progresso</th>
-                                <th class="p-2 md:p-3 text-right">Raio-X</th>
+                                <th class="ranking-mobile-position">Pos.</th>
+                                <th class="p-2 md:p-3 ranking-col-name">Centro de Custo</th>
+                                <th class="p-2 md:p-3 ranking-col-type">Tipo Setor</th>
+                                <th class="p-2 md:p-3 ranking-col-cost"><span class="hidden md:inline">Custo Primário Bruto (R$)</span><span class="md:hidden">Custo Total</span></th>
+                                <th class="p-2 md:p-3 text-center ranking-col-weight">Peso no Orçamento Total (%)</th>
+                                <th class="p-2 md:p-3 ranking-col-progress">Barra de Progresso</th>
+                                <th class="p-2 md:p-3 text-right ranking-col-action">Raio-X</th>
                             </tr>
                         </thead>
                         <tbody id="tbl-ranking-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="6" class="p-4 text-center">Carregando análises...</td></tr>
+                            <tr><td colspan="7" class="p-4 text-center">Carregando análises...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -2337,7 +2330,7 @@ body.light-mode .rf-loading-message { color:#667085; }
 
 
         // ======================================================
-        // V4.9.12 — ADMINISTRAÇÃO / CONTEXTO DE EMPRESA
+        // V5.0 — ADMINISTRAÇÃO / CONTEXTO DE EMPRESA
         // ======================================================
         function rfAdminEhAdministrador() {
             return usuarioLogado && ['SIM','TRUE'].includes(String(usuarioLogado.TUSUARIO_ADM || '').toUpperCase());
@@ -3210,7 +3203,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         // ======================================================
-        // V4.9.12 — SESSÃO PERSISTENTE + VALIDAÇÃO DIÁRIA + PWA
+        // V5.0 — SESSÃO PERSISTENTE + VALIDAÇÃO DIÁRIA + PWA
         // ======================================================
         const RF_VALIDACAO_INTERVALO = 24 * 60 * 60 * 1000;
         let rfDeferredInstallPrompt = null;
@@ -3319,7 +3312,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=4.9.12', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.0', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -3822,7 +3815,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 carregarPlanoContas()
             ]);
 
-            // V4.9.12: se Resultados estiver aberto, só calcula depois que
+            // V5.0: se Resultados estiver aberto, só calcula depois que
             // todas as bases do período já terminaram de carregar.
             const secResultados = document.getElementById('section-resultados');
             if (secResultados && !secResultados.classList.contains('hidden')) {
@@ -5150,19 +5143,20 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 rankingGeralCCs.forEach((item, index) => {
                     const pesoPct = totalCustoPrimarioEmpresa > 0 ? ((item.custo / totalCustoPrimarioEmpresa) * 100) : 0;
                     tbodyRanking.innerHTML += `
-                        <tr onclick="abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="hover:bg-brand-primary/10 cursor-pointer transition">
-                            <td class="p-2 md:p-3 font-bold text-white uppercase flex items-center gap-1.5">
+                        <tr onclick="abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="hover:bg-brand-primary/10 cursor-pointer transition" title="Clique para abrir o Raio-X deste centro de custo">
+                            <td class="ranking-mobile-position font-extrabold text-brand-primary">${index + 1}º</td>
+                            <td class="p-2 md:p-3 font-bold text-white uppercase ranking-col-name">
                                 <span class="ranking-position">${index + 1}º - </span><span class="ranking-name">${item.nome}</span>
                             </td>
-                            <td class="p-2 md:p-3 uppercase text-brand-muted">${item.tipo}</td>
-                            <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(item.custo)}</td>
-                            <td class="p-2 md:p-3 text-center font-bold text-brand-primary">${pesoPct.toFixed(1)}%</td>
-                            <td class="p-2 md:p-3">
+                            <td class="p-2 md:p-3 uppercase text-brand-muted ranking-col-type">${item.tipo}</td>
+                            <td class="p-2 md:p-3 font-bold text-emerald-400 ranking-col-cost">${formatarMoedaBR(item.custo)}</td>
+                            <td class="p-2 md:p-3 text-center font-bold text-brand-primary ranking-col-weight">${pesoPct.toFixed(1)}%</td>
+                            <td class="p-2 md:p-3 ranking-col-progress">
                                 <div class="w-full bg-[#0d0d0f] h-2.5 rounded-full overflow-hidden border border-brand-border">
                                     <div class="bg-brand-primary h-full rounded-full" style="width: ${pesoPct.toFixed(1)}%"></div>
                                 </div>
                             </td>
-                            <td class="p-2 md:p-3 text-right">
+                            <td class="p-2 md:p-3 text-right ranking-col-action">
                                 <button onclick="event.stopPropagation(); abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary text-brand-primary hover:text-white border border-brand-primary/40 px-2.5 py-1 rounded transition font-bold"><span class="ranking-ray-icon">🔍</span><span class="ranking-ray-label"> Raio-X</span></button>
                             </td>
                         </tr>
@@ -5304,6 +5298,12 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             let planoLinhasHtml = '';
             let qtdContasAtivas = 0;
 
+            // V5.0 — dados estruturados usados pelo PDF profissional
+            const relRecursos = [];
+            const relFuncionarios = [];
+            const relPlanoContas = [];
+            const relOutros = [];
+
             const planoDoCC = listaPlanoContas.filter(p => {
                 const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
                 if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return false;
@@ -5369,6 +5369,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                     qtdContasAtivas++;
                     subtotalPlanoContas += valAbsorvido;
                     planoLinhasHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- ${p.TPLANO_CONTA_NOME} (${crit})</span><span>${formatarMoedaBR(valAbsorvido)}</span></div>`;
+                    relPlanoContas.push({ nome: p.TPLANO_CONTA_NOME || '-', criterio: crit || '-', valor: valAbsorvido });
                 }
             });
 
@@ -5391,6 +5392,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 recsDoCC.forEach(r => {
                     const cMensalRec = parseFloat(r.TRECURSO_CUSTO_MENSAL) || 0;
                     subtotalRecursos += cMensalRec;
+                    relRecursos.push({ nome: r.TRECURSO_NOME || '-', valor: cMensalRec });
                     htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- ${r.TRECURSO_NOME}</span><span>${formatarMoedaBR(cMensalRec)}/mês</span></div>`;
                 });
             }
@@ -5425,6 +5427,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                         } catch(e) {}
                     }
                     subtotalFuncionarios += val;
+                    relFuncionarios.push({ nome: f.TFUNCIONARIO_NOME || '-', rateio: infoRateio, valor: val });
                     htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- ${f.TFUNCIONARIO_NOME} <strong class="text-brand-primary">${infoRateio}</strong></span><span>${formatarMoedaBR(val)}/mês</span></div>`;
                 });
             }
@@ -5451,12 +5454,15 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                     </div>`;
                 
                 if (custoFixoDireto > 0) {
+                    relOutros.push({ nome: 'Custo Fixo Direto do Setor', valor: custoFixoDireto });
                     htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- Custo Fixo Direto do Setor</span><span>${formatarMoedaBR(custoFixoDireto)}/mês</span></div>`;
                 }
                 if (custoPredioAbsorvido > 0) {
+                    relOutros.push({ nome: 'Rateio de Prédio (Área)', valor: custoPredioAbsorvido });
                     htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- Rateio de Prédio (Área)</span><span>${formatarMoedaBR(custoPredioAbsorvido)}/mês</span></div>`;
                 }
                 if (custoIndiretoAbsorvido > 0) {
+                    relOutros.push({ nome: 'Absorção de Setores Indiretos + Sobra Mão Obra', valor: custoIndiretoAbsorvido });
                     htmlHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- Absorção de Setores Indiretos + Sobra Mão Obra</span><span>${formatarMoedaBR(custoIndiretoAbsorvido)}/mês</span></div>`;
                 }
                 htmlHtml += `<div class="flex justify-between text-xs font-bold text-white border-t border-brand-border/30 pt-1.5 mt-1"><span>Subtotal Outros Rateios:</span><span>${formatarMoedaBR(subtotalOutros)}</span></div></div>`;
@@ -5491,6 +5497,28 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 }
             }
 
+            // V5.0 — snapshot do relatório; evita depender do HTML da tela ao gerar PDF
+            window.v50RelatorioSetor = {
+                id: ccId,
+                nome: ccNome,
+                tipo: tipoCC || '-',
+                empresa: (typeof clienteAtivoObj !== 'undefined' && clienteAtivoObj && (clienteAtivoObj.TCLIENTE_NOME || clienteAtivoObj.TCLIENTE_RAZAO_SOCIAL))
+                    ? (clienteAtivoObj.TCLIENTE_NOME || clienteAtivoObj.TCLIENTE_RAZAO_SOCIAL)
+                    : ((typeof usuarioLogado !== 'undefined' && usuarioLogado && usuarioLogado.TCLIENTE_NOME) ? usuarioLogado.TCLIENTE_NOME : '-'),
+                periodo: (typeof periodoAtivoObj !== 'undefined' && periodoAtivoObj) ? (periodoAtivoObj.TPERIODO_NOME || periodoAtivoObj.TPERIODO_ID || '-') : '-',
+                tipoRateio: ccObj ? (ccObj.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-') : '-',
+                produtividade: prodPct,
+                horasBrutas: horasBrutasCC,
+                horasEfetivas: horasEfetivasCC,
+                custoHora: custoHoraCalculado,
+                custoTotal: custoTotalDoSetor,
+                subtotais: { recursos: subtotalRecursos, funcionarios: subtotalFuncionarios, plano: subtotalPlanoContas, outros: subtotalOutros },
+                recursos: relRecursos,
+                funcionarios: relFuncionarios,
+                planoContas: relPlanoContas,
+                outros: relOutros
+            };
+
             modal.classList.remove('hidden');
         }
 
@@ -5501,8 +5529,169 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             }
         }
 
-        function gerarPDFRelatorioSetor() {
-            window.print();
+        async function v50LogoDataURL() {
+            try {
+                const img = document.getElementById('app-logo-header');
+                const src = img ? img.src : new URL('LOGO_APLICACAO_FUNDO_BRANCO.png', location.href).href;
+                const resp = await fetch(src, { cache: 'force-cache' });
+                const blob = await resp.blob();
+                return await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                });
+            } catch (e) {
+                console.warn('Logo não pôde ser incorporado ao PDF:', e);
+                return null;
+            }
+        }
+
+        function v50PdfMoeda(v) {
+            return Number(v || 0).toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
+        }
+
+        function v50PdfNumero(v, casas=1) {
+            return Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits:casas, maximumFractionDigits:casas });
+        }
+
+        async function gerarPDFRelatorioSetor() {
+            const r = window.v50RelatorioSetor;
+            if (!r) {
+                alert('Abra primeiro o Raio-X de um centro de custo.');
+                return;
+            }
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                alert('O módulo de PDF ainda não carregou. Verifique a conexão e tente novamente.');
+                return;
+            }
+
+            const ev = (typeof event !== 'undefined') ? event : null;
+            const btn = ev && ev.currentTarget ? ev.currentTarget : null;
+            const textoOriginal = btn ? btn.innerHTML : '';
+            if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Gerando PDF...'; }
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4', compress:true });
+                const pageW = doc.internal.pageSize.getWidth();
+                const pageH = doc.internal.pageSize.getHeight();
+                const marginX = 14;
+                const contentW = pageW - marginX * 2;
+                const orange = [255, 132, 54];
+                const dark = [28, 31, 38];
+                const gray = [100, 108, 120];
+                const light = [244, 246, 248];
+                const green = [14, 145, 105];
+                const blue = [55, 110, 210];
+                const generatedAt = new Date();
+                const logo = await v50LogoDataURL();
+
+                const addHeader = (pageNo) => {
+                    doc.setFillColor(...dark);
+                    doc.rect(0, 0, pageW, 23, 'F');
+                    if (logo) {
+                        try { doc.addImage(logo, 'PNG', marginX, 5, 50, 11, undefined, 'FAST'); } catch(e) {}
+                    } else {
+                        doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(13);
+                        doc.text('CONSULTORIA.RF', marginX, 13);
+                    }
+                    doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(9);
+                    doc.text('GESTÃO DE CUSTOS', pageW - marginX, 10, { align:'right' });
+                    doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
+                    doc.text('Relatório de Composição de Custo', pageW - marginX, 15, { align:'right' });
+                    doc.setDrawColor(...orange); doc.setLineWidth(.8); doc.line(0, 23, pageW, 23);
+                };
+
+                const addFooter = (pageNo, totalPages) => {
+                    doc.setDrawColor(215,218,223); doc.setLineWidth(.2); doc.line(marginX, pageH-12, pageW-marginX, pageH-12);
+                    doc.setTextColor(...gray); doc.setFont('helvetica','normal'); doc.setFontSize(7.2);
+                    doc.text(`CONSULTORIA.RF • Gerado em ${generatedAt.toLocaleString('pt-BR')}`, marginX, pageH-7);
+                    doc.text(`Página ${pageNo} de ${totalPages}`, pageW-marginX, pageH-7, { align:'right' });
+                };
+
+                addHeader(1);
+                let y = 32;
+                doc.setTextColor(...dark); doc.setFont('helvetica','bold'); doc.setFontSize(17);
+                doc.text(`RAIO-X • ${String(r.nome || '').toUpperCase()}`, marginX, y);
+                y += 6;
+                doc.setTextColor(...gray); doc.setFont('helvetica','normal'); doc.setFontSize(8.5);
+                doc.text(`Empresa: ${r.empresa || '-'}   |   Período: ${r.periodo || '-'}   |   Tipo: ${r.tipo || '-'}`, marginX, y);
+                y += 8;
+
+                const cardGap = 3;
+                const cardW = (contentW - cardGap*3) / 4;
+                const cards = [
+                    ['CUSTO-HORA', r.custoHora > 0 ? `${v50PdfMoeda(r.custoHora)}/h` : 'N/A', green],
+                    ['CUSTO TOTAL MENSAL', v50PdfMoeda(r.custoTotal), orange],
+                    ['HORAS FINAIS', `${v50PdfNumero(r.horasEfetivas)} h`, blue],
+                    ['TIPO DE RATEIO', String(r.tipoRateio || '-'), gray]
+                ];
+                cards.forEach((c,i) => {
+                    const x = marginX + i*(cardW+cardGap);
+                    doc.setFillColor(...light); doc.roundedRect(x,y,cardW,18,2,2,'F');
+                    doc.setTextColor(...gray); doc.setFont('helvetica','bold'); doc.setFontSize(6.5); doc.text(c[0],x+3,y+5);
+                    doc.setTextColor(...c[2]); doc.setFontSize(i===3?8:10); doc.text(String(c[1]).substring(0,28),x+3,y+12.5,{maxWidth:cardW-6});
+                });
+                y += 24;
+
+                const tableBase = {
+                    theme:'grid',
+                    margin:{ left:marginX, right:marginX, top:30, bottom:18 },
+                    styles:{ font:'helvetica', fontSize:7.5, cellPadding:2, lineColor:[225,228,232], lineWidth:.15, textColor:dark, overflow:'linebreak' },
+                    headStyles:{ fillColor:dark, textColor:[255,255,255], fontStyle:'bold', fontSize:7.5 },
+                    alternateRowStyles:{ fillColor:[249,250,251] },
+                    didDrawPage: () => { if (doc.internal.getNumberOfPages() > 1) addHeader(doc.internal.getNumberOfPages()); }
+                };
+
+                const addSectionTitle = (title, startY) => {
+                    doc.setFillColor(255,245,237); doc.roundedRect(marginX,startY,contentW,8,1.5,1.5,'F');
+                    doc.setTextColor(...orange); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.text(title,marginX+3,startY+5.3);
+                    return startY+10;
+                };
+
+                y = addSectionTitle(`1. RECURSOS & MÁQUINAS (${r.recursos.length})`, y);
+                doc.autoTable({ ...tableBase, startY:y, head:[['Recurso / Máquina','Custo Mensal']], body:(r.recursos.length?r.recursos:[{nome:'Nenhum recurso direto cadastrado',valor:0}]).map(x=>[x.nome, v50PdfMoeda(x.valor)]), columnStyles:{0:{cellWidth:135},1:{cellWidth:47,halign:'right'}}, foot:r.recursos.length?[['Subtotal Recursos',v50PdfMoeda(r.subtotais.recursos)]]:undefined, footStyles:{fillColor:[236,238,241],textColor:dark,fontStyle:'bold'} });
+                y = doc.lastAutoTable.finalY + 6;
+
+                y = addSectionTitle(`2. FUNCIONÁRIOS ALOCADOS / RATEADOS (${r.funcionarios.length})`, y);
+                doc.autoTable({ ...tableBase, startY:y, head:[['Funcionário','Alocação / Rateio','Custo Mensal']], body:(r.funcionarios.length?r.funcionarios:[{nome:'Nenhum funcionário direto cadastrado',rateio:'-',valor:0}]).map(x=>[x.nome,x.rateio,v50PdfMoeda(x.valor)]), columnStyles:{0:{cellWidth:82},1:{cellWidth:58},2:{cellWidth:42,halign:'right'}}, foot:r.funcionarios.length?[['Subtotal Mão de Obra','',v50PdfMoeda(r.subtotais.funcionarios)]]:undefined, footStyles:{fillColor:[236,238,241],textColor:dark,fontStyle:'bold'} });
+                y = doc.lastAutoTable.finalY + 6;
+
+                y = addSectionTitle(`3. PLANO DE CONTAS RATEADO (${r.planoContas.length})`, y);
+                doc.autoTable({ ...tableBase, startY:y, head:[['Conta','Critério','Valor Absorvido']], body:(r.planoContas.length?r.planoContas:[{nome:'Nenhuma conta rateada para este setor',criterio:'-',valor:0}]).map(x=>[x.nome,x.criterio,v50PdfMoeda(x.valor)]), columnStyles:{0:{cellWidth:105},1:{cellWidth:37},2:{cellWidth:40,halign:'right'}}, foot:r.planoContas.length?[['Subtotal Plano de Contas','',v50PdfMoeda(r.subtotais.plano)]]:undefined, footStyles:{fillColor:[236,238,241],textColor:dark,fontStyle:'bold'} });
+                y = doc.lastAutoTable.finalY + 6;
+
+                if (r.outros.length) {
+                    y = addSectionTitle('4. OUTROS CUSTOS E RATEIOS', y);
+                    doc.autoTable({ ...tableBase, startY:y, head:[['Componente','Valor Mensal']], body:r.outros.map(x=>[x.nome,v50PdfMoeda(x.valor)]), columnStyles:{0:{cellWidth:135},1:{cellWidth:47,halign:'right'}}, foot:[['Subtotal Outros Rateios',v50PdfMoeda(r.subtotais.outros)]], footStyles:{fillColor:[236,238,241],textColor:dark,fontStyle:'bold'} });
+                    y = doc.lastAutoTable.finalY + 7;
+                }
+
+                if (y > pageH - 52) { doc.addPage(); addHeader(doc.internal.getNumberOfPages()); y = 34; }
+                doc.setFillColor(...dark); doc.roundedRect(marginX,y,contentW,31,2,2,'F');
+                doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(9);
+                doc.text('RESUMO FINAL DO CENTRO DE CUSTO',marginX+4,y+7);
+                doc.setFontSize(8); doc.setFont('helvetica','normal');
+                doc.text(`Horas brutas: ${v50PdfNumero(r.horasBrutas)} h`,marginX+4,y+14);
+                doc.text(`Produtividade: ${v50PdfNumero(r.produtividade,0)}%`,marginX+4,y+20);
+                doc.text(`Horas finais: ${v50PdfNumero(r.horasEfetivas)} h`,marginX+4,y+26);
+                doc.setTextColor(...orange); doc.setFont('helvetica','bold'); doc.setFontSize(11);
+                doc.text(`Custo total: ${v50PdfMoeda(r.custoTotal)}`,pageW-marginX-4,y+14,{align:'right'});
+                doc.setTextColor(105,225,180); doc.setFontSize(13);
+                doc.text(r.custoHora>0?`Custo-Hora: ${v50PdfMoeda(r.custoHora)}/h`:'Custo-Hora: N/A',pageW-marginX-4,y+24,{align:'right'});
+
+                const totalPages = doc.internal.getNumberOfPages();
+                for (let i=1;i<=totalPages;i++) { doc.setPage(i); addFooter(i,totalPages); }
+
+                const safeName = String(r.nome || 'centro-custo').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'');
+                doc.save(`CONSULTORIA_RF_RAIO_X_${safeName}.pdf`);
+            } catch (err) {
+                console.error('Erro ao gerar PDF profissional:', err);
+                alert('Não foi possível gerar o PDF. ' + (err && err.message ? err.message : err));
+            } finally {
+                if (btn) { btn.disabled = false; btn.innerHTML = textoOriginal; }
+            }
         }
 
         // GRÁFICO DE ROSCA ALINHADO COM OS GRUPOS DA DRE
@@ -5881,7 +6070,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            // V4.9.12: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
+            // V5.0: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
             const navMobile = document.getElementById('nav-cliente-tabs');
             if (navMobile && navMobile.dataset.mobileCloseBound !== '1') {
                 navMobile.dataset.mobileCloseBound = '1';
@@ -5900,7 +6089,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             v49PrepareTables();
             v49PatchCCEvents();
             setTimeout(() => {
-                // V4.9.12: não força Resultados aqui; iniciarSessao restaura a última aba.
+                // V5.0: não força Resultados aqui; iniciarSessao restaura a última aba.
                 v49MoveSidebar();
                 v49OrderResultsFirst();
                 v49PrepareTables();
