@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.2 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.2">
+    <title>CONSULTORIA.RF V5.2.3 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.3">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1071,6 +1071,102 @@ body.light-mode .rf-loading-message { color:#667085; }
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
 
+
+<style id="v523-table-ux">
+/* ================================================================
+   V5.2.3 — TABELAS / SCROLL / CABEÇALHO
+   ================================================================ */
+
+/* Header principal sempre visível durante rolagem vertical da página */
+#app-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    backdrop-filter: blur(10px);
+}
+
+/* Scrollbars mais discretas e compatíveis com os dois temas */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #424751 transparent;
+}
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+    background: #3c414a;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background: #555c68;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+body.light-mode * {
+    scrollbar-color: #aeb6c2 transparent;
+}
+body.light-mode *::-webkit-scrollbar-thumb {
+    background: #b6bec9;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+body.light-mode *::-webkit-scrollbar-thumb:hover {
+    background: #929daa;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+/* Tabela de Centros de Custo */
+#cc-table-scroll {
+    border-radius: 10px;
+    position: relative;
+}
+#table-centros-custo {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Cabeçalho da tabela acompanha a rolagem vertical */
+#table-centros-custo thead th {
+    position: sticky;
+    top: 64px;
+    z-index: 25;
+    background: #0d0d0f;
+    box-shadow: 0 1px 0 #2a2c31;
+}
+body.light-mode #table-centros-custo thead th {
+    background: #f4f6f8 !important;
+    box-shadow: 0 1px 0 #cfd5dd;
+}
+
+/* Total bem destacado no rodapé */
+#tbl-cc-foot .rf-cc-total-row td {
+    position: sticky;
+    bottom: 0;
+    z-index: 15;
+    background: #111318;
+    border-top: 2px solid #363a42;
+    white-space: nowrap;
+}
+body.light-mode #tbl-cc-foot .rf-cc-total-row td {
+    background: #eef1f5 !important;
+    border-top-color: #c5ccd6;
+    color: #1f2937 !important;
+}
+
+/* Em telas menores a tabela ainda pode rolar horizontalmente, mas com barra discreta */
+.rf-table-scroll {
+    overscroll-behavior-x: contain;
+    scrollbar-gutter: stable;
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1078,7 +1174,7 @@ body.light-mode .rf-loading-message { color:#667085; }
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.2</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.3</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1114,7 +1210,7 @@ body.light-mode .rf-loading-message { color:#667085; }
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.2</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.3</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -1392,8 +1488,8 @@ body.light-mode .rf-loading-message { color:#667085; }
                     <h3 class="text-base font-bold text-white">Histórico de Períodos da Empresa</h3>
                     <button onclick="modalCriarNovoPeriodo()" class="text-xs bg-brand-primary hover:bg-brand-hover text-white px-3 py-1.5 rounded font-bold transition">+ Criar / Duplicar Período</button>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
+                <div id="cc-table-scroll" class="overflow-x-auto rf-table-scroll">
+                    <table id="table-centros-custo" class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
                                 <th class="p-2 md:p-3">ID</th>
@@ -3330,7 +3426,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.2', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.3', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -4485,6 +4581,43 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             } catch (e) { tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
 
+        function rfFuncionarioBeneficios(f) {
+            // Aceita o cabeçalho atual e variações antigas.
+            const candidatos = [
+                'TFUNCIONARIO_VALOR_BENEFICIOS',
+                'TFUNCIONARIO_BENEFICIOS',
+                'TFUNCIONARIO_VAL_BENEFICIOS',
+                'TFUNCIONARIO_VALOR_BENEFICIO',
+                'TFUNCIONARIO_BENEFICIO'
+            ];
+            for (const k of candidatos) {
+                if (f && f[k] !== undefined && f[k] !== null && f[k] !== '') {
+                    return f[k];
+                }
+            }
+
+            // Estrutura física da TFUNCIONARIO:
+            // A cliente, B período, C CC, D ID, E nome, F registro,
+            // G tipo salário, H salário base, I benefícios, J custo mensal...
+            const vals = Object.values(f || {});
+            return vals.length > 8 ? vals[8] : 0;
+        }
+
+        function rfFuncionarioCustoMensal(f) {
+            const candidatos = [
+                'TFUNCIONARIO_CUSTO_MENSAL',
+                'TFUNCIONARIO_CUSTO_TOTAL',
+                'TFUNCIONARIO_VALOR_CUSTO_MENSAL'
+            ];
+            for (const k of candidatos) {
+                if (f && f[k] !== undefined && f[k] !== null && f[k] !== '') {
+                    return f[k];
+                }
+            }
+            const vals = Object.values(f || {});
+            return vals.length > 9 ? vals[9] : 0;
+        }
+
         function renderizarTabelaFuncionariosLocal() {
             const tbody = document.getElementById('tbl-func-body');
             if(!tbody) return;
@@ -4508,8 +4641,8 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                         <td class="p-2 md:p-3 font-semibold text-white uppercase">${f.TFUNCIONARIO_NOME}</td>
                         <td class="p-2 md:p-3">${f.TFUNCIONARIO_HORAS || 176}h</td>
                         <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_SALARIO_BASE)}</td>
-                        <td class="p-2 md:p-3">${formatarMoedaBR(f.TFUNCIONARIO_VALOR_BENEFICIOS)}</td>
-                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(rfFuncionarioBeneficios(f))}</td>
+                        <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(rfFuncionarioCustoMensal(f))}</td>
                         <td class="p-2 md:p-3 uppercase text-xs">${f.TFUNCIONARIO_RATEIO || 'NAO'}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="editarFuncionario('${f.TFUNCIONARIO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
@@ -4530,7 +4663,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('func-tp-salario').value = item.TFUNCIONARIO_TP_SALARIO || 'MENSALISTA';
             document.getElementById('func-salario-base').value = Number(item.TFUNCIONARIO_SALARIO_BASE || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('func-horas-mes').value = item.TFUNCIONARIO_HORAS || 176;
-            document.getElementById('func-beneficios-valor').value = Number(item.TFUNCIONARIO_VALOR_BENEFICIOS || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            document.getElementById('func-beneficios-valor').value = Number(rfFuncionarioBeneficios(item) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
             const isRateio = String(item.TFUNCIONARIO_RATEIO || '').trim().toUpperCase() === 'SIM';
             document.getElementById('func-is-rateio').checked = isRateio;
@@ -5476,7 +5609,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 htmlHtml += `<p class="text-xs text-brand-muted">Nenhum funcionário direto cadastrado neste setor.</p>`;
             } else {
                 funcsDoCC.forEach(f => {
-                    let val = parseFloat(f.TFUNCIONARIO_CUSTO_MENSAL) || 0;
+                    let val = parseFloat(rfFuncionarioCustoMensal(f)) || 0;
                     let hrsF = parseFloat(f.TFUNCIONARIO_HORAS) || 176;
                     let infoRateio = `(${hrsF.toFixed(0)}h disps.)`;
 
@@ -6056,6 +6189,35 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             return `<div class="kpi-mini"><div class="kpi-label">${label}</div><div class="kpi-value">${val}</div></div>`;
         }
 
+        function rfAtualizarTotaisCC(rows) {
+            const foot = document.getElementById('tbl-cc-foot');
+            if (!foot) return;
+
+            const soma = i => rows.reduce((s, r) => s + (v49ParseCell(r.cells[i]?.innerText) || 0), 0);
+            const money = i => formatarMoedaBR(soma(i));
+            const num = i => v49FormatNum(soma(i));
+
+            foot.innerHTML = `
+                <tr class="rf-cc-total-row">
+                    <td class="p-2 md:p-3" colspan="2">TOTAL / FILTRADO</td>
+                    <td class="p-2 md:p-3"></td>
+                    <td class="p-2 md:p-3"></td>
+                    <td class="p-2 md:p-3">${num(4)}</td>
+                    <td class="p-2 md:p-3">${num(5)}</td>
+                    <td class="p-2 md:p-3">${money(6)}</td>
+                    <td class="p-2 md:p-3">${money(7)}</td>
+                    <td class="p-2 md:p-3">${money(8)}</td>
+                    <td class="p-2 md:p-3">${money(9)}</td>
+                    <td class="p-2 md:p-3">${money(10)}</td>
+                    <td class="p-2 md:p-3 text-brand-primary">${money(11)}</td>
+                    <td class="p-2 md:p-3">${num(12)}h</td>
+                    <td class="p-2 md:p-3"></td>
+                    <td class="p-2 md:p-3"></td>
+                    <td class="p-2 md:p-3"></td>
+                </tr>
+            `;
+        }
+
         function v49UpdateKPIs() {
             let rows = v49VisibleRows('tbl-rec-body');
             const krec = document.getElementById('kpi-rec');
@@ -6096,10 +6258,21 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             rows = v49VisibleRows('tbl-cc-body');
             const kc = document.getElementById('kpi-cc');
             if (kc) {
-                const total = rows.reduce((s, r) => s + [6,7,8,9,10,11].reduce((a, i) => a + (v49ParseCell(r.cells[i]?.innerText) || 0), 0), 0);
+                // O custo indireto da coluna 11 é uma ALOCAÇÃO dos custos dos
+                // Produtivos Indiretos para os Produtivos Diretos. Somá-lo ao total
+                // geral duplicaria o mesmo custo. O total econômico usa apenas os
+                // custos originais das colunas 6 a 10.
+                const total = rows.reduce((s, r) =>
+                    s + [6,7,8,9,10].reduce((a, i) =>
+                        a + (v49ParseCell(r.cells[i]?.innerText) || 0), 0
+                    ), 0
+                );
+
+                rfAtualizarTotaisCC(rows);
+
                 kc.innerHTML = [
                     v49KpiCard('Qtd. de Centros de Custos', v49FormatNum(rows.length)),
-                    v49KpiCard('Valor Total (Custo Fixo + Rateios)', formatarMoedaBR(total)),
+                    v49KpiCard('Valor Total (sem duplicar rateio indireto)', formatarMoedaBR(total)),
                     v49KpiCard('Horas Efetivas Produzidas', v49FormatNum(v49SumCol(rows, 12)) + ' h')
                 ].join('');
             }
