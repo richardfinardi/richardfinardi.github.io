@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.10 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.10">
+    <title>CONSULTORIA.RF V5.2.11 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.11">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1185,7 +1185,7 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
 
 <style id="v5210-diagnostico-inteligente">
 /* ================================================================
-   V5.2.10 — DIAGNÓSTICO INTELIGENTE COMPACTO + HISTÓRICO
+   V5.2.11 — DIAGNÓSTICO INTELIGENTE COMPACTO + HISTÓRICO
    Recolhido por padrão. Não compara custos entre centros de custo.
    ================================================================ */
 #rf-diagnostico-inteligente { overflow:hidden; }
@@ -1232,6 +1232,72 @@ body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065
 }
 </style>
 
+
+
+<style id="v5211-historico-evolucao">
+/* ================================================================
+   V5.2.11 — EVOLUÇÃO HISTÓRICA
+   Somente períodos anteriores reais. Visual de tendência + comparação.
+   ================================================================ */
+.rf-history-reading {
+    display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+    padding:14px 16px; border:1px solid var(--ui-border); border-left:4px solid #64748b;
+    border-radius:12px; background:var(--ui-bg);
+}
+.rf-history-reading-kicker { font-size:8px; font-weight:900; letter-spacing:.11em; color:var(--ui-muted); }
+.rf-history-reading h5 { margin-top:3px; font-size:13px; font-weight:900; color:var(--ui-text); }
+.rf-history-reading p { margin-top:4px; font-size:10px; line-height:1.5; color:var(--ui-muted); }
+.rf-history-reading-base { flex:0 0 auto; padding:5px 8px; border:1px solid var(--ui-border); border-radius:999px; font-size:9px; font-weight:800; color:var(--ui-muted); white-space:nowrap; }
+.rf-history-status-good { border-left-color:#10b981; }
+.rf-history-status-warn { border-left-color:#eab308; }
+.rf-history-status-bad { border-left-color:#ef4444; }
+.rf-history-kpis { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:10px; }
+.rf-history-kpi { padding:12px; border:1px solid var(--ui-border); border-radius:11px; background:var(--ui-bg); }
+.rf-history-kpi-label { font-size:8px; color:var(--ui-muted); text-transform:uppercase; font-weight:900; letter-spacing:.06em; }
+.rf-history-kpi-value { margin-top:4px; font-size:14px; font-weight:900; color:var(--ui-text); }
+.rf-history-kpi-compare { display:flex; justify-content:space-between; gap:6px; margin-top:5px; font-size:8px; color:var(--ui-muted); }
+.rf-history-kpi-compare strong { font-size:9px; }
+.rf-history-good { color:#10b981 !important; }
+.rf-history-bad { color:#ef4444 !important; }
+.rf-history-neutral { color:var(--ui-muted) !important; }
+.rf-history-chart-card { margin-top:10px; padding:13px 14px 10px; border:1px solid var(--ui-border); border-radius:12px; background:var(--ui-bg); }
+.rf-history-chart-head h5 { font-size:11px; font-weight:900; color:var(--ui-text); }
+.rf-history-chart-head p { margin-top:2px; font-size:9px; color:var(--ui-muted); }
+.rf-history-chart-wrap { height:220px; margin-top:8px; }
+.rf-history-period-list { margin-top:12px; display:grid; gap:9px; }
+.rf-history-list-title { font-size:10px; font-weight:900; color:var(--ui-text); }
+.rf-history-period-card { border:1px solid var(--ui-border); border-radius:11px; background:var(--ui-bg); overflow:hidden; }
+.rf-history-period-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; border-bottom:1px solid var(--ui-border); }
+.rf-history-period-name { font-size:10px; font-weight:900; color:var(--ui-text); }
+.rf-history-period-sub { margin-top:2px; font-size:8px; color:var(--ui-muted); }
+.rf-history-period-tag { padding:3px 6px; border-radius:999px; border:1px solid var(--ui-border); font-size:8px; font-weight:900; color:var(--ui-muted); }
+.rf-history-period-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); }
+.rf-history-period-grid > div { padding:10px 12px; border-right:1px solid var(--ui-border); }
+.rf-history-period-grid > div:last-child { border-right:0; }
+.rf-history-period-grid span { display:block; font-size:8px; text-transform:uppercase; color:var(--ui-muted); font-weight:800; }
+.rf-history-period-grid b { display:block; margin-top:3px; font-size:10px; color:var(--ui-text); }
+.rf-history-period-grid strong { display:block; margin-top:3px; font-size:8px; }
+body.light-mode .rf-history-reading,
+body.light-mode .rf-history-kpi,
+body.light-mode .rf-history-chart-card,
+body.light-mode .rf-history-period-card { background:#fff !important; }
+@media (max-width:900px) {
+    .rf-history-kpis { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .rf-history-period-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .rf-history-period-grid > div:nth-child(2) { border-right:0; }
+    .rf-history-period-grid > div:nth-child(-n+2) { border-bottom:1px solid var(--ui-border); }
+}
+@media (max-width:600px) {
+    .rf-history-reading { flex-direction:column; }
+    .rf-history-reading-base { white-space:normal; }
+    .rf-history-kpis { grid-template-columns:1fr; }
+    .rf-history-period-grid { grid-template-columns:1fr; }
+    .rf-history-period-grid > div { border-right:0 !important; border-bottom:1px solid var(--ui-border); }
+    .rf-history-period-grid > div:last-child { border-bottom:0; }
+    .rf-history-chart-wrap { height:200px; }
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1239,7 +1305,7 @@ body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.10</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.11</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1275,7 +1341,7 @@ body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.10</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.11</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2109,7 +2175,7 @@ body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065
             </div>
 
 
-            <!-- V5.2.10 — DIAGNÓSTICO INTELIGENTE COMPACTO -->
+            <!-- V5.2.11 — DIAGNÓSTICO INTELIGENTE COMPACTO -->
             <div id="rf-diagnostico-inteligente" class="bg-brand-card px-4 py-3 rounded-xl border border-brand-border">
                 <div class="rf-diag-compact-header">
                     <div class="rf-diag-compact-title">
@@ -2145,8 +2211,8 @@ body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065
 
                     <div id="rf-diag-history-section" class="hidden space-y-3">
                         <div>
-                            <h4 class="text-xs font-extrabold text-white">Evolução contra períodos anteriores</h4>
-                            <p class="text-[10px] text-brand-muted mt-1">O período atual é comparado automaticamente com todos os períodos anteriores disponíveis da mesma empresa.</p>
+                            <h4 class="text-xs font-extrabold text-white">Evolução histórica do negócio</h4>
+                            <p class="text-[10px] text-brand-muted mt-1">Somente períodos realmente anteriores ao período selecionado entram na análise. Períodos superiores/futuros são ignorados.</p>
                         </div>
                         <div id="rf-diag-history"></div>
                     </div>
@@ -3759,7 +3825,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.10', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.11', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -4009,6 +4075,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
                 if(select) select.value = atual.TPERIODO_ID;
                 periodoAtivoObj = atual;
+                rfV5211AtualizarSelectComparativo();
 
                 atualizarTagsPeriodoHeader();
                 preencherFormularioConfigPeriodo();
@@ -4025,7 +4092,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         // ======================================================
-        // V5.2.10 — CONTROLES DE PERÍODO
+        // V5.2.11 — CONTROLES DE PERÍODO
         // Corrige os botões "+ Novo / Clonar", "+ Criar / Duplicar Período"
         // e "Fechar / Reabrir Período", que existiam no HTML sem as funções JS.
         // ======================================================
@@ -4281,6 +4348,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             periodoAtivoObj = listaPeriodos.find(p => String(p.TPERIODO_ID) === String(id));
             if(!periodoAtivoObj) return;
 
+            rfV5211AtualizarSelectComparativo();
             atualizarTagsPeriodoHeader();
             verificarStatusBloqueioPeriodo();
             preencherFormularioConfigPeriodo();
@@ -5807,7 +5875,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.10 — MOTOR DE DIAGNÓSTICO INTELIGENTE
+        // V5.2.11 — MOTOR DE DIAGNÓSTICO INTELIGENTE
         // Regras determinísticas usando somente números já calculados no sistema.
         // Não compara custo-hora/custos entre centros de custo.
         // ======================================================
@@ -5830,11 +5898,30 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         function rfV5210PeriodoOrdem(p) {
-            const raw = String(p?.TPERIODO_NOME || '').trim();
-            const m = raw.match(/^(\d{4})[.\-_/ ]([12])$/);
-            if (m) return (Number(m[1]) * 10) + Number(m[2]);
-            const d = new Date(raw);
-            if (!isNaN(d.getTime())) return (d.getFullYear() * 10) + (d.getMonth() < 6 ? 1 : 2);
+            const raw = String(p?.TPERIODO_NOME || '').trim().toUpperCase();
+            if (!raw) return null;
+
+            // Padrão oficial: 2026.1 / 2026-2 / 2026_1 etc.
+            let m = raw.match(/^(\d{4})[.\-_/ ]([12])$/);
+            if (m) return (Number(m[1]) * 1000) + Number(m[2]);
+
+            // Também entende nomes simples usados no cadastro/teste: PERIODO1, PERÍODO 2, FASE 03 etc.
+            m = raw.match(/(?:PERIODO|PERÍODO|FASE|ETAPA|PER)[\s._-]*(\d+)$/i);
+            if (m) return Number(m[1]);
+
+            // Se o nome terminar em número, usa-o como sequência somente quando não parece ser um ano isolado.
+            m = raw.match(/(\d+)$/);
+            if (m && Number(m[1]) < 1900) return Number(m[1]);
+
+            // IDs como PER-001 / PER_12 também servem como fallback seguro.
+            const rawId = String(p?.TPERIODO_ID || '').trim().toUpperCase();
+            m = rawId.match(/(?:PER|PERIODO|PERÍODO)?[\s._-]*(\d+)$/i);
+            if (m) return Number(m[1]);
+
+            // Datas reais continuam aceitas.
+            const d = new Date(String(p?.TPERIODO_NOME || '').trim());
+            if (!isNaN(d.getTime())) return (d.getFullYear() * 1000) + (d.getMonth() + 1);
+
             return null;
         }
 
@@ -5842,19 +5929,31 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if (!periodoAtivoObj || !Array.isArray(listaPeriodos)) return [];
             const ativoId = String(periodoAtivoObj.TPERIODO_ID || '');
             const ordemAtiva = rfV5210PeriodoOrdem(periodoAtivoObj);
+
+            // Regra V5.2.11: se não houver ordem confiável, NÃO compara automaticamente.
+            // Isso evita usar um período superior/futuro como histórico do período atual.
+            if (ordemAtiva === null) return [];
+
             return listaPeriodos
                 .filter(p => String(p.TPERIODO_ID || '') !== ativoId)
                 .filter(p => {
                     const ordem = rfV5210PeriodoOrdem(p);
-                    if (ordemAtiva !== null && ordem !== null) return ordem < ordemAtiva;
-                    return true;
+                    return ordem !== null && ordem < ordemAtiva;
                 })
-                .sort((a,b) => {
-                    const oa = rfV5210PeriodoOrdem(a);
-                    const ob = rfV5210PeriodoOrdem(b);
-                    if (oa !== null && ob !== null) return ob - oa;
-                    return String(b.TPERIODO_NOME || '').localeCompare(String(a.TPERIODO_NOME || ''));
-                });
+                .sort((a,b) => rfV5210PeriodoOrdem(b) - rfV5210PeriodoOrdem(a));
+        }
+
+        function rfV5211AtualizarSelectComparativo() {
+            const sel = document.getElementById('res-compare-select');
+            if (!sel) return;
+            const anteriores = rfV5210PeriodosAnteriores();
+            sel.innerHTML = anteriores.length
+                ? '<option value="">Sem comparativo manual</option>'
+                : '<option value="">Nenhum período anterior disponível</option>';
+            anteriores.forEach(p => {
+                sel.innerHTML += `<option value="${p.TPERIODO_ID}">${formatarNomePeriodoLimpo(p)}</option>`;
+            });
+            sel.value = '';
         }
 
         function rfV5210ScoreConfig() {
@@ -5964,6 +6063,12 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const section = document.getElementById('rf-diag-history-section');
             const container = document.getElementById('rf-diag-history');
             if (!section || !container) return;
+
+            if (window.rfV5211HistoricoChart) {
+                try { window.rfV5211HistoricoChart.destroy(); } catch(e) {}
+                window.rfV5211HistoricoChart = null;
+            }
+
             if (!Array.isArray(historico) || !historico.length) {
                 section.classList.add('hidden');
                 container.innerHTML = '';
@@ -5971,38 +6076,146 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             }
 
             section.classList.remove('hidden');
+
+            const atualNome = formatarNomePeriodoLimpo(periodoAtivoObj);
+            const imediato = historico[0]; // histórico vem do mais recente para o mais antigo
+            const dAnt = imediato.dre;
             const margemAtual = rfV528Pct(dreAtual.resLiquido, dreAtual.fatBruto);
-            const rows = historico.map(item => {
+            const margemAnt = rfV528Pct(dAnt.resLiquido, dAnt.fatBruto);
+            const gastosAtual = dreAtual.fatBruto - dreAtual.resLiquido;
+            const gastosAnt = dAnt.fatBruto - dAnt.resLiquido;
+            const varFat = rfV528Variacao(dreAtual.fatBruto, dAnt.fatBruto);
+            const varGastos = rfV528Variacao(gastosAtual, gastosAnt);
+            const varRes = rfV528Variacao(dreAtual.resLiquido, dAnt.resLiquido);
+            const diffMargem = margemAtual - margemAnt;
+
+            const fmtVar = v => v === null ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(1)}%`;
+            const fmtPP = v => `${v >= 0 ? '+' : ''}${v.toFixed(1)} p.p.`;
+            const classeDelta = (v, inverso=false) => {
+                if (v === null || Math.abs(v) < 0.05) return 'rf-history-neutral';
+                const bom = inverso ? v < 0 : v > 0;
+                return bom ? 'rf-history-good' : 'rf-history-bad';
+            };
+
+            let leituraTitulo = 'Evolução estável';
+            let leituraClasse = 'rf-history-status-neutral';
+            let leituraTexto = `O período atual está próximo do comportamento do período anterior (${formatarNomePeriodoLimpo(imediato.periodo)}).`;
+            const pressaoGastos = (varFat !== null && varGastos !== null) ? (varGastos - varFat) : 0;
+            if ((varRes !== null && varRes > 10) && diffMargem > 1) {
+                leituraTitulo = 'Evolução positiva';
+                leituraClasse = 'rf-history-status-good';
+                leituraTexto = `O resultado cresceu ${fmtVar(varRes)} e a margem avançou ${fmtPP(diffMargem)} frente ao período anterior.`;
+            } else if (pressaoGastos > 5) {
+                leituraTitulo = 'Pressão de gastos';
+                leituraClasse = 'rf-history-status-warn';
+                leituraTexto = `Os gastos variaram ${fmtVar(varGastos)}, acima do faturamento (${fmtVar(varFat)}). Isso pressiona a evolução do resultado.`;
+            } else if ((varRes !== null && varRes < -10) || diffMargem < -1) {
+                leituraTitulo = 'Resultado perdeu força';
+                leituraClasse = 'rf-history-status-bad';
+                leituraTexto = `O resultado variou ${fmtVar(varRes)} e a margem mudou ${fmtPP(diffMargem)} frente ao período anterior.`;
+            }
+
+            const metricCard = (titulo, atual, anterior, delta, cls, sufixo='') => `
+                <div class="rf-history-kpi">
+                    <div class="rf-history-kpi-label">${titulo}</div>
+                    <div class="rf-history-kpi-value">${atual}</div>
+                    <div class="rf-history-kpi-compare">
+                        <span>Anterior: ${anterior}</span>
+                        <strong class="${cls}">${delta}${sufixo}</strong>
+                    </div>
+                </div>`;
+
+            const cardsPeriodos = historico.map(item => {
                 const d = item.dre;
-                const varFat = rfV528Variacao(dreAtual.fatBruto, d.fatBruto);
-                const gastosAtual = dreAtual.fatBruto - dreAtual.resLiquido;
-                const gastosAnt = d.fatBruto - d.resLiquido;
-                const varGastos = rfV528Variacao(gastosAtual, gastosAnt);
-                const varRes = rfV528Variacao(dreAtual.resLiquido, d.resLiquido);
-                const margemAnt = rfV528Pct(d.resLiquido, d.fatBruto);
-                const diffMargem = margemAtual - margemAnt;
-                const fmtVar = v => v === null ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(1)}%`;
-                const fmtPP = v => `${v >= 0 ? '+' : ''}${v.toFixed(1)} p.p.`;
-                return `<tr>
-                    <td class="font-bold text-white">${formatarNomePeriodoLimpo(item.periodo)}</td>
-                    <td>${formatarMoedaBR(d.fatBruto)}</td>
-                    <td class="${varFat !== null && varFat < 0 ? 'text-red-400' : 'text-emerald-400'}">${fmtVar(varFat)}</td>
-                    <td class="${varGastos !== null && varGastos > 0 ? 'text-amber-400' : 'text-emerald-400'}">${fmtVar(varGastos)}</td>
-                    <td>${formatarMoedaBR(d.resLiquido)}</td>
-                    <td class="${varRes !== null && varRes < 0 ? 'text-red-400' : 'text-emerald-400'}">${fmtVar(varRes)}</td>
-                    <td>${margemAnt.toFixed(1)}%</td>
-                    <td class="${diffMargem < 0 ? 'text-red-400' : 'text-emerald-400'}">${fmtPP(diffMargem)}</td>
-                </tr>`;
+                const g = d.fatBruto - d.resLiquido;
+                const m = rfV528Pct(d.resLiquido, d.fatBruto);
+                const vf = rfV528Variacao(dreAtual.fatBruto, d.fatBruto);
+                const vg = rfV528Variacao(gastosAtual, g);
+                const vr = rfV528Variacao(dreAtual.resLiquido, d.resLiquido);
+                const dm = margemAtual - m;
+                return `
+                    <div class="rf-history-period-card">
+                        <div class="rf-history-period-head">
+                            <div>
+                                <div class="rf-history-period-name">${formatarNomePeriodoLimpo(item.periodo)}</div>
+                                <div class="rf-history-period-sub">comparado com ${atualNome}</div>
+                            </div>
+                            <span class="rf-history-period-tag">ANTERIOR</span>
+                        </div>
+                        <div class="rf-history-period-grid">
+                            <div><span>Faturamento</span><b>${formatarMoedaBR(d.fatBruto)}</b><strong class="${classeDelta(vf)}">${fmtVar(vf)} até o atual</strong></div>
+                            <div><span>Gastos</span><b>${formatarMoedaBR(g)}</b><strong class="${classeDelta(vg, true)}">${fmtVar(vg)} até o atual</strong></div>
+                            <div><span>Resultado</span><b>${formatarMoedaBR(d.resLiquido)}</b><strong class="${classeDelta(vr)}">${fmtVar(vr)} até o atual</strong></div>
+                            <div><span>Margem</span><b>${m.toFixed(1)}%</b><strong class="${classeDelta(dm)}">${fmtPP(dm)} até o atual</strong></div>
+                        </div>
+                    </div>`;
             }).join('');
 
-            container.innerHTML = `<div class="rf-diag-history-wrap">
-                <table class="rf-diag-history-table">
-                    <thead><tr>
-                        <th>Período anterior</th><th>Faturamento</th><th>Δ Fat. atual</th><th>Δ Gastos atual</th><th>Resultado</th><th>Δ Resultado atual</th><th>Margem ant.</th><th>Δ Margem atual</th>
-                    </tr></thead>
-                    <tbody>${rows}</tbody>
-                </table>
-            </div>`;
+            container.innerHTML = `
+                <div class="rf-history-reading ${leituraClasse}">
+                    <div>
+                        <span class="rf-history-reading-kicker">LEITURA AUTOMÁTICA</span>
+                        <h5>${leituraTitulo}</h5>
+                        <p>${leituraTexto}</p>
+                    </div>
+                    <div class="rf-history-reading-base">Base: ${formatarNomePeriodoLimpo(imediato.periodo)} → ${atualNome}</div>
+                </div>
+
+                <div class="rf-history-kpis">
+                    ${metricCard('Faturamento atual', formatarMoedaBR(dreAtual.fatBruto), formatarMoedaBR(dAnt.fatBruto), fmtVar(varFat), classeDelta(varFat))}
+                    ${metricCard('Gastos atuais', formatarMoedaBR(gastosAtual), formatarMoedaBR(gastosAnt), fmtVar(varGastos), classeDelta(varGastos, true))}
+                    ${metricCard('Resultado atual', formatarMoedaBR(dreAtual.resLiquido), formatarMoedaBR(dAnt.resLiquido), fmtVar(varRes), classeDelta(varRes))}
+                    ${metricCard('Margem atual', `${margemAtual.toFixed(1)}%`, `${margemAnt.toFixed(1)}%`, fmtPP(diffMargem), classeDelta(diffMargem))}
+                </div>
+
+                <div class="rf-history-chart-card">
+                    <div class="rf-history-chart-head">
+                        <div>
+                            <h5>Trajetória dos períodos</h5>
+                            <p>Faturamento, gastos totais e resultado líquido, em ordem cronológica.</p>
+                        </div>
+                    </div>
+                    <div class="rf-history-chart-wrap"><canvas id="rf-diag-history-chart"></canvas></div>
+                </div>
+
+                <div class="rf-history-period-list">
+                    <div class="rf-history-list-title">Comparação detalhada com o período atual</div>
+                    ${cardsPeriodos}
+                </div>`;
+
+            // Gráfico: anteriores do mais antigo para o mais novo + período atual.
+            const serie = [...historico].reverse().map(x => ({ periodo:x.periodo, dre:x.dre }));
+            serie.push({ periodo:periodoAtivoObj, dre:dreAtual });
+            const canvas = document.getElementById('rf-diag-history-chart');
+            if (canvas && typeof Chart !== 'undefined') {
+                const css = getComputedStyle(document.body);
+                const textColor = css.getPropertyValue('--ui-muted').trim() || '#9ea0a6';
+                const gridColor = document.body.classList.contains('light-mode') ? 'rgba(100,116,139,.16)' : 'rgba(148,163,184,.12)';
+                window.rfV5211HistoricoChart = new Chart(canvas, {
+                    type:'line',
+                    data:{
+                        labels:serie.map(x => String(x.periodo.TPERIODO_NOME || x.periodo.TPERIODO_ID || 'PERÍODO').toUpperCase()),
+                        datasets:[
+                            { label:'Faturamento', data:serie.map(x => x.dre.fatBruto), borderColor:'#ff8838', backgroundColor:'rgba(255,136,56,.10)', tension:.28, borderWidth:2.4, pointRadius:3, pointHoverRadius:5 },
+                            { label:'Gastos', data:serie.map(x => x.dre.fatBruto - x.dre.resLiquido), borderColor:'#f59e0b', backgroundColor:'rgba(245,158,11,.08)', tension:.28, borderWidth:2, pointRadius:3, pointHoverRadius:5 },
+                            { label:'Resultado', data:serie.map(x => x.dre.resLiquido), borderColor:'#10b981', backgroundColor:'rgba(16,185,129,.08)', tension:.28, borderWidth:2.4, pointRadius:3, pointHoverRadius:5 }
+                        ]
+                    },
+                    options:{
+                        responsive:true,
+                        maintainAspectRatio:false,
+                        interaction:{ mode:'index', intersect:false },
+                        plugins:{
+                            legend:{ labels:{ color:textColor, usePointStyle:true, boxWidth:8, font:{ size:10, weight:'700' } } },
+                            tooltip:{ callbacks:{ label:(ctx) => `${ctx.dataset.label}: ${formatarMoedaBR(ctx.parsed.y)}` } }
+                        },
+                        scales:{
+                            x:{ ticks:{ color:textColor, font:{size:9, weight:'700'} }, grid:{ display:false } },
+                            y:{ ticks:{ color:textColor, font:{size:9}, callback:(v)=> new Intl.NumberFormat('pt-BR',{notation:'compact',maximumFractionDigits:1}).format(v) }, grid:{ color:gridColor } }
+                        }
+                    }
+                });
+            }
         }
 
         function rfV5210RenderDiagnosticos(diags, historico, dreAtual) {
@@ -6163,7 +6376,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const dreAtiva = calcPeriodoDRE(periodoAtivoObj, listaCC, listaPlanoContas, listaFuncionarios);
             let dreCompare = periodoCompareObj ? calcPeriodoDRE(periodoCompareObj, listaCCCompare, listaPlanoCompare, listaFuncCompare) : null;
 
-            // V5.2.10 — histórico automático: compara o atual com TODOS os períodos anteriores.
+            // V5.2.11 — histórico automático: compara o atual somente com períodos realmente anteriores; superiores/futuros são ignorados.
             const periodosAnteriores = rfV5210PeriodosAnteriores();
             let historicoDRE = [];
             if (periodosAnteriores.length) {
@@ -6301,7 +6514,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
             if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
 
-            // V5.2.10 — diagnóstico atual + evolução automática contra o período anterior mais recente.
+            // V5.2.11 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
             const dreAnteriorMaisRecente = historicoDRE.length ? historicoDRE[0].dre : null;
             const rfV5210Diagnosticos = rfV528GerarDiagnosticos(
                 dreAtiva, dreAnteriorMaisRecente, investimentoTotal, pontoEquilibrio, rentabilidadeAtualPct
