@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.14 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.14">
+    <title>CONSULTORIA.RF V5.2.15 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.15">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1185,7 +1185,7 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
 
 <style id="v5210-diagnostico-inteligente">
 /* ================================================================
-   V5.2.14 — DIAGNÓSTICO AUTOMÁTICO COMPACTO + HISTÓRICO
+   V5.2.15 — DIAGNÓSTICO AUTOMÁTICO COMPACTO + HISTÓRICO
    Recolhido por padrão. Não compara custos entre centros de custo.
    ================================================================ */
 #rf-diagnostico-inteligente { overflow:hidden; }
@@ -1246,7 +1246,7 @@ body.light-mode .rf-diag-calculo { background:#f8fafc !important; }
 
 <style id="v5211-historico-evolucao">
 /* ================================================================
-   V5.2.14 — EVOLUÇÃO HISTÓRICA
+   V5.2.15 — EVOLUÇÃO HISTÓRICA
    Somente períodos anteriores reais. Visual de tendência + comparação.
    ================================================================ */
 .rf-history-reading {
@@ -1311,7 +1311,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
 
 <style id="v5214-resultados-pdf-layout">
 /* ================================================================
-   V5.2.14 — RESULTADOS: KPIs SEM QUEBRA + PDF MAIS ESTÁVEL
+   V5.2.15 — RESULTADOS: KPIs SEM QUEBRA + PDF MAIS ESTÁVEL
    ================================================================ */
 .rf-result-kpi-grid > div { min-width:0; }
 .rf-result-kpi-value {
@@ -1336,7 +1336,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.14</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.15</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1371,7 +1371,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.14</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.15</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2206,7 +2206,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
             </div>
 
 
-            <!-- V5.2.14 — DIAGNÓSTICO AUTOMÁTICO COMPACTO -->
+            <!-- V5.2.15 — DIAGNÓSTICO AUTOMÁTICO COMPACTO -->
             <div id="rf-diagnostico-inteligente" class="bg-brand-card px-4 py-3 rounded-xl border border-brand-border">
                 <div class="rf-diag-compact-header">
                     <div class="rf-diag-compact-title">
@@ -2323,7 +2323,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
                                 <th class="p-2 md:p-3 ranking-col-name">Centro de Custo</th>
                                 <th class="p-2 md:p-3 ranking-col-type">Tipo Setor</th>
                                 <th class="p-2 md:p-3 ranking-col-cost"><span class="hidden md:inline">Custo Primário Bruto (R$)</span><span class="md:hidden">Custo Total</span></th>
-                                <th class="p-2 md:p-3 text-center ranking-col-weight">Peso no Orçamento Total (%)</th>
+                                <th class="p-2 md:p-3 text-center ranking-col-weight">Peso no Faturamento (%)</th>
                                 <th class="p-2 md:p-3 ranking-col-progress">Barra de Progresso</th>
                                 <th class="p-2 md:p-3 text-right ranking-col-action">Raio-X</th>
                             </tr>
@@ -2514,7 +2514,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         let entidadeGradeAtiva = "";
 
         // ======================================================
-        // V5.2.14 — ESTADO DE EDIÇÃO RESILIENTE / ANTI-DUPLICAÇÃO
+        // V5.2.15 — ESTADO DE EDIÇÃO RESILIENTE / ANTI-DUPLICAÇÃO
         // ======================================================
         // Antes, cada formulário dependia exclusivamente de um input hidden para
         // decidir entre UPDATE e CREATE. Se esse hidden fosse limpo/recriado por
@@ -3954,7 +3954,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.14', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.15', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -4228,7 +4228,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         // ======================================================
-        // V5.2.14 — CONTROLES DE PERÍODO
+        // V5.2.15 — CONTROLES DE PERÍODO
         // Corrige os botões "+ Novo / Clonar", "+ Criar / Duplicar Período"
         // e "Fechar / Reabrir Período", que existiam no HTML sem as funções JS.
         // ======================================================
@@ -6029,7 +6029,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.14 — MOTOR DE DIAGNÓSTICO AUTOMÁTICO
+        // V5.2.15 — MOTOR DE DIAGNÓSTICO AUTOMÁTICO
         // Regras determinísticas usando somente números já calculados no sistema.
         // Não compara custo-hora/custos entre centros de custo.
         // ======================================================
@@ -6058,7 +6058,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         function rfV5210PeriodoOrdem(p) {
-            // V5.2.14 — a ordem histórica NÃO usa o nome do período.
+            // V5.2.15 — a ordem histórica NÃO usa o nome do período.
             // O cliente pode nomear livremente; a sequência é determinada apenas pelo ID gerado pelo sistema.
             const rawId = String(p?.TPERIODO_ID || '').trim().toUpperCase();
             const m = rawId.match(/(\d+)$/);
@@ -6070,7 +6070,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const ativoId = String(periodoAtivoObj.TPERIODO_ID || '');
             const ordemAtiva = rfV5210PeriodoOrdem(periodoAtivoObj);
 
-            // Regra V5.2.14: se não houver ordem confiável, NÃO compara automaticamente.
+            // Regra V5.2.15: se não houver ordem confiável, NÃO compara automaticamente.
             // Isso evita usar um período superior/futuro como histórico do período atual.
             if (ordemAtiva === null) return [];
 
@@ -6463,7 +6463,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         async function gerarAnalisesEResultadosCore() {
             if (!periodoAtivoObj) return;
 
-            const periodoCompareId = ""; // V5.2.14: comparativo manual removido; histórico é automático.
+            const periodoCompareId = ""; // V5.2.15: comparativo manual removido; histórico é automático.
             const periodDisplay = document.getElementById('dre-period-display');
             if(periodDisplay) periodDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
 
@@ -6544,7 +6544,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const dreAtiva = calcPeriodoDRE(periodoAtivoObj, listaCC, listaPlanoContas, listaFuncionarios);
             let dreCompare = periodoCompareObj ? calcPeriodoDRE(periodoCompareObj, listaCCCompare, listaPlanoCompare, listaFuncCompare) : null;
 
-            // V5.2.14 — histórico automático: compara o atual somente com períodos realmente anteriores; superiores/futuros são ignorados.
+            // V5.2.15 — histórico automático: compara o atual somente com períodos realmente anteriores; superiores/futuros são ignorados.
             const periodosAnteriores = rfV5210PeriodosAnteriores();
             let historicoDRE = [];
             if (periodosAnteriores.length) {
@@ -6686,7 +6686,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
             if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
 
-            // V5.2.14 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
+            // V5.2.15 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
             const dreAnteriorMaisRecente = historicoDRE.length ? historicoDRE[0].dre : null;
             const rfV5210Diagnosticos = rfV528GerarDiagnosticos(
                 dreAtiva, dreAnteriorMaisRecente, investimentoTotal, pontoEquilibrioEconomico, rentabilidadeAtualPct, pontoEquilibrio
@@ -6735,7 +6735,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             }
 
             let rankingGeralCCs = [];
-            const totalCustoPrimarioEmpresa = dreAtiva.cFixoFabril + dreAtiva.dFichaAdmin;
+            const faturamentoAtualRanking = Number(dreAtiva.fatBruto || 0);
 
             listaCC.forEach(c => {
                 const cBruto = (parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0) + (v51IgnorarDepreciacao(periodoAtivoObj) ? 0 : (parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL)||0)) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0) + (parseFloat(c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0) + (v51IgnorarDepreciacao(periodoAtivoObj) ? 0 : (parseFloat(c.TCENTRO_CUSTO_PREDIO)||0));
@@ -6748,7 +6748,8 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 tbodyRanking.innerHTML = '';
 
                 rankingGeralCCs.forEach((item, index) => {
-                    const pesoPct = totalCustoPrimarioEmpresa > 0 ? ((item.custo / totalCustoPrimarioEmpresa) * 100) : 0;
+                    const pesoPct = faturamentoAtualRanking > 0 ? ((item.custo / faturamentoAtualRanking) * 100) : 0;
+                    const larguraBarraPct = Math.max(0, Math.min(100, pesoPct));
                     tbodyRanking.innerHTML += `
                         <tr onclick="abrirDrilldownCustoHora('${item.id}', '${item.nome}')" class="hover:bg-brand-primary/10 cursor-pointer transition" title="Clique para abrir o Raio-X deste centro de custo">
                             <td class="ranking-mobile-position font-extrabold text-brand-primary">${index + 1}º</td>
@@ -6760,7 +6761,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                             <td class="p-2 md:p-3 text-center font-bold text-brand-primary ranking-col-weight">${pesoPct.toFixed(1)}%</td>
                             <td class="p-2 md:p-3 ranking-col-progress">
                                 <div class="w-full bg-[#0d0d0f] h-2.5 rounded-full overflow-hidden border border-brand-border">
-                                    <div class="bg-brand-primary h-full rounded-full" style="width: ${pesoPct.toFixed(1)}%"></div>
+                                    <div class="bg-brand-primary h-full rounded-full" style="width: ${larguraBarraPct.toFixed(1)}%"></div>
                                 </div>
                             </td>
                             <td class="p-2 md:p-3 text-right ranking-col-action">
@@ -7835,7 +7836,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
                 kc.innerHTML = [
                     v49KpiCard('Qtd. de Centros de Custos', v49FormatNum(rows.length)),
-                    v49KpiCard('Valor Total ', formatarMoedaBR(total)),
+                    v49KpiCard('Valor Total', formatarMoedaBR(total)),
                     v49KpiCard('Horas Efetivas Produzidas', v49FormatNum(v49SumCol(rows, 12)) + ' h')
                 ].join('');
             }
