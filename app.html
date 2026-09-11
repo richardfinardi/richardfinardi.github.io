@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.9.7 | Gestão de Custos</title>
-    <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
-    <link rel="manifest" href="manifest.webmanifest">
+    <title>CONSULTORIA.RF V4.9.8 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=4.9.8">
+    <link rel="icon" type="image/png" sizes="192x192" href="./rf-icon-192-v498.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./rf-icon-512-v498.png">
+    <link rel="shortcut icon" type="image/png" href="./rf-icon-192-v498.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="./rf-icon-192-v498.png">
     <meta name="theme-color" content="#111318">
+    <meta name="background-color" content="#111318">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="CONSULTORIA.RF">
-    <link rel="apple-touch-icon" href="icon-192.png">
     <script>
       // Evita o flash da tela de login quando já existe sessão persistida.
       try { if (localStorage.getItem('usuarioLogadoRF')) document.documentElement.classList.add('rf-has-session'); } catch(e) {}
@@ -177,7 +181,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
 </style>
 
 <style id="v49-sidebar-final-fix">
-/* V4.9.7 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
+/* V4.9.8 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
 #app-header > #sidebar-toggle { display:none !important; }
 #sidebar-tools {
     position:absolute !important;
@@ -215,7 +219,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v493-mobile-ui">
 /* ================================================================
-   V4.9.7 — MOBILE UX
+   V4.9.8 — MOBILE UX
    No celular o menu lateral vira uma gaveta inferior. O mesmo botão
    Menu permanece único e fica sempre acessível no rodapé.
    ================================================================ */
@@ -377,7 +381,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v494-light-theme">
 /* ================================================================
-   V4.9.7 — LIGHT THEME REFINEMENT
+   V4.9.8 — LIGHT THEME REFINEMENT
    Mantém contraste, hierarquia e identidade laranja sem lavar a tela.
    ================================================================ */
 body.light-mode {
@@ -463,7 +467,7 @@ body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !im
 
 <style id="v496-final-visual">
 /* ================================================================
-   V4.9.7 — ÍCONES MONOCROMÁTICOS + LIGHT THEME REFINADO
+   V4.9.8 — ÍCONES MONOCROMÁTICOS + LIGHT THEME REFINADO
    ================================================================ */
 #nav-cliente-tabs button::before {
     font-family: Arial, "Segoe UI Symbol", sans-serif !important;
@@ -589,7 +593,7 @@ body.light-mode .text-red-400 { color:#b94b4b !important; }
 
 
 <style id="v497-light-accessibility">
-/* V4.9.7 — tema claro de trabalho: contraste neutro e botões legíveis */
+/* V4.9.8 — tema claro de trabalho: contraste neutro e botões legíveis */
 body.light-mode { background:#e9edf2 !important; color:#18202c !important; }
 body.light-mode #main-content { background:#e9edf2 !important; }
 body.light-mode .bg-brand-card, body.light-mode .bg-\[\#16161a\] { background:#fff !important; border-color:#cbd3dd !important; }
@@ -610,7 +614,7 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.7</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.8</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -629,7 +633,7 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
 
         <div id="user-menu" class="hidden flex items-center gap-3">
             <span class="text-xs md:text-sm text-brand-muted"><strong class="text-white uppercase" id="user-display-name">---</strong></span>
-            <button id="btn-install-app" onclick="instalarAppRF()" class="hidden text-xs bg-slate-700 border border-slate-600 hover:bg-slate-600 text-white px-2.5 py-1 rounded-lg transition font-semibold" title="Instalar CONSULTORIA.RF neste dispositivo">⬇ Instalar App</button>
+            <button id="btn-install-app" onclick="instalarAppRF()" class="text-xs bg-slate-700 border border-slate-600 hover:bg-slate-600 text-white px-2.5 py-1 rounded-lg transition font-semibold" title="Instalar CONSULTORIA.RF neste dispositivo">⬇ Instalar App</button>
             <button onclick="deslogar()" class="text-xs bg-red-950/50 border border-red-800/50 hover:bg-red-900 text-red-200 px-2.5 py-1 rounded-lg transition font-semibold">Sair</button>
         </div>
     </header>
@@ -639,7 +643,7 @@ body.light-mode #sync-indicator { background:#e6f4ee !important; color:#087a55 !
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.7</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.8</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2374,7 +2378,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         // ======================================================
-        // V4.9.7 — SESSÃO PERSISTENTE + VALIDAÇÃO DIÁRIA + PWA
+        // V4.9.8 — SESSÃO PERSISTENTE + VALIDAÇÃO DIÁRIA + PWA
         // ======================================================
         const RF_VALIDACAO_INTERVALO = 24 * 60 * 60 * 1000;
         let rfDeferredInstallPrompt = null;
@@ -2421,34 +2425,80 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             }
         }
 
+        function rfEstaRodandoComoApp() {
+            return window.matchMedia('(display-mode: standalone)').matches ||
+                   window.matchMedia('(display-mode: fullscreen)').matches ||
+                   window.navigator.standalone === true;
+        }
+
+        function rfAtualizarBotaoInstalacao() {
+            const btn = document.getElementById('btn-install-app');
+            if (!btn) return;
+            if (rfEstaRodandoComoApp()) {
+                btn.classList.add('hidden');
+            } else {
+                btn.classList.remove('hidden');
+            }
+        }
+
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             rfDeferredInstallPrompt = e;
-            const btn = document.getElementById('btn-install-app');
-            if (btn) btn.classList.remove('hidden');
+            rfAtualizarBotaoInstalacao();
         });
 
         window.addEventListener('appinstalled', () => {
             rfDeferredInstallPrompt = null;
-            const btn = document.getElementById('btn-install-app');
-            if (btn) btn.classList.add('hidden');
+            rfAtualizarBotaoInstalacao();
         });
 
         async function instalarAppRF() {
-            if (rfDeferredInstallPrompt) {
-                rfDeferredInstallPrompt.prompt();
-                await rfDeferredInstallPrompt.userChoice;
-                rfDeferredInstallPrompt = null;
+            if (rfEstaRodandoComoApp()) {
+                alert('O CONSULTORIA.RF já está aberto como aplicativo instalado.');
                 return;
             }
+
+            if (rfDeferredInstallPrompt) {
+                rfDeferredInstallPrompt.prompt();
+                const escolha = await rfDeferredInstallPrompt.userChoice;
+                if (escolha && escolha.outcome === 'accepted') {
+                    rfDeferredInstallPrompt = null;
+                }
+                return;
+            }
+
             const isiOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-            if (isiOS) alert('No iPhone/iPad: toque em Compartilhar e depois em “Adicionar à Tela de Início”.');
-            else alert('A instalação aparece quando o navegador considera o app instalável. No Chrome/Edge, use também o ícone de instalação na barra de endereço ou o menu do navegador.');
+            const isAndroid = /android/i.test(navigator.userAgent);
+
+            if (isiOS) {
+                alert('No iPhone/iPad: abra no Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”.');
+                return;
+            }
+
+            if (isAndroid) {
+                alert('No Android: abra este endereço no Chrome e use Menu ⋮ > Instalar app. Se aparecer “Adicionar à tela inicial” em vez de “Instalar app”, atualize a página após os arquivos manifest.json e sw.js estarem publicados.');
+                return;
+            }
+
+            alert('No PC: abra no Chrome ou Edge e escolha “Instalar CONSULTORIA.RF” pelo ícone de instalação da barra de endereço ou pelo menu do navegador. Se só aparecer “Criar atalho”, atualize a página após publicar manifest.json, sw.js e os ícones na mesma pasta do app.html.');
         }
 
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Service Worker:', err)));
+            window.addEventListener('load', async () => {
+                try {
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=4.9.8', { scope: './' });
+                    await reg.update();
+                    console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
+                } catch (err) {
+                    console.warn('Service Worker CONSULTORIA.RF:', err);
+                }
+                rfAtualizarBotaoInstalacao();
+            });
+        } else {
+            window.addEventListener('load', rfAtualizarBotaoInstalacao);
         }
+
+        window.matchMedia('(display-mode: standalone)').addEventListener?.('change', rfAtualizarBotaoInstalacao);
 
         async function fazerLogin() {
             const email = document.getElementById('login-email').value.trim();
@@ -2548,7 +2598,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             await carregarPadroes();
             await carregarTudoDoPeriodo();
 
-            // V4.9.7: restaura a última tela usada. No primeiro acesso, abre Resultados.
+            // V4.9.8: restaura a última tela usada. No primeiro acesso, abre Resultados.
             const ultimaAba = localStorage.getItem('rf_ultima_aba') || 'res';
             alternarAbaCliente(ultimaAba);
         }
@@ -2880,7 +2930,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 carregarPlanoContas()
             ]);
 
-            // V4.9.7: se Resultados estiver aberto, só calcula depois que
+            // V4.9.8: se Resultados estiver aberto, só calcula depois que
             // todas as bases do período já terminaram de carregar.
             const secResultados = document.getElementById('section-resultados');
             if (secResultados && !secResultados.classList.contains('hidden')) {
@@ -4925,7 +4975,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            // V4.9.7: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
+            // V4.9.8: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
             const navMobile = document.getElementById('nav-cliente-tabs');
             if (navMobile && navMobile.dataset.mobileCloseBound !== '1') {
                 navMobile.dataset.mobileCloseBound = '1';
@@ -4944,7 +4994,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             v49PrepareTables();
             v49PatchCCEvents();
             setTimeout(() => {
-                // V4.9.7: não força Resultados aqui; iniciarSessao restaura a última aba.
+                // V4.9.8: não força Resultados aqui; iniciarSessao restaura a última aba.
                 v49MoveSidebar();
                 v49OrderResultsFirst();
                 v49PrepareTables();
