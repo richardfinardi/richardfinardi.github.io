@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V4.9.4 | Gestão de Custos</title>
+    <title>CONSULTORIA.RF V4.9.5 | Gestão de Custos</title>
     <link rel="icon" type="image/png" href="LOGO MINIMALISTA.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -164,7 +164,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px; }
 </style>
 
 <style id="v49-sidebar-final-fix">
-/* V4.9.4 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
+/* V4.9.5 — ÚNICO botão do menu: desktop + gaveta inferior mobile */
 #app-header > #sidebar-toggle { display:none !important; }
 #sidebar-tools {
     position:absolute !important;
@@ -202,7 +202,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v493-mobile-ui">
 /* ================================================================
-   V4.9.4 — MOBILE UX
+   V4.9.5 — MOBILE UX
    No celular o menu lateral vira uma gaveta inferior. O mesmo botão
    Menu permanece único e fica sempre acessível no rodapé.
    ================================================================ */
@@ -364,7 +364,7 @@ body.sidebar-collapsed #theme-toggle::before { content:'☾'; font-size:16px !im
 
 <style id="v494-light-theme">
 /* ================================================================
-   V4.9.4 — LIGHT THEME REFINEMENT
+   V4.9.5 — LIGHT THEME REFINEMENT
    Mantém contraste, hierarquia e identidade laranja sem lavar a tela.
    ================================================================ */
 body.light-mode {
@@ -454,7 +454,7 @@ body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !im
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.4</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V4.9.5</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -482,7 +482,7 @@ body.light-mode .text-red-300, body.light-mode .text-red-400 { color:#c24141 !im
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.4</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V4.9.5</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -1973,7 +1973,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                     const min = tr.querySelector('.g-col-6').checked ? "SIM" : "NAO";
 
                     batchData.push([
-                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, "", nome, tipo, min, area, fx, prod, rateio, 0, 0, 0, 0, 0, 0, 0
+                        usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, "", nome, tipo, 0, area, fx, prod, rateio, min, 0, 0, 0, 0, 0, 0
                     ]);
                 } else if (entidadeGradeAtiva === 'TRECURSO') {
                     const ccTarget = tr.querySelector('.g-col-0') ? tr.querySelector('.g-col-0').value : '';
@@ -2307,7 +2307,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             await carregarPadroes();
             await carregarTudoDoPeriodo();
 
-            // V4.9.4: tela inicial é Resultados & Análises.
+            // V4.9.5: tela inicial é Resultados & Análises.
             // A abertura acontece somente após os dados do período terem sido carregados.
             alternarAbaCliente('res');
         }
@@ -2639,7 +2639,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 carregarPlanoContas()
             ]);
 
-            // V4.9.4: se Resultados estiver aberto, só calcula depois que
+            // V4.9.5: se Resultados estiver aberto, só calcula depois que
             // todas as bases do período já terminaram de carregar.
             const secResultados = document.getElementById('section-resultados');
             if (secResultados && !secResultados.classList.contains('hidden')) {
@@ -2784,7 +2784,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                         <td class="p-2 md:p-3 text-brand-primary">${formatarMoedaBR(item.TCENTRO_CUSTO_INDIRETOS)}</td>
                         <td class="p-2 md:p-3 font-bold text-white">${item.TCENTRO_CUSTO_HORAS || 0}h</td>
                         <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_PRODUTIVIDADE || 100}%</td>
-                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_MINIMO || 'NAO'}</td>
+                        <td class="p-2 md:p-3">${item.TCENTRO_CUSTO_CONSIDERAR_MINIMO || 'NAO'}</td>
                         <td class="p-2 md:p-3 text-right space-x-1">
                             <button onclick="editarCentroCusto('${item.TCENTRO_CUSTO_ID}')" class="text-xs bg-brand-primary/20 text-brand-primary border border-brand-primary/40 px-2 py-1 rounded hover:bg-brand-primary hover:text-white transition font-bold">Editar</button>
                             <button onclick="deletarItemAPI('TCENTRO_CUSTO', '${item.TCENTRO_CUSTO_ID}', carregarCentrosDeCusto)" class="text-xs bg-red-950/60 text-red-400 border border-red-800 px-2 py-1 rounded hover:bg-red-900 transition font-bold">Excluir</button>
@@ -2806,7 +2806,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
             document.getElementById('cc-area').value = item.TCENTRO_CUSTO_AREA || 0;
             document.getElementById('cc-custo-fixo').value = Number(item.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || item.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             document.getElementById('cc-produtividade').value = item.TCENTRO_CUSTO_PRODUTIVIDADE || 100;
-            document.getElementById('cc-considerar-minimo').checked = String(item.TCENTRO_CUSTO_MINIMO).toUpperCase() === 'SIM';
+            document.getElementById('cc-considerar-minimo').checked = String(item.TCENTRO_CUSTO_CONSIDERAR_MINIMO).toUpperCase() === 'SIM';
 
             document.getElementById('btn-salvar-cc').innerText = "Atualizar Centro de Custo";
             document.getElementById('btn-cancelar-cc').classList.remove('hidden');
@@ -2837,7 +2837,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
                 id: editingId,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
-                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, editingId || "", nome, tipo, min, area, fx, prod, rateio, 0, 0, 0, 0, 0, 0, 0]
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, editingId || "", nome, tipo, 0, area, fx, prod, rateio, min, 0, 0, 0, 0, 0, 0]
             };
 
             try {
@@ -4621,7 +4621,7 @@ COMISSAO DE VENDEDORES EXTERNOS;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VE
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            // V4.9.4: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
+            // V4.9.5: no celular, selecionar uma seção fecha automaticamente a gaveta inferior.
             const navMobile = document.getElementById('nav-cliente-tabs');
             if (navMobile && navMobile.dataset.mobileCloseBound !== '1') {
                 navMobile.dataset.mobileCloseBound = '1';
