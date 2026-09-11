@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.7 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.7">
+    <title>CONSULTORIA.RF V5.2.8 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.8">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1182,6 +1182,31 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
 }
 </style>
 
+
+<style id="v528-diagnostico-inteligente">
+/* ================================================================
+   V5.2.8 — DIAGNÓSTICO INTELIGENTE (REGRAS GERENCIAIS)
+   Não compara custos entre centros de custo.
+   ================================================================ */
+#rf-diag-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.rf-diag-card { border:1px solid var(--ui-border); border-left-width:4px; border-radius:12px; padding:14px; background:var(--ui-bg); }
+.rf-diag-card[data-nivel="PRIORIDADE"] { border-left-color:#ef4444; }
+.rf-diag-card[data-nivel="CRITICO"] { border-left-color:#f97316; }
+.rf-diag-card[data-nivel="ATENCAO"] { border-left-color:#eab308; }
+.rf-diag-card[data-nivel="SAUDAVEL"] { border-left-color:#10b981; }
+.rf-diag-badge { display:inline-flex; align-items:center; border:1px solid var(--ui-border); border-radius:999px; padding:3px 8px; font-size:9px; font-weight:900; letter-spacing:.04em; }
+.rf-diag-card[data-nivel="PRIORIDADE"] .rf-diag-badge { color:#fecaca; background:rgba(127,29,29,.28); border-color:rgba(239,68,68,.38); }
+.rf-diag-card[data-nivel="CRITICO"] .rf-diag-badge { color:#fed7aa; background:rgba(124,45,18,.28); border-color:rgba(249,115,22,.38); }
+.rf-diag-card[data-nivel="ATENCAO"] .rf-diag-badge { color:#fde68a; background:rgba(113,63,18,.28); border-color:rgba(234,179,8,.38); }
+.rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#a7f3d0; background:rgba(6,78,59,.28); border-color:rgba(16,185,129,.38); }
+body.light-mode .rf-diag-card { background:#fff !important; }
+body.light-mode .rf-diag-card[data-nivel="PRIORIDADE"] .rf-diag-badge { color:#991b1b; background:#fef2f2; }
+body.light-mode .rf-diag-card[data-nivel="CRITICO"] .rf-diag-badge { color:#9a3412; background:#fff7ed; }
+body.light-mode .rf-diag-card[data-nivel="ATENCAO"] .rf-diag-badge { color:#854d0e; background:#fefce8; }
+body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065f46; background:#ecfdf5; }
+@media (max-width:767px) { #rf-diag-grid { grid-template-columns:1fr; } }
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1189,7 +1214,7 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.7</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.8</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1225,7 +1250,7 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.7</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.8</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2056,6 +2081,29 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
                     <h3 id="res-card-payback" class="text-lg md:text-xl font-extrabold text-blue-400">0 meses</h3>
                     <p class="text-[10px] text-brand-muted">Retorno do Investimento</p>
                 </div>
+            </div>
+
+
+            <!-- V5.2.8 — DIAGNÓSTICO INTELIGENTE -->
+            <div id="rf-diagnostico-inteligente" class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 border-b border-brand-border/50 pb-4">
+                    <div>
+                        <h3 class="text-base md:text-lg font-bold text-white">🧠 Diagnóstico Inteligente</h3>
+                        <p class="text-xs text-brand-muted mt-1">Leitura automática do DRE e dos parâmetros do período. Os cálculos continuam sendo feitos pelo próprio sistema.</p>
+                    </div>
+                    <div class="flex items-center gap-4 bg-[#0d0d0f] border border-brand-border rounded-xl px-4 py-3">
+                        <div>
+                            <div class="text-[10px] uppercase font-bold text-brand-muted">Saúde Econômica</div>
+                            <div id="rf-diag-score" class="text-2xl font-black text-white">--/100</div>
+                        </div>
+                        <div class="h-10 w-px bg-brand-border"></div>
+                        <div>
+                            <div id="rf-diag-classificacao" class="text-sm font-extrabold text-brand-primary">CALCULANDO...</div>
+                            <div id="rf-diag-resumo" class="text-[10px] text-brand-muted mt-1">Analisando indicadores...</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="rf-diag-grid"></div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -3659,7 +3707,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.7', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.8', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -5455,6 +5503,156 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             return rfResultadosPromise;
         }
 
+
+        // ======================================================
+        // V5.2.8 — MOTOR DE DIAGNÓSTICO INTELIGENTE
+        // Regras determinísticas usando somente números já calculados no sistema.
+        // Não compara custo-hora/custos entre centros de custo.
+        // ======================================================
+        function rfV528Pct(num, den) {
+            return den > 0 ? (num / den) * 100 : 0;
+        }
+
+        function rfV528Variacao(atual, anterior) {
+            if (!Number.isFinite(anterior) || anterior === 0) return null;
+            return ((atual - anterior) / Math.abs(anterior)) * 100;
+        }
+
+        function rfV528CriarDiag(codigo, nivel, titulo, valorTexto, diagnostico, sugestao) {
+            const ordem = { PRIORIDADE:0, CRITICO:1, ATENCAO:2, SAUDAVEL:3 };
+            return { codigo, nivel, titulo, valorTexto, diagnostico, sugestao, ordem:ordem[nivel] ?? 9 };
+        }
+
+        function rfV528GerarDiagnosticos(dre, dreCompare, investimentoTotal, pontoEquilibrio, retornoInvestimentoPct) {
+            const fat = dre.fatBruto || 0;
+            const metaRetornoPct = parseFloat(periodoAtivoObj?.TPERIODO_RENTABILIDADE) || 0;
+            const margemLiquidaPct = rfV528Pct(dre.resLiquido, fat);
+            const folgaPEPct = fat > 0 && pontoEquilibrio > 0 ? ((fat - pontoEquilibrio) / fat) * 100 : 0;
+            const margemContribPct = rfV528Pct(dre.margemContrib, fat);
+            const despOperPct = rfV528Pct(dre.dFichaAdmin, fat);
+            const custoFixoIndustrialPct = rfV528Pct(dre.cFixoFabril, fat);
+            const sobraMOPct = rfV528Pct(dre.sobraMaoObra, fat);
+            const resultadoAntesRetirada = dre.resLiquido + dre.retSocios;
+            const retiradaSobreResultadoPct = resultadoAntesRetirada > 0 ? rfV528Pct(dre.retSocios, resultadoAntesRetirada) : (dre.retSocios > 0 ? 999 : 0);
+            const diags = [];
+
+            // 1 — Resultado / faturamento
+            if (margemLiquidaPct < 0) diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','PRIORIDADE','Resultado líquido negativo',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'O DRE fecha com prejuízo no período.','Priorizar a revisão das maiores saídas do DRE e do faturamento necessário para voltar ao resultado positivo.'));
+            else if (margemLiquidaPct < 5) diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','CRITICO','Margem líquida muito baixa',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'A operação tem pouca retenção de resultado depois de todos os gastos.','Revisar estrutura fixa, despesas operacionais, perdas e política comercial para ampliar a margem final.'));
+            else if (margemLiquidaPct < 10) diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','ATENCAO','Margem líquida apertada',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'Existe resultado positivo, porém com margem limitada para absorver oscilações.','Buscar ganho de margem antes de ampliar compromissos fixos.'));
+            else diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','SAUDAVEL','Margem líquida positiva',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'O período apresenta retenção positiva de resultado sobre as vendas.','Manter o acompanhamento para preservar a margem nos próximos períodos.'));
+
+            // 2 — Ponto de equilíbrio
+            if (fat <= 0 || pontoEquilibrio <= 0) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','ATENCAO','Ponto de equilíbrio sem base suficiente','Sem referência','Não há base suficiente para medir a folga sobre o ponto de equilíbrio.','Revisar faturamento, custos variáveis e parâmetros do período.'));
+            else if (folgaPEPct < 0) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','PRIORIDADE','Faturamento abaixo do ponto de equilíbrio',`${folgaPEPct.toFixed(1)}% de folga`,'O faturamento atual não cobre o ponto de equilíbrio calculado para a estrutura e meta do período.','Atuar em faturamento, margem de contribuição e estrutura fixa até superar o ponto de equilíbrio.'));
+            else if (folgaPEPct < 5) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','CRITICO','Folga mínima sobre o ponto de equilíbrio',`${folgaPEPct.toFixed(1)}% de folga`,'A empresa está muito próxima do limite econômico do período.','Criar margem de segurança aumentando contribuição ou reduzindo gastos fixos.'));
+            else if (folgaPEPct < 15) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','ATENCAO','Folga reduzida sobre o ponto de equilíbrio',`${folgaPEPct.toFixed(1)}% de folga`,'Existe cobertura do ponto de equilíbrio, mas a margem de segurança ainda é curta.','Acompanhar faturamento e despesas fixas com prioridade.'));
+            else diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','SAUDAVEL','Boa folga sobre o ponto de equilíbrio',`${folgaPEPct.toFixed(1)}% de folga`,'O faturamento apresenta margem de segurança sobre o ponto de equilíbrio.','Preservar a margem de contribuição e evitar crescimento desproporcional da estrutura fixa.'));
+
+            // 3 — Margem de contribuição
+            if (margemContribPct < 10) diags.push(rfV528CriarDiag('MARGEM_CONTRIB','PRIORIDADE','Margem de contribuição muito baixa',`${margemContribPct.toFixed(1)}% do faturamento`,'Após impostos, deduções e custos variáveis sobra pouco para pagar a estrutura fixa.','Revisar preços, custos variáveis e deduções sobre vendas.'));
+            else if (margemContribPct < 20) diags.push(rfV528CriarDiag('MARGEM_CONTRIB','CRITICO','Margem de contribuição baixa',`${margemContribPct.toFixed(1)}% do faturamento`,'A capacidade de absorção dos custos fixos está pressionada.','Priorizar ações sobre preço, impostos/deduções e custos variáveis.'));
+            else if (margemContribPct < 30) diags.push(rfV528CriarDiag('MARGEM_CONTRIB','ATENCAO','Margem de contribuição moderada',`${margemContribPct.toFixed(1)}% do faturamento`,'A margem cobre a estrutura, mas merece acompanhamento.','Evitar crescimento de despesas fixas sem ganho correspondente de faturamento/margem.'));
+            else diags.push(rfV528CriarDiag('MARGEM_CONTRIB','SAUDAVEL','Margem de contribuição saudável',`${margemContribPct.toFixed(1)}% do faturamento`,'Há boa parcela do faturamento disponível para absorver a estrutura fixa e formar resultado.','Preservar preços e controle dos gastos variáveis.'));
+
+            // 4 — Despesas operacionais
+            if (despOperPct > 18) diags.push(rfV528CriarDiag('DESP_OPER','PRIORIDADE','Despesas operacionais muito elevadas',`${despOperPct.toFixed(1)}% do faturamento`,'Administrativo, vendas e financeiro consomem parcela elevada da receita.','Abrir o detalhamento da linha e revisar primeiro as contas de maior peso.'));
+            else if (despOperPct > 12) diags.push(rfV528CriarDiag('DESP_OPER','CRITICO','Despesas operacionais elevadas',`${despOperPct.toFixed(1)}% do faturamento`,'A estrutura operacional está pressionando o resultado.','Revisar contratos, despesas administrativas, comerciais e financeiras.'));
+            else if (despOperPct > 8) diags.push(rfV528CriarDiag('DESP_OPER','ATENCAO','Peso operacional relevante',`${despOperPct.toFixed(1)}% do faturamento`,'As despesas operacionais merecem monitoramento para não crescer acima da receita.','Acompanhar evolução das principais contas e evitar aumento estrutural sem contrapartida de faturamento.'));
+            else diags.push(rfV528CriarDiag('DESP_OPER','SAUDAVEL','Despesas operacionais controladas',`${despOperPct.toFixed(1)}% do faturamento`,'O peso operacional está dentro da faixa inicial de controle do diagnóstico.','Manter revisão periódica das principais contas.'));
+
+            // 5 — Custo fixo industrial
+            if (custoFixoIndustrialPct > 45) diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','PRIORIDADE','Estrutura industrial muito pesada',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'Os custos fixos industriais absorvem parcela muito elevada da receita.','Revisar capacidade, estrutura fixa e volume necessário para diluição dos custos.'));
+            else if (custoFixoIndustrialPct > 35) diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','CRITICO','Custos fixos industriais elevados',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'A fábrica exige forte faturamento para sustentar sua estrutura fixa.','Avaliar ocupação, horas produtivas e itens fixos de maior peso.'));
+            else if (custoFixoIndustrialPct > 25) diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','ATENCAO','Custos fixos industriais relevantes',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'A estrutura fabril possui peso importante no resultado.','Monitorar utilização da capacidade e crescimento da estrutura.'));
+            else diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','SAUDAVEL','Custos fixos industriais controlados',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'O peso dos custos fixos industriais está controlado dentro da faixa inicial do diagnóstico.','Manter acompanhamento de capacidade e produtividade.'));
+
+            // 6 — Mão de obra não alocada
+            if (sobraMOPct > 10) diags.push(rfV528CriarDiag('SOBRA_MO','PRIORIDADE','Mão de obra não alocada muito elevada',`${sobraMOPct.toFixed(1)}% do faturamento`,'Há valor relevante de mão de obra que não está sendo absorvido pelos centros de custo.','Revisar rateios, alocação dos funcionários e dimensionamento da equipe.'));
+            else if (sobraMOPct > 5) diags.push(rfV528CriarDiag('SOBRA_MO','CRITICO','Mão de obra não alocada elevada',`${sobraMOPct.toFixed(1)}% do faturamento`,'A sobra de mão de obra está reduzindo diretamente o resultado.','Revisar cadastro/rateio dos funcionários e utilização da equipe.'));
+            else if (sobraMOPct > 2) diags.push(rfV528CriarDiag('SOBRA_MO','ATENCAO','Existe mão de obra não alocada',`${sobraMOPct.toFixed(1)}% do faturamento`,'Parte do custo de pessoal não está sendo absorvida na estrutura dos centros de custo.','Validar percentuais de rateio e alocação dos funcionários.'));
+            else diags.push(rfV528CriarDiag('SOBRA_MO','SAUDAVEL','Mão de obra bem alocada',`${sobraMOPct.toFixed(1)}% do faturamento`,'A perda/sobra de mão de obra não alocada está baixa.','Manter os rateios e cadastros atualizados.'));
+
+            // 7 — Retirada dos sócios
+            if (dre.retSocios > 0 && resultadoAntesRetirada <= 0) diags.push(rfV528CriarDiag('RETIRADA','PRIORIDADE','Retirada sem resultado operacional suficiente',formatarMoedaBR(dre.retSocios),'A operação já não gera resultado positivo antes das retiradas.','Reavaliar temporariamente a retirada e atuar primeiro na recuperação do resultado operacional.'));
+            else if (retiradaSobreResultadoPct > 100) diags.push(rfV528CriarDiag('RETIRADA','PRIORIDADE','Retirada supera o resultado antes da retirada',`${retiradaSobreResultadoPct.toFixed(1)}% do resultado`,'A retirada consome mais do que o resultado disponível antes dela.','Readequar retirada ao resultado gerado pela operação.'));
+            else if (retiradaSobreResultadoPct > 70) diags.push(rfV528CriarDiag('RETIRADA','CRITICO','Retirada consome grande parte do resultado',`${retiradaSobreResultadoPct.toFixed(1)}% do resultado`,'Pouco resultado permanece na empresa após a retirada.','Avaliar redução da retirada ou aumento do resultado operacional.'));
+            else if (retiradaSobreResultadoPct > 40) diags.push(rfV528CriarDiag('RETIRADA','ATENCAO','Retirada com peso relevante',`${retiradaSobreResultadoPct.toFixed(1)}% do resultado`,'A retirada representa parcela importante do resultado antes dela.','Acompanhar o impacto da retirada sobre caixa, investimento e crescimento.'));
+            else diags.push(rfV528CriarDiag('RETIRADA','SAUDAVEL','Retirada compatível com o resultado',`${Math.min(retiradaSobreResultadoPct,999).toFixed(1)}% do resultado`,'A retirada não consome parcela excessiva do resultado gerado no período.','Manter a retirada alinhada à geração de resultado.'));
+
+            // 8 — Retorno sobre investimento x meta configurada
+            if (metaRetornoPct > 0) {
+                const atingimento = metaRetornoPct !== 0 ? (retornoInvestimentoPct / metaRetornoPct) * 100 : 0;
+                if (retornoInvestimentoPct < 0) diags.push(rfV528CriarDiag('RETORNO_META','PRIORIDADE','Retorno sobre investimento negativo',`${retornoInvestimentoPct.toFixed(2)}% a.m. | meta ${metaRetornoPct.toFixed(2)}%`,'O resultado atual não remunera o capital investido.','Priorizar recuperação do resultado antes de ampliar investimentos.'));
+                else if (atingimento < 50) diags.push(rfV528CriarDiag('RETORNO_META','CRITICO','Retorno muito abaixo da meta',`${retornoInvestimentoPct.toFixed(2)}% a.m. | meta ${metaRetornoPct.toFixed(2)}%`,'Menos da metade da meta de retorno configurada está sendo atingida.','Revisar resultado operacional, faturamento e estrutura necessária para alcançar a meta.'));
+                else if (atingimento < 100) diags.push(rfV528CriarDiag('RETORNO_META','ATENCAO','Retorno abaixo da meta',`${retornoInvestimentoPct.toFixed(2)}% a.m. | meta ${metaRetornoPct.toFixed(2)}%`,'A operação gera retorno positivo, porém abaixo do objetivo definido.','Quantificar o gap de resultado necessário para atingir a meta.'));
+                else diags.push(rfV528CriarDiag('RETORNO_META','SAUDAVEL','Meta de retorno atingida',`${retornoInvestimentoPct.toFixed(2)}% a.m. | meta ${metaRetornoPct.toFixed(2)}%`,'O retorno mensal sobre o investimento alcança ou supera a meta configurada.','Preservar resultado e acompanhar a sustentabilidade nos próximos períodos.'));
+            }
+
+            // Comparativo temporal: compara a própria empresa com o período selecionado, nunca CC contra CC.
+            if (dreCompare) {
+                const custoAtual = dre.fatBruto - dre.resLiquido;
+                const custoAnterior = dreCompare.fatBruto - dreCompare.resLiquido;
+                const varFat = rfV528Variacao(dre.fatBruto, dreCompare.fatBruto);
+                const varCusto = rfV528Variacao(custoAtual, custoAnterior);
+                const varRes = rfV528Variacao(dre.resLiquido, dreCompare.resLiquido);
+                if (varFat !== null && varCusto !== null) {
+                    const pressao = varCusto - varFat;
+                    if (pressao > 10) diags.push(rfV528CriarDiag('EVOLUCAO','CRITICO','Custos cresceram bem acima do faturamento',`Fat. ${varFat.toFixed(1)}% | Gastos ${varCusto.toFixed(1)}%`,'No comparativo selecionado, os gastos avançaram mais rapidamente que a receita.','Abrir as linhas do DRE que mais cresceram e atacar os aumentos que não foram acompanhados por receita.'));
+                    else if (pressao > 5) diags.push(rfV528CriarDiag('EVOLUCAO','ATENCAO','Crescimento dos gastos acima da receita',`Fat. ${varFat.toFixed(1)}% | Gastos ${varCusto.toFixed(1)}%`,'A evolução do período mostra pressão de custos sobre o faturamento.','Monitorar as linhas do DRE com maior crescimento antes que comprimam o resultado.'));
+                    else if (varRes !== null && varRes < -10) diags.push(rfV528CriarDiag('EVOLUCAO','ATENCAO','Resultado piorou no comparativo',`Resultado ${varRes.toFixed(1)}%`,'Mesmo sem forte descolamento entre gastos e faturamento, o resultado caiu em relação ao período comparado.','Identificar no DRE quais linhas explicam a redução do resultado.'));
+                    else diags.push(rfV528CriarDiag('EVOLUCAO','SAUDAVEL','Evolução econômica equilibrada',`Fat. ${varFat.toFixed(1)}% | Gastos ${varCusto.toFixed(1)}%`,'No comparativo selecionado, os gastos não cresceram de forma significativamente superior ao faturamento.','Continuar acompanhando a evolução período a período.'));
+                }
+            }
+
+            return diags.sort((a,b) => a.ordem - b.ordem);
+        }
+
+        function rfV528RenderDiagnosticos(diags) {
+            const grid = document.getElementById('rf-diag-grid');
+            const scoreEl = document.getElementById('rf-diag-score');
+            const classEl = document.getElementById('rf-diag-classificacao');
+            const resumoEl = document.getElementById('rf-diag-resumo');
+            if (!grid || !scoreEl || !classEl || !resumoEl) return;
+
+            const pesos = { PRIORIDADE:20, CRITICO:14, ATENCAO:7, SAUDAVEL:0 };
+            const qtd = { PRIORIDADE:0, CRITICO:0, ATENCAO:0, SAUDAVEL:0 };
+            let penalidade = 0;
+            diags.forEach(d => { qtd[d.nivel] = (qtd[d.nivel]||0)+1; penalidade += pesos[d.nivel] || 0; });
+            const baseNormalizacao = Math.max(1, diags.length) / 8;
+            const score = Math.max(0, Math.min(100, Math.round(100 - (penalidade / baseNormalizacao))));
+
+            let classificacao = 'EXCELENTE', classe = 'text-emerald-400';
+            if (score < 25) { classificacao='MUITO CRÍTICO'; classe='text-red-400'; }
+            else if (score < 45) { classificacao='CRÍTICO'; classe='text-orange-400'; }
+            else if (score < 65) { classificacao='ATENÇÃO'; classe='text-amber-400'; }
+            else if (score < 82) { classificacao='SAUDÁVEL'; classe='text-emerald-400'; }
+
+            scoreEl.innerText = `${score}/100`;
+            classEl.className = `text-sm font-extrabold ${classe}`;
+            classEl.innerText = classificacao;
+            resumoEl.innerText = `${qtd.PRIORIDADE} prioridade(s) • ${qtd.CRITICO} crítico(s) • ${qtd.ATENCAO} atenção • ${qtd.SAUDAVEL} saudável(is)`;
+
+            const icone = { PRIORIDADE:'🔴', CRITICO:'🟠', ATENCAO:'🟡', SAUDAVEL:'🟢' };
+            const label = { PRIORIDADE:'PRIORIDADE', CRITICO:'CRÍTICO', ATENCAO:'ATENÇÃO', SAUDAVEL:'SAUDÁVEL' };
+            grid.innerHTML = diags.map(d => `
+                <div class="rf-diag-card" data-nivel="${d.nivel}">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="min-w-0">
+                            <div class="rf-diag-badge">${icone[d.nivel]} ${label[d.nivel]}</div>
+                            <h4 class="text-sm font-extrabold text-white mt-2">${d.titulo}</h4>
+                        </div>
+                        <div class="text-right text-xs font-black text-brand-primary whitespace-nowrap">${d.valorTexto}</div>
+                    </div>
+                    <p class="text-xs text-brand-muted mt-2 leading-relaxed">${d.diagnostico}</p>
+                    <div class="mt-3 pt-3 border-t border-brand-border/60">
+                        <span class="text-[10px] uppercase font-black text-white">Ação sugerida</span>
+                        <p class="text-xs text-brand-muted mt-1 leading-relaxed">${d.sugestao}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         async function gerarAnalisesEResultadosCore() {
             if (!periodoAtivoObj) return;
 
@@ -5637,6 +5835,12 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if(elDF) elDF.innerText = pctDespesaFixaTotal.toFixed(1) + "%";
             if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
             if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
+
+            // V5.2.8 — gera diagnóstico somente com os números já calculados acima.
+            const rfV528Diagnosticos = rfV528GerarDiagnosticos(
+                dreAtiva, dreCompare, investimentoTotal, pontoEquilibrio, rentabilidadeAtualPct
+            );
+            rfV528RenderDiagnosticos(rfV528Diagnosticos);
 
             const tbodyCustoHora = document.getElementById('tbl-custo-hora-cc-body');
             if(tbodyCustoHora) {
