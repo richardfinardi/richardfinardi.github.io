@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.12 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.12">
+    <title>CONSULTORIA.RF V5.2.13 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.13">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1185,7 +1185,7 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
 
 <style id="v5210-diagnostico-inteligente">
 /* ================================================================
-   V5.2.12 — DIAGNÓSTICO INTELIGENTE COMPACTO + HISTÓRICO
+   V5.2.13 — DIAGNÓSTICO AUTOMÁTICO COMPACTO + HISTÓRICO
    Recolhido por padrão. Não compara custos entre centros de custo.
    ================================================================ */
 #rf-diagnostico-inteligente { overflow:hidden; }
@@ -1223,6 +1223,16 @@ body.light-mode .rf-diag-card[data-nivel="PRIORIDADE"] .rf-diag-badge { color:#9
 body.light-mode .rf-diag-card[data-nivel="CRITICO"] .rf-diag-badge { color:#9a3412; background:#fff7ed; }
 body.light-mode .rf-diag-card[data-nivel="ATENCAO"] .rf-diag-badge { color:#854d0e; background:#fefce8; }
 body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065f46; background:#ecfdf5; }
+.rf-diag-question {
+    display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px;
+    border:1px solid var(--ui-border); border-radius:999px; background:transparent; color:var(--ui-muted);
+    font-size:10px; font-weight:900; cursor:pointer; transition:.15s; flex:0 0 auto;
+}
+.rf-diag-question:hover { border-color:#ff8838; color:#ff8838; }
+.rf-diag-calculo { margin-top:10px; padding:10px 11px; border:1px dashed var(--ui-border); border-radius:9px; background:rgba(255,255,255,.02); }
+.rf-diag-calculo-title { font-size:8px; font-weight:900; letter-spacing:.08em; color:var(--ui-muted); text-transform:uppercase; }
+.rf-diag-calculo-text { margin-top:4px; font-size:10px; line-height:1.55; color:var(--ui-text); font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+body.light-mode .rf-diag-calculo { background:#f8fafc !important; }
 @media (max-width:767px) {
     .rf-diag-compact-header { align-items:flex-start; flex-wrap:wrap; }
     .rf-diag-score-mini { width:100%; justify-content:space-between; }
@@ -1236,7 +1246,7 @@ body.light-mode .rf-diag-card[data-nivel="SAUDAVEL"] .rf-diag-badge { color:#065
 
 <style id="v5211-historico-evolucao">
 /* ================================================================
-   V5.2.12 — EVOLUÇÃO HISTÓRICA
+   V5.2.13 — EVOLUÇÃO HISTÓRICA
    Somente períodos anteriores reais. Visual de tendência + comparação.
    ================================================================ */
 .rf-history-reading {
@@ -1305,7 +1315,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.12</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.13</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1341,7 +1351,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.12</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.13</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2129,20 +2139,15 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         <!-- ABA 6: RESULTADOS & ANÁLISES -->
         <section id="section-resultados" class="hidden space-y-6">
             
-            <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-2">
-                    <span class="text-xs font-bold text-white uppercase">🔍 Comparar Períodos:</span>
-                    <select id="res-compare-select" onchange="gerarAnalisesEResultados()" class="bg-[#0d0d0f] text-white text-xs font-bold p-2 rounded border border-brand-border outline-none">
-                        <option value="">Sem Comparativo (Apenas Ativo)</option>
-                    </select>
+            <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex flex-col md:flex-row justify-between items-center gap-3">
+                <div>
+                    <span class="text-xs font-bold text-white uppercase">Evolução histórica automática</span>
+                    <p class="text-[10px] text-brand-muted mt-1">O período atual é comparado automaticamente somente com períodos criados anteriormente na mesma empresa.</p>
                 </div>
-                <div class="flex flex-col sm:flex-row items-center gap-2">
-                    <span class="text-xs text-brand-muted">Compare metas, DRE e evolução do custo-hora com períodos anteriores</span>
-                    <button type="button" onclick="gerarPDFAnaliseGeral(event)" class="bg-brand-primary hover:bg-brand-hover text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-lg shadow-brand-primary/20 whitespace-nowrap">📄 Gerar PDF da Análise</button>
-                </div>
+                <button type="button" onclick="gerarPDFAnaliseGeral(event)" class="bg-brand-primary hover:bg-brand-hover text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-lg shadow-brand-primary/20 whitespace-nowrap">📄 Gerar PDF da Análise</button>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Investimento Total</span>
                     <h3 id="res-card-investimento-total" class="text-lg md:text-xl font-extrabold text-white">R$ 0,00</h3>
@@ -2152,19 +2157,25 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Ponto de Equilíbrio</span>
                     <h3 id="res-card-ponto-equilibrio" class="text-lg md:text-xl font-extrabold text-brand-primary">R$ 0,00</h3>
-                    <p class="text-[10px] text-brand-muted">Gastos + Perdas + Meta Rent.</p>
+                    <p class="text-[10px] text-brand-muted">Faturamento para resultado líquido = zero</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
-                    <span class="text-xs text-brand-muted uppercase font-semibold">Despesas Fixas / Fat.</span>
+                    <span class="text-xs text-brand-muted uppercase font-semibold">Ponto de Equilíbrio Econômico</span>
+                    <h3 id="res-card-ponto-equilibrio-economico" class="text-lg md:text-xl font-extrabold text-orange-400">R$ 0,00</h3>
+                    <p class="text-[10px] text-brand-muted">Inclui a rentabilidade esperada</p>
+                </div>
+
+                <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
+                    <span class="text-xs text-brand-muted uppercase font-semibold">Despesas Fixas Operacionais / Fat.</span>
                     <h3 id="res-card-pct-despesa-fixa" class="text-lg md:text-xl font-extrabold text-amber-400">0,0%</h3>
-                    <p class="text-[10px] text-brand-muted">Peso do Admin/Sócios no Fat.</p>
+                    <p class="text-[10px] text-brand-muted">Administrativo + Vendas + Financeiro</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
                     <span class="text-xs text-brand-muted uppercase font-semibold">Rentabilidade Atual</span>
                     <h3 id="res-card-rentabilidade-atual" class="text-lg md:text-xl font-extrabold text-emerald-400">0,0% a.m.</h3>
-                    <p class="text-[10px] text-brand-muted">Lucro / Investimento Total</p>
+                    <p class="text-[10px] text-brand-muted">Resultado Líquido / Investimento Total</p>
                 </div>
 
                 <div class="bg-brand-card p-4 rounded-xl border border-brand-border space-y-1">
@@ -2175,14 +2186,13 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
             </div>
 
 
-            <!-- V5.2.12 — DIAGNÓSTICO INTELIGENTE COMPACTO -->
+            <!-- V5.2.13 — DIAGNÓSTICO AUTOMÁTICO COMPACTO -->
             <div id="rf-diagnostico-inteligente" class="bg-brand-card px-4 py-3 rounded-xl border border-brand-border">
                 <div class="rf-diag-compact-header">
                     <div class="rf-diag-compact-title">
-                        <span class="text-lg">🧠</span>
                         <div class="min-w-0">
-                            <h3 class="text-sm md:text-base font-bold text-white">Diagnóstico Inteligente</h3>
-                            <p class="text-[10px] text-brand-muted mt-0.5">Leitura gerencial do período atual e evolução histórica.</p>
+                            <h3 class="text-sm md:text-base font-bold text-white">Diagnóstico Automático</h3>
+                            <p class="text-[10px] text-brand-muted mt-0.5">Leitura gerencial calculada a partir do DRE, metas e histórico do período.</p>
                         </div>
                     </div>
                     <div class="rf-diag-score-mini">
@@ -2202,7 +2212,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
                         <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-3">
                             <div>
                                 <h4 class="text-xs font-extrabold text-white">Como a pontuação foi calculada</h4>
-                                <p class="text-[10px] text-brand-muted mt-1 leading-relaxed">A nota vai de 0 a 100 e considera somente a saúde do período atual. Cada indicador possui um peso. SAUDÁVEL recebe 100% do peso, ATENÇÃO 70%, CRÍTICO 40% e PRIORIDADE 0%. A evolução histórica é mostrada separadamente e não altera a nota.</p>
+                                <p class="text-[10px] text-brand-muted mt-1 leading-relaxed">A nota vai de 0 a 100 e considera somente a saúde do período atual. Cada indicador possui um peso. SAUDÁVEL recebe 100% do peso, ATENÇÃO 80%, CRÍTICO 40% e PRIORIDADE 0%. A evolução histórica é mostrada separadamente e não altera a nota.</p>
                             </div>
                             <div id="rf-diag-score-formula" class="text-[10px] text-brand-muted md:text-right whitespace-nowrap">Pontuação ponderada</div>
                         </div>
@@ -2212,7 +2222,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
                     <div id="rf-diag-history-section" class="hidden space-y-3">
                         <div>
                             <h4 class="text-xs font-extrabold text-white">Evolução histórica do negócio</h4>
-                            <p class="text-[10px] text-brand-muted mt-1">Somente períodos realmente anteriores ao período selecionado entram na análise. Períodos superiores/futuros são ignorados.</p>
+                            <p class="text-[10px] text-brand-muted mt-1">A ordem histórica usa exclusivamente o ID sequencial do período (TPERIODO_ID), nunca o nome informado pelo cliente. Períodos criados depois do atual são ignorados.</p>
                         </div>
                         <div id="rf-diag-history"></div>
                     </div>
@@ -2228,9 +2238,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
                 <div class="lg:col-span-2 bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
                     <div class="flex justify-between items-center border-b border-brand-border/50 pb-3">
                         <div>
-                            <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                                📊 DRE Gerencial Industrial
-                            </h2>
+                            <h2 class="text-lg font-bold text-white">DRE Gerencial</h2>
                             <p class="text-xs text-brand-muted">💡 Clique na linha de qualquer grupo para ver o detalhamento de contas e valores</p>
                         </div>
                         <span class="text-xs font-bold text-brand-primary uppercase" id="dre-period-display">---</span>
@@ -2467,6 +2475,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
 
         let usuarioLogado = null;
         let empresaLogadaNome = "---";
+        let empresaLogadaCnpj = "---";
         let listaClientesAdmin = [];
         let listaUsuariosAdmin = [];
         let adminClienteSelecionadoId = '';
@@ -2485,7 +2494,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         let entidadeGradeAtiva = "";
 
         // ======================================================
-        // V5.2.12 — ESTADO DE EDIÇÃO RESILIENTE / ANTI-DUPLICAÇÃO
+        // V5.2.13 — ESTADO DE EDIÇÃO RESILIENTE / ANTI-DUPLICAÇÃO
         // ======================================================
         // Antes, cada formulário dependia exclusivamente de um input hidden para
         // decidir entre UPDATE e CREATE. Se esse hidden fosse limpo/recriado por
@@ -2799,6 +2808,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
             adminClienteSelecionadoId = id;
             usuarioLogado.TCLIENTE_ID = id; // contexto de trabalho, não altera o usuário salvo no login
             empresaLogadaNome = cliente.TCLIENTE_NOME || id;
+            empresaLogadaCnpj = cliente.TCLIENTE_CNPJ || "---";
             localStorage.setItem('rf_admin_cliente_contexto', id);
 
             periodoAtivoObj = null;
@@ -3924,7 +3934,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.12', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.13', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -4003,8 +4013,14 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 const res = await fetch(`${API_URL}?action=TCLIENTE`);
                 const clientes = await v49ResponseJSON(res, "TCLIENTE");
                 const cli = clientes.find(c => String(c.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
-                if (cli) empresaLogadaNome = cli.TCLIENTE_NOME;
-            } catch (e) { empresaLogadaNome = usuarioLogado.TCLIENTE_ID; }
+                if (cli) {
+                    empresaLogadaNome = cli.TCLIENTE_NOME || cli.TCLIENTE_ID || usuarioLogado.TCLIENTE_ID;
+                    empresaLogadaCnpj = cli.TCLIENTE_CNPJ || "---";
+                }
+            } catch (e) {
+                empresaLogadaNome = usuarioLogado.TCLIENTE_ID;
+                empresaLogadaCnpj = "---";
+            }
         }
 
         function rfAtualizarMensagemCarregamento(texto) {
@@ -4060,6 +4076,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     adminClienteSelecionadoId = String(contexto.TCLIENTE_ID);
                     usuarioLogado.TCLIENTE_ID = adminClienteSelecionadoId;
                     empresaLogadaNome = contexto.TCLIENTE_NOME || contexto.TCLIENTE_ID;
+                    empresaLogadaCnpj = contexto.TCLIENTE_CNPJ || "---";
                     const sel = document.getElementById('admin-cliente-global-select');
                     if (sel) sel.value = adminClienteSelecionadoId;
                 }
@@ -4155,7 +4172,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 if (listaPeriodos.length === 0) {
                     const payload = {
                         sheet: "TPERIODO",
-                        data: [usuarioLogado.TCLIENTE_ID, "", "2026.1", "ABERTO", "SIM", 0, 0, 0, 0, 0, "NAO"]
+                        data: [usuarioLogado.TCLIENTE_ID, "", rfSugerirNomeNovoPeriodo(), "ABERTO", "SIM", 0, 0, 0, 0, 0, "NAO"]
                     };
                     await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
                     setTimeout(carregarPeriodosDoCliente, 1500);
@@ -4191,21 +4208,27 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         // ======================================================
-        // V5.2.12 — CONTROLES DE PERÍODO
+        // V5.2.13 — CONTROLES DE PERÍODO
         // Corrige os botões "+ Novo / Clonar", "+ Criar / Duplicar Período"
         // e "Fechar / Reabrir Período", que existiam no HTML sem as funções JS.
         // ======================================================
         function rfSugerirNomeNovoPeriodo() {
-            const atual = String(periodoAtivoObj?.TPERIODO_NOME || '').trim();
-            const m = atual.match(/^(\d{4})[.\-_/ ]([12])$/);
+            const meses = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+            const mapa = Object.fromEntries(meses.map((m,i) => [m, i]));
+            const atual = String(periodoAtivoObj?.TPERIODO_NOME || '').trim().toUpperCase();
+            const normalizado = atual.replace(/[()]/g,'').replace(/\s+/g,' ').trim();
+            const m = normalizado.match(/^(JAN|FEV|MAR|ABR|MAI|JUN|JUL|AGO|SET|OUT|NOV|DEZ)\.?\s*(\d{4})\s+A\s+(JAN|FEV|MAR|ABR|MAI|JUN|JUL|AGO|SET|OUT|NOV|DEZ)\.?\s*(\d{4})$/);
+
             if (m) {
-                const ano = Number(m[1]);
-                const sem = Number(m[2]);
-                return sem === 1 ? `${ano}.2` : `${ano + 1}.1`;
+                const ini = new Date(Number(m[2]), mapa[m[1]], 1);
+                const fim = new Date(Number(m[4]), mapa[m[3]], 1);
+                ini.setFullYear(ini.getFullYear() + 1);
+                fim.setFullYear(fim.getFullYear() + 1);
+                return `(${meses[ini.getMonth()]}.${ini.getFullYear()} A ${meses[fim.getMonth()]}.${fim.getFullYear()})`;
             }
 
             const hoje = new Date();
-            return `${hoje.getFullYear()}.${hoje.getMonth() < 6 ? 1 : 2}`;
+            return `(JAN.${hoje.getFullYear()} A DEZ.${hoje.getFullYear()})`;
         }
 
         function rfPayloadPeriodoCompleto(p, overrides = {}) {
@@ -4240,7 +4263,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
             const sugestao = rfSugerirNomeNovoPeriodo();
             const nomeDigitado = prompt(
-                'Informe o nome do novo período.\n\nExemplo: 2026.2',
+                'Informe o nome do novo período.\n\nSugestões de formato: (JAN.2025 A DEZ.2025) ou (ABR.2025 A MAR.2026).\nO nome é livre e NÃO é usado para definir a ordem do comparativo.',
                 sugestao
             );
             if (nomeDigitado === null) return;
@@ -5986,7 +6009,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.12 — MOTOR DE DIAGNÓSTICO INTELIGENTE
+        // V5.2.13 — MOTOR DE DIAGNÓSTICO AUTOMÁTICO
         // Regras determinísticas usando somente números já calculados no sistema.
         // Não compara custo-hora/custos entre centros de custo.
         // ======================================================
@@ -6008,32 +6031,18 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             btn.innerText = vaiAbrir ? 'Recolher diagnóstico ▴' : 'Ver diagnóstico ▾';
         }
 
+        function rfV5213ToggleConta(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.toggle('hidden');
+        }
+
         function rfV5210PeriodoOrdem(p) {
-            const raw = String(p?.TPERIODO_NOME || '').trim().toUpperCase();
-            if (!raw) return null;
-
-            // Padrão oficial: 2026.1 / 2026-2 / 2026_1 etc.
-            let m = raw.match(/^(\d{4})[.\-_/ ]([12])$/);
-            if (m) return (Number(m[1]) * 1000) + Number(m[2]);
-
-            // Também entende nomes simples usados no cadastro/teste: PERIODO1, PERÍODO 2, FASE 03 etc.
-            m = raw.match(/(?:PERIODO|PERÍODO|FASE|ETAPA|PER)[\s._-]*(\d+)$/i);
-            if (m) return Number(m[1]);
-
-            // Se o nome terminar em número, usa-o como sequência somente quando não parece ser um ano isolado.
-            m = raw.match(/(\d+)$/);
-            if (m && Number(m[1]) < 1900) return Number(m[1]);
-
-            // IDs como PER-001 / PER_12 também servem como fallback seguro.
+            // V5.2.13 — a ordem histórica NÃO usa o nome do período.
+            // O cliente pode nomear livremente; a sequência é determinada apenas pelo ID gerado pelo sistema.
             const rawId = String(p?.TPERIODO_ID || '').trim().toUpperCase();
-            m = rawId.match(/(?:PER|PERIODO|PERÍODO)?[\s._-]*(\d+)$/i);
-            if (m) return Number(m[1]);
-
-            // Datas reais continuam aceitas.
-            const d = new Date(String(p?.TPERIODO_NOME || '').trim());
-            if (!isNaN(d.getTime())) return (d.getFullYear() * 1000) + (d.getMonth() + 1);
-
-            return null;
+            const m = rawId.match(/(\d+)$/);
+            return m ? Number(m[1]) : null;
         }
 
         function rfV5210PeriodosAnteriores() {
@@ -6041,7 +6050,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const ativoId = String(periodoAtivoObj.TPERIODO_ID || '');
             const ordemAtiva = rfV5210PeriodoOrdem(periodoAtivoObj);
 
-            // Regra V5.2.12: se não houver ordem confiável, NÃO compara automaticamente.
+            // Regra V5.2.13: se não houver ordem confiável, NÃO compara automaticamente.
             // Isso evita usar um período superior/futuro como histórico do período atual.
             if (ordemAtiva === null) return [];
 
@@ -6070,13 +6079,13 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         function rfV5210ScoreConfig() {
             return {
                 MARGEM_LIQUIDA:   { nome:'Margem líquida', peso:20 },
-                PONTO_EQUILIBRIO: { nome:'Folga do ponto de equilíbrio', peso:20 },
-                MARGEM_CONTRIB:   { nome:'Margem de contribuição', peso:15 },
-                DESP_OPER:        { nome:'Despesas operacionais', peso:10 },
-                FIXO_INDUSTRIAL:  { nome:'Custos fixos industriais', peso:10 },
-                SOBRA_MO:         { nome:'Mão de obra não alocada', peso:10 },
+                PONTO_EQUILIBRIO: { nome:'Ponto de equilíbrio econômico', peso:15 },
+                MARGEM_CONTRIB:   { nome:'Margem de contribuição', peso:10 },
+                DESP_OPER:        { nome:'Despesas fixas operacionais', peso:20 },
+                FIXO_INDUSTRIAL:  { nome:'Custos fixos industriais', peso:5 },
+                SOBRA_MO:         { nome:'Mão de obra não alocada', peso:5 },
                 RETIRADA:         { nome:'Retirada dos sócios', peso:5 },
-                RETORNO_META:     { nome:'Retorno sobre investimento x meta', peso:10 }
+                RETORNO_META:     { nome:'Retorno sobre investimento x meta', peso:20 }
             };
         }
 
@@ -6085,57 +6094,76 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             return { codigo, nivel, titulo, valorTexto, diagnostico, sugestao, ordem:ordem[nivel] ?? 9 };
         }
 
-        function rfV528GerarDiagnosticos(dre, dreCompare, investimentoTotal, pontoEquilibrio, retornoInvestimentoPct) {
+        function rfV528GerarDiagnosticos(dre, dreCompare, investimentoTotal, pontoEquilibrioEconomico, retornoInvestimentoPct, pontoEquilibrio) {
             const fat = dre.fatBruto || 0;
             const metaRetornoPct = parseFloat(periodoAtivoObj?.TPERIODO_RENTABILIDADE) || 0;
             const margemLiquidaPct = rfV528Pct(dre.resLiquido, fat);
-            const folgaPEPct = fat > 0 && pontoEquilibrio > 0 ? ((fat - pontoEquilibrio) / fat) * 100 : 0;
+            const folgaPEEconomicoPct = fat > 0 && pontoEquilibrioEconomico > 0 ? ((fat - pontoEquilibrioEconomico) / fat) * 100 : 0;
             const margemContribPct = rfV528Pct(dre.margemContrib, fat);
             const despOperPct = rfV528Pct(dre.dFichaAdmin, fat);
             const custoFixoIndustrialPct = rfV528Pct(dre.cFixoFabril, fat);
             const sobraMOPct = rfV528Pct(dre.sobraMaoObra, fat);
             const resultadoAntesRetirada = dre.resLiquido + dre.retSocios;
             const retiradaSobreResultadoPct = resultadoAntesRetirada > 0 ? rfV528Pct(dre.retSocios, resultadoAntesRetirada) : (dre.retSocios > 0 ? 999 : 0);
+            const atingimentoMetaPct = metaRetornoPct > 0 ? (retornoInvestimentoPct / metaRetornoPct) * 100 : (retornoInvestimentoPct >= 0 ? 100 : -100);
+            const metaAtingida = metaRetornoPct > 0 ? retornoInvestimentoPct >= metaRetornoPct : retornoInvestimentoPct >= 0;
             const diags = [];
+            const calculos = {};
 
-            // 1 — Resultado / faturamento
-            if (margemLiquidaPct < 0) diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','PRIORIDADE','Resultado líquido negativo',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'O DRE fecha com prejuízo no período.','Priorizar a revisão das maiores saídas do DRE e do faturamento necessário para voltar ao resultado positivo.'));
-            else if (margemLiquidaPct < 5) diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','CRITICO','Margem líquida muito baixa',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'A operação tem pouca retenção de resultado depois de todos os gastos.','Revisar estrutura fixa, despesas operacionais, perdas e política comercial para ampliar a margem final.'));
-            else if (margemLiquidaPct < 10) diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','ATENCAO','Margem líquida apertada',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'Existe resultado positivo, porém com margem limitada para absorver oscilações.','Buscar ganho de margem antes de ampliar compromissos fixos.'));
-            else diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','SAUDAVEL','Margem líquida positiva',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'O período apresenta retenção positiva de resultado sobre as vendas.','Manter o acompanhamento para preservar a margem nos próximos períodos.'));
+            calculos.MARGEM_LIQUIDA = `Margem líquida = Resultado Líquido ÷ Faturamento × 100 = ${formatarMoedaBR(dre.resLiquido)} ÷ ${formatarMoedaBR(fat)} × 100 = ${margemLiquidaPct.toFixed(1)}%. Rentabilidade atual = ${retornoInvestimentoPct.toFixed(2)}% a.m.; meta = ${metaRetornoPct.toFixed(2)}% a.m.`;
+            calculos.PONTO_EQUILIBRIO = `Ponto de Equilíbrio = Custos/Despesas Fixas ÷ (1 - % variáveis) = ${formatarMoedaBR(pontoEquilibrio)}. Ponto de Equilíbrio Econômico = (Custos/Despesas Fixas + Meta de Resultado) ÷ (1 - % variáveis) = ${formatarMoedaBR(pontoEquilibrioEconomico)}. Folga econômica = (Faturamento - PE Econômico) ÷ Faturamento × 100 = ${folgaPEEconomicoPct.toFixed(1)}%.`;
+            calculos.MARGEM_CONTRIB = `Margem de contribuição % = Margem de Contribuição ÷ Faturamento × 100 = ${formatarMoedaBR(dre.margemContrib)} ÷ ${formatarMoedaBR(fat)} × 100 = ${margemContribPct.toFixed(1)}%.`;
+            calculos.DESP_OPER = `Despesas fixas operacionais % = Despesas Fixas Operacionais ÷ Faturamento × 100 = ${formatarMoedaBR(dre.dFichaAdmin)} ÷ ${formatarMoedaBR(fat)} × 100 = ${despOperPct.toFixed(1)}%.`;
+            calculos.FIXO_INDUSTRIAL = `Custos fixos industriais % = Custos Fixos Industriais ÷ Faturamento × 100 = ${formatarMoedaBR(dre.cFixoFabril)} ÷ ${formatarMoedaBR(fat)} × 100 = ${custoFixoIndustrialPct.toFixed(1)}%.`;
+            calculos.SOBRA_MO = `M.O. não alocada % = Sobra de M.O. ÷ Faturamento × 100 = ${formatarMoedaBR(dre.sobraMaoObra)} ÷ ${formatarMoedaBR(fat)} × 100 = ${sobraMOPct.toFixed(1)}%.`;
+            calculos.RETIRADA = `Peso da retirada = Retirada ÷ Resultado antes da retirada × 100 = ${formatarMoedaBR(dre.retSocios)} ÷ ${formatarMoedaBR(resultadoAntesRetirada)} × 100 = ${Math.min(retiradaSobreResultadoPct,999).toFixed(1)}%.`;
+            calculos.RETORNO_META = `Rentabilidade atual = Resultado Líquido ÷ Investimento Total × 100 = ${formatarMoedaBR(dre.resLiquido)} ÷ ${formatarMoedaBR(investimentoTotal)} × 100 = ${retornoInvestimentoPct.toFixed(2)}% a.m. Atingimento da meta = ${metaRetornoPct > 0 ? atingimentoMetaPct.toFixed(1) + '%' : 'meta não informada'}.`;
 
-            // 2 — Ponto de equilíbrio
-            if (fat <= 0 || pontoEquilibrio <= 0) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','ATENCAO','Ponto de equilíbrio sem base suficiente','Sem referência','Não há base suficiente para medir a folga sobre o ponto de equilíbrio.','Revisar faturamento, custos variáveis e parâmetros do período.'));
-            else if (folgaPEPct < 0) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','PRIORIDADE','Faturamento abaixo do ponto de equilíbrio',`${folgaPEPct.toFixed(1)}% de folga`,'O faturamento atual não cobre o ponto de equilíbrio calculado para a estrutura e meta do período.','Atuar em faturamento, margem de contribuição e estrutura fixa até superar o ponto de equilíbrio.'));
-            else if (folgaPEPct < 5) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','CRITICO','Folga mínima sobre o ponto de equilíbrio',`${folgaPEPct.toFixed(1)}% de folga`,'A empresa está muito próxima do limite econômico do período.','Criar margem de segurança aumentando contribuição ou reduzindo gastos fixos.'));
-            else if (folgaPEPct < 15) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','ATENCAO','Folga reduzida sobre o ponto de equilíbrio',`${folgaPEPct.toFixed(1)}% de folga`,'Existe cobertura do ponto de equilíbrio, mas a margem de segurança ainda é curta.','Acompanhar faturamento e despesas fixas com prioridade.'));
-            else diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','SAUDAVEL','Boa folga sobre o ponto de equilíbrio',`${folgaPEPct.toFixed(1)}% de folga`,'O faturamento apresenta margem de segurança sobre o ponto de equilíbrio.','Preservar a margem de contribuição e evitar crescimento desproporcional da estrutura fixa.'));
+            // 1 — Margem líquida sempre analisada junto com a rentabilidade sobre o investimento.
+            if (margemLiquidaPct < 0) {
+                diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','PRIORIDADE','Resultado líquido negativo',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'O DRE fecha com prejuízo no período.','Priorizar a recuperação do resultado antes de qualquer expansão da estrutura.'));
+            } else if (margemLiquidaPct <= 10 && metaAtingida) {
+                diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','ATENCAO','Meta de rentabilidade atingida, mas lucratividade baixa',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'A rentabilidade esperada foi alcançada, porém a margem líquida ainda é de até 10% do faturamento.','Preservar a rentabilidade e buscar ganho de lucratividade para criar maior margem de segurança.'));
+            } else if (margemLiquidaPct <= 10 && !metaAtingida) {
+                diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','CRITICO','Lucratividade baixa e rentabilidade abaixo da meta',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'A margem líquida é de até 10% e o retorno sobre o investimento também está abaixo da meta do período.','Atuar simultaneamente na formação do resultado e na remuneração do capital investido.'));
+            } else if (margemLiquidaPct > 10 && !metaAtingida) {
+                diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','CRITICO','Boa margem sobre vendas, mas rentabilidade insuficiente',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'A lucratividade supera 10%, porém ainda não remunera o investimento no nível esperado.','Avaliar capital investido, resultado necessário e estrutura para fechar o gap de rentabilidade.'));
+            } else {
+                diags.push(rfV528CriarDiag('MARGEM_LIQUIDA','SAUDAVEL','Lucratividade e rentabilidade saudáveis',`${margemLiquidaPct.toFixed(1)}% do faturamento`,'A margem líquida supera 10% e a rentabilidade atual atinge ou supera a meta configurada.','Preservar margem, resultado e disciplina de investimento.'));
+            }
+
+            // 2 — Pontuação continua usando a folga do Ponto de Equilíbrio Econômico.
+            if (fat <= 0 || pontoEquilibrioEconomico <= 0) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','ATENCAO','Ponto de equilíbrio sem base suficiente','Sem referência','Não há base suficiente para medir a folga econômica.','Revisar faturamento, custos variáveis e parâmetros do período.'));
+            else if (folgaPEEconomicoPct < 0) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','PRIORIDADE','Faturamento abaixo do ponto de equilíbrio econômico',`${folgaPEEconomicoPct.toFixed(1)}% de folga`,'O faturamento atual não cobre a estrutura mais a rentabilidade esperada.','Atuar em faturamento, margem de contribuição e estrutura fixa até superar o ponto de equilíbrio econômico.'));
+            else if (folgaPEEconomicoPct < 5) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','CRITICO','Folga mínima sobre o ponto de equilíbrio econômico',`${folgaPEEconomicoPct.toFixed(1)}% de folga`,'A empresa está muito próxima do limite econômico do período.','Criar margem de segurança aumentando contribuição ou reduzindo gastos fixos.'));
+            else if (folgaPEEconomicoPct < 15) diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','ATENCAO','Folga reduzida sobre o ponto de equilíbrio econômico',`${folgaPEEconomicoPct.toFixed(1)}% de folga`,'Existe cobertura da estrutura e meta, mas a margem de segurança ainda é curta.','Acompanhar faturamento e despesas fixas com prioridade.'));
+            else diags.push(rfV528CriarDiag('PONTO_EQUILIBRIO','SAUDAVEL','Boa folga sobre o ponto de equilíbrio econômico',`${folgaPEEconomicoPct.toFixed(1)}% de folga`,'O faturamento apresenta margem de segurança sobre o nível necessário para cobrir estrutura e meta.','Preservar a margem de contribuição e evitar crescimento desproporcional da estrutura fixa.'));
 
             // 3 — Margem de contribuição
-            if (margemContribPct < 10) diags.push(rfV528CriarDiag('MARGEM_CONTRIB','PRIORIDADE','Margem de contribuição muito baixa',`${margemContribPct.toFixed(1)}% do faturamento`,'Após impostos, deduções e custos variáveis sobra pouco para pagar a estrutura fixa.','Revisar preços, custos variáveis e deduções sobre vendas.'));
-            else if (margemContribPct < 20) diags.push(rfV528CriarDiag('MARGEM_CONTRIB','CRITICO','Margem de contribuição baixa',`${margemContribPct.toFixed(1)}% do faturamento`,'A capacidade de absorção dos custos fixos está pressionada.','Priorizar ações sobre preço, impostos/deduções e custos variáveis.'));
-            else if (margemContribPct < 30) diags.push(rfV528CriarDiag('MARGEM_CONTRIB','ATENCAO','Margem de contribuição moderada',`${margemContribPct.toFixed(1)}% do faturamento`,'A margem cobre a estrutura, mas merece acompanhamento.','Evitar crescimento de despesas fixas sem ganho correspondente de faturamento/margem.'));
-            else diags.push(rfV528CriarDiag('MARGEM_CONTRIB','SAUDAVEL','Margem de contribuição saudável',`${margemContribPct.toFixed(1)}% do faturamento`,'Há boa parcela do faturamento disponível para absorver a estrutura fixa e formar resultado.','Preservar preços e controle dos gastos variáveis.'));
+            if (margemContribPct < 10) diags.push(rfV528CriarDiag('MARGEM_CONTRIB','PRIORIDADE','Margem de contribuição muito baixa',`${margemContribPct.toFixed(1)}% do faturamento`,'Após impostos, deduções e custos variáveis sobra muito pouco para pagar a estrutura fixa.','Revisar preços, custos variáveis e deduções sobre vendas.'));
+            else if (margemContribPct < 45) diags.push(rfV528CriarDiag('MARGEM_CONTRIB','CRITICO','Margem de contribuição baixa',`${margemContribPct.toFixed(1)}% do faturamento`,'A capacidade de absorção dos custos e despesas fixas está pressionada.','Priorizar ações sobre preço, impostos/deduções e custos variáveis.'));
+            else if (margemContribPct < 60) diags.push(rfV528CriarDiag('MARGEM_CONTRIB','ATENCAO','Margem de contribuição em atenção',`${margemContribPct.toFixed(1)}% do faturamento`,'A margem está entre 45% e 60% e deve ser acompanhada para sustentar a estrutura e o resultado.','Buscar ganho de margem antes de ampliar compromissos fixos.'));
+            else diags.push(rfV528CriarDiag('MARGEM_CONTRIB','SAUDAVEL','Margem de contribuição saudável',`${margemContribPct.toFixed(1)}% do faturamento`,'Pelo menos 60% do faturamento permanece após impostos, deduções e custos variáveis para absorver a estrutura e formar resultado.','Preservar preços e controle dos gastos variáveis.'));
 
-            // 4 — Despesas operacionais
-            if (despOperPct > 18) diags.push(rfV528CriarDiag('DESP_OPER','PRIORIDADE','Despesas operacionais muito elevadas',`${despOperPct.toFixed(1)}% do faturamento`,'Administrativo, vendas e financeiro consomem parcela elevada da receita.','Abrir o detalhamento da linha e revisar primeiro as contas de maior peso.'));
-            else if (despOperPct > 12) diags.push(rfV528CriarDiag('DESP_OPER','CRITICO','Despesas operacionais elevadas',`${despOperPct.toFixed(1)}% do faturamento`,'A estrutura operacional está pressionando o resultado.','Revisar contratos, despesas administrativas, comerciais e financeiras.'));
-            else if (despOperPct > 8) diags.push(rfV528CriarDiag('DESP_OPER','ATENCAO','Peso operacional relevante',`${despOperPct.toFixed(1)}% do faturamento`,'As despesas operacionais merecem monitoramento para não crescer acima da receita.','Acompanhar evolução das principais contas e evitar aumento estrutural sem contrapartida de faturamento.'));
-            else diags.push(rfV528CriarDiag('DESP_OPER','SAUDAVEL','Despesas operacionais controladas',`${despOperPct.toFixed(1)}% do faturamento`,'O peso operacional está dentro da faixa inicial de controle do diagnóstico.','Manter revisão periódica das principais contas.'));
+            // 4 — Despesas fixas operacionais (administrativo, vendas e financeiro)
+            if (despOperPct > 25) diags.push(rfV528CriarDiag('DESP_OPER','PRIORIDADE','Despesas fixas operacionais muito elevadas',`${despOperPct.toFixed(1)}% do faturamento`,'A estrutura fixa operacional consome mais de 25% do faturamento.','Abrir o detalhamento da linha e revisar primeiro as contas de maior peso.'));
+            else if (despOperPct > 15) diags.push(rfV528CriarDiag('DESP_OPER','CRITICO','Despesas fixas operacionais elevadas',`${despOperPct.toFixed(1)}% do faturamento`,'A estrutura administrativa, comercial e financeira está pressionando o resultado.','Revisar contratos, despesas administrativas, comerciais e financeiras.'));
+            else if (despOperPct > 12) diags.push(rfV528CriarDiag('DESP_OPER','ATENCAO','Despesas fixas operacionais em atenção',`${despOperPct.toFixed(1)}% do faturamento`,'O peso das despesas fixas operacionais está entre 12% e 15% do faturamento.','Acompanhar as principais contas e evitar crescimento estrutural sem contrapartida de faturamento.'));
+            else diags.push(rfV528CriarDiag('DESP_OPER','SAUDAVEL','Despesas fixas operacionais controladas',`${despOperPct.toFixed(1)}% do faturamento`,'As despesas fixas operacionais representam até 12% do faturamento.','Manter revisão periódica das principais contas.'));
 
-            // 5 — Custo fixo industrial
-            if (custoFixoIndustrialPct > 45) diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','PRIORIDADE','Estrutura industrial muito pesada',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'Os custos fixos industriais absorvem parcela muito elevada da receita.','Revisar capacidade, estrutura fixa e volume necessário para diluição dos custos.'));
-            else if (custoFixoIndustrialPct > 35) diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','CRITICO','Custos fixos industriais elevados',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'A fábrica exige forte faturamento para sustentar sua estrutura fixa.','Avaliar ocupação, horas produtivas e itens fixos de maior peso.'));
-            else if (custoFixoIndustrialPct > 25) diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','ATENCAO','Custos fixos industriais relevantes',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'A estrutura fabril possui peso importante no resultado.','Monitorar utilização da capacidade e crescimento da estrutura.'));
-            else diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','SAUDAVEL','Custos fixos industriais controlados',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'O peso dos custos fixos industriais está controlado dentro da faixa inicial do diagnóstico.','Manter acompanhamento de capacidade e produtividade.'));
+            // 5 — Custos fixos industriais
+            if (custoFixoIndustrialPct > 50) diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','PRIORIDADE','Estrutura industrial muito pesada',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'Os custos fixos industriais superam 50% do faturamento.','Revisar capacidade, estrutura fixa e volume necessário para diluição dos custos.'));
+            else if (custoFixoIndustrialPct > 40) diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','CRITICO','Custos fixos industriais elevados',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'A fábrica exige forte faturamento para sustentar sua estrutura fixa.','Avaliar ocupação, horas produtivas e itens fixos de maior peso.'));
+            else if (custoFixoIndustrialPct > 30) diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','ATENCAO','Custos fixos industriais em atenção',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'Os custos fixos industriais representam entre 30% e 40% do faturamento.','Monitorar utilização da capacidade e crescimento da estrutura.'));
+            else diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','SAUDAVEL','Custos fixos industriais controlados',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'Os custos fixos industriais representam até 30% do faturamento.','Manter acompanhamento de capacidade e produtividade.'));
 
-            // 6 — Mão de obra não alocada
+            // 6 — Mão de obra não alocada (mantida)
             if (sobraMOPct > 10) diags.push(rfV528CriarDiag('SOBRA_MO','PRIORIDADE','Mão de obra não alocada muito elevada',`${sobraMOPct.toFixed(1)}% do faturamento`,'Há valor relevante de mão de obra que não está sendo absorvido pelos centros de custo.','Revisar rateios, alocação dos funcionários e dimensionamento da equipe.'));
             else if (sobraMOPct > 5) diags.push(rfV528CriarDiag('SOBRA_MO','CRITICO','Mão de obra não alocada elevada',`${sobraMOPct.toFixed(1)}% do faturamento`,'A sobra de mão de obra está reduzindo diretamente o resultado.','Revisar cadastro/rateio dos funcionários e utilização da equipe.'));
             else if (sobraMOPct > 2) diags.push(rfV528CriarDiag('SOBRA_MO','ATENCAO','Existe mão de obra não alocada',`${sobraMOPct.toFixed(1)}% do faturamento`,'Parte do custo de pessoal não está sendo absorvida na estrutura dos centros de custo.','Validar percentuais de rateio e alocação dos funcionários.'));
             else diags.push(rfV528CriarDiag('SOBRA_MO','SAUDAVEL','Mão de obra bem alocada',`${sobraMOPct.toFixed(1)}% do faturamento`,'A perda/sobra de mão de obra não alocada está baixa.','Manter os rateios e cadastros atualizados.'));
 
-            // 7 — Retirada dos sócios
+            // 7 — Retirada dos sócios (mantida)
             if (dre.retSocios > 0 && resultadoAntesRetirada <= 0) diags.push(rfV528CriarDiag('RETIRADA','PRIORIDADE','Retirada sem resultado operacional suficiente',formatarMoedaBR(dre.retSocios),'A operação já não gera resultado positivo antes das retiradas.','Reavaliar temporariamente a retirada e atuar primeiro na recuperação do resultado operacional.'));
             else if (retiradaSobreResultadoPct > 100) diags.push(rfV528CriarDiag('RETIRADA','PRIORIDADE','Retirada supera o resultado antes da retirada',`${retiradaSobreResultadoPct.toFixed(1)}% do resultado`,'A retirada consome mais do que o resultado disponível antes dela.','Readequar retirada ao resultado gerado pela operação.'));
             else if (retiradaSobreResultadoPct > 70) diags.push(rfV528CriarDiag('RETIRADA','CRITICO','Retirada consome grande parte do resultado',`${retiradaSobreResultadoPct.toFixed(1)}% do resultado`,'Pouco resultado permanece na empresa após a retirada.','Avaliar redução da retirada ou aumento do resultado operacional.'));
@@ -6144,30 +6172,30 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
             // 8 — Retorno sobre investimento x meta configurada
             if (metaRetornoPct > 0) {
-                const atingimento = metaRetornoPct !== 0 ? (retornoInvestimentoPct / metaRetornoPct) * 100 : 0;
                 if (retornoInvestimentoPct < 0) diags.push(rfV528CriarDiag('RETORNO_META','PRIORIDADE','Retorno sobre investimento negativo',`${retornoInvestimentoPct.toFixed(2)}% a.m. | meta ${metaRetornoPct.toFixed(2)}%`,'O resultado atual não remunera o capital investido.','Priorizar recuperação do resultado antes de ampliar investimentos.'));
-                else if (atingimento < 50) diags.push(rfV528CriarDiag('RETORNO_META','CRITICO','Retorno muito abaixo da meta',`${retornoInvestimentoPct.toFixed(2)}% a.m. | meta ${metaRetornoPct.toFixed(2)}%`,'Menos da metade da meta de retorno configurada está sendo atingida.','Revisar resultado operacional, faturamento e estrutura necessária para alcançar a meta.'));
-                else if (atingimento < 100) diags.push(rfV528CriarDiag('RETORNO_META','ATENCAO','Retorno abaixo da meta',`${retornoInvestimentoPct.toFixed(2)}% a.m. | meta ${metaRetornoPct.toFixed(2)}%`,'A operação gera retorno positivo, porém abaixo do objetivo definido.','Quantificar o gap de resultado necessário para atingir a meta.'));
+                else if (atingimentoMetaPct < 25) diags.push(rfV528CriarDiag('RETORNO_META','CRITICO','Retorno muito abaixo da meta',`${retornoInvestimentoPct.toFixed(2)}% a.m. | meta ${metaRetornoPct.toFixed(2)}%`,'Menos de 25% da meta de retorno configurada está sendo atingida.','Revisar resultado operacional, faturamento e estrutura necessária para alcançar a meta.'));
+                else if (atingimentoMetaPct < 100) diags.push(rfV528CriarDiag('RETORNO_META','ATENCAO','Retorno abaixo da meta',`${retornoInvestimentoPct.toFixed(2)}% a.m. | meta ${metaRetornoPct.toFixed(2)}%`,'A operação gera retorno positivo e atingiu pelo menos 25% da meta, porém ainda está abaixo do objetivo.','Quantificar o gap de resultado necessário para atingir a meta.'));
                 else diags.push(rfV528CriarDiag('RETORNO_META','SAUDAVEL','Meta de retorno atingida',`${retornoInvestimentoPct.toFixed(2)}% a.m. | meta ${metaRetornoPct.toFixed(2)}%`,'O retorno mensal sobre o investimento alcança ou supera a meta configurada.','Preservar resultado e acompanhar a sustentabilidade nos próximos períodos.'));
             }
 
-            // Evolução temporal: compara automaticamente o atual com o período anterior mais recente, nunca CC contra CC.
+            // Evolução temporal: atual x período anterior mais recente pela sequência de IDs.
             if (dreCompare) {
                 const custoAtual = dre.fatBruto - dre.resLiquido;
                 const custoAnterior = dreCompare.fatBruto - dreCompare.resLiquido;
                 const varFat = rfV528Variacao(dre.fatBruto, dreCompare.fatBruto);
                 const varCusto = rfV528Variacao(custoAtual, custoAnterior);
                 const varRes = rfV528Variacao(dre.resLiquido, dreCompare.resLiquido);
+                calculos.EVOLUCAO = `Variação % = (Atual - Anterior) ÷ |Anterior| × 100. Faturamento: ${varFat === null ? '—' : varFat.toFixed(1) + '%'}; Gastos: ${varCusto === null ? '—' : varCusto.toFixed(1) + '%'}; Resultado: ${varRes === null ? '—' : varRes.toFixed(1) + '%'}.`;
                 if (varFat !== null && varCusto !== null) {
                     const pressao = varCusto - varFat;
-                    if (pressao > 10) diags.push(rfV528CriarDiag('EVOLUCAO','CRITICO','Custos cresceram bem acima do faturamento',`Fat. ${varFat.toFixed(1)}% | Gastos ${varCusto.toFixed(1)}%`,'Contra o período anterior mais recente, os gastos avançaram mais rapidamente que a receita.','Abrir as linhas do DRE que mais cresceram e atacar os aumentos que não foram acompanhados por receita.'));
-                    else if (pressao > 5) diags.push(rfV528CriarDiag('EVOLUCAO','ATENCAO','Crescimento dos gastos acima da receita',`Fat. ${varFat.toFixed(1)}% | Gastos ${varCusto.toFixed(1)}%`,'A evolução do período mostra pressão de custos sobre o faturamento.','Monitorar as linhas do DRE com maior crescimento antes que comprimam o resultado.'));
-                    else if (varRes !== null && varRes < -10) diags.push(rfV528CriarDiag('EVOLUCAO','ATENCAO','Resultado piorou no comparativo',`Resultado ${varRes.toFixed(1)}%`,'Mesmo sem forte descolamento entre gastos e faturamento, o resultado caiu em relação ao período comparado.','Identificar no DRE quais linhas explicam a redução do resultado.'));
+                    if (pressao > 10) diags.push(rfV528CriarDiag('EVOLUCAO','CRITICO','Gastos cresceram bem acima do faturamento',`Fat. ${varFat.toFixed(1)}% | Gastos ${varCusto.toFixed(1)}%`,'Contra o período anterior mais recente, os gastos avançaram mais rapidamente que a receita.','Abrir as linhas do DRE que mais cresceram e atacar os aumentos que não foram acompanhados por receita.'));
+                    else if (pressao > 5) diags.push(rfV528CriarDiag('EVOLUCAO','ATENCAO','Crescimento dos gastos acima da receita',`Fat. ${varFat.toFixed(1)}% | Gastos ${varCusto.toFixed(1)}%`,'A evolução do período mostra pressão de gastos sobre o faturamento.','Monitorar as linhas do DRE com maior crescimento antes que comprimam o resultado.'));
+                    else if (varRes !== null && varRes < -10) diags.push(rfV528CriarDiag('EVOLUCAO','ATENCAO','Resultado piorou no comparativo',`Resultado ${varRes.toFixed(1)}%`,'Mesmo sem forte descolamento entre gastos e faturamento, o resultado caiu em relação ao período anterior.','Identificar no DRE quais linhas explicam a redução do resultado.'));
                     else diags.push(rfV528CriarDiag('EVOLUCAO','SAUDAVEL','Evolução econômica equilibrada',`Fat. ${varFat.toFixed(1)}% | Gastos ${varCusto.toFixed(1)}%`,'Contra o período anterior mais recente, os gastos não cresceram de forma significativamente superior ao faturamento.','Continuar acompanhando a evolução período a período.'));
                 }
             }
 
-            return diags.sort((a,b) => a.ordem - b.ordem);
+            return diags.map(d => ({ ...d, calculo: calculos[d.codigo] || '' })).sort((a,b) => a.ordem - b.ordem);
         }
 
         function rfV5210RenderHistorico(historico, dreAtual) {
@@ -6339,7 +6367,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if (!grid || !scoreEl || !classEl || !resumoEl) return;
 
             const config = rfV5210ScoreConfig();
-            const fator = { PRIORIDADE:0, CRITICO:0.40, ATENCAO:0.70, SAUDAVEL:1.00 };
+            const fator = { PRIORIDADE:0, CRITICO:0.40, ATENCAO:0.80, SAUDAVEL:1.00 };
             const qtd = { PRIORIDADE:0, CRITICO:0, ATENCAO:0, SAUDAVEL:0 };
             let pontos = 0;
             let pesoAvaliado = 0;
@@ -6369,6 +6397,12 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             resumoEl.innerText = `${qtd.PRIORIDADE} prioridade • ${qtd.CRITICO} crítico • ${qtd.ATENCAO} atenção • ${qtd.SAUDAVEL} saudável`;
             if (formulaEl) formulaEl.innerText = `${pontos.toFixed(1)} de ${pesoAvaliado.toFixed(0)} pontos ponderados = ${score}/100`;
 
+            window.rfV5213DiagnosticoAtual = {
+                score, classificacao, pontos, pesoAvaliado,
+                linhasScore: linhasScore.map(x => ({...x})),
+                indicadores: diags.map(d => ({ codigo:d.codigo, nivel:d.nivel, titulo:d.titulo, valorTexto:d.valorTexto, diagnostico:d.diagnostico, sugestao:d.sugestao, calculo:d.calculo || '' }))
+            };
+
             const nivelLabel = { PRIORIDADE:'PRIORIDADE', CRITICO:'CRÍTICO', ATENCAO:'ATENÇÃO', SAUDAVEL:'SAUDÁVEL' };
             const nivelClass = { PRIORIDADE:'text-red-400', CRITICO:'text-orange-400', ATENCAO:'text-amber-400', SAUDAVEL:'text-emerald-400' };
             if (breakdown) {
@@ -6382,16 +6416,20 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             }
 
             const icone = { PRIORIDADE:'🔴', CRITICO:'🟠', ATENCAO:'🟡', SAUDAVEL:'🟢' };
-            grid.innerHTML = diags.map(d => `
+            grid.innerHTML = diags.map((d, idx) => `
                 <div class="rf-diag-card" data-nivel="${d.nivel}">
                     <div class="flex items-start justify-between gap-3">
                         <div class="min-w-0">
                             <div class="rf-diag-badge">${icone[d.nivel]} ${nivelLabel[d.nivel]}</div>
-                            <h4 class="text-sm font-extrabold text-white mt-2">${d.titulo}</h4>
+                            <div class="flex items-center gap-2 mt-2">
+                                <h4 class="text-sm font-extrabold text-white">${d.titulo}</h4>
+                                ${d.calculo ? `<button type="button" class="rf-diag-question" title="Ver a conta" onclick="rfV5213ToggleConta('rf-diag-conta-${idx}')">?</button>` : ''}
+                            </div>
                         </div>
                         <div class="text-right text-xs font-black text-brand-primary whitespace-nowrap">${d.valorTexto}</div>
                     </div>
                     <p class="text-xs text-brand-muted mt-2 leading-relaxed">${d.diagnostico}</p>
+                    ${d.calculo ? `<div id="rf-diag-conta-${idx}" class="rf-diag-calculo hidden"><div class="rf-diag-calculo-title">Como chegou neste indicador</div><div class="rf-diag-calculo-text">${d.calculo}</div></div>` : ''}
                     <div class="mt-3 pt-3 border-t border-brand-border/60">
                         <span class="text-[10px] uppercase font-black text-white">Ação sugerida</span>
                         <p class="text-xs text-brand-muted mt-1 leading-relaxed">${d.sugestao}</p>
@@ -6405,8 +6443,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         async function gerarAnalisesEResultadosCore() {
             if (!periodoAtivoObj) return;
 
-            const compareElem = document.getElementById('res-compare-select');
-            const periodoCompareId = compareElem ? compareElem.value : "";
+            const periodoCompareId = ""; // V5.2.13: comparativo manual removido; histórico é automático.
             const periodDisplay = document.getElementById('dre-period-display');
             if(periodDisplay) periodDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
 
@@ -6487,7 +6524,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const dreAtiva = calcPeriodoDRE(periodoAtivoObj, listaCC, listaPlanoContas, listaFuncionarios);
             let dreCompare = periodoCompareObj ? calcPeriodoDRE(periodoCompareObj, listaCCCompare, listaPlanoCompare, listaFuncCompare) : null;
 
-            // V5.2.12 — histórico automático: compara o atual somente com períodos realmente anteriores; superiores/futuros são ignorados.
+            // V5.2.13 — histórico automático: compara o atual somente com períodos realmente anteriores; superiores/futuros são ignorados.
             const periodosAnteriores = rfV5210PeriodosAnteriores();
             let historicoDRE = [];
             if (periodosAnteriores.length) {
@@ -6602,33 +6639,37 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
             const gastoFixoPE = dreAtiva.cFixoFabril + dreAtiva.dFichaAdmin + dreAtiva.sobraMaoObra + dreAtiva.retSocios;
             const metaRent = investimentoTotal * ((parseFloat(periodoAtivoObj.TPERIODO_RENTABILIDADE)||0)/100);
-            const dividendoPE = gastoFixoPE + metaRent;
 
             const pctImpostosEComissoes = dreAtiva.fatBruto > 0 ? (dreAtiva.impostosDeducoes / dreAtiva.fatBruto) : 0;
             const pctCustosVariaveis = dreAtiva.fatBruto > 0 ? (dreAtiva.cVariavel / dreAtiva.fatBruto) : 0;
             const divisorPE = 1 - pctImpostosEComissoes - pctCustosVariaveis;
 
-            const pontoEquilibrio = divisorPE > 0 ? (dividendoPE / divisorPE) : 0;
-            const pctDespesaFixaTotal = dreAtiva.fatBruto > 0 ? (((dreAtiva.dFichaAdmin + dreAtiva.retSocios) / dreAtiva.fatBruto) * 100) : 0;
+            // PE contábil/financeiro: faturamento necessário para Resultado Líquido = 0.
+            const pontoEquilibrio = divisorPE > 0 ? (gastoFixoPE / divisorPE) : 0;
+            // PE econômico: mantém a lógica anterior e adiciona a rentabilidade desejada sobre o investimento.
+            const pontoEquilibrioEconomico = divisorPE > 0 ? ((gastoFixoPE + metaRent) / divisorPE) : 0;
+            const pctDespesaFixaTotal = dreAtiva.fatBruto > 0 ? ((dreAtiva.dFichaAdmin / dreAtiva.fatBruto) * 100) : 0;
             const rentabilidadeAtualPct = investimentoTotal > 0 ? ((dreAtiva.resLiquido / investimentoTotal) * 100) : 0;
             const paybackMeses = dreAtiva.resLiquido > 0 ? (investimentoTotal / dreAtiva.resLiquido) : 0;
 
             const elInv = document.getElementById('res-card-investimento-total');
             const elPE = document.getElementById('res-card-ponto-equilibrio');
+            const elPEEco = document.getElementById('res-card-ponto-equilibrio-economico');
             const elDF = document.getElementById('res-card-pct-despesa-fixa');
             const elRent = document.getElementById('res-card-rentabilidade-atual');
             const elPB = document.getElementById('res-card-payback');
 
             if(elInv) elInv.innerText = formatarMoedaBR(investimentoTotal);
             if(elPE) elPE.innerText = formatarMoedaBR(pontoEquilibrio);
+            if(elPEEco) elPEEco.innerText = formatarMoedaBR(pontoEquilibrioEconomico);
             if(elDF) elDF.innerText = pctDespesaFixaTotal.toFixed(1) + "%";
             if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
             if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
 
-            // V5.2.12 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
+            // V5.2.13 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
             const dreAnteriorMaisRecente = historicoDRE.length ? historicoDRE[0].dre : null;
             const rfV5210Diagnosticos = rfV528GerarDiagnosticos(
-                dreAtiva, dreAnteriorMaisRecente, investimentoTotal, pontoEquilibrio, rentabilidadeAtualPct
+                dreAtiva, dreAnteriorMaisRecente, investimentoTotal, pontoEquilibrioEconomico, rentabilidadeAtualPct, pontoEquilibrio
             );
             rfV5210RenderDiagnosticos(rfV5210Diagnosticos, historicoDRE, dreAtiva);
 
@@ -6711,12 +6752,14 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             }
 
             window.v51RelatorioAnalise = {
-                empresa: (typeof clienteAtivoObj !== 'undefined' && clienteAtivoObj && (clienteAtivoObj.TCLIENTE_NOME || clienteAtivoObj.TCLIENTE_RAZAO_SOCIAL)) ? (clienteAtivoObj.TCLIENTE_NOME || clienteAtivoObj.TCLIENTE_RAZAO_SOCIAL) : ((usuarioLogado && usuarioLogado.TCLIENTE_NOME) || '-'),
+                empresa: empresaLogadaNome || ((usuarioLogado && usuarioLogado.TCLIENTE_NOME) || '-'),
+                cnpj: empresaLogadaCnpj || '-',
                 periodo: formatarNomePeriodoLimpo(periodoAtivoObj),
-                periodoCompare: periodoCompareObj ? formatarNomePeriodoLimpo(periodoCompareObj) : '',
                 semDepreciacao: v51IgnorarDepreciacao(periodoAtivoObj),
-                dreAtiva, dreCompare,
-                kpis: { investimentoTotal, pontoEquilibrio, pctDespesaFixaTotal, rentabilidadeAtualPct, paybackMeses },
+                dreAtiva,
+                historico: historicoDRE.map(x => ({ periodo:formatarNomePeriodoLimpo(x.periodo), dre:x.dre })),
+                diagnostico: window.rfV5213DiagnosticoAtual || null,
+                kpis: { investimentoTotal, pontoEquilibrio, pontoEquilibrioEconomico, pctDespesaFixaTotal, rentabilidadeAtualPct, paybackMeses },
                 custoHora: listaCC.filter(c => String(c.TCENTRO_CUSTO_TIPO).toUpperCase() === 'PRODUTIVO DIRETO').map(c => {
                     const fx = parseFloat(c.TECENTRO_CUSTO_CUSTO_FIXO_DIRETO || c.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO) || 0;
                     const dep = v51IgnorarDepreciacao(periodoAtivoObj) ? 0 : (parseFloat(c.TCENTRO_CUSTO_CUSTO_MENSAL) || 0);
@@ -7148,19 +7191,34 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 const W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight(), mx=14, cw=W-mx*2;
                 const orange=[255,132,54], dark=[28,31,38], gray=[100,108,120], green=[14,145,105], red=[205,70,70], blue=[55,110,210];
                 const logo=await v50LogoDataURL(), logoDim=v50PdfLogoDimensions(48,12), now=new Date();
-                const header=()=>{ doc.setFillColor(...dark);doc.rect(0,0,W,25,'F'); if(logo) try{doc.addImage(logo,'PNG',mx,5,logoDim.w,logoDim.h,undefined,'FAST')}catch(e){} doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('RELATÓRIO DE ANÁLISE GERENCIAL',W-mx,10,{align:'right'});doc.setFontSize(7.5);doc.setFont('helvetica','normal');doc.text(`${r.empresa}  •  ${r.periodo}`,W-mx,16,{align:'right'}); if(r.periodoCompare) doc.text(`Comparativo: ${r.periodoCompare}`,W-mx,20,{align:'right'}); };
+                const header=()=>{ doc.setFillColor(...dark);doc.rect(0,0,W,25,'F'); if(logo) try{doc.addImage(logo,'PNG',mx,5,logoDim.w,logoDim.h,undefined,'FAST')}catch(e){} doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('RELATÓRIO DE ANÁLISE GERENCIAL',W-mx,9,{align:'right'});doc.setFontSize(7.3);doc.setFont('helvetica','normal');doc.text(`${r.empresa || '-'}  •  CNPJ: ${r.cnpj || '-'}`,W-mx,15,{align:'right'});doc.text(`Período: ${r.periodo || '-'}`,W-mx,20,{align:'right'}); };
                 const footer=(n,t)=>{doc.setDrawColor(210);doc.line(mx,H-12,W-mx,H-12);doc.setTextColor(...gray);doc.setFontSize(7);doc.text(`CONSULTORIA.RF • Gerado em ${now.toLocaleString('pt-BR')}`,mx,H-7);doc.text(`Página ${n} de ${t}`,W-mx,H-7,{align:'right'});};
                 const section=(title,y)=>{if(y>H-35){doc.addPage();header();y=32;}doc.setFillColor(255,245,237);doc.roundedRect(mx,y,cw,8,1.5,1.5,'F');doc.setTextColor(...orange);doc.setFont('helvetica','bold');doc.setFontSize(9);doc.text(title,mx+3,y+5.3);return y+11;};
                 header(); let y=32;
                 doc.setTextColor(...dark);doc.setFont('helvetica','bold');doc.setFontSize(15);doc.text('Visão Geral do Período',mx,y); y+=7;
                 if(r.semDepreciacao){doc.setFillColor(255,247,237);doc.setDrawColor(...orange);doc.roundedRect(mx,y,cw,9,1.5,1.5,'FD');doc.setTextColor(...orange);doc.setFontSize(8);doc.text('ATENÇÃO: este período está configurado para DESCONSIDERAR DEPRECIAÇÃO nos cálculos.',mx+3,y+5.8);y+=13;}
                 const k=r.kpis;
-                doc.autoTable({startY:y,margin:{left:mx,right:mx},head:[['Indicador','Resultado']],body:[['Investimento Total',v50PdfMoeda(k.investimentoTotal)],['Ponto de Equilíbrio',v50PdfMoeda(k.pontoEquilibrio)],['Despesas Fixas / Faturamento',v50PdfNumero(k.pctDespesaFixaTotal,1)+'%'],['Rentabilidade Atual',v50PdfNumero(k.rentabilidadeAtualPct,2)+'% a.m.'],['Payback Estimado',k.paybackMeses>0?v50PdfNumero(k.paybackMeses,1)+' meses':'N/A']],theme:'grid',styles:{fontSize:8,cellPadding:2.2},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{1:{halign:'right',fontStyle:'bold'}}}); y=doc.lastAutoTable.finalY+7;
-                y=section('DRE GERENCIAL INDUSTRIAL',y);
+                doc.autoTable({startY:y,margin:{left:mx,right:mx},head:[['Indicador','Resultado']],body:[['Investimento Total',v50PdfMoeda(k.investimentoTotal)],['Ponto de Equilíbrio',v50PdfMoeda(k.pontoEquilibrio)],['Ponto de Equilíbrio Econômico',v50PdfMoeda(k.pontoEquilibrioEconomico)],['Despesas Fixas Operacionais / Faturamento',v50PdfNumero(k.pctDespesaFixaTotal,1)+'%'],['Rentabilidade Atual',v50PdfNumero(k.rentabilidadeAtualPct,2)+'% a.m.'],['Payback Estimado',k.paybackMeses>0?v50PdfNumero(k.paybackMeses,1)+' meses':'N/A']],theme:'grid',styles:{fontSize:8,cellPadding:2.2},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{1:{halign:'right',fontStyle:'bold'}}}); y=doc.lastAutoTable.finalY+7;
+
+                if (r.diagnostico) {
+                    y=section('DIAGNÓSTICO AUTOMÁTICO',y);
+                    doc.setTextColor(...dark);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text(`Saúde econômica: ${r.diagnostico.score}/100 — ${r.diagnostico.classificacao}`,mx,y); y+=5;
+                    doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(...gray);doc.text(`Pontuação ponderada: ${v50PdfNumero(r.diagnostico.pontos,1)} de ${v50PdfNumero(r.diagnostico.pesoAvaliado,0)} pontos.`,mx,y); y+=4;
+                    const nivelPdf={PRIORIDADE:'PRIORIDADE',CRITICO:'CRÍTICO',ATENCAO:'ATENÇÃO',SAUDAVEL:'SAUDÁVEL'};
+                    doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[['Indicador','Nível','Leitura','Ação sugerida']],body:(r.diagnostico.indicadores||[]).map(d=>[d.titulo,nivelPdf[d.nivel]||d.nivel,d.valorTexto,d.sugestao]),theme:'grid',styles:{fontSize:6.6,cellPadding:1.7,overflow:'linebreak'},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{1:{fontStyle:'bold'},2:{halign:'right'}}}); y=doc.lastAutoTable.finalY+7;
+                }
+
+                y=section('DRE GERENCIAL',y);
                 const labels=[['Faturamento','fatBruto'],['(-) Impostos / Deduções','impostosDeducoes'],['Receita Líquida','recLiquida'],['(-) Custos Variáveis de Produção','cVariavel'],['Margem de Contribuição Bruta','margemContrib'],['(-) Custos Fixos Industriais','cFixoFabril'],['Resultado Bruto Industrial','resFabril'],['(-) Despesas Fixas Operacionais','dFichaAdmin'],['(-) Perdas / Sobra M.O.','sobraMaoObra'],['(-) Retiradas Sócios / Pró-Labore','retSocios'],['RESULTADO LÍQUIDO FINAL','resLiquido']];
-                const head=r.dreCompare?['Linha','Período Atual','Comparativo','Variação']:['Linha','Período Atual'];
-                const body=labels.map(([lab,key])=>{const a=r.dreAtiva[key]||0;if(!r.dreCompare)return[lab,v50PdfMoeda(a)];const c=r.dreCompare[key]||0;const vp=c!==0?((a-c)/Math.abs(c))*100:0;return[lab,v50PdfMoeda(a),v50PdfMoeda(c),(vp>=0?'+':'')+v50PdfNumero(vp,1)+'%'];});
-                doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[head],body,theme:'grid',styles:{fontSize:7.2,cellPadding:1.8,overflow:'linebreak'},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:r.dreCompare?{1:{halign:'right'},2:{halign:'right'},3:{halign:'right'}}:{1:{halign:'right'}},didParseCell:d=>{if(d.section==='body'&&d.row.index===10){d.cell.styles.fontStyle='bold';d.cell.styles.fillColor=[232,247,240];d.cell.styles.textColor=green;}}}); y=doc.lastAutoTable.finalY+7;
+                const head=['Linha','Período Atual'];
+                const body=labels.map(([lab,key])=>[lab,v50PdfMoeda(r.dreAtiva[key]||0)]);
+                doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[head],body,theme:'grid',styles:{fontSize:7.2,cellPadding:1.8,overflow:'linebreak'},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{1:{halign:'right'}},didParseCell:d=>{if(d.section==='body'&&d.row.index===10){d.cell.styles.fontStyle='bold';d.cell.styles.fillColor=[232,247,240];d.cell.styles.textColor=green;}}}); y=doc.lastAutoTable.finalY+7;
+                if (Array.isArray(r.historico) && r.historico.length) {
+                    y=section('EVOLUÇÃO HISTÓRICA AUTOMÁTICA',y);
+                    const margemAtualPdf = r.dreAtiva.fatBruto ? (r.dreAtiva.resLiquido / r.dreAtiva.fatBruto) * 100 : 0;
+                    doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[['Período anterior','Faturamento','Gastos','Resultado','Margem','Δ Resultado até atual']],body:r.historico.map(h=>{const d=h.dre||{};const gastos=(d.fatBruto||0)-(d.resLiquido||0);const margem=(d.fatBruto||0)?((d.resLiquido||0)/(d.fatBruto||0))*100:0;const vr=(d.resLiquido||0)!==0?(((r.dreAtiva.resLiquido-(d.resLiquido||0))/Math.abs(d.resLiquido||0))*100):0;return[h.periodo,v50PdfMoeda(d.fatBruto||0),v50PdfMoeda(gastos),v50PdfMoeda(d.resLiquido||0),v50PdfNumero(margem,1)+'%',(vr>=0?'+':'')+v50PdfNumero(vr,1)+'%'];}),theme:'striped',styles:{fontSize:6.5,cellPadding:1.6},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{1:{halign:'right'},2:{halign:'right'},3:{halign:'right'},4:{halign:'right'},5:{halign:'right'}}}); y=doc.lastAutoTable.finalY+7;
+                }
+
                 y=section(`CUSTO-HORA — CENTROS PRODUTIVOS DIRETOS (${r.custoHora.length})`,y);
                 doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},head:[['Centro de Custo','Rateio','Horas Finais','Custo Total','Custo-Hora']],body:r.custoHora.map(x=>[x.nome,x.rateio,v50PdfNumero(x.horas,1)+' h',v50PdfMoeda(x.total),v50PdfMoeda(x.custoHora)+'/h']),theme:'striped',styles:{fontSize:6.8,cellPadding:1.8},headStyles:{fillColor:dark,textColor:[255,255,255]},columnStyles:{2:{halign:'right'},3:{halign:'right'},4:{halign:'right',fontStyle:'bold',textColor:green}}}); y=doc.lastAutoTable.finalY+7;
                 y=section('RANKING GERAL DE IMPACTO DOS SETORES',y);

@@ -6,21 +6,12 @@
   "start_url": "/app.html",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#111318",
   "theme_color": "#111318",
   "orientation": "any",
   "icons": [
-    {
-      "src": "/rf-icon-192-v4910.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/rf-icon-512-v4910.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    }
+    {"src":"/rf-icon-192-v4910.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"/rf-icon-512-v4910.png","sizes":"512x512","type":"image/png","purpose":"any"}
   ]
 }
