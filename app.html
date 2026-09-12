@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.16 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.16">
+    <title>CONSULTORIA.RF V5.2.17 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.17">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1399,7 +1399,7 @@ body.light-mode #app-loading-overlay .rf-loading-card {
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.16</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.17</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1434,7 +1434,7 @@ body.light-mode #app-loading-overlay .rf-loading-card {
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.16</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.17</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2700,8 +2700,10 @@ body.light-mode #app-loading-overlay .rf-loading-card {
 
             if (rfUsandoCacheLocal) {
                 rfMostrarBannerCache(offline ? 'offline' : 'stale', rfCacheSalvoEmAtual);
+                setSyncStatus(!offline, offline ? 'Dados locais' : 'Atualizando...');
             } else if (estavaEmCache && savedAt !== -1) {
                 rfMostrarBannerCache('fresh');
+                setSyncStatus(false, 'Atualizado');
             }
         }
 
@@ -3015,21 +3017,48 @@ body.light-mode #app-loading-overlay .rf-loading-card {
             }
         }
 
-        function setSyncStatus(isSyncing, msg = "Conectado") {
+        // ======================================================
+        // V5.2.17 — STATUS DO HEADER REPRESENTA O ESTADO DOS DADOS
+        // ======================================================
+        // O indicador não significa apenas que o navegador tem internet.
+        // Ele informa se os dados exibidos foram validados com o servidor:
+        //   🟢 Atualizado     = dados confirmados pela API
+        //   🟡 Atualizando... = cache em tela enquanto a API é consultada
+        //   🟠 Dados locais   = API indisponível; exibindo última cópia local
+        //   🔴 Falha          = erro sem uma cópia local válida para sustentar a tela
+        function setSyncStatus(isSyncing, msg = "Atualizado") {
             const indicator = document.getElementById('sync-indicator');
             const syncText = document.getElementById('sync-text');
-            if(!indicator) return;
+            if (!indicator || !syncText) return;
 
             indicator.classList.remove('hidden', 'flex');
             indicator.classList.add('flex');
 
+            const texto = String(msg || '').trim();
+            const ehErro = /^(erro|falha|sem dados|sem conex[aã]o)/i.test(texto);
+
             if (isSyncing) {
-                indicator.className = "flex items-center gap-1.5 bg-amber-950/60 border border-amber-800 text-amber-300 px-2.5 py-1 rounded-full text-xs font-bold";
-                syncText.innerText = "🔄 Sincronizando...";
-            } else {
-                indicator.className = "flex items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold";
-                syncText.innerText = "🟢 " + msg;
+                indicator.className = "flex items-center gap-1.5 bg-amber-950/60 border border-amber-700 text-amber-300 px-2.5 py-1 rounded-full text-xs font-bold";
+                syncText.innerText = "🟡 Atualizando...";
+                return;
             }
+
+            // Se a tela ainda depende do cache, nunca mostra verde mesmo que outra
+            // rotina secundária tenha concluído uma chamada isolada com sucesso.
+            if (typeof rfUsandoCacheLocal !== 'undefined' && rfUsandoCacheLocal) {
+                indicator.className = "flex items-center gap-1.5 bg-orange-950/60 border border-orange-700 text-orange-300 px-2.5 py-1 rounded-full text-xs font-bold";
+                syncText.innerText = "🟠 Dados locais";
+                return;
+            }
+
+            if (ehErro) {
+                indicator.className = "flex items-center gap-1.5 bg-red-950/60 border border-red-800 text-red-300 px-2.5 py-1 rounded-full text-xs font-bold";
+                syncText.innerText = "🔴 " + (texto || 'Falha de sincronização');
+                return;
+            }
+
+            indicator.className = "flex items-center gap-1.5 bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-2.5 py-1 rounded-full text-xs font-bold";
+            syncText.innerText = "🟢 " + (texto || 'Atualizado');
         }
 
         function deslogar() {
@@ -4358,7 +4387,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.16', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.17', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
