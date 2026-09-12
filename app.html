@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.17 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.17">
+    <title>CONSULTORIA.RF V5.2.18 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.18">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1399,7 +1399,7 @@ body.light-mode #app-loading-overlay .rf-loading-card {
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.17</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.18</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1434,7 +1434,7 @@ body.light-mode #app-loading-overlay .rf-loading-card {
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.17</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.18</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -3018,7 +3018,7 @@ body.light-mode #app-loading-overlay .rf-loading-card {
         }
 
         // ======================================================
-        // V5.2.17 — STATUS DO HEADER REPRESENTA O ESTADO DOS DADOS
+        // V5.2.18 — STATUS DO HEADER REPRESENTA O ESTADO DOS DADOS
         // ======================================================
         // O indicador não significa apenas que o navegador tem internet.
         // Ele informa se os dados exibidos foram validados com o servidor:
@@ -4387,7 +4387,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.17', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.18', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -7417,68 +7417,84 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const relPlanoContas = [];
             const relOutros = [];
 
-            const planoDoCC = listaPlanoContas.filter(p => {
-                const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
-                if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return false;
+            // V5.2.18 — o Raio-X deve repetir EXATAMENTE a mesma regra de rateio
+            // usada pelo backend para TCENTRO_CUSTO_CUSTO_PLANO_CONTAS.
+            // Antes, os critérios automáticos por tipo (PD_*, PI_AREA e ADM_AREA)
+            // não eram reconhecidos aqui e por isso sumiam do detalhamento/total do Raio-X.
+            const regraAutomaticaPlano = {
+                PD_AREA:     { tipo: 'PRODUTIVO DIRETO',   base: 'AREA' },
+                PD_RECURSOS: { tipo: 'PRODUTIVO DIRETO',   base: 'RECURSOS' },
+                PD_HORAS:    { tipo: 'PRODUTIVO DIRETO',   base: 'HORAS' },
+                PI_AREA:     { tipo: 'PRODUTIVO INDIRETO', base: 'AREA' },
+                ADM_AREA:    { tipo: 'ADMINISTRATIVO',     base: 'AREA' }
+            };
 
-                if (crit === 'EXCLUSIVO') return String(p.TCENTRO_CUSTO_ID).toUpperCase() === String(ccId).toUpperCase();
-                
-                let rawJSON = String(p.TCENTRO_CUSTO_ID || "").trim();
-                if (rawJSON.startsWith('"') && rawJSON.endsWith('"')) rawJSON = rawJSON.substring(1, rawJSON.length - 1);
-                rawJSON = rawJSON.replace(/""/g, '"');
+            function calcularValorPlanoNoCC(p, ccDestinoId) {
+                const crit = String(p.TPLANO_CONTA_CRITERIO || '').trim().toUpperCase();
+                const valorPlano = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
+                if (!(valorPlano > 0)) return 0;
+                if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return 0;
 
-                try {
-                    const arr = JSON.parse(rawJSON);
-                    return Array.isArray(arr) && arr.some(item => (typeof item === 'object' ? String(item.id || item.ID).toUpperCase() === String(ccId).toUpperCase() : String(item).toUpperCase() === String(ccId).toUpperCase()));
-                } catch(e) { return true; }
-            });
+                let rawTarget = String(p.TCENTRO_CUSTO_ID || '').trim();
+                if (rawTarget.startsWith('"') && rawTarget.endsWith('"')) rawTarget = rawTarget.substring(1, rawTarget.length - 1);
+                rawTarget = rawTarget.replace(/""/g, '"').replace(/;/g, ',');
 
-            planoDoCC.forEach(p => {
-                let valAbsorvido = parseFloat(p.TPLANO_CONTA_VALOR) || 0;
-                const crit = String(p.TPLANO_CONTA_CRITERIO || "").toUpperCase();
-
-                let rawJSON = String(p.TCENTRO_CUSTO_ID || "").trim();
-                if (rawJSON.startsWith('"') && rawJSON.endsWith('"')) rawJSON = rawJSON.substring(1, rawJSON.length - 1);
-                rawJSON = rawJSON.replace(/""/g, '"');
-
-                if (crit === 'SELETIVO_PERCENTUAL' || rawJSON.includes('pct')) {
-                    try {
-                        const arr = JSON.parse(rawJSON);
-                        if (Array.isArray(arr)) {
-                            const itemP = arr.find(x => String(x.id || x.ID).toUpperCase() === String(ccId).toUpperCase());
-                            if (itemP) {
-                                const pctVal = parseFloat(itemP.pct || itemP.PCT) || 0;
-                                valAbsorvido = valAbsorvido * (pctVal / 100);
-                            } else { valAbsorvido = 0; }
-                        }
-                    } catch(e) { valAbsorvido = 0; }
-                } else if (crit !== 'EXCLUSIVO') {
-                    let participantes = [];
-                    try { participantes = JSON.parse(rawJSON); } catch(e) { participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID); }
-                    if(!Array.isArray(participantes) || participantes.length === 0) participantes = listaCC.map(x=>x.TCENTRO_CUSTO_ID);
-
-                    let baseTotal = 0;
-                    let baseEsteCC = 0;
-
-                    participantes.forEach(id => {
-                        const idTarget = typeof id === 'object' ? (id.id || id.ID) : id;
-                        const cSearch = listaCC.find(x => String(x.TCENTRO_CUSTO_ID).toUpperCase() === String(idTarget).toUpperCase());
-                        if (cSearch) {
-                            let bVal = 0;
-                            if (crit === 'AREA') bVal = parseFloat(cSearch.TCENTRO_CUSTO_AREA) || 0;
-                            else if (crit === 'RECURSOS') bVal = parseInt(cSearch.TCENTRO_CUSTO_QTDE_RECURSOS) || 0;
-                            else if (crit === 'HORAS') bVal = parseFloat(cSearch.TCENTRO_CUSTO_HORAS) || 0;
-
-                            baseTotal += bVal;
-                            if (String(idTarget).toUpperCase() === String(ccId).toUpperCase()) baseEsteCC = bVal;
-                        }
-                    });
-
-                    if (baseTotal > 0) valAbsorvido = valAbsorvido * (baseEsteCC / baseTotal);
-                    else valAbsorvido = 0;
+                if (crit === 'EXCLUSIVO') {
+                    return String(rawTarget).toUpperCase() === String(ccDestinoId).toUpperCase() ? valorPlano : 0;
                 }
 
-                if (valAbsorvido > 0) {
+                const regraAuto = regraAutomaticaPlano[crit] || null;
+                const criterioBase = regraAuto ? regraAuto.base : crit;
+                let participantes = [];
+
+                if (regraAuto) {
+                    participantes = listaCC
+                        .filter(c => String(c.TCENTRO_CUSTO_TIPO || '').trim().toUpperCase() === regraAuto.tipo)
+                        .map(c => c.TCENTRO_CUSTO_ID);
+                } else {
+                    try { participantes = JSON.parse(rawTarget); }
+                    catch (e) { participantes = listaCC.map(c => c.TCENTRO_CUSTO_ID); }
+                    if (!Array.isArray(participantes) || participantes.length === 0) participantes = listaCC.map(c => c.TCENTRO_CUSTO_ID);
+                }
+
+                if (crit === 'SELETIVO_PERCENTUAL' || rawTarget.includes('pct')) {
+                    const item = participantes.find(x => {
+                        const id = typeof x === 'object' ? (x.id || x.ID) : x;
+                        return String(id).toUpperCase() === String(ccDestinoId).toUpperCase();
+                    });
+                    if (!item || typeof item !== 'object') return 0;
+                    const pct = parseFloat(item.pct ?? item.PCT ?? 0) || 0;
+                    return valorPlano * (pct / 100);
+                }
+
+                const participanteIds = participantes.map(x => typeof x === 'object' ? (x.id || x.ID) : x);
+                const participa = participanteIds.some(id => String(id).toUpperCase() === String(ccDestinoId).toUpperCase());
+                if (!participa) return 0;
+
+                let baseTotal = 0;
+                let baseEsteCC = 0;
+
+                participanteIds.forEach(id => {
+                    const c = listaCC.find(x => String(x.TCENTRO_CUSTO_ID).toUpperCase() === String(id).toUpperCase());
+                    if (!c) return;
+
+                    let base = 0;
+                    if (criterioBase === 'AREA') base = parseFloat(c.TCENTRO_CUSTO_AREA) || 0;
+                    else if (criterioBase === 'RECURSOS') base = parseFloat(c.TCENTRO_CUSTO_QTDE_RECURSOS) || 0;
+                    else if (criterioBase === 'HORAS') base = parseFloat(c.TCENTRO_CUSTO_HORAS) || 0;
+
+                    baseTotal += base;
+                    if (String(c.TCENTRO_CUSTO_ID).toUpperCase() === String(ccDestinoId).toUpperCase()) baseEsteCC = base;
+                });
+
+                return baseTotal > 0 ? valorPlano * (baseEsteCC / baseTotal) : 0;
+            }
+
+            listaPlanoContas.forEach(p => {
+                const crit = String(p.TPLANO_CONTA_CRITERIO || '').trim().toUpperCase();
+                const valAbsorvido = calcularValorPlanoNoCC(p, ccId);
+
+                if (valAbsorvido > 0.000001) {
                     qtdContasAtivas++;
                     subtotalPlanoContas += valAbsorvido;
                     planoLinhasHtml += `<div class="flex justify-between text-xs text-brand-muted py-0.5"><span>- ${p.TPLANO_CONTA_NOME} (${crit})</span><span>${formatarMoedaBR(valAbsorvido)}</span></div>`;
