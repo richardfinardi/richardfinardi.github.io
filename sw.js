@@ -1,9 +1,9 @@
-const CACHE = 'consultoria-rf-v5.2.15';
+const CACHE = 'consultoria-rf-v5.2.16';
 const APP_SHELL = [
   './app.html',
   './manifest.json',
-  './rf-icon-192-v4910.png',
-  './rf-icon-512-v4910.png'
+  './rf-icon-192-v5216.png',
+  './rf-icon-512-v5216.png'
 ];
 
 self.addEventListener('install', event => {

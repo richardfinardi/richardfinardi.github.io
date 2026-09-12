@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.15 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.15">
+    <title>CONSULTORIA.RF V5.2.16 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.16">
     <meta name="theme-color" content="#111318">
     <meta name="background-color" content="#111318">
     <meta name="mobile-web-app-capable" content="yes">
@@ -741,9 +741,9 @@ body.light-mode .admin-status.is-inactive { background:#faeeee !important; color
 #tab-btn-admin.hidden { display:none !important; }
 </style>
 
-    <link rel="icon" type="image/png" sizes="32x32" href="./rf-icon-32-v4910.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="./rf-icon-192-v4910.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="./rf-icon-192-v4910.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./rf-icon-32-v5216.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./rf-icon-192-v5216.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="./rf-icon-192-v5216.png">
 
 <style id="v4911-sidebar-mobile-fix">
 /* ================================================================
@@ -1185,7 +1185,7 @@ body.light-mode #tbl-cc-foot .rf-cc-total-row td {
 
 <style id="v5210-diagnostico-inteligente">
 /* ================================================================
-   V5.2.15 — DIAGNÓSTICO AUTOMÁTICO COMPACTO + HISTÓRICO
+   V5.2.16 — DIAGNÓSTICO AUTOMÁTICO COMPACTO + HISTÓRICO
    Recolhido por padrão. Não compara custos entre centros de custo.
    ================================================================ */
 #rf-diagnostico-inteligente { overflow:hidden; }
@@ -1246,7 +1246,7 @@ body.light-mode .rf-diag-calculo { background:#f8fafc !important; }
 
 <style id="v5211-historico-evolucao">
 /* ================================================================
-   V5.2.15 — EVOLUÇÃO HISTÓRICA
+   V5.2.16 — EVOLUÇÃO HISTÓRICA
    Somente períodos anteriores reais. Visual de tendência + comparação.
    ================================================================ */
 .rf-history-reading {
@@ -1311,7 +1311,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
 
 <style id="v5214-resultados-pdf-layout">
 /* ================================================================
-   V5.2.15 — RESULTADOS: KPIs SEM QUEBRA + PDF MAIS ESTÁVEL
+   V5.2.16 — RESULTADOS: KPIs SEM QUEBRA + PDF MAIS ESTÁVEL
    ================================================================ */
 .rf-result-kpi-grid > div { min-width:0; }
 .rf-result-kpi-value {
@@ -1329,6 +1329,69 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
 }
 </style>
 
+
+<style id="v5216-cache-local">
+/* ================================================================
+   V5.2.16 — CACHE LOCAL + ATUALIZAÇÃO EM SEGUNDO PLANO
+   ================================================================ */
+#rf-cache-banner {
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:10px 12px;
+    border:1px solid transparent;
+    border-radius:11px;
+    font-size:10px;
+    line-height:1.45;
+}
+#rf-cache-banner.hidden { display:none !important; }
+#rf-cache-banner .rf-cache-dot {
+    width:9px;
+    height:9px;
+    margin-top:3px;
+    border-radius:999px;
+    flex:0 0 auto;
+}
+#rf-cache-banner .rf-cache-title { font-weight:900; color:#fff; }
+#rf-cache-banner .rf-cache-text { color:#c5c9d1; margin-top:1px; }
+#rf-cache-banner.is-stale {
+    background:rgba(120,78,8,.22);
+    border-color:rgba(234,179,8,.42);
+}
+#rf-cache-banner.is-stale .rf-cache-dot { background:#eab308; box-shadow:0 0 0 4px rgba(234,179,8,.10); }
+#rf-cache-banner.is-offline {
+    background:rgba(127,29,29,.20);
+    border-color:rgba(239,68,68,.38);
+}
+#rf-cache-banner.is-offline .rf-cache-dot { background:#ef4444; box-shadow:0 0 0 4px rgba(239,68,68,.10); }
+#rf-cache-banner.is-fresh {
+    background:rgba(6,95,70,.18);
+    border-color:rgba(16,185,129,.34);
+}
+#rf-cache-banner.is-fresh .rf-cache-dot { background:#10b981; box-shadow:0 0 0 4px rgba(16,185,129,.10); }
+body.light-mode #rf-cache-banner .rf-cache-title { color:#202936; }
+body.light-mode #rf-cache-banner .rf-cache-text { color:#667085; }
+
+/* Enquanto a cópia local ainda não foi validada pelo servidor, consulta fica liberada e gravação fica protegida. */
+body.rf-cache-stale button[type="submit"] { opacity:.48 !important; cursor:not-allowed !important; }
+
+/* Tela de carregamento sem cartão/borda ao redor do logo. */
+#app-loading-overlay .rf-loading-card {
+    border:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    padding:18px !important;
+}
+body.light-mode #app-loading-overlay .rf-loading-card {
+    border:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+}
+@media (max-width:767px) {
+    #rf-cache-banner { margin:0; padding:9px 10px; }
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1336,7 +1399,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.15</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.16</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1371,7 +1434,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.15</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.16</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -1403,6 +1466,14 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
     </div>
 
 <main id="main-content" class="hidden flex-1 p-3 md:p-6 max-w-7xl mx-auto w-full space-y-6">
+
+        <div id="rf-cache-banner" class="hidden" role="status" aria-live="polite">
+            <span class="rf-cache-dot"></span>
+            <div>
+                <div id="rf-cache-banner-title" class="rf-cache-title">Dados locais</div>
+                <div id="rf-cache-banner-text" class="rf-cache-text">Carregando a última cópia salva neste dispositivo.</div>
+            </div>
+        </div>
         
         <div id="banner-periodo-bloqueado" class="hidden bg-amber-950/40 border border-amber-800 text-amber-300 p-3 rounded-xl text-xs font-bold flex justify-between items-center">
             <span>🔒 ESTE PERÍODO ESTÁ MARCADO COMO FECHADO. EDIÇÕES E NOVOS CADASTROS ESTÃO DESABILITADOS.</span>
@@ -2159,10 +2230,10 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         <!-- ABA 6: RESULTADOS & ANÁLISES -->
         <section id="section-resultados" class="hidden space-y-6">
             
-            <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex flex-col md:flex-row justify-between md:items-center gap-3">
                 <div>
-                    <span class="text-xs font-bold text-white uppercase">Evolução histórica automática</span>
-                    <p class="text-[10px] text-brand-muted mt-1">O período atual é comparado automaticamente somente com períodos criados anteriormente na mesma empresa.</p>
+                    <h2 class="text-base md:text-lg font-bold text-white">Resultados & Análises</h2>
+                    <p class="text-xs text-brand-muted mt-1">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></p>
                 </div>
                 <button type="button" onclick="gerarPDFAnaliseGeral(event)" class="bg-brand-primary hover:bg-brand-hover text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-lg shadow-brand-primary/20 whitespace-nowrap">📄 Gerar PDF da Análise</button>
             </div>
@@ -2206,7 +2277,7 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
             </div>
 
 
-            <!-- V5.2.15 — DIAGNÓSTICO AUTOMÁTICO COMPACTO -->
+            <!-- V5.2.16 — DIAGNÓSTICO AUTOMÁTICO COMPACTO -->
             <div id="rf-diagnostico-inteligente" class="bg-brand-card px-4 py-3 rounded-xl border border-brand-border">
                 <div class="rf-diag-compact-header">
                     <div class="rf-diag-compact-title">
@@ -2514,7 +2585,343 @@ body.light-mode .rf-history-period-card { background:#fff !important; }
         let entidadeGradeAtiva = "";
 
         // ======================================================
-        // V5.2.15 — ESTADO DE EDIÇÃO RESILIENTE / ANTI-DUPLICAÇÃO
+        // V5.2.16 — CACHE LOCAL DO DISPOSITIVO (IndexedDB)
+        // Exibe a última cópia salva imediatamente e revalida os dados em segundo plano.
+        // Enquanto a cópia local ainda não foi confirmada pelo servidor, o sistema fica em leitura.
+        // ======================================================
+        const RF_CACHE_DB = 'CONSULTORIA_RF_CACHE_V1';
+        const RF_CACHE_STORE = 'cache';
+        const RF_CACHE_DB_VERSION = 1;
+        let rfCacheDbPromise = null;
+        let rfUsandoCacheLocal = false;
+        let rfCacheSalvoEmAtual = 0;
+        let rfSyncBackgroundPromise = null;
+        let rfCacheFreshTimer = null;
+
+        function rfCacheChave(tipo, clienteId = '', periodoId = '') {
+            return [tipo, String(clienteId || '').trim(), String(periodoId || '').trim()].filter(Boolean).join('::');
+        }
+
+        function rfAbrirCacheDB() {
+            if (!('indexedDB' in window)) return Promise.resolve(null);
+            if (rfCacheDbPromise) return rfCacheDbPromise;
+
+            rfCacheDbPromise = new Promise((resolve) => {
+                try {
+                    const req = indexedDB.open(RF_CACHE_DB, RF_CACHE_DB_VERSION);
+                    req.onupgradeneeded = () => {
+                        const db = req.result;
+                        if (!db.objectStoreNames.contains(RF_CACHE_STORE)) {
+                            db.createObjectStore(RF_CACHE_STORE, { keyPath:'key' });
+                        }
+                    };
+                    req.onsuccess = () => resolve(req.result);
+                    req.onerror = () => {
+                        console.warn('Cache local indisponível:', req.error);
+                        resolve(null);
+                    };
+                } catch (e) {
+                    console.warn('Cache local indisponível:', e);
+                    resolve(null);
+                }
+            });
+            return rfCacheDbPromise;
+        }
+
+        async function rfCacheGet(key) {
+            const db = await rfAbrirCacheDB();
+            if (!db || !key) return null;
+            return new Promise(resolve => {
+                try {
+                    const tx = db.transaction(RF_CACHE_STORE, 'readonly');
+                    const req = tx.objectStore(RF_CACHE_STORE).get(key);
+                    req.onsuccess = () => resolve(req.result || null);
+                    req.onerror = () => resolve(null);
+                } catch (e) { resolve(null); }
+            });
+        }
+
+        async function rfCacheSet(key, data) {
+            const db = await rfAbrirCacheDB();
+            if (!db || !key) return false;
+            return new Promise(resolve => {
+                try {
+                    const tx = db.transaction(RF_CACHE_STORE, 'readwrite');
+                    tx.objectStore(RF_CACHE_STORE).put({ key, savedAt:Date.now(), data });
+                    tx.oncomplete = () => resolve(true);
+                    tx.onerror = () => resolve(false);
+                } catch (e) { resolve(false); }
+            });
+        }
+
+        function rfFormatarDataHoraCache(ts) {
+            const n = Number(ts || 0);
+            if (!n) return 'horário não informado';
+            try {
+                return new Date(n).toLocaleString('pt-BR', {
+                    day:'2-digit', month:'2-digit', year:'numeric',
+                    hour:'2-digit', minute:'2-digit'
+                });
+            } catch (e) { return 'horário não informado'; }
+        }
+
+        function rfMostrarBannerCache(estado, savedAt = 0) {
+            const banner = document.getElementById('rf-cache-banner');
+            const titulo = document.getElementById('rf-cache-banner-title');
+            const texto = document.getElementById('rf-cache-banner-text');
+            if (!banner || !titulo || !texto) return;
+
+            clearTimeout(rfCacheFreshTimer);
+            banner.classList.remove('hidden','is-stale','is-offline','is-fresh');
+
+            if (estado === 'stale') {
+                banner.classList.add('is-stale');
+                titulo.textContent = 'Exibindo dados salvos neste dispositivo';
+                texto.textContent = `Última cópia: ${rfFormatarDataHoraCache(savedAt)}. Os dados podem estar desatualizados. Atualizando em segundo plano...`;
+            } else if (estado === 'offline') {
+                banner.classList.add('is-offline');
+                titulo.textContent = 'Não foi possível atualizar os dados';
+                texto.textContent = `Continuamos exibindo a cópia salva neste dispositivo em ${rfFormatarDataHoraCache(savedAt)}. Os dados podem estar desatualizados.`;
+            } else if (estado === 'fresh') {
+                banner.classList.add('is-fresh');
+                titulo.textContent = 'Dados atualizados';
+                texto.textContent = 'A cópia exibida foi conferida com o servidor agora.';
+                rfCacheFreshTimer = setTimeout(() => banner.classList.add('hidden'), 2600);
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        function rfDefinirModoCacheLocal(ativo, savedAt = 0, offline = false) {
+            const estavaEmCache = rfUsandoCacheLocal;
+            rfUsandoCacheLocal = !!ativo;
+            if (savedAt) rfCacheSalvoEmAtual = Number(savedAt) || rfCacheSalvoEmAtual;
+            document.body.classList.toggle('rf-cache-stale', rfUsandoCacheLocal);
+
+            if (rfUsandoCacheLocal) {
+                rfMostrarBannerCache(offline ? 'offline' : 'stale', rfCacheSalvoEmAtual);
+            } else if (estavaEmCache && savedAt !== -1) {
+                rfMostrarBannerCache('fresh');
+            }
+        }
+
+        function rfGarantirDadosAtualizadosParaEscrita() {
+            if (!rfUsandoCacheLocal) return true;
+            alert('Os dados exibidos ainda são a última cópia salva neste dispositivo. Aguarde a atualização com o servidor antes de incluir, alterar ou excluir informações.');
+            return false;
+        }
+
+        // Proteção geral dos formulários durante a exibição temporária de dados locais.
+        document.addEventListener('submit', (event) => {
+            if (!rfUsandoCacheLocal) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            rfGarantirDadosAtualizadosParaEscrita();
+        }, true);
+
+        // Ações que gravam sem passar por submit.
+        document.addEventListener('click', (event) => {
+            if (!rfUsandoCacheLocal) return;
+            const btn = event.target.closest('button');
+            if (!btn) return;
+            const acao = String(btn.getAttribute('onclick') || '');
+            const gravaDireto = /(deletarItemAPI|alternarStatusPeriodo|salvarGradeLoteEmBloco|confirmarImportacaoCSV|modalCriarNovoPeriodo|alternarAtivoClienteAdmin|alternarAtivoUsuarioAdmin)/i.test(acao);
+            if (!gravaDireto) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            rfGarantirDadosAtualizadosParaEscrita();
+        }, true);
+
+        function rfBundleAtual() {
+            return {
+                TINVESTIMENTOS: Array.isArray(listaInvestimentos) ? listaInvestimentos : [],
+                TCENTRO_CUSTO: Array.isArray(listaCC) ? listaCC : [],
+                TRECURSO: Array.isArray(listaRecursos) ? listaRecursos : [],
+                TBENEFICIOS: Array.isArray(listaBeneficios) ? listaBeneficios : [],
+                TFUNCIONARIO: Array.isArray(listaFuncionarios) ? listaFuncionarios : [],
+                TPLANO_CONTAS: Array.isArray(listaPlanoContas) ? listaPlanoContas : []
+            };
+        }
+
+        function rfAplicarBundleDados(data, renderizar = true) {
+            const d = data || {};
+            listaInvestimentos = Array.isArray(d.TINVESTIMENTOS) ? d.TINVESTIMENTOS : [];
+            listaCC = Array.isArray(d.TCENTRO_CUSTO) ? d.TCENTRO_CUSTO : [];
+            listaRecursos = Array.isArray(d.TRECURSO) ? d.TRECURSO : [];
+            listaBeneficios = Array.isArray(d.TBENEFICIOS) ? d.TBENEFICIOS : [];
+            listaFuncionarios = Array.isArray(d.TFUNCIONARIO) ? d.TFUNCIONARIO : [];
+            listaPlanoContas = Array.isArray(d.TPLANO_CONTAS) ? d.TPLANO_CONTAS : [];
+
+            preencherSelectsCentrosDeCusto();
+            preencherCheckboxesBeneficios();
+
+            if (renderizar) {
+                renderizarTabelaInvestimentosLocal();
+                renderizarTabelaCCLocal();
+                renderizarTabelaRecursosLocal();
+                renderizarTabelaBeneficiosLocal();
+                renderizarTabelaFuncionariosLocal();
+                renderizarTabelaPlanoContasLocal();
+
+                requestAnimationFrame(() => {
+                    try { v49PrepareTables(); v49UpdateKPIs(); }
+                    catch (e) { console.warn('Atualização visual do cache:', e); }
+                });
+            }
+        }
+
+        async function rfSalvarBundleAtualNoCache() {
+            if (!usuarioLogado || !periodoAtivoObj) return false;
+            return rfCacheSet(
+                rfCacheChave('bundle', usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID),
+                rfBundleAtual()
+            );
+        }
+
+        async function rfCarregarBundleDoCache(clienteId, periodoId) {
+            if (!clienteId || !periodoId) return null;
+            const rec = await rfCacheGet(rfCacheChave('bundle', clienteId, periodoId));
+            if (!rec || !rec.data) return null;
+            rfAplicarBundleDados(rec.data, true);
+            return rec;
+        }
+
+        async function rfCarregarEstadoInicialDoCache() {
+            if (!usuarioLogado) return { ok:false };
+            const clienteId = String(usuarioLogado.TCLIENTE_ID || '');
+            if (!clienteId) return { ok:false };
+
+            const [empresaRec, periodosRec, padroesRec] = await Promise.all([
+                rfCacheGet(rfCacheChave('empresa', clienteId)),
+                rfCacheGet(rfCacheChave('periodos', clienteId)),
+                rfCacheGet(rfCacheChave('padroes'))
+            ]);
+
+            if (empresaRec?.data) {
+                empresaLogadaNome = empresaRec.data.nome || empresaRec.data.TCLIENTE_NOME || clienteId;
+                empresaLogadaCnpj = empresaRec.data.cnpj || empresaRec.data.TCLIENTE_CNPJ || '---';
+            }
+
+            if (padroesRec?.data && Array.isArray(padroesRec.data)) {
+                tabelaPadroes = padroesRec.data;
+                if (typeof rfAplicarPadroesNaTela === 'function') rfAplicarPadroesNaTela();
+            }
+
+            if (!periodosRec?.data || !Array.isArray(periodosRec.data) || !periodosRec.data.length) {
+                return { ok:false };
+            }
+
+            if (typeof rfAplicarPeriodosNaTela === 'function') {
+                rfAplicarPeriodosNaTela(periodosRec.data, '');
+            } else {
+                listaPeriodos = periodosRec.data;
+            }
+
+            if (!periodoAtivoObj) return { ok:false };
+            const bundleRec = await rfCarregarBundleDoCache(clienteId, periodoAtivoObj.TPERIODO_ID);
+            if (!bundleRec) return { ok:false };
+
+            atualizarTagsPeriodoHeader();
+            preencherFormularioConfigPeriodo();
+            renderizarTabelaPeriodosHist();
+            verificarStatusBloqueioPeriodo();
+
+            rfDefinirModoCacheLocal(true, bundleRec.savedAt, false);
+            return { ok:true, savedAt:bundleRec.savedAt, periodoId:String(periodoAtivoObj.TPERIODO_ID || '') };
+        }
+
+        async function rfSincronizarCacheEmSegundoPlano(periodoPreferido = '') {
+            if (!usuarioLogado) return false;
+            if (rfSyncBackgroundPromise) return rfSyncBackgroundPromise;
+
+            rfSyncBackgroundPromise = (async () => {
+                const clienteId = String(usuarioLogado.TCLIENTE_ID || '');
+                const preferido = String(periodoPreferido || periodoAtivoObj?.TPERIODO_ID || '');
+                try {
+                    setSyncStatus(true, 'Atualizando dados...');
+
+                    const [resClientes, resPeriodos, resPadroes] = await Promise.all([
+                        fetch(`${API_URL}?action=TCLIENTE`, {cache:'no-store'}),
+                        fetch(`${API_URL}?action=TPERIODO`, {cache:'no-store'}),
+                        fetch(`${API_URL}?action=PADROES`, {cache:'no-store'})
+                    ]);
+
+                    const [clientes, periodosTodos, padroes] = await Promise.all([
+                        v49ResponseJSON(resClientes, 'TCLIENTE atualização'),
+                        v49ResponseJSON(resPeriodos, 'TPERIODO atualização'),
+                        v49ResponseJSON(resPadroes, 'PADROES atualização')
+                    ]);
+
+                    const cli = Array.isArray(clientes)
+                        ? clientes.find(c => String(c.TCLIENTE_ID) === clienteId)
+                        : null;
+                    if (cli) {
+                        empresaLogadaNome = cli.TCLIENTE_NOME || cli.TCLIENTE_ID || clienteId;
+                        empresaLogadaCnpj = cli.TCLIENTE_CNPJ || '---';
+                        rfCacheSet(rfCacheChave('empresa', clienteId), {
+                            nome:empresaLogadaNome, cnpj:empresaLogadaCnpj
+                        }).catch(() => {});
+                    }
+
+                    const periodosEmpresa = Array.isArray(periodosTodos)
+                        ? periodosTodos.filter(p => String(p.TCLIENTE_ID) === clienteId)
+                        : [];
+                    if (!periodosEmpresa.length) throw new Error('Nenhum período retornado pelo servidor.');
+
+                    const selecaoUsuario = String(document.getElementById('global-periodo-select')?.value || periodoAtivoObj?.TPERIODO_ID || '');
+                    const preferenciaFinal = selecaoUsuario || preferido;
+                    rfAplicarPeriodosNaTela(periodosEmpresa, preferenciaFinal);
+                    rfCacheSet(rfCacheChave('periodos', clienteId), periodosEmpresa).catch(() => {});
+
+                    tabelaPadroes = Array.isArray(padroes) ? padroes : [];
+                    rfAplicarPadroesNaTela();
+                    rfCacheSet(rfCacheChave('padroes'), tabelaPadroes).catch(() => {});
+
+                    const periodoId = String(periodoAtivoObj?.TPERIODO_ID || '');
+                    if (!periodoId) throw new Error('Período ativo não identificado.');
+
+                    const resBundle = await fetch(
+                        `${API_URL}?action=PERIODO_BUNDLE&clienteId=${encodeURIComponent(clienteId)}&periodoId=${encodeURIComponent(periodoId)}`,
+                        {cache:'no-store'}
+                    );
+                    const bundle = await v49ResponseJSON(resBundle, 'PERIODO_BUNDLE atualização');
+                    if (!bundle || bundle.status !== 'success' || !bundle.data) {
+                        throw new Error(bundle?.message || 'Bundle do período indisponível.');
+                    }
+
+                    await rfCacheSet(rfCacheChave('bundle', clienteId, periodoId), bundle.data);
+                    if (String(periodoAtivoObj?.TPERIODO_ID || '') !== periodoId) {
+                        return true; // o usuário trocou de período enquanto a atualização rodava
+                    }
+                    rfAplicarBundleDados(bundle.data, true);
+                    atualizarTagsPeriodoHeader();
+                    preencherFormularioConfigPeriodo();
+                    renderizarTabelaPeriodosHist();
+                    verificarStatusBloqueioPeriodo();
+
+                    rfDefinirModoCacheLocal(false);
+                    setSyncStatus(false, 'Atualizado');
+
+                    const secResultados = document.getElementById('section-resultados');
+                    if (secResultados && !secResultados.classList.contains('hidden')) {
+                        await gerarAnalisesEResultados();
+                    }
+                    return true;
+                } catch (e) {
+                    console.warn('Atualização em segundo plano indisponível:', e);
+                    if (rfUsandoCacheLocal) rfDefinirModoCacheLocal(true, rfCacheSalvoEmAtual, true);
+                    setSyncStatus(false, 'Dados locais');
+                    return false;
+                } finally {
+                    rfSyncBackgroundPromise = null;
+                }
+            })();
+
+            return rfSyncBackgroundPromise;
+        }
+
+        // ======================================================
+        // V5.2.16 — ESTADO DE EDIÇÃO RESILIENTE / ANTI-DUPLICAÇÃO
         // ======================================================
         // Antes, cada formulário dependia exclusivamente de um input hidden para
         // decidir entre UPDATE e CREATE. Se esse hidden fosse limpo/recriado por
@@ -3530,10 +3937,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 fecharModalGradeLote();
                 setSyncStatus(false);
 
-                if (entidadeGradeAtiva === 'TCENTRO_CUSTO') setTimeout(carregarCentrosDeCusto, 1500);
-                else if (entidadeGradeAtiva === 'TRECURSO') setTimeout(carregarRecursos, 1500);
-                else if (entidadeGradeAtiva === 'TFUNCIONARIO') setTimeout(carregarFuncionarios, 1500);
-                else if (entidadeGradeAtiva === 'TPLANO_CONTAS') setTimeout(carregarPlanoContas, 1500);
+                setTimeout(() => carregarTudoDoPeriodo(), 1500);
 
             } catch(e) {
                 alert("Erro ao enviar o lote de dados.");
@@ -3830,7 +4234,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             alert(`${sucessos} contas do Plano de Contas foram importadas com sucesso!`);
             fecharModalImportarPlano();
             setSyncStatus(false);
-            setTimeout(carregarPlanoContas, 1500);
+            setTimeout(() => carregarTudoDoPeriodo(), 1500);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -3839,7 +4243,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if (savedUser) {
                 try {
                     usuarioLogado = JSON.parse(savedUser);
-                    buscarNomeEmpresa().then(() => { iniciarSessao(); });
+                    iniciarSessao();
                 } catch(e) { localStorage.removeItem('usuarioLogadoRF'); }
             }
         });
@@ -3954,7 +4358,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.15', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.16', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -4030,16 +4434,28 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
         async function buscarNomeEmpresa() {
             try {
-                const res = await fetch(`${API_URL}?action=TCLIENTE`);
+                const res = await fetch(`${API_URL}?action=TCLIENTE`, {cache:'no-store'});
                 const clientes = await v49ResponseJSON(res, "TCLIENTE");
                 const cli = clientes.find(c => String(c.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
                 if (cli) {
                     empresaLogadaNome = cli.TCLIENTE_NOME || cli.TCLIENTE_ID || usuarioLogado.TCLIENTE_ID;
                     empresaLogadaCnpj = cli.TCLIENTE_CNPJ || "---";
+                    rfCacheSet(rfCacheChave('empresa', usuarioLogado.TCLIENTE_ID), {
+                        nome:empresaLogadaNome,
+                        cnpj:empresaLogadaCnpj
+                    }).catch(() => {});
                 }
+                return true;
             } catch (e) {
-                empresaLogadaNome = usuarioLogado.TCLIENTE_ID;
-                empresaLogadaCnpj = "---";
+                const rec = await rfCacheGet(rfCacheChave('empresa', usuarioLogado?.TCLIENTE_ID || ''));
+                if (rec?.data) {
+                    empresaLogadaNome = rec.data.nome || usuarioLogado.TCLIENTE_ID;
+                    empresaLogadaCnpj = rec.data.cnpj || '---';
+                } else {
+                    empresaLogadaNome = usuarioLogado.TCLIENTE_ID;
+                    empresaLogadaCnpj = "---";
+                }
+                return false;
             }
         }
 
@@ -4052,7 +4468,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if (!(await validarSessaoPersistente(false))) return;
 
             document.body.classList.remove('rf-app-ready');
-            rfAtualizarMensagemCarregamento('Validando acesso e preparando o ambiente...');
+            rfAtualizarMensagemCarregamento('Preparando o ambiente...');
 
             document.documentElement.classList.add('rf-has-session');
             document.getElementById('login-screen').classList.add('hidden');
@@ -4075,7 +4491,6 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 if (tabAdmin) tabAdmin.classList.remove('hidden');
                 if (wrapperAdminCliente) wrapperAdminCliente.classList.remove('hidden');
 
-                // Preserva o cliente original usado na autenticação.
                 if (!localStorage.getItem('rf_admin_cliente_login')) {
                     localStorage.setItem('rf_admin_cliente_login', String(usuarioLogado.TCLIENTE_ID || ''));
                 }
@@ -4108,6 +4523,27 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 if (localStorage.getItem('rf_ultima_aba') === 'admin') localStorage.setItem('rf_ultima_aba', 'res');
             }
 
+            const ultimaAba = localStorage.getItem('rf_ultima_aba');
+            const abaInicial = ultimaAba || (isAdm ? 'admin' : 'res');
+            const abaFinal = abaInicial === 'admin' && !isAdm ? 'res' : abaInicial;
+
+            // Portal cliente: tenta primeiro a cópia local do dispositivo.
+            // Se existir, a tela abre imediatamente e a API é revalidada sem bloquear o usuário.
+            if (!isAdm) {
+                rfAtualizarMensagemCarregamento('Abrindo a última cópia salva neste dispositivo...');
+                const cacheInicial = await rfCarregarEstadoInicialDoCache();
+                if (cacheInicial.ok) {
+                    atualizarTagsPeriodoHeader();
+                    alternarAbaCliente(abaFinal);
+                    document.getElementById('main-content').classList.remove('hidden');
+                    requestAnimationFrame(() => document.body.classList.add('rf-app-ready'));
+                    // Não aguarda: atualização ocorre atrás da tela já carregada.
+                    rfSincronizarCacheEmSegundoPlano(cacheInicial.periodoId);
+                    return;
+                }
+            }
+
+            // Primeiro acesso neste dispositivo (ou administrador): carregamento normal pela API.
             if (!isAdm) {
                 rfAtualizarMensagemCarregamento('Identificando sua empresa...');
                 await buscarNomeEmpresa();
@@ -4123,112 +4559,125 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             await carregarTudoDoPeriodo();
 
             atualizarTagsPeriodoHeader();
-
-            const ultimaAba = localStorage.getItem('rf_ultima_aba');
-            const abaInicial = ultimaAba || (isAdm ? 'admin' : 'res');
-            const abaFinal = abaInicial === 'admin' && !isAdm ? 'res' : abaInicial;
-
             rfAtualizarMensagemCarregamento('Montando a tela...');
             alternarAbaCliente(abaFinal);
 
             document.getElementById('main-content').classList.remove('hidden');
-            requestAnimationFrame(() => {
-                document.body.classList.add('rf-app-ready');
-            });
+            requestAnimationFrame(() => document.body.classList.add('rf-app-ready'));
+        }
+
+        function rfAplicarPadroesNaTela() {
+            const selectTipo = document.getElementById('cc-tipo');
+            const selectRateio = document.getElementById('cc-tipo-rateio');
+            const selectTipoRec = document.getElementById('rec-tipo');
+            const selectTpRegFunc = document.getElementById('func-tp-registro');
+
+            if (selectTipo) selectTipo.innerHTML = '<option value="">-- SELECIONE O TIPO --</option>';
+            if (selectRateio) selectRateio.innerHTML = '<option value="">-- SELECIONE O TIPO RATEIO --</option>';
+            if (selectTipoRec) selectTipoRec.innerHTML = '<option value="">-- SELECIONE O TIPO RECURSO --</option>';
+            if (selectTpRegFunc) selectTpRegFunc.innerHTML = '<option value="">-- SELECIONE TIPO REGISTRO --</option>';
+
+            if (Array.isArray(tabelaPadroes)) {
+                tabelaPadroes.forEach(p => {
+                    if (p.TCENTRO_CUSTO_TIPO && selectTipo) selectTipo.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO.toUpperCase()}</option>`;
+                    if (p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS && selectRateio) selectRateio.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS.toUpperCase()}</option>`;
+                    if (p.TRECURSO_TIPO && selectTipoRec) selectTipoRec.innerHTML += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO.toUpperCase()}</option>`;
+                    if (p.TFUNCIONARIO_TP_REGISTRO && selectTpRegFunc) selectTpRegFunc.innerHTML += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO.toUpperCase()}</option>`;
+                });
+            }
         }
 
         async function carregarPadroes() {
             try {
                 setSyncStatus(true);
-                const response = await fetch(`${API_URL}?action=PADROES`);
+                const response = await fetch(`${API_URL}?action=PADROES`, {cache:'no-store'});
                 tabelaPadroes = await v49ResponseJSON(response, "PADROES");
-
-                const selectTipo = document.getElementById('cc-tipo');
-                const selectRateio = document.getElementById('cc-tipo-rateio');
-                const selectTipoRec = document.getElementById('rec-tipo');
-                const selectTpRegFunc = document.getElementById('func-tp-registro');
-
-                if (selectTipo) selectTipo.innerHTML = '<option value="">-- SELECIONE O TIPO --</option>';
-                if (selectRateio) selectRateio.innerHTML = '<option value="">-- SELECIONE O TIPO RATEIO --</option>';
-                if (selectTipoRec) selectTipoRec.innerHTML = '<option value="">-- SELECIONE O TIPO RECURSO --</option>';
-                if (selectTpRegFunc) selectTpRegFunc.innerHTML = '<option value="">-- SELECIONE TIPO REGISTRO --</option>';
-
-                if (Array.isArray(tabelaPadroes)) {
-                    tabelaPadroes.forEach(p => {
-                        if (p.TCENTRO_CUSTO_TIPO && selectTipo) selectTipo.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO}">${p.TCENTRO_CUSTO_TIPO.toUpperCase()}</option>`;
-                        if (p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS && selectRateio) selectRateio.innerHTML += `<option value="${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS}">${p.TCENTRO_CUSTO_TIPO_RATEIO_HORAS.toUpperCase()}</option>`;
-                        if (p.TRECURSO_TIPO && selectTipoRec) selectTipoRec.innerHTML += `<option value="${p.TRECURSO_TIPO}">${p.TRECURSO_TIPO.toUpperCase()}</option>`;
-                        if (p.TFUNCIONARIO_TP_REGISTRO && selectTpRegFunc) selectTpRegFunc.innerHTML += `<option value="${p.TFUNCIONARIO_TP_REGISTRO}">${p.TFUNCIONARIO_TP_REGISTRO.toUpperCase()}</option>`;
-                    });
-                }
+                if (!Array.isArray(tabelaPadroes)) tabelaPadroes = [];
+                rfAplicarPadroesNaTela();
+                rfCacheSet(rfCacheChave('padroes'), tabelaPadroes).catch(() => {});
                 setSyncStatus(false);
-            } catch(e) { console.error("Erro ao carregar padrões", e); setSyncStatus(false, "Erro Padrões"); }
+                return true;
+            } catch(e) {
+                console.error("Erro ao carregar padrões", e);
+                setSyncStatus(false, "Erro Padrões");
+                return false;
+            }
         }
 
-        async function carregarPeriodosDoCliente() {
+        function rfAplicarPeriodosNaTela(periodos, periodoPreferidoId = '') {
             const select = document.getElementById('global-periodo-select');
             const selectCompare = document.getElementById('res-compare-select');
-            if(select) select.innerHTML = '<option value="">Carregando...</option>';
+            listaPeriodos = Array.isArray(periodos) ? periodos : [];
+
+            if (select) select.innerHTML = '';
+            if (selectCompare) selectCompare.innerHTML = '<option value="">Sem Comparativo (Apenas Ativo)</option>';
+
+            listaPeriodos.forEach(p => {
+                const optText = formatarNomePeriodoLimpo(p);
+                if (select) select.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
+                if (selectCompare) selectCompare.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
+            });
+
+            const preferido = periodoPreferidoId
+                ? listaPeriodos.find(p => String(p.TPERIODO_ID) === String(periodoPreferidoId))
+                : null;
+            const atual = preferido || listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0] || null;
+
+            periodoAtivoObj = atual;
+            if (select && atual) select.value = atual.TPERIODO_ID;
+            rfV5211AtualizarSelectComparativo();
+            atualizarTagsPeriodoHeader();
+            preencherFormularioConfigPeriodo();
+            requestAnimationFrame(() => preencherFormularioConfigPeriodo());
+            renderizarTabelaPeriodosHist();
+            verificarStatusBloqueioPeriodo();
+            return atual;
+        }
+
+        async function carregarPeriodosDoCliente(periodoPreferidoId = '') {
+            const select = document.getElementById('global-periodo-select');
+            if (select && !listaPeriodos.length) select.innerHTML = '<option value="">Carregando...</option>';
 
             try {
                 setSyncStatus(true);
-                const res = await fetch(`${API_URL}?action=TPERIODO`);
+                const res = await fetch(`${API_URL}?action=TPERIODO`, {cache:'no-store'});
                 const responseText = await res.text();
-                
+
                 let data;
-                try {
-                    data = JSON.parse(responseText);
-                } catch (jsonErr) {
+                try { data = JSON.parse(responseText); }
+                catch (jsonErr) {
                     console.error("Resposta da API não é JSON:", responseText);
                     throw new Error("Resposta inválida da API");
                 }
 
-                if (!Array.isArray(data)) {
-                    throw new Error(data.message || "Erro retornado pela API");
-                }
+                if (!Array.isArray(data)) throw new Error(data.message || "Erro retornado pela API");
 
-                listaPeriodos = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                const periodosEmpresa = data.filter(p => String(p.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
 
-                if (listaPeriodos.length === 0) {
+                if (periodosEmpresa.length === 0) {
                     const payload = {
                         sheet: "TPERIODO",
                         data: [usuarioLogado.TCLIENTE_ID, "", rfSugerirNomeNovoPeriodo(), "ABERTO", "SIM", 0, 0, 0, 0, 0, "NAO"]
                     };
-                    await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
-                    setTimeout(carregarPeriodosDoCliente, 1500);
-                    return;
+                    await fetch(API_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+                    setTimeout(() => carregarPeriodosDoCliente(periodoPreferidoId), 1500);
+                    return false;
                 }
 
-                if(select) select.innerHTML = '';
-                if(selectCompare) selectCompare.innerHTML = '<option value="">Sem Comparativo (Apenas Ativo)</option>';
-
-                listaPeriodos.forEach(p => {
-                    const optText = formatarNomePeriodoLimpo(p);
-                    if(select) select.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
-                    if(selectCompare) selectCompare.innerHTML += `<option value="${p.TPERIODO_ID}">${optText}</option>`;
-                });
-
-                const atual = listaPeriodos.find(p => String(p.TPERIODO_ATUAL).toUpperCase() === 'SIM') || listaPeriodos[0];
-                if(select) select.value = atual.TPERIODO_ID;
-                periodoAtivoObj = atual;
-                rfV5211AtualizarSelectComparativo();
-
-                atualizarTagsPeriodoHeader();
-                preencherFormularioConfigPeriodo();
-                requestAnimationFrame(() => preencherFormularioConfigPeriodo());
-                renderizarTabelaPeriodosHist();
-                verificarStatusBloqueioPeriodo();
+                rfAplicarPeriodosNaTela(periodosEmpresa, periodoPreferidoId);
+                rfCacheSet(rfCacheChave('periodos', usuarioLogado.TCLIENTE_ID), periodosEmpresa).catch(() => {});
                 setSyncStatus(false);
-
-            } catch (e) { 
+                return true;
+            } catch (e) {
                 console.error("Erro em carregarPeriodosDoCliente:", e);
-                if(select) select.innerHTML = '<option value="">Erro ao carregar</option>'; 
-                setSyncStatus(false, "Erro API"); 
+                if (select && !listaPeriodos.length) select.innerHTML = '<option value="">Erro ao carregar</option>';
+                setSyncStatus(false, "Erro API");
+                return false;
             }
         }
 
         // ======================================================
-        // V5.2.15 — CONTROLES DE PERÍODO
+        // V5.2.16 — CONTROLES DE PERÍODO
         // Corrige os botões "+ Novo / Clonar", "+ Criar / Duplicar Período"
         // e "Fechar / Reabrir Período", que existiam no HTML sem as funções JS.
         // ======================================================
@@ -4495,6 +4944,16 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             verificarStatusBloqueioPeriodo();
             preencherFormularioConfigPeriodo();
 
+            const cacheRec = await rfCarregarBundleDoCache(usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID);
+            if (cacheRec) {
+                rfDefinirModoCacheLocal(true, cacheRec.savedAt, false);
+                const secResultados = document.getElementById('section-resultados');
+                if (secResultados && !secResultados.classList.contains('hidden')) gerarAnalisesEResultados();
+                // Atualiza sem segurar a troca de tela.
+                carregarTudoDoPeriodo({ silencioso:true });
+                return;
+            }
+
             setSyncStatus(true, "Carregando período...");
             await carregarTudoDoPeriodo();
             setSyncStatus(false);
@@ -4577,9 +5036,10 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 btn.innerText = "Salvar Parâmetros";
                 btn.disabled = false;
                 setSyncStatus(false);
-                setTimeout(() => {
-                    carregarPeriodosDoCliente();
-                    carregarCentrosDeCusto();
+                const periodoMantido = String(periodoAtivoObj?.TPERIODO_ID || '');
+                setTimeout(async () => {
+                    await carregarPeriodosDoCliente(periodoMantido);
+                    await carregarTudoDoPeriodo();
                 }, 1000);
             });
         }
@@ -4628,6 +5088,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 }
 
                 renderizarTabelaInvestimentosLocal();
+                rfSalvarBundleAtualNoCache().catch(() => {});
                 setSyncStatus(false);
             } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar investimentos.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
@@ -4715,7 +5176,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 alert(editingId ? "Investimento atualizado!" : "Investimento cadastrado!");
                 limparFormInv();
                 setSyncStatus(false);
-                setTimeout(carregarInvestimentos, 1500);
+                setTimeout(() => carregarTudoDoPeriodo(), 1500);
             } catch(err) {
                 alert("Erro ao gravar investimento.");
                 btn.innerText = editingId ? "Atualizar Investimento" : "Salvar Investimento";
@@ -4732,120 +5193,87 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             document.getElementById('btn-cancelar-inv').classList.add('hidden');
         }
 
-        let rfCarregamentoPeriodoPromise = null;
+        const rfCarregamentosPeriodo = new Map();
 
-        async function carregarTudoDoPeriodo() {
-            if (!usuarioLogado || !periodoAtivoObj) return;
+        async function carregarTudoDoPeriodo(opcoes = {}) {
+            if (!usuarioLogado || !periodoAtivoObj) return false;
 
-            // Impede dois carregamentos completos simultâneos.
-            if (rfCarregamentoPeriodoPromise) {
-                return rfCarregamentoPeriodoPromise;
-            }
+            const clienteRaw = String(usuarioLogado.TCLIENTE_ID || '');
+            const periodoRaw = String(periodoAtivoObj.TPERIODO_ID || '');
+            const chave = `${clienteRaw}::${periodoRaw}`;
 
-            rfCarregamentoPeriodoPromise = (async () => {
-                setSyncStatus(true, "Carregando período...");
+            if (rfCarregamentosPeriodo.has(chave)) return rfCarregamentosPeriodo.get(chave);
 
-                const clienteId = encodeURIComponent(usuarioLogado.TCLIENTE_ID);
-                const periodoId = encodeURIComponent(periodoAtivoObj.TPERIODO_ID);
+            const promise = (async () => {
+                if (!opcoes.silencioso) setSyncStatus(true, "Carregando período...");
 
                 try {
-                    // V5.2.6:
-                    // Em vez de 6 chamadas HTTP separadas, busca todas as bases
-                    // do período em uma única requisição ao Apps Script.
                     const response = await fetch(
-                        `${API_URL}?action=PERIODO_BUNDLE&clienteId=${clienteId}&periodoId=${periodoId}`,
-                        { cache: 'no-store' }
+                        `${API_URL}?action=PERIODO_BUNDLE&clienteId=${encodeURIComponent(clienteRaw)}&periodoId=${encodeURIComponent(periodoRaw)}`,
+                        { cache:'no-store' }
                     );
-
                     const bundle = await v49ResponseJSON(response, "PERIODO_BUNDLE");
 
-                    if (
-                        !bundle ||
-                        bundle.status !== "success" ||
-                        !bundle.data
-                    ) {
+                    if (!bundle || bundle.status !== "success" || !bundle.data) {
                         throw new Error(bundle?.message || "Bundle do período indisponível.");
                     }
 
-                    listaInvestimentos = Array.isArray(bundle.data.TINVESTIMENTOS)
-                        ? bundle.data.TINVESTIMENTOS : [];
+                    // Sempre salva a resposta do período correto, mesmo que o usuário já tenha mudado de período.
+                    await rfCacheSet(rfCacheChave('bundle', clienteRaw, periodoRaw), bundle.data);
 
-                    listaCC = Array.isArray(bundle.data.TCENTRO_CUSTO)
-                        ? bundle.data.TCENTRO_CUSTO : [];
+                    // Se houve troca de período enquanto a API respondia, não mistura dados na tela atual.
+                    if (String(usuarioLogado?.TCLIENTE_ID || '') !== clienteRaw ||
+                        String(periodoAtivoObj?.TPERIODO_ID || '') !== periodoRaw) {
+                        return true;
+                    }
 
-                    listaRecursos = Array.isArray(bundle.data.TRECURSO)
-                        ? bundle.data.TRECURSO : [];
-
-                    listaBeneficios = Array.isArray(bundle.data.TBENEFICIOS)
-                        ? bundle.data.TBENEFICIOS : [];
-
-                    listaFuncionarios = Array.isArray(bundle.data.TFUNCIONARIO)
-                        ? bundle.data.TFUNCIONARIO : [];
-
-                    listaPlanoContas = Array.isArray(bundle.data.TPLANO_CONTAS)
-                        ? bundle.data.TPLANO_CONTAS : [];
-
-                    // Dependências dos formulários
-                    preencherSelectsCentrosDeCusto();
-                    preencherCheckboxesBeneficios();
-
-                    // Renderiza tudo localmente, sem novas chamadas HTTP.
-                    renderizarTabelaInvestimentosLocal();
-                    renderizarTabelaCCLocal();
-                    renderizarTabelaRecursosLocal();
-                    renderizarTabelaBeneficiosLocal();
-                    renderizarTabelaFuncionariosLocal();
-                    renderizarTabelaPlanoContasLocal();
-
-                    // Atualiza KPIs/totais depois que todas as linhas já existem.
-                    requestAnimationFrame(() => {
-                        try {
-                            v49PrepareTables();
-                            v49UpdateKPIs();
-                        } catch (e) {
-                            console.warn("Atualização visual pós-bundle:", e);
-                        }
-                    });
+                    rfAplicarBundleDados(bundle.data, true);
+                    rfDefinirModoCacheLocal(false);
 
                     const secResultados = document.getElementById('section-resultados');
                     if (secResultados && !secResultados.classList.contains('hidden')) {
                         await gerarAnalisesEResultados();
                     }
 
-                    setSyncStatus(false);
+                    if (!opcoes.silencioso) setSyncStatus(false, 'Atualizado');
                     return true;
-
                 } catch (bundleErr) {
-                    console.warn(
-                        "PERIODO_BUNDLE indisponível. Usando carregamento compatível:",
-                        bundleErr
-                    );
+                    console.warn("PERIODO_BUNDLE indisponível:", bundleErr);
 
-                    // Fallback: mantém compatibilidade caso o frontend seja
-                    // publicado alguns minutos antes do backend V5.2.6.
-                    await Promise.all([
-                        carregarInvestimentos(),
-                        carregarCentrosDeCusto(),
-                        carregarRecursos(),
-                        carregarBeneficios(),
-                        carregarFuncionarios(),
-                        carregarPlanoContas()
-                    ]);
-
-                    const secResultados = document.getElementById('section-resultados');
-                    if (secResultados && !secResultados.classList.contains('hidden')) {
-                        await gerarAnalisesEResultados();
+                    // Se já existe uma cópia local na tela, preserva-a em vez de substituir por mensagens de erro.
+                    if (rfUsandoCacheLocal && String(periodoAtivoObj?.TPERIODO_ID || '') === periodoRaw) {
+                        rfDefinirModoCacheLocal(true, rfCacheSalvoEmAtual, true);
+                        if (!opcoes.silencioso) setSyncStatus(false, 'Dados locais');
+                        return false;
                     }
 
-                    setSyncStatus(false);
-                    return true;
+                    // Compatibilidade para primeiro acesso caso o bundle não esteja disponível.
+                    if (String(periodoAtivoObj?.TPERIODO_ID || '') === periodoRaw) {
+                        await Promise.all([
+                            carregarInvestimentos(),
+                            carregarCentrosDeCusto(),
+                            carregarRecursos(),
+                            carregarBeneficios(),
+                            carregarFuncionarios(),
+                            carregarPlanoContas()
+                        ]);
+                        await rfSalvarBundleAtualNoCache();
 
+                        const secResultados = document.getElementById('section-resultados');
+                        if (secResultados && !secResultados.classList.contains('hidden')) {
+                            await gerarAnalisesEResultados();
+                        }
+                        if (!opcoes.silencioso) setSyncStatus(false);
+                        return true;
+                    }
+                    return false;
                 } finally {
-                    rfCarregamentoPeriodoPromise = null;
+                    rfCarregamentosPeriodo.delete(chave);
                 }
             })();
 
-            return rfCarregamentoPeriodoPromise;
+            rfCarregamentosPeriodo.set(chave, promise);
+            return promise;
         }
 
         function alternarAbaCliente(aba) {
@@ -4896,27 +5324,27 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 }
 
                 preencherFormularioConfigPeriodo();
-                carregarInvestimentos();
+                renderizarTabelaInvestimentosLocal();
             } else if (aba === 'cc') {
                 document.getElementById('section-centro-custo').classList.remove('hidden');
                 document.getElementById('tab-btn-cc').className = classActive;
-                carregarCentrosDeCusto();
+                renderizarTabelaCCLocal();
             } else if (aba === 'rec') {
                 document.getElementById('section-recursos').classList.remove('hidden');
                 document.getElementById('tab-btn-rec').className = classActive;
-                carregarRecursos();
+                renderizarTabelaRecursosLocal();
             } else if (aba === 'ben') {
                 document.getElementById('section-beneficios').classList.remove('hidden');
                 document.getElementById('tab-btn-ben').className = classActive;
-                carregarBeneficios();
+                renderizarTabelaBeneficiosLocal();
             } else if (aba === 'func') {
                 document.getElementById('section-funcionarios').classList.remove('hidden');
                 document.getElementById('tab-btn-func').className = classActive;
-                carregarFuncionarios();
+                renderizarTabelaFuncionariosLocal();
             } else if (aba === 'plc') {
                 document.getElementById('section-plano-contas').classList.remove('hidden');
                 document.getElementById('tab-btn-plc').className = classActive;
-                carregarPlanoContas();
+                renderizarTabelaPlanoContasLocal();
             } else if (aba === 'res') {
                 document.getElementById('section-resultados').classList.remove('hidden');
                 document.getElementById('tab-btn-res').className = classActive;
@@ -5038,6 +5466,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
                 preencherSelectsCentrosDeCusto();
                 renderizarTabelaCCLocal();
+                rfSalvarBundleAtualNoCache().catch(() => {});
                 setSyncStatus(false);
             } catch (e) { tbody.innerHTML = '<tr><td colspan="16" class="p-4 text-center text-red-400">Erro ao carregar dados.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
@@ -5144,7 +5573,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 alert(editingId ? "Centro de Custo atualizado com sucesso!" : "Centro de Custo gravado com sucesso!");
                 limparFormCC();
                 setSyncStatus(false);
-                setTimeout(carregarCentrosDeCusto, 1500);
+                setTimeout(() => carregarTudoDoPeriodo(), 1500);
             } catch (err) {
                 alert("Erro ao gravar Centro de Custo.");
                 btn.innerText = editingId ? "Atualizar Centro de Custo" : "Salvar Centro de Custo";
@@ -5196,6 +5625,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 }
 
                 renderizarTabelaRecursosLocal();
+                rfSalvarBundleAtualNoCache().catch(() => {});
                 setSyncStatus(false);
             } catch (e) { tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-center text-red-400">Erro ao carregar recursos.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
@@ -5285,7 +5715,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 alert(editingId ? "Recurso atualizado com sucesso!" : "Recurso gravado com sucesso!");
                 limparFormRec();
                 setSyncStatus(false);
-                setTimeout(carregarRecursos, 1500);
+                setTimeout(() => carregarTudoDoPeriodo(), 1500);
             } catch (err) {
                 alert("Erro ao gravar Recurso.");
                 btn.innerText = editingId ? "Atualizar Recurso" : "Salvar Recurso";
@@ -5323,6 +5753,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
                 preencherCheckboxesBeneficios();
                 renderizarTabelaBeneficiosLocal();
+                rfSalvarBundleAtualNoCache().catch(() => {});
                 setSyncStatus(false);
             } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-red-400">Erro ao carregar benefícios.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
@@ -5394,7 +5825,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 alert(editingId ? "Benefício atualizado com sucesso!" : "Benefício gravado com sucesso!");
                 limparFormBen();
                 setSyncStatus(false);
-                setTimeout(carregarBeneficios, 1500);
+                setTimeout(() => carregarTudoDoPeriodo(), 1500);
             } catch (err) {
                 alert("Erro ao gravar Benefício.");
                 btn.innerText = editingId ? "Atualizar Benefício" : "Salvar Benefício";
@@ -5501,6 +5932,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 }
 
                 renderizarTabelaFuncionariosLocal();
+                rfSalvarBundleAtualNoCache().catch(() => {});
                 setSyncStatus(false);
             } catch (e) { tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-400">Erro ao carregar funcionários.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
@@ -5688,7 +6120,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 alert(editingId ? "Funcionário atualizado com sucesso!" : "Funcionário gravado com sucesso!");
                 limparFormFunc();
                 setSyncStatus(false);
-                setTimeout(carregarFuncionarios, 1500);
+                setTimeout(() => carregarTudoDoPeriodo(), 1500);
             } catch (err) {
                 alert("Erro ao gravar Funcionário.");
                 btn.innerText = editingId ? "Atualizar Funcionário" : "Salvar Funcionário";
@@ -5819,6 +6251,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 }
 
                 renderizarTabelaPlanoContasLocal();
+                rfSalvarBundleAtualNoCache().catch(() => {});
                 setSyncStatus(false);
             } catch (e) { tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-red-400">Erro ao carregar plano de contas.</td></tr>'; setSyncStatus(false, "Erro API"); }
         }
@@ -5958,7 +6391,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 alert(editingId ? "Conta atualizada com sucesso!" : "Conta gravada com sucesso!");
                 limparFormPLC();
                 setSyncStatus(false);
-                setTimeout(carregarPlanoContas, 1500);
+                setTimeout(() => carregarTudoDoPeriodo(), 1500);
             } catch (err) {
                 alert("Erro ao gravar Conta.");
                 btn.innerText = editingId ? "Atualizar Conta" : "Salvar Conta";
@@ -5998,7 +6431,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 });
                 alert("Registro excluído!");
                 setSyncStatus(false);
-                setTimeout(callbackSucesso, 1500);
+                setTimeout(() => carregarTudoDoPeriodo(), 1500);
             } catch(e) {
                 alert("Erro ao excluir registro.");
                 setSyncStatus(false, "Erro ao excluir");
@@ -6029,7 +6462,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.15 — MOTOR DE DIAGNÓSTICO AUTOMÁTICO
+        // V5.2.16 — MOTOR DE DIAGNÓSTICO AUTOMÁTICO
         // Regras determinísticas usando somente números já calculados no sistema.
         // Não compara custo-hora/custos entre centros de custo.
         // ======================================================
@@ -6058,7 +6491,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         function rfV5210PeriodoOrdem(p) {
-            // V5.2.15 — a ordem histórica NÃO usa o nome do período.
+            // V5.2.16 — a ordem histórica NÃO usa o nome do período.
             // O cliente pode nomear livremente; a sequência é determinada apenas pelo ID gerado pelo sistema.
             const rawId = String(p?.TPERIODO_ID || '').trim().toUpperCase();
             const m = rawId.match(/(\d+)$/);
@@ -6070,7 +6503,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const ativoId = String(periodoAtivoObj.TPERIODO_ID || '');
             const ordemAtiva = rfV5210PeriodoOrdem(periodoAtivoObj);
 
-            // Regra V5.2.15: se não houver ordem confiável, NÃO compara automaticamente.
+            // Regra V5.2.16: se não houver ordem confiável, NÃO compara automaticamente.
             // Isso evita usar um período superior/futuro como histórico do período atual.
             if (ordemAtiva === null) return [];
 
@@ -6463,7 +6896,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         async function gerarAnalisesEResultadosCore() {
             if (!periodoAtivoObj) return;
 
-            const periodoCompareId = ""; // V5.2.15: comparativo manual removido; histórico é automático.
+            const periodoCompareId = ""; // V5.2.16: comparativo manual removido; histórico é automático.
             const periodDisplay = document.getElementById('dre-period-display');
             if(periodDisplay) periodDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
 
@@ -6544,34 +6977,53 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const dreAtiva = calcPeriodoDRE(periodoAtivoObj, listaCC, listaPlanoContas, listaFuncionarios);
             let dreCompare = periodoCompareObj ? calcPeriodoDRE(periodoCompareObj, listaCCCompare, listaPlanoCompare, listaFuncCompare) : null;
 
-            // V5.2.15 — histórico automático: compara o atual somente com períodos realmente anteriores; superiores/futuros são ignorados.
+            // V5.2.16 — histórico automático: quando a tela abriu pelo cache, usa também o histórico local
+            // e NÃO segura a abertura esperando as planilhas completas. Depois da revalidação, o histórico é atualizado pela API.
             const periodosAnteriores = rfV5210PeriodosAnteriores();
             let historicoDRE = [];
             if (periodosAnteriores.length) {
                 try {
+                    let podeMontarHistorico = true;
+
                     if (!todosCCEmpresa || !todosPlanoEmpresa || !todosFuncEmpresa) {
-                        const [resCCAll, resPlanoAll, resFuncAll] = await Promise.all([
-                            fetch(`${API_URL}?action=TCENTRO_CUSTO`).then(r=>v49ResponseJSON(r, 'TCENTRO_CUSTO histórico')),
-                            fetch(`${API_URL}?action=TPLANO_CONTAS`).then(r=>v49ResponseJSON(r, 'TPLANO_CONTAS histórico')),
-                            fetch(`${API_URL}?action=TFUNCIONARIO`).then(r=>v49ResponseJSON(r, 'TFUNCIONARIO histórico'))
-                        ]);
-                        todosCCEmpresa = resCCAll.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
-                        todosPlanoEmpresa = resPlanoAll.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
-                        todosFuncEmpresa = resFuncAll.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                        if (rfUsandoCacheLocal) {
+                            const histRec = await rfCacheGet(rfCacheChave('historico', usuarioLogado.TCLIENTE_ID));
+                            if (histRec?.data) {
+                                todosCCEmpresa = Array.isArray(histRec.data.cc) ? histRec.data.cc : [];
+                                todosPlanoEmpresa = Array.isArray(histRec.data.plano) ? histRec.data.plano : [];
+                                todosFuncEmpresa = Array.isArray(histRec.data.func) ? histRec.data.func : [];
+                            } else {
+                                podeMontarHistorico = false;
+                            }
+                        } else {
+                            const [resCCAll, resPlanoAll, resFuncAll] = await Promise.all([
+                                fetch(`${API_URL}?action=TCENTRO_CUSTO`, {cache:'no-store'}).then(r=>v49ResponseJSON(r, 'TCENTRO_CUSTO histórico')),
+                                fetch(`${API_URL}?action=TPLANO_CONTAS`, {cache:'no-store'}).then(r=>v49ResponseJSON(r, 'TPLANO_CONTAS histórico')),
+                                fetch(`${API_URL}?action=TFUNCIONARIO`, {cache:'no-store'}).then(r=>v49ResponseJSON(r, 'TFUNCIONARIO histórico'))
+                            ]);
+                            todosCCEmpresa = resCCAll.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                            todosPlanoEmpresa = resPlanoAll.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                            todosFuncEmpresa = resFuncAll.filter(item => String(item.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                            rfCacheSet(rfCacheChave('historico', usuarioLogado.TCLIENTE_ID), {
+                                cc:todosCCEmpresa, plano:todosPlanoEmpresa, func:todosFuncEmpresa
+                            }).catch(() => {});
+                        }
                     }
 
-                    historicoDRE = periodosAnteriores.map(p => {
-                        const pid = String(p.TPERIODO_ID);
-                        return {
-                            periodo:p,
-                            dre:calcPeriodoDRE(
-                                p,
-                                todosCCEmpresa.filter(x => String(x.TPERIODO_ID) === pid),
-                                todosPlanoEmpresa.filter(x => String(x.TPERIODO_ID) === pid),
-                                todosFuncEmpresa.filter(x => String(x.TPERIODO_ID) === pid)
-                            )
-                        };
-                    });
+                    if (podeMontarHistorico) {
+                        historicoDRE = periodosAnteriores.map(p => {
+                            const pid = String(p.TPERIODO_ID);
+                            return {
+                                periodo:p,
+                                dre:calcPeriodoDRE(
+                                    p,
+                                    todosCCEmpresa.filter(x => String(x.TPERIODO_ID) === pid),
+                                    todosPlanoEmpresa.filter(x => String(x.TPERIODO_ID) === pid),
+                                    todosFuncEmpresa.filter(x => String(x.TPERIODO_ID) === pid)
+                                )
+                            };
+                        });
+                    }
                 } catch (e) {
                     console.error('Erro ao montar histórico automático:', e);
                     historicoDRE = [];
@@ -6686,7 +7138,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if(elRent) elRent.innerText = rentabilidadeAtualPct.toFixed(2) + "% a.m.";
             if(elPB) elPB.innerText = paybackMeses > 0 ? `${paybackMeses.toFixed(1)} meses` : "N/A";
 
-            // V5.2.15 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
+            // V5.2.16 — diagnóstico atual + evolução automática contra o período anterior mais recente válido.
             const dreAnteriorMaisRecente = historicoDRE.length ? historicoDRE[0].dre : null;
             const rfV5210Diagnosticos = rfV528GerarDiagnosticos(
                 dreAtiva, dreAnteriorMaisRecente, investimentoTotal, pontoEquilibrioEconomico, rentabilidadeAtualPct, pontoEquilibrio
