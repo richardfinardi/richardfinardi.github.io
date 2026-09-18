@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.27 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.27">
+    <title>CONSULTORIA.RF V6 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.28">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1755,7 +1755,7 @@ body.light-mode .rf-grid-excel-pop{background:#fff;border-color:#d0d5dd}body.lig
 
 <style id="v5227-theme-config-polish">
 /* ================================================================
-   V5.2.27 — CONFIGURAÇÃO DO PERÍODO + POLIMENTO DE TEMAS/MODAIS
+   V6 — CONFIGURAÇÃO DO PERÍODO + POLIMENTO DE TEMAS/MODAIS
    ================================================================ */
 .rf-period-config-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--ui-border)}
 .rf-period-config-eyebrow{display:block;margin-bottom:3px;font-size:9px;letter-spacing:.14em;font-weight:900;color:#ff9a57}
@@ -1802,6 +1802,31 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
 @media(max-width:767px){.rf-period-config-head{flex-direction:column}.rf-period-config-meta{justify-content:flex-start}.rf-period-savebar{flex-direction:column;align-items:stretch}.rf-period-savebar button{width:100%;min-width:0}}
 </style>
 
+
+<style id="v5228-finalizacao-estudo">
+/* V6 — conclusão da análise, envio por e-mail e estudo de caso temporário */
+.rf-result-top-actions{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;justify-content:flex-end}
+.rf-final-btn,.rf-study-btn,.rf-study-action{border:1px solid rgba(255,132,54,.45);border-radius:.65rem;padding:.58rem .78rem;font-size:.75rem;font-weight:800;transition:.18s;white-space:nowrap}
+.rf-final-btn{background:#ff8436;color:#fff}.rf-final-btn:hover{filter:brightness(1.06)}
+.rf-final-btn.is-done{background:rgba(16,185,129,.13);border-color:rgba(16,185,129,.38);color:#6ee7b7}
+.rf-study-btn{background:rgba(59,130,246,.12);border-color:rgba(96,165,250,.35);color:#93c5fd}.rf-study-btn:hover{background:rgba(59,130,246,.2)}
+.rf-final-status{margin-top:.35rem;font-size:.68rem;color:#94a3b8}.rf-final-status strong{color:#e5e7eb}
+.rf-study-card{background:linear-gradient(180deg,rgba(37,99,235,.09),rgba(22,22,26,.98));border:1px solid rgba(96,165,250,.33);border-radius:1rem;padding:1rem;box-shadow:0 16px 42px rgba(0,0,0,.16)}
+.rf-study-head{display:flex;gap:1rem;justify-content:space-between;align-items:flex-start;border-bottom:1px solid rgba(148,163,184,.16);padding-bottom:.85rem;margin-bottom:.9rem}
+.rf-study-title{font-size:1rem;font-weight:900;color:#fff}.rf-study-sub{font-size:.72rem;color:#94a3b8;margin-top:.18rem;max-width:760px}.rf-study-badge{display:inline-flex;align-items:center;gap:.35rem;margin-left:.45rem;padding:.18rem .45rem;border-radius:999px;background:rgba(59,130,246,.16);border:1px solid rgba(96,165,250,.35);color:#93c5fd;font-size:.62rem;font-weight:900;vertical-align:middle}
+.rf-study-actions{display:flex;gap:.45rem;flex-wrap:wrap;justify-content:flex-end}.rf-study-action{background:#20242c;color:#e5e7eb;border-color:#3a414d}.rf-study-action:hover{background:#2a303a}.rf-study-action.primary{background:#2563eb;border-color:#3b82f6;color:#fff}.rf-study-action.orange{background:#ff8436;border-color:#ff8436;color:#fff}
+.rf-study-toggle{display:flex;align-items:center;justify-content:space-between;gap:1rem;background:rgba(15,23,42,.36);border:1px solid rgba(148,163,184,.15);border-radius:.75rem;padding:.75rem .85rem;margin-bottom:1rem}.rf-study-toggle label{font-size:.78rem;font-weight:800;color:#e5e7eb}.rf-study-toggle small{display:block;color:#94a3b8;font-weight:500;margin-top:.15rem}.rf-study-toggle input{width:1.15rem;height:1.15rem;accent-color:#ff8436}
+.rf-study-grid{display:grid;grid-template-columns:1fr;gap:1rem}.rf-study-section{background:rgba(13,13,15,.52);border:1px solid rgba(148,163,184,.14);border-radius:.8rem;overflow:hidden}.rf-study-section-head{padding:.75rem .85rem;border-bottom:1px solid rgba(148,163,184,.14)}.rf-study-section-head h4{color:#fff;font-size:.82rem;font-weight:900}.rf-study-section-head p{font-size:.66rem;color:#94a3b8;margin-top:.15rem}.rf-study-table-wrap{overflow:auto;max-height:340px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}.rf-study-table{width:100%;border-collapse:separate;border-spacing:0;min-width:760px;font-size:.71rem}.rf-study-table th{position:sticky;top:0;z-index:2;background:#111318;color:#cbd5e1;text-align:left;padding:.58rem .65rem;border-bottom:1px solid #2a3038;font-size:.64rem;text-transform:uppercase}.rf-study-table td{padding:.55rem .65rem;border-bottom:1px solid rgba(148,163,184,.10);color:#cbd5e1}.rf-study-table tr:last-child td{border-bottom:none}.rf-study-table input[type=number]{width:125px;padding:.44rem .5rem;border-radius:.45rem;border:1px solid #3a414d;background:#171a20;color:#fff;text-align:right}.rf-study-table input[type=checkbox]{width:1rem;height:1rem;accent-color:#ff8436}.rf-study-muted{color:#94a3b8}.rf-study-removed{opacity:.48;text-decoration:line-through}
+.rf-mail-backdrop{position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.68);display:flex;align-items:center;justify-content:center;padding:1rem}.rf-mail-backdrop.hidden{display:none}.rf-mail-modal{width:min(720px,100%);max-height:92vh;overflow:auto;background:#16161a;border:1px solid #333842;border-radius:1rem;box-shadow:0 24px 70px rgba(0,0,0,.45)}.rf-mail-head{display:flex;justify-content:space-between;gap:1rem;padding:1rem 1.1rem;border-bottom:1px solid #2b3038}.rf-mail-title{font-size:1rem;font-weight:900;color:#fff}.rf-mail-sub{font-size:.72rem;color:#94a3b8;margin-top:.2rem}.rf-mail-x{border:0;background:transparent;color:#9ca3af;font-size:1.5rem;cursor:pointer}.rf-mail-body{padding:1rem 1.1rem;display:grid;gap:.85rem}.rf-mail-note{background:rgba(255,132,54,.09);border:1px solid rgba(255,132,54,.28);border-radius:.75rem;padding:.75rem;font-size:.75rem;color:#d7dbe3}.rf-mail-note strong{color:#ff9c5c}.rf-mail-option{display:flex;gap:.55rem;align-items:flex-start;font-size:.78rem;color:#e5e7eb}.rf-mail-option input{margin-top:.14rem;accent-color:#ff8436}.rf-mail-users{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;padding:.65rem;border:1px solid #2d333d;border-radius:.7rem;background:#111318}.rf-mail-users-empty{color:#94a3b8;font-size:.72rem}.rf-mail-label{font-size:.72rem;font-weight:800;color:#cbd5e1}.rf-mail-input{width:100%;margin-top:.35rem;padding:.65rem .7rem;border:1px solid #39414d;border-radius:.6rem;background:#101217;color:#fff;font-size:.78rem}.rf-mail-foot{display:flex;justify-content:flex-end;gap:.55rem;padding:1rem 1.1rem;border-top:1px solid #2b3038}.rf-mail-foot button{padding:.58rem .85rem;border-radius:.6rem;font-size:.75rem;font-weight:900}.rf-mail-cancel{background:#242933;color:#e5e7eb;border:1px solid #39414d}.rf-mail-send{background:#ff8436;color:#fff;border:1px solid #ff8436}.rf-mail-send:disabled{opacity:.45;cursor:not-allowed}
+body.light-mode .rf-final-status{color:#64748b}body.light-mode .rf-final-status strong{color:#1f2937}
+body.light-mode .rf-final-btn.is-done{background:#ecfdf5;border-color:#a7f3d0;color:#047857}body.light-mode .rf-study-btn{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+body.light-mode .rf-study-card{background:linear-gradient(180deg,#eff6ff,#ffffff);border-color:#bfdbfe;box-shadow:0 12px 34px rgba(15,23,42,.08)}body.light-mode .rf-study-title,body.light-mode .rf-study-section-head h4,body.light-mode .rf-study-toggle label{color:#1f2937}body.light-mode .rf-study-sub,body.light-mode .rf-study-section-head p,body.light-mode .rf-study-muted{color:#64748b}
+body.light-mode .rf-study-toggle,body.light-mode .rf-study-section{background:#fff;border-color:#dbe3ee}body.light-mode .rf-study-table th{background:#f1f5f9;color:#334155;border-color:#dbe3ee}body.light-mode .rf-study-table td{color:#334155;border-color:#edf1f5}body.light-mode .rf-study-table input[type=number]{background:#fff;color:#111827;border-color:#cbd5e1}
+body.light-mode .rf-study-action{background:#f8fafc;color:#334155;border-color:#d7dee8}body.light-mode .rf-study-action:hover{background:#f1f5f9}
+body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0 24px 70px rgba(15,23,42,.22)}body.light-mode .rf-mail-head,body.light-mode .rf-mail-foot{border-color:#e2e8f0}body.light-mode .rf-mail-title{color:#1f2937}body.light-mode .rf-mail-sub{color:#64748b}body.light-mode .rf-mail-note{background:#fff7ed;border-color:#fed7aa;color:#475569}body.light-mode .rf-mail-users{background:#f8fafc;border-color:#dbe3ee}body.light-mode .rf-mail-option{color:#334155}body.light-mode .rf-mail-label{color:#334155}body.light-mode .rf-mail-input{background:#fff;color:#111827;border-color:#cbd5e1}body.light-mode .rf-mail-cancel{background:#f8fafc;color:#334155;border-color:#d7dee8}
+@media(max-width:767px){.rf-result-top-actions{justify-content:flex-start;width:100%}.rf-result-top-actions button{flex:1 1 auto}.rf-study-head{flex-direction:column}.rf-study-actions{justify-content:flex-start;width:100%}.rf-study-actions button{flex:1 1 auto}.rf-mail-users{grid-template-columns:1fr}.rf-study-card{padding:.8rem}.rf-mail-modal{max-height:95vh}.rf-study-table-wrap{max-height:55vh;touch-action:pan-x pan-y}}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1809,7 +1834,7 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.27</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V6</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1844,7 +1869,7 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.27</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V6</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2397,8 +2422,41 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
                 <div>
                     <h2 class="text-base md:text-lg font-bold text-white">Resultados & Análises</h2>
                     <p class="text-xs text-brand-muted mt-1">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></p>
+                    <p id="rf-finalizacao-status" class="rf-final-status">Cadastros ainda não marcados como concluídos.</p>
                 </div>
-                <button type="button" onclick="gerarPDFAnaliseGeral(event)" class="bg-brand-primary hover:bg-brand-hover text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-lg shadow-brand-primary/20 whitespace-nowrap">📄 Gerar PDF da Análise</button>
+                <div class="rf-result-top-actions">
+                    <button id="rf-btn-concluir-analise" type="button" onclick="rfAbrirModalEnvioAnalise('FINALIZACAO')" class="rf-final-btn">✓ Concluir cadastros e enviar análise</button>
+                    <button id="rf-btn-estudo-caso" type="button" onclick="rfIniciarEstudoCaso()" class="rf-study-btn hidden">🧪 Estudo de caso</button>
+                    <button type="button" onclick="gerarPDFAnaliseGeral(event)" class="bg-brand-primary hover:bg-brand-hover text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-lg shadow-brand-primary/20 whitespace-nowrap">📄 Gerar PDF da Análise</button>
+                </div>
+            </div>
+
+            <div id="rf-estudo-caso-panel" class="rf-study-card hidden">
+                <div class="rf-study-head">
+                    <div>
+                        <div class="rf-study-title">Estudo de Caso <span class="rf-study-badge">SIMULAÇÃO TEMPORÁRIA</span></div>
+                        <div class="rf-study-sub">Altere salários, retire funcionários, mude valores do Plano de Contas ou ignore a depreciação. A análise abaixo é recalculada na hora e <strong>nenhuma alteração é gravada no banco de dados</strong>.</div>
+                    </div>
+                    <div class="rf-study-actions">
+                        <button type="button" class="rf-study-action" onclick="rfEstudoRestaurar()">↺ Restaurar cenário</button>
+                        <button type="button" class="rf-study-action orange" onclick="rfAbrirModalEnvioAnalise('ESTUDO_CASO')">✉ Enviar cenário + PDF</button>
+                        <button type="button" class="rf-study-action" onclick="rfEncerrarEstudoCaso(true)">Fechar estudo</button>
+                    </div>
+                </div>
+                <div class="rf-study-toggle">
+                    <div><label for="rf-estudo-sem-dep">Desconsiderar depreciação no cenário</label><small>Ignora depreciação de recursos e prédio somente nesta simulação.</small></div>
+                    <input id="rf-estudo-sem-dep" type="checkbox" onchange="rfEstudoAlterarDepreciacao(this.checked)">
+                </div>
+                <div class="rf-study-grid">
+                    <div class="rf-study-section">
+                        <div class="rf-study-section-head"><h4>Funcionários</h4><p>Desmarque “Considerar” para simular a retirada do funcionário ou altere o salário-base.</p></div>
+                        <div class="rf-study-table-wrap"><table class="rf-study-table"><thead><tr><th>Considerar</th><th>Funcionário</th><th>Centro(s) de Custo</th><th>Salário atual</th><th>Salário simulado</th><th>Custo mensal simulado</th></tr></thead><tbody id="rf-estudo-func-body"></tbody></table></div>
+                    </div>
+                    <div class="rf-study-section">
+                        <div class="rf-study-section-head"><h4>Plano de Contas</h4><p>Altere o valor mensal da conta para testar o impacto no DRE, centros de custo e diagnóstico.</p></div>
+                        <div class="rf-study-table-wrap"><table class="rf-study-table"><thead><tr><th>Conta</th><th>Critério</th><th>Valor atual</th><th>Valor simulado</th></tr></thead><tbody id="rf-estudo-plano-body"></tbody></table></div>
+                    </div>
+                </div>
             </div>
 
             <div class="rf-result-kpi-grid grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6 gap-4">
@@ -2872,6 +2930,13 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
         let listaBeneficios = [];
         let listaFuncionarios = [];
         let listaPlanoContas = [];
+
+        // V6 — conclusão da análise e estudo de caso temporário
+        let rfFinalizacaoAtual = null;
+        let rfEstudoAtivo = false;
+        let rfEstudoBase = null;
+        let rfEstudoDraft = null;
+        let rfEstudoTimer = null;
         let tabelaPadroes = [];
         let chartCCInstance = null;
         let dadosCSVImportacao = [];
@@ -3641,7 +3706,8 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
                 DIAGNOSTICO_CONFIG: {
                     versaoId: rfDiagnosticoConfigVersaoAtual || 'PADRAO-5.2.22',
                     config: rfDiagnosticoConfigAtual || RF_DIAGNOSTICO_CONFIG_PADRAO
-                }
+                },
+                FINALIZACAO_ANALISE: rfFinalizacaoAtual || null
             };
         }
 
@@ -3662,6 +3728,11 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
             } else {
                 rfAplicarConfigDiagnosticoLocal(RF_DIAGNOSTICO_CONFIG_PADRAO, 'PADRAO-5.2.22');
             }
+
+            rfFinalizacaoAtual = d.FINALIZACAO_ANALISE && typeof d.FINALIZACAO_ANALISE === 'object'
+                ? d.FINALIZACAO_ANALISE
+                : rfFinalizacaoPadrao();
+            rfAtualizarControlesFinalizacao();
 
             preencherSelectsCentrosDeCusto();
             preencherCheckboxesBeneficios();
@@ -4220,6 +4291,7 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
         }
 
         async function trocarClienteAdmin() {
+            if (rfEstudoAtivo) await rfEncerrarEstudoCaso(false);
             if (!rfAdminEhAdministrador()) return;
             const sel = document.getElementById('admin-cliente-global-select');
             const id = String(sel?.value || '');
@@ -5639,7 +5711,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.27', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.28', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -6214,11 +6286,14 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         async function trocarPeriodoAtivo() {
+            if (rfEstudoAtivo) await rfEncerrarEstudoCaso(false);
             const id = document.getElementById('global-periodo-select').value;
             if(!id) return;
 
             periodoAtivoObj = listaPeriodos.find(p => String(p.TPERIODO_ID) === String(id));
             if(!periodoAtivoObj) return;
+            rfFinalizacaoAtual = rfFinalizacaoPadrao();
+            rfAtualizarControlesFinalizacao();
 
             rfV5211AtualizarSelectComparativo();
             atualizarTagsPeriodoHeader();
@@ -6581,6 +6656,10 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         function alternarAbaCliente(aba) {
+            if (aba !== 'res' && rfEstudoAtivo) {
+                // O estudo é exclusivo da tela de análise e nunca contamina as telas de cadastro.
+                rfEncerrarEstudoCaso(false);
+            }
             if (usuarioLogado) localStorage.setItem('rf_ultima_aba', aba);
             if (window.innerWidth < 768) document.body.classList.remove('sidebar-open');
             document.getElementById('section-config-periodo').classList.add('hidden');
@@ -7889,6 +7968,443 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
 
+
+        // ======================================================
+        // V6 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
+        // ======================================================
+        function rfFinalizacaoPadrao() {
+            return {
+                TFINALIZACAO_CONCLUIDO:'NAO',
+                TFINALIZACAO_DATA:'',
+                TUSUARIO_ID:'',
+                TUSUARIO_EMAIL:'',
+                TFINALIZACAO_ULTIMO_ENVIO:''
+            };
+        }
+
+        function rfFinalizacaoConcluida() {
+            return String(rfFinalizacaoAtual?.TFINALIZACAO_CONCLUIDO || 'NAO').trim().toUpperCase() === 'SIM';
+        }
+
+        function rfFormatarDataFinalizacao(v) {
+            if (!v) return '';
+            const d = new Date(v);
+            if (Number.isNaN(d.getTime())) return String(v);
+            return d.toLocaleString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+        }
+
+        function rfAtualizarControlesFinalizacao() {
+            const btn = document.getElementById('rf-btn-concluir-analise');
+            const estudo = document.getElementById('rf-btn-estudo-caso');
+            const status = document.getElementById('rf-finalizacao-status');
+            const concluido = rfFinalizacaoConcluida();
+            if (btn) {
+                btn.classList.toggle('is-done', concluido);
+                btn.textContent = concluido ? '📨 Reenviar análise final' : '✓ Concluir cadastros e enviar análise';
+            }
+            if (estudo) estudo.classList.toggle('hidden', !concluido || rfEstudoAtivo);
+            if (status) {
+                if (rfEstudoAtivo) {
+                    status.innerHTML = '<strong>ESTUDO DE CASO ATIVO:</strong> os números exibidos são uma simulação temporária e não estão gravados.';
+                } else if (concluido) {
+                    const dt = rfFormatarDataFinalizacao(rfFinalizacaoAtual?.TFINALIZACAO_DATA);
+                    status.innerHTML = `✓ Cadastros marcados como concluídos${dt ? ` em <strong>${dt}</strong>` : ''}. O Estudo de Caso está liberado.`;
+                } else {
+                    status.textContent = 'Cadastros ainda não marcados como concluídos.';
+                }
+            }
+        }
+
+        function rfDeepClone(v) {
+            return v == null ? v : JSON.parse(JSON.stringify(v));
+        }
+
+        function rfEmailEsc(v) {
+            return String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]));
+        }
+
+        async function rfUsuariosEmpresaParaEnvio() {
+            try {
+                const r = await fetch(`${API_URL}?action=TUSUARIO`, {cache:'no-store'});
+                const all = await v49ResponseJSON(r, 'TUSUARIO');
+                return (Array.isArray(all) ? all : []).filter(u =>
+                    String(u.TCLIENTE_ID || '') === String(usuarioLogado?.TCLIENTE_ID || '') &&
+                    String(u.TUSUARIO_ATIVO || 'SIM').trim().toUpperCase() !== 'NAO'
+                );
+            } catch (e) {
+                console.warn('Não foi possível listar usuários para cópia:', e);
+                return [];
+            }
+        }
+
+        function rfEnsureMailModal() {
+            if (document.getElementById('rf-mail-backdrop')) return;
+            const el = document.createElement('div');
+            el.id = 'rf-mail-backdrop';
+            el.className = 'rf-mail-backdrop hidden';
+            el.innerHTML = `
+                <div class="rf-mail-modal">
+                    <div class="rf-mail-head">
+                        <div><div id="rf-mail-title" class="rf-mail-title"></div><div id="rf-mail-sub" class="rf-mail-sub"></div></div>
+                        <button type="button" class="rf-mail-x" onclick="rfFecharModalEnvioAnalise()">×</button>
+                    </div>
+                    <div class="rf-mail-body">
+                        <div id="rf-mail-note" class="rf-mail-note"></div>
+                        <label id="rf-mail-own-wrap" class="rf-mail-option"><input id="rf-mail-own" type="checkbox" checked><span id="rf-mail-own-text"></span></label>
+                        <div><div class="rf-mail-label">Com cópia para usuários cadastrados desta empresa</div><div id="rf-mail-users" class="rf-mail-users"></div></div>
+                        <label><div class="rf-mail-label">Outros e-mails (opcional)</div><textarea id="rf-mail-manual" class="rf-mail-input" rows="3" placeholder="email1@empresa.com; email2@empresa.com"></textarea></label>
+                    </div>
+                    <div class="rf-mail-foot">
+                        <button type="button" class="rf-mail-cancel" onclick="rfFecharModalEnvioAnalise()">Cancelar</button>
+                        <button id="rf-mail-send" type="button" class="rf-mail-send" onclick="rfEnviarAnaliseEmail()">Gerar PDF e enviar</button>
+                    </div>
+                </div>`;
+            document.body.appendChild(el);
+        }
+
+        let rfMailModo = 'FINALIZACAO';
+
+        async function rfAbrirModalEnvioAnalise(modo) {
+            rfMailModo = String(modo || 'FINALIZACAO').toUpperCase();
+            if (rfMailModo === 'FINALIZACAO' && !rfGarantirDadosAtualizadosParaEscrita()) return;
+            if (rfMailModo === 'ESTUDO_CASO' && !rfEstudoAtivo) return alert('Inicie primeiro o Estudo de Caso.');
+            if (!window.v51RelatorioAnalise) await gerarAnalisesEResultados();
+            rfEnsureMailModal();
+
+            const isStudy = rfMailModo === 'ESTUDO_CASO';
+            document.getElementById('rf-mail-title').textContent = isStudy ? 'Enviar Estudo de Caso' : (rfFinalizacaoConcluida() ? 'Reenviar análise final' : 'Concluir cadastros e enviar análise');
+            document.getElementById('rf-mail-sub').textContent = isStudy ? 'O cenário simulado e o PDF serão enviados sem alterar o banco de dados.' : 'Ao confirmar pela primeira vez, este período ficará marcado como cadastro concluído.';
+            document.getElementById('rf-mail-note').innerHTML = isStudy
+                ? '<strong>Richard receberá automaticamente</strong> e o seu e-mail também será destinatário obrigatório do Estudo de Caso.'
+                : '<strong>Richard receberá automaticamente em richard@consultoriarf.net.</strong> Você pode enviar o mesmo PDF também para você e colocar outras pessoas em cópia.';
+
+            const ownWrap = document.getElementById('rf-mail-own-wrap');
+            const own = document.getElementById('rf-mail-own');
+            const ownText = document.getElementById('rf-mail-own-text');
+            own.checked = true;
+            own.disabled = isStudy;
+            ownWrap.classList.toggle('opacity-70', isStudy);
+            ownText.textContent = isStudy
+                ? `Enviar também para meu e-mail: ${usuarioLogado?.TUSUARIO_EMAIL || '-' } (obrigatório)`
+                : `Enviar também para meu e-mail: ${usuarioLogado?.TUSUARIO_EMAIL || '-'}`;
+
+            const usersBox = document.getElementById('rf-mail-users');
+            usersBox.innerHTML = '<div class="rf-mail-users-empty">Carregando usuários...</div>';
+            const users = await rfUsuariosEmpresaParaEnvio();
+            const meuEmail = String(usuarioLogado?.TUSUARIO_EMAIL || '').trim().toLowerCase();
+            const outros = users.filter(u => String(u.TUSUARIO_EMAIL || '').trim().toLowerCase() !== meuEmail);
+            usersBox.innerHTML = outros.length ? outros.map(u => `
+                <label class="rf-mail-option"><input class="rf-mail-user-check" type="checkbox" value="${rfEmailEsc(String(u.TUSUARIO_EMAIL || '').trim())}"><span><strong>${rfEmailEsc(u.TUSUARIO_NOME || u.TUSUARIO_EMAIL || '')}</strong><br><small class="rf-study-muted">${rfEmailEsc(u.TUSUARIO_EMAIL || '')}</small></span></label>
+            `).join('') : '<div class="rf-mail-users-empty">Nenhum outro usuário ativo cadastrado nesta empresa.</div>';
+            document.getElementById('rf-mail-manual').value = '';
+            document.getElementById('rf-mail-backdrop').classList.remove('hidden');
+        }
+
+        function rfFecharModalEnvioAnalise() {
+            document.getElementById('rf-mail-backdrop')?.classList.add('hidden');
+        }
+
+        function rfSepararEmailsManuais(v) {
+            return String(v || '').split(/[;,\n]+/).map(x => x.trim().toLowerCase()).filter(Boolean);
+        }
+
+        async function rfConsultarFinalizacaoServidor() {
+            const cli = String(usuarioLogado?.TCLIENTE_ID || '');
+            const per = String(periodoAtivoObj?.TPERIODO_ID || '');
+            const r = await fetch(`${API_URL}?action=PERIODO_BUNDLE&clienteId=${encodeURIComponent(cli)}&periodoId=${encodeURIComponent(per)}`, {cache:'no-store'});
+            const b = await v49ResponseJSON(r, 'FINALIZACAO_ANALISE');
+            return b?.data?.FINALIZACAO_ANALISE || null;
+        }
+
+        async function rfEnviarAnaliseEmail() {
+            const btn = document.getElementById('rf-mail-send');
+            const isStudy = rfMailModo === 'ESTUDO_CASO';
+            const manual = rfSepararEmailsManuais(document.getElementById('rf-mail-manual')?.value || '');
+            const invalidos = manual.filter(e => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
+            if (invalidos.length) return alert(`E-mail inválido: ${invalidos[0]}`);
+            const ccEmails = Array.from(document.querySelectorAll('.rf-mail-user-check:checked')).map(x => x.value);
+            const enviarProprio = isStudy || !!document.getElementById('rf-mail-own')?.checked;
+            if (!isStudy && !rfFinalizacaoConcluida()) {
+                if (!confirm('Confirmar que os cadastros deste período foram concluídos e enviar a análise?')) return;
+            }
+
+            const antigoUltimoEnvio = String(rfFinalizacaoAtual?.TFINALIZACAO_ULTIMO_ENVIO || '');
+            const antigoHtml = btn?.innerHTML || '';
+            if (btn) { btn.disabled = true; btn.innerHTML = '⏳ Gerando PDF e enviando...'; }
+            try {
+                if (isStudy) { clearTimeout(rfEstudoTimer); await rfEstudoAplicar(true); }
+                const pdf = await gerarPDFAnaliseGeral(null, {retornarBase64:true, silencioso:true});
+                if (!pdf?.base64) throw new Error('Não foi possível gerar o PDF para envio.');
+                const payload = {
+                    action:'ENVIAR_ANALISE_EMAIL',
+                    tipo:rfMailModo,
+                    clienteId:String(usuarioLogado?.TCLIENTE_ID || ''),
+                    periodoId:String(periodoAtivoObj?.TPERIODO_ID || ''),
+                    usuarioId:String(usuarioLogado?.TUSUARIO_ID || ''),
+                    usuarioNome:String(usuarioLogado?.TUSUARIO_NOME || ''),
+                    usuarioEmail:String(usuarioLogado?.TUSUARIO_EMAIL || ''),
+                    enviarProprio:enviarProprio ? 'SIM' : 'NAO',
+                    ccEmails,
+                    manualEmails:manual,
+                    alteracoes:isStudy ? rfEstudoResumoAlteracoes() : [],
+                    pdfBase64:pdf.base64,
+                    pdfFilename:pdf.filename
+                };
+                await fetch(API_URL, {method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+                await new Promise(r => setTimeout(r, 1200));
+                const status = await rfConsultarFinalizacaoServidor().catch(() => null);
+
+                if (!isStudy) {
+                    if (!status || String(status.TFINALIZACAO_CONCLUIDO || '').toUpperCase() !== 'SIM') {
+                        throw new Error('O servidor ainda não confirmou o envio. Tente novamente em alguns segundos.');
+                    }
+                    rfFinalizacaoAtual = status;
+                    rfAtualizarControlesFinalizacao();
+                    await rfSalvarBundleAtualNoCache().catch(()=>{});
+                    rfFecharModalEnvioAnalise();
+                    alert('Cadastros marcados como concluídos e análise enviada. Richard recebeu o PDF; os demais destinatários selecionados também foram incluídos.');
+                } else {
+                    const novoUltimo = String(status?.TFINALIZACAO_ULTIMO_ENVIO || '');
+                    if (status && novoUltimo && novoUltimo === antigoUltimoEnvio) {
+                        throw new Error('O servidor ainda não confirmou o envio do Estudo de Caso.');
+                    }
+                    if (status) rfFinalizacaoAtual = status;
+                    rfFecharModalEnvioAnalise();
+                    alert('Estudo de Caso enviado com o PDF e o resumo das alterações simuladas. Nenhuma alteração foi gravada no banco.');
+                }
+            } catch (e) {
+                console.error('Envio da análise:', e);
+                alert('Não foi possível concluir o envio. ' + (e?.message || e));
+            } finally {
+                if (btn) { btn.disabled = false; btn.innerHTML = antigoHtml || 'Gerar PDF e enviar'; }
+            }
+        }
+
+        function rfSimParseRateio(raw) {
+            if (Array.isArray(raw)) return raw;
+            let t = String(raw || '').trim();
+            if (!t) return [];
+            try {
+                if (t.startsWith('"') && t.endsWith('"')) t = t.substring(1, t.length - 1);
+                t = t.replace(/""/g, '"').replace(/;/g, ',');
+                const a = JSON.parse(t);
+                return Array.isArray(a) ? a : [];
+            } catch (_) { return []; }
+        }
+
+        function rfSimRecalcularCentros(baseCC, recursos, funcionarios, planos, periodo) {
+            const ccs = rfDeepClone(baseCC || []);
+            const map = {};
+            let totalArea = 0;
+            const semDep = String(periodo?.TPERIODO_DESCONSIDERAR_DEPRECIACAO || 'NAO').toUpperCase() === 'SIM';
+            const valorPredio = Number(periodo?.TPERIODO_PREDIO || 0) || 0;
+            const depPredioTotal = semDep ? 0 : valorPredio * (0.04 / 12);
+
+            ccs.forEach(c => {
+                const id = String(c.TCENTRO_CUSTO_ID || '');
+                const tipo = String(c.TCENTRO_CUSTO_TIPO || '').trim().toUpperCase();
+                const area = Number(c.TCENTRO_CUSTO_AREA || 0) || 0;
+                let rateio = tipo === 'PRODUTIVO DIRETO' ? String(c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '').trim().toUpperCase() : '';
+                const minimo = tipo === 'PRODUTIVO DIRETO' && (String(c.TCENTRO_CUSTO_CONSIDERAR_MINIMO || '').toUpperCase() === 'SIM' || rateio === 'MINIMO');
+                let prod = Number(c.TCENTRO_CUSTO_PRODUTIVIDADE || 100) || 100;
+                if (minimo) { rateio = 'MINIMO'; prod = 100; }
+                totalArea += area;
+                map[id] = {obj:c,id,tipo,area,rateio,minimo,prod,qtdeRec:0,custoRec:0,horasMaq:0,custoFunc:0,horasFunc:0,horas:0,custoPlano:0,predio:0,ind:0};
+            });
+
+            (recursos || []).forEach(r => {
+                const m = map[String(r.TCENTRO_CUSTO_ID || '')]; if (!m) return;
+                m.qtdeRec++;
+                m.custoRec += semDep ? 0 : (Number(r.TRECURSO_CUSTO_MENSAL || 0) || 0);
+                m.horasMaq += 176 * ((Number(r.TRECURSO_TURNOS || 1) || 1));
+            });
+
+            let sobraTotal = 0;
+            (funcionarios || []).forEach(f => {
+                rfGridCalcFuncRow(f);
+                const custo = Number(f.TFUNCIONARIO_CUSTO_MENSAL || 0) || 0;
+                const horas = Number(f.TFUNCIONARIO_HORAS || 176) || 176;
+                const isR = String(f.TFUNCIONARIO_RATEIO || '').toUpperCase() === 'SIM';
+                const sobra = Number(f.TFUNCIONARIO_SOBRA_RATEIO ?? f.TFUNCIONARIO_VALOR_RATEIO ?? 0) || 0;
+                f.TFUNCIONARIO_SOBRA_RATEIO = sobra;
+                f.TFUNCIONARIO_VALOR_RATEIO = sobra;
+                sobraTotal += sobra;
+                if (!isR) {
+                    const m = map[String(f.TCENTRO_CUSTO_ID || '')];
+                    if (m) { m.custoFunc += custo; m.horasFunc += horas; }
+                } else {
+                    rfSimParseRateio(f.TCENTRO_CUSTO_ID).forEach(x => {
+                        const m = map[String(x.id ?? x.ID ?? '')]; if (!m) return;
+                        const pct = (Number(x.pct ?? x.PCT ?? 0) || 0) / 100;
+                        m.custoFunc += custo * pct; m.horasFunc += horas * pct;
+                    });
+                }
+            });
+
+            Object.values(map).forEach(m => {
+                if (m.tipo === 'PRODUTIVO DIRETO') {
+                    if (m.minimo) m.horas = 130;
+                    else if (m.rateio === 'MAQUINA') m.horas = m.horasMaq;
+                    else m.horas = m.horasFunc;
+                }
+                m.predio = (!semDep && totalArea > 0) ? depPredioTotal * (m.area / totalArea) : 0;
+            });
+
+            const auto = {PD_AREA:{tipo:'PRODUTIVO DIRETO',base:'AREA'},PD_RECURSOS:{tipo:'PRODUTIVO DIRETO',base:'RECURSOS'},PD_HORAS:{tipo:'PRODUTIVO DIRETO',base:'HORAS'},PI_AREA:{tipo:'PRODUTIVO INDIRETO',base:'AREA'},ADM_AREA:{tipo:'ADMINISTRATIVO',base:'AREA'}};
+            (planos || []).forEach(p => {
+                let alvo = String(p.TCENTRO_CUSTO_ID || '').trim().replace(/;/g, ',');
+                if (alvo.startsWith('"') && alvo.endsWith('"')) alvo = alvo.substring(1, alvo.length - 1);
+                alvo = alvo.replace(/""/g, '"');
+                const crit = String(p.TPLANO_CONTA_CRITERIO || '').trim().toUpperCase();
+                const val = Number(p.TPLANO_CONTA_VALOR || 0) || 0;
+                if (crit.includes('NÃO RATEAR') || crit.includes('NAO RATEAR')) return;
+                if (crit === 'EXCLUSIVO') { if (map[alvo]) map[alvo].custoPlano += val; return; }
+                const rule = auto[crit] || null;
+                const base = rule ? rule.base : crit;
+                let parts = [];
+                if (rule) parts = Object.keys(map).filter(id => map[id].tipo === rule.tipo);
+                else {
+                    try { parts = JSON.parse(alvo); } catch (_) { parts = Object.keys(map); }
+                    if (!Array.isArray(parts) || !parts.length) parts = Object.keys(map);
+                }
+                if (crit === 'SELETIVO_PERCENTUAL' || alvo.includes('pct')) {
+                    parts.forEach(x => { const id = typeof x === 'object' ? (x.id ?? x.ID) : x; if (!map[id]) return; const pct=(typeof x==='object' ? Number(x.pct ?? x.PCT ?? 0) : 0)||0; map[id].custoPlano += val*(pct/100); });
+                    return;
+                }
+                let total = 0;
+                parts.forEach(x => { const id=typeof x==='object'?(x.id??x.ID):x; const m=map[id]; if(!m)return; total += base==='AREA'?m.area:base==='RECURSOS'?m.qtdeRec:base==='HORAS'?m.horas:0; });
+                if (total <= 0) return;
+                parts.forEach(x => { const id=typeof x==='object'?(x.id??x.ID):x; const m=map[id]; if(!m)return; const b=base==='AREA'?m.area:base==='RECURSOS'?m.qtdeRec:base==='HORAS'?m.horas:0; m.custoPlano += val*(b/total); });
+            });
+
+            let indireto = sobraTotal, horasPD = 0;
+            Object.values(map).forEach(m => {
+                if (m.tipo === 'PRODUTIVO INDIRETO') indireto += (Number(m.obj.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO || 0)||0)+m.custoRec+m.custoFunc+m.custoPlano+m.predio;
+                else if (m.tipo === 'PRODUTIVO DIRETO') horasPD += m.horas;
+            });
+            const tx = horasPD > 0 ? indireto / horasPD : 0;
+            Object.values(map).forEach(m => {
+                m.ind = m.tipo === 'PRODUTIVO DIRETO' ? m.horas * tx : 0;
+                const c=m.obj;
+                c.TCENTRO_CUSTO_QTDE_RECURSOS=m.qtdeRec;
+                c.TCENTRO_CUSTO_CUSTO_MENSAL=m.custoRec;
+                c.TCENTRO_CUSTO_CUSTO_FUNCIONARIO=m.custoFunc;
+                c.TCENTRO_CUSTO_HORAS=m.horas;
+                c.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS=m.custoPlano;
+                c.TCENTRO_CUSTO_PREDIO=m.predio;
+                c.TCENTRO_CUSTO_INDIRETOS=m.ind;
+                c.TCENTRO_CUSTO_PRODUTIVIDADE=m.prod;
+                c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS=m.rateio;
+            });
+            return ccs;
+        }
+
+        function rfCentroFuncionarioTexto(f) {
+            const rateios = rfRateiosFuncionarioAnalise(f);
+            if (!rateios.length) return '-';
+            return rateios.map(x => {
+                const c = (rfEstudoBase?.cc || listaCC || []).find(cc => String(cc.TCENTRO_CUSTO_ID) === String(x.id));
+                return `${c?.TCENTRO_CUSTO_NOME || x.id}${rateios.length>1 ? ` (${Number(x.pct||0).toLocaleString('pt-BR',{maximumFractionDigits:2})}%)` : ''}`;
+            }).join(' • ');
+        }
+
+        function rfIniciarEstudoCaso() {
+            if (!rfFinalizacaoConcluida()) return alert('Marque primeiro que os cadastros foram concluídos.');
+            if (rfEstudoAtivo) return;
+            rfEstudoBase = {
+                periodo:rfDeepClone(periodoAtivoObj), cc:rfDeepClone(listaCC), recursos:rfDeepClone(listaRecursos),
+                funcionarios:rfDeepClone(listaFuncionarios), plano:rfDeepClone(listaPlanoContas)
+            };
+            rfEstudoDraft = {
+                periodo:rfDeepClone(rfEstudoBase.periodo),
+                funcionarios:rfDeepClone(rfEstudoBase.funcionarios).map(f => ({...f,__rfSimConsiderar:true})),
+                plano:rfDeepClone(rfEstudoBase.plano)
+            };
+            rfEstudoAtivo = true;
+            document.getElementById('rf-estudo-caso-panel')?.classList.remove('hidden');
+            rfRenderEstudoCaso();
+            rfEstudoAplicar(false);
+            rfAtualizarControlesFinalizacao();
+            document.getElementById('rf-estudo-caso-panel')?.scrollIntoView({behavior:'smooth',block:'start'});
+        }
+
+        function rfRenderEstudoCaso() {
+            if (!rfEstudoDraft || !rfEstudoBase) return;
+            const chk = document.getElementById('rf-estudo-sem-dep');
+            if (chk) chk.checked = String(rfEstudoDraft.periodo?.TPERIODO_DESCONSIDERAR_DEPRECIACAO || 'NAO').toUpperCase() === 'SIM';
+            const fb = document.getElementById('rf-estudo-func-body');
+            if (fb) fb.innerHTML = rfEstudoDraft.funcionarios.length ? rfEstudoDraft.funcionarios.map((f,i) => {
+                const orig = rfEstudoBase.funcionarios.find(x => String(x.TFUNCIONARIO_ID) === String(f.TFUNCIONARIO_ID)) || f;
+                rfGridCalcFuncRow(f);
+                const considerar = f.__rfSimConsiderar !== false;
+                return `<tr class="${considerar?'':'rf-study-removed'}"><td><input type="checkbox" ${considerar?'checked':''} onchange="rfEstudoFuncionarioConsiderar(${i},this.checked)"></td><td><strong>${rfEmailEsc(f.TFUNCIONARIO_NOME||'-')}</strong></td><td>${rfEmailEsc(rfCentroFuncionarioTexto(f))}</td><td>${formatarMoedaBR(rfFuncionarioSalarioMensal(orig))}</td><td><input type="number" step="0.01" min="0" value="${Number(f.TFUNCIONARIO_SALARIO_BASE||0)}" onchange="rfEstudoFuncionarioSalario(${i},this.value)" oninput="rfEstudoFuncionarioSalario(${i},this.value,true)"></td><td><strong>${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL||0)}</strong></td></tr>`;
+            }).join('') : '<tr><td colspan="6" class="rf-study-muted">Nenhum funcionário cadastrado.</td></tr>';
+            const pb = document.getElementById('rf-estudo-plano-body');
+            if (pb) pb.innerHTML = rfEstudoDraft.plano.length ? rfEstudoDraft.plano.map((p,i) => {
+                const orig = rfEstudoBase.plano.find(x => String(x.TPLANO_CONTA_ID) === String(p.TPLANO_CONTA_ID)) || p;
+                return `<tr><td><strong>${rfEmailEsc(p.TPLANO_CONTA_NOME||'-')}</strong></td><td>${rfEmailEsc(p.TPLANO_CONTA_CRITERIO||'-')}</td><td>${formatarMoedaBR(orig.TPLANO_CONTA_VALOR||0)}</td><td><input type="number" step="0.01" min="0" value="${Number(p.TPLANO_CONTA_VALOR||0)}" onchange="rfEstudoPlanoValor(${i},this.value)" oninput="rfEstudoPlanoValor(${i},this.value,true)"></td></tr>`;
+            }).join('') : '<tr><td colspan="4" class="rf-study-muted">Nenhuma conta cadastrada.</td></tr>';
+        }
+
+        function rfEstudoAlterarDepreciacao(checked) {
+            if (!rfEstudoDraft) return;
+            rfEstudoDraft.periodo.TPERIODO_DESCONSIDERAR_DEPRECIACAO = checked ? 'SIM' : 'NAO';
+            rfEstudoAgendar();
+        }
+        function rfEstudoFuncionarioConsiderar(i, checked) { if(!rfEstudoDraft?.funcionarios?.[i])return; rfEstudoDraft.funcionarios[i].__rfSimConsiderar=!!checked; rfRenderEstudoCaso(); rfEstudoAgendar(); }
+        function rfEstudoFuncionarioSalario(i, v, debounceOnly=false) { if(!rfEstudoDraft?.funcionarios?.[i])return; rfEstudoDraft.funcionarios[i].TFUNCIONARIO_SALARIO_BASE=Math.max(0,Number(v)||0); rfGridCalcFuncRow(rfEstudoDraft.funcionarios[i]); if(!debounceOnly)rfRenderEstudoCaso(); rfEstudoAgendar(); }
+        function rfEstudoPlanoValor(i, v, debounceOnly=false) { if(!rfEstudoDraft?.plano?.[i])return; rfEstudoDraft.plano[i].TPLANO_CONTA_VALOR=Math.max(0,Number(v)||0); if(!debounceOnly)rfRenderEstudoCaso(); rfEstudoAgendar(); }
+        function rfEstudoAgendar(){clearTimeout(rfEstudoTimer);rfEstudoTimer=setTimeout(()=>rfEstudoAplicar(true),260);}
+
+        async function rfEstudoAplicar(render=true) {
+            if (!rfEstudoAtivo || !rfEstudoDraft || !rfEstudoBase) return;
+            periodoAtivoObj = rfDeepClone(rfEstudoDraft.periodo);
+            listaRecursos = rfDeepClone(rfEstudoBase.recursos);
+            listaFuncionarios = rfDeepClone(rfEstudoDraft.funcionarios.filter(f => f.__rfSimConsiderar !== false)).map(f => { delete f.__rfSimConsiderar; rfGridCalcFuncRow(f); f.TFUNCIONARIO_VALOR_RATEIO=f.TFUNCIONARIO_SOBRA_RATEIO||0; return f; });
+            listaPlanoContas = rfDeepClone(rfEstudoDraft.plano);
+            listaCC = rfSimRecalcularCentros(rfEstudoBase.cc, listaRecursos, listaFuncionarios, listaPlanoContas, periodoAtivoObj);
+            if (render) await gerarAnalisesEResultados();
+            rfAtualizarControlesFinalizacao();
+        }
+
+        function rfEstudoRestaurar() {
+            if (!rfEstudoBase) return;
+            rfEstudoDraft = {periodo:rfDeepClone(rfEstudoBase.periodo),funcionarios:rfDeepClone(rfEstudoBase.funcionarios).map(f=>({...f,__rfSimConsiderar:true})),plano:rfDeepClone(rfEstudoBase.plano)};
+            rfRenderEstudoCaso(); rfEstudoAplicar(true);
+        }
+
+        async function rfEncerrarEstudoCaso(render=true) {
+            if (!rfEstudoAtivo || !rfEstudoBase) return;
+            clearTimeout(rfEstudoTimer);
+            periodoAtivoObj = rfDeepClone(rfEstudoBase.periodo);
+            listaCC = rfDeepClone(rfEstudoBase.cc);
+            listaRecursos = rfDeepClone(rfEstudoBase.recursos);
+            listaFuncionarios = rfDeepClone(rfEstudoBase.funcionarios);
+            listaPlanoContas = rfDeepClone(rfEstudoBase.plano);
+            rfEstudoAtivo=false; rfEstudoDraft=null; rfEstudoBase=null;
+            document.getElementById('rf-estudo-caso-panel')?.classList.add('hidden');
+            rfAtualizarControlesFinalizacao();
+            if (render) await gerarAnalisesEResultados();
+        }
+
+        function rfEstudoResumoAlteracoes() {
+            if (!rfEstudoBase || !rfEstudoDraft) return [];
+            const out=[];
+            const dep0=String(rfEstudoBase.periodo?.TPERIODO_DESCONSIDERAR_DEPRECIACAO||'NAO').toUpperCase();
+            const dep1=String(rfEstudoDraft.periodo?.TPERIODO_DESCONSIDERAR_DEPRECIACAO||'NAO').toUpperCase();
+            if(dep0!==dep1) out.push({item:'Depreciação no cálculo',original:dep0==='SIM'?'Desconsiderada':'Considerada',simulado:dep1==='SIM'?'Desconsiderada':'Considerada'});
+            rfEstudoDraft.funcionarios.forEach(f=>{
+                const o=rfEstudoBase.funcionarios.find(x=>String(x.TFUNCIONARIO_ID)===String(f.TFUNCIONARIO_ID)); if(!o)return;
+                if(f.__rfSimConsiderar===false) out.push({item:`Funcionário — ${f.TFUNCIONARIO_NOME||f.TFUNCIONARIO_ID}`,original:'Considerado',simulado:'Retirado do cenário'});
+                else if(Math.abs((Number(f.TFUNCIONARIO_SALARIO_BASE)||0)-(Number(o.TFUNCIONARIO_SALARIO_BASE)||0))>.005) out.push({item:`Salário — ${f.TFUNCIONARIO_NOME||f.TFUNCIONARIO_ID}`,original:formatarMoedaBR(o.TFUNCIONARIO_SALARIO_BASE||0),simulado:formatarMoedaBR(f.TFUNCIONARIO_SALARIO_BASE||0)});
+            });
+            rfEstudoDraft.plano.forEach(p=>{
+                const o=rfEstudoBase.plano.find(x=>String(x.TPLANO_CONTA_ID)===String(p.TPLANO_CONTA_ID)); if(!o)return;
+                if(Math.abs((Number(p.TPLANO_CONTA_VALOR)||0)-(Number(o.TPLANO_CONTA_VALOR)||0))>.005) out.push({item:`Plano de Contas — ${p.TPLANO_CONTA_NOME||p.TPLANO_CONTA_ID}`,original:formatarMoedaBR(o.TPLANO_CONTA_VALOR||0),simulado:formatarMoedaBR(p.TPLANO_CONTA_VALOR||0)});
+            });
+            return out;
+        }
+
         // --- RESULTADOS & ANÁLISES ---
         // V5.1 — regra de período: depreciação pode ser mantida cadastrada e ignorada nos cálculos
         function v51IgnorarDepreciacao(pObj = periodoAtivoObj) {
@@ -8726,7 +9242,8 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     return { nome:c.TCENTRO_CUSTO_NOME, rateio:c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-', horas:he, total, custoHora:he>0?total/he:0 };
                 }),
                 ranking: rankingGeralCCs.map((x,i)=>({ pos:i+1, nome:x.nome, tipo:x.tipo, custo:x.custo })),
-                folhas: window.rfFolhasAnaliseAtual || null
+                folhas: window.rfFolhasAnaliseAtual || null,
+                estudoCaso: rfEstudoAtivo ? { ativo:true, alteracoes:rfEstudoResumoAlteracoes() } : null
             };
 
             renderizarGraficoRoscaDRE(dreAtiva);
@@ -9148,10 +9665,10 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             return Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits:casas, maximumFractionDigits:casas });
         }
 
-        async function gerarPDFAnaliseGeral(ev) {
+        async function gerarPDFAnaliseGeral(ev, opcoes = {}) {
             const r = window.v51RelatorioAnalise;
-            if (!r) { alert('A análise ainda está carregando. Aguarde alguns segundos e tente novamente.'); return; }
-            if (!window.jspdf || !window.jspdf.jsPDF) { alert('O módulo de PDF ainda não carregou.'); return; }
+            if (!r) { if(opcoes.silencioso) throw new Error('A análise ainda está carregando.'); alert('A análise ainda está carregando. Aguarde alguns segundos e tente novamente.'); return; }
+            if (!window.jspdf || !window.jspdf.jsPDF) { if(opcoes.silencioso) throw new Error('O módulo de PDF ainda não carregou.'); alert('O módulo de PDF ainda não carregou.'); return; }
             const btn = ev && ev.currentTarget ? ev.currentTarget : null;
             const original = btn ? btn.innerHTML : '';
             if (btn) { btn.disabled=true; btn.innerHTML='⏳ Gerando relatório...'; }
@@ -9243,6 +9760,16 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     columnStyles:{0:{cellWidth:105},1:{cellWidth:77,halign:'right',fontStyle:'bold',overflow:'visible'}}
                 }); y=doc.lastAutoTable.finalY+7;
 
+                if (r.estudoCaso && r.estudoCaso.ativo) {
+                    y=section('ESTUDO DE CASO — SIMULAÇÃO TEMPORÁRIA',y,34);
+                    doc.setFont('helvetica','normal'); doc.setFontSize(7.3); doc.setTextColor(...gray);
+                    const aviso=doc.splitTextToSize('Os valores abaixo representam uma simulação e não alteram os cadastros oficiais do período.',cw);
+                    doc.text(aviso,mx,y); y+=aviso.length*3.3+3;
+                    const alt=Array.isArray(r.estudoCaso.alteracoes)?r.estudoCaso.alteracoes:[];
+                    doc.autoTable({startY:y,margin:{left:mx,right:mx,bottom:18},rowPageBreak:'avoid',head:[['Alteração','Original','Simulado']],body:alt.length?alt.map(a=>[a.item||'-',a.original||'-',a.simulado||'-']):[['Nenhuma alteração identificada','-','-']],theme:'grid',styles:{fontSize:6.6,cellPadding:1.7,overflow:'linebreak'},headStyles:{fillColor:blue,textColor:[255,255,255]},columnStyles:{0:{cellWidth:82},1:{cellWidth:50},2:{cellWidth:50,fontStyle:'bold'}}});
+                    y=doc.lastAutoTable.finalY+7;
+                }
+
                 if (r.diagnostico) {
                     y=section('DIAGNÓSTICO AUTOMÁTICO',y,54);
                     doc.setTextColor(...dark); doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.text(`Saúde econômica: ${r.diagnostico.score}/100 — ${r.diagnostico.classificacao}`,mx,y); y+=5;
@@ -9331,9 +9858,18 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 const pages=doc.internal.getNumberOfPages();
                 for(let i=1;i<=pages;i++){ doc.setPage(i); if(i>1)header(); footer(i,pages); }
                 const safe=String(r.periodo||'periodo').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_');
-                doc.save(`CONSULTORIA_RF_ANALISE_${safe}.pdf`);
+                const sufixo=r.estudoCaso&&r.estudoCaso.ativo?'_ESTUDO_DE_CASO':'';
+                const filename=`CONSULTORIA_RF_ANALISE_${safe}${sufixo}.pdf`;
+                if (opcoes.retornarBase64) {
+                    const dataUri=doc.output('datauristring');
+                    return {base64:String(dataUri).split(',').pop(),filename};
+                }
+                doc.save(filename);
+                return {filename};
             } catch(err){
-                console.error(err); alert('Não foi possível gerar o PDF da análise. '+(err.message||err));
+                console.error(err);
+                if(opcoes.silencioso) throw err;
+                alert('Não foi possível gerar o PDF da análise. '+(err.message||err));
             } finally {
                 if(btn){btn.disabled=false;btn.innerHTML=original;}
             }
@@ -10399,7 +10935,7 @@ function v49UpdateKPIs(){
 // Não injeta busca/ordenação automática nas grades de cadastro; são grades editáveis.
 function v49PrepareTables(){if(v49ObserverBusy)return;v49ObserverBusy=true;try{['tbl-inv-body','tbl-custo-hora-cc-body','tbl-ranking-cc-body'].forEach(id=>{const tb=document.getElementById(id),table=tb?.closest('table');if(table)v49AddTableTools(table);});rfGridSetupHeaders();v49UpdateKPIs();}finally{v49ObserverBusy=false;}}
 
-window.addEventListener('DOMContentLoaded',()=>{rfEnsureGridModal();rfEnsureCCDeleteModal();rfGridSetupHeaders();});
+window.addEventListener('DOMContentLoaded',()=>{rfEnsureGridModal();rfEnsureCCDeleteModal();rfGridSetupHeaders();rfAtualizarControlesFinalizacao();});
 </script>
 
 </body>
