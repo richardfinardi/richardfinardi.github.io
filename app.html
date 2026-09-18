@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.21 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.21">
+    <title>CONSULTORIA.RF V5.2.22 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.22">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1553,6 +1553,58 @@ body.light-mode .rf-admin-client-check {
     padding:18px;
     color:#9ea0a6;
 }
+
+
+<style id="v5222-periodo-fechado-acoes">
+/* ================================================================
+   V5.2.22 — PERÍODO FECHADO = SOMENTE LEITURA
+   As ações de escrita deixam de aparecer. Reabrir período permanece.
+   ================================================================ */
+body.rf-periodo-fechado #form-cfg-periodo,
+body.rf-periodo-fechado #form-inv,
+body.rf-periodo-fechado #form-cc,
+body.rf-periodo-fechado #form-rec,
+body.rf-periodo-fechado #form-ben,
+body.rf-periodo-fechado #form-func,
+body.rf-periodo-fechado #form-plc {
+    display:none !important;
+}
+
+body.rf-periodo-fechado .accordion-toggle[onclick*="form-cfg-periodo"],
+body.rf-periodo-fechado .accordion-toggle[onclick*="form-inv"],
+body.rf-periodo-fechado .accordion-toggle[onclick*="form-cc"],
+body.rf-periodo-fechado .accordion-toggle[onclick*="form-rec"],
+body.rf-periodo-fechado .accordion-toggle[onclick*="form-ben"],
+body.rf-periodo-fechado .accordion-toggle[onclick*="form-func"],
+body.rf-periodo-fechado .accordion-toggle[onclick*="form-plc"] {
+    display:none !important;
+}
+
+body.rf-periodo-fechado #section-centro-custo button[onclick*="abrirModalGradeLote"],
+body.rf-periodo-fechado #section-recursos button[onclick*="abrirModalGradeLote"],
+body.rf-periodo-fechado #section-funcionarios button[onclick*="abrirModalGradeLote"],
+body.rf-periodo-fechado #section-plano-contas button[onclick*="abrirModalGradeLote"],
+body.rf-periodo-fechado #section-plano-contas button[onclick*="abrirModalImportarPlano"],
+body.rf-periodo-fechado #section-config-periodo button[onclick*="editarInvestimento"],
+body.rf-periodo-fechado #section-config-periodo button[onclick*="deletarItemAPI"],
+body.rf-periodo-fechado #section-centro-custo button[onclick*="editarCentroCusto"],
+body.rf-periodo-fechado #section-centro-custo button[onclick*="deletarItemAPI"],
+body.rf-periodo-fechado #section-recursos button[onclick*="editarRecurso"],
+body.rf-periodo-fechado #section-recursos button[onclick*="deletarItemAPI"],
+body.rf-periodo-fechado #section-beneficios button[onclick*="editarBeneficio"],
+body.rf-periodo-fechado #section-beneficios button[onclick*="deletarItemAPI"],
+body.rf-periodo-fechado #section-funcionarios button[onclick*="editarFuncionario"],
+body.rf-periodo-fechado #section-funcionarios button[onclick*="deletarItemAPI"],
+body.rf-periodo-fechado #section-plano-contas button[onclick*="editarPlanoConta"],
+body.rf-periodo-fechado #section-plano-contas button[onclick*="deletarItemAPI"] {
+    display:none !important;
+}
+
+body.rf-periodo-fechado #modal-grade-lote,
+body.rf-periodo-fechado #modal-importar-plano {
+    display:none !important;
+}
+</style>
 </style>
 
 </head>
@@ -1562,7 +1614,7 @@ body.light-mode .rf-admin-client-check {
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.21</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.22</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1597,7 +1649,7 @@ body.light-mode .rf-admin-client-check {
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.21</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.22</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -1848,7 +1900,7 @@ body.light-mode .rf-admin-client-check {
                 </div>
 
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 pt-2 border-t border-brand-border/60">
-                    <p class="text-xs text-brand-muted">Ao aplicar, a configuração é versionada e gravada conforme o alcance escolhido. Períodos fora do alcance preservam a regra anterior.</p>
+                    <p class="text-xs text-brand-muted">Toda nova configuração aplicada vira automaticamente o padrão oficial para novos clientes e novos períodos. O alcance escolhido abaixo define somente quais períodos já existentes também serão atualizados.</p>
                     <button type="button" onclick="rfAdminAbrirAplicacaoDiagnostico()" class="bg-brand-primary hover:bg-brand-hover text-white font-bold px-5 py-2.5 rounded-lg text-xs transition whitespace-nowrap">
                         Aplicar alterações
                     </button>
@@ -2726,7 +2778,7 @@ body.light-mode .rf-admin-client-check {
             <div class="flex justify-between items-start gap-3 border-b border-brand-border pb-3">
                 <div>
                     <h3 class="text-lg font-bold text-white">Aplicar configuração do Diagnóstico Automático</h3>
-                    <p class="text-xs text-brand-muted mt-1">Escolha exatamente quais clientes e períodos devem receber esta nova versão.</p>
+                    <p class="text-xs text-brand-muted mt-1">A nova versão sempre será o padrão para todos os novos clientes e períodos. Escolha abaixo apenas até onde ela deve retroagir nos períodos que já existem.</p>
                 </div>
                 <button type="button" onclick="rfAdminFecharAplicacaoDiagnostico()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
             </div>
@@ -2734,10 +2786,9 @@ body.light-mode .rf-admin-client-check {
             <div class="space-y-2 text-xs">
                 <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="ALL_ALL" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Todos os clientes</strong> e <strong>todos os períodos existentes</strong></span></label>
                 <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="ALL_OPEN" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Todos os clientes</strong> e somente <strong>períodos abertos</strong></span></label>
-                <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="ALL_NEW" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Todos os clientes</strong> e apenas <strong>novos períodos</strong></span></label>
+                <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="ALL_NEW" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Não alterar períodos existentes</strong> — usar esta versão somente como padrão dos <strong>novos períodos</strong></span></label>
                 <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="SELECTED_ALL" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Clientes selecionados</strong> e todos os períodos existentes</span></label>
                 <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="SELECTED_OPEN" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Clientes selecionados</strong> e somente períodos abertos</span></label>
-                <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="SELECTED_NEW" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Clientes selecionados</strong> e apenas novos períodos</span></label>
             </div>
 
             <div id="rf-admin-diag-clientes-wrap" class="hidden space-y-2 border-t border-brand-border pt-3">
@@ -3474,7 +3525,7 @@ body.light-mode .rf-admin-client-check {
 };
 
         let rfDiagnosticoConfigAtual = JSON.parse(JSON.stringify(RF_DIAGNOSTICO_CONFIG_PADRAO));
-        let rfDiagnosticoConfigVersaoAtual = 'PADRAO-5.2.21';
+        let rfDiagnosticoConfigVersaoAtual = 'PADRAO-5.2.22';
         let rfAdminDiagnosticoConfig = null;
         let rfAdminDiagnosticoVersao = '';
 
@@ -3526,7 +3577,7 @@ body.light-mode .rf-admin-client-check {
 
         function rfAplicarConfigDiagnosticoLocal(cfg, versao = '') {
             rfDiagnosticoConfigAtual = rfNormalizarConfigDiagnostico(cfg);
-            rfDiagnosticoConfigVersaoAtual = String(versao || 'PADRAO-5.2.21');
+            rfDiagnosticoConfigVersaoAtual = String(versao || 'PADRAO-5.2.22');
         }
 
         function rfDiagRegraPorTituloOriginal(codigo, nivel, tituloOriginal) {
@@ -3698,7 +3749,7 @@ body.light-mode .rf-admin-client-check {
                 TFUNCIONARIO: Array.isArray(listaFuncionarios) ? listaFuncionarios : [],
                 TPLANO_CONTAS: Array.isArray(listaPlanoContas) ? listaPlanoContas : [],
                 DIAGNOSTICO_CONFIG: {
-                    versaoId: rfDiagnosticoConfigVersaoAtual || 'PADRAO-5.2.21',
+                    versaoId: rfDiagnosticoConfigVersaoAtual || 'PADRAO-5.2.22',
                     config: rfDiagnosticoConfigAtual || RF_DIAGNOSTICO_CONFIG_PADRAO
                 }
             };
@@ -3719,7 +3770,7 @@ body.light-mode .rf-admin-client-check {
                     d.DIAGNOSTICO_CONFIG.versaoId || d.DIAGNOSTICO_CONFIG.versao || ''
                 );
             } else {
-                rfAplicarConfigDiagnosticoLocal(RF_DIAGNOSTICO_CONFIG_PADRAO, 'PADRAO-5.2.21');
+                rfAplicarConfigDiagnosticoLocal(RF_DIAGNOSTICO_CONFIG_PADRAO, 'PADRAO-5.2.22');
             }
 
             preencherSelectsCentrosDeCusto();
@@ -4127,25 +4178,66 @@ body.light-mode .rf-admin-client-check {
             calcularCustoFuncionario();
         }
 
+        function rfPeriodoFechado() {
+            return !!(periodoAtivoObj && String(periodoAtivoObj.TPERIODO_STATUS || '').trim().toUpperCase() === 'FECHADO');
+        }
+
         function verificarStatusBloqueioPeriodo() {
             const banner = document.getElementById('banner-periodo-bloqueado');
-            if (periodoAtivoObj && String(periodoAtivoObj.TPERIODO_STATUS).toUpperCase() === 'FECHADO') {
-                if(banner) banner.classList.remove('hidden');
+            const fechado = rfPeriodoFechado();
+            document.body.classList.toggle('rf-periodo-fechado', fechado);
+
+            if (fechado) {
+                if (banner) banner.classList.remove('hidden');
                 bloquearTodosFormularios(true);
+                document.getElementById('modal-grade-lote')?.classList.add('hidden');
+                document.getElementById('modal-importar-plano')?.classList.add('hidden');
             } else {
-                if(banner) banner.classList.add('hidden');
+                if (banner) banner.classList.add('hidden');
                 bloquearTodosFormularios(false);
             }
         }
 
         function bloquearTodosFormularios(bloquear) {
-            const btns = document.querySelectorAll('button[type="submit"]');
-            btns.forEach(b => {
-                b.disabled = bloquear;
-                if(bloquear) b.classList.add('opacity-40', 'cursor-not-allowed');
-                else b.classList.remove('opacity-40', 'cursor-not-allowed');
+            const idsFormPeriodo = [
+                'form-cfg-periodo','form-inv','form-cc','form-rec',
+                'form-ben','form-func','form-plc'
+            ];
+
+            idsFormPeriodo.forEach(id => {
+                const form = document.getElementById(id);
+                if (!form) return;
+                form.querySelectorAll('input,select,textarea,button').forEach(el => {
+                    if (bloquear) {
+                        if (!el.hasAttribute('data-rf-prev-disabled')) {
+                            el.setAttribute('data-rf-prev-disabled', el.disabled ? '1' : '0');
+                        }
+                        el.disabled = true;
+                    } else {
+                        const prev = el.getAttribute('data-rf-prev-disabled');
+                        if (prev !== null) {
+                            el.disabled = prev === '1';
+                            el.removeAttribute('data-rf-prev-disabled');
+                        }
+                    }
+                });
             });
         }
+
+        function rfBloquearAcaoSePeriodoFechado() {
+            if (!rfPeriodoFechado()) return false;
+            alert('🔒 Este período está FECHADO e disponível somente para consulta. Reabra o período em Config. Período para incluir, editar ou excluir informações.');
+            return true;
+        }
+
+        document.addEventListener('submit', function(e) {
+            const idsProtegidos = new Set(['form-cfg-periodo','form-inv','form-cc','form-rec','form-ben','form-func','form-plc']);
+            if (rfPeriodoFechado() && e.target && idsProtegidos.has(e.target.id)) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                rfBloquearAcaoSePeriodoFechado();
+            }
+        }, true);
 
         function carregarClientesSelect() {
             const sel = document.getElementById('usr-cli-id');
@@ -4200,7 +4292,7 @@ body.light-mode .rf-admin-client-check {
                     rfAdminDiagnosticoVersao = String(diagResp.versaoId || '');
                 } else {
                     rfAdminDiagnosticoConfig = rfNormalizarConfigDiagnostico(RF_DIAGNOSTICO_CONFIG_PADRAO);
-                    rfAdminDiagnosticoVersao = 'PADRAO-5.2.21';
+                    rfAdminDiagnosticoVersao = 'PADRAO-5.2.22';
                 }
                 carregarClientesSelect();
                 rfAdminPreencherContextoEmpresas();
@@ -4212,7 +4304,7 @@ body.light-mode .rf-admin-client-check {
                 console.error('Erro ao carregar administração:', e);
                 if (!rfAdminDiagnosticoConfig) {
                     rfAdminDiagnosticoConfig = rfNormalizarConfigDiagnostico(RF_DIAGNOSTICO_CONFIG_PADRAO);
-                    rfAdminDiagnosticoVersao = 'PADRAO-5.2.21';
+                    rfAdminDiagnosticoVersao = 'PADRAO-5.2.22';
                     rfAdminRenderDiagnostico();
                 }
                 if (mostrarSync) setSyncStatus(false, 'Erro Administração');
@@ -4677,13 +4769,14 @@ body.light-mode .rf-admin-client-check {
             const selecionado = scope.startsWith('SELECTED_');
             document.getElementById('rf-admin-diag-clientes-wrap')?.classList.toggle('hidden', !selecionado);
 
+            const futuro = ' Esta versão também será, automaticamente, o padrão para TODOS os novos clientes e novos períodos.';
             const textos = {
-                ALL_ALL:'A nova versão será aplicada a todos os clientes e a todos os períodos já existentes. Novos períodos continuarão usando o padrão de novos períodos atualmente configurado.',
-                ALL_OPEN:'A nova versão será aplicada a todos os clientes, somente nos períodos que estiverem ABERTOS. Períodos fechados serão preservados.',
-                ALL_NEW:'A nova versão será usada somente quando novos períodos forem criados, para todos os clientes. Nenhum período existente será alterado.',
-                SELECTED_ALL:'A nova versão será aplicada aos clientes selecionados em todos os períodos já existentes.',
-                SELECTED_OPEN:'A nova versão será aplicada aos clientes selecionados somente nos períodos ABERTOS.',
-                SELECTED_NEW:'A nova versão será usada somente nos novos períodos dos clientes selecionados. Nenhum período existente será alterado.'
+                ALL_ALL:'A nova versão será aplicada a todos os clientes e a todos os períodos já existentes.' + futuro,
+                ALL_OPEN:'A nova versão será aplicada a todos os clientes, somente nos períodos que estiverem ABERTOS. Períodos fechados serão preservados.' + futuro,
+                ALL_NEW:'Nenhum período existente será alterado.' + futuro,
+                SELECTED_ALL:'A nova versão será aplicada aos clientes selecionados em todos os períodos já existentes. Os demais períodos existentes serão preservados.' + futuro,
+                SELECTED_OPEN:'A nova versão será aplicada aos clientes selecionados somente nos períodos ABERTOS. Os demais períodos existentes serão preservados.' + futuro,
+                SELECTED_NEW:'Nenhum período existente será alterado.' + futuro
             };
             const resumo = document.getElementById('rf-admin-diag-scope-resumo');
             if (resumo) resumo.innerText = textos[scope] || 'Selecione uma opção de aplicação.';
@@ -5656,7 +5749,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.21', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.22', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -7709,6 +7802,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         async function deletarItemAPI(aba, id, callbackSucesso) {
+            if (rfBloquearAcaoSePeriodoFechado()) return;
             if (!confirm("Tem certeza que deseja excluir este registro?")) return;
             setSyncStatus(true);
 
@@ -7793,7 +7887,6 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     <td class="p-2 md:p-3 font-bold text-white uppercase">${rfHtmlEscape(l.funcionario)}</td>
                     <td class="p-2 md:p-3 uppercase">
                         <span class="font-semibold text-white">${rfHtmlEscape(l.centroCusto)}</span>
-                        ${l.rateioPct < 99.999 ? `<span class="ml-1 text-[10px] text-brand-primary">(${l.rateioPct.toFixed(1)}%)</span>` : ''}
                     </td>
                     <td class="p-2 md:p-3">${formatarMoedaBR(l.salario)}</td>
                     <td class="p-2 md:p-3">${formatarMoedaBR(l.beneficios)}</td>
@@ -7833,23 +7926,41 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 const beneficiosTotal = parseMoedaBR(rfFuncionarioBeneficios(f) || 0);
                 const custoTotal = parseMoedaBR(rfFuncionarioCustoMensal(f) || 0);
                 const rateios = rfRateiosFuncionarioAnalise(f);
+                const isRateio = String(f?.TFUNCIONARIO_RATEIO || '').trim().toUpperCase() === 'SIM';
 
+                // Um funcionário gera no máximo UMA linha dentro de cada grupo.
+                // Quando é rateado, os CCs do mesmo grupo aparecem juntos com seus percentuais.
+                const porTipo = {};
                 rateios.forEach(r => {
                     const cc = (listaCC || []).find(c => String(c.TCENTRO_CUSTO_ID || '') === String(r.id || ''));
                     if (!cc) return;
                     const tipo = String(cc.TCENTRO_CUSTO_TIPO || '').trim().toUpperCase();
                     if (!Object.prototype.hasOwnProperty.call(grupos, tipo)) return;
 
-                    const fator = Math.max(0, Number(r.pct || 0)) / 100;
+                    if (!porTipo[tipo]) porTipo[tipo] = { pct:0, centros:[] };
+                    const pct = Math.max(0, Number(r.pct || 0));
+                    porTipo[tipo].pct += pct;
+                    porTipo[tipo].centros.push({
+                        nome:String(cc.TCENTRO_CUSTO_NOME || cc.TCENTRO_CUSTO_ID || '').toUpperCase(),
+                        pct
+                    });
+                });
+
+                Object.entries(porTipo).forEach(([tipo, info]) => {
+                    const fator = Math.max(0, Number(info.pct || 0)) / 100;
                     const custoMensal = custoTotal * fator;
+                    const centroCusto = isRateio
+                        ? info.centros.map(c => `${c.nome} (${Number(c.pct || 0).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:2})}%)`).join(' • ')
+                        : (info.centros[0]?.nome || 'NÃO DEFINIDO');
+
                     grupos[tipo].push({
                         funcionario:String(f.TFUNCIONARIO_NOME || '').toUpperCase(),
-                        centroCusto:String(cc.TCENTRO_CUSTO_NOME || cc.TCENTRO_CUSTO_ID || '').toUpperCase(),
+                        centroCusto,
                         salario:salarioTotal * fator,
                         beneficios:beneficiosTotal * fator,
                         custoMensal,
                         pctFat:fat > 0 ? (custoMensal / fat) * 100 : 0,
-                        rateioPct:Number(r.pct || 0)
+                        rateioPct:Number(info.pct || 0)
                     });
                 });
             });
