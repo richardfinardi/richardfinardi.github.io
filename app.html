@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.25 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.25">
+    <title>CONSULTORIA.RF V5.2.26 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.26">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1610,7 +1610,7 @@ body.rf-periodo-fechado #modal-importar-plano {
 
 <style id="v5223-inline-grid">
 /* ================================================================
-   V5.2.25 — CADASTRO DIRETO NA GRADE
+   V5.2.26 — CADASTRO DIRETO NA GRADE
    ================================================================ */
 .rf-inline-page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:12px;border-bottom:1px solid var(--ui-border)}
 .rf-inline-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
@@ -1655,7 +1655,7 @@ body.light-mode #table-centros-custo.rf-inline-table thead th{background:#e9edf2
 
 <style id="v5224-grid-ux">
 /* ================================================================
-   V5.2.25 — GRADE: NAVEGAÇÃO, FILTROS, ORDENAÇÃO E AÇÕES DUPLAS
+   V5.2.26 — GRADE: NAVEGAÇÃO, FILTROS, ORDENAÇÃO E AÇÕES DUPLAS
    ================================================================ */
 .rf-inline-scroll{
     overflow:auto !important;
@@ -1703,11 +1703,53 @@ body.light-mode .rf-grid-danger{background:#fff1f2;border-color:#fda4af;color:#9
     .rf-inline-actions-bottom .rf-inline-btn-primary{grid-column:1/-1}
 }
 
-/* V5.2.25 — feedback inequívoco para alterações/exclusões pendentes */
+/* V5.2.26 — feedback inequívoco para alterações/exclusões pendentes */
 .rf-inline-btn-primary.rf-grid-has-changes{box-shadow:0 0 0 2px rgba(255,136,56,.18),0 6px 18px rgba(255,136,56,.16)!important}
 .rf-inline-table tbody tr.rf-grid-delete td{opacity:.62!important;text-decoration:line-through!important;background:#2b1518!important}
 .rf-inline-table tbody tr.rf-grid-delete td:last-child{opacity:1!important;text-decoration:none!important}
 body.light-mode .rf-inline-table tbody tr.rf-grid-delete td{background:#fff0f0!important}
+</style>
+
+
+<style id="v5226-excel-grid-pdf-folha">
+/* ================================================================
+   V5.2.26 — FILTRO ESTILO EXCEL, TOTAIS, BLOQUEIOS DETALHADOS E FOLHA
+   ================================================================ */
+.rf-grid-head-box{min-width:118px;display:flex!important;flex-direction:row!important;align-items:stretch!important;background:inherit;position:relative}
+.rf-grid-head-sort{flex:1 1 auto;min-width:0;padding:8px 6px!important}
+.rf-grid-head-filterbtn{width:28px;min-width:28px;border:0;border-left:1px solid #252930;background:transparent;color:#8e959f;cursor:pointer;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.rf-grid-head-filterbtn:hover,.rf-grid-head-filterbtn.rf-active{color:#ff8838;background:rgba(255,136,56,.08)}
+.rf-grid-head-filterbtn.rf-active::after{content:'';width:5px;height:5px;border-radius:50%;background:#ff8838;position:absolute;right:4px;top:4px}
+.rf-grid-excel-pop{position:fixed;z-index:2000;width:min(340px,calc(100vw - 18px));max-height:min(68vh,560px);display:flex;flex-direction:column;background:#15171b;border:1px solid #3a3f47;border-radius:11px;box-shadow:0 24px 60px rgba(0,0,0,.58);overflow:hidden}
+.rf-grid-excel-head{padding:10px 11px;border-bottom:1px solid #2a2e35;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rf-grid-excel-title{font-size:11px;font-weight:900;color:#fff;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rf-grid-excel-sort{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:9px 10px;border-bottom:1px solid #292d34}
+.rf-grid-excel-sort button,.rf-grid-excel-tools button{border:1px solid #343840;background:#1b1e23;color:#d9dde4;border-radius:7px;padding:7px 8px;font-size:10px;font-weight:800;cursor:pointer}
+.rf-grid-excel-sort button:hover,.rf-grid-excel-tools button:hover{border-color:#ff8838;color:#fff}
+.rf-grid-excel-search{margin:9px 10px 6px;width:calc(100% - 20px);height:32px;border:1px solid #343840;border-radius:7px;background:#101216;color:#fff;padding:6px 8px;font-size:10px;outline:none}
+.rf-grid-excel-search:focus{border-color:#ff8838}
+.rf-grid-excel-tools{display:flex;gap:6px;padding:0 10px 8px}
+.rf-grid-excel-list{overflow:auto;padding:4px 10px 8px;min-height:80px}
+.rf-grid-excel-item{display:grid;grid-template-columns:20px minmax(0,1fr);gap:6px;align-items:center;padding:5px 3px;color:#d7dbe1;font-size:10px;border-radius:5px}
+.rf-grid-excel-item:hover{background:#20242a}
+.rf-grid-excel-item input{width:15px;height:15px;accent-color:#ff8838}
+.rf-grid-excel-item span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rf-grid-excel-foot{display:flex;justify-content:flex-end;gap:7px;padding:9px 10px;border-top:1px solid #2a2e35;background:#121418}
+.rf-grid-excel-foot button{min-height:31px;padding:6px 10px;border-radius:7px;font-size:10px;font-weight:800;cursor:pointer}
+.rf-grid-excel-cancel{background:#202329;color:#c7cbd2;border:1px solid #343840}.rf-grid-excel-apply{background:#ff8838;color:#fff;border:1px solid #ff8838}
+.rf-inline-table tfoot td{background:#0d0f12!important;border-top:2px solid #3a3f47;border-right:1px solid #23262c;padding:8px;color:#e9edf2;font-size:10px;font-weight:900;white-space:nowrap}
+.rf-inline-table tfoot td.rf-grid-total-money{text-align:right;color:#78deb5;font-variant-numeric:tabular-nums}
+.rf-inline-table tfoot td.rf-grid-total-label{color:#ff9a57;text-transform:uppercase;letter-spacing:.03em}
+.rf-grid-block-list{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.rf-grid-block-item{padding:9px 10px;border:1px solid #4b2d31;border-radius:8px;background:#211416}
+.rf-grid-block-type{display:block;font-size:9px;font-weight:900;color:#ffaaaa;text-transform:uppercase;margin-bottom:3px}
+.rf-grid-block-name{display:block;font-size:11px;font-weight:900;color:#fff}
+.rf-grid-block-meta{display:block;margin-top:3px;font-size:9px;color:#c9aeb0;line-height:1.35}
+.rf-folha-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.rf-folha-head-total{flex:0 0 auto;text-align:right;font-size:15px;font-weight:900;color:#67d5ac;white-space:nowrap}
+.rf-folha-head-total span{display:block;margin-top:2px;font-size:10px;color:#ff9a57;font-weight:900}
+body.light-mode .rf-grid-excel-pop{background:#fff;border-color:#d0d5dd}body.light-mode .rf-grid-excel-title{color:#202936}body.light-mode .rf-grid-excel-sort button,body.light-mode .rf-grid-excel-tools button{background:#f8fafc;color:#344054;border-color:#d0d5dd}body.light-mode .rf-grid-excel-search{background:#fff;color:#202936;border-color:#d0d5dd}body.light-mode .rf-grid-excel-item{color:#344054}body.light-mode .rf-grid-excel-item:hover{background:#f2f4f7}body.light-mode .rf-grid-excel-foot{background:#f8fafc;border-color:#e4e7ec}body.light-mode .rf-inline-table tfoot td{background:#eef2f6!important;color:#202936;border-color:#d8dde5}body.light-mode .rf-grid-block-item{background:#fff1f2;border-color:#fda4af}body.light-mode .rf-grid-block-name{color:#7f1d1d}
+@media(max-width:767px){.rf-grid-head-box{min-width:104px}.rf-grid-head-filterbtn{width:26px;min-width:26px}.rf-grid-excel-pop{max-height:72vh}.rf-folha-card-head{flex-direction:column;gap:8px}.rf-folha-head-total{text-align:left;font-size:14px}.rf-folha-head-total span{display:inline;margin-left:5px}}
 </style>
 
 </head>
@@ -1717,7 +1759,7 @@ body.light-mode .rf-inline-table tbody tr.rf-grid-delete td{background:#fff0f0!i
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.25</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.26</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1752,7 +1794,7 @@ body.light-mode .rf-inline-table tbody tr.rf-grid-delete td{background:#fff0f0!i
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.25</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.26</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2468,9 +2510,12 @@ body.light-mode .rf-inline-table tbody tr.rf-grid-delete td{background:#fff0f0!i
             <!-- V5.2.21 — FOLHAS POR TIPO DE CENTRO DE CUSTO -->
             <div id="rf-folhas-analise" class="space-y-6">
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <div class="border-b border-brand-border/50 pb-2">
-                        <h3 class="text-base font-bold text-white">Folha Administrativa</h3>
-                        <p class="text-xs text-brand-muted">Funcionários alocados em Centros de Custo Administrativos, ordenados pelo peso no faturamento atual.</p>
+                    <div class="border-b border-brand-border/50 pb-2 rf-folha-card-head">
+                        <div>
+                            <h3 class="text-base font-bold text-white">Folha Administrativa</h3>
+                            <p class="text-xs text-brand-muted">Funcionários alocados em Centros de Custo Administrativos, ordenados pelo peso no faturamento atual.</p>
+                        </div>
+                        <div id="rf-folha-adm-resumo" class="rf-folha-head-total">R$ 0,00 <span>• 0,00% / Fat.</span></div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="rf-folha-table w-full text-left text-xs md:text-sm text-brand-muted">
@@ -2493,9 +2538,12 @@ body.light-mode .rf-inline-table tbody tr.rf-grid-delete td{background:#fff0f0!i
                 </div>
 
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <div class="border-b border-brand-border/50 pb-2">
-                        <h3 class="text-base font-bold text-white">Folha Produtiva Indireta</h3>
-                        <p class="text-xs text-brand-muted">Funcionários alocados em Centros de Custo Produtivos Indiretos, ordenados pelo peso no faturamento atual.</p>
+                    <div class="border-b border-brand-border/50 pb-2 rf-folha-card-head">
+                        <div>
+                            <h3 class="text-base font-bold text-white">Folha Produtiva Indireta</h3>
+                            <p class="text-xs text-brand-muted">Funcionários alocados em Centros de Custo Produtivos Indiretos, ordenados pelo peso no faturamento atual.</p>
+                        </div>
+                        <div id="rf-folha-pi-resumo" class="rf-folha-head-total">R$ 0,00 <span>• 0,00% / Fat.</span></div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="rf-folha-table w-full text-left text-xs md:text-sm text-brand-muted">
@@ -2518,9 +2566,12 @@ body.light-mode .rf-inline-table tbody tr.rf-grid-delete td{background:#fff0f0!i
                 </div>
 
                 <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                    <div class="border-b border-brand-border/50 pb-2">
-                        <h3 class="text-base font-bold text-white">Folha Produtiva Direta</h3>
-                        <p class="text-xs text-brand-muted">Funcionários alocados em Centros de Custo Produtivos Diretos, ordenados pelo peso no faturamento atual.</p>
+                    <div class="border-b border-brand-border/50 pb-2 rf-folha-card-head">
+                        <div>
+                            <h3 class="text-base font-bold text-white">Folha Produtiva Direta</h3>
+                            <p class="text-xs text-brand-muted">Funcionários alocados em Centros de Custo Produtivos Diretos, ordenados pelo peso no faturamento atual.</p>
+                        </div>
+                        <div id="rf-folha-pd-resumo" class="rf-folha-head-total">R$ 0,00 <span>• 0,00% / Fat.</span></div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="rf-folha-table w-full text-left text-xs md:text-sm text-brand-muted">
@@ -5525,7 +5576,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.25', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.26', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -7646,38 +7697,45 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             return `${Number(valor || 0).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}%`;
         }
 
-        function rfRenderizarTabelaFolhaGrupo(bodyId, footId, linhas, faturamento) {
+        function rfRenderizarTabelaFolhaGrupo(bodyId, footId, resumoId, linhas, faturamento) {
             const tbody = document.getElementById(bodyId);
             const tfoot = document.getElementById(footId);
-            if (!tbody || !tfoot) return;
+            const resumo = document.getElementById(resumoId);
+            if (!tbody || !tfoot) return {linhas:[], salario:0, beneficios:0, custoMensal:0, pctFat:0};
 
             const ordenadas = [...linhas].sort((a,b) => b.pctFat - a.pctFat);
+            const totais = ordenadas.reduce((acc,l) => {
+                acc.salario += Number(l.salario || 0);
+                acc.beneficios += Number(l.beneficios || 0);
+                acc.custoMensal += Number(l.custoMensal || 0);
+                return acc;
+            }, {salario:0, beneficios:0, custoMensal:0});
+            const pctTotal = faturamento > 0 ? (totais.custoMensal / faturamento) * 100 : 0;
+            if (resumo) resumo.innerHTML = `${formatarMoedaBR(totais.custoMensal)} <span>• ${rfFormatPctFolha(pctTotal)} / Fat.</span>`;
+
             if (!ordenadas.length) {
                 tbody.innerHTML = '<tr><td colspan="6" class="rf-folha-empty">Nenhum funcionário alocado neste grupo.</td></tr>';
-                tfoot.innerHTML = '';
-                return;
+                tfoot.innerHTML = `
+                    <tr>
+                        <td class="p-2 md:p-3" colspan="2">TOTAL DO GRUPO</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(0)}</td>
+                        <td class="p-2 md:p-3">${formatarMoedaBR(0)}</td>
+                        <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(0)}</td>
+                        <td class="p-2 md:p-3 text-right text-brand-primary">${rfFormatPctFolha(0)}</td>
+                    </tr>`;
+                return {linhas:[], ...totais, pctFat:pctTotal};
             }
 
             tbody.innerHTML = ordenadas.map(l => `
                 <tr class="hover:bg-brand-border/20 transition">
                     <td class="p-2 md:p-3 font-bold text-white uppercase">${rfHtmlEscape(l.funcionario)}</td>
-                    <td class="p-2 md:p-3 uppercase">
-                        <span class="font-semibold text-white">${rfHtmlEscape(l.centroCusto)}</span>
-                    </td>
+                    <td class="p-2 md:p-3 uppercase"><span class="font-semibold text-white">${rfHtmlEscape(l.centroCusto)}</span></td>
                     <td class="p-2 md:p-3">${formatarMoedaBR(l.salario)}</td>
                     <td class="p-2 md:p-3">${formatarMoedaBR(l.beneficios)}</td>
                     <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(l.custoMensal)}</td>
                     <td class="p-2 md:p-3 text-right font-extrabold text-brand-primary rf-folha-percent">${rfFormatPctFolha(l.pctFat)}</td>
                 </tr>
             `).join('');
-
-            const totais = ordenadas.reduce((acc,l) => {
-                acc.salario += l.salario;
-                acc.beneficios += l.beneficios;
-                acc.custoMensal += l.custoMensal;
-                return acc;
-            }, {salario:0, beneficios:0, custoMensal:0});
-            const pctTotal = faturamento > 0 ? (totais.custoMensal / faturamento) * 100 : 0;
 
             tfoot.innerHTML = `
                 <tr>
@@ -7687,14 +7745,11 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(totais.custoMensal)}</td>
                     <td class="p-2 md:p-3 text-right text-brand-primary">${rfFormatPctFolha(pctTotal)}</td>
                 </tr>`;
+            return {linhas:ordenadas, ...totais, pctFat:pctTotal};
         }
 
         function rfRenderizarFolhasAnalise(faturamentoAtual) {
-            const grupos = {
-                ADMINISTRATIVO: [],
-                'PRODUTIVO INDIRETO': [],
-                'PRODUTIVO DIRETO': []
-            };
+            const grupos = { ADMINISTRATIVO: [], 'PRODUTIVO INDIRETO': [], 'PRODUTIVO DIRETO': [] };
             const fat = Number(faturamentoAtual || 0) || 0;
 
             (listaFuncionarios || []).forEach(f => {
@@ -7703,23 +7758,16 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 const custoTotal = parseMoedaBR(rfFuncionarioCustoMensal(f) || 0);
                 const rateios = rfRateiosFuncionarioAnalise(f);
                 const isRateio = String(f?.TFUNCIONARIO_RATEIO || '').trim().toUpperCase() === 'SIM';
-
-                // Um funcionário gera no máximo UMA linha dentro de cada grupo.
-                // Quando é rateado, os CCs do mesmo grupo aparecem juntos com seus percentuais.
                 const porTipo = {};
                 rateios.forEach(r => {
                     const cc = (listaCC || []).find(c => String(c.TCENTRO_CUSTO_ID || '') === String(r.id || ''));
                     if (!cc) return;
                     const tipo = String(cc.TCENTRO_CUSTO_TIPO || '').trim().toUpperCase();
                     if (!Object.prototype.hasOwnProperty.call(grupos, tipo)) return;
-
                     if (!porTipo[tipo]) porTipo[tipo] = { pct:0, centros:[] };
                     const pct = Math.max(0, Number(r.pct || 0));
                     porTipo[tipo].pct += pct;
-                    porTipo[tipo].centros.push({
-                        nome:String(cc.TCENTRO_CUSTO_NOME || cc.TCENTRO_CUSTO_ID || '').toUpperCase(),
-                        pct
-                    });
+                    porTipo[tipo].centros.push({ nome:String(cc.TCENTRO_CUSTO_NOME || cc.TCENTRO_CUSTO_ID || '').toUpperCase(), pct });
                 });
 
                 Object.entries(porTipo).forEach(([tipo, info]) => {
@@ -7728,7 +7776,6 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     const centroCusto = isRateio
                         ? info.centros.map(c => `${c.nome} (${Number(c.pct || 0).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:2})}%)`).join(' • ')
                         : (info.centros[0]?.nome || 'NÃO DEFINIDO');
-
                     grupos[tipo].push({
                         funcionario:String(f.TFUNCIONARIO_NOME || '').toUpperCase(),
                         centroCusto,
@@ -7741,9 +7788,18 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 });
             });
 
-            rfRenderizarTabelaFolhaGrupo('rf-folha-adm-body','rf-folha-adm-foot',grupos.ADMINISTRATIVO,fat);
-            rfRenderizarTabelaFolhaGrupo('rf-folha-pi-body','rf-folha-pi-foot',grupos['PRODUTIVO INDIRETO'],fat);
-            rfRenderizarTabelaFolhaGrupo('rf-folha-pd-body','rf-folha-pd-foot',grupos['PRODUTIVO DIRETO'],fat);
+            const adm = rfRenderizarTabelaFolhaGrupo('rf-folha-adm-body','rf-folha-adm-foot','rf-folha-adm-resumo',grupos.ADMINISTRATIVO,fat);
+            const pi = rfRenderizarTabelaFolhaGrupo('rf-folha-pi-body','rf-folha-pi-foot','rf-folha-pi-resumo',grupos['PRODUTIVO INDIRETO'],fat);
+            const pd = rfRenderizarTabelaFolhaGrupo('rf-folha-pd-body','rf-folha-pd-foot','rf-folha-pd-resumo',grupos['PRODUTIVO DIRETO'],fat);
+            window.rfFolhasAnaliseAtual = {
+                faturamento:fat,
+                grupos:{
+                    ADMINISTRATIVO:{titulo:'Folha Administrativa',...adm},
+                    'PRODUTIVO INDIRETO':{titulo:'Folha Produtiva Indireta',...pi},
+                    'PRODUTIVO DIRETO':{titulo:'Folha Produtiva Direta',...pd}
+                }
+            };
+            return window.rfFolhasAnaliseAtual;
         }
 
 
@@ -8583,7 +8639,8 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     const he = hb * (prod/100); const total = fx+dep+func+plc+prd+ind;
                     return { nome:c.TCENTRO_CUSTO_NOME, rateio:c.TCENTRO_CUSTO_TIPO_RATEIO_HORAS || '-', horas:he, total, custoHora:he>0?total/he:0 };
                 }),
-                ranking: rankingGeralCCs.map((x,i)=>({ pos:i+1, nome:x.nome, tipo:x.tipo, custo:x.custo }))
+                ranking: rankingGeralCCs.map((x,i)=>({ pos:i+1, nome:x.nome, tipo:x.tipo, custo:x.custo })),
+                folhas: window.rfFolhasAnaliseAtual || null
             };
 
             renderizarGraficoRoscaDRE(dreAtiva);
@@ -9161,7 +9218,29 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     body:r.ranking.map(x=>[x.pos+'º',x.nome,x.tipo,money(x.custo),faturamentoRanking>0?pct((Number(x.custo||0)/faturamentoRanking)*100,1):'0,0%']),
                     theme:'striped',styles:{fontSize:6.8,cellPadding:1.7,overflow:'ellipsize'},headStyles:{fillColor:dark,textColor:[255,255,255]},
                     columnStyles:{0:{cellWidth:13,halign:'center',fontStyle:'bold'},1:{cellWidth:68},2:{cellWidth:42},3:{cellWidth:32,halign:'right',fontStyle:'bold',overflow:'visible'},4:{cellWidth:27,halign:'right',fontStyle:'bold',overflow:'visible'}}
-                });
+                }); y=doc.lastAutoTable.finalY+7;
+
+                // V5.2.26 — as três folhas da tela de Resultados também fazem parte do PDF.
+                if (r.folhas && r.folhas.grupos) {
+                    const ordemFolhas=['ADMINISTRATIVO','PRODUTIVO INDIRETO','PRODUTIVO DIRETO'];
+                    for (const chaveFolha of ordemFolhas) {
+                        const g=r.folhas.grupos[chaveFolha]; if(!g) continue;
+                        const titulo=`${String(g.titulo||chaveFolha).toUpperCase()} — ${money(g.custoMensal||0)} — ${pct(g.pctFat||0,2)} DO FATURAMENTO`;
+                        y=section(titulo,y,34);
+                        const linhas=Array.isArray(g.linhas)?g.linhas:[];
+                        const corpo=linhas.map(l=>[l.funcionario,l.centroCusto,money(l.salario),money(l.beneficios),money(l.custoMensal),pct(l.pctFat||0,2)]);
+                        corpo.push(['TOTAL DO GRUPO','',money(g.salario||0),money(g.beneficios||0),money(g.custoMensal||0),pct(g.pctFat||0,2)]);
+                        doc.autoTable({
+                            startY:y,margin:{left:mx,right:mx,bottom:18},rowPageBreak:'avoid',showHead:'everyPage',
+                            head:[['Funcionário','Centro de Custo','Salário','Benefícios','Custo Mensal','% / Fat.']],
+                            body:corpo,
+                            theme:'grid',styles:{fontSize:5.8,cellPadding:1.4,overflow:'linebreak'},headStyles:{fillColor:dark,textColor:[255,255,255],fontSize:5.7},
+                            columnStyles:{0:{cellWidth:32},1:{cellWidth:54},2:{cellWidth:25,halign:'right'},3:{cellWidth:25,halign:'right'},4:{cellWidth:28,halign:'right',fontStyle:'bold'},5:{cellWidth:18,halign:'right',fontStyle:'bold'}},
+                            didParseCell:d=>{if(d.section==='body'&&d.row.index===corpo.length-1){d.cell.styles.fontStyle='bold';d.cell.styles.fillColor=[240,247,244];if(d.column.index>=4)d.cell.styles.textColor=green;}}
+                        });
+                        y=doc.lastAutoTable.finalY+7;
+                    }
+                }
 
                 const pages=doc.internal.getNumberOfPages();
                 for(let i=1;i<=pages;i++){ doc.setPage(i); if(i>1)header(); footer(i,pages); }
@@ -9826,7 +9905,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 <script id="v5223-inline-grid-script">
 // ================================================================
-// V5.2.25 — CADASTRO / EDIÇÃO DIRETO NA GRADE
+// V5.2.26 — CADASTRO / EDIÇÃO DIRETO NA GRADE
 // ================================================================
 const rfGridState = {};
 const rfGridViewState = {};
@@ -9873,69 +9952,114 @@ function rfGridNorm(v){return String(v??'').normalize('NFD').replace(/[\u0300-\u
 function rfGridCCName(id){const c=(listaCC||[]).find(x=>String(x.TCENTRO_CUSTO_ID)===String(id));return String(c?.TCENTRO_CUSTO_NOME||id||'');}
 function rfGridColumnDefs(sheet){
   const action=r=>r.__delete?'DESFAZER':'EXCLUIR';
+  const money=(g)=>({g,n:1,sum:'money',fmt:v=>formatarMoedaBR(Number(v)||0)});
+  const num=(g)=>({g,n:1,fmt:v=>Number(v||0).toLocaleString('pt-BR',{maximumFractionDigits:2})});
   if(sheet==='TCENTRO_CUSTO') return [
-    {g:r=>r.TCENTRO_CUSTO_ID||'NOVO'},{g:r=>r.TCENTRO_CUSTO_TIPO},{g:r=>r.TCENTRO_CUSTO_NOME},{g:r=>Number(r.TCENTRO_CUSTO_AREA)||0,n:1},{g:r=>r.TCENTRO_CUSTO_TIPO_RATEIO_HORAS},{g:r=>Number(r.TCENTRO_CUSTO_PRODUTIVIDADE)||0,n:1},{g:r=>Number(r.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0,n:1},{g:r=>r.TCENTRO_CUSTO_CONSIDERAR_MINIMO},{g:r=>Number(r.TCENTRO_CUSTO_QTDE_RECURSOS)||0,n:1},{g:r=>Number(r.TCENTRO_CUSTO_CUSTO_MENSAL)||0,n:1},{g:r=>Number(r.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0,n:1},{g:r=>Number(r.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0,n:1},{g:r=>Number(r.TCENTRO_CUSTO_PREDIO)||0,n:1},{g:r=>Number(r.TCENTRO_CUSTO_INDIRETOS)||0,n:1},{g:r=>Number(r.TCENTRO_CUSTO_HORAS)||0,n:1},{g:action}
+    {g:r=>r.TCENTRO_CUSTO_ID||'NOVO'},{g:r=>r.TCENTRO_CUSTO_TIPO},{g:r=>r.TCENTRO_CUSTO_NOME},num(r=>Number(r.TCENTRO_CUSTO_AREA)||0),{g:r=>r.TCENTRO_CUSTO_TIPO_RATEIO_HORAS},num(r=>Number(r.TCENTRO_CUSTO_PRODUTIVIDADE)||0),money(r=>Number(r.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0),{g:r=>r.TCENTRO_CUSTO_CONSIDERAR_MINIMO},num(r=>Number(r.TCENTRO_CUSTO_QTDE_RECURSOS)||0),money(r=>Number(r.TCENTRO_CUSTO_CUSTO_MENSAL)||0),money(r=>Number(r.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0),money(r=>Number(r.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0),money(r=>Number(r.TCENTRO_CUSTO_PREDIO)||0),money(r=>Number(r.TCENTRO_CUSTO_INDIRETOS)||0),num(r=>Number(r.TCENTRO_CUSTO_HORAS)||0),{g:action}
   ];
   if(sheet==='TRECURSO') return [
-    {g:r=>rfGridCCName(r.TCENTRO_CUSTO_ID)},{g:r=>r.TRECURSO_NOME},{g:r=>r.TRECURSO_TIPO},{g:r=>Number(r.TRECURSO_VALOR)||0,n:1},{g:r=>Number(r.TRECURSO_TURNOS)||0,n:1},{g:r=>Number(r.TRECURSO_CUSTO_MENSAL)||0,n:1},{g:action}
+    {g:r=>rfGridCCName(r.TCENTRO_CUSTO_ID)},{g:r=>r.TRECURSO_NOME},{g:r=>r.TRECURSO_TIPO},money(r=>Number(r.TRECURSO_VALOR)||0),num(r=>Number(r.TRECURSO_TURNOS)||0),money(r=>Number(r.TRECURSO_CUSTO_MENSAL)||0),{g:action}
   ];
-  if(sheet==='TBENEFICIOS') return [{g:r=>r.TBENEFICIO_NOME},{g:r=>Number(r.TBENEFICIO_VALOR)||0,n:1},{g:action}];
+  if(sheet==='TBENEFICIOS') return [{g:r=>r.TBENEFICIO_NOME},money(r=>Number(r.TBENEFICIO_VALOR)||0),{g:action}];
   if(sheet==='TFUNCIONARIO') return [
     {g:r=>String(r.TFUNCIONARIO_RATEIO||'NAO')==='SIM'?`SIM ${rfGridRateioLabel(r.TCENTRO_CUSTO_ID)}`:'NAO'},
     {g:r=>String(r.TFUNCIONARIO_RATEIO||'NAO')==='SIM'?rfGridRateioLabel(r.TCENTRO_CUSTO_ID):rfGridCCName(r.TCENTRO_CUSTO_ID)},
-    {g:r=>r.TFUNCIONARIO_NOME},{g:r=>r.TFUNCIONARIO_TP_REGISTRO},{g:r=>r.TFUNCIONARIO_TP_SALARIO},{g:r=>Number(r.TFUNCIONARIO_SALARIO_BASE)||0,n:1},{g:r=>Number(r.TFUNCIONARIO_HORAS)||0,n:1},{g:r=>rfGridBenefitsLabel(r)},{g:r=>Number(r.TFUNCIONARIO_VALOR_BENEFICIOS ?? rfFuncionarioBeneficios(r))||0,n:1},{g:r=>Number(r.TFUNCIONARIO_CUSTO_MENSAL)||0,n:1},{g:action}
+    {g:r=>r.TFUNCIONARIO_NOME},{g:r=>r.TFUNCIONARIO_TP_REGISTRO},{g:r=>r.TFUNCIONARIO_TP_SALARIO},money(r=>Number(r.TFUNCIONARIO_SALARIO_BASE)||0),num(r=>Number(r.TFUNCIONARIO_HORAS)||0),{g:r=>rfGridBenefitsLabel(r)},money(r=>Number(r.TFUNCIONARIO_VALOR_BENEFICIOS ?? rfFuncionarioBeneficios(r))||0),money(r=>Number(r.TFUNCIONARIO_CUSTO_MENSAL)||0),{g:action}
   ];
   if(sheet==='TPLANO_CONTAS') return [
-    {g:r=>String(r.TPLANO_CONTA_CRITERIO||'').toUpperCase()==='SELETIVO_PERCENTUAL'?'SIM':'NAO'},{g:r=>r.TPLANO_CONTA_NOME},{g:r=>r.TPLANO_CONTA_CRITERIO},{g:r=>{const c=String(r.TPLANO_CONTA_CRITERIO||'').toUpperCase();return c==='EXCLUSIVO'?rfGridCCName(r.TCENTRO_CUSTO_ID):(c==='SELETIVO_PERCENTUAL'?rfGridRateioLabel(r.TCENTRO_CUSTO_ID):'AUTOMÁTICO') }},{g:r=>Number(r.TPLANO_CONTA_VALOR)||0,n:1},{g:action}
+    {g:r=>String(r.TPLANO_CONTA_CRITERIO||'').toUpperCase()==='SELETIVO_PERCENTUAL'?'SIM':'NAO'},{g:r=>r.TPLANO_CONTA_NOME},{g:r=>r.TPLANO_CONTA_CRITERIO},{g:r=>{const c=String(r.TPLANO_CONTA_CRITERIO||'').toUpperCase();return c==='EXCLUSIVO'?rfGridCCName(r.TCENTRO_CUSTO_ID):(c==='SELETIVO_PERCENTUAL'?rfGridRateioLabel(r.TCENTRO_CUSTO_ID):'AUTOMÁTICO')}},money(r=>Number(r.TPLANO_CONTA_VALOR)||0),{g:action}
   ];
   return [];
 }
+function rfGridFilterKey(def,raw){return def?.n?`N:${Number(raw)||0}`:`T:${String(raw??'')}`;}
+function rfGridFilterLabel(def,raw){if(def?.fmt)return def.fmt(raw);if(raw===null||raw===undefined||String(raw)==='')return '(EM BRANCO)';return String(raw);}
 function rfGridRowsForDisplay(sheet){
-  const st=rfGridEnsure(sheet), vs=rfGridView(sheet), defs=rfGridColumnDefs(sheet), filters=vs.filters||{};
-  const newer=[], normal=[];
+  const st=rfGridEnsure(sheet),vs=rfGridView(sheet),defs=rfGridColumnDefs(sheet),filters=vs.filters||{};
+  const newer=[],normal=[];
   for(const r of st.rows){
     if(r.__new){newer.push(r);continue;}
     let ok=true;
-    for(const [k,q0] of Object.entries(filters)){
-      const q=rfGridNorm(q0); if(!q) continue;
-      const d=defs[Number(k)]; if(!d) continue;
-      const raw=d.g(r); const txt=d.n?`${raw} ${Number(raw||0).toLocaleString('pt-BR')}`:raw;
-      if(!rfGridNorm(txt).includes(q)){ok=false;break;}
+    for(const [k,sel] of Object.entries(filters)){
+      if(!Array.isArray(sel))continue;
+      const d=defs[Number(k)];if(!d)continue;
+      const key=rfGridFilterKey(d,d.g(r));
+      if(!sel.includes(key)){ok=false;break;}
     }
-    if(ok || r.__delete) normal.push(r);
+    if(ok||r.__delete)normal.push(r);
   }
-  if(vs.sort && defs[vs.sort.col]){
-    const d=defs[vs.sort.col], dir=vs.sort.dir==='desc'?-1:1;
+  if(vs.sort&&defs[vs.sort.col]){
+    const d=defs[vs.sort.col],dir=vs.sort.dir==='desc'?-1:1;
     normal.sort((a,b)=>{
       const av=d.g(a),bv=d.g(b);
-      if(d.n){const x=Number(av)||0,y=Number(bv)||0;return (x-y)*dir;}
+      if(d.n){const x=Number(av)||0,y=Number(bv)||0;return(x-y)*dir;}
       return String(av??'').localeCompare(String(bv??''),'pt-BR',{numeric:true,sensitivity:'base'})*dir;
     });
   }
   return normal.concat(newer);
 }
-function rfGridSheetFromTable(table){const id=table?.querySelector('tbody')?.id;return ({'tbl-cc-body':'TCENTRO_CUSTO','tbl-rec-body':'TRECURSO','tbl-ben-body':'TBENEFICIOS','tbl-func-body':'TFUNCIONARIO','tbl-plc-body':'TPLANO_CONTAS'})[id]||'';}
+function rfGridSheetFromTable(table){const id=table?.querySelector('tbody')?.id;return({'tbl-cc-body':'TCENTRO_CUSTO','tbl-rec-body':'TRECURSO','tbl-ben-body':'TBENEFICIOS','tbl-func-body':'TFUNCIONARIO','tbl-plc-body':'TPLANO_CONTAS'})[id]||'';}
+function rfGridOriginalHeaderLabel(th){
+  if(th.dataset.rfLabel)return th.dataset.rfLabel;
+  const prior=th.querySelector('.rf-grid-head-sort span:first-child');
+  const label=String(prior?.textContent||th.textContent||'').trim().replace(/[↕↑↓⏷]+$/,'').trim();
+  th.dataset.rfLabel=label;return label;
+}
 function rfGridSetupHeaders(){
   document.querySelectorAll('.rf-inline-table').forEach(table=>{
-    const sheet=rfGridSheetFromTable(table); if(!sheet||table.dataset.rfHeadReady==='1')return;
-    table.dataset.rfHeadReady='1'; table.dataset.rfGridSheet=sheet;
+    const sheet=rfGridSheetFromTable(table);if(!sheet)return;
+    table.dataset.rfGridSheet=sheet;
     const ths=[...table.querySelectorAll('thead tr:first-child th')];
     ths.forEach((th,i)=>{
-      const label=String(th.textContent||'').trim();
-      th.dataset.rfCol=String(i);
-      th.innerHTML=`<div class="rf-grid-head-box"><button type="button" class="rf-grid-head-sort" onclick="rfGridToggleSort('${sheet}',${i})"><span>${rfEsc(label)}</span><span class="rf-grid-sort-mark" data-rf-sort-mark="${sheet}-${i}">↕</span></button><input class="rf-grid-head-filter" type="text" autocomplete="off" placeholder="Filtrar..." aria-label="Filtrar ${rfEsc(label)}" oninput="rfGridSetFilter('${sheet}',${i},this.value)"></div>`;
+      const label=rfGridOriginalHeaderLabel(th);th.dataset.rfCol=String(i);
+      th.innerHTML=`<div class="rf-grid-head-box"><button type="button" class="rf-grid-head-sort" onclick="rfGridToggleSort('${sheet}',${i})" title="Ordenar ${rfEsc(label)}"><span>${rfEsc(label)}</span><span class="rf-grid-sort-mark" data-rf-sort-mark="${sheet}-${i}">↕</span></button><button type="button" class="rf-grid-head-filterbtn" data-rf-filter-btn="${sheet}-${i}" onclick="event.stopPropagation();rfGridOpenExcelFilter('${sheet}',${i},this)" title="Filtrar ${rfEsc(label)}">⏷</button></div>`;
     });
-    rfGridRefreshHeaderState(sheet);
+    table.dataset.rfHeadReady='2';rfGridRefreshHeaderState(sheet);rfGridUpdateFooter(sheet);
   });
 }
-function rfGridSetFilter(sheet,col,value){const v=rfGridView(sheet);v.filters[col]=value;rfGridRender(sheet);rfGridRefreshHeaderState(sheet);}
+function rfGridSetFilter(sheet,col,value){const v=rfGridView(sheet);if(value===undefined||value===null)delete v.filters[col];else v.filters[col]=value;rfGridRender(sheet);rfGridRefreshHeaderState(sheet);}
 function rfGridToggleSort(sheet,col){const v=rfGridView(sheet);if(!v.sort||v.sort.col!==col)v.sort={col,dir:'asc'};else if(v.sort.dir==='asc')v.sort={col,dir:'desc'};else v.sort=null;rfGridRender(sheet);rfGridRefreshHeaderState(sheet);}
 function rfGridRefreshHeaderState(sheet){
   const v=rfGridView(sheet);document.querySelectorAll(`[data-rf-sort-mark^="${sheet}-"]`).forEach(x=>x.textContent='↕');
   if(v.sort){const x=document.querySelector(`[data-rf-sort-mark="${sheet}-${v.sort.col}"]`);if(x)x.textContent=v.sort.dir==='asc'?'↑':'↓';}
+  document.querySelectorAll(`[data-rf-filter-btn^="${sheet}-"]`).forEach(btn=>{const col=btn.dataset.rfFilterBtn.split('-').pop();btn.classList.toggle('rf-active',Object.prototype.hasOwnProperty.call(v.filters,col));});
 }
-function rfGridResetView(sheet){delete rfGridViewState[sheet];document.querySelectorAll(`table[data-rf-grid-sheet="${sheet}"] .rf-grid-head-filter`).forEach(x=>x.value='');rfGridRefreshHeaderState(sheet);rfGridRender(sheet);}
-
+function rfGridResetView(sheet){delete rfGridViewState[sheet];rfGridCloseExcelFilter();rfGridRefreshHeaderState(sheet);rfGridRender(sheet);}
+function rfGridDistinctValues(sheet,col){
+  const st=rfGridEnsure(sheet),def=rfGridColumnDefs(sheet)[col];if(!def)return[];
+  const m=new Map();
+  st.rows.filter(r=>!r.__new&&!r.__delete).forEach(r=>{const raw=def.g(r),key=rfGridFilterKey(def,raw);if(!m.has(key))m.set(key,{key,label:rfGridFilterLabel(def,raw),raw});});
+  return [...m.values()].sort((a,b)=>def.n?(Number(a.raw||0)-Number(b.raw||0)):String(a.label).localeCompare(String(b.label),'pt-BR',{numeric:true,sensitivity:'base'}));
+}
+let rfExcelFilterContext=null;
+function rfGridEnsureExcelFilter(){
+  if(document.getElementById('rf-grid-excel-pop'))return;
+  const el=document.createElement('div');el.id='rf-grid-excel-pop';el.className='rf-grid-excel-pop hidden';
+  el.innerHTML=`<div class="rf-grid-excel-head"><div id="rf-grid-excel-title" class="rf-grid-excel-title"></div><button type="button" class="rf-grid-modal-x" onclick="rfGridCloseExcelFilter()">×</button></div><div class="rf-grid-excel-sort"><button type="button" onclick="rfGridExcelSort('asc')">↑ Crescente</button><button type="button" onclick="rfGridExcelSort('desc')">↓ Decrescente</button></div><input id="rf-grid-excel-search" class="rf-grid-excel-search" placeholder="Pesquisar itens..." oninput="rfGridExcelSearch(this.value)"><div class="rf-grid-excel-tools"><button type="button" onclick="rfGridExcelMarkAll(true)">Marcar tudo</button><button type="button" onclick="rfGridExcelMarkAll(false)">Desmarcar tudo</button></div><div id="rf-grid-excel-list" class="rf-grid-excel-list"></div><div class="rf-grid-excel-foot"><button type="button" class="rf-grid-excel-cancel" onclick="rfGridCloseExcelFilter()">Cancelar</button><button type="button" class="rf-grid-excel-apply" onclick="rfGridApplyExcelFilter()">Aplicar</button></div>`;
+  document.body.appendChild(el);
+  document.addEventListener('pointerdown',e=>{const pop=document.getElementById('rf-grid-excel-pop');if(!pop||pop.classList.contains('hidden'))return;if(pop.contains(e.target)||e.target.closest?.('.rf-grid-head-filterbtn'))return;rfGridCloseExcelFilter();},true);
+  window.addEventListener('resize',()=>rfGridCloseExcelFilter());
+}
+function rfGridOpenExcelFilter(sheet,col,btn){
+  rfGridEnsureExcelFilter();const pop=document.getElementById('rf-grid-excel-pop'),values=rfGridDistinctValues(sheet,col),view=rfGridView(sheet),cur=view.filters?.[col];
+  const selected=new Set(Array.isArray(cur)?cur:values.map(x=>x.key));rfExcelFilterContext={sheet,col,values,selected};
+  const table=btn.closest('table'),th=btn.closest('th'),label=th?.dataset.rfLabel||`Coluna ${col+1}`;document.getElementById('rf-grid-excel-title').textContent=label;document.getElementById('rf-grid-excel-search').value='';rfGridRenderExcelFilterValues('');
+  pop.classList.remove('hidden');const r=btn.getBoundingClientRect();requestAnimationFrame(()=>{const w=pop.offsetWidth,h=pop.offsetHeight;let left=Math.min(Math.max(8,r.right-w),window.innerWidth-w-8);let top=r.bottom+4;if(top+h>window.innerHeight-8)top=Math.max(8,r.top-h-4);pop.style.left=`${left}px`;pop.style.top=`${top}px`;});
+}
+function rfGridRenderExcelFilterValues(search=''){
+  const ctx=rfExcelFilterContext,list=document.getElementById('rf-grid-excel-list');if(!ctx||!list)return;const q=rfGridNorm(search);
+  const vals=ctx.values.filter(v=>!q||rfGridNorm(v.label).includes(q));
+  list.innerHTML=vals.length?vals.map(v=>`<label class="rf-grid-excel-item"><input type="checkbox" data-rf-filter-key="${rfEsc(v.key)}" ${ctx.selected.has(v.key)?'checked':''} onchange="rfGridExcelToggleValue(this)"><span title="${rfEsc(v.label)}">${rfEsc(v.label)}</span></label>`).join(''):'<div class="rf-grid-empty">Nenhum item encontrado.</div>';
+}
+function rfGridExcelSearch(v){rfGridRenderExcelFilterValues(v);}
+function rfGridExcelToggleValue(el){const ctx=rfExcelFilterContext;if(!ctx)return;const k=String(el.dataset.rfFilterKey||'');if(el.checked)ctx.selected.add(k);else ctx.selected.delete(k);}
+function rfGridExcelMarkAll(flag){const ctx=rfExcelFilterContext;if(!ctx)return;const q=rfGridNorm(document.getElementById('rf-grid-excel-search')?.value||'');ctx.values.filter(v=>!q||rfGridNorm(v.label).includes(q)).forEach(v=>flag?ctx.selected.add(v.key):ctx.selected.delete(v.key));rfGridRenderExcelFilterValues(document.getElementById('rf-grid-excel-search')?.value||'');}
+function rfGridExcelSort(dir){const ctx=rfExcelFilterContext;if(!ctx)return;rfGridView(ctx.sheet).sort={col:ctx.col,dir};rfGridCloseExcelFilter();rfGridRender(ctx.sheet);rfGridRefreshHeaderState(ctx.sheet);}
+function rfGridApplyExcelFilter(){const ctx=rfExcelFilterContext;if(!ctx)return;const view=rfGridView(ctx.sheet);if(ctx.selected.size===ctx.values.length)delete view.filters[ctx.col];else view.filters[ctx.col]=[...ctx.selected];rfGridCloseExcelFilter();rfGridRender(ctx.sheet);rfGridRefreshHeaderState(ctx.sheet);}
+function rfGridCloseExcelFilter(){document.getElementById('rf-grid-excel-pop')?.classList.add('hidden');rfExcelFilterContext=null;}
+function rfGridUpdateFooter(sheet){
+  const tb=rfGridTbody(sheet),table=tb?.closest('table');if(!tb||!table)return;const defs=rfGridColumnDefs(sheet),rows=rfGridRowsForDisplay(sheet).filter(r=>!r.__delete&&!rfGridIsBlankNew(sheet,r));
+  let foot=table.tFoot;if(!foot)foot=table.createTFoot();const cells=defs.map((d,i)=>{if(d.sum==='money'){const v=rows.reduce((a,r)=>a+(Number(d.g(r))||0),0);return `<td class="rf-grid-total-money">${formatarMoedaBR(v)}</td>`;}if(i===0)return `<td class="rf-grid-total-label">TOTAL VISÍVEL</td>`;return '<td></td>';}).join('');foot.innerHTML=`<tr>${cells}</tr>`;
+}
 function rfGridBlank(sheet){
   const common={TCLIENTE_ID:String(usuarioLogado?.TCLIENTE_ID||''),TPERIODO_ID:String(periodoAtivoObj?.TPERIODO_ID||''),__key:`new-${++rfGridTempSeq}`,__new:true,__dirty:true,__delete:false};
   if(sheet==='TCENTRO_CUSTO') return {...common,TCENTRO_CUSTO_ID:'',TCENTRO_CUSTO_TIPO:'PRODUTIVO DIRETO',TCENTRO_CUSTO_NOME:'',TCENTRO_CUSTO_AREA:0,TCENTRO_CUSTO_TIPO_RATEIO_HORAS:'',TCENTRO_CUSTO_PRODUTIVIDADE:100,TCENTRO_CUSTO_CUSTO_FIXO_DIRETO:0,TCENTRO_CUSTO_CONSIDERAR_MINIMO:'NAO',TCENTRO_CUSTO_QTDE_RECURSOS:0,TCENTRO_CUSTO_CUSTO_MENSAL:0,TCENTRO_CUSTO_CUSTO_FUNCIONARIO:0,TCENTRO_CUSTO_CUSTO_PLANO_CONTAS:0,TCENTRO_CUSTO_PREDIO:0,TCENTRO_CUSTO_INDIRETOS:0,TCENTRO_CUSTO_HORAS:0};
@@ -10013,6 +10137,12 @@ function rfGridCCDeps(ccId){
   const plcRateio=planos.filter(r=>String(r.TPLANO_CONTA_CRITERIO||'').toUpperCase()==='SELETIVO_PERCENTUAL'&&rfParseRateio(r.TCENTRO_CUSTO_ID).some(x=>String(x.id)===id));
   return {recursos,funcDiretos,funcRateio,plcDiretos,plcRateio};
 }
+function rfGridCadastroLine(sheet,row){
+  const rows=rfGridEnsure(sheet).rows.filter(r=>!r.__new&&!rfGridIsBlankNew(sheet,r));const idx=rows.indexOf(row);return idx>=0?idx+1:null;
+}
+function rfGridBlockHtml(tipo,nome,id,linha,detalhe=''){
+  return `<div class="rf-grid-block-item"><span class="rf-grid-block-type">${rfEsc(tipo)}</span><span class="rf-grid-block-name">${rfEsc(nome||id||'SEM NOME')}</span><span class="rf-grid-block-meta">${linha?`Linha do cadastro: ${linha} • `:''}${id?`ID: ${rfEsc(id)}`:''}${detalhe?`<br>${rfEsc(detalhe)}`:''}</span></div>`;
+}
 function rfEnsureCCDeleteModal(){
   if(document.getElementById('rf-cc-delete-modal'))return;
   const el=document.createElement('div');el.id='rf-cc-delete-modal';el.className='rf-grid-modal-backdrop hidden';
@@ -10027,12 +10157,12 @@ function rfGridRequestCCDelete(key){
   rfEnsureCCDeleteModal();rfCCDeleteContext={key,id,deps};
   document.getElementById('rf-cc-delete-sub').textContent=`${row.TCENTRO_CUSTO_NOME||id} (${id})`;
   const blocked=[];
-  if(fixed>0.0001)blocked.push(`Custo Fixo Direto próprio do CC: ${formatarMoedaBR(fixed)}. Esse valor desapareceria com a exclusão. Zere ou transfira manualmente esse custo e efetive a alteração antes de excluir.`);
-  if(deps.funcRateio.length)blocked.push(`${deps.funcRateio.length} funcionário(s) possuem rateio percentual envolvendo este CC. Revise e efetive o rateio dos funcionários antes da exclusão.`);
-  if(deps.plcRateio.length)blocked.push(`${deps.plcRateio.length} conta(s) possuem rateio seletivo percentual envolvendo este CC. Revise e efetive o rateio do Plano de Contas antes da exclusão.`);
+  if(fixed>0.0001)blocked.push(rfGridBlockHtml('CENTRO DE CUSTO — CUSTO FIXO DIRETO',row.TCENTRO_CUSTO_NOME||id,id,rfGridCadastroLine('TCENTRO_CUSTO',row),`Custo Fixo Direto: ${formatarMoedaBR(fixed)}. Zere ou transfira manualmente esse valor e efetive antes de excluir.`));
+  deps.funcRateio.forEach(f=>blocked.push(rfGridBlockHtml('FUNCIONÁRIO COM RATEIO %',f.TFUNCIONARIO_NOME||f.TFUNCIONARIO_ID,f.TFUNCIONARIO_ID,rfGridCadastroLine('TFUNCIONARIO',f),`Rateio atual: ${rfGridRateioLabel(f.TCENTRO_CUSTO_ID)}. Retire ${row.TCENTRO_CUSTO_NOME||id} do rateio e efetive a Folha antes de excluir.`)));
+  deps.plcRateio.forEach(c=>blocked.push(rfGridBlockHtml('PLANO DE CONTAS — RATEIO SELETIVO %',c.TPLANO_CONTA_NOME||c.TPLANO_CONTA_ID,c.TPLANO_CONTA_ID,rfGridCadastroLine('TPLANO_CONTAS',c),`Rateio atual: ${rfGridRateioLabel(c.TCENTRO_CUSTO_ID)}. Retire ${row.TCENTRO_CUSTO_NOME||id} do rateio e efetive o Plano de Contas antes de excluir.`)));
   const directCount=deps.recursos.length+deps.funcDiretos.length+deps.plcDiretos.length;
   let html=`<div class="rf-grid-delete-impact"><span>Recursos vinculados</span><strong>${deps.recursos.length}</strong><span>Funcionários exclusivos</span><strong>${deps.funcDiretos.length}</strong><span>Contas exclusivas</span><strong>${deps.plcDiretos.length}</strong><span>Funcionários com rateio %</span><strong>${deps.funcRateio.length}</strong><span>Contas com rateio seletivo %</span><strong>${deps.plcRateio.length}</strong></div>`;
-  if(blocked.length){html+=`<div class="rf-grid-danger"><strong>Exclusão bloqueada para evitar perda de custos.</strong><br><br>${blocked.map(x=>'• '+rfEsc(x)).join('<br>')}</div>`;document.getElementById('rf-cc-delete-apply').classList.add('hidden');}
+  if(blocked.length){html+=`<div class="rf-grid-danger"><strong>Exclusão bloqueada para evitar perda de custos.</strong><br>Corrija exatamente os registros abaixo e efetive as respectivas telas antes de tentar novamente.</div><div class="rf-grid-block-list">${blocked.join('')}</div>`;document.getElementById('rf-cc-delete-apply').classList.add('hidden');}
   else if(directCount){
     const opts=rfGridEnsure('TCENTRO_CUSTO').rows.filter(c=>!c.__delete&&!c.__new&&String(c.TCENTRO_CUSTO_ID)!==id).map(c=>`<option value="${rfEsc(c.TCENTRO_CUSTO_ID)}">${rfEsc(String(c.TCENTRO_CUSTO_NOME||c.TCENTRO_CUSTO_ID).toUpperCase())}</option>`).join('');
     html+=`<div class="rf-grid-warning"><strong>Há cadastros diretamente vinculados.</strong><br>Para não deixar Recursos, Funcionários ou Contas órfãos, selecione outro Centro de Custo. Esses vínculos serão transferidos automaticamente antes da exclusão.</div><label class="text-xs font-bold text-white">Transferir vínculos para:</label><select id="rf-cc-delete-target" class="rf-grid-transfer-select"><option value="">-- SELECIONE O DESTINO --</option>${opts}</select>`;
@@ -10108,7 +10238,7 @@ function rfRenderRec(){const st=rfGridEnsure('TRECURSO'),tb=rfGridTbody('TRECURS
 function rfRenderBen(){const st=rfGridEnsure('TBENEFICIOS'),tb=rfGridTbody('TBENEFICIOS');if(!tb)return;const view=rfGridRowsForDisplay('TBENEFICIOS');tb.innerHTML=view.length?view.map(r=>`<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><input class="rf-grid-input" ${rfGridAttr('TBENEFICIOS',r,'TBENEFICIO_NOME','upper')} ${r.__delete?'disabled':''}></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TBENEFICIOS',r,'TBENEFICIO_VALOR','money')} ${r.__delete?'disabled':''}></td>${rfGridActionCell('TBENEFICIOS',r)}</tr>`).join(''):'<tr><td colspan="3" class="rf-grid-empty">Nenhum benefício cadastrado. Clique em “Inserir item”.</td></tr>';rfGridBind(tb);rfGridUpdateButtons('TBENEFICIOS');}
 function rfRenderFunc(){const st=rfGridEnsure('TFUNCIONARIO'),tb=rfGridTbody('TFUNCIONARIO');if(!tb)return;const view=rfGridRowsForDisplay('TFUNCIONARIO');tb.innerHTML=view.length?view.map(r=>{rfGridCalcFuncRow(r);const isR=String(r.TFUNCIONARIO_RATEIO||'').toUpperCase()==='SIM';return `<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><div class="rf-grid-checkcell"><input type="checkbox" class="rf-grid-check" data-rf-sheet="TFUNCIONARIO" data-rf-key="${rfEsc(r.__key)}" data-rf-field="TFUNCIONARIO_RATEIO" ${isR?'checked':''} ${rfGridClosed()||r.__delete?'disabled':''}><button type="button" class="rf-grid-chipbtn rf-btn-rateio-func" onclick="rfGridOpenRateioFuncionario('${rfEsc(r.__key)}')" ${!isR||rfGridClosed()||r.__delete?'disabled':''}>${isR?rfEsc(rfGridRateioLabel(r.TCENTRO_CUSTO_ID)):'Rateio'}</button></div></td><td><select class="rf-grid-select" ${rfGridAttr('TFUNCIONARIO',r,'TCENTRO_CUSTO_ID')} ${isR||r.__delete?'disabled':''}>${rfGridCCOptions(isR?'':r.TCENTRO_CUSTO_ID)}</select></td><td><input class="rf-grid-input" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_NOME','upper')} ${r.__delete?'disabled':''}></td><td><select class="rf-grid-select" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_TP_REGISTRO')} ${r.__delete?'disabled':''}>${rfGridTipoRegOptions(r.TFUNCIONARIO_TP_REGISTRO)}</select></td><td><select class="rf-grid-select" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_TP_SALARIO')} ${r.__delete?'disabled':''}>${rfGridOption('MENSALISTA','MENSALISTA',r.TFUNCIONARIO_TP_SALARIO)}${rfGridOption('HORISTA','HORISTA',r.TFUNCIONARIO_TP_SALARIO)}</select></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_SALARIO_BASE','money')} ${r.__delete?'disabled':''}></td><td><input type="number" min="0" step="0.01" class="rf-grid-input rf-grid-number" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_HORAS','number')} ${r.__delete?'disabled':''}></td><td><div class="rf-grid-checkcell"><button type="button" class="rf-grid-chipbtn" onclick="rfGridOpenBeneficios('${rfEsc(r.__key)}')" ${rfGridClosed()||r.__delete?'disabled':''}>${rfEsc(rfGridBenefitsLabel(r))}</button></div></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_VALOR_BENEFICIOS','money')} ${r.__delete?'disabled':''}></td><td><div class="rf-grid-readonly rf-func-cost">${formatarMoedaBR(r.TFUNCIONARIO_CUSTO_MENSAL||0)}</div></td>${rfGridActionCell('TFUNCIONARIO',r)}</tr>`}).join(''):'<tr><td colspan="11" class="rf-grid-empty">Nenhum funcionário cadastrado. Clique em “Inserir item”.</td></tr>';rfGridBind(tb);rfGridUpdateButtons('TFUNCIONARIO');}
 function rfRenderPLC(){const st=rfGridEnsure('TPLANO_CONTAS'),tb=rfGridTbody('TPLANO_CONTAS');if(!tb)return;const view=rfGridRowsForDisplay('TPLANO_CONTAS');tb.innerHTML=view.length?view.map(r=>{const rateio=String(r.TPLANO_CONTA_CRITERIO||'').toUpperCase()==='SELETIVO_PERCENTUAL';r.__rateioSim=rateio?'SIM':'NAO';return `<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><div class="rf-grid-checkcell"><input type="checkbox" class="rf-grid-check" data-rf-sheet="TPLANO_CONTAS" data-rf-key="${rfEsc(r.__key)}" data-rf-field="__rateioSim" ${rateio?'checked':''} ${rfGridClosed()||r.__delete?'disabled':''}><button type="button" class="rf-grid-chipbtn rf-btn-rateio-plc" onclick="rfGridOpenRateioPlano('${rfEsc(r.__key)}')" ${!rateio||rfGridClosed()||r.__delete?'disabled':''}>${rateio?rfEsc(rfGridRateioLabel(r.TCENTRO_CUSTO_ID)):'Rateio'}</button></div></td><td><input class="rf-grid-input" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_NOME','upper')} ${r.__delete?'disabled':''}></td><td><select class="rf-grid-select" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_CRITERIO')} ${r.__delete?'disabled':''}>${rfGridCriteriaOptions(r.TPLANO_CONTA_CRITERIO)}</select></td><td><select class="rf-grid-select" ${rfGridAttr('TPLANO_CONTAS',r,'TCENTRO_CUSTO_ID')} ${r.__delete?'disabled':''}>${rfGridCCOptions(rateio?'':r.TCENTRO_CUSTO_ID)}</select></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_VALOR','money')} ${r.__delete?'disabled':''}></td>${rfGridActionCell('TPLANO_CONTAS',r)}</tr>`}).join(''):'<tr><td colspan="6" class="rf-grid-empty">Nenhuma conta cadastrada. Clique em “Inserir item”.</td></tr>';st.rows.forEach(r=>rfGridApplyPLCRules(rfGridRowByKey(tb,r.__key),r));rfGridBind(tb);rfGridUpdateButtons('TPLANO_CONTAS');}
-function rfGridRender(sheet){if(sheet==='TCENTRO_CUSTO')rfRenderCC();else if(sheet==='TRECURSO')rfRenderRec();else if(sheet==='TBENEFICIOS')rfRenderBen();else if(sheet==='TFUNCIONARIO')rfRenderFunc();else if(sheet==='TPLANO_CONTAS')rfRenderPLC();requestAnimationFrame(()=>{try{v49UpdateKPIs();}catch(_){}});}
+function rfGridRender(sheet){if(sheet==='TCENTRO_CUSTO')rfRenderCC();else if(sheet==='TRECURSO')rfRenderRec();else if(sheet==='TBENEFICIOS')rfRenderBen();else if(sheet==='TFUNCIONARIO')rfRenderFunc();else if(sheet==='TPLANO_CONTAS')rfRenderPLC();rfGridUpdateFooter(sheet);rfGridRefreshHeaderState(sheet);requestAnimationFrame(()=>{try{v49UpdateKPIs();}catch(_){}});}
 function renderizarTabelaCCLocal(){rfGridRender('TCENTRO_CUSTO');}
 function renderizarTabelaRecursosLocal(){rfGridRender('TRECURSO');}
 function renderizarTabelaBeneficiosLocal(){rfGridRender('TBENEFICIOS');}
@@ -10159,7 +10289,9 @@ async function rfGridCommit(sheet){
   const payload={sheet,action:'BATCH_MUTATE',clienteId:usuarioLogado.TCLIENTE_ID,periodoId:periodoAtivoObj.TPERIODO_ID,creates,updates,deletes,confirmDelete,ccTransfers};
   try{
     await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    delete rfGridState[sheet];await carregarTudoDoPeriodo({silencioso:true});setSyncStatus(false,'Atualizado');alert('Cadastros/alterações efetivados com sucesso.');
+    delete rfGridState[sheet];delete rfGridViewState[sheet];rfGridCloseExcelFilter();
+    await new Promise(resolve=>setTimeout(resolve,250));
+    await carregarTudoDoPeriodo({silencioso:true});setSyncStatus(false,'Atualizado');alert('Cadastros/alterações efetivados com sucesso.');
   }catch(e){console.error(e);setSyncStatus(false,'Falha');alert('Não foi possível efetivar as alterações.');rfGridUpdateButtons(sheet);}
 }
 
