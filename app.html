@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.24 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.24">
+    <title>CONSULTORIA.RF V5.2.25 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.25">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1610,7 +1610,7 @@ body.rf-periodo-fechado #modal-importar-plano {
 
 <style id="v5223-inline-grid">
 /* ================================================================
-   V5.2.24 — CADASTRO DIRETO NA GRADE
+   V5.2.25 — CADASTRO DIRETO NA GRADE
    ================================================================ */
 .rf-inline-page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:12px;border-bottom:1px solid var(--ui-border)}
 .rf-inline-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
@@ -1655,7 +1655,7 @@ body.light-mode #table-centros-custo.rf-inline-table thead th{background:#e9edf2
 
 <style id="v5224-grid-ux">
 /* ================================================================
-   V5.2.24 — GRADE: NAVEGAÇÃO, FILTROS, ORDENAÇÃO E AÇÕES DUPLAS
+   V5.2.25 — GRADE: NAVEGAÇÃO, FILTROS, ORDENAÇÃO E AÇÕES DUPLAS
    ================================================================ */
 .rf-inline-scroll{
     overflow:auto !important;
@@ -1702,6 +1702,12 @@ body.light-mode .rf-grid-danger{background:#fff1f2;border-color:#fda4af;color:#9
     .rf-inline-actions-bottom .rf-inline-btn{min-width:0;width:100%}
     .rf-inline-actions-bottom .rf-inline-btn-primary{grid-column:1/-1}
 }
+
+/* V5.2.25 — feedback inequívoco para alterações/exclusões pendentes */
+.rf-inline-btn-primary.rf-grid-has-changes{box-shadow:0 0 0 2px rgba(255,136,56,.18),0 6px 18px rgba(255,136,56,.16)!important}
+.rf-inline-table tbody tr.rf-grid-delete td{opacity:.62!important;text-decoration:line-through!important;background:#2b1518!important}
+.rf-inline-table tbody tr.rf-grid-delete td:last-child{opacity:1!important;text-decoration:none!important}
+body.light-mode .rf-inline-table tbody tr.rf-grid-delete td{background:#fff0f0!important}
 </style>
 
 </head>
@@ -1711,7 +1717,7 @@ body.light-mode .rf-grid-danger{background:#fff1f2;border-color:#fda4af;color:#9
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.24</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.25</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1746,7 +1752,7 @@ body.light-mode .rf-grid-danger{background:#fff1f2;border-color:#fda4af;color:#9
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.24</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.25</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -5519,7 +5525,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.24', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.25', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -9820,7 +9826,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 <script id="v5223-inline-grid-script">
 // ================================================================
-// V5.2.24 — CADASTRO / EDIÇÃO DIRETO NA GRADE
+// V5.2.25 — CADASTRO / EDIÇÃO DIRETO NA GRADE
 // ================================================================
 const rfGridState = {};
 const rfGridViewState = {};
@@ -9829,6 +9835,7 @@ let rfGridModalContext = null;
 let rfCCDeleteContext = null;
 
 function rfEsc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function rfGridRowByKey(tb,key){if(!tb)return null;const alvo=String(key??'');return [...tb.querySelectorAll('tr[data-rf-key]')].find(tr=>String(tr.dataset.rfKey??'')===alvo)||null;}
 function rfGridCtx(){return `${String(usuarioLogado?.TCLIENTE_ID||'')}::${String(periodoAtivoObj?.TPERIODO_ID||'')}`;}
 function rfGridClosed(){return !!(periodoAtivoObj && String(periodoAtivoObj.TPERIODO_STATUS||'').toUpperCase()==='FECHADO');}
 function rfGridList(sheet){
@@ -9942,9 +9949,17 @@ function rfGridFind(sheet,key){return rfGridEnsure(sheet).rows.find(r=>String(r.
 function rfGridMark(sheet,row,tr){const st=rfGridEnsure(sheet);row.__dirty=true;st.dirty=true;if(tr)tr.classList.add('rf-grid-dirty');rfGridUpdateButtons(sheet);}
 function rfGridChangedCount(sheet){const st=rfGridEnsure(sheet);return st.rows.filter(r=>r.__dirty||r.__new||r.__delete).length;}
 function rfGridUpdateButtons(sheet){
-  const n=rfGridChangedCount(sheet), closed=rfGridClosed();
-  document.querySelectorAll(`[data-rf-save="${sheet}"]`).forEach(b=>{b.disabled=closed||n===0;b.textContent=n?`✓ Efetivar cadastros/alterações (${n})`:'✓ Efetivar cadastros/alterações';});
-  document.querySelectorAll(`[data-rf-discard="${sheet}"]`).forEach(b=>{b.disabled=closed||n===0;});
+  const n=rfGridChangedCount(sheet), closed=rfGridClosed(), hasChanges=n>0;
+  document.querySelectorAll(`[data-rf-save="${sheet}"]`).forEach(b=>{
+    b.disabled=closed||!hasChanges;
+    b.setAttribute('aria-disabled', String(b.disabled));
+    b.textContent=hasChanges?`✓ Efetivar cadastros/alterações (${n})`:'✓ Efetivar cadastros/alterações';
+    b.classList.toggle('rf-grid-has-changes', hasChanges&&!closed);
+  });
+  document.querySelectorAll(`[data-rf-discard="${sheet}"]`).forEach(b=>{
+    b.disabled=closed||!hasChanges;
+    b.setAttribute('aria-disabled', String(b.disabled));
+  });
 }
 function rfGridAnyDirty(){return Object.values(rfGridState).some(s=>s?.dirty);}
 function rfGridAdd(sheet){
@@ -9957,13 +9972,35 @@ function rfGridDiscard(sheet){
   if(!confirm('Descartar todas as alterações ainda não efetivadas desta tela?'))return;
   delete rfGridState[sheet];rfGridRender(sheet);rfGridUpdateButtons(sheet);
 }
+function rfGridApplyDeleteState(sheet,row,marked,transferTo=''){
+  const st=rfGridEnsure(sheet);
+  row.__delete=!!marked;
+  row.__ccTransferTo=marked?String(transferTo||''):'';
+  row.__dirty=true;
+  st.dirty=true;
+  // O botão de efetivar precisa refletir a alteração mesmo se alguma rotina
+  // visual da grade falhar no navegador/mobile.
+  try{rfGridRender(sheet);}catch(e){console.error('Falha ao redesenhar exclusão na grade:',sheet,e);}
+  rfGridUpdateButtons(sheet);
+  requestAnimationFrame(()=>rfGridUpdateButtons(sheet));
+}
 function rfGridToggleDelete(sheet,key){
   if(rfGridClosed())return;
-  const st=rfGridEnsure(sheet), row=rfGridFind(sheet,key);if(!row)return;
-  if(row.__new){st.rows=st.rows.filter(r=>r!==row);st.dirty=true;rfGridRender(sheet);rfGridUpdateButtons(sheet);return;}
-  if(row.__delete){row.__delete=false;row.__ccTransferTo='';row.__dirty=true;st.dirty=true;rfGridRender(sheet);rfGridUpdateButtons(sheet);return;}
-  if(sheet==='TCENTRO_CUSTO'){rfGridRequestCCDelete(key);return;}
-  row.__delete=true;row.__dirty=true;st.dirty=true;rfGridRender(sheet);rfGridUpdateButtons(sheet);
+  try{
+    const st=rfGridEnsure(sheet), row=rfGridFind(sheet,key);if(!row)return;
+    if(row.__new){
+      st.rows=st.rows.filter(r=>r!==row);st.dirty=true;
+      try{rfGridRender(sheet);}finally{rfGridUpdateButtons(sheet);}
+      return;
+    }
+    if(row.__delete){rfGridApplyDeleteState(sheet,row,false);return;}
+    if(sheet==='TCENTRO_CUSTO'){rfGridRequestCCDelete(key);return;}
+    rfGridApplyDeleteState(sheet,row,true);
+  }catch(e){
+    console.error('Erro ao marcar exclusão:',sheet,key,e);
+    alert('Não foi possível marcar este registro para exclusão. Atualize a página e tente novamente.');
+    rfGridUpdateButtons(sheet);
+  }
 }
 function rfGridCCDeps(ccId){
   const id=String(ccId||'');
@@ -10004,10 +10041,17 @@ function rfGridRequestCCDelete(key){
   document.getElementById('rf-cc-delete-body').innerHTML=html;document.getElementById('rf-cc-delete-modal').classList.remove('hidden');
 }
 function rfGridConfirmCCDelete(){
-  const ctx=rfCCDeleteContext;if(!ctx)return;const row=rfGridFind('TCENTRO_CUSTO',ctx.key);if(!row)return;
+  const ctx=rfCCDeleteContext;if(!ctx)return;
+  const row=rfGridFind('TCENTRO_CUSTO',ctx.key);if(!row)return;
   const directCount=ctx.deps.recursos.length+ctx.deps.funcDiretos.length+ctx.deps.plcDiretos.length;let target='';
-  if(directCount){target=String(document.getElementById('rf-cc-delete-target')?.value||'');if(!target)return alert('Selecione o Centro de Custo que receberá os vínculos.');}
-  row.__ccTransferTo=target;row.__delete=true;row.__dirty=true;const st=rfGridEnsure('TCENTRO_CUSTO');st.dirty=true;rfGridCloseCCDelete();rfGridRender('TCENTRO_CUSTO');rfGridUpdateButtons('TCENTRO_CUSTO');
+  if(directCount){
+    target=String(document.getElementById('rf-cc-delete-target')?.value||'');
+    if(!target)return alert('Selecione o Centro de Custo que receberá os vínculos.');
+  }
+  // Marca primeiro no estado; fechar o modal depois evita perder o contexto
+  // antes de a alteração ficar efetivamente pendente.
+  rfGridApplyDeleteState('TCENTRO_CUSTO',row,true,target);
+  rfGridCloseCCDelete();
 }
 
 function rfGridTbody(sheet){return document.getElementById(({TCENTRO_CUSTO:'tbl-cc-body',TRECURSO:'tbl-rec-body',TBENEFICIOS:'tbl-ben-body',TFUNCIONARIO:'tbl-func-body',TPLANO_CONTAS:'tbl-plc-body'})[sheet]);}
@@ -10059,11 +10103,11 @@ function rfGridRateioLabel(raw){const a=rfParseRateio(raw);if(!a.length)return '
 function rfGridBenefitsLabel(r){const ids=rfParseBenefits(r);if(!ids.length)return Number((r.TFUNCIONARIO_VALOR_BENEFICIOS ?? rfFuncionarioBeneficios(r)) || 0)>0?'Selecionar / revisar':'Selecionar';const nomes=ids.map(id=>listaBeneficios.find(b=>String(b.TBENEFICIO_ID)===String(id))?.TBENEFICIO_NOME).filter(Boolean);return nomes.length?nomes.join(', '):`${ids.length} benefício(s)`;}
 function rfGridCriteriaOptions(sel){const vals=[['EXCLUSIVO','EXCLUSIVO (CENTRO DE CUSTO ÚNICO)'],['AREA','RATEIO POR ÁREA (M²)'],['RECURSOS','RATEIO POR QUANTIDADE DE RECURSOS'],['HORAS','RATEIO POR HORAS FINAIS DO CC'],['PD_AREA','APENAS PRODUTIVOS DIRETOS (ÁREA)'],['PD_RECURSOS','APENAS PRODUTIVOS DIRETOS (QTDE RECURSOS)'],['PD_HORAS','APENAS PRODUTIVOS DIRETOS (HORAS)'],['PI_AREA','APENAS PRODUTIVOS INDIRETOS (ÁREA)'],['ADM_AREA','APENAS ADMINISTRATIVOS (ÁREA)'],['NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)','NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)'],['NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)','NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)'],['SELETIVO_PERCENTUAL','RATEIO SELETIVO (%)']];return vals.map(([v,l])=>rfGridOption(v,l,sel)).join('');}
 
-function rfRenderCC(){const st=rfGridEnsure('TCENTRO_CUSTO'),tb=rfGridTbody('TCENTRO_CUSTO');if(!tb)return;const view=rfGridRowsForDisplay('TCENTRO_CUSTO');tb.innerHTML=view.length?view.map(r=>{const dis=r.__delete?'disabled':'';return `<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td>${rfGridReadonly(r.TCENTRO_CUSTO_ID||'NOVO',false,true,'rf-grid-id')}</td><td><select class="rf-grid-select" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_TIPO')} ${dis}>${rfGridTipoCCOptions(r.TCENTRO_CUSTO_TIPO)}</select></td><td><input class="rf-grid-input" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_NOME','upper')} ${dis}></td><td><input type="number" step="0.01" class="rf-grid-input rf-grid-number" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_AREA','number')} ${dis}></td><td><select class="rf-grid-select" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_TIPO_RATEIO_HORAS')} ${dis}>${rfGridRateioHorasOptions(r.TCENTRO_CUSTO_TIPO_RATEIO_HORAS)}</select></td><td><input type="number" step="0.01" class="rf-grid-input rf-grid-number" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_PRODUTIVIDADE','number')} ${dis}></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_CUSTO_FIXO_DIRETO','money')} ${dis}></td><td><div class="rf-grid-checkcell"><input type="checkbox" class="rf-grid-check" data-rf-sheet="TCENTRO_CUSTO" data-rf-key="${rfEsc(r.__key)}" data-rf-field="TCENTRO_CUSTO_CONSIDERAR_MINIMO" ${String(r.TCENTRO_CUSTO_CONSIDERAR_MINIMO||'').toUpperCase()==='SIM'?'checked':''} ${rfGridClosed()||r.__delete?'disabled':''}></div></td><td>${rfGridReadonly(r.TCENTRO_CUSTO_QTDE_RECURSOS||0)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_CUSTO_MENSAL||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_CUSTO_FUNCIONARIO||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_PREDIO||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_INDIRETOS||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_HORAS||0)}</td>${rfGridActionCell('TCENTRO_CUSTO',r)}</tr>`}).join(''):'<tr><td colspan="16" class="rf-grid-empty">Nenhum Centro de Custo cadastrado. Clique em “Inserir item”.</td></tr>';st.rows.forEach(r=>rfGridApplyCCRRules(tb.querySelector(`tr[data-rf-key="${CSS.escape(String(r.__key))}"]`),r));rfGridBind(tb);rfGridUpdateButtons('TCENTRO_CUSTO');}
-function rfRenderRec(){const st=rfGridEnsure('TRECURSO'),tb=rfGridTbody('TRECURSO');if(!tb)return;const view=rfGridRowsForDisplay('TRECURSO');tb.innerHTML=view.length?view.map(r=>`<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><select class="rf-grid-select" ${rfGridAttr('TRECURSO',r,'TCENTRO_CUSTO_ID')} ${r.__delete?'disabled':''}>${rfGridCCOptions(r.TCENTRO_CUSTO_ID)}</select></td><td><input class="rf-grid-input" ${rfGridAttr('TRECURSO',r,'TRECURSO_NOME','upper')} ${r.__delete?'disabled':''}></td><td><select class="rf-grid-select" ${rfGridAttr('TRECURSO',r,'TRECURSO_TIPO')} ${r.__delete?'disabled':''}>${rfGridTipoRecOptions(r.TRECURSO_TIPO)}</select></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TRECURSO',r,'TRECURSO_VALOR','money')} ${r.__delete?'disabled':''}></td><td><input type="number" min="1" step="1" class="rf-grid-input rf-grid-number" ${rfGridAttr('TRECURSO',r,'TRECURSO_TURNOS','int')} ${r.__delete?'disabled':''}></td><td><div class="rf-grid-readonly rf-rec-dep">${formatarMoedaBR(r.TRECURSO_CUSTO_MENSAL||0)}</div></td>${rfGridActionCell('TRECURSO',r)}</tr>`).join(''):'<tr><td colspan="7" class="rf-grid-empty">Nenhum recurso cadastrado. Clique em “Inserir item”.</td></tr>';st.rows.forEach(r=>rfGridApplyRules('TRECURSO',r,tb.querySelector(`tr[data-rf-key="${CSS.escape(String(r.__key))}"]`),''));rfGridBind(tb);rfGridUpdateButtons('TRECURSO');}
+function rfRenderCC(){const st=rfGridEnsure('TCENTRO_CUSTO'),tb=rfGridTbody('TCENTRO_CUSTO');if(!tb)return;const view=rfGridRowsForDisplay('TCENTRO_CUSTO');tb.innerHTML=view.length?view.map(r=>{const dis=r.__delete?'disabled':'';return `<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td>${rfGridReadonly(r.TCENTRO_CUSTO_ID||'NOVO',false,true,'rf-grid-id')}</td><td><select class="rf-grid-select" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_TIPO')} ${dis}>${rfGridTipoCCOptions(r.TCENTRO_CUSTO_TIPO)}</select></td><td><input class="rf-grid-input" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_NOME','upper')} ${dis}></td><td><input type="number" step="0.01" class="rf-grid-input rf-grid-number" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_AREA','number')} ${dis}></td><td><select class="rf-grid-select" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_TIPO_RATEIO_HORAS')} ${dis}>${rfGridRateioHorasOptions(r.TCENTRO_CUSTO_TIPO_RATEIO_HORAS)}</select></td><td><input type="number" step="0.01" class="rf-grid-input rf-grid-number" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_PRODUTIVIDADE','number')} ${dis}></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_CUSTO_FIXO_DIRETO','money')} ${dis}></td><td><div class="rf-grid-checkcell"><input type="checkbox" class="rf-grid-check" data-rf-sheet="TCENTRO_CUSTO" data-rf-key="${rfEsc(r.__key)}" data-rf-field="TCENTRO_CUSTO_CONSIDERAR_MINIMO" ${String(r.TCENTRO_CUSTO_CONSIDERAR_MINIMO||'').toUpperCase()==='SIM'?'checked':''} ${rfGridClosed()||r.__delete?'disabled':''}></div></td><td>${rfGridReadonly(r.TCENTRO_CUSTO_QTDE_RECURSOS||0)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_CUSTO_MENSAL||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_CUSTO_FUNCIONARIO||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_PREDIO||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_INDIRETOS||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_HORAS||0)}</td>${rfGridActionCell('TCENTRO_CUSTO',r)}</tr>`}).join(''):'<tr><td colspan="16" class="rf-grid-empty">Nenhum Centro de Custo cadastrado. Clique em “Inserir item”.</td></tr>';st.rows.forEach(r=>rfGridApplyCCRRules(rfGridRowByKey(tb,r.__key),r));rfGridBind(tb);rfGridUpdateButtons('TCENTRO_CUSTO');}
+function rfRenderRec(){const st=rfGridEnsure('TRECURSO'),tb=rfGridTbody('TRECURSO');if(!tb)return;const view=rfGridRowsForDisplay('TRECURSO');tb.innerHTML=view.length?view.map(r=>`<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><select class="rf-grid-select" ${rfGridAttr('TRECURSO',r,'TCENTRO_CUSTO_ID')} ${r.__delete?'disabled':''}>${rfGridCCOptions(r.TCENTRO_CUSTO_ID)}</select></td><td><input class="rf-grid-input" ${rfGridAttr('TRECURSO',r,'TRECURSO_NOME','upper')} ${r.__delete?'disabled':''}></td><td><select class="rf-grid-select" ${rfGridAttr('TRECURSO',r,'TRECURSO_TIPO')} ${r.__delete?'disabled':''}>${rfGridTipoRecOptions(r.TRECURSO_TIPO)}</select></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TRECURSO',r,'TRECURSO_VALOR','money')} ${r.__delete?'disabled':''}></td><td><input type="number" min="1" step="1" class="rf-grid-input rf-grid-number" ${rfGridAttr('TRECURSO',r,'TRECURSO_TURNOS','int')} ${r.__delete?'disabled':''}></td><td><div class="rf-grid-readonly rf-rec-dep">${formatarMoedaBR(r.TRECURSO_CUSTO_MENSAL||0)}</div></td>${rfGridActionCell('TRECURSO',r)}</tr>`).join(''):'<tr><td colspan="7" class="rf-grid-empty">Nenhum recurso cadastrado. Clique em “Inserir item”.</td></tr>';st.rows.forEach(r=>rfGridApplyRules('TRECURSO',r,rfGridRowByKey(tb,r.__key),''));rfGridBind(tb);rfGridUpdateButtons('TRECURSO');}
 function rfRenderBen(){const st=rfGridEnsure('TBENEFICIOS'),tb=rfGridTbody('TBENEFICIOS');if(!tb)return;const view=rfGridRowsForDisplay('TBENEFICIOS');tb.innerHTML=view.length?view.map(r=>`<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><input class="rf-grid-input" ${rfGridAttr('TBENEFICIOS',r,'TBENEFICIO_NOME','upper')} ${r.__delete?'disabled':''}></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TBENEFICIOS',r,'TBENEFICIO_VALOR','money')} ${r.__delete?'disabled':''}></td>${rfGridActionCell('TBENEFICIOS',r)}</tr>`).join(''):'<tr><td colspan="3" class="rf-grid-empty">Nenhum benefício cadastrado. Clique em “Inserir item”.</td></tr>';rfGridBind(tb);rfGridUpdateButtons('TBENEFICIOS');}
 function rfRenderFunc(){const st=rfGridEnsure('TFUNCIONARIO'),tb=rfGridTbody('TFUNCIONARIO');if(!tb)return;const view=rfGridRowsForDisplay('TFUNCIONARIO');tb.innerHTML=view.length?view.map(r=>{rfGridCalcFuncRow(r);const isR=String(r.TFUNCIONARIO_RATEIO||'').toUpperCase()==='SIM';return `<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><div class="rf-grid-checkcell"><input type="checkbox" class="rf-grid-check" data-rf-sheet="TFUNCIONARIO" data-rf-key="${rfEsc(r.__key)}" data-rf-field="TFUNCIONARIO_RATEIO" ${isR?'checked':''} ${rfGridClosed()||r.__delete?'disabled':''}><button type="button" class="rf-grid-chipbtn rf-btn-rateio-func" onclick="rfGridOpenRateioFuncionario('${rfEsc(r.__key)}')" ${!isR||rfGridClosed()||r.__delete?'disabled':''}>${isR?rfEsc(rfGridRateioLabel(r.TCENTRO_CUSTO_ID)):'Rateio'}</button></div></td><td><select class="rf-grid-select" ${rfGridAttr('TFUNCIONARIO',r,'TCENTRO_CUSTO_ID')} ${isR||r.__delete?'disabled':''}>${rfGridCCOptions(isR?'':r.TCENTRO_CUSTO_ID)}</select></td><td><input class="rf-grid-input" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_NOME','upper')} ${r.__delete?'disabled':''}></td><td><select class="rf-grid-select" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_TP_REGISTRO')} ${r.__delete?'disabled':''}>${rfGridTipoRegOptions(r.TFUNCIONARIO_TP_REGISTRO)}</select></td><td><select class="rf-grid-select" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_TP_SALARIO')} ${r.__delete?'disabled':''}>${rfGridOption('MENSALISTA','MENSALISTA',r.TFUNCIONARIO_TP_SALARIO)}${rfGridOption('HORISTA','HORISTA',r.TFUNCIONARIO_TP_SALARIO)}</select></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_SALARIO_BASE','money')} ${r.__delete?'disabled':''}></td><td><input type="number" min="0" step="0.01" class="rf-grid-input rf-grid-number" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_HORAS','number')} ${r.__delete?'disabled':''}></td><td><div class="rf-grid-checkcell"><button type="button" class="rf-grid-chipbtn" onclick="rfGridOpenBeneficios('${rfEsc(r.__key)}')" ${rfGridClosed()||r.__delete?'disabled':''}>${rfEsc(rfGridBenefitsLabel(r))}</button></div></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_VALOR_BENEFICIOS','money')} ${r.__delete?'disabled':''}></td><td><div class="rf-grid-readonly rf-func-cost">${formatarMoedaBR(r.TFUNCIONARIO_CUSTO_MENSAL||0)}</div></td>${rfGridActionCell('TFUNCIONARIO',r)}</tr>`}).join(''):'<tr><td colspan="11" class="rf-grid-empty">Nenhum funcionário cadastrado. Clique em “Inserir item”.</td></tr>';rfGridBind(tb);rfGridUpdateButtons('TFUNCIONARIO');}
-function rfRenderPLC(){const st=rfGridEnsure('TPLANO_CONTAS'),tb=rfGridTbody('TPLANO_CONTAS');if(!tb)return;const view=rfGridRowsForDisplay('TPLANO_CONTAS');tb.innerHTML=view.length?view.map(r=>{const rateio=String(r.TPLANO_CONTA_CRITERIO||'').toUpperCase()==='SELETIVO_PERCENTUAL';r.__rateioSim=rateio?'SIM':'NAO';return `<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><div class="rf-grid-checkcell"><input type="checkbox" class="rf-grid-check" data-rf-sheet="TPLANO_CONTAS" data-rf-key="${rfEsc(r.__key)}" data-rf-field="__rateioSim" ${rateio?'checked':''} ${rfGridClosed()||r.__delete?'disabled':''}><button type="button" class="rf-grid-chipbtn rf-btn-rateio-plc" onclick="rfGridOpenRateioPlano('${rfEsc(r.__key)}')" ${!rateio||rfGridClosed()||r.__delete?'disabled':''}>${rateio?rfEsc(rfGridRateioLabel(r.TCENTRO_CUSTO_ID)):'Rateio'}</button></div></td><td><input class="rf-grid-input" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_NOME','upper')} ${r.__delete?'disabled':''}></td><td><select class="rf-grid-select" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_CRITERIO')} ${r.__delete?'disabled':''}>${rfGridCriteriaOptions(r.TPLANO_CONTA_CRITERIO)}</select></td><td><select class="rf-grid-select" ${rfGridAttr('TPLANO_CONTAS',r,'TCENTRO_CUSTO_ID')} ${r.__delete?'disabled':''}>${rfGridCCOptions(rateio?'':r.TCENTRO_CUSTO_ID)}</select></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_VALOR','money')} ${r.__delete?'disabled':''}></td>${rfGridActionCell('TPLANO_CONTAS',r)}</tr>`}).join(''):'<tr><td colspan="6" class="rf-grid-empty">Nenhuma conta cadastrada. Clique em “Inserir item”.</td></tr>';st.rows.forEach(r=>rfGridApplyPLCRules(tb.querySelector(`tr[data-rf-key="${CSS.escape(String(r.__key))}"]`),r));rfGridBind(tb);rfGridUpdateButtons('TPLANO_CONTAS');}
+function rfRenderPLC(){const st=rfGridEnsure('TPLANO_CONTAS'),tb=rfGridTbody('TPLANO_CONTAS');if(!tb)return;const view=rfGridRowsForDisplay('TPLANO_CONTAS');tb.innerHTML=view.length?view.map(r=>{const rateio=String(r.TPLANO_CONTA_CRITERIO||'').toUpperCase()==='SELETIVO_PERCENTUAL';r.__rateioSim=rateio?'SIM':'NAO';return `<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><div class="rf-grid-checkcell"><input type="checkbox" class="rf-grid-check" data-rf-sheet="TPLANO_CONTAS" data-rf-key="${rfEsc(r.__key)}" data-rf-field="__rateioSim" ${rateio?'checked':''} ${rfGridClosed()||r.__delete?'disabled':''}><button type="button" class="rf-grid-chipbtn rf-btn-rateio-plc" onclick="rfGridOpenRateioPlano('${rfEsc(r.__key)}')" ${!rateio||rfGridClosed()||r.__delete?'disabled':''}>${rateio?rfEsc(rfGridRateioLabel(r.TCENTRO_CUSTO_ID)):'Rateio'}</button></div></td><td><input class="rf-grid-input" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_NOME','upper')} ${r.__delete?'disabled':''}></td><td><select class="rf-grid-select" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_CRITERIO')} ${r.__delete?'disabled':''}>${rfGridCriteriaOptions(r.TPLANO_CONTA_CRITERIO)}</select></td><td><select class="rf-grid-select" ${rfGridAttr('TPLANO_CONTAS',r,'TCENTRO_CUSTO_ID')} ${r.__delete?'disabled':''}>${rfGridCCOptions(rateio?'':r.TCENTRO_CUSTO_ID)}</select></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_VALOR','money')} ${r.__delete?'disabled':''}></td>${rfGridActionCell('TPLANO_CONTAS',r)}</tr>`}).join(''):'<tr><td colspan="6" class="rf-grid-empty">Nenhuma conta cadastrada. Clique em “Inserir item”.</td></tr>';st.rows.forEach(r=>rfGridApplyPLCRules(rfGridRowByKey(tb,r.__key),r));rfGridBind(tb);rfGridUpdateButtons('TPLANO_CONTAS');}
 function rfGridRender(sheet){if(sheet==='TCENTRO_CUSTO')rfRenderCC();else if(sheet==='TRECURSO')rfRenderRec();else if(sheet==='TBENEFICIOS')rfRenderBen();else if(sheet==='TFUNCIONARIO')rfRenderFunc();else if(sheet==='TPLANO_CONTAS')rfRenderPLC();requestAnimationFrame(()=>{try{v49UpdateKPIs();}catch(_){}});}
 function renderizarTabelaCCLocal(){rfGridRender('TCENTRO_CUSTO');}
 function renderizarTabelaRecursosLocal(){rfGridRender('TRECURSO');}
@@ -10071,7 +10115,7 @@ function renderizarTabelaBeneficiosLocal(){rfGridRender('TBENEFICIOS');}
 function renderizarTabelaFuncionariosLocal(){rfGridRender('TFUNCIONARIO');}
 function renderizarTabelaPlanoContasLocal(){rfGridRender('TPLANO_CONTAS');}
 
-function rfGridBind(tb){if(!tb||tb.dataset.rfGridBound==='1')return;tb.dataset.rfGridBound='1';tb.addEventListener('input',e=>{const el=e.target.closest('[data-rf-field]');if(el)rfGridEdit(el);});tb.addEventListener('change',e=>{const el=e.target.closest('[data-rf-field]');if(el)rfGridEdit(el);});tb.addEventListener('blur',e=>{const el=e.target.closest('[data-rf-field]');if(el)rfGridBlur(el);},true);tb.addEventListener('keydown',e=>{if(e.key!=='ArrowDown'||e.altKey||e.ctrlKey||e.metaKey||rfGridClosed())return;const tr=e.target.closest('tr');if(!tr)return;const rows=[...tb.querySelectorAll('tr[data-rf-key]')].filter(x=>!x.classList.contains('rf-grid-delete'));if(rows.length&&tr===rows[rows.length-1]){e.preventDefault();const sheet=e.target.dataset.rfSheet;if(!sheet)return;const field=e.target.dataset.rfField;rfGridAdd(sheet);setTimeout(()=>{const nt=[...tb.querySelectorAll('tr[data-rf-key]')].filter(x=>!x.classList.contains('rf-grid-delete')).at(-1);nt?.querySelector(`[data-rf-field="${CSS.escape(field||'')}"]`)?.focus();},30);}});}
+function rfGridBind(tb){if(!tb||tb.dataset.rfGridBound==='1')return;tb.dataset.rfGridBound='1';tb.addEventListener('input',e=>{const el=e.target.closest('[data-rf-field]');if(el)rfGridEdit(el);});tb.addEventListener('change',e=>{const el=e.target.closest('[data-rf-field]');if(el)rfGridEdit(el);});tb.addEventListener('blur',e=>{const el=e.target.closest('[data-rf-field]');if(el)rfGridBlur(el);},true);tb.addEventListener('keydown',e=>{if(e.key!=='ArrowDown'||e.altKey||e.ctrlKey||e.metaKey||rfGridClosed())return;const tr=e.target.closest('tr');if(!tr)return;const rows=[...tb.querySelectorAll('tr[data-rf-key]')].filter(x=>!x.classList.contains('rf-grid-delete'));if(rows.length&&tr===rows[rows.length-1]){e.preventDefault();const sheet=e.target.dataset.rfSheet;if(!sheet)return;const field=e.target.dataset.rfField;rfGridAdd(sheet);setTimeout(()=>{const nt=[...tb.querySelectorAll('tr[data-rf-key]')].filter(x=>!x.classList.contains('rf-grid-delete')).at(-1);{const dest=nt?[...nt.querySelectorAll('[data-rf-field]')].find(x=>String(x.dataset.rfField||'')===String(field||'')):null;dest?.focus();}},30);}});}
 
 function rfGridValidate(sheet,row){
   if(row.__delete)return null;
