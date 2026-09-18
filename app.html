@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.26 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.26">
+    <title>CONSULTORIA.RF V5.2.27 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.27">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1752,6 +1752,56 @@ body.light-mode .rf-grid-excel-pop{background:#fff;border-color:#d0d5dd}body.lig
 @media(max-width:767px){.rf-grid-head-box{min-width:104px}.rf-grid-head-filterbtn{width:26px;min-width:26px}.rf-grid-excel-pop{max-height:72vh}.rf-folha-card-head{flex-direction:column;gap:8px}.rf-folha-head-total{text-align:left;font-size:14px}.rf-folha-head-total span{display:inline;margin-left:5px}}
 </style>
 
+
+<style id="v5227-theme-config-polish">
+/* ================================================================
+   V5.2.27 — CONFIGURAÇÃO DO PERÍODO + POLIMENTO DE TEMAS/MODAIS
+   ================================================================ */
+.rf-period-config-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--ui-border)}
+.rf-period-config-eyebrow{display:block;margin-bottom:3px;font-size:9px;letter-spacing:.14em;font-weight:900;color:#ff9a57}
+.rf-period-config-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;font-size:10px;color:#8f96a1}
+.rf-period-config-meta>span:first-child{padding:6px 9px;border:1px solid #31353d;background:#111318;border-radius:8px}.rf-period-config-meta strong{color:#f0f2f5;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.rf-period-status-badge{display:inline-flex;align-items:center;padding:6px 9px;border-radius:999px;border:1px solid;font-size:9px;font-weight:900;letter-spacing:.05em}.rf-period-status-badge.is-open{background:#102a21;border-color:#275a47;color:#75d7af}.rf-period-status-badge.is-closed{background:#2f2412;border-color:#6c5122;color:#f6c56f}
+.rf-field-help{margin-top:5px;font-size:9px;color:#858d99;line-height:1.35}
+.rf-period-option-card{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid #2f333b;background:#111318;border-radius:10px}
+.rf-period-savebar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:2px;padding:13px 14px;border:1px solid #30343c;background:#111318;border-radius:11px}.rf-period-savebar>div{display:flex;flex-direction:column;gap:2px;font-size:10px;color:#858d99}.rf-period-savebar strong{font-size:11px;color:#e9edf2}.rf-period-savebar button{min-width:220px}
+
+/* Botões secundários/fechar: contraste correto nos dois temas. */
+button.bg-brand-border,label.bg-brand-border{background:#292d34!important;border:1px solid #3a3f47!important;color:#f1f3f5!important}
+button.bg-brand-border:hover,label.bg-brand-border:hover{background:#343943!important;color:#fff!important}
+body.light-mode button.bg-brand-border,body.light-mode label.bg-brand-border{background:#eef2f6!important;border-color:#cbd3dd!important;color:#344054!important}
+body.light-mode button.bg-brand-border:hover,body.light-mode label.bg-brand-border:hover{background:#e1e7ee!important;color:#172033!important}
+
+/* Modais criados pela grade respeitam o tema claro. */
+body.light-mode .rf-grid-modal{background:#fff!important;border-color:#d0d5dd!important;box-shadow:0 24px 70px rgba(16,24,40,.20)!important}
+body.light-mode .rf-grid-modal-head,body.light-mode .rf-grid-modal-foot{border-color:#e4e7ec!important;background:#fff!important}
+body.light-mode .rf-grid-modal-title{color:#172033!important}body.light-mode .rf-grid-modal-sub,body.light-mode .rf-grid-modal-total{color:#667085!important}
+body.light-mode .rf-grid-modal-x{color:#667085!important}body.light-mode .rf-grid-modal-x:hover{color:#172033!important}
+body.light-mode .rf-grid-modal-body{background:#fff!important}
+body.light-mode .rf-grid-modal-row{background:#f8fafc!important;border-color:#dbe1e8!important}
+body.light-mode .rf-grid-modal-row label{color:#344054!important}
+body.light-mode .rf-grid-modal-row input[type=number]{background:#fff!important;color:#172033!important;border-color:#cbd3dd!important}
+body.light-mode .rf-benefit-value{color:#08785a!important}
+body.light-mode .rf-grid-transfer-select{background:#fff!important;color:#172033!important;border-color:#cbd3dd!important}
+body.light-mode .rf-grid-delete-impact strong{color:#172033!important}
+
+/* Modal de importação e drilldowns: superfície e rodapé coerentes. */
+body.light-mode #modal-importar-plano>div,body.light-mode #modal-drilldown-custohora>div,body.light-mode #modal-drilldown-dre>div,body.light-mode #modal-admin-diag-aplicar>div{background:#fff!important;border-color:#cbd3dd!important;color:#172033!important}
+body.light-mode #modal-importar-plano .bg-\[\#0d0d0f\],body.light-mode #modal-importar-plano .bg-brand-dark{background:#f8fafc!important}
+
+/* DRE final: sem degradê, leitura mais limpa em qualquer tema. */
+body.light-mode #container-dre-rows .bg-red-950\/30{background:#fff3f2!important}
+body.light-mode #container-dre-rows .bg-emerald-950\/30{background:#edf8f3!important}
+
+body.light-mode .rf-period-config-meta>span:first-child,body.light-mode .rf-period-option-card,body.light-mode .rf-period-savebar{background:#f8fafc!important;border-color:#dbe1e8!important}
+body.light-mode .rf-period-config-meta strong,body.light-mode .rf-period-savebar strong{color:#172033!important}
+body.light-mode .rf-field-help,body.light-mode .rf-period-savebar>div{color:#667085!important}
+body.light-mode .rf-period-status-badge.is-open{background:#edf8f3!important;border-color:#a8d8c7!important;color:#08785a!important}
+body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;border-color:#f0c97a!important;color:#8a5b10!important}
+
+@media(max-width:767px){.rf-period-config-head{flex-direction:column}.rf-period-config-meta{justify-content:flex-start}.rf-period-savebar{flex-direction:column;align-items:stretch}.rf-period-savebar button{width:100%;min-width:0}}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1759,7 +1809,7 @@ body.light-mode .rf-grid-excel-pop{background:#fff;border-color:#d0d5dd}body.lig
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.26</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.27</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1794,7 +1844,7 @@ body.light-mode .rf-grid-excel-pop{background:#fff;border-color:#d0d5dd}body.lig
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.26</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.27</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2054,17 +2104,26 @@ body.light-mode .rf-grid-excel-pop{background:#fff;border-color:#d0d5dd}body.lig
         </section>
 
         <section id="section-config-periodo" class="space-y-6">
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-5 rf-period-config-card">
+                <div class="rf-period-config-head">
                     <div>
-                        <h2 class="text-lg md:text-xl font-bold text-white">Parâmetros do Período Ativo</h2>
-                        <p class="text-xs text-brand-muted">Defina as metas financeiras, impostos e custos prediais do período selecionado</p>
+                        <span class="rf-period-config-eyebrow">PERÍODO ATIVO</span>
+                        <h2 class="text-lg md:text-xl font-bold text-white">Configuração do Período</h2>
+                        <p class="text-xs text-brand-muted mt-1">Edite o nome e os parâmetros usados nos cálculos deste período. Tudo fica concentrado aqui.</p>
                     </div>
-                    <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
+                    <div class="rf-period-config-meta">
+                        <span>ID <strong id="cfg-period-id-display">---</strong></span>
+                        <span id="cfg-period-status-display" class="rf-period-status-badge">---</span>
+                    </div>
                 </div>
 
-                <button type="button" class="accordion-toggle bg-brand-border/40 hover:bg-brand-border/60 border border-brand-border rounded-lg px-3 py-2 text-xs font-bold text-white transition" onclick="toggleAccordion('form-cfg-periodo')"><span>⚙️ Parâmetros do Período</span><span id="form-cfg-periodo-icon">＋</span></button>
-                <form id="form-cfg-periodo" class="accordion-form is-collapsed grid grid-cols-1 md:grid-cols-3 gap-4" onsubmit="salvarParametrosPeriodo(event)">
+                <form id="form-cfg-periodo" class="grid grid-cols-1 md:grid-cols-3 gap-4" onsubmit="salvarParametrosPeriodo(event)">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs text-brand-muted mb-1">Nome do Período</label>
+                        <input type="text" id="cfg-period-name" maxlength="100" required placeholder="EX: JAN.2026 A DEZ.2026" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white font-bold focus:border-brand-primary outline-none">
+                        <p class="rf-field-help">Este é o nome exibido nos seletores, relatórios e PDFs. Pode ser alterado enquanto o período estiver aberto.</p>
+                    </div>
+
                     <div>
                         <label class="block text-xs text-brand-muted mb-1">Faturamento Médio Mensal (R$)</label>
                         <input type="text" id="cfg-faturamento" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
@@ -2090,13 +2149,17 @@ body.light-mode .rf-grid-excel-pop{background:#fff;border-color:#d0d5dd}body.lig
                         <input type="text" id="cfg-retirada" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
                     </div>
 
-                    <div class="flex items-center gap-3 p-3 rounded-lg border border-brand-border bg-brand-border/20">
+                    <div class="rf-period-option-card">
                         <input type="checkbox" id="cfg-desconsiderar-depreciacao" class="w-5 h-5 accent-orange-500 shrink-0">
-                        <label for="cfg-desconsiderar-depreciacao" class="text-xs text-white cursor-pointer leading-snug"><strong>Desconsiderar depreciação neste período</strong><br><span class="text-brand-muted">Mantém máquinas e prédio cadastrados, mas zera a depreciação nos cálculos do período.</span></label>
+                        <label for="cfg-desconsiderar-depreciacao" class="text-xs text-white cursor-pointer leading-snug"><strong>Desconsiderar depreciação</strong><br><span class="text-brand-muted">Máquinas e prédio continuam cadastrados, mas a depreciação não entra nos cálculos deste período.</span></label>
                     </div>
 
-                    <div class="flex items-end">
-                        <button type="submit" id="btn-salvar-cfg" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Parâmetros</button>
+                    <div class="md:col-span-3 rf-period-savebar">
+                        <div>
+                            <strong>Alterou algum dado?</strong>
+                            <span>Salve uma única vez para atualizar o período e recalcular os resultados.</span>
+                        </div>
+                        <button type="submit" id="btn-salvar-cfg" class="bg-brand-primary hover:bg-brand-hover text-white font-bold px-5 py-2.5 rounded-lg text-sm transition shadow-lg shadow-brand-primary/20">Salvar alterações do período</button>
                     </div>
                 </form>
             </div>
@@ -5576,7 +5639,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.26', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.27', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -6188,8 +6251,17 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 });
             };
 
-            const nameDisplay = document.getElementById('cfg-period-name-display');
-            if (nameDisplay) nameDisplay.innerText = formatarNomePeriodoLimpo(periodoAtivoObj);
+            const nomeInput = document.getElementById('cfg-period-name');
+            if (nomeInput) nomeInput.value = String(periodoAtivoObj.TPERIODO_NOME || '').trim();
+
+            const idDisplay = document.getElementById('cfg-period-id-display');
+            if (idDisplay) idDisplay.textContent = String(periodoAtivoObj.TPERIODO_ID || '---');
+            const statusDisplay = document.getElementById('cfg-period-status-display');
+            if (statusDisplay) {
+                const status = String(periodoAtivoObj.TPERIODO_STATUS || 'ABERTO').trim().toUpperCase();
+                statusDisplay.textContent = status;
+                statusDisplay.className = `rf-period-status-badge ${status === 'ABERTO' ? 'is-open' : 'is-closed'}`;
+            }
 
             const fat = document.getElementById('cfg-faturamento');
             const aliq = document.getElementById('cfg-aliquota');
@@ -6216,6 +6288,19 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             e.preventDefault();
             if (!periodoAtivoObj) return;
 
+            const nomePeriodo = String(document.getElementById('cfg-period-name')?.value || '').trim();
+            if (!nomePeriodo) {
+                alert('Informe o nome do período.');
+                document.getElementById('cfg-period-name')?.focus();
+                return;
+            }
+
+            const nomeDuplicado = (listaPeriodos || []).some(p =>
+                String(p.TPERIODO_ID) !== String(periodoAtivoObj.TPERIODO_ID) &&
+                String(p.TPERIODO_NOME || '').trim().toUpperCase() === nomePeriodo.toUpperCase()
+            );
+            if (nomeDuplicado && !confirm('Já existe outro período com este mesmo nome. Deseja salvar assim mesmo?')) return;
+
             const fat = parseMoedaBR(document.getElementById('cfg-faturamento').value);
             const aliq = parseFloat(document.getElementById('cfg-aliquota').value) || 0;
             const pred = parseMoedaBR(document.getElementById('cfg-predio').value);
@@ -6223,6 +6308,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const ret = parseMoedaBR(document.getElementById('cfg-retirada').value);
             const semDep = document.getElementById('cfg-desconsiderar-depreciacao').checked ? 'SIM' : 'NAO';
 
+            periodoAtivoObj.TPERIODO_NOME = nomePeriodo;
             periodoAtivoObj.TPERIODO_FATURAMENTO = fat;
             periodoAtivoObj.TPERIODO_ALIQUOTA = aliq;
             periodoAtivoObj.TPERIODO_PREDIO = pred;
@@ -6231,7 +6317,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             periodoAtivoObj.TPERIODO_DESCONSIDERAR_DEPRECIACAO = semDep;
 
             const btn = document.getElementById('btn-salvar-cfg');
-            btn.innerText = "Salvando...";
+            btn.innerText = "Salvando alterações...";
             btn.disabled = true;
             setSyncStatus(true);
 
@@ -6241,7 +6327,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 id: periodoAtivoObj.TPERIODO_ID,
                 clienteId: usuarioLogado.TCLIENTE_ID,
                 periodoId: periodoAtivoObj.TPERIODO_ID,
-                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, periodoAtivoObj.TPERIODO_NOME, periodoAtivoObj.TPERIODO_STATUS || "ABERTO", periodoAtivoObj.TPERIODO_ATUAL || "SIM", fat, aliq, pred, rent, ret, semDep]
+                data: [usuarioLogado.TCLIENTE_ID, periodoAtivoObj.TPERIODO_ID, nomePeriodo, periodoAtivoObj.TPERIODO_STATUS || "ABERTO", periodoAtivoObj.TPERIODO_ATUAL || "SIM", fat, aliq, pred, rent, ret, semDep]
             };
 
             fetch(API_URL, {
@@ -6250,8 +6336,8 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             }).then(() => {
-                alert("Parâmetros do período atualizados!");
-                btn.innerText = "Salvar Parâmetros";
+                alert("Dados do período atualizados!");
+                btn.innerText = "Salvar alterações do período";
                 btn.disabled = false;
                 setSyncStatus(false);
                 const periodoMantido = String(periodoAtivoObj?.TPERIODO_ID || '');
@@ -8466,8 +8552,8 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     } else if (tipoEstilo === 'resultado_final') {
                         const isPositivo = valAtivo >= 0;
                         bgStyle = isPositivo 
-                            ? 'bg-gradient-to-r from-emerald-950/80 to-emerald-900/40 border-2 border-emerald-500 p-3.5 rounded-xl font-extrabold text-emerald-400 shadow-xl hover:from-emerald-900/90 cursor-pointer transition' 
-                            : 'bg-gradient-to-r from-red-950/80 to-red-900/40 border-2 border-red-500 p-3.5 rounded-xl font-extrabold text-red-400 shadow-xl hover:from-red-900/90 cursor-pointer transition';
+                            ? 'bg-emerald-950/30 border border-emerald-700/70 border-l-4 border-l-emerald-500 p-3.5 rounded-xl font-extrabold text-emerald-400 shadow-sm hover:bg-emerald-900/30 cursor-pointer transition' 
+                            : 'bg-red-950/30 border border-red-700/70 border-l-4 border-l-red-500 p-3.5 rounded-xl font-extrabold text-red-400 shadow-sm hover:bg-red-900/30 cursor-pointer transition';
                         textClass = isPositivo ? 'text-emerald-400 text-lg font-black' : 'text-red-400 text-lg font-black';
                     }
 
