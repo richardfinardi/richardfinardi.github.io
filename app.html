@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.22 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.22">
+    <title>CONSULTORIA.RF V5.2.23 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.23">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1607,6 +1607,51 @@ body.rf-periodo-fechado #modal-importar-plano {
 </style>
 </style>
 
+
+<style id="v5223-inline-grid">
+/* ================================================================
+   V5.2.23 — CADASTRO DIRETO NA GRADE
+   ================================================================ */
+.rf-inline-page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:12px;border-bottom:1px solid var(--ui-border)}
+.rf-inline-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
+.rf-inline-btn{min-height:36px;padding:8px 11px;border-radius:9px;border:1px solid transparent;font-size:11px;font-weight:800;white-space:nowrap;transition:.15s;cursor:pointer}
+.rf-inline-btn:disabled{opacity:.35;cursor:not-allowed}
+.rf-inline-btn-primary{background:#ff8838;color:#fff;border-color:#ff8838}.rf-inline-btn-primary:hover:not(:disabled){background:#e07024}
+.rf-inline-btn-secondary{background:rgba(255,136,56,.10);color:#ff9a57;border-color:rgba(255,136,56,.35)}.rf-inline-btn-secondary:hover:not(:disabled){background:rgba(255,136,56,.18)}
+.rf-inline-btn-muted{background:#202329;color:#c7cbd2;border-color:#343840}.rf-inline-btn-muted:hover:not(:disabled){background:#292d34;color:#fff}
+.rf-inline-btn-green{background:#157a55;color:#fff;border-color:#1c9168}.rf-inline-btn-green:hover:not(:disabled){background:#1b8f67}
+.rf-inline-help{font-size:11px;color:#9298a2;padding:8px 10px;border:1px solid #262a31;border-radius:9px;background:#101216}
+.rf-inline-scroll{overflow:auto;max-width:100%;border:1px solid #292c33;border-radius:11px;position:relative;overscroll-behavior:contain}
+.rf-inline-table{width:100%;border-collapse:separate;border-spacing:0;font-size:11px;color:#c4c8cf}
+.rf-inline-table thead th{position:sticky;top:0;z-index:12;background:#0c0e11;color:#f1f3f5;text-transform:uppercase;font-size:9px;letter-spacing:.025em;padding:9px 8px;border-right:1px solid #24272d;border-bottom:1px solid #343840;text-align:left;white-space:nowrap}
+.rf-inline-table tbody td{padding:0;border-right:1px solid #23262c;border-bottom:1px solid #23262c;vertical-align:middle;min-height:40px;background:#14161a}
+.rf-inline-table tbody tr:hover td{background:#181b20}
+.rf-inline-table tbody tr.rf-grid-dirty td{background:#181914}.rf-inline-table tbody tr.rf-grid-dirty td:first-child{box-shadow:inset 3px 0 0 #ff8838}
+.rf-inline-table tbody tr.rf-grid-new td{background:#121b17}.rf-inline-table tbody tr.rf-grid-new td:first-child{box-shadow:inset 3px 0 0 #24a673}
+.rf-inline-table tbody tr.rf-grid-delete td{opacity:.48;text-decoration:line-through;background:#211416}
+.rf-grid-input,.rf-grid-select{width:100%;min-width:96px;min-height:40px;padding:8px 8px;background:transparent!important;color:#eef0f3!important;border:1px solid transparent!important;border-radius:0!important;outline:none!important;font-size:11px;font-weight:650;box-sizing:border-box}
+.rf-grid-select{appearance:auto}.rf-grid-input:focus,.rf-grid-select:focus{background:#0d0f12!important;border-color:#ff8838!important;box-shadow:inset 0 0 0 1px rgba(255,136,56,.12)!important}
+.rf-grid-input:disabled,.rf-grid-select:disabled{color:#777e88!important;background:#17191d!important;cursor:not-allowed!important}
+.rf-grid-money{text-align:right;font-variant-numeric:tabular-nums}.rf-grid-number{text-align:right}
+.rf-grid-readonly{display:flex;align-items:center;justify-content:flex-end;min-height:40px;padding:8px;color:#8e959f;background:#111318;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rf-grid-readonly-left{justify-content:flex-start}.rf-grid-id{color:#ff9a57;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:800}
+.rf-grid-checkcell{min-height:40px;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px}.rf-grid-check{width:17px;height:17px;accent-color:#ff8838;cursor:pointer}
+.rf-grid-chipbtn{display:inline-flex;align-items:center;gap:5px;min-height:30px;max-width:210px;padding:5px 8px;border:1px solid #363b44;border-radius:7px;background:#1c1f24;color:#dfe3e8;font-size:10px;font-weight:800;cursor:pointer}.rf-grid-chipbtn:hover{border-color:#ff8838;color:#fff}.rf-grid-chipbtn:disabled{opacity:.45;cursor:not-allowed}
+.rf-grid-action{display:flex;align-items:center;justify-content:center;min-height:40px;padding:5px}.rf-grid-deletebtn{border:1px solid #6b3030;background:#2b1718;color:#f19b9b;border-radius:7px;padding:5px 8px;font-size:10px;font-weight:800}.rf-grid-deletebtn:hover{background:#713536;color:#fff}.rf-grid-undobtn{border:1px solid #506071;background:#1b222a;color:#bcd0e4;border-radius:7px;padding:5px 8px;font-size:10px;font-weight:800}
+.rf-grid-empty{padding:18px!important;text-align:center;color:#7f8791!important;background:#121418!important}
+.rf-grid-dirty-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff8838;margin-right:5px}
+.rf-grid-modal-backdrop{position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.72);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:14px}
+.rf-grid-modal{width:min(620px,96vw);max-height:min(82vh,720px);display:flex;flex-direction:column;background:#15171b;border:1px solid #343840;border-radius:15px;box-shadow:0 28px 80px rgba(0,0,0,.55);overflow:hidden}
+.rf-grid-modal-head{display:flex;justify-content:space-between;align-items:center;padding:15px 17px;border-bottom:1px solid #2b2f36}.rf-grid-modal-title{font-size:14px;font-weight:900;color:#fff}.rf-grid-modal-sub{font-size:10px;color:#9097a2;margin-top:2px}
+.rf-grid-modal-body{overflow:auto;padding:14px 17px;display:flex;flex-direction:column;gap:8px}.rf-grid-modal-row{display:grid;grid-template-columns:minmax(0,1fr) 100px;gap:10px;align-items:center;padding:8px 9px;border:1px solid #292d34;border-radius:9px;background:#101216}.rf-grid-modal-row label{font-size:11px;font-weight:700;color:#e5e8ec;text-transform:uppercase}.rf-grid-modal-row input[type=number]{width:100%;background:#191c21;color:#fff;border:1px solid #343840;border-radius:7px;padding:7px;text-align:right}.rf-grid-modal-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 17px;border-top:1px solid #2b2f36}.rf-grid-modal-total{font-size:11px;color:#a8afb9}.rf-grid-modal-buttons{display:flex;gap:7px}.rf-grid-modal-x{border:0;background:transparent;color:#9da4ae;font-size:22px;cursor:pointer}
+.rf-benefit-list .rf-grid-modal-row{grid-template-columns:24px minmax(0,1fr) 110px}.rf-benefit-list .rf-grid-modal-row input[type=checkbox]{width:17px;height:17px;accent-color:#ff8838}.rf-benefit-value{text-align:right;color:#67d5ac;font-weight:800;font-size:11px}
+body.rf-periodo-fechado .rf-inline-edit-action{display:none!important}.rf-periodo-fechado .rf-grid-input,.rf-periodo-fechado .rf-grid-select,.rf-periodo-fechado .rf-grid-check{pointer-events:none!important;color:#8b929c!important}.rf-periodo-fechado .rf-grid-chipbtn{pointer-events:none!important;opacity:.6}
+body.light-mode .rf-inline-help{background:#f5f7fa;border-color:#d8dee7;color:#667085}body.light-mode .rf-inline-scroll{border-color:#d9dee6}body.light-mode .rf-inline-table thead th{background:#e9edf2!important;color:#202936!important;border-color:#d8dde5}body.light-mode .rf-inline-table tbody td{background:#fff!important;border-color:#e3e7ed}body.light-mode .rf-inline-table tbody tr:hover td{background:#f7f8fa!important}body.light-mode .rf-grid-input,body.light-mode .rf-grid-select{color:#202936!important}body.light-mode .rf-grid-input:focus,body.light-mode .rf-grid-select:focus{background:#fffaf6!important}body.light-mode .rf-grid-input:disabled,body.light-mode .rf-grid-select:disabled,body.light-mode .rf-grid-readonly{background:#f1f3f6!important;color:#707887!important}body.light-mode .rf-grid-chipbtn{background:#f2f4f7;color:#344054;border-color:#d0d5dd}
+#table-centros-custo.rf-inline-table thead th{top:0!important;z-index:12!important;background:#0c0e11!important}
+body.light-mode #table-centros-custo.rf-inline-table thead th{background:#e9edf2!important}
+@media(max-width:767px){.rf-inline-page-head{flex-direction:column}.rf-inline-actions{width:100%;justify-content:flex-start}.rf-inline-btn{flex:1 1 auto}.rf-inline-table{font-size:10px}.rf-grid-input,.rf-grid-select{font-size:10px;padding:7px 6px}.rf-inline-help{font-size:10px}}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1614,7 +1659,7 @@ body.rf-periodo-fechado #modal-importar-plano {
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.22</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.23</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1649,7 +1694,7 @@ body.rf-periodo-fechado #modal-importar-plano {
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.22</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.23</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2024,490 +2069,138 @@ body.rf-periodo-fechado #modal-importar-plano {
 
         <!-- ABA 1: CENTRO DE CUSTOS -->
         <section id="section-centro-custo" class="hidden space-y-6">
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-2">
-                    <div>
-                        <h2 class="text-lg md:text-xl font-bold text-white" id="cc-form-title">Cadastrar Centro de Custo</h2>
-                        <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
-                    </div>
-                    <button onclick="abrirModalGradeLote('TCENTRO_CUSTO')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary border border-brand-primary/50 text-brand-primary hover:text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
-                        <span>⚡ Entrada em Lote (Grade Dedicada)</span>
-                    </button>
-                </div>
-
-                <button type="button" class="accordion-toggle bg-brand-border/40 hover:bg-brand-border/60 border border-brand-border rounded-lg px-3 py-2 text-xs font-bold text-white transition" onclick="toggleAccordion('form-cc')"><span>➕ Cadastrar Novo / Expandir Formulário</span><span id="form-cc-icon">＋</span></button>
-                <form id="form-cc" class="accordion-form is-collapsed grid grid-cols-1 md:grid-cols-3 gap-4" onsubmit="salvarCentroCusto(event)">
-                    <input type="hidden" id="cc-editing-id" value="">
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Nome Centro de Custo</label>
-                        <input type="text" id="cc-nome" placeholder="EX: TORNO CNC" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Tipo Centro de Custo</label>
-                        <select id="cc-tipo" onchange="verificarTipoCentroCusto()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando opções...</option>
-                        </select>
-                    </div>
-
-                    <div id="wrapper-cc-tipo-rateio">
-                        <label class="block text-xs text-brand-muted mb-1">Tipo Rateio de Horas</label>
-                        <select id="cc-tipo-rateio" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando opções...</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Área (M²)</label>
-                        <input type="number" step="0.01" id="cc-area" placeholder="0.00" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div id="wrapper-cc-custo-fixo">
-                        <label class="block text-xs text-brand-muted mb-1">Custo Fixo Direto (R$)</label>
-                        <input type="text" id="cc-custo-fixo" placeholder="0,00" class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div id="wrapper-cc-produtividade">
-                        <label class="block text-xs text-brand-muted mb-1">Produtividade (%)</label>
-                        <input type="number" step="0.01" id="cc-produtividade" placeholder="100.00" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div class="md:col-span-2 flex items-center gap-2 pt-2">
-                        <input type="checkbox" id="cc-considerar-minimo" onchange="aplicarRegraMinimoCC()" class="w-4 h-4 accent-brand-primary bg-[#0d0d0f] border-brand-border rounded cursor-pointer">
-                        <label for="cc-considerar-minimo" class="text-xs md:text-sm text-white cursor-pointer">Considerar Mínimo</label>
-                    </div>
-
-                    <div class="flex gap-2 pt-2">
-                        <button type="button" id="btn-cancelar-cc" onclick="limparFormCC()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
-                        <button type="submit" id="btn-salvar-cc" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Centro de Custo</button>
-                    </div>
-                </form>
+    <div class="bg-brand-card p-4 md:p-5 rounded-xl border border-brand-border space-y-4">
+        <div class="rf-inline-page-head">
+            <div>
+                <h2 class="text-lg md:text-xl font-bold text-white">Centros de Custo</h2>
+                <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
             </div>
-
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex justify-between items-center">
-                    <div id="kpi-cc" class="kpi-strip"></div>
-                    <h3 class="text-base md:text-lg font-bold text-white">Centros de Custos Cadastrados</h3>
-                    <button onclick="carregarCentrosDeCusto()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
-                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
-                            <tr>
-                                <th class="p-2 md:p-3">ID</th>
-                                <th class="p-2 md:p-3">Nome</th>
-                                <th class="p-2 md:p-3">Tipo</th>
-                                <th class="p-2 md:p-3">Tipo Rateio</th>
-                                <th class="p-2 md:p-3">Qtd Rec.</th>
-                                <th class="p-2 md:p-3">Área (M²)</th>
-                                <th class="p-2 md:p-3">Custo Fixo (R$)</th>
-                                <th class="p-2 md:p-3">Depreciação (R$)</th>
-                                <th class="p-2 md:p-3">Custo Func. (R$)</th>
-                                <th class="p-2 md:p-3">Plano Contas (R$)</th>
-                                <th class="p-2 md:p-3">Prédio (R$)</th>
-                                <th class="p-2 md:p-3">Indiretos (R$)</th>
-                                <th class="p-2 md:p-3">Horas Final</th>
-                                <th class="p-2 md:p-3">Prod. (%)</th>
-                                <th class="p-2 md:p-3">Cons. Min.</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl-cc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="16" class="p-4 text-center">Carregando...</td></tr>
-                        </tbody>
-                        <tfoot id="tbl-cc-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
-                    </table>
-                </div>
-            </div>
-        </section>
+            <div class="rf-inline-actions">
+        <button type="button" class="rf-inline-btn rf-inline-btn-secondary rf-inline-edit-action" onclick="rfGridAdd('TCENTRO_CUSTO')">＋ Inserir item</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-muted rf-inline-edit-action" id="rf-discard-TCENTRO_CUSTO" onclick="rfGridDiscard('TCENTRO_CUSTO')" disabled>Descartar alterações</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-primary rf-inline-edit-action" id="rf-save-TCENTRO_CUSTO" onclick="rfGridCommit('TCENTRO_CUSTO')" disabled>✓ Efetivar cadastros/alterações</button></div>
+        </div>
+        <div id="kpi-cc" class="kpi-strip"></div>
+    
+        <div class="rf-inline-help">Edite diretamente na grade. <strong>↓</strong> na última linha cria um novo item. Campos em cinza são calculados pelo sistema.</div>
+        <div class="rf-inline-scroll">
+            <table id="table-centros-custo" class="rf-inline-table min-w-[1760px]">
+                <thead><tr>
+                    <th>ID</th><th>Tipo Centro de Custo</th><th>Nome</th><th>Área (m²)</th><th>Tipo Rateio Horas</th><th>Produtividade (%)</th><th>Custo Fixo Direto (R$)</th><th>Cons. Mínimo</th>
+                    <th>Qtd. Rec.</th><th>Depreciação (R$)</th><th>Custo Func. (R$)</th><th>Plano Contas (R$)</th><th>Prédio (R$)</th><th>Indiretos (R$)</th><th>Horas Final</th><th class="rf-inline-edit-action">Ação</th>
+                </tr></thead>
+                <tbody id="tbl-cc-body"><tr><td colspan="16" class="rf-grid-empty">Carregando...</td></tr></tbody>
+                <tfoot id="tbl-cc-foot"></tfoot>
+            </table>
+        </div>
+    </div>
+</section>
 
         <!-- ABA 2: RECURSOS -->
         <section id="section-recursos" class="hidden space-y-6">
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-2">
-                    <div>
-                        <h2 class="text-lg md:text-xl font-bold text-white" id="rec-form-title">Cadastrar Recurso</h2>
-                        <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
-                    </div>
-                    <button onclick="abrirModalGradeLote('TRECURSO')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary border border-brand-primary/50 text-brand-primary hover:text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
-                        <span>⚡ Entrada em Lote (Grade Dedicada)</span>
-                    </button>
-                </div>
-
-                <button type="button" class="accordion-toggle bg-brand-border/40 hover:bg-brand-border/60 border border-brand-border rounded-lg px-3 py-2 text-xs font-bold text-white transition" onclick="toggleAccordion('form-rec')"><span>➕ Cadastrar Novo / Expandir Formulário</span><span id="form-rec-icon">＋</span></button>
-                <form id="form-rec" class="accordion-form is-collapsed grid grid-cols-1 md:grid-cols-3 gap-4" onsubmit="salvarRecurso(event)">
-                    <input type="hidden" id="rec-editing-id" value="">
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Centro de Custo</label>
-                        <select id="rec-cc-id" onchange="verificarSelecaoCCRecurso()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando...</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Nome do Recurso</label>
-                        <input type="text" id="rec-nome" placeholder="EX: TORNO ROMI CENTUR 30V" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Tipo de Recurso</label>
-                        <select id="rec-tipo" onchange="calcularCustoMensalRecurso()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando...</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Valor do Recurso (R$)</label>
-                        <input type="text" id="rec-valor" oninput="calcularCustoMensalRecurso()" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Custo Mensal / Depreciação (R$)</label>
-                        <input type="text" id="rec-custo-mensal" readonly placeholder="Calculado auto..." class="input-custom w-full p-2.5 rounded bg-transparent border border-brand-border/50 text-sm text-emerald-400 font-bold outline-none cursor-not-allowed">
-                    </div>
-
-                    <div id="wrapper-rec-turnos" class="opacity-40 pointer-events-none">
-                        <label class="block text-xs text-brand-muted mb-1">Quantidade de Turnos (Produtivos Diretos)</label>
-                        <input type="number" min="1" step="1" id="rec-turnos" value="1" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div class="md:col-span-3 flex justify-end gap-2 pt-2">
-                        <button type="button" id="btn-cancelar-rec" onclick="limparFormRec()" class="hidden w-1/3 md:w-32 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
-                        <button type="submit" id="btn-salvar-rec" class="w-full md:w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Recurso</button>
-                    </div>
-                </form>
+    <div class="bg-brand-card p-4 md:p-5 rounded-xl border border-brand-border space-y-4">
+        <div class="rf-inline-page-head">
+            <div>
+                <h2 class="text-lg md:text-xl font-bold text-white">Recursos</h2>
+                <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
             </div>
-
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex justify-between items-center">
-                    <div id="kpi-rec" class="kpi-strip"></div>
-                    <h3 class="text-base md:text-lg font-bold text-white">Recursos Cadastrados</h3>
-                    <button onclick="carregarRecursos()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
-                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
-                            <tr>
-                                <th class="p-2 md:p-3">Centro Custo</th>
-                                <th class="p-2 md:p-3">Nome Recurso</th>
-                                <th class="p-2 md:p-3">Valor (R$)</th>
-                                <th class="p-2 md:p-3">Tipo</th>
-                                <th class="p-2 md:p-3">Turnos</th>
-                                <th class="p-2 md:p-3">Custo Mensal (R$)</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl-rec-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="7" class="p-4 text-center">Carregando...</td></tr>
-                        </tbody>
-                        <tfoot id="tbl-rec-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
-                    </table>
-                </div>
-            </div>
-        </section>
+            <div class="rf-inline-actions">
+        <button type="button" class="rf-inline-btn rf-inline-btn-secondary rf-inline-edit-action" onclick="rfGridAdd('TRECURSO')">＋ Inserir item</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-muted rf-inline-edit-action" id="rf-discard-TRECURSO" onclick="rfGridDiscard('TRECURSO')" disabled>Descartar alterações</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-primary rf-inline-edit-action" id="rf-save-TRECURSO" onclick="rfGridCommit('TRECURSO')" disabled>✓ Efetivar cadastros/alterações</button></div>
+        </div>
+        <div id="kpi-rec" class="kpi-strip"></div>
+    
+        <div class="rf-inline-help">Cadastro e edição são feitos diretamente na grade. O custo mensal/depreciação é calculado automaticamente.</div>
+        <div class="rf-inline-scroll">
+            <table class="rf-inline-table min-w-[1150px]">
+                <thead><tr><th>Centro de Custo</th><th>Nome</th><th>Tipo de Recurso</th><th>Valor do Recurso (R$)</th><th>Turnos</th><th>Custo Mensal / Depreciação</th><th class="rf-inline-edit-action">Ação</th></tr></thead>
+                <tbody id="tbl-rec-body"><tr><td colspan="7" class="rf-grid-empty">Carregando...</td></tr></tbody>
+                <tfoot id="tbl-rec-foot"></tfoot>
+            </table>
+        </div>
+    </div>
+</section>
 
         <!-- ABA 3: BENEFÍCIOS -->
         <section id="section-beneficios" class="hidden space-y-6">
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-1">
-                    <h2 class="text-lg md:text-xl font-bold text-white" id="ben-form-title">Cadastrar Benefício</h2>
-                    <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
-                </div>
-
-                <button type="button" class="accordion-toggle bg-brand-border/40 hover:bg-brand-border/60 border border-brand-border rounded-lg px-3 py-2 text-xs font-bold text-white transition" onclick="toggleAccordion('form-ben')"><span>➕ Cadastrar Novo / Expandir Formulário</span><span id="form-ben-icon">＋</span></button>
-                <form id="form-ben" class="accordion-form is-collapsed grid grid-cols-1 md:grid-cols-3 gap-4" onsubmit="salvarBeneficio(event)">
-                    <input type="hidden" id="ben-editing-id" value="">
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Descrição do Benefício</label>
-                        <input type="text" id="ben-nome" placeholder="EX: VALE REFEIÇÃO" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Valor Mensal por Funcionário (R$)</label>
-                        <input type="text" id="ben-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div class="md:col-span-1 flex items-end">
-                        <div class="flex gap-2 w-full">
-                            <button type="button" id="btn-cancelar-ben" onclick="limparFormBen()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
-                            <button type="submit" id="btn-salvar-ben" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Benefício</button>
-                        </div>
-                    </div>
-                </form>
+    <div class="bg-brand-card p-4 md:p-5 rounded-xl border border-brand-border space-y-4">
+        <div class="rf-inline-page-head">
+            <div>
+                <h2 class="text-lg md:text-xl font-bold text-white">Benefícios</h2>
+                <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
             </div>
-
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-base md:text-lg font-bold text-white">Benefícios Cadastrados</h3>
-                    <button onclick="carregarBeneficios()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
-                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
-                            <tr>
-                                <th class="p-2 md:p-3">Descrição Benefício</th>
-                                <th class="p-2 md:p-3">Valor Mensal (R$)</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl-ben-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="3" class="p-4 text-center">Carregando...</td></tr>
-                        </tbody>
-                        <tfoot id="tbl-ben-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
-                    </table>
-                </div>
-            </div>
-        </section>
+            <div class="rf-inline-actions">
+        <button type="button" class="rf-inline-btn rf-inline-btn-secondary rf-inline-edit-action" onclick="rfGridAdd('TBENEFICIOS')">＋ Inserir item</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-muted rf-inline-edit-action" id="rf-discard-TBENEFICIOS" onclick="rfGridDiscard('TBENEFICIOS')" disabled>Descartar alterações</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-primary rf-inline-edit-action" id="rf-save-TBENEFICIOS" onclick="rfGridCommit('TBENEFICIOS')" disabled>✓ Efetivar cadastros/alterações</button></div>
+        </div>
+        
+    
+        <div class="rf-inline-help">Clique na célula e altere. Use <strong>Efetivar cadastros/alterações</strong> para gravar tudo de uma vez.</div>
+        <div class="rf-inline-scroll">
+            <table class="rf-inline-table min-w-[760px]">
+                <thead><tr><th>Descrição</th><th>Valor Mensal (R$)</th><th class="rf-inline-edit-action">Ação</th></tr></thead>
+                <tbody id="tbl-ben-body"><tr><td colspan="3" class="rf-grid-empty">Carregando...</td></tr></tbody>
+                <tfoot id="tbl-ben-foot"></tfoot>
+            </table>
+        </div>
+    </div>
+</section>
 
         <!-- ABA 4: FUNCIONÁRIOS -->
         <section id="section-funcionarios" class="hidden space-y-6">
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-2">
-                    <div>
-                        <h2 class="text-lg md:text-xl font-bold text-white" id="func-form-title">Cadastrar Funcionário</h2>
-                        <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
-                    </div>
-                    <button onclick="abrirModalGradeLote('TFUNCIONARIO')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary border border-brand-primary/50 text-brand-primary hover:text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
-                        <span>⚡ Entrada em Lote (Grade Dedicada)</span>
-                    </button>
-                </div>
-
-                <button type="button" class="accordion-toggle bg-brand-border/40 hover:bg-brand-border/60 border border-brand-border rounded-lg px-3 py-2 text-xs font-bold text-white transition" onclick="toggleAccordion('form-func')"><span>➕ Cadastrar Novo / Expandir Formulário</span><span id="form-func-icon">＋</span></button>
-                <form id="form-func" class="accordion-form is-collapsed grid grid-cols-1 md:grid-cols-3 gap-4" onsubmit="salvarFuncionario(event)">
-                    <input type="hidden" id="func-editing-id" value="">
-
-                    <div class="md:col-span-3 border-b border-brand-border/50 pb-3 space-y-3">
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" id="func-is-rateio" onchange="alternarModoRateioFuncionario()" class="w-4 h-4 accent-brand-primary rounded cursor-pointer">
-                            <label for="func-is-rateio" class="text-sm font-bold text-white cursor-pointer">É Funcionário de Rateio (Atende múltiplos Centros de Custo)?</label>
-                        </div>
-
-                        <div id="wrapper-func-cc-unico">
-                            <label class="block text-xs text-brand-muted mb-1">Centro de Custo Único</label>
-                            <select id="func-cc-id" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                                <option value="">Carregando...</option>
-                            </select>
-                        </div>
-
-                        <div id="wrapper-func-cc-rateio" class="hidden space-y-2 bg-[#0d0d0f] p-3 rounded border border-brand-border">
-                            <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%):</label>
-                            <div id="container-rateio-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
-                                <!-- Preenchido dinamicamente via JS -->
-                            </div>
-                            <div class="flex justify-between items-center text-xs font-bold pt-1 border-t border-brand-border/50">
-                                <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct" class="text-white">0%</strong></span>
-                                <span class="text-brand-muted">Sobra de Custo Não Rateado: <strong id="display-sobra-custo" class="text-emerald-400">R$ 0,00</strong></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Nome Completo</label>
-                        <input type="text" id="func-nome" placeholder="EX: DIEGO HENRIQUE DIAS" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Tipo de Registro</label>
-                        <select id="func-tp-registro" onchange="calcularCustoFuncionario()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando...</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Tipo de Salário</label>
-                        <select id="func-tp-salario" onchange="calcularCustoFuncionario()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="MENSALISTA">MENSALISTA</option>
-                            <option value="HORISTA">HORISTA</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Salário Base (R$)</label>
-                        <input type="text" id="func-salario-base" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Horas Mensais</label>
-                        <input type="number" step="0.01" id="func-horas-mes" oninput="calcularCustoFuncionario()" value="176" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label class="block text-xs text-brand-muted mb-1">Selecione Benefícios (Aba TBENEFICIOS)</label>
-                        <div id="container-beneficios-checkboxes" class="grid grid-cols-2 md:grid-cols-3 gap-2 bg-[#0d0d0f] p-3 rounded border border-brand-border max-h-32 overflow-y-auto">
-                            <span class="text-xs text-brand-muted">Nenhum benefício cadastrado</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Valor Total Benefícios (R$) (Editável)</label>
-                        <input type="text" id="func-beneficios-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <label class="block text-xs text-brand-muted mb-1">Custo Mensal Calculado do Funcionário (R$)</label>
-                        <input type="text" id="func-custo-mensal" readonly placeholder="Calculado auto..." class="w-full p-2.5 rounded bg-[#0d0d0f]/50 border border-brand-border/50 text-base text-emerald-400 font-extrabold outline-none cursor-not-allowed">
-                    </div>
-
-                    <div class="flex gap-2 pt-2 md:items-end">
-                        <button type="button" id="btn-cancelar-func" onclick="limparFormFunc()" class="hidden w-1/3 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
-                        <button type="submit" id="btn-salvar-func" class="flex-1 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Funcionário</button>
-                    </div>
-                </form>
+    <div class="bg-brand-card p-4 md:p-5 rounded-xl border border-brand-border space-y-4">
+        <div class="rf-inline-page-head">
+            <div>
+                <h2 class="text-lg md:text-xl font-bold text-white">Funcionários</h2>
+                <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
             </div>
-
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex justify-between items-center">
-                    <div id="kpi-func" class="kpi-strip"></div>
-                    <h3 class="text-base md:text-lg font-bold text-white">Funcionários Cadastrados</h3>
-                    <button onclick="carregarFuncionarios()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
-                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
-                            <tr>
-                                <th class="p-2 md:p-3">Centro(s) Custo</th>
-                                <th class="p-2 md:p-3">Nome</th>
-                                <th class="p-2 md:p-3">Horas</th>
-                                <th class="p-2 md:p-3">Salário Base (R$)</th>
-                                <th class="p-2 md:p-3">Benefícios (R$)</th>
-                                <th class="p-2 md:p-3">Custo Mensal (R$)</th>
-                                <th class="p-2 md:p-3">Rateio?</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl-func-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="8" class="p-4 text-center">Carregando...</td></tr>
-                        </tbody>
-                        <tfoot id="tbl-func-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
-                    </table>
-                </div>
-            </div>
-        </section>
+            <div class="rf-inline-actions">
+        <button type="button" class="rf-inline-btn rf-inline-btn-secondary rf-inline-edit-action" onclick="rfGridAdd('TFUNCIONARIO')">＋ Inserir item</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-muted rf-inline-edit-action" id="rf-discard-TFUNCIONARIO" onclick="rfGridDiscard('TFUNCIONARIO')" disabled>Descartar alterações</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-primary rf-inline-edit-action" id="rf-save-TFUNCIONARIO" onclick="rfGridCommit('TFUNCIONARIO')" disabled>✓ Efetivar cadastros/alterações</button></div>
+        </div>
+        <div id="kpi-func" class="kpi-strip"></div>
+    
+        <div class="rf-inline-help">Funcionário rateado abre uma janela para informar os percentuais por Centro de Custo. Benefícios também são selecionados pela própria linha.</div>
+        <div class="rf-inline-scroll">
+            <table class="rf-inline-table min-w-[1810px]">
+                <thead><tr>
+                    <th>Rateio?</th><th>Centro de Custo Único</th><th>Nome Completo</th><th>Tipo Registro</th><th>Tipo Salário</th><th>Salário Base (R$)</th><th>Horas Mensais</th><th>Benefícios</th><th>Valor Total Benefícios</th><th>Custo Mensal Calculado</th><th class="rf-inline-edit-action">Ação</th>
+                </tr></thead>
+                <tbody id="tbl-func-body"><tr><td colspan="11" class="rf-grid-empty">Carregando...</td></tr></tbody>
+                <tfoot id="tbl-func-foot"></tfoot>
+            </table>
+        </div>
+    </div>
+</section>
 
         <!-- ABA 5: PLANO DE CONTAS -->
         <section id="section-plano-contas" class="hidden space-y-6">
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-brand-border/50 pb-3 gap-2">
-                    <div>
-                        <h2 class="text-lg md:text-xl font-bold text-white" id="plc-form-title">Cadastrar Conta no Plano de Contas</h2>
-                        <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="abrirModalGradeLote('TPLANO_CONTAS')" class="text-xs bg-brand-primary/20 hover:bg-brand-primary border border-brand-primary/50 text-brand-primary hover:text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
-                            <span>⚡ Entrada em Lote (Grade Dedicada)</span>
-                        </button>
-                        <button onclick="abrirModalImportarPlano()" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg">
-                            <span>📥 Importar Planilha (CSV)</span>
-                        </button>
-                    </div>
-                </div>
-
-                <button type="button" class="accordion-toggle bg-brand-border/40 hover:bg-brand-border/60 border border-brand-border rounded-lg px-3 py-2 text-xs font-bold text-white transition" onclick="toggleAccordion('form-plc')"><span>➕ Cadastrar Novo / Expandir Formulário</span><span id="form-plc-icon">＋</span></button>
-                <form id="form-plc" class="accordion-form is-collapsed grid grid-cols-1 md:grid-cols-3 gap-4" onsubmit="salvarPlanoConta(event)">
-                    <input type="hidden" id="plc-editing-id" value="">
-
-                    <div class="md:col-span-3 border-b border-brand-border/50 pb-3 space-y-3">
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" id="plc-is-rateio" onchange="alternarModoRateioPlanoConta()" class="w-4 h-4 accent-brand-primary rounded cursor-pointer">
-                            <label for="plc-is-rateio" class="text-sm font-bold text-white cursor-pointer">É Conta de Rateio Seletivo / Porcentagem (Atende múltiplos Centros de Custo)?</label>
-                        </div>
-
-                        <div id="wrapper-plc-cc-rateio" class="hidden space-y-2 bg-[#0d0d0f] p-3 rounded border border-brand-border">
-                            <div class="flex justify-between items-center">
-                                <label class="block text-xs font-bold text-brand-primary">Distribuição do Rateio por Centro de Custo (%): <span class="text-amber-400 font-normal">(A SOMA DEVE SER EXATAMENTE 100%)</span></label>
-                                <div class="flex gap-2">
-                                    <button type="button" onclick="dividirIgualmentePlanoCC()" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white font-bold">Dividir Igualmente</button>
-                                    <button type="button" onclick="zerarPercentuaisPlanoCC()" class="text-[10px] bg-brand-border hover:bg-brand-border/80 px-2 py-1 rounded text-white">Zerar</button>
-                                </div>
-                            </div>
-                            <div id="container-rateio-plc-cc-list" class="space-y-2 max-h-40 overflow-y-auto pr-1">
-                                <!-- Preenchido dinamicamente via JS -->
-                            </div>
-                            <div class="flex justify-between items-center text-xs font-bold pt-2 border-t border-brand-border/50">
-                                <span class="text-brand-muted">Soma dos Percentuais: <strong id="display-total-pct-plc" class="text-red-400 text-sm">0%</strong></span>
-                                <span id="display-status-validacao-plc" class="text-red-400 font-extrabold">⚠️ A SOMA DEVE SER IGUAL A 100.0%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Descrição / Nome da Conta</label>
-                        <input type="text" id="plc-nome" placeholder="EX: ENERGIA ELÉTRICA / ALUGUEL" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Critério de Destino / Rateio</label>
-                        <select id="plc-criterio" onchange="verificarCriterioPlanoContas()" required class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="EXCLUSIVO">EXCLUSIVO (CENTRO DE CUSTO ÚNICO)</option>
-                            <option value="AREA">RATEIO POR ÁREA (M²)</option>
-                            <option value="RECURSOS">RATEIO POR QUANTIDADE DE RECURSOS</option>
-                            <option value="HORAS">RATEIO POR HORAS FINAIS DO CC</option>
-                            <option value="PD_AREA">RATEAR APENAS PARA PRODUTIVOS DIRETOS (ÁREA)</option>
-                            <option value="PD_RECURSOS">RATEAR APENAS PARA PRODUTIVOS DIRETOS (QTDE RECURSOS)</option>
-                            <option value="PD_HORAS">RATEAR APENAS PARA PRODUTIVOS DIRETOS (HORAS FINAIS)</option>
-                            <option value="PI_AREA">RATEAR APENAS PARA PRODUTIVOS INDIRETOS (ÁREA)</option>
-                            <option value="ADM_AREA">RATEAR APENAS PARA ADMINISTRATIVOS (ÁREA)</option>
-                            <option value="NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)">NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)</option>
-                            <option value="NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)">NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)</option>
-                        </select>
-                    </div>
-
-                    <div id="wrapper-plc-cc-exclusivo">
-                        <label class="block text-xs text-brand-muted mb-1">Centro de Custo Exclusivo</label>
-                        <select id="plc-cc-id" class="w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                            <option value="">Carregando...</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-brand-muted mb-1">Valor Mensal (R$)</label>
-                        <input type="text" id="plc-valor" placeholder="0,00" required class="mask-money w-full p-2.5 rounded bg-[#0d0d0f] border border-brand-border text-sm text-white focus:border-brand-primary outline-none">
-                    </div>
-
-                    <div id="wrapper-plc-aviso-variavel" class="hidden md:col-span-3 bg-amber-950/30 border border-amber-800/50 p-2.5 rounded text-xs text-amber-300">
-                        ⚡ <strong>GASTO VARIÁVEL:</strong> Esta conta é diretamente vinculada a vendas ou produção por encomenda. Não é rateada entre Centros de Custo e vai direto para a composição da DRE Gerencial.
-                    </div>
-
-                    <div class="md:col-span-3 flex justify-end gap-2 pt-2 items-end">
-                        <button type="button" id="btn-cancelar-plc" onclick="limparFormPLC()" class="hidden w-1/3 md:w-32 bg-brand-border hover:bg-brand-border/70 text-white font-bold py-2.5 rounded text-sm transition">Cancelar</button>
-                        <button type="submit" id="btn-salvar-plc" class="w-full md:w-48 bg-brand-primary hover:bg-brand-hover text-white font-bold py-2.5 rounded text-sm transition shadow-lg shadow-brand-primary/20">Salvar Conta</button>
-                    </div>
-                </form>
+    <div class="bg-brand-card p-4 md:p-5 rounded-xl border border-brand-border space-y-4">
+        <div class="rf-inline-page-head">
+            <div>
+                <h2 class="text-lg md:text-xl font-bold text-white">Plano de Contas</h2>
+                <span class="text-xs text-brand-muted">Empresa: <strong class="display-empresa-nome text-white uppercase">---</strong> | Período: <strong class="display-periodo-tag text-brand-primary uppercase">---</strong></span>
             </div>
-
-            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
-                <div class="flex justify-between items-center">
-                    <div id="kpi-plc" class="kpi-strip"></div>
-                    <h3 class="text-base md:text-lg font-bold text-white">Contas Cadastradas</h3>
-                    <button onclick="carregarPlanoContas()" class="text-xs bg-brand-border hover:bg-brand-border/80 px-3 py-1.5 rounded text-brand-muted">Atualizar</button>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs md:text-sm text-brand-muted">
-                        <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
-                            <tr>
-                                <th class="p-2 md:p-3">Descrição da Conta</th>
-                                <th class="p-2 md:p-3">Critério Rateio / Destino</th>
-                                <th class="p-2 md:p-3">Participantes / Destino</th>
-                                <th class="p-2 md:p-3">Valor Mensal (R$)</th>
-                                <th class="p-2 md:p-3 text-right">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl-plc-body" class="divide-y divide-brand-border/50">
-                            <tr><td colspan="5" class="p-4 text-center">Carregando...</td></tr>
-                        </tbody>
-                        <tfoot id="tbl-plc-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
-                    </table>
-                </div>
-            </div>
-        </section>
+            <div class="rf-inline-actions"><button type="button" class="rf-inline-btn rf-inline-btn-green rf-inline-edit-action" onclick="abrirModalImportarPlano()">📥 Importar Planilha (CSV)</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-secondary rf-inline-edit-action" onclick="rfGridAdd('TPLANO_CONTAS')">＋ Inserir item</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-muted rf-inline-edit-action" id="rf-discard-TPLANO_CONTAS" onclick="rfGridDiscard('TPLANO_CONTAS')" disabled>Descartar alterações</button>
+        <button type="button" class="rf-inline-btn rf-inline-btn-primary rf-inline-edit-action" id="rf-save-TPLANO_CONTAS" onclick="rfGridCommit('TPLANO_CONTAS')" disabled>✓ Efetivar cadastros/alterações</button></div>
+        </div>
+        <div id="kpi-plc" class="kpi-strip"></div>
+    
+        <div class="rf-inline-help">Contas com rateio seletivo abrem uma janela para distribuir os percentuais. O Centro de Custo Exclusivo só fica disponível quando o critério for EXCLUSIVO.</div>
+        <div class="rf-inline-scroll">
+            <table class="rf-inline-table min-w-[1320px]">
+                <thead><tr><th>Rateio?</th><th>Descrição / Nome da Conta</th><th>Critério de Destino / Rateio</th><th>Centro de Custo Exclusivo</th><th>Valor Mensal (R$)</th><th class="rf-inline-edit-action">Ação</th></tr></thead>
+                <tbody id="tbl-plc-body"><tr><td colspan="6" class="rf-grid-empty">Carregando...</td></tr></tbody>
+                <tfoot id="tbl-plc-foot"></tfoot>
+            </table>
+        </div>
+    </div>
+</section>
 
         <!-- ABA 6: RESULTADOS & ANÁLISES -->
         <section id="section-resultados" class="hidden space-y-6">
@@ -5749,7 +5442,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.22', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.23', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -10045,6 +9738,194 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
     window.rf4910ApplyAdminVisibility = rf4910ApplyAdminVisibility;
 })();
+</script>
+
+
+<script id="v5223-inline-grid-script">
+// ================================================================
+// V5.2.23 — CADASTRO / EDIÇÃO DIRETO NA GRADE
+// ================================================================
+const rfGridState = {};
+let rfGridTempSeq = 0;
+let rfGridModalContext = null;
+
+function rfEsc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function rfGridCtx(){return `${String(usuarioLogado?.TCLIENTE_ID||'')}::${String(periodoAtivoObj?.TPERIODO_ID||'')}`;}
+function rfGridClosed(){return !!(periodoAtivoObj && String(periodoAtivoObj.TPERIODO_STATUS||'').toUpperCase()==='FECHADO');}
+function rfGridList(sheet){
+  if(sheet==='TCENTRO_CUSTO') return listaCC||[];
+  if(sheet==='TRECURSO') return listaRecursos||[];
+  if(sheet==='TBENEFICIOS') return listaBeneficios||[];
+  if(sheet==='TFUNCIONARIO') return listaFuncionarios||[];
+  if(sheet==='TPLANO_CONTAS') return listaPlanoContas||[];
+  return [];
+}
+function rfGridIdField(sheet){return ({TCENTRO_CUSTO:'TCENTRO_CUSTO_ID',TRECURSO:'TRECURSO_ID',TBENEFICIOS:'TBENEFICIO_ID',TFUNCIONARIO:'TFUNCIONARIO_ID',TPLANO_CONTAS:'TPLANO_CONTA_ID'})[sheet];}
+function rfGridEnsure(sheet){
+  const ctx=rfGridCtx(), base=rfGridList(sheet);
+  let st=rfGridState[sheet];
+  if(!st || st.ctx!==ctx || !st.dirty){
+    const idf=rfGridIdField(sheet);
+    st={ctx,dirty:false,rows:base.map((o,i)=>{
+      const row={...o,__key:String(o?.[idf]||`old-${i}`),__new:false,__dirty:false,__delete:false};
+      if(sheet==='TFUNCIONARIO'){
+        row.TFUNCIONARIO_VALOR_BENEFICIOS=Number(rfFuncionarioBeneficios(row)||0);
+        row.TFUNCIONARIO_CUSTO_MENSAL=Number(rfFuncionarioCustoMensal(row)||0);
+      }
+      return row;
+    })};
+    rfGridState[sheet]=st;
+  }
+  return st;
+}
+function rfGridBlank(sheet){
+  const common={TCLIENTE_ID:String(usuarioLogado?.TCLIENTE_ID||''),TPERIODO_ID:String(periodoAtivoObj?.TPERIODO_ID||''),__key:`new-${++rfGridTempSeq}`,__new:true,__dirty:true,__delete:false};
+  if(sheet==='TCENTRO_CUSTO') return {...common,TCENTRO_CUSTO_ID:'',TCENTRO_CUSTO_TIPO:'PRODUTIVO DIRETO',TCENTRO_CUSTO_NOME:'',TCENTRO_CUSTO_AREA:0,TCENTRO_CUSTO_TIPO_RATEIO_HORAS:'',TCENTRO_CUSTO_PRODUTIVIDADE:100,TCENTRO_CUSTO_CUSTO_FIXO_DIRETO:0,TCENTRO_CUSTO_CONSIDERAR_MINIMO:'NAO',TCENTRO_CUSTO_QTDE_RECURSOS:0,TCENTRO_CUSTO_CUSTO_MENSAL:0,TCENTRO_CUSTO_CUSTO_FUNCIONARIO:0,TCENTRO_CUSTO_CUSTO_PLANO_CONTAS:0,TCENTRO_CUSTO_PREDIO:0,TCENTRO_CUSTO_INDIRETOS:0,TCENTRO_CUSTO_HORAS:0};
+  if(sheet==='TRECURSO') return {...common,TCENTRO_CUSTO_ID:'',TRECURSO_ID:'',TRECURSO_NOME:'',TRECURSO_TIPO:'',TRECURSO_VALOR:0,TRECURSO_CUSTO_MENSAL:0,TRECURSO_TURNOS:1};
+  if(sheet==='TBENEFICIOS') return {...common,TBENEFICIO_ID:'',TBENEFICIO_NOME:'',TBENEFICIO_VALOR:0};
+  if(sheet==='TFUNCIONARIO') return {...common,TCENTRO_CUSTO_ID:'',TFUNCIONARIO_ID:'',TFUNCIONARIO_NOME:'',TFUNCIONARIO_TP_REGISTRO:'',TFUNCIONARIO_TP_SALARIO:'MENSALISTA',TFUNCIONARIO_SALARIO_BASE:0,TFUNCIONARIO_VALOR_BENEFICIOS:0,TFUNCIONARIO_CUSTO_MENSAL:0,TFUNCIONARIO_RATEIO:'NAO',TFUNCIONARIO_SOBRA_RATEIO:0,TFUNCIONARIO_HORAS:176,TFUNCIONARIO_BENEFICIOS_IDS:'[]'};
+  if(sheet==='TPLANO_CONTAS') return {...common,TCENTRO_CUSTO_ID:'',TPLANO_CONTA_ID:'',TPLANO_CONTA_NOME:'',TPLANO_CONTA_CRITERIO:'EXCLUSIVO',TPLANO_CONTA_VALOR:0};
+  return common;
+}
+function rfGridFind(sheet,key){return rfGridEnsure(sheet).rows.find(r=>String(r.__key)===String(key));}
+function rfGridMark(sheet,row,tr){const st=rfGridEnsure(sheet);row.__dirty=true;st.dirty=true;if(tr)tr.classList.add('rf-grid-dirty');rfGridUpdateButtons(sheet);}
+function rfGridChangedCount(sheet){const st=rfGridEnsure(sheet);return st.rows.filter(r=>r.__dirty||r.__new||r.__delete).length;}
+function rfGridUpdateButtons(sheet){
+  const st=rfGridEnsure(sheet), n=rfGridChangedCount(sheet), b=document.getElementById(`rf-save-${sheet}`), d=document.getElementById(`rf-discard-${sheet}`);
+  if(b){b.disabled=rfGridClosed()||n===0;b.textContent=n?`✓ Efetivar cadastros/alterações (${n})`:'✓ Efetivar cadastros/alterações';}
+  if(d)d.disabled=rfGridClosed()||n===0;
+}
+function rfGridAnyDirty(){return Object.values(rfGridState).some(s=>s?.dirty);}
+function rfGridAdd(sheet){
+  if(rfGridClosed())return;
+  const st=rfGridEnsure(sheet);st.rows.push(rfGridBlank(sheet));st.dirty=true;rfGridRender(sheet);rfGridUpdateButtons(sheet);
+  setTimeout(()=>{const tb=rfGridTbody(sheet), last=tb?.querySelector('tr:last-child'), el=last?.querySelector('input:not([disabled]),select:not([disabled])');el?.focus();},20);
+}
+function rfGridDiscard(sheet){
+  if(!rfGridChangedCount(sheet))return;
+  if(!confirm('Descartar todas as alterações ainda não efetivadas desta tela?'))return;
+  delete rfGridState[sheet];rfGridRender(sheet);rfGridUpdateButtons(sheet);
+}
+function rfGridToggleDelete(sheet,key){
+  if(rfGridClosed())return;
+  const st=rfGridEnsure(sheet), row=rfGridFind(sheet,key);if(!row)return;
+  if(row.__new){st.rows=st.rows.filter(r=>r!==row);} else {row.__delete=!row.__delete;row.__dirty=true;}
+  st.dirty=true;rfGridRender(sheet);rfGridUpdateButtons(sheet);
+}
+function rfGridTbody(sheet){return document.getElementById(({TCENTRO_CUSTO:'tbl-cc-body',TRECURSO:'tbl-rec-body',TBENEFICIOS:'tbl-ben-body',TFUNCIONARIO:'tbl-func-body',TPLANO_CONTAS:'tbl-plc-body'})[sheet]);}
+function rfGridOption(value,label,selected){return `<option value="${rfEsc(value)}" ${String(value)===String(selected)?'selected':''}>${rfEsc(label)}</option>`;}
+function rfUniquePadrao(field,fallback=[]){const out=[];for(const p of (tabelaPadroes||[])){const v=String(p?.[field]||'').trim();if(v&&!out.includes(v))out.push(v);}for(const v of fallback){if(v&&!out.includes(v))out.push(v);}return out;}
+function rfGridCCOptions(selected,blank=true){let h=blank?'<option value="">-- SELECIONE --</option>':'';for(const c of (listaCC||[]))h+=rfGridOption(c.TCENTRO_CUSTO_ID,String(c.TCENTRO_CUSTO_NOME||c.TCENTRO_CUSTO_ID).toUpperCase(),selected);return h;}
+function rfGridTipoCCOptions(sel){return rfUniquePadrao('TCENTRO_CUSTO_TIPO',['PRODUTIVO DIRETO','PRODUTIVO INDIRETO','ADMINISTRATIVO']).map(v=>rfGridOption(v,v.toUpperCase(),sel)).join('');}
+function rfGridRateioHorasOptions(sel){let vals=rfUniquePadrao('TCENTRO_CUSTO_TIPO_RATEIO_HORAS',['MAQUINA','FUNCIONARIO']);if(sel==='MINIMO'&&!vals.includes('MINIMO'))vals.push('MINIMO');return '<option value="">-- SELECIONE --</option>'+vals.map(v=>rfGridOption(v,v.toUpperCase(),sel)).join('');}
+function rfGridTipoRecOptions(sel){return '<option value="">-- SELECIONE --</option>'+rfUniquePadrao('TRECURSO_TIPO',[]).map(v=>rfGridOption(v,v.toUpperCase(),sel)).join('');}
+function rfGridTipoRegOptions(sel){return '<option value="">-- SELECIONE --</option>'+rfUniquePadrao('TFUNCIONARIO_TP_REGISTRO',['NORMAL','SEM REGISTRO']).map(v=>rfGridOption(v,v.toUpperCase(),sel)).join('');}
+function rfGridMoney(v){return Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function rfGridPct(v){return Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:2});}
+function rfGridAttr(sheet,row,field,type='text',extra=''){
+  const dis=rfGridClosed()?'disabled':'';let val=row?.[field]??'';
+  if(type==='money')val=rfGridMoney(val);
+  return `data-rf-sheet="${sheet}" data-rf-key="${rfEsc(row.__key)}" data-rf-field="${field}" data-rf-type="${type}" value="${rfEsc(val)}" ${dis} ${extra}`;
+}
+function rfGridRowClass(r){return `${r.__new?'rf-grid-new ':''}${r.__dirty?'rf-grid-dirty ':''}${r.__delete?'rf-grid-delete ':''}`.trim();}
+function rfGridActionCell(sheet,r){if(rfGridClosed())return '';return `<td class="rf-inline-edit-action"><div class="rf-grid-action"><button type="button" class="${r.__delete?'rf-grid-undobtn':'rf-grid-deletebtn'}" onclick="rfGridToggleDelete('${sheet}','${rfEsc(r.__key)}')">${r.__delete?'Desfazer':'Excluir'}</button></div></td>`;}
+function rfGridReadonly(v,money=false,left=false,extra=''){return `<div class="rf-grid-readonly ${left?'rf-grid-readonly-left':''} ${extra}">${money?formatarMoedaBR(v):rfEsc(v??'')}</div>`;}
+function rfGridEdit(el){
+  const sheet=el.dataset.rfSheet,key=el.dataset.rfKey,field=el.dataset.rfField,type=el.dataset.rfType||'text',row=rfGridFind(sheet,key);if(!row||row.__delete)return;
+  let v=el.type==='checkbox'?(el.checked?'SIM':'NAO'):el.value;
+  if(type==='money')v=parseMoedaBR(v); else if(type==='number')v=parseFloat(v)||0; else if(type==='int')v=parseInt(v,10)||0; else if(type==='upper')v=String(v||'').toUpperCase();
+  row[field]=v;rfGridMark(sheet,row,el.closest('tr'));
+  if(type==='upper'&&el.type!=='select'){const p=el.selectionStart;el.value=String(el.value||'').toUpperCase();try{el.setSelectionRange(p,p);}catch(_){}}
+  rfGridApplyRules(sheet,row,el.closest('tr'),field);
+}
+function rfGridBlur(el){if(el.dataset.rfType==='money')el.value=rfGridMoney(parseMoedaBR(el.value));}
+function rfGridApplyRules(sheet,row,tr,changedField){
+  if(sheet==='TCENTRO_CUSTO'){
+    if(changedField==='TCENTRO_CUSTO_TIPO'&&String(row.TCENTRO_CUSTO_TIPO).toUpperCase()!=='PRODUTIVO DIRETO'){row.TCENTRO_CUSTO_TIPO_RATEIO_HORAS='';row.TCENTRO_CUSTO_PRODUTIVIDADE=100;row.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO=0;row.TCENTRO_CUSTO_CONSIDERAR_MINIMO='NAO';}
+    if(changedField==='TCENTRO_CUSTO_CONSIDERAR_MINIMO'&&String(row.TCENTRO_CUSTO_CONSIDERAR_MINIMO).toUpperCase()==='SIM'){row.TCENTRO_CUSTO_TIPO_RATEIO_HORAS='MINIMO';row.TCENTRO_CUSTO_PRODUTIVIDADE=100;}
+    rfGridApplyCCRRules(tr,row);
+  }
+  if(sheet==='TRECURSO'){row.TRECURSO_CUSTO_MENSAL=rfGridCalcDep(row.TRECURSO_TIPO,row.TRECURSO_VALOR);const o=tr?.querySelector('.rf-rec-dep');if(o)o.textContent=formatarMoedaBR(row.TRECURSO_CUSTO_MENSAL);const cc=listaCC.find(c=>String(c.TCENTRO_CUSTO_ID)===String(row.TCENTRO_CUSTO_ID));const ti=tr?.querySelector('[data-rf-field="TRECURSO_TURNOS"]');if(ti){const ok=String(cc?.TCENTRO_CUSTO_TIPO||'').toUpperCase()==='PRODUTIVO DIRETO';ti.disabled=rfGridClosed()||!ok;if(!ok){row.TRECURSO_TURNOS=1;ti.value=1;}}}
+  if(sheet==='TFUNCIONARIO'){rfGridCalcFuncRow(row);const o=tr?.querySelector('.rf-func-cost');if(o)o.textContent=formatarMoedaBR(row.TFUNCIONARIO_CUSTO_MENSAL);const ccsel=tr?.querySelector('[data-rf-field="TCENTRO_CUSTO_ID"]');if(ccsel)ccsel.disabled=rfGridClosed()||String(row.TFUNCIONARIO_RATEIO).toUpperCase()==='SIM';const b=tr?.querySelector('.rf-btn-rateio-func');if(b)b.disabled=rfGridClosed()||String(row.TFUNCIONARIO_RATEIO).toUpperCase()!=='SIM';}
+  if(sheet==='TPLANO_CONTAS'){const isR=String(row.__rateioSim||'NAO').toUpperCase()==='SIM'||String(row.TPLANO_CONTA_CRITERIO).toUpperCase()==='SELETIVO_PERCENTUAL';if(changedField==='__rateioSim'){if(isR){row.TPLANO_CONTA_CRITERIO='SELETIVO_PERCENTUAL';row.TCENTRO_CUSTO_ID=row.TCENTRO_CUSTO_ID&&String(row.TCENTRO_CUSTO_ID).trim().startsWith('[')?row.TCENTRO_CUSTO_ID:'[]';}else if(String(row.TPLANO_CONTA_CRITERIO).toUpperCase()==='SELETIVO_PERCENTUAL'){row.TPLANO_CONTA_CRITERIO='EXCLUSIVO';row.TCENTRO_CUSTO_ID='';}}
+    rfGridApplyPLCRules(tr,row);
+  }
+}
+function rfGridApplyCCRRules(tr,row){if(!tr)return;const pd=String(row.TCENTRO_CUSTO_TIPO||'').toUpperCase()==='PRODUTIVO DIRETO',min=String(row.TCENTRO_CUSTO_CONSIDERAR_MINIMO||'').toUpperCase()==='SIM';for(const f of ['TCENTRO_CUSTO_TIPO_RATEIO_HORAS','TCENTRO_CUSTO_PRODUTIVIDADE','TCENTRO_CUSTO_CUSTO_FIXO_DIRETO','TCENTRO_CUSTO_CONSIDERAR_MINIMO']){const el=tr.querySelector(`[data-rf-field="${f}"]`);if(!el)continue;el.disabled=rfGridClosed()||!pd||(min&&(f==='TCENTRO_CUSTO_TIPO_RATEIO_HORAS'||f==='TCENTRO_CUSTO_PRODUTIVIDADE'));if(f==='TCENTRO_CUSTO_TIPO_RATEIO_HORAS')el.value=min?'MINIMO':(row[f]||'');if(f==='TCENTRO_CUSTO_PRODUTIVIDADE')el.value=min?100:(row[f]??100);if(f==='TCENTRO_CUSTO_CUSTO_FIXO_DIRETO')el.value=rfGridMoney(row[f]);if(f==='TCENTRO_CUSTO_CONSIDERAR_MINIMO')el.checked=min;}}
+function rfGridApplyPLCRules(tr,row){if(!tr)return;const rateio=String(row.__rateioSim||'NAO').toUpperCase()==='SIM'||String(row.TPLANO_CONTA_CRITERIO||'').toUpperCase()==='SELETIVO_PERCENTUAL';row.__rateioSim=rateio?'SIM':'NAO';const crit=tr.querySelector('[data-rf-field="TPLANO_CONTA_CRITERIO"]'),cc=tr.querySelector('[data-rf-field="TCENTRO_CUSTO_ID"]'),btn=tr.querySelector('.rf-btn-rateio-plc');if(crit){crit.disabled=rfGridClosed()||rateio;if(rateio)crit.value='SELETIVO_PERCENTUAL';}if(cc)cc.disabled=rfGridClosed()||rateio||String(row.TPLANO_CONTA_CRITERIO||'').toUpperCase()!=='EXCLUSIVO';if(btn)btn.disabled=rfGridClosed()||!rateio;}
+function rfGridCalcDep(tipo,val){let taxa=.0083;const t=String(tipo||'').trim().toUpperCase();const p=(tabelaPadroes||[]).find(x=>String(x.TRECURSO_TIPO||'').trim().toUpperCase()===t);if(p){let raw=p.TRECURSO_PERCENTUAL_DEPRECIACAO;if(typeof raw==='string')raw=parseFloat(raw.replace('%','').replace(',','.'))||0;if(raw>1)taxa=raw/100;else if(raw>0)taxa=raw;}return (Number(val)||0)*taxa;}
+function rfGridCalcFuncRow(r){const base=Number(r.TFUNCIONARIO_SALARIO_BASE)||0,ben=Number((r.TFUNCIONARIO_VALOR_BENEFICIOS ?? rfFuncionarioBeneficios(r)) || 0),hrs=Number(r.TFUNCIONARIO_HORAS)||176,tpSal=String(r.TFUNCIONARIO_TP_SALARIO||'MENSALISTA').toUpperCase(),reg=String(r.TFUNCIONARIO_TP_REGISTRO||'').toUpperCase();const salario=tpSal==='HORISTA'?base*hrs:base,tem=reg!=='SEM REGISTRO',dec=tem?salario/12:0,terco=tem?(salario/12)/3:0,fer=tem?salario/12:0,total=salario+dec+terco+fer,fgts=tem?total*.08:0,multa=tem?fgts*.50:0,norm=['NORMAL','CLT NORMAL','REGULADO'].includes(reg),inss=norm?salario*.20:0,sesc=norm?salario*.02:0,senai=norm?salario*.025:0,incra=norm?salario*.033:0;r.TFUNCIONARIO_CUSTO_MENSAL=salario+dec+terco+fer+fgts+multa+inss+sesc+senai+incra+ben;if(String(r.TFUNCIONARIO_RATEIO||'').toUpperCase()==='SIM'){const arr=rfParseRateio(r.TCENTRO_CUSTO_ID);const soma=arr.reduce((s,x)=>s+(Number(x.pct)||0),0);r.TFUNCIONARIO_SOBRA_RATEIO=r.TFUNCIONARIO_CUSTO_MENSAL*Math.max(0,(100-soma)/100);}else r.TFUNCIONARIO_SOBRA_RATEIO=0;return r.TFUNCIONARIO_CUSTO_MENSAL;}
+function rfParseRateio(raw){let t=String(raw||'').trim();if(!t)return[];try{if(t.startsWith('"')&&t.endsWith('"'))t=t.slice(1,-1);t=t.replace(/""/g,'"').replace(/;/g,',');const a=JSON.parse(t);return Array.isArray(a)?a.map(x=>({id:String(x?.id??x?.ID??''),pct:Number(x?.pct??x?.PCT??0)||0})).filter(x=>x.id):[];}catch(_){return[];}}
+function rfParseBenefits(r){const raw=r?.TFUNCIONARIO_BENEFICIOS_IDS;if(Array.isArray(raw))return raw.map(String);if(!raw)return[];try{const a=JSON.parse(String(raw));return Array.isArray(a)?a.map(String):[];}catch(_){return[];}}
+function rfGridRateioLabel(raw){const a=rfParseRateio(raw);if(!a.length)return 'Definir rateio';return a.map(x=>{const c=listaCC.find(cc=>String(cc.TCENTRO_CUSTO_ID)===String(x.id));return `${String(c?.TCENTRO_CUSTO_NOME||x.id).toUpperCase()} ${rfGridPct(x.pct)}%`;}).join(' • ');}
+function rfGridBenefitsLabel(r){const ids=rfParseBenefits(r);if(!ids.length)return Number((r.TFUNCIONARIO_VALOR_BENEFICIOS ?? rfFuncionarioBeneficios(r)) || 0)>0?'Selecionar / revisar':'Selecionar';const nomes=ids.map(id=>listaBeneficios.find(b=>String(b.TBENEFICIO_ID)===String(id))?.TBENEFICIO_NOME).filter(Boolean);return nomes.length?nomes.join(', '):`${ids.length} benefício(s)`;}
+function rfGridCriteriaOptions(sel){const vals=[['EXCLUSIVO','EXCLUSIVO (CENTRO DE CUSTO ÚNICO)'],['AREA','RATEIO POR ÁREA (M²)'],['RECURSOS','RATEIO POR QUANTIDADE DE RECURSOS'],['HORAS','RATEIO POR HORAS FINAIS DO CC'],['PD_AREA','APENAS PRODUTIVOS DIRETOS (ÁREA)'],['PD_RECURSOS','APENAS PRODUTIVOS DIRETOS (QTDE RECURSOS)'],['PD_HORAS','APENAS PRODUTIVOS DIRETOS (HORAS)'],['PI_AREA','APENAS PRODUTIVOS INDIRETOS (ÁREA)'],['ADM_AREA','APENAS ADMINISTRATIVOS (ÁREA)'],['NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)','NÃO RATEAR - CUSTO VARIÁVEL (PRODUÇÃO)'],['NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)','NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA)'],['SELETIVO_PERCENTUAL','RATEIO SELETIVO (%)']];return vals.map(([v,l])=>rfGridOption(v,l,sel)).join('');}
+
+function rfRenderCC(){const st=rfGridEnsure('TCENTRO_CUSTO'),tb=rfGridTbody('TCENTRO_CUSTO');if(!tb)return;tb.innerHTML=st.rows.length?st.rows.map(r=>{const dis=r.__delete?'disabled':'';return `<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td>${rfGridReadonly(r.TCENTRO_CUSTO_ID||'NOVO',false,true,'rf-grid-id')}</td><td><select class="rf-grid-select" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_TIPO')} ${dis}>${rfGridTipoCCOptions(r.TCENTRO_CUSTO_TIPO)}</select></td><td><input class="rf-grid-input" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_NOME','upper')} ${dis}></td><td><input type="number" step="0.01" class="rf-grid-input rf-grid-number" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_AREA','number')} ${dis}></td><td><select class="rf-grid-select" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_TIPO_RATEIO_HORAS')} ${dis}>${rfGridRateioHorasOptions(r.TCENTRO_CUSTO_TIPO_RATEIO_HORAS)}</select></td><td><input type="number" step="0.01" class="rf-grid-input rf-grid-number" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_PRODUTIVIDADE','number')} ${dis}></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TCENTRO_CUSTO',r,'TCENTRO_CUSTO_CUSTO_FIXO_DIRETO','money')} ${dis}></td><td><div class="rf-grid-checkcell"><input type="checkbox" class="rf-grid-check" data-rf-sheet="TCENTRO_CUSTO" data-rf-key="${rfEsc(r.__key)}" data-rf-field="TCENTRO_CUSTO_CONSIDERAR_MINIMO" ${String(r.TCENTRO_CUSTO_CONSIDERAR_MINIMO||'').toUpperCase()==='SIM'?'checked':''} ${rfGridClosed()||r.__delete?'disabled':''}></div></td><td>${rfGridReadonly(r.TCENTRO_CUSTO_QTDE_RECURSOS||0)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_CUSTO_MENSAL||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_CUSTO_FUNCIONARIO||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_PREDIO||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_INDIRETOS||0,true)}</td><td>${rfGridReadonly(r.TCENTRO_CUSTO_HORAS||0)}</td>${rfGridActionCell('TCENTRO_CUSTO',r)}</tr>`}).join(''):'<tr><td colspan="16" class="rf-grid-empty">Nenhum Centro de Custo cadastrado. Clique em “Inserir item”.</td></tr>';st.rows.forEach(r=>rfGridApplyCCRRules(tb.querySelector(`tr[data-rf-key="${CSS.escape(String(r.__key))}"]`),r));rfGridBind(tb);rfGridUpdateButtons('TCENTRO_CUSTO');}
+function rfRenderRec(){const st=rfGridEnsure('TRECURSO'),tb=rfGridTbody('TRECURSO');if(!tb)return;tb.innerHTML=st.rows.length?st.rows.map(r=>`<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><select class="rf-grid-select" ${rfGridAttr('TRECURSO',r,'TCENTRO_CUSTO_ID')} ${r.__delete?'disabled':''}>${rfGridCCOptions(r.TCENTRO_CUSTO_ID)}</select></td><td><input class="rf-grid-input" ${rfGridAttr('TRECURSO',r,'TRECURSO_NOME','upper')} ${r.__delete?'disabled':''}></td><td><select class="rf-grid-select" ${rfGridAttr('TRECURSO',r,'TRECURSO_TIPO')} ${r.__delete?'disabled':''}>${rfGridTipoRecOptions(r.TRECURSO_TIPO)}</select></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TRECURSO',r,'TRECURSO_VALOR','money')} ${r.__delete?'disabled':''}></td><td><input type="number" min="1" step="1" class="rf-grid-input rf-grid-number" ${rfGridAttr('TRECURSO',r,'TRECURSO_TURNOS','int')} ${r.__delete?'disabled':''}></td><td><div class="rf-grid-readonly rf-rec-dep">${formatarMoedaBR(r.TRECURSO_CUSTO_MENSAL||0)}</div></td>${rfGridActionCell('TRECURSO',r)}</tr>`).join(''):'<tr><td colspan="7" class="rf-grid-empty">Nenhum recurso cadastrado. Clique em “Inserir item”.</td></tr>';st.rows.forEach(r=>rfGridApplyRules('TRECURSO',r,tb.querySelector(`tr[data-rf-key="${CSS.escape(String(r.__key))}"]`),''));rfGridBind(tb);rfGridUpdateButtons('TRECURSO');}
+function rfRenderBen(){const st=rfGridEnsure('TBENEFICIOS'),tb=rfGridTbody('TBENEFICIOS');if(!tb)return;tb.innerHTML=st.rows.length?st.rows.map(r=>`<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><input class="rf-grid-input" ${rfGridAttr('TBENEFICIOS',r,'TBENEFICIO_NOME','upper')} ${r.__delete?'disabled':''}></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TBENEFICIOS',r,'TBENEFICIO_VALOR','money')} ${r.__delete?'disabled':''}></td>${rfGridActionCell('TBENEFICIOS',r)}</tr>`).join(''):'<tr><td colspan="3" class="rf-grid-empty">Nenhum benefício cadastrado. Clique em “Inserir item”.</td></tr>';rfGridBind(tb);rfGridUpdateButtons('TBENEFICIOS');}
+function rfRenderFunc(){const st=rfGridEnsure('TFUNCIONARIO'),tb=rfGridTbody('TFUNCIONARIO');if(!tb)return;tb.innerHTML=st.rows.length?st.rows.map(r=>{rfGridCalcFuncRow(r);const isR=String(r.TFUNCIONARIO_RATEIO||'').toUpperCase()==='SIM';return `<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><div class="rf-grid-checkcell"><input type="checkbox" class="rf-grid-check" data-rf-sheet="TFUNCIONARIO" data-rf-key="${rfEsc(r.__key)}" data-rf-field="TFUNCIONARIO_RATEIO" ${isR?'checked':''} ${rfGridClosed()||r.__delete?'disabled':''}><button type="button" class="rf-grid-chipbtn rf-btn-rateio-func" onclick="rfGridOpenRateioFuncionario('${rfEsc(r.__key)}')" ${!isR||rfGridClosed()||r.__delete?'disabled':''}>${isR?rfEsc(rfGridRateioLabel(r.TCENTRO_CUSTO_ID)):'Rateio'}</button></div></td><td><select class="rf-grid-select" ${rfGridAttr('TFUNCIONARIO',r,'TCENTRO_CUSTO_ID')} ${isR||r.__delete?'disabled':''}>${rfGridCCOptions(isR?'':r.TCENTRO_CUSTO_ID)}</select></td><td><input class="rf-grid-input" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_NOME','upper')} ${r.__delete?'disabled':''}></td><td><select class="rf-grid-select" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_TP_REGISTRO')} ${r.__delete?'disabled':''}>${rfGridTipoRegOptions(r.TFUNCIONARIO_TP_REGISTRO)}</select></td><td><select class="rf-grid-select" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_TP_SALARIO')} ${r.__delete?'disabled':''}>${rfGridOption('MENSALISTA','MENSALISTA',r.TFUNCIONARIO_TP_SALARIO)}${rfGridOption('HORISTA','HORISTA',r.TFUNCIONARIO_TP_SALARIO)}</select></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_SALARIO_BASE','money')} ${r.__delete?'disabled':''}></td><td><input type="number" min="0" step="0.01" class="rf-grid-input rf-grid-number" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_HORAS','number')} ${r.__delete?'disabled':''}></td><td><div class="rf-grid-checkcell"><button type="button" class="rf-grid-chipbtn" onclick="rfGridOpenBeneficios('${rfEsc(r.__key)}')" ${rfGridClosed()||r.__delete?'disabled':''}>${rfEsc(rfGridBenefitsLabel(r))}</button></div></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TFUNCIONARIO',r,'TFUNCIONARIO_VALOR_BENEFICIOS','money')} ${r.__delete?'disabled':''}></td><td><div class="rf-grid-readonly rf-func-cost">${formatarMoedaBR(r.TFUNCIONARIO_CUSTO_MENSAL||0)}</div></td>${rfGridActionCell('TFUNCIONARIO',r)}</tr>`}).join(''):'<tr><td colspan="11" class="rf-grid-empty">Nenhum funcionário cadastrado. Clique em “Inserir item”.</td></tr>';rfGridBind(tb);rfGridUpdateButtons('TFUNCIONARIO');}
+function rfRenderPLC(){const st=rfGridEnsure('TPLANO_CONTAS'),tb=rfGridTbody('TPLANO_CONTAS');if(!tb)return;tb.innerHTML=st.rows.length?st.rows.map(r=>{const rateio=String(r.TPLANO_CONTA_CRITERIO||'').toUpperCase()==='SELETIVO_PERCENTUAL';r.__rateioSim=rateio?'SIM':'NAO';return `<tr data-rf-key="${rfEsc(r.__key)}" class="${rfGridRowClass(r)}"><td><div class="rf-grid-checkcell"><input type="checkbox" class="rf-grid-check" data-rf-sheet="TPLANO_CONTAS" data-rf-key="${rfEsc(r.__key)}" data-rf-field="__rateioSim" ${rateio?'checked':''} ${rfGridClosed()||r.__delete?'disabled':''}><button type="button" class="rf-grid-chipbtn rf-btn-rateio-plc" onclick="rfGridOpenRateioPlano('${rfEsc(r.__key)}')" ${!rateio||rfGridClosed()||r.__delete?'disabled':''}>${rateio?rfEsc(rfGridRateioLabel(r.TCENTRO_CUSTO_ID)):'Rateio'}</button></div></td><td><input class="rf-grid-input" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_NOME','upper')} ${r.__delete?'disabled':''}></td><td><select class="rf-grid-select" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_CRITERIO')} ${r.__delete?'disabled':''}>${rfGridCriteriaOptions(r.TPLANO_CONTA_CRITERIO)}</select></td><td><select class="rf-grid-select" ${rfGridAttr('TPLANO_CONTAS',r,'TCENTRO_CUSTO_ID')} ${r.__delete?'disabled':''}>${rfGridCCOptions(rateio?'':r.TCENTRO_CUSTO_ID)}</select></td><td><input class="rf-grid-input rf-grid-money" ${rfGridAttr('TPLANO_CONTAS',r,'TPLANO_CONTA_VALOR','money')} ${r.__delete?'disabled':''}></td>${rfGridActionCell('TPLANO_CONTAS',r)}</tr>`}).join(''):'<tr><td colspan="6" class="rf-grid-empty">Nenhuma conta cadastrada. Clique em “Inserir item”.</td></tr>';st.rows.forEach(r=>rfGridApplyPLCRules(tb.querySelector(`tr[data-rf-key="${CSS.escape(String(r.__key))}"]`),r));rfGridBind(tb);rfGridUpdateButtons('TPLANO_CONTAS');}
+function rfGridRender(sheet){if(sheet==='TCENTRO_CUSTO')rfRenderCC();else if(sheet==='TRECURSO')rfRenderRec();else if(sheet==='TBENEFICIOS')rfRenderBen();else if(sheet==='TFUNCIONARIO')rfRenderFunc();else if(sheet==='TPLANO_CONTAS')rfRenderPLC();requestAnimationFrame(()=>{try{v49UpdateKPIs();}catch(_){}});}
+function renderizarTabelaCCLocal(){rfGridRender('TCENTRO_CUSTO');}
+function renderizarTabelaRecursosLocal(){rfGridRender('TRECURSO');}
+function renderizarTabelaBeneficiosLocal(){rfGridRender('TBENEFICIOS');}
+function renderizarTabelaFuncionariosLocal(){rfGridRender('TFUNCIONARIO');}
+function renderizarTabelaPlanoContasLocal(){rfGridRender('TPLANO_CONTAS');}
+
+function rfGridBind(tb){if(!tb||tb.dataset.rfGridBound==='1')return;tb.dataset.rfGridBound='1';tb.addEventListener('input',e=>{const el=e.target.closest('[data-rf-field]');if(el)rfGridEdit(el);});tb.addEventListener('change',e=>{const el=e.target.closest('[data-rf-field]');if(el)rfGridEdit(el);});tb.addEventListener('blur',e=>{const el=e.target.closest('[data-rf-field]');if(el)rfGridBlur(el);},true);tb.addEventListener('keydown',e=>{if(e.key!=='ArrowDown'||e.altKey||e.ctrlKey||e.metaKey||rfGridClosed())return;const tr=e.target.closest('tr');if(!tr)return;const rows=[...tb.querySelectorAll('tr[data-rf-key]')].filter(x=>!x.classList.contains('rf-grid-delete'));if(rows.length&&tr===rows[rows.length-1]){e.preventDefault();const sheet=e.target.dataset.rfSheet;if(!sheet)return;const field=e.target.dataset.rfField;rfGridAdd(sheet);setTimeout(()=>{const nt=[...tb.querySelectorAll('tr[data-rf-key]')].filter(x=>!x.classList.contains('rf-grid-delete')).at(-1);nt?.querySelector(`[data-rf-field="${CSS.escape(field||'')}"]`)?.focus();},30);}});}
+
+function rfGridValidate(sheet,row){
+  if(row.__delete)return null;
+  if(sheet==='TCENTRO_CUSTO'){if(!String(row.TCENTRO_CUSTO_NOME||'').trim())return 'Informe o nome do Centro de Custo.';if(!String(row.TCENTRO_CUSTO_TIPO||'').trim())return 'Selecione o tipo do Centro de Custo.';if(String(row.TCENTRO_CUSTO_TIPO).toUpperCase()==='PRODUTIVO DIRETO'&&!String(row.TCENTRO_CUSTO_TIPO_RATEIO_HORAS||'').trim())return 'Selecione o tipo de rateio de horas nos Centros de Custo Produtivos Diretos.';}
+  if(sheet==='TRECURSO'){if(!row.TCENTRO_CUSTO_ID)return 'Selecione o Centro de Custo do recurso.';if(!String(row.TRECURSO_NOME||'').trim())return 'Informe o nome do recurso.';if(!String(row.TRECURSO_TIPO||'').trim())return 'Selecione o tipo do recurso.';}
+  if(sheet==='TBENEFICIOS'){if(!String(row.TBENEFICIO_NOME||'').trim())return 'Informe a descrição do benefício.';}
+  if(sheet==='TFUNCIONARIO'){if(!String(row.TFUNCIONARIO_NOME||'').trim())return 'Informe o nome do funcionário.';if(!String(row.TFUNCIONARIO_TP_REGISTRO||'').trim())return 'Selecione o tipo de registro.';if(String(row.TFUNCIONARIO_RATEIO||'').toUpperCase()==='SIM'){const a=rfParseRateio(row.TCENTRO_CUSTO_ID),sum=a.reduce((s,x)=>s+x.pct,0);if(!a.length)return `Defina o rateio de ${row.TFUNCIONARIO_NOME}.`;if(sum>100.001)return `O rateio de ${row.TFUNCIONARIO_NOME} ultrapassa 100%.`;}else if(!row.TCENTRO_CUSTO_ID)return `Selecione o Centro de Custo de ${row.TFUNCIONARIO_NOME}.`;}
+  if(sheet==='TPLANO_CONTAS'){if(!String(row.TPLANO_CONTA_NOME||'').trim())return 'Informe a descrição da conta.';const rateio=String(row.TPLANO_CONTA_CRITERIO||'').toUpperCase()==='SELETIVO_PERCENTUAL';if(rateio){const sum=rfParseRateio(row.TCENTRO_CUSTO_ID).reduce((s,x)=>s+x.pct,0);if(Math.abs(sum-100)>.01)return `O rateio da conta ${row.TPLANO_CONTA_NOME} deve totalizar 100%.`;}else if(String(row.TPLANO_CONTA_CRITERIO||'').toUpperCase()==='EXCLUSIVO'&&!row.TCENTRO_CUSTO_ID)return `Selecione o Centro de Custo exclusivo da conta ${row.TPLANO_CONTA_NOME}.`;}
+  return null;
+}
+function rfGridIsBlankNew(sheet,r){if(!r.__new)return false;if(sheet==='TCENTRO_CUSTO')return !String(r.TCENTRO_CUSTO_NOME||'').trim();if(sheet==='TRECURSO')return !String(r.TRECURSO_NOME||'').trim();if(sheet==='TBENEFICIOS')return !String(r.TBENEFICIO_NOME||'').trim();if(sheet==='TFUNCIONARIO')return !String(r.TFUNCIONARIO_NOME||'').trim();if(sheet==='TPLANO_CONTAS')return !String(r.TPLANO_CONTA_NOME||'').trim();return false;}
+function rfGridRowData(sheet,r){
+  const cli=String(usuarioLogado.TCLIENTE_ID),per=String(periodoAtivoObj.TPERIODO_ID),idf=rfGridIdField(sheet),id=r[idf]||'';
+  if(sheet==='TCENTRO_CUSTO'){const pd=String(r.TCENTRO_CUSTO_TIPO||'').toUpperCase()==='PRODUTIVO DIRETO',min=pd&&String(r.TCENTRO_CUSTO_CONSIDERAR_MINIMO||'').toUpperCase()==='SIM';return [cli,per,id,String(r.TCENTRO_CUSTO_NOME||'').trim().toUpperCase(),r.TCENTRO_CUSTO_TIPO||'',Number(r.TCENTRO_CUSTO_QTDE_RECURSOS)||0,Number(r.TCENTRO_CUSTO_AREA)||0,pd?Number(r.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0:0,min?100:(pd?(Number(r.TCENTRO_CUSTO_PRODUTIVIDADE)||100):100),min?'MINIMO':(pd?(r.TCENTRO_CUSTO_TIPO_RATEIO_HORAS||''):''),min?'SIM':'NAO'];}
+  if(sheet==='TRECURSO'){const dep=rfGridCalcDep(r.TRECURSO_TIPO,r.TRECURSO_VALOR);const cc=listaCC.find(c=>String(c.TCENTRO_CUSTO_ID)===String(r.TCENTRO_CUSTO_ID)),pd=String(cc?.TCENTRO_CUSTO_TIPO||'').toUpperCase()==='PRODUTIVO DIRETO';return [cli,per,r.TCENTRO_CUSTO_ID||'',id,String(r.TRECURSO_NOME||'').trim().toUpperCase(),Number(r.TRECURSO_VALOR)||0,r.TRECURSO_TIPO||'',dep,pd?(parseInt(r.TRECURSO_TURNOS,10)||1):1];}
+  if(sheet==='TBENEFICIOS')return [cli,per,id,String(r.TBENEFICIO_NOME||'').trim().toUpperCase(),Number(r.TBENEFICIO_VALOR)||0];
+  if(sheet==='TFUNCIONARIO'){rfGridCalcFuncRow(r);const ids=JSON.stringify(rfParseBenefits(r));return [cli,per,r.TCENTRO_CUSTO_ID||'',id,String(r.TFUNCIONARIO_NOME||'').trim().toUpperCase(),r.TFUNCIONARIO_TP_REGISTRO||'',r.TFUNCIONARIO_TP_SALARIO||'MENSALISTA',Number(r.TFUNCIONARIO_SALARIO_BASE)||0,Number((r.TFUNCIONARIO_VALOR_BENEFICIOS ?? rfFuncionarioBeneficios(r)) || 0),Number(r.TFUNCIONARIO_CUSTO_MENSAL)||0,String(r.TFUNCIONARIO_RATEIO||'NAO').toUpperCase()==='SIM'?'SIM':'NAO',Number(r.TFUNCIONARIO_SOBRA_RATEIO)||0,Number(r.TFUNCIONARIO_HORAS)||176,ids];}
+  if(sheet==='TPLANO_CONTAS'){const crit=String(r.TPLANO_CONTA_CRITERIO||'EXCLUSIVO').toUpperCase();return [cli,per,crit==='EXCLUSIVO'||crit==='SELETIVO_PERCENTUAL'?(r.TCENTRO_CUSTO_ID||''):'',id,String(r.TPLANO_CONTA_NOME||'').trim().toUpperCase(),crit,Number(r.TPLANO_CONTA_VALOR)||0];}
+  return [];
+}
+async function rfGridCommit(sheet){
+  if(rfGridClosed())return alert('Este período está fechado e é somente leitura.');const st=rfGridEnsure(sheet);const changed=st.rows.filter(r=>r.__dirty||r.__new||r.__delete);if(!changed.length)return;
+  for(const r of changed){if(rfGridIsBlankNew(sheet,r))continue;const msg=rfGridValidate(sheet,r);if(msg)return alert(msg);}
+  const creates=[],updates=[],deletes=[],idf=rfGridIdField(sheet);
+  for(const r of changed){if(rfGridIsBlankNew(sheet,r))continue;if(r.__delete){if(!r.__new&&r[idf])deletes.push(String(r[idf]));continue;}const data=rfGridRowData(sheet,r);if(r.__new)creates.push(data);else updates.push({id:String(r[idf]),data});}
+  if(!creates.length&&!updates.length&&!deletes.length){delete rfGridState[sheet];rfGridRender(sheet);return;}
+  const total=creates.length+updates.length+deletes.length;if(!confirm(`Efetivar ${total} alteração(ões) nesta tela?\n\nNovos: ${creates.length}\nAlterados: ${updates.length}\nExclusões: ${deletes.length}`))return;
+  const btn=document.getElementById(`rf-save-${sheet}`);if(btn){btn.disabled=true;btn.textContent='Gravando alterações...';}setSyncStatus(true,'Gravando...');
+  const payload={sheet,action:'BATCH_MUTATE',clienteId:usuarioLogado.TCLIENTE_ID,periodoId:periodoAtivoObj.TPERIODO_ID,creates,updates,deletes};
+  try{await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});delete rfGridState[sheet];await carregarTudoDoPeriodo({silencioso:true});setSyncStatus(false,'Atualizado');alert('Cadastros/alterações efetivados com sucesso.');}
+  catch(e){console.error(e);setSyncStatus(false,'Falha');alert('Não foi possível efetivar as alterações.');rfGridUpdateButtons(sheet);}
+}
+
+function rfEnsureGridModal(){if(document.getElementById('rf-grid-modal-backdrop'))return;const el=document.createElement('div');el.id='rf-grid-modal-backdrop';el.className='rf-grid-modal-backdrop hidden';el.innerHTML='<div class="rf-grid-modal"><div class="rf-grid-modal-head"><div><div id="rf-grid-modal-title" class="rf-grid-modal-title"></div><div id="rf-grid-modal-sub" class="rf-grid-modal-sub"></div></div><button type="button" class="rf-grid-modal-x" onclick="rfGridCloseModal()">×</button></div><div id="rf-grid-modal-body" class="rf-grid-modal-body"></div><div class="rf-grid-modal-foot"><div id="rf-grid-modal-total" class="rf-grid-modal-total"></div><div class="rf-grid-modal-buttons"><button type="button" class="rf-inline-btn rf-inline-btn-muted" onclick="rfGridCloseModal()">Cancelar</button><button type="button" class="rf-inline-btn rf-inline-btn-primary" onclick="rfGridSaveModal()">Aplicar</button></div></div></div>';document.body.appendChild(el);}
+function rfGridCloseModal(){document.getElementById('rf-grid-modal-backdrop')?.classList.add('hidden');rfGridModalContext=null;}
+function rfGridOpenRateioFuncionario(key){const row=rfGridFind('TFUNCIONARIO',key);if(!row||rfGridClosed())return;rfEnsureGridModal();rfGridModalContext={type:'FUNC_RATEIO',sheet:'TFUNCIONARIO',key};const atual=rfParseRateio(row.TCENTRO_CUSTO_ID);document.getElementById('rf-grid-modal-title').textContent=`Rateio — ${row.TFUNCIONARIO_NOME||'NOVO FUNCIONÁRIO'}`;document.getElementById('rf-grid-modal-sub').textContent='Informe o percentual de custo/horas destinado a cada Centro de Custo. O saldo abaixo de 100% será tratado como mão de obra não alocada.';document.getElementById('rf-grid-modal-body').className='rf-grid-modal-body';document.getElementById('rf-grid-modal-body').innerHTML=(listaCC||[]).map(c=>{const a=atual.find(x=>String(x.id)===String(c.TCENTRO_CUSTO_ID));return `<div class="rf-grid-modal-row"><label>${rfEsc(c.TCENTRO_CUSTO_NOME)}</label><input class="rf-modal-pct" data-id="${rfEsc(c.TCENTRO_CUSTO_ID)}" type="number" min="0" max="100" step="0.01" value="${a?rfEsc(a.pct):''}" oninput="rfGridModalRecalc()"></div>`}).join('');rfGridModalRecalc();document.getElementById('rf-grid-modal-backdrop').classList.remove('hidden');}
+function rfGridOpenRateioPlano(key){const row=rfGridFind('TPLANO_CONTAS',key);if(!row||rfGridClosed())return;rfEnsureGridModal();rfGridModalContext={type:'PLC_RATEIO',sheet:'TPLANO_CONTAS',key};const atual=rfParseRateio(row.TCENTRO_CUSTO_ID);document.getElementById('rf-grid-modal-title').textContent=`Rateio da Conta — ${row.TPLANO_CONTA_NOME||'NOVA CONTA'}`;document.getElementById('rf-grid-modal-sub').textContent='Distribua 100% do valor entre os Centros de Custo participantes.';document.getElementById('rf-grid-modal-body').className='rf-grid-modal-body';document.getElementById('rf-grid-modal-body').innerHTML=(listaCC||[]).map(c=>{const a=atual.find(x=>String(x.id)===String(c.TCENTRO_CUSTO_ID));return `<div class="rf-grid-modal-row"><label>${rfEsc(c.TCENTRO_CUSTO_NOME)}</label><input class="rf-modal-pct" data-id="${rfEsc(c.TCENTRO_CUSTO_ID)}" type="number" min="0" max="100" step="0.01" value="${a?rfEsc(a.pct):''}" oninput="rfGridModalRecalc()"></div>`}).join('');rfGridModalRecalc();document.getElementById('rf-grid-modal-backdrop').classList.remove('hidden');}
+function rfGridOpenBeneficios(key){const row=rfGridFind('TFUNCIONARIO',key);if(!row||rfGridClosed())return;rfEnsureGridModal();rfGridModalContext={type:'BENEFICIOS',sheet:'TFUNCIONARIO',key};const ids=rfParseBenefits(row);document.getElementById('rf-grid-modal-title').textContent=`Benefícios — ${row.TFUNCIONARIO_NOME||'NOVO FUNCIONÁRIO'}`;document.getElementById('rf-grid-modal-sub').textContent='Selecione os benefícios cadastrados. O valor total será levado para a linha do funcionário e continuará editável.';const body=document.getElementById('rf-grid-modal-body');body.className='rf-grid-modal-body rf-benefit-list';body.innerHTML=(listaBeneficios||[]).length?(listaBeneficios||[]).map(b=>`<div class="rf-grid-modal-row"><input class="rf-modal-ben" data-id="${rfEsc(b.TBENEFICIO_ID)}" data-value="${Number(b.TBENEFICIO_VALOR)||0}" type="checkbox" ${ids.includes(String(b.TBENEFICIO_ID))?'checked':''} onchange="rfGridModalRecalc()"><label>${rfEsc(b.TBENEFICIO_NOME)}</label><span class="rf-benefit-value">${formatarMoedaBR(b.TBENEFICIO_VALOR)}</span></div>`).join(''):'<div class="rf-grid-empty">Nenhum benefício cadastrado.</div>';rfGridModalRecalc();document.getElementById('rf-grid-modal-backdrop').classList.remove('hidden');}
+function rfGridModalRecalc(){const ctx=rfGridModalContext,total=document.getElementById('rf-grid-modal-total');if(!ctx||!total)return;if(ctx.type==='BENEFICIOS'){let v=0,n=0;document.querySelectorAll('.rf-modal-ben:checked').forEach(x=>{v+=Number(x.dataset.value)||0;n++});total.innerHTML=`Selecionados: <strong>${n}</strong> &nbsp;•&nbsp; Total: <strong>${formatarMoedaBR(v)}</strong>`;}else{let s=0;document.querySelectorAll('.rf-modal-pct').forEach(x=>s+=Number(x.value)||0);total.innerHTML=`Total do rateio: <strong style="color:${Math.abs(s-100)<.01||ctx.type==='FUNC_RATEIO'&&s<=100?'#59d7aa':'#ff7878'}">${s.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}%</strong>`;}}
+function rfGridSaveModal(){const ctx=rfGridModalContext;if(!ctx)return;const row=rfGridFind(ctx.sheet,ctx.key);if(!row)return;if(ctx.type==='BENEFICIOS'){const ids=[];let total=0;document.querySelectorAll('.rf-modal-ben:checked').forEach(x=>{ids.push(String(x.dataset.id));total+=Number(x.dataset.value)||0});row.TFUNCIONARIO_BENEFICIOS_IDS=JSON.stringify(ids);row.TFUNCIONARIO_VALOR_BENEFICIOS=total;rfGridCalcFuncRow(row);}else{const arr=[];let sum=0;document.querySelectorAll('.rf-modal-pct').forEach(x=>{const pct=Number(x.value)||0;if(pct>0){arr.push({id:String(x.dataset.id),pct});sum+=pct;}});if(ctx.type==='PLC_RATEIO'&&Math.abs(sum-100)>.01)return alert('O rateio do Plano de Contas deve totalizar exatamente 100%.');if(ctx.type==='FUNC_RATEIO'&&sum>100.001)return alert('O rateio do funcionário não pode ultrapassar 100%.');row.TCENTRO_CUSTO_ID=JSON.stringify(arr);if(ctx.type==='FUNC_RATEIO'){row.TFUNCIONARIO_RATEIO='SIM';rfGridCalcFuncRow(row);}else{row.__rateioSim='SIM';row.TPLANO_CONTA_CRITERIO='SELETIVO_PERCENTUAL';}}rfGridMark(ctx.sheet,row);rfGridCloseModal();rfGridRender(ctx.sheet);}
+
+// KPIs calculados diretamente dos dados/rascunhos, pois as células agora possuem inputs.
+function v49UpdateKPIs(){
+  let rows=rfGridEnsure('TRECURSO').rows.filter(r=>!r.__delete&&!rfGridIsBlankNew('TRECURSO',r));const krec=document.getElementById('kpi-rec');if(krec){const val=rows.reduce((s,r)=>s+(Number(r.TRECURSO_VALOR)||0),0),dep=rows.reduce((s,r)=>s+rfGridCalcDep(r.TRECURSO_TIPO,r.TRECURSO_VALOR),0);krec.innerHTML=[v49KpiCard('Total de Máquinas',v49FormatNum(rows.length)),v49KpiCard('Valor Total Investido',formatarMoedaBR(val)),v49KpiCard('Depreciação Mensal',formatarMoedaBR(dep))].join('');}
+  rows=rfGridEnsure('TFUNCIONARIO').rows.filter(r=>!r.__delete&&!rfGridIsBlankNew('TFUNCIONARIO',r));const kf=document.getElementById('kpi-func');if(kf){const total=rows.reduce((s,r)=>s+(rfGridCalcFuncRow(r)||0),0);kf.innerHTML=[v49KpiCard('Total de Colaboradores',v49FormatNum(rows.length)),v49KpiCard('Custo Mensal da Folha',formatarMoedaBR(total)),v49KpiCard('Custo Médio Mensal',formatarMoedaBR(rows.length?total/rows.length:0))].join('');}
+  rows=rfGridEnsure('TPLANO_CONTAS').rows.filter(r=>!r.__delete&&!rfGridIsBlankNew('TPLANO_CONTAS',r));const kp=document.getElementById('kpi-plc');if(kp){let fix=0,varia=0;rows.forEach(r=>{const v=Number(r.TPLANO_CONTA_VALOR)||0,c=String(r.TPLANO_CONTA_CRITERIO||'').toUpperCase();if(c.includes('VARIÁVEL')||c.includes('VARIAVEL'))varia+=v;else fix+=v;});kp.innerHTML=[v49KpiCard('Total de Contas Ativas',v49FormatNum(rows.length)),v49KpiCard('Gastos Fixos',formatarMoedaBR(fix)),v49KpiCard('Gastos Variáveis',formatarMoedaBR(varia))].join('');}
+  rows=rfGridEnsure('TCENTRO_CUSTO').rows.filter(r=>!r.__delete&&!rfGridIsBlankNew('TCENTRO_CUSTO',r));const kc=document.getElementById('kpi-cc');if(kc){const total=rows.reduce((s,r)=>s+(Number(r.TCENTRO_CUSTO_CUSTO_FIXO_DIRETO)||0)+(Number(r.TCENTRO_CUSTO_CUSTO_MENSAL)||0)+(Number(r.TCENTRO_CUSTO_CUSTO_FUNCIONARIO)||0)+(Number(r.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS)||0)+(Number(r.TCENTRO_CUSTO_PREDIO)||0),0),hrs=rows.reduce((s,r)=>s+(Number(r.TCENTRO_CUSTO_HORAS)||0),0);kc.innerHTML=[v49KpiCard('Qtd. de Centros de Custos',v49FormatNum(rows.length)),v49KpiCard('Valor Total',formatarMoedaBR(total)),v49KpiCard('Horas Efetivas Produzidas',v49FormatNum(hrs)+' h')].join('');}
+}
+// Não injeta busca/ordenação automática nas grades de cadastro; são grades editáveis.
+function v49PrepareTables(){if(v49ObserverBusy)return;v49ObserverBusy=true;try{['tbl-inv-body','tbl-custo-hora-cc-body','tbl-ranking-cc-body'].forEach(id=>{const tb=document.getElementById(id),table=tb?.closest('table');if(table)v49AddTableTools(table);});v49UpdateKPIs();}finally{v49ObserverBusy=false;}}
+
+window.addEventListener('DOMContentLoaded',()=>{rfEnsureGridModal();});
 </script>
 
 </body>
