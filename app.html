@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.20 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.20">
+    <title>CONSULTORIA.RF V5.2.21 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.21">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1395,7 +1395,7 @@ body.light-mode #app-loading-overlay .rf-loading-card {
 
 <style id="v5220-mobile-launch-black-fix">
 /* ================================================================
-   V5.2.20 — ABERTURA MOBILE / SPLASH
+   V5.2.21 — ABERTURA MOBILE / SPLASH
    O logo usado na abertura possui fundo preto. A tela de abertura e
    o fundo inicial agora usam preto absoluto para não revelar o recorte
    retangular da imagem durante o carregamento.
@@ -1429,7 +1429,7 @@ body.light-mode #app-loading-overlay .rf-loading-card {
 
 <style id="v5219-admin-mobile-visibility-fix">
 /* ================================================================
-   V5.2.20 — ADMINISTRAÇÃO: VISIBILIDADE CORRETA NO MENU MOBILE
+   V5.2.21 — ADMINISTRAÇÃO: VISIBILIDADE CORRETA NO MENU MOBILE
    O menu mobile força display:flex nos botões quando abre a gaveta.
    Esta regra garante que ADMINISTRAÇÃO continue invisível para
    usuários não administradores.
@@ -1442,6 +1442,119 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
 }
 </style>
 
+
+<style id="v5221-diagnostico-admin-folhas">
+/* ================================================================
+   V5.2.21 — ADMIN DIAGNÓSTICO + FOLHAS NA ANÁLISE
+   ================================================================ */
+.rf-admin-diag-table {
+    min-width: 1180px;
+}
+.rf-admin-diag-table input,
+.rf-admin-diag-table textarea {
+    width: 100%;
+    background: #0d0d0f;
+    color: #f4f4f5;
+    border: 1px solid #343840;
+    border-radius: 7px;
+    padding: 7px 8px;
+    font-size: 11px;
+    outline: none;
+    text-transform: none !important;
+}
+.rf-admin-diag-table textarea {
+    min-height: 72px;
+    resize: vertical;
+    text-transform: none;
+}
+.rf-admin-diag-table input:focus,
+.rf-admin-diag-table textarea:focus {
+    border-color: #ff8838;
+}
+.rf-admin-diag-condition {
+    max-width: 220px;
+    white-space: normal !important;
+    line-height: 1.35;
+}
+.rf-admin-diag-level {
+    white-space: nowrap !important;
+    font-weight: 800;
+}
+.rf-admin-score-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+@media (min-width: 1024px) {
+    .rf-admin-score-grid { grid-template-columns: 1.15fr .85fr .95fr; }
+}
+.rf-admin-score-card {
+    background: #0d0d0f;
+    border: 1px solid #2b2f36;
+    border-radius: 10px;
+    padding: 12px;
+}
+.rf-admin-score-card input {
+    background: #16161a;
+    color: #fff;
+    border: 1px solid #343840;
+    border-radius: 7px;
+    padding: 7px 8px;
+    outline: none;
+    text-transform: none !important;
+}
+.rf-admin-score-card input:focus { border-color:#ff8838; }
+.rf-admin-client-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 7px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+@media (min-width: 640px) {
+    .rf-admin-client-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+.rf-admin-client-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #30343b;
+    border-radius: 9px;
+    padding: 9px 10px;
+    background: #111318;
+    font-size: 11px;
+    color: #e5e7eb;
+}
+body.light-mode .rf-admin-diag-table input,
+body.light-mode .rf-admin-diag-table textarea,
+body.light-mode .rf-admin-score-card input {
+    background:#fff !important;
+    color:#1f2937 !important;
+    border-color:#cfd6df !important;
+}
+body.light-mode .rf-admin-score-card,
+body.light-mode .rf-admin-client-check {
+    background:#f8fafc !important;
+    border-color:#d7dee8 !important;
+    color:#344054 !important;
+}
+.rf-folha-table {
+    min-width: 820px;
+}
+.rf-folha-table td,
+.rf-folha-table th {
+    white-space: nowrap;
+}
+.rf-folha-percent {
+    font-variant-numeric: tabular-nums;
+}
+.rf-folha-empty {
+    text-align:center;
+    padding:18px;
+    color:#9ea0a6;
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1449,7 +1562,7 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.20</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.21</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1484,7 +1597,7 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.20</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.21</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -1672,6 +1785,73 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
                             <tr><td colspan="6" class="p-4 text-center">Carregando usuários...</td></tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- V5.2.21 — CONFIGURAÇÃO DO DIAGNÓSTICO AUTOMÁTICO -->
+            <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-5">
+                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
+                    <div>
+                        <h2 class="text-base md:text-lg font-bold text-white">Diagnóstico Automático — Configuração</h2>
+                        <p class="text-xs text-brand-muted mt-1">
+                            Edite os textos, pesos, fatores de pontuação e faixas da classificação final.
+                            As condições/faixas dos indicadores são exibidas como referência e continuam vinculadas ao motor de cálculo.
+                        </p>
+                        <p id="rf-admin-diag-version" class="text-[10px] text-brand-muted mt-2">Carregando configuração...</p>
+                    </div>
+                    <button type="button" onclick="rfAdminCarregarDiagnostico(true)" class="admin-secondary-btn px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap">↻ Recarregar configuração</button>
+                </div>
+
+                <div class="overflow-x-auto admin-table-wrap">
+                    <table class="rf-admin-diag-table w-full text-left text-xs text-brand-muted">
+                        <thead class="bg-[#0d0d0f] text-[10px] uppercase text-white border-b border-brand-border">
+                            <tr>
+                                <th class="p-3">Indicador</th>
+                                <th class="p-3">Nível</th>
+                                <th class="p-3">Condição / Faixa</th>
+                                <th class="p-3">Título</th>
+                                <th class="p-3">Texto exibido</th>
+                                <th class="p-3">Ação sugerida</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rf-admin-diag-regras-body" class="divide-y divide-brand-border/50">
+                            <tr><td colspan="6" class="p-4 text-center">Carregando regras...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-extrabold text-white mb-3">Pontuação</h3>
+                    <div class="rf-admin-score-grid">
+                        <div class="rf-admin-score-card">
+                            <div class="text-xs font-extrabold text-white mb-2">Peso por indicador</div>
+                            <div id="rf-admin-diag-pesos" class="space-y-2"></div>
+                            <div class="mt-3 pt-3 border-t border-brand-border/60 flex justify-between text-xs font-bold">
+                                <span class="text-brand-muted">Total dos pesos</span>
+                                <span id="rf-admin-diag-peso-total" class="text-brand-primary">0</span>
+                            </div>
+                            <p class="text-[10px] text-brand-muted mt-2">A nota final continua normalizada para 0–100, mesmo quando o total dos pesos for diferente de 100.</p>
+                        </div>
+
+                        <div class="rf-admin-score-card">
+                            <div class="text-xs font-extrabold text-white mb-2">Fator por classificação</div>
+                            <div id="rf-admin-diag-fatores" class="space-y-2"></div>
+                            <p class="text-[10px] text-brand-muted mt-2">Informe o percentual de pontos recebido por cada nível.</p>
+                        </div>
+
+                        <div class="rf-admin-score-card">
+                            <div class="text-xs font-extrabold text-white mb-2">Classificação da nota final</div>
+                            <div id="rf-admin-diag-classificacoes" class="space-y-2"></div>
+                            <p class="text-[10px] text-brand-muted mt-2">As faixas devem cobrir de 0 a 100 sem sobreposição.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 pt-2 border-t border-brand-border/60">
+                    <p class="text-xs text-brand-muted">Ao aplicar, a configuração é versionada e gravada conforme o alcance escolhido. Períodos fora do alcance preservam a regra anterior.</p>
+                    <button type="button" onclick="rfAdminAbrirAplicacaoDiagnostico()" class="bg-brand-primary hover:bg-brand-hover text-white font-bold px-5 py-2.5 rounded-lg text-xs transition whitespace-nowrap">
+                        Aplicar alterações
+                    </button>
                 </div>
             </div>
         </section>
@@ -2353,7 +2533,7 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
                         <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-3">
                             <div>
                                 <h4 class="text-xs font-extrabold text-white">Como a pontuação foi calculada</h4>
-                                <p class="text-[10px] text-brand-muted mt-1 leading-relaxed">A nota vai de 0 a 100 e considera somente a saúde do período atual. Cada indicador possui um peso. SAUDÁVEL recebe 100% do peso, ATENÇÃO 80%, CRÍTICO 40% e PRIORIDADE 0%. A evolução histórica é mostrada separadamente e não altera a nota.</p>
+                                <p id="rf-diag-score-explicacao" class="text-[10px] text-brand-muted mt-1 leading-relaxed">A nota vai de 0 a 100 e considera somente a saúde do período atual.</p>
                             </div>
                             <div id="rf-diag-score-formula" class="text-[10px] text-brand-muted md:text-right whitespace-nowrap">Pontuação ponderada</div>
                         </div>
@@ -2456,9 +2636,131 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
                 </div>
             </div>
 
+
+            <!-- V5.2.21 — FOLHAS POR TIPO DE CENTRO DE CUSTO -->
+            <div id="rf-folhas-analise" class="space-y-6">
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="border-b border-brand-border/50 pb-2">
+                        <h3 class="text-base font-bold text-white">Folha Administrativa</h3>
+                        <p class="text-xs text-brand-muted">Funcionários alocados em Centros de Custo Administrativos, ordenados pelo peso no faturamento atual.</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="rf-folha-table w-full text-left text-xs md:text-sm text-brand-muted">
+                            <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                                <tr>
+                                    <th class="p-2 md:p-3">Funcionário</th>
+                                    <th class="p-2 md:p-3">Centro de Custo</th>
+                                    <th class="p-2 md:p-3">Salário</th>
+                                    <th class="p-2 md:p-3">Benefícios</th>
+                                    <th class="p-2 md:p-3">Custo Mensal</th>
+                                    <th class="p-2 md:p-3 text-right">% / Fat.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rf-folha-adm-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="6" class="rf-folha-empty">Carregando...</td></tr>
+                            </tbody>
+                            <tfoot id="rf-folha-adm-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="border-b border-brand-border/50 pb-2">
+                        <h3 class="text-base font-bold text-white">Folha Produtiva Indireta</h3>
+                        <p class="text-xs text-brand-muted">Funcionários alocados em Centros de Custo Produtivos Indiretos, ordenados pelo peso no faturamento atual.</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="rf-folha-table w-full text-left text-xs md:text-sm text-brand-muted">
+                            <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                                <tr>
+                                    <th class="p-2 md:p-3">Funcionário</th>
+                                    <th class="p-2 md:p-3">Centro de Custo</th>
+                                    <th class="p-2 md:p-3">Salário</th>
+                                    <th class="p-2 md:p-3">Benefícios</th>
+                                    <th class="p-2 md:p-3">Custo Mensal</th>
+                                    <th class="p-2 md:p-3 text-right">% / Fat.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rf-folha-pi-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="6" class="rf-folha-empty">Carregando...</td></tr>
+                            </tbody>
+                            <tfoot id="rf-folha-pi-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-5 md:p-6 rounded-xl border border-brand-border space-y-4">
+                    <div class="border-b border-brand-border/50 pb-2">
+                        <h3 class="text-base font-bold text-white">Folha Produtiva Direta</h3>
+                        <p class="text-xs text-brand-muted">Funcionários alocados em Centros de Custo Produtivos Diretos, ordenados pelo peso no faturamento atual.</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="rf-folha-table w-full text-left text-xs md:text-sm text-brand-muted">
+                            <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
+                                <tr>
+                                    <th class="p-2 md:p-3">Funcionário</th>
+                                    <th class="p-2 md:p-3">Centro de Custo</th>
+                                    <th class="p-2 md:p-3">Salário</th>
+                                    <th class="p-2 md:p-3">Benefícios</th>
+                                    <th class="p-2 md:p-3">Custo Mensal</th>
+                                    <th class="p-2 md:p-3 text-right">% / Fat.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rf-folha-pd-body" class="divide-y divide-brand-border/50">
+                                <tr><td colspan="6" class="rf-folha-empty">Carregando...</td></tr>
+                            </tbody>
+                            <tfoot id="rf-folha-pd-foot" class="bg-[#0d0d0f] font-bold text-white border-t border-brand-border"></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
     </main>
+
+
+    <!-- V5.2.21 — MODAL DE APLICAÇÃO DAS REGRAS DO DIAGNÓSTICO -->
+    <div id="modal-admin-diag-aplicar" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[120] flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-5 md:p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-start gap-3 border-b border-brand-border pb-3">
+                <div>
+                    <h3 class="text-lg font-bold text-white">Aplicar configuração do Diagnóstico Automático</h3>
+                    <p class="text-xs text-brand-muted mt-1">Escolha exatamente quais clientes e períodos devem receber esta nova versão.</p>
+                </div>
+                <button type="button" onclick="rfAdminFecharAplicacaoDiagnostico()" class="text-brand-muted hover:text-white font-bold text-lg px-2">✕</button>
+            </div>
+
+            <div class="space-y-2 text-xs">
+                <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="ALL_ALL" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Todos os clientes</strong> e <strong>todos os períodos existentes</strong></span></label>
+                <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="ALL_OPEN" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Todos os clientes</strong> e somente <strong>períodos abertos</strong></span></label>
+                <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="ALL_NEW" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Todos os clientes</strong> e apenas <strong>novos períodos</strong></span></label>
+                <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="SELECTED_ALL" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Clientes selecionados</strong> e todos os períodos existentes</span></label>
+                <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="SELECTED_OPEN" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Clientes selecionados</strong> e somente períodos abertos</span></label>
+                <label class="rf-admin-client-check"><input type="radio" name="rf-diag-scope" value="SELECTED_NEW" onchange="rfAdminAtualizarScopeDiagnostico()" class="accent-brand-primary"> <span><strong>Clientes selecionados</strong> e apenas novos períodos</span></label>
+            </div>
+
+            <div id="rf-admin-diag-clientes-wrap" class="hidden space-y-2 border-t border-brand-border pt-3">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-xs font-extrabold text-white">Selecione os clientes</span>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="rfAdminMarcarClientesDiagnostico(true)" class="admin-secondary-btn px-2.5 py-1.5 rounded text-[10px] font-bold">Todos</button>
+                        <button type="button" onclick="rfAdminMarcarClientesDiagnostico(false)" class="admin-secondary-btn px-2.5 py-1.5 rounded text-[10px] font-bold">Nenhum</button>
+                    </div>
+                </div>
+                <div id="rf-admin-diag-clientes" class="rf-admin-client-list"></div>
+            </div>
+
+            <div id="rf-admin-diag-scope-resumo" class="bg-[#0d0d0f] border border-brand-border rounded-lg p-3 text-xs text-brand-muted">
+                Selecione uma opção de aplicação.
+            </div>
+
+            <div class="flex justify-end gap-2 border-t border-brand-border pt-3">
+                <button type="button" onclick="rfAdminFecharAplicacaoDiagnostico()" class="admin-secondary-btn px-4 py-2 rounded-lg text-xs font-bold">Cancelar</button>
+                <button id="rf-admin-diag-aplicar-btn" type="button" onclick="rfAdminAplicarDiagnostico()" class="bg-brand-primary hover:bg-brand-hover text-white font-bold px-5 py-2 rounded-lg text-xs transition">Confirmar e aplicar</button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL DE INSERÇÃO EM LOTE COM DROPDOWNS DEDICADOS PARA AS 4 ABAS -->
     <div id="modal-grade-lote" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -2635,6 +2937,609 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
         let entidadeGradeAtiva = "";
 
         // ======================================================
+        // V5.2.21 — CONFIGURAÇÃO VERSIONADA DO DIAGNÓSTICO
+        // ======================================================
+        const RF_DIAGNOSTICO_CONFIG_PADRAO = {
+        "schema": 1,
+        "regras": [
+                {
+                        "id": "ML_NEG",
+                        "codigo": "MARGEM_LIQUIDA",
+                        "indicador": "Margem Líquida",
+                        "nivel": "PRIORIDADE",
+                        "condicao": "Margem líquida < 0%",
+                        "titulo": "Resultado líquido negativo",
+                        "texto": "O DRE fecha com prejuízo no período.",
+                        "acao": "A principal tomada de decisão neste momento é aumentar receita e reduzir gastos.",
+                        "tituloOriginal": "Resultado líquido negativo"
+                },
+                {
+                        "id": "ML_LOW_BELOW",
+                        "codigo": "MARGEM_LIQUIDA",
+                        "indicador": "Margem Líquida",
+                        "nivel": "CRITICO",
+                        "condicao": "0% a 10% e rentabilidade abaixo da meta",
+                        "titulo": "Lucratividade baixa e rentabilidade abaixo da meta",
+                        "texto": "A margem líquida é de até 10% e o retorno sobre o investimento também está abaixo da meta do período.",
+                        "acao": "Para esse momento, deve-se buscar aumento de receita e/ou reduzir gastos.",
+                        "tituloOriginal": "Lucratividade baixa e rentabilidade abaixo da meta"
+                },
+                {
+                        "id": "ML_HIGH_BELOW",
+                        "codigo": "MARGEM_LIQUIDA",
+                        "indicador": "Margem Líquida",
+                        "nivel": "CRITICO",
+                        "condicao": "> 10% e rentabilidade abaixo da meta",
+                        "titulo": "Boa margem sobre vendas, mas rentabilidade insuficiente",
+                        "texto": "A lucratividade supera 10%, porém ainda não remunera o investimento no nível esperado.",
+                        "acao": "Para esse momento, deve-se buscar aumento de receita e/ou reduzir gastos.",
+                        "tituloOriginal": "Boa margem sobre vendas, mas rentabilidade insuficiente"
+                },
+                {
+                        "id": "ML_LOW_META",
+                        "codigo": "MARGEM_LIQUIDA",
+                        "indicador": "Margem Líquida",
+                        "nivel": "ATENCAO",
+                        "condicao": "0% a 10% e rentabilidade >= meta",
+                        "titulo": "Meta de rentabilidade atingida, mas lucratividade baixa",
+                        "texto": "A rentabilidade esperada foi alcançada, porém a margem líquida ainda é de até 10% do faturamento.",
+                        "acao": "Se for possivel, aumente a receita e/ou reduza gastos.",
+                        "tituloOriginal": "Meta de rentabilidade atingida, mas lucratividade baixa"
+                },
+                {
+                        "id": "ML_HIGH_META",
+                        "codigo": "MARGEM_LIQUIDA",
+                        "indicador": "Margem Líquida",
+                        "nivel": "SAUDAVEL",
+                        "condicao": "> 10% e rentabilidade >= meta",
+                        "titulo": "Lucratividade e rentabilidade saudáveis",
+                        "texto": "A margem líquida supera 10% e a rentabilidade atual atinge ou supera a meta configurada.",
+                        "acao": "Preservar margem, resultado e disciplina de investimento.",
+                        "tituloOriginal": "Lucratividade e rentabilidade saudáveis"
+                },
+                {
+                        "id": "PE_NOBASE",
+                        "codigo": "PONTO_EQUILIBRIO",
+                        "indicador": "Ponto de Equilíbrio Econômico",
+                        "nivel": "ATENCAO",
+                        "condicao": "Sem base suficiente para cálculo",
+                        "titulo": "Ponto de equilíbrio sem base suficiente",
+                        "texto": "Não há base suficiente para medir a folga econômica.",
+                        "acao": "Revisar faturamento, custos variáveis e parâmetros do período.",
+                        "tituloOriginal": "Ponto de equilíbrio sem base suficiente"
+                },
+                {
+                        "id": "PE_NEG",
+                        "codigo": "PONTO_EQUILIBRIO",
+                        "indicador": "Ponto de Equilíbrio Econômico",
+                        "nivel": "PRIORIDADE",
+                        "condicao": "Folga < 0%",
+                        "titulo": "Faturamento abaixo do ponto de equilíbrio econômico",
+                        "texto": "O faturamento atual não cobre a estrutura mais a rentabilidade esperada.",
+                        "acao": "Atuar em faturamento, buscar aumento da margem de contribuição, para isso, atuar nos gastos variáveis e fixos.",
+                        "tituloOriginal": "Faturamento abaixo do ponto de equilíbrio econômico"
+                },
+                {
+                        "id": "PE_0_5",
+                        "codigo": "PONTO_EQUILIBRIO",
+                        "indicador": "Ponto de Equilíbrio Econômico",
+                        "nivel": "CRITICO",
+                        "condicao": "0% a < 5% de folga",
+                        "titulo": "Folga mínima sobre o ponto de equilíbrio econômico",
+                        "texto": "A empresa está muito próxima do limite econômico do período.",
+                        "acao": "Criar margem de segurança aumentando contribuição ou reduzindo gastos fixos.",
+                        "tituloOriginal": "Folga mínima sobre o ponto de equilíbrio econômico"
+                },
+                {
+                        "id": "PE_5_15",
+                        "codigo": "PONTO_EQUILIBRIO",
+                        "indicador": "Ponto de Equilíbrio Econômico",
+                        "nivel": "ATENCAO",
+                        "condicao": "5% a < 15% de folga",
+                        "titulo": "Folga reduzida sobre o ponto de equilíbrio econômico",
+                        "texto": "Existe cobertura da estrutura e meta, mas a margem de segurança ainda é curta.",
+                        "acao": "Acompanhar faturamento e despesas fixas com prioridade.",
+                        "tituloOriginal": "Folga reduzida sobre o ponto de equilíbrio econômico"
+                },
+                {
+                        "id": "PE_15_PLUS",
+                        "codigo": "PONTO_EQUILIBRIO",
+                        "indicador": "Ponto de Equilíbrio Econômico",
+                        "nivel": "SAUDAVEL",
+                        "condicao": ">= 15% de folga",
+                        "titulo": "Boa folga sobre o ponto de equilíbrio econômico",
+                        "texto": "O faturamento apresenta margem de segurança sobre o nível necessário para cobrir estrutura e meta.",
+                        "acao": "Preservar a margem de contribuição e evitar crescimento desproporcional da estrutura fixa.",
+                        "tituloOriginal": "Boa folga sobre o ponto de equilíbrio econômico"
+                },
+                {
+                        "id": "MC_LT10",
+                        "codigo": "MARGEM_CONTRIB",
+                        "indicador": "Margem de Contribuição",
+                        "nivel": "PRIORIDADE",
+                        "condicao": "< 10%",
+                        "titulo": "Margem de contribuição muito baixa",
+                        "texto": "Após impostos, deduções e custos variáveis sobra muito pouco para pagar a estrutura fixa.",
+                        "acao": "Revisar preços, custos variáveis e deduções sobre vendas.",
+                        "tituloOriginal": "Margem de contribuição muito baixa"
+                },
+                {
+                        "id": "MC_10_45",
+                        "codigo": "MARGEM_CONTRIB",
+                        "indicador": "Margem de Contribuição",
+                        "nivel": "CRITICO",
+                        "condicao": "10% a < 45%",
+                        "titulo": "Margem de contribuição baixa",
+                        "texto": "A capacidade de absorção dos custos e despesas fixas está pressionada.",
+                        "acao": "Priorizar ações sobre preço, impostos/deduções e custos variáveis.",
+                        "tituloOriginal": "Margem de contribuição baixa"
+                },
+                {
+                        "id": "MC_45_60",
+                        "codigo": "MARGEM_CONTRIB",
+                        "indicador": "Margem de Contribuição",
+                        "nivel": "ATENCAO",
+                        "condicao": "45% a < 60%",
+                        "titulo": "Margem de contribuição em atenção",
+                        "texto": "A margem está entre 45% e 60% e deve ser acompanhada para sustentar a estrutura e o resultado.",
+                        "acao": "Buscar ganho de margem antes de ampliar compromissos fixos.",
+                        "tituloOriginal": "Margem de contribuição em atenção"
+                },
+                {
+                        "id": "MC_60_PLUS",
+                        "codigo": "MARGEM_CONTRIB",
+                        "indicador": "Margem de Contribuição",
+                        "nivel": "SAUDAVEL",
+                        "condicao": ">= 60%",
+                        "titulo": "Margem de contribuição saudável",
+                        "texto": "Pelo menos 60% do faturamento permanece após impostos, deduções e custos variáveis para absorver a estrutura e formar resultado.",
+                        "acao": "Preservar preços e controle dos gastos variáveis.",
+                        "tituloOriginal": "Margem de contribuição saudável"
+                },
+                {
+                        "id": "DO_GT25",
+                        "codigo": "DESP_OPER",
+                        "indicador": "Despesas Fixas Operacionais",
+                        "nivel": "PRIORIDADE",
+                        "condicao": "> 25% do faturamento",
+                        "titulo": "Despesas fixas operacionais muito elevadas",
+                        "texto": "A estrutura fixa operacional consome mais de 25% do faturamento.",
+                        "acao": "Avaliar os centros de custos administrativos, agir sobre os que tem maior gasto primeiro.",
+                        "tituloOriginal": "Despesas fixas operacionais muito elevadas"
+                },
+                {
+                        "id": "DO_15_25",
+                        "codigo": "DESP_OPER",
+                        "indicador": "Despesas Fixas Operacionais",
+                        "nivel": "CRITICO",
+                        "condicao": "> 15% até 25% do faturamento",
+                        "titulo": "Despesas fixas operacionais elevadas",
+                        "texto": "A estrutura administrativa, comercial e financeira está pressionando o resultado.",
+                        "acao": "Avaliar os centros de custos administrativos, agir sobre os que tem maior gasto primeiro.",
+                        "tituloOriginal": "Despesas fixas operacionais elevadas"
+                },
+                {
+                        "id": "DO_12_15",
+                        "codigo": "DESP_OPER",
+                        "indicador": "Despesas Fixas Operacionais",
+                        "nivel": "ATENCAO",
+                        "condicao": "> 12% até 15% do faturamento",
+                        "titulo": "Despesas fixas operacionais em atenção",
+                        "texto": "O peso das despesas fixas operacionais está entre 12% e 15% do faturamento.",
+                        "acao": "Acompanhar as principais contas e evitar crescimento estrutural sem contrapartida de faturamento.",
+                        "tituloOriginal": "Despesas fixas operacionais em atenção"
+                },
+                {
+                        "id": "DO_LE12",
+                        "codigo": "DESP_OPER",
+                        "indicador": "Despesas Fixas Operacionais",
+                        "nivel": "SAUDAVEL",
+                        "condicao": "<= 12% do faturamento",
+                        "titulo": "Despesas fixas operacionais controladas",
+                        "texto": "As despesas fixas operacionais representam até 12% do faturamento.",
+                        "acao": "Manter revisão periódica das principais contas.",
+                        "tituloOriginal": "Despesas fixas operacionais controladas"
+                },
+                {
+                        "id": "CF_GT50",
+                        "codigo": "FIXO_INDUSTRIAL",
+                        "indicador": "Custos Fixos Industriais",
+                        "nivel": "PRIORIDADE",
+                        "condicao": "> 50% do faturamento",
+                        "titulo": "Estrutura industrial muito pesada",
+                        "texto": "Os custos fixos industriais superam 50% do faturamento.",
+                        "acao": "Revisar capacidade, estrutura fixa e volume necessário para diluição dos custos.",
+                        "tituloOriginal": "Estrutura industrial muito pesada"
+                },
+                {
+                        "id": "CF_40_50",
+                        "codigo": "FIXO_INDUSTRIAL",
+                        "indicador": "Custos Fixos Industriais",
+                        "nivel": "CRITICO",
+                        "condicao": "> 40% até 50% do faturamento",
+                        "titulo": "Custos fixos industriais elevados",
+                        "texto": "A fábrica exige forte faturamento para sustentar sua estrutura fixa.",
+                        "acao": "Avaliar ocupação, horas produtivas e itens fixos de maior peso.",
+                        "tituloOriginal": "Custos fixos industriais elevados"
+                },
+                {
+                        "id": "CF_30_40",
+                        "codigo": "FIXO_INDUSTRIAL",
+                        "indicador": "Custos Fixos Industriais",
+                        "nivel": "ATENCAO",
+                        "condicao": "> 30% até 40% do faturamento",
+                        "titulo": "Custos fixos industriais em atenção",
+                        "texto": "Os custos fixos industriais representam entre 30% e 40% do faturamento.",
+                        "acao": "Monitorar utilização da capacidade e crescimento da estrutura.",
+                        "tituloOriginal": "Custos fixos industriais em atenção"
+                },
+                {
+                        "id": "CF_LE30",
+                        "codigo": "FIXO_INDUSTRIAL",
+                        "indicador": "Custos Fixos Industriais",
+                        "nivel": "SAUDAVEL",
+                        "condicao": "<= 30% do faturamento",
+                        "titulo": "Custos fixos industriais controlados",
+                        "texto": "Os custos fixos industriais representam até 30% do faturamento.",
+                        "acao": "Manter acompanhamento de capacidade e produtividade.",
+                        "tituloOriginal": "Custos fixos industriais controlados"
+                },
+                {
+                        "id": "MO_GT10",
+                        "codigo": "SOBRA_MO",
+                        "indicador": "Mão de Obra Não Alocada",
+                        "nivel": "PRIORIDADE",
+                        "condicao": "> 10% do faturamento",
+                        "titulo": "Mão de obra não alocada muito elevada",
+                        "texto": "Há valor relevante de mão de obra que não está sendo absorvido pelos centros de custo.",
+                        "acao": "Revisar rateios, alocação dos funcionários e dimensionamento da equipe.",
+                        "tituloOriginal": "Mão de obra não alocada muito elevada"
+                },
+                {
+                        "id": "MO_5_10",
+                        "codigo": "SOBRA_MO",
+                        "indicador": "Mão de Obra Não Alocada",
+                        "nivel": "CRITICO",
+                        "condicao": "> 5% até 10% do faturamento",
+                        "titulo": "Mão de obra não alocada elevada",
+                        "texto": "A sobra de mão de obra está reduzindo diretamente o resultado.",
+                        "acao": "Revisar cadastro/rateio dos funcionários e utilização da equipe.",
+                        "tituloOriginal": "Mão de obra não alocada elevada"
+                },
+                {
+                        "id": "MO_2_5",
+                        "codigo": "SOBRA_MO",
+                        "indicador": "Mão de Obra Não Alocada",
+                        "nivel": "ATENCAO",
+                        "condicao": "> 2% até 5% do faturamento",
+                        "titulo": "Existe mão de obra não alocada",
+                        "texto": "Parte do custo de pessoal não está sendo absorvida na estrutura dos centros de custo.",
+                        "acao": "Validar percentuais de rateio e alocação dos funcionários.",
+                        "tituloOriginal": "Existe mão de obra não alocada"
+                },
+                {
+                        "id": "MO_0_2",
+                        "codigo": "SOBRA_MO",
+                        "indicador": "Mão de Obra Não Alocada",
+                        "nivel": "SAUDAVEL",
+                        "condicao": "> 0% até 2% do faturamento",
+                        "titulo": "Mão de obra bem alocada",
+                        "texto": "A perda/sobra de mão de obra não alocada está baixa.",
+                        "acao": "Manter os rateios e cadastros atualizados.",
+                        "tituloOriginal": "Mão de obra bem alocada"
+                },
+                {
+                        "id": "MO_ZERO",
+                        "codigo": "SOBRA_MO",
+                        "indicador": "Mão de Obra Não Alocada",
+                        "nivel": "SAUDAVEL",
+                        "condicao": "= 0% do faturamento",
+                        "titulo": "Mão de obra totalmente alocada",
+                        "texto": "Não há custo de mão de obra pendente de alocação entre os centros de custo.",
+                        "acao": "Manter a estrutura de alocação atualizada sempre que houver alterações na equipe.",
+                        "tituloOriginal": "Mão de obra totalmente alocada"
+                },
+                {
+                        "id": "RS_NORESULT",
+                        "codigo": "RETIRADA",
+                        "indicador": "Retirada dos Sócios",
+                        "nivel": "PRIORIDADE",
+                        "condicao": "Resultado antes da retirada <= 0",
+                        "titulo": "Retirada sem resultado operacional suficiente",
+                        "texto": "A operação já não gera resultado positivo antes das retiradas.",
+                        "acao": "Reavaliar temporariamente a retirada e atuar primeiro na recuperação do resultado operacional.",
+                        "tituloOriginal": "Retirada sem resultado operacional suficiente"
+                },
+                {
+                        "id": "RS_GT100",
+                        "codigo": "RETIRADA",
+                        "indicador": "Retirada dos Sócios",
+                        "nivel": "PRIORIDADE",
+                        "condicao": "Retirada > 100% do resultado antes da retirada",
+                        "titulo": "Retirada supera o resultado antes da retirada",
+                        "texto": "A retirada consome mais do que o resultado disponível antes dela.",
+                        "acao": "Readequar retirada ao resultado gerado pela operação.",
+                        "tituloOriginal": "Retirada supera o resultado antes da retirada"
+                },
+                {
+                        "id": "RS_70_100",
+                        "codigo": "RETIRADA",
+                        "indicador": "Retirada dos Sócios",
+                        "nivel": "CRITICO",
+                        "condicao": "> 70% até 100% do resultado antes da retirada",
+                        "titulo": "Retirada consome grande parte do resultado",
+                        "texto": "Pouco resultado permanece na empresa após a retirada.",
+                        "acao": "Avaliar redução da retirada ou aumento do resultado operacional.",
+                        "tituloOriginal": "Retirada consome grande parte do resultado"
+                },
+                {
+                        "id": "RS_40_70",
+                        "codigo": "RETIRADA",
+                        "indicador": "Retirada dos Sócios",
+                        "nivel": "ATENCAO",
+                        "condicao": "> 40% até 70% do resultado antes da retirada",
+                        "titulo": "Retirada com peso relevante",
+                        "texto": "A retirada representa parcela importante do resultado antes dela.",
+                        "acao": "Acompanhar o impacto da retirada sobre caixa, investimento e crescimento.",
+                        "tituloOriginal": "Retirada com peso relevante"
+                },
+                {
+                        "id": "RS_0_40",
+                        "codigo": "RETIRADA",
+                        "indicador": "Retirada dos Sócios",
+                        "nivel": "SAUDAVEL",
+                        "condicao": "> 0% até 40% do resultado antes da retirada",
+                        "titulo": "Retirada compatível com o resultado",
+                        "texto": "A retirada não consome parcela excessiva do resultado gerado no período.",
+                        "acao": "Manter a retirada alinhada à geração de resultado.",
+                        "tituloOriginal": "Retirada compatível com o resultado"
+                },
+                {
+                        "id": "RS_ZERO",
+                        "codigo": "RETIRADA",
+                        "indicador": "Retirada dos Sócios",
+                        "nivel": "SAUDAVEL",
+                        "condicao": "Retirada = R$ 0,00",
+                        "titulo": "Sem retirada dos sócios no período",
+                        "texto": "Não há retirada dos sócios considerada neste período.",
+                        "acao": "Nenhuma ação necessária para este indicador.",
+                        "tituloOriginal": "Sem retirada dos sócios no período"
+                },
+                {
+                        "id": "ROI_NEG",
+                        "codigo": "RETORNO_META",
+                        "indicador": "Retorno sobre Investimento x Meta",
+                        "nivel": "PRIORIDADE",
+                        "condicao": "ROI < 0%",
+                        "titulo": "Retorno sobre investimento negativo",
+                        "texto": "O resultado atual não remunera o capital investido.",
+                        "acao": "Priorizar recuperação do resultado antes de ampliar investimentos.",
+                        "tituloOriginal": "Retorno sobre investimento negativo"
+                },
+                {
+                        "id": "ROI_LT25",
+                        "codigo": "RETORNO_META",
+                        "indicador": "Retorno sobre Investimento x Meta",
+                        "nivel": "CRITICO",
+                        "condicao": "Atingimento < 25% da meta",
+                        "titulo": "Retorno muito abaixo da meta",
+                        "texto": "Menos de 25% da meta de retorno configurada está sendo atingida.",
+                        "acao": "Revisar resultado operacional, faturamento e estrutura necessária para alcançar a meta.",
+                        "tituloOriginal": "Retorno muito abaixo da meta"
+                },
+                {
+                        "id": "ROI_25_100",
+                        "codigo": "RETORNO_META",
+                        "indicador": "Retorno sobre Investimento x Meta",
+                        "nivel": "ATENCAO",
+                        "condicao": "Atingimento de 25% a < 100% da meta",
+                        "titulo": "Retorno abaixo da meta",
+                        "texto": "A operação gera retorno positivo e atingiu pelo menos 25% da meta, porém ainda está abaixo do objetivo.",
+                        "acao": "Quantificar o gap de resultado necessário para atingir a meta.",
+                        "tituloOriginal": "Retorno abaixo da meta"
+                },
+                {
+                        "id": "ROI_GTE100",
+                        "codigo": "RETORNO_META",
+                        "indicador": "Retorno sobre Investimento x Meta",
+                        "nivel": "SAUDAVEL",
+                        "condicao": "Atingimento >= 100% da meta",
+                        "titulo": "Meta de retorno atingida",
+                        "texto": "O retorno mensal sobre o investimento alcança ou supera a meta configurada.",
+                        "acao": "Preservar resultado e acompanhar a sustentabilidade nos próximos períodos.",
+                        "tituloOriginal": "Meta de retorno atingida"
+                },
+                {
+                        "id": "EV_GT10",
+                        "codigo": "EVOLUCAO",
+                        "indicador": "Evolução entre Períodos",
+                        "nivel": "CRITICO",
+                        "condicao": "Pressão de gastos > 10 p.p.",
+                        "titulo": "Gastos cresceram bem acima do faturamento",
+                        "texto": "Contra o período anterior mais recente, os gastos avançaram mais rapidamente que a receita.",
+                        "acao": "Abrir as linhas do DRE que mais cresceram e atacar os aumentos que não foram acompanhados por receita.",
+                        "tituloOriginal": "Gastos cresceram bem acima do faturamento"
+                },
+                {
+                        "id": "EV_5_10",
+                        "codigo": "EVOLUCAO",
+                        "indicador": "Evolução entre Períodos",
+                        "nivel": "ATENCAO",
+                        "condicao": "Pressão de gastos > 5 p.p. até 10 p.p.",
+                        "titulo": "Crescimento dos gastos acima da receita",
+                        "texto": "A evolução do período mostra pressão de gastos sobre o faturamento.",
+                        "acao": "Monitorar as linhas do DRE com maior crescimento antes que comprimam o resultado.",
+                        "tituloOriginal": "Crescimento dos gastos acima da receita"
+                },
+                {
+                        "id": "EV_RESULT_DOWN",
+                        "codigo": "EVOLUCAO",
+                        "indicador": "Evolução entre Períodos",
+                        "nivel": "ATENCAO",
+                        "condicao": "Resultado caiu mais de 10% sem forte pressão de gastos",
+                        "titulo": "Resultado piorou no comparativo",
+                        "texto": "Mesmo sem forte descolamento entre gastos e faturamento, o resultado caiu em relação ao período anterior.",
+                        "acao": "Identificar no DRE quais linhas explicam a redução do resultado.",
+                        "tituloOriginal": "Resultado piorou no comparativo"
+                },
+                {
+                        "id": "EV_OK",
+                        "codigo": "EVOLUCAO",
+                        "indicador": "Evolução entre Períodos",
+                        "nivel": "SAUDAVEL",
+                        "condicao": "Demais casos",
+                        "titulo": "Evolução econômica equilibrada",
+                        "texto": "Contra o período anterior mais recente, os gastos não cresceram de forma significativamente superior ao faturamento.",
+                        "acao": "Continuar acompanhando a evolução período a período.",
+                        "tituloOriginal": "Evolução econômica equilibrada"
+                }
+        ],
+        "pontuacao": {
+                "indicadores": [
+                        {
+                                "codigo": "MARGEM_LIQUIDA",
+                                "nome": "Margem Líquida",
+                                "peso": 20.0
+                        },
+                        {
+                                "codigo": "DESP_OPER",
+                                "nome": "Despesas Fixas Operacionais",
+                                "peso": 20.0
+                        },
+                        {
+                                "codigo": "RETORNO_META",
+                                "nome": "Retorno x Meta",
+                                "peso": 20.0
+                        },
+                        {
+                                "codigo": "PONTO_EQUILIBRIO",
+                                "nome": "Ponto de Equilíbrio Econômico",
+                                "peso": 15.0
+                        },
+                        {
+                                "codigo": "MARGEM_CONTRIB",
+                                "nome": "Margem de Contribuição",
+                                "peso": 15.0
+                        },
+                        {
+                                "codigo": "FIXO_INDUSTRIAL",
+                                "nome": "Custos Fixos Industriais",
+                                "peso": 10.0
+                        },
+                        {
+                                "codigo": "SOBRA_MO",
+                                "nome": "M.O. não alocada",
+                                "peso": 10.0
+                        },
+                        {
+                                "codigo": "RETIRADA",
+                                "nome": "Retirada dos Sócios",
+                                "peso": 10.0
+                        }
+                ],
+                "fatores": {
+                        "SAUDAVEL": 1.0,
+                        "ATENCAO": 0.8,
+                        "CRITICO": 0.4,
+                        "PRIORIDADE": 0.0
+                },
+                "classificacoes": [
+                        {
+                                "min": 0,
+                                "max": 24,
+                                "label": "MUITO CRÍTICO"
+                        },
+                        {
+                                "min": 25,
+                                "max": 50,
+                                "label": "CRÍTICO"
+                        },
+                        {
+                                "min": 51,
+                                "max": 70,
+                                "label": "ATENÇÃO"
+                        },
+                        {
+                                "min": 71,
+                                "max": 85,
+                                "label": "SAUDÁVEL"
+                        },
+                        {
+                                "min": 86,
+                                "max": 100,
+                                "label": "EXCELENTE"
+                        }
+                ]
+        }
+};
+
+        let rfDiagnosticoConfigAtual = JSON.parse(JSON.stringify(RF_DIAGNOSTICO_CONFIG_PADRAO));
+        let rfDiagnosticoConfigVersaoAtual = 'PADRAO-5.2.21';
+        let rfAdminDiagnosticoConfig = null;
+        let rfAdminDiagnosticoVersao = '';
+
+        function rfNormalizarConfigDiagnostico(cfg) {
+            const base = JSON.parse(JSON.stringify(RF_DIAGNOSTICO_CONFIG_PADRAO));
+            if (!cfg || typeof cfg !== 'object') return base;
+
+            if (Array.isArray(cfg.regras)) {
+                const porId = new Map(base.regras.map(r => [String(r.id), r]));
+                cfg.regras.forEach(r => {
+                    const alvo = porId.get(String(r?.id || ''));
+                    if (!alvo) return;
+                    ['titulo','texto','acao'].forEach(k => {
+                        if (r[k] !== undefined && r[k] !== null) alvo[k] = String(r[k]);
+                    });
+                });
+                base.regras = Array.from(porId.values());
+            }
+
+            const p = cfg.pontuacao || {};
+            if (Array.isArray(p.indicadores)) {
+                const porCodigo = new Map(base.pontuacao.indicadores.map(i => [String(i.codigo), i]));
+                p.indicadores.forEach(i => {
+                    const alvo = porCodigo.get(String(i?.codigo || ''));
+                    if (!alvo) return;
+                    const peso = Number(i.peso);
+                    if (Number.isFinite(peso) && peso >= 0) alvo.peso = peso;
+                    if (i.nome) alvo.nome = String(i.nome);
+                });
+                base.pontuacao.indicadores = Array.from(porCodigo.values());
+            }
+
+            if (p.fatores && typeof p.fatores === 'object') {
+                Object.keys(base.pontuacao.fatores).forEach(k => {
+                    const v = Number(p.fatores[k]);
+                    if (Number.isFinite(v) && v >= 0 && v <= 1) base.pontuacao.fatores[k] = v;
+                });
+            }
+
+            if (Array.isArray(p.classificacoes) && p.classificacoes.length) {
+                const cls = p.classificacoes
+                    .map(c => ({ min:Number(c.min), max:Number(c.max), label:String(c.label || '').trim() }))
+                    .filter(c => Number.isFinite(c.min) && Number.isFinite(c.max) && c.label);
+                if (cls.length) base.pontuacao.classificacoes = cls;
+            }
+
+            return base;
+        }
+
+        function rfAplicarConfigDiagnosticoLocal(cfg, versao = '') {
+            rfDiagnosticoConfigAtual = rfNormalizarConfigDiagnostico(cfg);
+            rfDiagnosticoConfigVersaoAtual = String(versao || 'PADRAO-5.2.21');
+        }
+
+        function rfDiagRegraPorTituloOriginal(codigo, nivel, tituloOriginal) {
+            const regras = Array.isArray(rfDiagnosticoConfigAtual?.regras) ? rfDiagnosticoConfigAtual.regras : [];
+            return regras.find(r =>
+                String(r.codigo) === String(codigo) &&
+                String(r.nivel) === String(nivel) &&
+                String(r.tituloOriginal || r.titulo) === String(tituloOriginal)
+            ) || null;
+        }
+
+
+        // ======================================================
         // V5.2.16 — CACHE LOCAL DO DISPOSITIVO (IndexedDB)
         // Exibe a última cópia salva imediatamente e revalida os dados em segundo plano.
         // Enquanto a cópia local ainda não foi confirmada pelo servidor, o sistema fica em leitura.
@@ -2791,7 +3696,11 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
                 TRECURSO: Array.isArray(listaRecursos) ? listaRecursos : [],
                 TBENEFICIOS: Array.isArray(listaBeneficios) ? listaBeneficios : [],
                 TFUNCIONARIO: Array.isArray(listaFuncionarios) ? listaFuncionarios : [],
-                TPLANO_CONTAS: Array.isArray(listaPlanoContas) ? listaPlanoContas : []
+                TPLANO_CONTAS: Array.isArray(listaPlanoContas) ? listaPlanoContas : [],
+                DIAGNOSTICO_CONFIG: {
+                    versaoId: rfDiagnosticoConfigVersaoAtual || 'PADRAO-5.2.21',
+                    config: rfDiagnosticoConfigAtual || RF_DIAGNOSTICO_CONFIG_PADRAO
+                }
             };
         }
 
@@ -2803,6 +3712,15 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
             listaBeneficios = Array.isArray(d.TBENEFICIOS) ? d.TBENEFICIOS : [];
             listaFuncionarios = Array.isArray(d.TFUNCIONARIO) ? d.TFUNCIONARIO : [];
             listaPlanoContas = Array.isArray(d.TPLANO_CONTAS) ? d.TPLANO_CONTAS : [];
+
+            if (d.DIAGNOSTICO_CONFIG && typeof d.DIAGNOSTICO_CONFIG === 'object') {
+                rfAplicarConfigDiagnosticoLocal(
+                    d.DIAGNOSTICO_CONFIG.config || d.DIAGNOSTICO_CONFIG,
+                    d.DIAGNOSTICO_CONFIG.versaoId || d.DIAGNOSTICO_CONFIG.versao || ''
+                );
+            } else {
+                rfAplicarConfigDiagnosticoLocal(RF_DIAGNOSTICO_CONFIG_PADRAO, 'PADRAO-5.2.21');
+            }
 
             preencherSelectsCentrosDeCusto();
             preencherCheckboxesBeneficios();
@@ -3068,7 +3986,7 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
         }
 
         // ======================================================
-        // V5.2.20 — STATUS DO HEADER REPRESENTA O ESTADO DOS DADOS
+        // V5.2.21 — STATUS DO HEADER REPRESENTA O ESTADO DOS DADOS
         // ======================================================
         // O indicador não significa apenas que o navegador tem internet.
         // Ele informa se os dados exibidos foram validados com o servidor:
@@ -3265,21 +4183,38 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
             if (!rfAdminEhAdministrador()) return;
             try {
                 if (mostrarSync) setSyncStatus(true);
-                const [rCli, rUsr] = await Promise.all([
-                    fetch(`${API_URL}?action=TCLIENTE`),
-                    fetch(`${API_URL}?action=TUSUARIO`)
+                const [rCli, rUsr, rDiag] = await Promise.all([
+                    fetch(`${API_URL}?action=TCLIENTE`, {cache:'no-store'}),
+                    fetch(`${API_URL}?action=TUSUARIO`, {cache:'no-store'}),
+                    fetch(`${API_URL}?action=DIAGNOSTICO_MODELO`, {cache:'no-store'})
                 ]);
-                const clientes = await v49ResponseJSON(rCli, 'TCLIENTE');
-                const usuarios = await v49ResponseJSON(rUsr, 'TUSUARIO');
+                const [clientes, usuarios, diagResp] = await Promise.all([
+                    v49ResponseJSON(rCli, 'TCLIENTE'),
+                    v49ResponseJSON(rUsr, 'TUSUARIO'),
+                    v49ResponseJSON(rDiag, 'DIAGNOSTICO_MODELO')
+                ]);
                 listaClientesAdmin = Array.isArray(clientes) ? clientes : [];
                 listaUsuariosAdmin = Array.isArray(usuarios) ? usuarios : [];
+                if (diagResp && diagResp.status === 'success') {
+                    rfAdminDiagnosticoConfig = rfNormalizarConfigDiagnostico(diagResp.config);
+                    rfAdminDiagnosticoVersao = String(diagResp.versaoId || '');
+                } else {
+                    rfAdminDiagnosticoConfig = rfNormalizarConfigDiagnostico(RF_DIAGNOSTICO_CONFIG_PADRAO);
+                    rfAdminDiagnosticoVersao = 'PADRAO-5.2.21';
+                }
                 carregarClientesSelect();
                 rfAdminPreencherContextoEmpresas();
                 renderizarTabelaClientesAdmin();
                 renderizarTabelaUsuariosAdmin();
-                if (mostrarSync) setSyncStatus(false);
+                rfAdminRenderDiagnostico();
+                if (mostrarSync) setSyncStatus(false, 'Atualizado');
             } catch (e) {
                 console.error('Erro ao carregar administração:', e);
+                if (!rfAdminDiagnosticoConfig) {
+                    rfAdminDiagnosticoConfig = rfNormalizarConfigDiagnostico(RF_DIAGNOSTICO_CONFIG_PADRAO);
+                    rfAdminDiagnosticoVersao = 'PADRAO-5.2.21';
+                    rfAdminRenderDiagnostico();
+                }
                 if (mostrarSync) setSyncStatus(false, 'Erro Administração');
             }
         }
@@ -3534,6 +4469,290 @@ body.sidebar-collapsed #nav-cliente-tabs > #tab-btn-admin.hidden {
             const payload = {sheet:'TUSUARIO',action:'UPDATE',id:u.TUSUARIO_ID,data:rfAdminMontarLinha(u,updates)};
             await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
             setTimeout(() => rfAdminCarregarTudo(true), 1200);
+        }
+
+
+
+        // ======================================================
+        // V5.2.21 — ADMIN: EDIÇÃO E APLICAÇÃO DO DIAGNÓSTICO
+        // ======================================================
+        function rfHtmlEscape(valor) {
+            return String(valor ?? '')
+                .replace(/&/g,'&amp;')
+                .replace(/</g,'&lt;')
+                .replace(/>/g,'&gt;')
+                .replace(/"/g,'&quot;')
+                .replace(/'/g,'&#039;');
+        }
+
+        function rfAdminNivelLabel(nivel) {
+            return {
+                PRIORIDADE:'PRIORIDADE',
+                CRITICO:'CRÍTICO',
+                ATENCAO:'ATENÇÃO',
+                SAUDAVEL:'SAUDÁVEL'
+            }[String(nivel)] || String(nivel || '');
+        }
+
+        function rfAdminRenderDiagnostico() {
+            const cfg = rfAdminDiagnosticoConfig || rfNormalizarConfigDiagnostico(RF_DIAGNOSTICO_CONFIG_PADRAO);
+            const tbody = document.getElementById('rf-admin-diag-regras-body');
+            const verEl = document.getElementById('rf-admin-diag-version');
+            if (verEl) verEl.innerText = `Versão carregada: ${rfAdminDiagnosticoVersao || 'PADRÃO'} • alterações só entram em vigor depois de clicar em Aplicar alterações.`;
+
+            if (tbody) {
+                tbody.innerHTML = (cfg.regras || []).map(r => `
+                    <tr data-rule-id="${rfHtmlEscape(r.id)}">
+                        <td class="p-3 align-top font-bold text-white whitespace-nowrap">${rfHtmlEscape(r.indicador)}</td>
+                        <td class="p-3 align-top rf-admin-diag-level">${rfHtmlEscape(rfAdminNivelLabel(r.nivel))}</td>
+                        <td class="p-3 align-top rf-admin-diag-condition">${rfHtmlEscape(r.condicao)}</td>
+                        <td class="p-2 align-top"><textarea data-diag-field="titulo" class="rf-admin-diag-edit">${rfHtmlEscape(r.titulo)}</textarea></td>
+                        <td class="p-2 align-top"><textarea data-diag-field="texto" class="rf-admin-diag-edit">${rfHtmlEscape(r.texto)}</textarea></td>
+                        <td class="p-2 align-top"><textarea data-diag-field="acao" class="rf-admin-diag-edit">${rfHtmlEscape(r.acao)}</textarea></td>
+                    </tr>
+                `).join('');
+            }
+
+            const pesos = document.getElementById('rf-admin-diag-pesos');
+            if (pesos) {
+                pesos.innerHTML = (cfg.pontuacao?.indicadores || []).map(i => `
+                    <label class="grid grid-cols-[1fr_90px] gap-2 items-center">
+                        <span class="text-[11px] text-brand-muted">${rfHtmlEscape(i.nome)}</span>
+                        <input type="number" min="0" step="1" data-diag-peso="${rfHtmlEscape(i.codigo)}" value="${Number(i.peso || 0)}" oninput="rfAdminAtualizarTotalPesos()">
+                    </label>
+                `).join('');
+            }
+
+            const fatores = document.getElementById('rf-admin-diag-fatores');
+            if (fatores) {
+                const ordem = ['SAUDAVEL','ATENCAO','CRITICO','PRIORIDADE'];
+                fatores.innerHTML = ordem.map(n => `
+                    <label class="grid grid-cols-[1fr_90px] gap-2 items-center">
+                        <span class="text-[11px] text-brand-muted">${rfHtmlEscape(rfAdminNivelLabel(n))}</span>
+                        <div class="flex items-center gap-1">
+                            <input class="w-full" type="number" min="0" max="100" step="1" data-diag-fator="${n}" value="${Math.round((Number(cfg.pontuacao?.fatores?.[n]) || 0) * 100)}">
+                            <span class="text-[10px] text-brand-muted">%</span>
+                        </div>
+                    </label>
+                `).join('');
+            }
+
+            const classes = document.getElementById('rf-admin-diag-classificacoes');
+            if (classes) {
+                classes.innerHTML = (cfg.pontuacao?.classificacoes || []).map((c,idx) => `
+                    <div class="grid grid-cols-[54px_12px_54px_1fr] gap-1.5 items-center" data-diag-classe="${idx}">
+                        <input type="number" min="0" max="100" step="1" data-field="min" value="${Number(c.min)}">
+                        <span class="text-center text-brand-muted">a</span>
+                        <input type="number" min="0" max="100" step="1" data-field="max" value="${Number(c.max)}">
+                        <input type="text" data-field="label" value="${rfHtmlEscape(c.label)}">
+                    </div>
+                `).join('');
+            }
+
+            rfAdminAtualizarTotalPesos();
+        }
+
+        function rfAdminAtualizarTotalPesos() {
+            let total = 0;
+            document.querySelectorAll('[data-diag-peso]').forEach(el => total += Number(el.value) || 0);
+            const out = document.getElementById('rf-admin-diag-peso-total');
+            if (out) out.innerText = total.toFixed(0);
+        }
+
+        async function rfAdminCarregarDiagnostico(mostrarSync = true) {
+            if (!rfAdminEhAdministrador()) return;
+            try {
+                if (mostrarSync) setSyncStatus(true, 'Carregando diagnóstico...');
+                const r = await fetch(`${API_URL}?action=DIAGNOSTICO_MODELO`, {cache:'no-store'});
+                const data = await v49ResponseJSON(r, 'DIAGNOSTICO_MODELO');
+                if (!data || data.status !== 'success') throw new Error(data?.message || 'Configuração indisponível.');
+                rfAdminDiagnosticoConfig = rfNormalizarConfigDiagnostico(data.config);
+                rfAdminDiagnosticoVersao = String(data.versaoId || '');
+                rfAdminRenderDiagnostico();
+                if (mostrarSync) setSyncStatus(false, 'Atualizado');
+            } catch (e) {
+                console.error(e);
+                alert('Não foi possível carregar a configuração do Diagnóstico Automático.');
+                if (mostrarSync) setSyncStatus(false, 'Erro Administração');
+            }
+        }
+
+        function rfAdminCapturarDiagnostico() {
+            const cfg = rfNormalizarConfigDiagnostico(rfAdminDiagnosticoConfig || RF_DIAGNOSTICO_CONFIG_PADRAO);
+
+            document.querySelectorAll('#rf-admin-diag-regras-body tr[data-rule-id]').forEach(tr => {
+                const id = String(tr.getAttribute('data-rule-id') || '');
+                const regra = cfg.regras.find(r => String(r.id) === id);
+                if (!regra) return;
+                ['titulo','texto','acao'].forEach(campo => {
+                    const el = tr.querySelector(`[data-diag-field="${campo}"]`);
+                    if (el) regra[campo] = String(el.value || '').trim();
+                });
+            });
+
+            document.querySelectorAll('[data-diag-peso]').forEach(el => {
+                const codigo = String(el.getAttribute('data-diag-peso') || '');
+                const item = cfg.pontuacao.indicadores.find(i => String(i.codigo) === codigo);
+                if (item) item.peso = Number(el.value) || 0;
+            });
+
+            document.querySelectorAll('[data-diag-fator]').forEach(el => {
+                const nivel = String(el.getAttribute('data-diag-fator') || '');
+                cfg.pontuacao.fatores[nivel] = Math.max(0, Math.min(100, Number(el.value) || 0)) / 100;
+            });
+
+            const cls = [];
+            document.querySelectorAll('[data-diag-classe]').forEach(row => {
+                cls.push({
+                    min:Number(row.querySelector('[data-field="min"]')?.value),
+                    max:Number(row.querySelector('[data-field="max"]')?.value),
+                    label:String(row.querySelector('[data-field="label"]')?.value || '').trim()
+                });
+            });
+            cfg.pontuacao.classificacoes = cls;
+            return cfg;
+        }
+
+        function rfAdminValidarDiagnostico(cfg) {
+            for (const r of (cfg.regras || [])) {
+                if (!String(r.titulo || '').trim() || !String(r.texto || '').trim() || !String(r.acao || '').trim()) {
+                    return `Preencha título, texto e ação para todas as regras. Regra: ${r.indicador} / ${rfAdminNivelLabel(r.nivel)}.`;
+                }
+            }
+
+            const pesos = cfg.pontuacao?.indicadores || [];
+            if (!pesos.length || pesos.some(i => !Number.isFinite(Number(i.peso)) || Number(i.peso) < 0)) {
+                return 'Os pesos dos indicadores precisam ser números iguais ou maiores que zero.';
+            }
+            if (pesos.reduce((s,i) => s + Number(i.peso || 0), 0) <= 0) {
+                return 'O total dos pesos precisa ser maior que zero.';
+            }
+
+            const classes = [...(cfg.pontuacao?.classificacoes || [])].sort((a,b) => Number(a.min) - Number(b.min));
+            if (!classes.length || Number(classes[0].min) !== 0 || Number(classes[classes.length-1].max) !== 100) {
+                return 'A classificação final precisa começar em 0 e terminar em 100.';
+            }
+            for (let i=0; i<classes.length; i++) {
+                const c = classes[i];
+                if (!Number.isFinite(Number(c.min)) || !Number.isFinite(Number(c.max)) || Number(c.min) > Number(c.max) || !String(c.label || '').trim()) {
+                    return 'Revise as faixas e nomes da classificação final.';
+                }
+                if (i > 0 && Number(c.min) !== Number(classes[i-1].max) + 1) {
+                    return 'As faixas da classificação final precisam ser contínuas, sem sobreposição ou intervalo vazio.';
+                }
+            }
+            return '';
+        }
+
+        function rfAdminAbrirAplicacaoDiagnostico() {
+            if (!rfAdminEhAdministrador()) return;
+            const cfg = rfAdminCapturarDiagnostico();
+            const erro = rfAdminValidarDiagnostico(cfg);
+            if (erro) return alert(erro);
+            rfAdminDiagnosticoConfig = cfg;
+
+            document.querySelectorAll('input[name="rf-diag-scope"]').forEach(r => r.checked = false);
+            const wrap = document.getElementById('rf-admin-diag-clientes-wrap');
+            if (wrap) wrap.classList.add('hidden');
+            const lista = document.getElementById('rf-admin-diag-clientes');
+            if (lista) {
+                lista.innerHTML = (listaClientesAdmin || []).map(c => `
+                    <label class="rf-admin-client-check">
+                        <input type="checkbox" class="rf-admin-diag-cliente-check accent-brand-primary" value="${rfHtmlEscape(c.TCLIENTE_ID)}">
+                        <span><strong>${rfHtmlEscape(String(c.TCLIENTE_NOME || c.TCLIENTE_ID).toUpperCase())}</strong><br><span class="text-[10px] opacity-70">${rfHtmlEscape(c.TCLIENTE_ID)}</span></span>
+                    </label>
+                `).join('');
+            }
+            const resumo = document.getElementById('rf-admin-diag-scope-resumo');
+            if (resumo) resumo.innerText = 'Selecione uma opção de aplicação.';
+            document.getElementById('modal-admin-diag-aplicar')?.classList.remove('hidden');
+        }
+
+        function rfAdminFecharAplicacaoDiagnostico() {
+            document.getElementById('modal-admin-diag-aplicar')?.classList.add('hidden');
+        }
+
+        function rfAdminAtualizarScopeDiagnostico() {
+            const scope = String(document.querySelector('input[name="rf-diag-scope"]:checked')?.value || '');
+            const selecionado = scope.startsWith('SELECTED_');
+            document.getElementById('rf-admin-diag-clientes-wrap')?.classList.toggle('hidden', !selecionado);
+
+            const textos = {
+                ALL_ALL:'A nova versão será aplicada a todos os clientes e a todos os períodos já existentes. Novos períodos continuarão usando o padrão de novos períodos atualmente configurado.',
+                ALL_OPEN:'A nova versão será aplicada a todos os clientes, somente nos períodos que estiverem ABERTOS. Períodos fechados serão preservados.',
+                ALL_NEW:'A nova versão será usada somente quando novos períodos forem criados, para todos os clientes. Nenhum período existente será alterado.',
+                SELECTED_ALL:'A nova versão será aplicada aos clientes selecionados em todos os períodos já existentes.',
+                SELECTED_OPEN:'A nova versão será aplicada aos clientes selecionados somente nos períodos ABERTOS.',
+                SELECTED_NEW:'A nova versão será usada somente nos novos períodos dos clientes selecionados. Nenhum período existente será alterado.'
+            };
+            const resumo = document.getElementById('rf-admin-diag-scope-resumo');
+            if (resumo) resumo.innerText = textos[scope] || 'Selecione uma opção de aplicação.';
+        }
+
+        function rfAdminMarcarClientesDiagnostico(marcar) {
+            document.querySelectorAll('.rf-admin-diag-cliente-check').forEach(c => c.checked = !!marcar);
+        }
+
+        async function rfAdminAplicarDiagnostico() {
+            if (!rfAdminEhAdministrador()) return;
+            const scope = String(document.querySelector('input[name="rf-diag-scope"]:checked')?.value || '');
+            if (!scope) return alert('Selecione como a nova configuração deve ser aplicada.');
+
+            const clientIds = scope.startsWith('SELECTED_')
+                ? Array.from(document.querySelectorAll('.rf-admin-diag-cliente-check:checked')).map(c => String(c.value))
+                : [];
+            if (scope.startsWith('SELECTED_') && !clientIds.length) {
+                return alert('Selecione pelo menos um cliente.');
+            }
+
+            const cfg = rfAdminCapturarDiagnostico();
+            const erro = rfAdminValidarDiagnostico(cfg);
+            if (erro) return alert(erro);
+
+            const resumo = document.getElementById('rf-admin-diag-scope-resumo')?.innerText || '';
+            if (!confirm(`${resumo}\n\nConfirma a aplicação desta nova versão do Diagnóstico Automático?`)) return;
+
+            const btn = document.getElementById('rf-admin-diag-aplicar-btn');
+            if (btn) { btn.disabled = true; btn.innerText = 'Aplicando...'; }
+            setSyncStatus(true, 'Aplicando diagnóstico...');
+
+            try {
+                const payload = {
+                    action:'APLICAR_DIAGNOSTICO_CONFIG',
+                    config:cfg,
+                    scope,
+                    clientIds,
+                    usuarioId:String(usuarioLogado?.TUSUARIO_ID || '')
+                };
+                await fetch(API_URL, {
+                    method:'POST',
+                    mode:'no-cors',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify(payload)
+                });
+
+                rfAdminFecharAplicacaoDiagnostico();
+                await new Promise(r => setTimeout(r, 700));
+                await rfAdminCarregarDiagnostico(false);
+
+                if (usuarioLogado?.TCLIENTE_ID && periodoAtivoObj?.TPERIODO_ID) {
+                    await carregarTudoDoPeriodo({silencioso:true});
+                }
+
+                const secResultados = document.getElementById('section-resultados');
+                if (secResultados && !secResultados.classList.contains('hidden')) {
+                    await gerarAnalisesEResultados();
+                }
+
+                setSyncStatus(false, 'Atualizado');
+                alert('Configuração do Diagnóstico Automático aplicada com sucesso.');
+            } catch (e) {
+                console.error(e);
+                setSyncStatus(false, 'Erro Administração');
+                alert('Não foi possível aplicar a configuração.');
+            } finally {
+                if (btn) { btn.disabled = false; btn.innerText = 'Confirmar e aplicar'; }
+            }
         }
 
 
@@ -4437,7 +5656,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.20', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.21', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -6517,6 +7736,130 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             }
         }
 
+
+        // ======================================================
+        // V5.2.21 — ANÁLISE DA FOLHA POR TIPO DE CENTRO DE CUSTO
+        // ======================================================
+        function rfFuncionarioSalarioMensal(f) {
+            const base = parseMoedaBR(f?.TFUNCIONARIO_SALARIO_BASE || 0);
+            const tipo = String(f?.TFUNCIONARIO_TP_SALARIO || 'MENSALISTA').trim().toUpperCase();
+            const horas = Number(f?.TFUNCIONARIO_HORAS || 176) || 176;
+            return tipo === 'HORISTA' ? base * horas : base;
+        }
+
+        function rfRateiosFuncionarioAnalise(f) {
+            const isRateio = String(f?.TFUNCIONARIO_RATEIO || '').trim().toUpperCase() === 'SIM';
+            if (!isRateio) {
+                return [{ id:String(f?.TCENTRO_CUSTO_ID || ''), pct:100 }];
+            }
+
+            let raw = String(f?.TCENTRO_CUSTO_ID || '').trim();
+            if (!raw) return [];
+            try {
+                if (raw.startsWith('"') && raw.endsWith('"')) raw = raw.substring(1, raw.length - 1);
+                raw = raw.replace(/""/g, '"').replace(/;/g, ',');
+                const arr = JSON.parse(raw);
+                if (!Array.isArray(arr)) return [];
+                return arr
+                    .map(r => ({
+                        id:String(r?.id ?? r?.ID ?? '').trim(),
+                        pct:Number(r?.pct ?? r?.PCT ?? 0) || 0
+                    }))
+                    .filter(r => r.id && r.pct > 0);
+            } catch (e) {
+                console.warn('Rateio de funcionário inválido na análise:', f?.TFUNCIONARIO_ID, e);
+                return [];
+            }
+        }
+
+        function rfFormatPctFolha(valor) {
+            return `${Number(valor || 0).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}%`;
+        }
+
+        function rfRenderizarTabelaFolhaGrupo(bodyId, footId, linhas, faturamento) {
+            const tbody = document.getElementById(bodyId);
+            const tfoot = document.getElementById(footId);
+            if (!tbody || !tfoot) return;
+
+            const ordenadas = [...linhas].sort((a,b) => b.pctFat - a.pctFat);
+            if (!ordenadas.length) {
+                tbody.innerHTML = '<tr><td colspan="6" class="rf-folha-empty">Nenhum funcionário alocado neste grupo.</td></tr>';
+                tfoot.innerHTML = '';
+                return;
+            }
+
+            tbody.innerHTML = ordenadas.map(l => `
+                <tr class="hover:bg-brand-border/20 transition">
+                    <td class="p-2 md:p-3 font-bold text-white uppercase">${rfHtmlEscape(l.funcionario)}</td>
+                    <td class="p-2 md:p-3 uppercase">
+                        <span class="font-semibold text-white">${rfHtmlEscape(l.centroCusto)}</span>
+                        ${l.rateioPct < 99.999 ? `<span class="ml-1 text-[10px] text-brand-primary">(${l.rateioPct.toFixed(1)}%)</span>` : ''}
+                    </td>
+                    <td class="p-2 md:p-3">${formatarMoedaBR(l.salario)}</td>
+                    <td class="p-2 md:p-3">${formatarMoedaBR(l.beneficios)}</td>
+                    <td class="p-2 md:p-3 font-bold text-emerald-400">${formatarMoedaBR(l.custoMensal)}</td>
+                    <td class="p-2 md:p-3 text-right font-extrabold text-brand-primary rf-folha-percent">${rfFormatPctFolha(l.pctFat)}</td>
+                </tr>
+            `).join('');
+
+            const totais = ordenadas.reduce((acc,l) => {
+                acc.salario += l.salario;
+                acc.beneficios += l.beneficios;
+                acc.custoMensal += l.custoMensal;
+                return acc;
+            }, {salario:0, beneficios:0, custoMensal:0});
+            const pctTotal = faturamento > 0 ? (totais.custoMensal / faturamento) * 100 : 0;
+
+            tfoot.innerHTML = `
+                <tr>
+                    <td class="p-2 md:p-3" colspan="2">TOTAL DO GRUPO</td>
+                    <td class="p-2 md:p-3">${formatarMoedaBR(totais.salario)}</td>
+                    <td class="p-2 md:p-3">${formatarMoedaBR(totais.beneficios)}</td>
+                    <td class="p-2 md:p-3 text-emerald-400">${formatarMoedaBR(totais.custoMensal)}</td>
+                    <td class="p-2 md:p-3 text-right text-brand-primary">${rfFormatPctFolha(pctTotal)}</td>
+                </tr>`;
+        }
+
+        function rfRenderizarFolhasAnalise(faturamentoAtual) {
+            const grupos = {
+                ADMINISTRATIVO: [],
+                'PRODUTIVO INDIRETO': [],
+                'PRODUTIVO DIRETO': []
+            };
+            const fat = Number(faturamentoAtual || 0) || 0;
+
+            (listaFuncionarios || []).forEach(f => {
+                const salarioTotal = rfFuncionarioSalarioMensal(f);
+                const beneficiosTotal = parseMoedaBR(rfFuncionarioBeneficios(f) || 0);
+                const custoTotal = parseMoedaBR(rfFuncionarioCustoMensal(f) || 0);
+                const rateios = rfRateiosFuncionarioAnalise(f);
+
+                rateios.forEach(r => {
+                    const cc = (listaCC || []).find(c => String(c.TCENTRO_CUSTO_ID || '') === String(r.id || ''));
+                    if (!cc) return;
+                    const tipo = String(cc.TCENTRO_CUSTO_TIPO || '').trim().toUpperCase();
+                    if (!Object.prototype.hasOwnProperty.call(grupos, tipo)) return;
+
+                    const fator = Math.max(0, Number(r.pct || 0)) / 100;
+                    const custoMensal = custoTotal * fator;
+                    grupos[tipo].push({
+                        funcionario:String(f.TFUNCIONARIO_NOME || '').toUpperCase(),
+                        centroCusto:String(cc.TCENTRO_CUSTO_NOME || cc.TCENTRO_CUSTO_ID || '').toUpperCase(),
+                        salario:salarioTotal * fator,
+                        beneficios:beneficiosTotal * fator,
+                        custoMensal,
+                        pctFat:fat > 0 ? (custoMensal / fat) * 100 : 0,
+                        rateioPct:Number(r.pct || 0)
+                    });
+                });
+            });
+
+            rfRenderizarTabelaFolhaGrupo('rf-folha-adm-body','rf-folha-adm-foot',grupos.ADMINISTRATIVO,fat);
+            rfRenderizarTabelaFolhaGrupo('rf-folha-pi-body','rf-folha-pi-foot',grupos['PRODUTIVO INDIRETO'],fat);
+            rfRenderizarTabelaFolhaGrupo('rf-folha-pd-body','rf-folha-pd-foot',grupos['PRODUTIVO DIRETO'],fat);
+        }
+
+
         // --- RESULTADOS & ANÁLISES ---
         // V5.1 — regra de período: depreciação pode ser mantida cadastrada e ignorada nos cálculos
         function v51IgnorarDepreciacao(pObj = periodoAtivoObj) {
@@ -6609,21 +7952,32 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         function rfV5210ScoreConfig() {
-            return {
-                MARGEM_LIQUIDA:   { nome:'Margem líquida', peso:20 },
-                PONTO_EQUILIBRIO: { nome:'Ponto de equilíbrio econômico', peso:15 },
-                MARGEM_CONTRIB:   { nome:'Margem de contribuição', peso:10 },
-                DESP_OPER:        { nome:'Despesas fixas operacionais', peso:20 },
-                FIXO_INDUSTRIAL:  { nome:'Custos fixos industriais', peso:5 },
-                SOBRA_MO:         { nome:'Mão de obra não alocada', peso:5 },
-                RETIRADA:         { nome:'Retirada dos sócios', peso:5 },
-                RETORNO_META:     { nome:'Retorno sobre investimento x meta', peso:20 }
-            };
+            const lista = Array.isArray(rfDiagnosticoConfigAtual?.pontuacao?.indicadores)
+                ? rfDiagnosticoConfigAtual.pontuacao.indicadores
+                : [];
+            const out = {};
+            lista.forEach(i => {
+                out[String(i.codigo)] = {
+                    nome:String(i.nome || i.codigo),
+                    peso:Number(i.peso) || 0
+                };
+            });
+            return out;
         }
 
         function rfV528CriarDiag(codigo, nivel, titulo, valorTexto, diagnostico, sugestao) {
             const ordem = { PRIORIDADE:0, CRITICO:1, ATENCAO:2, SAUDAVEL:3 };
-            return { codigo, nivel, titulo, valorTexto, diagnostico, sugestao, ordem:ordem[nivel] ?? 9 };
+            const regra = rfDiagRegraPorTituloOriginal(codigo, nivel, titulo);
+            return {
+                codigo,
+                nivel,
+                titulo: regra?.titulo || titulo,
+                valorTexto,
+                diagnostico: regra?.texto || diagnostico,
+                sugestao: regra?.acao || sugestao,
+                regraId: regra?.id || '',
+                ordem:ordem[nivel] ?? 9
+            };
         }
 
         function rfV528GerarDiagnosticos(dre, dreCompare, investimentoTotal, pontoEquilibrioEconomico, retornoInvestimentoPct, pontoEquilibrio) {
@@ -6689,14 +8043,16 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             else if (custoFixoIndustrialPct > 30) diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','ATENCAO','Custos fixos industriais em atenção',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'Os custos fixos industriais representam entre 30% e 40% do faturamento.','Monitorar utilização da capacidade e crescimento da estrutura.'));
             else diags.push(rfV528CriarDiag('FIXO_INDUSTRIAL','SAUDAVEL','Custos fixos industriais controlados',`${custoFixoIndustrialPct.toFixed(1)}% do faturamento`,'Os custos fixos industriais representam até 30% do faturamento.','Manter acompanhamento de capacidade e produtividade.'));
 
-            // 6 — Mão de obra não alocada (mantida)
+            // 6 — Mão de obra não alocada
             if (sobraMOPct > 10) diags.push(rfV528CriarDiag('SOBRA_MO','PRIORIDADE','Mão de obra não alocada muito elevada',`${sobraMOPct.toFixed(1)}% do faturamento`,'Há valor relevante de mão de obra que não está sendo absorvido pelos centros de custo.','Revisar rateios, alocação dos funcionários e dimensionamento da equipe.'));
             else if (sobraMOPct > 5) diags.push(rfV528CriarDiag('SOBRA_MO','CRITICO','Mão de obra não alocada elevada',`${sobraMOPct.toFixed(1)}% do faturamento`,'A sobra de mão de obra está reduzindo diretamente o resultado.','Revisar cadastro/rateio dos funcionários e utilização da equipe.'));
             else if (sobraMOPct > 2) diags.push(rfV528CriarDiag('SOBRA_MO','ATENCAO','Existe mão de obra não alocada',`${sobraMOPct.toFixed(1)}% do faturamento`,'Parte do custo de pessoal não está sendo absorvida na estrutura dos centros de custo.','Validar percentuais de rateio e alocação dos funcionários.'));
-            else diags.push(rfV528CriarDiag('SOBRA_MO','SAUDAVEL','Mão de obra bem alocada',`${sobraMOPct.toFixed(1)}% do faturamento`,'A perda/sobra de mão de obra não alocada está baixa.','Manter os rateios e cadastros atualizados.'));
+            else if (sobraMOPct > 0) diags.push(rfV528CriarDiag('SOBRA_MO','SAUDAVEL','Mão de obra bem alocada',`${sobraMOPct.toFixed(1)}% do faturamento`,'A perda/sobra de mão de obra não alocada está baixa.','Manter os rateios e cadastros atualizados.'));
+            else diags.push(rfV528CriarDiag('SOBRA_MO','SAUDAVEL','Mão de obra totalmente alocada','0,0% do faturamento','Não há custo de mão de obra pendente de alocação entre os centros de custo.','Manter a estrutura de alocação atualizada sempre que houver alterações na equipe.'));
 
-            // 7 — Retirada dos sócios (mantida)
-            if (dre.retSocios > 0 && resultadoAntesRetirada <= 0) diags.push(rfV528CriarDiag('RETIRADA','PRIORIDADE','Retirada sem resultado operacional suficiente',formatarMoedaBR(dre.retSocios),'A operação já não gera resultado positivo antes das retiradas.','Reavaliar temporariamente a retirada e atuar primeiro na recuperação do resultado operacional.'));
+            // 7 — Retirada dos sócios
+            if (Number(dre.retSocios || 0) <= 0) diags.push(rfV528CriarDiag('RETIRADA','SAUDAVEL','Sem retirada dos sócios no período',formatarMoedaBR(0),'Não há retirada dos sócios considerada neste período.','Nenhuma ação necessária para este indicador.'));
+            else if (dre.retSocios > 0 && resultadoAntesRetirada <= 0) diags.push(rfV528CriarDiag('RETIRADA','PRIORIDADE','Retirada sem resultado operacional suficiente',formatarMoedaBR(dre.retSocios),'A operação já não gera resultado positivo antes das retiradas.','Reavaliar temporariamente a retirada e atuar primeiro na recuperação do resultado operacional.'));
             else if (retiradaSobreResultadoPct > 100) diags.push(rfV528CriarDiag('RETIRADA','PRIORIDADE','Retirada supera o resultado antes da retirada',`${retiradaSobreResultadoPct.toFixed(1)}% do resultado`,'A retirada consome mais do que o resultado disponível antes dela.','Readequar retirada ao resultado gerado pela operação.'));
             else if (retiradaSobreResultadoPct > 70) diags.push(rfV528CriarDiag('RETIRADA','CRITICO','Retirada consome grande parte do resultado',`${retiradaSobreResultadoPct.toFixed(1)}% do resultado`,'Pouco resultado permanece na empresa após a retirada.','Avaliar redução da retirada ou aumento do resultado operacional.'));
             else if (retiradaSobreResultadoPct > 40) diags.push(rfV528CriarDiag('RETIRADA','ATENCAO','Retirada com peso relevante',`${retiradaSobreResultadoPct.toFixed(1)}% do resultado`,'A retirada representa parcela importante do resultado antes dela.','Acompanhar o impacto da retirada sobre caixa, investimento e crescimento.'));
@@ -6899,7 +8255,10 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if (!grid || !scoreEl || !classEl || !resumoEl) return;
 
             const config = rfV5210ScoreConfig();
-            const fator = { PRIORIDADE:0, CRITICO:0.40, ATENCAO:0.80, SAUDAVEL:1.00 };
+            const fator = Object.assign(
+                { PRIORIDADE:0, CRITICO:0.40, ATENCAO:0.80, SAUDAVEL:1.00 },
+                rfDiagnosticoConfigAtual?.pontuacao?.fatores || {}
+            );
             const qtd = { PRIORIDADE:0, CRITICO:0, ATENCAO:0, SAUDAVEL:0 };
             let pontos = 0;
             let pesoAvaliado = 0;
@@ -6917,17 +8276,29 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             });
 
             const score = pesoAvaliado > 0 ? Math.round((pontos / pesoAvaliado) * 100) : 0;
-            let classificacao = 'EXCELENTE', classe = 'text-emerald-400';
-            if (score < 25) { classificacao='MUITO CRÍTICO'; classe='text-red-400'; }
-            else if (score < 45) { classificacao='CRÍTICO'; classe='text-orange-400'; }
-            else if (score < 65) { classificacao='ATENÇÃO'; classe='text-amber-400'; }
-            else if (score < 82) { classificacao='SAUDÁVEL'; classe='text-emerald-400'; }
+            const faixas = Array.isArray(rfDiagnosticoConfigAtual?.pontuacao?.classificacoes)
+                ? rfDiagnosticoConfigAtual.pontuacao.classificacoes
+                : [];
+            const faixaAtual = faixas.find(f => score >= Number(f.min) && score <= Number(f.max));
+            const classificacao = faixaAtual?.label || 'SEM CLASSIFICAÇÃO';
+            let classe = 'text-emerald-400';
+            const clNorm = String(classificacao).toUpperCase();
+            if (clNorm.includes('MUITO CR')) classe = 'text-red-400';
+            else if (clNorm === 'CRÍTICO' || clNorm === 'CRITICO') classe = 'text-orange-400';
+            else if (clNorm.includes('ATEN')) classe = 'text-amber-400';
+            else if (clNorm.includes('SAUD')) classe = 'text-emerald-400';
+            else if (clNorm.includes('EXCEL')) classe = 'text-emerald-400';
 
             scoreEl.innerText = `${score}/100`;
             classEl.className = `text-brand-primary ${classe}`;
             classEl.innerText = classificacao;
             resumoEl.innerText = `${qtd.PRIORIDADE} prioridade • ${qtd.CRITICO} crítico • ${qtd.ATENCAO} atenção • ${qtd.SAUDAVEL} saudável`;
             if (formulaEl) formulaEl.innerText = `${pontos.toFixed(1)} de ${pesoAvaliado.toFixed(0)} pontos ponderados = ${score}/100`;
+            const expEl = document.getElementById('rf-diag-score-explicacao');
+            if (expEl) {
+                const pctNivel = n => `${Math.round((Number(fator[n]) || 0) * 100)}%`;
+                expEl.innerText = `A nota vai de 0 a 100 e considera somente a saúde do período atual. Cada indicador possui um peso. SAUDÁVEL recebe ${pctNivel('SAUDAVEL')} do peso, ATENÇÃO ${pctNivel('ATENCAO')}, CRÍTICO ${pctNivel('CRITICO')} e PRIORIDADE ${pctNivel('PRIORIDADE')}. A evolução histórica é mostrada separadamente e não altera a nota.`;
+            }
 
             window.rfV5213DiagnosticoAtual = {
                 score, classificacao, pontos, pesoAvaliado,
@@ -6954,17 +8325,17 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                         <div class="min-w-0">
                             <div class="rf-diag-badge">${icone[d.nivel]} ${nivelLabel[d.nivel]}</div>
                             <div class="flex items-center gap-2 mt-2">
-                                <h4 class="text-sm font-extrabold text-white">${d.titulo}</h4>
+                                <h4 class="text-sm font-extrabold text-white">${rfHtmlEscape(d.titulo)}</h4>
                                 ${d.calculo ? `<button type="button" class="rf-diag-question" title="Ver a conta" onclick="rfV5213ToggleConta('rf-diag-conta-${idx}')">?</button>` : ''}
                             </div>
                         </div>
-                        <div class="text-right text-xs font-black text-brand-primary whitespace-nowrap">${d.valorTexto}</div>
+                        <div class="text-right text-xs font-black text-brand-primary whitespace-nowrap">${rfHtmlEscape(d.valorTexto)}</div>
                     </div>
-                    <p class="text-xs text-brand-muted mt-2 leading-relaxed">${d.diagnostico}</p>
-                    ${d.calculo ? `<div id="rf-diag-conta-${idx}" class="rf-diag-calculo hidden"><div class="rf-diag-calculo-title">Como chegou neste indicador</div><div class="rf-diag-calculo-text">${d.calculo}</div></div>` : ''}
+                    <p class="text-xs text-brand-muted mt-2 leading-relaxed">${rfHtmlEscape(d.diagnostico)}</p>
+                    ${d.calculo ? `<div id="rf-diag-conta-${idx}" class="rf-diag-calculo hidden"><div class="rf-diag-calculo-title">Como chegou neste indicador</div><div class="rf-diag-calculo-text">${rfHtmlEscape(d.calculo)}</div></div>` : ''}
                     <div class="mt-3 pt-3 border-t border-brand-border/60">
                         <span class="text-[10px] uppercase font-black text-white">Ação sugerida</span>
-                        <p class="text-xs text-brand-muted mt-1 leading-relaxed">${d.sugestao}</p>
+                        <p class="text-xs text-brand-muted mt-1 leading-relaxed">${rfHtmlEscape(d.sugestao)}</p>
                     </div>
                 </div>
             `).join('');
@@ -7223,6 +8594,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 dreAtiva, dreAnteriorMaisRecente, investimentoTotal, pontoEquilibrioEconomico, rentabilidadeAtualPct, pontoEquilibrio
             );
             rfV5210RenderDiagnosticos(rfV5210Diagnosticos, historicoDRE, dreAtiva);
+            rfRenderizarFolhasAnalise(dreAtiva.fatBruto);
 
             const tbodyCustoHora = document.getElementById('tbl-custo-hora-cc-body');
             if(tbodyCustoHora) {
@@ -7467,7 +8839,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const relPlanoContas = [];
             const relOutros = [];
 
-            // V5.2.20 — o Raio-X deve repetir EXATAMENTE a mesma regra de rateio
+            // V5.2.21 — o Raio-X deve repetir EXATAMENTE a mesma regra de rateio
             // usada pelo backend para TCENTRO_CUSTO_CUSTO_PLANO_CONTAS.
             // Antes, os critérios automáticos por tipo (PD_*, PI_AREA e ADM_AREA)
             // não eram reconhecidos aqui e por isso sumiam do detalhamento/total do Raio-X.
