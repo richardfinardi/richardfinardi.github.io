@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V6 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.28">
+    <title>CONSULTORIA.RF V5.2.29 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.29">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1755,7 +1755,7 @@ body.light-mode .rf-grid-excel-pop{background:#fff;border-color:#d0d5dd}body.lig
 
 <style id="v5227-theme-config-polish">
 /* ================================================================
-   V6 — CONFIGURAÇÃO DO PERÍODO + POLIMENTO DE TEMAS/MODAIS
+   V5.2.28 — CONFIGURAÇÃO DO PERÍODO + POLIMENTO DE TEMAS/MODAIS
    ================================================================ */
 .rf-period-config-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--ui-border)}
 .rf-period-config-eyebrow{display:block;margin-bottom:3px;font-size:9px;letter-spacing:.14em;font-weight:900;color:#ff9a57}
@@ -1804,7 +1804,7 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
 
 
 <style id="v5228-finalizacao-estudo">
-/* V6 — conclusão da análise, envio por e-mail e estudo de caso temporário */
+/* V5.2.29 — conclusão da análise, envio por e-mail e estudo de caso temporário + faturamento simulado */
 .rf-result-top-actions{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;justify-content:flex-end}
 .rf-final-btn,.rf-study-btn,.rf-study-action{border:1px solid rgba(255,132,54,.45);border-radius:.65rem;padding:.58rem .78rem;font-size:.75rem;font-weight:800;transition:.18s;white-space:nowrap}
 .rf-final-btn{background:#ff8436;color:#fff}.rf-final-btn:hover{filter:brightness(1.06)}
@@ -1827,6 +1827,67 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
 @media(max-width:767px){.rf-result-top-actions{justify-content:flex-start;width:100%}.rf-result-top-actions button{flex:1 1 auto}.rf-study-head{flex-direction:column}.rf-study-actions{justify-content:flex-start;width:100%}.rf-study-actions button{flex:1 1 auto}.rf-mail-users{grid-template-columns:1fr}.rf-study-card{padding:.8rem}.rf-mail-modal{max-height:95vh}.rf-study-table-wrap{max-height:55vh;touch-action:pan-x pan-y}}
 </style>
 
+
+<style id="v5229-estudo-faturamento-tabelas">
+/* ================================================================
+   V5.2.29 — FATURAMENTO NO ESTUDO DE CASO + APRESENTAÇÃO DE TABELAS
+   ================================================================ */
+.rf-study-revenue{
+    display:grid;grid-template-columns:minmax(180px,1.15fr) repeat(3,minmax(135px,.85fr));
+    gap:.75rem;align-items:stretch;margin-bottom:1rem;
+}
+.rf-study-revenue-card{
+    border:1px solid rgba(148,163,184,.16);background:rgba(15,23,42,.36);
+    border-radius:.75rem;padding:.72rem .8rem;min-width:0;
+}
+.rf-study-revenue-card.is-result{border-color:rgba(16,185,129,.34);background:rgba(16,185,129,.08)}
+.rf-study-revenue-label{display:block;font-size:.64rem;font-weight:900;text-transform:uppercase;letter-spacing:.035em;color:#94a3b8;margin-bottom:.28rem}
+.rf-study-revenue-value{display:block;font-size:.95rem;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rf-study-revenue-card.is-result .rf-study-revenue-value{color:#6ee7b7}
+.rf-study-revenue-input-wrap{display:flex;align-items:center;gap:.38rem}
+.rf-study-revenue-prefix,.rf-study-revenue-suffix{font-size:.72rem;font-weight:900;color:#94a3b8;white-space:nowrap}
+.rf-study-revenue-input{
+    min-width:0;width:100%;padding:.5rem .55rem;border-radius:.48rem;border:1px solid #3a414d;
+    background:#171a20;color:#fff;text-align:right;font-size:.82rem;font-weight:800;outline:none;font-variant-numeric:tabular-nums;
+}
+.rf-study-revenue-input:focus{border-color:#ff8436;box-shadow:0 0 0 2px rgba(255,132,54,.12)}
+.rf-study-revenue-help{grid-column:1/-1;margin-top:-.25rem;font-size:.64rem;color:#94a3b8}
+
+/* Resultados: tabela precisa permanecer dentro do card, sem colisão visual. */
+#section-resultados .rf-results-table-wrap{
+    width:100%;max-width:100%;overflow-x:auto;overflow-y:visible;-webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;scrollbar-gutter:stable;border-radius:.55rem;
+}
+#section-resultados .rf-results-table-wrap table{border-collapse:separate;border-spacing:0;width:100%}
+#section-resultados .rf-results-table-wrap thead th{position:sticky;top:0;z-index:3}
+#table-custo-hora-resultados{min-width:1080px;table-layout:auto}
+#table-ranking-resultados{min-width:900px;table-layout:auto}
+#section-resultados .rf-folha-table{min-width:900px;table-layout:auto}
+#table-custo-hora-resultados th:first-child,#table-custo-hora-resultados td:first-child,
+#table-ranking-resultados .ranking-col-name,
+#section-resultados .rf-folha-table th:nth-child(-n+2),#section-resultados .rf-folha-table td:nth-child(-n+2){white-space:normal!important;overflow-wrap:anywhere;line-height:1.25}
+#table-custo-hora-resultados th:not(:first-child),#table-custo-hora-resultados td:not(:first-child),
+#section-resultados .rf-folha-table th:nth-child(n+3),#section-resultados .rf-folha-table td:nth-child(n+3){white-space:nowrap!important}
+#section-resultados .rf-folha-table tfoot td{position:sticky;bottom:0;z-index:2}
+
+body.light-mode .rf-study-revenue-card{background:#fff;border-color:#dbe3ee}
+body.light-mode .rf-study-revenue-card.is-result{background:#ecfdf5;border-color:#a7f3d0}
+body.light-mode .rf-study-revenue-label,body.light-mode .rf-study-revenue-prefix,body.light-mode .rf-study-revenue-suffix,body.light-mode .rf-study-revenue-help{color:#64748b}
+body.light-mode .rf-study-revenue-value{color:#1f2937}
+body.light-mode .rf-study-revenue-card.is-result .rf-study-revenue-value{color:#047857}
+body.light-mode .rf-study-revenue-input{background:#fff;color:#111827;border-color:#cbd5e1}
+
+@media(max-width:900px){.rf-study-revenue{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:767px){
+    .rf-study-revenue{grid-template-columns:1fr;gap:.55rem}
+    .rf-study-revenue-help{grid-column:1}
+    #section-resultados .rf-results-table-wrap{touch-action:pan-x pan-y}
+    /* Custo-hora e ranking já têm versão compacta mobile; não herdam largura desktop. */
+    #table-custo-hora-resultados,#table-ranking-resultados{min-width:0!important;width:100%!important}
+    #section-resultados .rf-folha-table{min-width:760px!important}
+}
+</style>
+
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
 
@@ -1834,7 +1895,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V6</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.29</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -1869,7 +1930,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V6</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.29</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2435,13 +2496,32 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
                 <div class="rf-study-head">
                     <div>
                         <div class="rf-study-title">Estudo de Caso <span class="rf-study-badge">SIMULAÇÃO TEMPORÁRIA</span></div>
-                        <div class="rf-study-sub">Altere salários, retire funcionários, mude valores do Plano de Contas ou ignore a depreciação. A análise abaixo é recalculada na hora e <strong>nenhuma alteração é gravada no banco de dados</strong>.</div>
+                        <div class="rf-study-sub">Simule aumento de faturamento, altere salários, retire funcionários, mude valores do Plano de Contas ou ignore a depreciação. A análise abaixo é recalculada na hora e <strong>nenhuma alteração é gravada no banco de dados</strong>.</div>
                     </div>
                     <div class="rf-study-actions">
                         <button type="button" class="rf-study-action" onclick="rfEstudoRestaurar()">↺ Restaurar cenário</button>
                         <button type="button" class="rf-study-action orange" onclick="rfAbrirModalEnvioAnalise('ESTUDO_CASO')">✉ Enviar cenário + PDF</button>
                         <button type="button" class="rf-study-action" onclick="rfEncerrarEstudoCaso(true)">Fechar estudo</button>
                     </div>
+                </div>
+                <div class="rf-study-revenue">
+                    <div class="rf-study-revenue-card">
+                        <span class="rf-study-revenue-label">Faturamento atual</span>
+                        <span id="rf-estudo-fat-atual" class="rf-study-revenue-value">R$ 0,00</span>
+                    </div>
+                    <label class="rf-study-revenue-card">
+                        <span class="rf-study-revenue-label">Adicionar faturamento</span>
+                        <span class="rf-study-revenue-input-wrap"><span class="rf-study-revenue-prefix">R$</span><input id="rf-estudo-fat-adicional" class="rf-study-revenue-input" type="number" min="0" step="0.01" value="0" inputmode="decimal" oninput="rfEstudoFaturamentoValor(this.value)"></span>
+                    </label>
+                    <label class="rf-study-revenue-card">
+                        <span class="rf-study-revenue-label">Aumento sobre o atual</span>
+                        <span class="rf-study-revenue-input-wrap"><input id="rf-estudo-fat-pct" class="rf-study-revenue-input" type="number" min="0" step="0.01" value="0" inputmode="decimal" oninput="rfEstudoFaturamentoPct(this.value)"><span class="rf-study-revenue-suffix">%</span></span>
+                    </label>
+                    <div class="rf-study-revenue-card is-result">
+                        <span class="rf-study-revenue-label">Faturamento simulado</span>
+                        <span id="rf-estudo-fat-simulado" class="rf-study-revenue-value">R$ 0,00</span>
+                    </div>
+                    <div class="rf-study-revenue-help">Preencha o acréscimo em reais ou o percentual. Os dois campos ficam sincronizados e toda a análise é recalculada sem gravar no período.</div>
                 </div>
                 <div class="rf-study-toggle">
                     <div><label for="rf-estudo-sem-dep">Desconsiderar depreciação no cenário</label><small>Ignora depreciação de recursos e prédio somente nesta simulação.</small></div>
@@ -2580,7 +2660,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
                     </div>
                 </div>
 
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto rf-results-table-wrap">
                     <table id="table-custo-hora-resultados" class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
@@ -2607,7 +2687,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
                     <p class="text-xs text-brand-muted">💡 Clique em qualquer setor para ver o Raio-X detalhado de seus custos</p>
                 </div>
 
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto rf-results-table-wrap">
                     <table id="table-ranking-resultados" class="w-full text-left text-xs md:text-sm text-brand-muted">
                         <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                             <tr>
@@ -2638,7 +2718,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
                         </div>
                         <div id="rf-folha-adm-resumo" class="rf-folha-head-total">R$ 0,00 <span>• 0,00% / Fat.</span></div>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto rf-results-table-wrap">
                         <table class="rf-folha-table w-full text-left text-xs md:text-sm text-brand-muted">
                             <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                                 <tr>
@@ -2666,7 +2746,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
                         </div>
                         <div id="rf-folha-pi-resumo" class="rf-folha-head-total">R$ 0,00 <span>• 0,00% / Fat.</span></div>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto rf-results-table-wrap">
                         <table class="rf-folha-table w-full text-left text-xs md:text-sm text-brand-muted">
                             <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                                 <tr>
@@ -2694,7 +2774,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
                         </div>
                         <div id="rf-folha-pd-resumo" class="rf-folha-head-total">R$ 0,00 <span>• 0,00% / Fat.</span></div>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto rf-results-table-wrap">
                         <table class="rf-folha-table w-full text-left text-xs md:text-sm text-brand-muted">
                             <thead class="bg-[#0d0d0f] text-[10px] md:text-xs uppercase text-white border-b border-brand-border">
                                 <tr>
@@ -2931,7 +3011,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
         let listaFuncionarios = [];
         let listaPlanoContas = [];
 
-        // V6 — conclusão da análise e estudo de caso temporário
+        // V5.2.29 — conclusão da análise e estudo de caso temporário
         let rfFinalizacaoAtual = null;
         let rfEstudoAtivo = false;
         let rfEstudoBase = null;
@@ -5711,7 +5791,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.28', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.29', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -7970,7 +8050,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V6 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
+        // V5.2.29 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
         // ======================================================
         function rfFinalizacaoPadrao() {
             return {
@@ -8332,6 +8412,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if (!rfEstudoDraft || !rfEstudoBase) return;
             const chk = document.getElementById('rf-estudo-sem-dep');
             if (chk) chk.checked = String(rfEstudoDraft.periodo?.TPERIODO_DESCONSIDERAR_DEPRECIACAO || 'NAO').toUpperCase() === 'SIM';
+            rfEstudoAtualizarFaturamentoCampos();
             const fb = document.getElementById('rf-estudo-func-body');
             if (fb) fb.innerHTML = rfEstudoDraft.funcionarios.length ? rfEstudoDraft.funcionarios.map((f,i) => {
                 const orig = rfEstudoBase.funcionarios.find(x => String(x.TFUNCIONARIO_ID) === String(f.TFUNCIONARIO_ID)) || f;
@@ -8344,6 +8425,50 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 const orig = rfEstudoBase.plano.find(x => String(x.TPLANO_CONTA_ID) === String(p.TPLANO_CONTA_ID)) || p;
                 return `<tr><td><strong>${rfEmailEsc(p.TPLANO_CONTA_NOME||'-')}</strong></td><td>${rfEmailEsc(p.TPLANO_CONTA_CRITERIO||'-')}</td><td>${formatarMoedaBR(orig.TPLANO_CONTA_VALOR||0)}</td><td><input type="number" step="0.01" min="0" value="${Number(p.TPLANO_CONTA_VALOR||0)}" onchange="rfEstudoPlanoValor(${i},this.value)" oninput="rfEstudoPlanoValor(${i},this.value,true)"></td></tr>`;
             }).join('') : '<tr><td colspan="4" class="rf-study-muted">Nenhuma conta cadastrada.</td></tr>';
+        }
+
+        function rfEstudoFaturamentoValores() {
+            const base = Math.max(0, Number(rfEstudoBase?.periodo?.TPERIODO_FATURAMENTO || 0) || 0);
+            const simulado = Math.max(base, Number(rfEstudoDraft?.periodo?.TPERIODO_FATURAMENTO ?? base) || 0);
+            const adicional = Math.max(0, simulado - base);
+            const pct = base > 0 ? (adicional / base) * 100 : 0;
+            return {base,simulado,adicional,pct};
+        }
+
+        function rfEstudoAtualizarFaturamentoCampos(origem='') {
+            if (!rfEstudoBase || !rfEstudoDraft) return;
+            const v = rfEstudoFaturamentoValores();
+            const atual = document.getElementById('rf-estudo-fat-atual');
+            const sim = document.getElementById('rf-estudo-fat-simulado');
+            const add = document.getElementById('rf-estudo-fat-adicional');
+            const pct = document.getElementById('rf-estudo-fat-pct');
+            if (atual) atual.textContent = formatarMoedaBR(v.base);
+            if (sim) sim.textContent = formatarMoedaBR(v.simulado);
+            if (add && origem !== 'valor') add.value = Number(v.adicional.toFixed(2));
+            if (pct && origem !== 'pct') {
+                pct.value = Number(v.pct.toFixed(2));
+                pct.disabled = v.base <= 0;
+                pct.title = v.base <= 0 ? 'Com faturamento atual zerado, informe o acréscimo em reais.' : '';
+            }
+        }
+
+        function rfEstudoFaturamentoValor(v) {
+            if (!rfEstudoDraft || !rfEstudoBase) return;
+            const base = Math.max(0, Number(rfEstudoBase.periodo?.TPERIODO_FATURAMENTO || 0) || 0);
+            const adicional = Math.max(0, Number(v) || 0);
+            rfEstudoDraft.periodo.TPERIODO_FATURAMENTO = base + adicional;
+            rfEstudoAtualizarFaturamentoCampos('valor');
+            rfEstudoAgendar();
+        }
+
+        function rfEstudoFaturamentoPct(v) {
+            if (!rfEstudoDraft || !rfEstudoBase) return;
+            const base = Math.max(0, Number(rfEstudoBase.periodo?.TPERIODO_FATURAMENTO || 0) || 0);
+            const pct = Math.max(0, Number(v) || 0);
+            const adicional = base > 0 ? base * (pct / 100) : 0;
+            rfEstudoDraft.periodo.TPERIODO_FATURAMENTO = base + adicional;
+            rfEstudoAtualizarFaturamentoCampos('pct');
+            rfEstudoAgendar();
         }
 
         function rfEstudoAlterarDepreciacao(checked) {
@@ -8390,6 +8515,12 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         function rfEstudoResumoAlteracoes() {
             if (!rfEstudoBase || !rfEstudoDraft) return [];
             const out=[];
+            const fat0=Number(rfEstudoBase.periodo?.TPERIODO_FATURAMENTO||0)||0;
+            const fat1=Number(rfEstudoDraft.periodo?.TPERIODO_FATURAMENTO||0)||0;
+            if(Math.abs(fat1-fat0)>.005){
+                const pctFat=fat0>0?((fat1-fat0)/fat0)*100:0;
+                out.push({item:'Faturamento do cenário',original:formatarMoedaBR(fat0),simulado:`${formatarMoedaBR(fat1)}${fat0>0?` (+${pctFat.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}%)`:''}`});
+            }
             const dep0=String(rfEstudoBase.periodo?.TPERIODO_DESCONSIDERAR_DEPRECIACAO||'NAO').toUpperCase();
             const dep1=String(rfEstudoDraft.periodo?.TPERIODO_DESCONSIDERAR_DEPRECIACAO||'NAO').toUpperCase();
             if(dep0!==dep1) out.push({item:'Depreciação no cálculo',original:dep0==='SIM'?'Desconsiderada':'Considerada',simulado:dep1==='SIM'?'Desconsiderada':'Considerada'});
@@ -9816,20 +9947,20 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
                 y=section(`CUSTO-HORA — CENTROS PRODUTIVOS DIRETOS (${r.custoHora.length})`,y,40);
                 doc.autoTable({
-                    startY:y,margin:{left:mx,right:mx,bottom:18},rowPageBreak:'avoid',
+                    startY:y,margin:{left:mx,right:mx,bottom:18},pageBreak:'auto',rowPageBreak:'avoid',showHead:'everyPage',
                     head:[['Centro de Custo','Rateio','Horas Finais','Custo Total','Custo-Hora']],
                     body:r.custoHora.map(x=>[x.nome,x.rateio,v50PdfNumero(x.horas,1)+' h',money(x.total),money(x.custoHora)+'/h']),
-                    theme:'striped',styles:{fontSize:6.7,cellPadding:1.8,overflow:'ellipsize'},headStyles:{fillColor:dark,textColor:[255,255,255]},
+                    theme:'striped',styles:{fontSize:6.5,cellPadding:1.6,overflow:'linebreak',valign:'middle'},headStyles:{fillColor:dark,textColor:[255,255,255]},
                     columnStyles:{0:{cellWidth:62},1:{cellWidth:29},2:{cellWidth:29,halign:'right'},3:{cellWidth:34,halign:'right',overflow:'visible'},4:{cellWidth:28,halign:'right',fontStyle:'bold',textColor:green,overflow:'visible'}}
                 }); y=doc.lastAutoTable.finalY+7;
 
                 y=section('RANKING GERAL DE IMPACTO DOS SETORES',y,72);
                 const faturamentoRanking=Number(r.dreAtiva.fatBruto||0);
                 doc.autoTable({
-                    startY:y,margin:{left:mx,right:mx,bottom:18},pageBreak:'avoid',rowPageBreak:'avoid',
+                    startY:y,margin:{left:mx,right:mx,bottom:18},pageBreak:'auto',rowPageBreak:'avoid',showHead:'everyPage',
                     head:[['Pos.','Centro de Custo','Tipo','Custo Total','% do Faturamento']],
                     body:r.ranking.map(x=>[x.pos+'º',x.nome,x.tipo,money(x.custo),faturamentoRanking>0?pct((Number(x.custo||0)/faturamentoRanking)*100,1):'0,0%']),
-                    theme:'striped',styles:{fontSize:6.8,cellPadding:1.7,overflow:'ellipsize'},headStyles:{fillColor:dark,textColor:[255,255,255]},
+                    theme:'striped',styles:{fontSize:6.5,cellPadding:1.6,overflow:'linebreak',valign:'middle'},headStyles:{fillColor:dark,textColor:[255,255,255]},
                     columnStyles:{0:{cellWidth:13,halign:'center',fontStyle:'bold'},1:{cellWidth:68},2:{cellWidth:42},3:{cellWidth:32,halign:'right',fontStyle:'bold',overflow:'visible'},4:{cellWidth:27,halign:'right',fontStyle:'bold',overflow:'visible'}}
                 }); y=doc.lastAutoTable.finalY+7;
 
@@ -9844,10 +9975,10 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                         const corpo=linhas.map(l=>[l.funcionario,l.centroCusto,money(l.salario),money(l.beneficios),money(l.custoMensal),pct(l.pctFat||0,2)]);
                         corpo.push(['TOTAL DO GRUPO','',money(g.salario||0),money(g.beneficios||0),money(g.custoMensal||0),pct(g.pctFat||0,2)]);
                         doc.autoTable({
-                            startY:y,margin:{left:mx,right:mx,bottom:18},rowPageBreak:'avoid',showHead:'everyPage',
+                            startY:y,margin:{left:mx,right:mx,bottom:18},pageBreak:'auto',rowPageBreak:'avoid',showHead:'everyPage',
                             head:[['Funcionário','Centro de Custo','Salário','Benefícios','Custo Mensal','% / Fat.']],
                             body:corpo,
-                            theme:'grid',styles:{fontSize:5.8,cellPadding:1.4,overflow:'linebreak'},headStyles:{fillColor:dark,textColor:[255,255,255],fontSize:5.7},
+                            theme:'grid',styles:{fontSize:5.7,cellPadding:1.35,overflow:'linebreak',valign:'middle'},headStyles:{fillColor:dark,textColor:[255,255,255],fontSize:5.6},
                             columnStyles:{0:{cellWidth:32},1:{cellWidth:54},2:{cellWidth:25,halign:'right'},3:{cellWidth:25,halign:'right'},4:{cellWidth:28,halign:'right',fontStyle:'bold'},5:{cellWidth:18,halign:'right',fontStyle:'bold'}},
                             didParseCell:d=>{if(d.section==='body'&&d.row.index===corpo.length-1){d.cell.styles.fontStyle='bold';d.cell.styles.fillColor=[240,247,244];if(d.column.index>=4)d.cell.styles.textColor=green;}}
                         });
