@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal de Estudos - 6º Ano V1</title>
+  <title>Portal de Estudos - 6º Ano</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -69,9 +69,6 @@
     .btn-espanhol { background-color: #d32f2f; }
 
     /* ESTILOS DOS QUIZZES */
-    .quiz-secao {
-      display: none;
-    }
     .btn-voltar {
       background-color: #757575;
       color: white;
@@ -334,7 +331,7 @@
       margin-bottom: 18px;
     }
 
-    /* ESTILOS DE INTERAÇÃO PRÁTICA DO RESUMO */
+    /* ESTILOS DE INTERAÇÃO DE MULTIPLA ESCOLHA */
     .box-interativo {
       background-color: #e8f5e9;
       border: 2px solid #81c784;
@@ -353,16 +350,17 @@
       background: #2e7d32;
       color: white;
       border: none;
-      padding: 8px 16px;
-      border-radius: 5px;
+      padding: 10px 18px;
+      border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
-      margin-top: 10px;
+      margin-top: 12px;
     }
     .opcao-inline {
-      margin: 6px 0;
+      margin: 8px 0;
       display: block;
       cursor: pointer;
+      font-size: 1.02em;
     }
 
     @media (max-width: 650px) {
@@ -443,24 +441,15 @@
 
       <h3>2. As pólis gregas</h3>
       <p>Entre os séculos VIII e VII a.C., várias pólis se desenvolveram. Cada pólis podia ter <strong>governo, leis, exército e território próprios</strong>. Atenas e Esparta, por exemplo, eram gregas, mas independentes uma da outra.</p>
-      <p>Nem todo mundo que morava em uma pólis era cidadão. Ser <strong>cidadão</strong> significava ter direito de participar da vida política.</p>
 
-      <h3>3. A expansão dos gregos</h3>
-      <p>A população da Grécia aumentou e começou a faltar terra para todos. Os grandes proprietários ficaram com as melhores terras e muitos camponeses empobreceram. Isso gerou tensões sociais e levou muitos gregos a fundarem <strong>colônias</strong> em outras regiões.</p>
-      <p>Os gregos ocuparam áreas próximas ao Mar Mediterrâneo, Mar Egeu e Mar Negro. No sul da Itália e na Sicília, a presença grega ficou conhecida como <strong>Magna Grécia</strong>.</p>
-
-      <h3>4. Esparta</h3>
+      <h3>3. Esparta</h3>
       <p>Esparta ficava na região do <strong>Peloponeso</strong> e tinha uma sociedade muito voltada para a guerra, a disciplina e o treinamento militar.</p>
       <p><strong>Esparciatas:</strong> cidadãos e membros da elite espartana.</p>
       <p><strong>Periecos:</strong> homens livres ligados principalmente à agricultura, ao artesanato e ao comércio.</p>
       <p><strong>Hilotas:</strong> população dominada pelos espartanos, que trabalhava principalmente na agricultura.</p>
-
-      <h3>5. O governo de Esparta</h3>
-      <p>O governo de Esparta era uma <strong>oligarquia</strong>, ou seja, o poder ficava concentrado nas mãos de poucos.</p>
-      <p>Esparta possuía <strong>dois reis</strong>, a <strong>Gerúsia</strong>, os <strong>éforos</strong> e a <strong>Ápela</strong>.</p>
     </article>
 
-    <!-- MATERIAL DE GEOGRAFIA 3º BIMESTRE (COMPLETO) -->
+    <!-- MATERIAL DE GEOGRAFIA 3º BIMESTRE (COMPLETO E 100% MÚLTIPLA ESCOLHA) -->
     <article id="resumo-geografia_3bim" class="resumo-artigo">
       <h2>Geografia — Recursos Naturais e Atividades Econômicas</h2>
       <p><strong>Material de Estudo Completo e Interativo — 3º Bimestre (6º Ano)</strong></p>
@@ -482,11 +471,13 @@
         <li><strong>Não Renováveis ou Esgotáveis:</strong> Não podem ser repostos ou têm um ritmo de reposição natural extremamente lento[cite: 2]. Exemplos: combustíveis fósseis (petróleo, gás natural, carvão mineral) e minerais metálicos e não metálicos[cite: 2].</li>
       </ul>
 
-      <!-- INTERAÇÃO 1 DE FIXAÇÃO -->
+      <!-- INTERAÇÃO 1 DE FIXAÇÃO - MÚLTIPLA ESCOLHA -->
       <div class="box-interativo">
         <h4>⚡ Desafio de Fixação #1: Teste seus Conceitos</h4>
-        <p>Digite abaixo o nome da categoria de recurso natural do qual o <strong>Petróleo</strong> e o <strong>Carvão Mineral</strong> fazem parte:</p>
-        <input type="text" id="fix-1" class="input-texto" placeholder="Digite sua resposta aqui...">
+        <p>A qual categoria de recurso natural pertencem o <strong>Petróleo</strong> e o <strong>Carvão Mineral</strong>?</p>
+        <label class="opcao-inline"><input type="radio" name="fix1" value="A"> A) Recursos Inesgotáveis ou Permanentes</label>
+        <label class="opcao-inline"><input type="radio" name="fix1" value="B"> B) Recursos Não Renováveis ou Esgotáveis</label>
+        <label class="opcao-inline"><input type="radio" name="fix1" value="C"> C) Recursos Renováveis Infinitos</label>
         <button class="btn-verificar" onclick="verificarFixacao1()">Verificar Resposta</button>
         <div id="fb-fix-1" class="feedback"></div>
       </div>
@@ -511,7 +502,7 @@
         <li><strong>Hidreletricidade:</strong> Obtida pela força do movimento da água dos rios represada por barragens[cite: 2]. É renovável e não poluente no ar, mas causa sérios <em>impactos ambientais e sociais</em> (inundação de ecossistemas, perda de espécies e remoção de cidades/populações)[cite: 2].</li>
       </ul>
 
-      <!-- INTERAÇÃO 2 DE FIXAÇÃO -->
+      <!-- INTERAÇÃO 2 DE FIXAÇÃO - MÚLTIPLA ESCOLHA -->
       <div class="box-interativo">
         <h4>⚡ Desafio de Fixação #2: Qual é a Fonte de Energia?</h4>
         <p>Qual das fontes energéticas abaixo é gerada a partir da matéria orgânica, como a cana-de-açúcar para a produção de etanol?</p>
@@ -541,16 +532,18 @@
       <p><strong>O Extrativismo</strong></p>
       <p>Dá-se o nome de extrativismo à atividade de extração de elementos da natureza para obtenção de alimentos, comércio ou fabricação de produtos[cite: 2]. É considerada a atividade humana mais antiga[cite: 2].</p>
       <ul>
-        <li><strong>Extrativismo Vegetal:</strong> Extração de recursos como madeira, látex (para borracha), frutos e sementes[cite: 2]. Se praticado em grandes áreas com técnicas inadequadas, gera sérios danos ambientais[cite: 2].</li>
+        <li><strong>Extrativismo Vegetal:</strong> Extração de recursos como madeira, látex (para borracha), frutos e sementes[cite: 2]. Se praticado em grandes áreas com técnicas inadequada, gera sérios danos ambientais[cite: 2].</li>
         <li><strong>Extrativismo Animal:</strong> Compreende a caça (abate de animais silvestres, hoje geralmente proibida ou controlada para evitar extinção) e a pesca (retirada de peixes/frutos do mar, artesanal ou industrial)[cite: 2].</li>
         <li><strong>Extrativismo Mineral:</strong> Retirada de minerais metálicos (ferro, ouro) e não metálicos (sal marinho, petróleo)[cite: 2]. Pode ser realizado de forma tradicional por <em>garimpeiros</em> (oferece riscos de contaminação por mercúrio/resíduos e desabamentos) ou por grandes empresas com maquinário pesado[cite: 2].</li>
       </ul>
 
-      <!-- INTERAÇÃO 3 DE FIXAÇÃO -->
+      <!-- INTERAÇÃO 3 DE FIXAÇÃO - MÚLTIPLA ESCOLHA -->
       <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #3: Praticando os Setores e Extrativismo</h4>
-        <p>A extração de minério de ferro por garimpeiros ou mineradoras é um exemplo de qual tipo de extrativismo?</p>
-        <input type="text" id="fix-3" class="input-texto" placeholder="Digite sua resposta...">
+        <h4>⚡ Desafio de Fixação #3: Praticando os Tipos de Extrativismo</h4>
+        <p>A extração de minério de ferro ou ouro do subsolo por garimpeiros ou grandes mineradoras é um exemplo de:</p>
+        <label class="opcao-inline"><input type="radio" name="fix3" value="A"> A) Extrativismo Vegetal</label>
+        <label class="opcao-inline"><input type="radio" name="fix3" value="B"> B) Extrativismo Mineral</label>
+        <label class="opcao-inline"><input type="radio" name="fix3" value="C"> C) Extrativismo Animal</label>
         <button class="btn-verificar" onclick="verificarFixacao3()">Verificar Resposta</button>
         <div id="fb-fix-3" class="feedback"></div>
       </div>
@@ -584,7 +577,7 @@
         <li><strong>Pecuária Extensiva:</strong> Animais criados <em>soltos</em> em grandes áreas, com técnicas tradicionais e baixos cuidados[cite: 2]. Geralmente associada à <strong>pecuária de corte</strong> (carne e couro)[cite: 2].</li>
       </ul>
 
-      <!-- INTERAÇÃO 4 DE FIXAÇÃO -->
+      <!-- INTERAÇÃO 4 DE FIXAÇÃO - MÚLTIPLA ESCOLHA -->
       <div class="box-interativo">
         <h4>⚡ Desafio de Fixação #4: Pecuária de Leite vs. Corte</h4>
         <p>A criação de gado bovino solto em grandes pastagens com foco principal na obtenção de carne é chamada de:</p>
@@ -710,62 +703,77 @@ function voltarResumos() {
 }
 
 // FUNÇÕES DAS INTERAÇÕES DE FIXAÇÃO NO TEXTO
-function normalizar(str) {
-  return str.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-}
-
 function verificarFixacao1() {
-  const resp = document.getElementById('fix-1').value;
+  const marcado = document.querySelector('input[name="fix1"]:checked');
   const fb = document.getElementById('fb-fix-1');
+  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
   fb.style.display = 'block';
-  if (normalizar(resp).includes("nao renovavel") || normalizar(resp).includes("esgotavel")) {
+  if(marcado.value === "B") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Exato!</strong> O petróleo e o carvão são recursos NÃO RENOVÁVEIS ou esgotáveis, pois levam milhões de anos para se formar na natureza.";
+    fb.innerHTML = "<strong>Exato!</strong> O petróleo e o carvão mineral são recursos <strong>Não Renováveis (ou esgotáveis)</strong>, pois levam milhões de anos para se formar na natureza.";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Ops!</strong> A resposta correta é <strong>Não Renovável (ou esgotável)</strong>. Eles podem acabar com o consumo humano intensivo.";
+    fb.innerHTML = "<strong>Ops!</strong> A resposta correta é a <strong>Letra B (Recursos Não Renováveis ou Esgotáveis)</strong>.";
   }
 }
 
 function verificarFixacao2() {
   const marcado = document.querySelector('input[name="fix2"]:checked');
   const fb = document.getElementById('fb-fix-2');
-  if(!marcado) { alert("Selecione uma opção!"); return; }
+  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
   fb.style.display = 'block';
   if(marcado.value === "B") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Correto!</strong> A Biomassa utiliza matéria orgânica (como cana-de-açúcar, milho e madeira) para gerar energia e combustíveis como o etanol.";
+    fb.innerHTML = "<strong>Correto!</strong> A <strong>Biomassa</strong> utiliza matéria orgânica (como cana-de-açúcar, milho e madeira) para gerar energia e combustíveis como o etanol.";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto.</strong> A resposta correta é a <strong>Biomassa</strong> (Letra B).";
+    fb.innerHTML = "<strong>Incorreto.</strong> A resposta correta é a <strong>Biomassa (Letra B)</strong>.";
   }
 }
 
 function verificarFixacao3() {
-  const resp = document.getElementById('fix-3').value;
+  const marcado = document.querySelector('input[name="fix3"]:checked');
   const fb = document.getElementById('fb-fix-3');
+  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
   fb.style.display = 'block';
-  if (normalizar(resp).includes("mineral")) {
+  if(marcado.value === "B") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Perfeito!</strong> Trata-se do <strong>Extrativismo Mineral</strong>, que retira minérios metálicos e não metálicos do solo/subsolo.";
+    fb.innerHTML = "<strong>Perfeito!</strong> Trata-se do <strong>Extrativismo Mineral (Letra B)</strong>, que retira minérios metálicos e não metálicos da natureza.";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Quase lá!</strong> A resposta exata é <strong>Extrativismo Mineral</strong>.";
+    fb.innerHTML = "<strong>Incorreto.</strong> A resposta certa é <strong>Extrativismo Mineral (Letra B)</strong>.";
   }
 }
 
 function verificarFixacao4() {
   const marcado = document.querySelector('input[name="fix4"]:checked');
   const fb = document.getElementById('fb-fix-4');
-  if(!marcado) { alert("Selecione uma opção!"); return; }
+  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
   fb.style.display = 'block';
   if(marcado.value === "B") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Excelente!</strong> Na <strong>Pecuária Extensiva</strong> os animais são criados soltos no pasto e o foco principal é o abate para corte (carne e couro).";
+    fb.innerHTML = "<strong>Excelente!</strong> Na <strong>Pecuária Extensiva (Letra B)</strong> os animais são criados soltos no pasto e o foco principal é o abate para corte (carne e couro).";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto.</strong> A resposta certa é a <strong>Pecuária Extensiva</strong> (Letra B). Na intensiva os animais ficam presos/confinados.";
+    fb.innerHTML = "<strong>Incorreto.</strong> A resposta certa é a <strong>Pecuária Extensiva (Letra B)</strong>.";
   }
+}
+
+// NORMALIZADOR ANTI-ERRO DE DIGITAÇÃO (IGNORA PLURAL, ACENTOS E MAIÚSCULAS)
+function normalizarTexto(str) {
+  let s = str.toString()
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") // remove acentos
+            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "") // remove pontuação
+            .replace(/\s+/g, "") // remove espaços
+            .trim();
+  
+  // Remove sufixos de plural comum no final da palavra
+  if (s.length > 3 && s.endsWith("s")) {
+    s = s.slice(0, -1);
+  }
+  return s;
 }
 
 // BANCO DE DADOS DOS QUIZZES
@@ -800,10 +808,16 @@ const bancoQuizzes = {
         explicacao: "O petróleo é um combustível fóssil e se esgota com o uso, sendo uma fonte não renovável."
       },
       {
-        tipo: "texto",
+        tipo: "opcoes",
         topico: "Fontes Energéticas",
-        pergunta: "Qual fonte de energia renovável é obtida a partir do calor vindo do interior do planeta Terra? (Digite em português):",
-        respostasAceitas: ["geotermica", "energia geotermica", "geotérmica", "energia geotérmica"],
+        pergunta: "Qual fonte de energia renovável é obtida a partir do calor vindo do interior do planeta Terra?",
+        opcoes: {
+          A: "Energia Solar",
+          B: "Energia Geotérmica",
+          C: "Hidreletricidade",
+          D: "Energia Nuclear"
+        },
+        respostaCorreta: "B",
         explicacao: "A energia geotérmica aproveita o calor interno da Terra, muito comum em áreas de vulcanismo ativo."
       },
       {
@@ -820,11 +834,17 @@ const bancoQuizzes = {
         explicacao: "O Setor Primário é aquele responsável pela extração e produção de matérias-primas diretamente da natureza."
       },
       {
-        tipo: "texto",
+        tipo: "opcoes",
         topico: "Extrativismo",
-        pergunta: "Qual é o nome dado à atividade econômica que envolve a caça e a pesca de animais na natureza?",
-        respostasAceitas: ["extrativismo animal", "extrativismo animal."],
-        explicacao: "O extrativismo animal envolve a caça e a pesca."
+        pergunta: "A retirada de frutos, sementes, madeira e látex da natureza sem o cultivo prévio é um exemplo de:",
+        opcoes: {
+          A: "Extrativismo Animal",
+          B: "Extrativismo Vegetal",
+          C: "Extrativismo Mineral",
+          D: "Agroindústria"
+        },
+        respostaCorreta: "B",
+        explicacao: "O extrativismo vegetal envolve a retirada de produtos vegetais diretamente das matas/florestas."
       },
       {
         tipo: "opcoes",
@@ -1038,8 +1058,8 @@ function responderTexto(index) {
 
   respostasRespondidas++;
 
-  const valNorm = normalizar(valDigitado);
-  const acertou = q.respostasAceitas.some(aceita => normalizar(aceita) === valNorm);
+  const valNorm = normalizarTexto(valDigitado);
+  const acertou = q.respostasAceitas.some(aceita => normalizarTexto(aceita) === valNorm);
 
   if (acertou) acertos++;
 
