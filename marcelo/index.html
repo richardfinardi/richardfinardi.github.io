@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal de Estudos - 6º Ano</title>
+  <title>Portal de Estudos - 6º Ano V1</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,7 +16,7 @@
     }
     .container {
       background: white;
-      max-width: 750px;
+      max-width: 800px;
       width: 100%;
       border-radius: 12px;
       padding: 25px;
@@ -334,13 +334,13 @@
       margin-bottom: 18px;
     }
 
-    /* ESTILOS DE INTERAÇÃO DO RESUMO (FIXAÇÃO) */
+    /* ESTILOS DE INTERAÇÃO PRÁTICA DO RESUMO */
     .box-interativo {
       background-color: #e8f5e9;
-      border: 2px dashed #4caf50;
+      border: 2px solid #81c784;
       border-radius: 10px;
-      padding: 15px;
-      margin: 20px 0;
+      padding: 16px;
+      margin: 22px 0;
     }
     .box-interativo h4 {
       margin-top: 0;
@@ -349,23 +349,20 @@
       align-items: center;
       gap: 8px;
     }
-    .btn-revelar {
+    .btn-verificar {
       background: #2e7d32;
       color: white;
       border: none;
-      padding: 8px 14px;
+      padding: 8px 16px;
       border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
-      margin-top: 8px;
-    }
-    .resposta-oculta {
-      display: none;
       margin-top: 10px;
-      background: #ffffff;
-      padding: 10px;
-      border-radius: 6px;
-      border-left: 4px solid #2e7d32;
+    }
+    .opcao-inline {
+      margin: 6px 0;
+      display: block;
+      cursor: pointer;
     }
 
     @media (max-width: 650px) {
@@ -396,14 +393,14 @@
     <div class="home-opcoes">
       <button class="btn-home btn-resumos-home" onclick="abrirArea('resumos')">
         <span class="icone">📚</span>
-        <span class="titulo-home">Resumos</span>
-        <span class="descricao-home">Roteiros de estudo organizados por matéria e conteúdo.</span>
+        <span class="titulo-home">Material de Estudo</span>
+        <span class="descricao-home">Aulas completas e interativas organizadas por matéria.</span>
       </button>
 
       <button class="btn-home btn-quizzes-home" onclick="abrirArea('quizzes')">
         <span class="icone">🧠</span>
-        <span class="titulo-home">Quizzes</span>
-        <span class="descricao-home">Teste o que aprendeu e veja a nota no final.</span>
+        <span class="titulo-home">Quizzes Bimestrais</span>
+        <span class="descricao-home">Teste seus conhecimentos com avaliação completa e nota.</span>
       </button>
     </div>
   </div>
@@ -412,7 +409,7 @@
   <div id="area-resumos">
     <div class="cabecalho-area">
       <button class="btn-voltar" onclick="voltarInicio()">⬅ Início</button>
-      <h2>📚 Resumos para Estudo</h2>
+      <h2>📚 Materiais Interativos de Estudo</h2>
     </div>
 
     <div class="grid-resumos">
@@ -423,7 +420,7 @@
 
       <button class="card-resumo-menu" onclick="abrirResumo('geografia_3bim')">
         <h3>🌎 Geografia — Recursos Naturais, Extrativismo e Agropecuária</h3>
-        <p>Fontes de energia renováveis e não renováveis, setores da economia, extrativismo e sistemas agropecuários.</p>
+        <p>Material completo do 3º Bimestre: Fontes de energia, setores, extrativismo e sistemas agropecuários.</p>
       </button>
     </div>
   </div>
@@ -431,14 +428,14 @@
   <!-- ================= CONTEÚDO DO RESUMO ================= -->
   <div id="resumo-conteudo">
     <div class="acoes-resumo">
-      <button class="btn-voltar" onclick="voltarResumos()">⬅ Voltar aos Resumos</button>
+      <button class="btn-voltar" onclick="voltarResumos()">⬅ Voltar aos Materiais</button>
       <button class="btn-voltar" onclick="voltarInicio()">🏠 Início</button>
     </div>
 
     <!-- RESUMO DE HISTÓRIA -->
     <article id="resumo-grecia_roma" class="resumo-artigo">
       <h2>História — Grécia Antiga e Roma</h2>
-      <p><strong>Roteiro de estudo — 6º Ano</strong></p>
+      <p><strong>Material de Estudo — 6º Ano</strong></p>
 
       <h3>1. Como era a Grécia Antiga</h3>
       <p>A Grécia Antiga <strong>não era um único país</strong> com um único governo. Ela era formada por várias cidades independentes. Essas cidades compartilhavam elementos culturais, como a língua, costumes e muitos deuses, mas cada uma tinha suas próprias leis e seu próprio governo.</p>
@@ -463,99 +460,140 @@
       <p>Esparta possuía <strong>dois reis</strong>, a <strong>Gerúsia</strong>, os <strong>éforos</strong> e a <strong>Ápela</strong>.</p>
     </article>
 
-    <!-- RESUMO DE GEOGRAFIA 3º BIMESTRE -->
+    <!-- MATERIAL DE GEOGRAFIA 3º BIMESTRE (COMPLETO) -->
     <article id="resumo-geografia_3bim" class="resumo-artigo">
       <h2>Geografia — Recursos Naturais e Atividades Econômicas</h2>
-      <p><strong>Roteiro de estudo interativo — 3º Bimestre (6º Ano)</strong></p>
+      <p><strong>Material de Estudo Completo e Interativo — 3º Bimestre (6º Ano)</strong></p>
 
-      <h3>1. O que são Recursos Naturais?</h3>
-      <p>Recursos naturais são todos os elementos da natureza aproveitados pelas sociedades humanas para atender às suas necessidades econômicas e de sobrevivência (como alimento, energia e vestuário).</p>
-
-      <!-- INTERAÇÃO 1 -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #1: Classificação dos Recursos</h4>
-        <p>Aponte a diferença entre recursos <strong>inesgotáveis</strong>, <strong>renováveis</strong> e <strong>não renováveis</strong> antes de ver a resposta!</p>
-        <button class="btn-revelar" onclick="alternarResposta('res-1')">👁️ Revelar Resposta</button>
-        <div id="res-1" class="resposta-oculta">
-          <ul>
-            <li><strong>Inesgotáveis (Permanentes):</strong> Não acabam no tempo humano (Ex: Radiação solar, ventos, calor interno da Terra).</li>
-            <li><strong>Renováveis:</strong> Podem ser repostos pela natureza ou ação humana (Ex: Água, solo, vegetação). *Atenção: se usados incorretamente, podem faltar!*</li>
-            <li><strong>Não Renováveis (Esgotáveis):</strong> Não são repostos ou levam milhões de anos para se renovar (Ex: Petróleo, carvão mineral, gás natural, minérios).</li>
-          </ul>
-        </div>
-      </div>
-
-      <h3>2. Fontes de Energia</h3>
-      <p>A produção energética utiliza recursos divididos entre não renováveis e renováveis:</p>
-      <p><strong>Fontes Não Renováveis:</strong></p>
+      <h3>TEMA 1: Recursos Naturais e Atividades Econômicas</h3>
+      <p><strong>O que são Recursos Naturais?</strong></p>
+      <p>Recurso natural é o nome dado aos elementos da natureza que são utilizados pelas sociedades com propósitos econômicos[cite: 2]. As sociedades humanas sempre dependeram dos recursos naturais, que são extraídos, transformados e usados para múltiplas finalidades[cite: 2]:</p>
       <ul>
-        <li><strong>Carvão Mineral:</strong> Principal combustível da 1ª Revolução Industrial. Altamente poluente, usado hoje em termelétricas e siderúrgicas.</li>
-        <li><strong>Petróleo:</strong> Explorado em terra (<em>onshore</em>) ou no mar (<em>offshore</em>). Matéria-prima de combustíveis e da indústria petroquímica.</li>
-        <li><strong>Gás Natural:</strong> Mais limpo que o petróleo, usado para aquecimento, energia e veículos.</li>
-        <li><strong>Energia Nuclear:</strong> Gerada em usinas atômicas; produz resíduos radioativos perigosos (lixo atômico).</li>
+        <li>A <strong>água dos rios</strong> pode ser utilizada para consumo humano, irrigação, produção de energia etc[cite: 2].</li>
+        <li>A <strong>madeira das árvores</strong> pode ser utilizada em construções e na confecção de objetos[cite: 2].</li>
+        <li>Os <strong>solos</strong> são aproveitados para a prática da agricultura[cite: 2].</li>
+      </ul>
+      <p>O aumento do consumo de produtos industrializados no mundo intensificou a exploração dos recursos naturais pela indústria, agricultura e extrativismo[cite: 2].</p>
+
+      <p><strong>Classificação dos Recursos Naturais:</strong></p>
+      <ul>
+        <li><strong>Inesgotáveis ou Permanentes:</strong> São aqueles que não acabam e nem devem acabar considerando o tempo de permanência humana na Terra[cite: 2]. Exemplos: calor interno do planeta, vento e radiação solar[cite: 2]. Podemos usar abundantemente sem risco de esgotar[cite: 2].</li>
+        <li><strong>Renováveis:</strong> Podem ser repostos pela natureza ou pelos seres humanos, desde que usados de maneira adequada[cite: 2]. Exemplos: solo, vegetação e água[cite: 2]. *Atenção:* A água está distribuída de maneira desigual no planeta e sua disponibilidade para consumo varia[cite: 2].</li>
+        <li><strong>Não Renováveis ou Esgotáveis:</strong> Não podem ser repostos ou têm um ritmo de reposição natural extremamente lento[cite: 2]. Exemplos: combustíveis fósseis (petróleo, gás natural, carvão mineral) e minerais metálicos e não metálicos[cite: 2].</li>
       </ul>
 
-      <p><strong>Fontes Renováveis:</strong> Eólica (ventos), Solar (radiação do sol), Geotérmica (calor interno da Terra), Biomassa (matéria orgânica como cana-de-açúcar) e Hidreletricidade (força da água dos rios).</p>
-
-      <!-- INTERAÇÃO 2 -->
+      <!-- INTERAÇÃO 1 DE FIXAÇÃO -->
       <div class="box-interativo">
-        <h4>🧪 Teste Rápido: Hidreletricidade</h4>
-        <p>A hidreletricidade é a principal fonte geradora de eletricidade no Brasil. Ela é limpa e renovável, mas causa um grande problema. Qual é?</p>
-        <button class="btn-revelar" onclick="alternarResposta('res-2')">👁️ Revelar Resposta</button>
-        <div id="res-2" class="resposta-oculta">
-          <strong>Impacto Social e Ambiental:</strong> A construção de barragens inunda grandes áreas, o que pode destruir ecossistemas, fauna, flora e forçar o deslocamento de populações e até cidades inteiras.
-        </div>
+        <h4>⚡ Desafio de Fixação #1: Teste seus Conceitos</h4>
+        <p>Digite abaixo o nome da categoria de recurso natural do qual o <strong>Petróleo</strong> e o <strong>Carvão Mineral</strong> fazem parte:</p>
+        <input type="text" id="fix-1" class="input-texto" placeholder="Digite sua resposta aqui...">
+        <button class="btn-verificar" onclick="verificarFixacao1()">Verificar Resposta</button>
+        <div id="fb-fix-1" class="feedback"></div>
       </div>
 
-      <h3>3. Os Três Setores da Economia</h3>
+      <h3>As Fontes de Energia</h3>
+      <p>A produção de energia possibilita o desenvolvimento de diversas atividades econômicas e pode ser realizada a partir de fontes não renováveis e renováveis[cite: 2].</p>
+
+      <p><strong>1. Fontes de Energia Não Renováveis:</strong></p>
+      <ul>
+        <li><strong>Carvão Mineral:</strong> Foi a principal fonte de energia a partir da segunda metade do século XVIII e XIX (Revolução Industrial)[cite: 2]. A queima do carvão fornecia vapor para máquinas e locomotivas[cite: 2]. Hoje é usado em <em>termelétricas</em> (usinas que queimam combustíveis para gerar eletricidade) e na produção de aço[cite: 2]. É o combustível fóssil mais poluente e um dos maiores agravantes do efeito estufa[cite: 2].</li>
+        <li><strong>Energia Nuclear:</strong> Usada para gerar eletricidade, mover embarcações marítimas e para fins militares/medicinais[cite: 2]. Produz <em>resíduos radioativos (lixo atômico)</em> que exigem descarte monitorado[cite: 2]. Vazamentos contaminam solo, água, ar e causam doenças graves como o câncer[cite: 2].</li>
+        <li><strong>Petróleo:</strong> Teve exploração intensificada a partir de 1859 nos EUA com o impulso da indústria automobilística (gasolina, querosene, diesel)[cite: 2]. É matéria-prima da indústria petroquímica (borracha sintética, tintas, fertilizantes, asfalto)[cite: 2]. Extração pode ser em terra (<em>onshore</em>) ou no mar (<em>offshore</em>)[cite: 2].</li>
+        <li><strong>Gás Natural:</strong> Encontrado frequentemente em conjunto com o petróleo[cite: 2]. É usado para aquecimento residencial, energia elétrica e combustível veicular[cite: 2]. É mais barato e menos poluente que outros combustíveis fósseis[cite: 2].</li>
+      </ul>
+
+      <p><strong>2. Fontes de Energia Renováveis:</strong></p>
+      <ul>
+        <li><strong>Energia Eólica:</strong> Produzida pela movimentação de hélices (moinhos) pelo vento[cite: 2]. Requer incidência constante de ventos[cite: 2]. No Brasil, destaca-se nos estados do RN, CE, RS e BA[cite: 2].</li>
+        <li><strong>Energia Solar:</strong> Produzida a partir da radiação do Sol captada por placas solares[cite: 2]. É um recurso inesgotável[cite: 2].</li>
+        <li><strong>Energia Geotérmica:</strong> Proveniente do calor do interior da Terra[cite: 2]. Muito comum em países com vulcanismo ativo e fontes de águas quentes[cite: 2].</li>
+        <li><strong>Biomassa:</strong> Proveniente de matéria orgânica (animal ou vegetal)[cite: 2]. Inclui madeira/lenha, cana-de-açúcar (etanol), milho, óleos vegetais, casca de arroz e o lixo (pela queima ou uso do gás metano dos aterros sanitários)[cite: 2].</li>
+        <li><strong>Hidreletricidade:</strong> Obtida pela força do movimento da água dos rios represada por barragens[cite: 2]. É renovável e não poluente no ar, mas causa sérios <em>impactos ambientais e sociais</em> (inundação de ecossistemas, perda de espécies e remoção de cidades/populações)[cite: 2].</li>
+      </ul>
+
+      <!-- INTERAÇÃO 2 DE FIXAÇÃO -->
+      <div class="box-interativo">
+        <h4>⚡ Desafio de Fixação #2: Qual é a Fonte de Energia?</h4>
+        <p>Qual das fontes energéticas abaixo é gerada a partir da matéria orgânica, como a cana-de-açúcar para a produção de etanol?</p>
+        <label class="opcao-inline"><input type="radio" name="fix2" value="A"> A) Energia Geotérmica</label>
+        <label class="opcao-inline"><input type="radio" name="fix2" value="B"> B) Biomassa</label>
+        <label class="opcao-inline"><input type="radio" name="fix2" value="C"> C) Energia Nuclear</label>
+        <button class="btn-verificar" onclick="verificarFixacao2()">Verificar Resposta</button>
+        <div id="fb-fix-2" class="feedback"></div>
+      </div>
+
+      <h3>Os Setores da Economia</h3>
+      <p>As atividades econômicas são agrupadas em três setores interdependentes (que dependem uns dos outros)[cite: 2]:</p>
+      <ul>
+        <li><strong>Setor Primário:</strong> Reúne as atividades de agricultura, pecuária e extrativismo (vegetal, animal e mineral)[cite: 2].</li>
+        <li><strong>Setor Secundário:</strong> Compreende as indústrias e a construção civil — produção de bens transformando matérias-primas com ajuda de máquinas[cite: 2].</li>
+        <li><strong>Setor Terciário:</strong> Abrange o comércio e os serviços (educação, saúde, transporte, setor bancário, administração pública, etc.)[cite: 2].</li>
+      </ul>
+
       <div class="comparacao">
-        <strong>1. Setor Primário:</strong> Agricultura, pecuária e extrativismo.<br>
-        <strong>2. Setor Secundário:</strong> Indústrias e construção civil (transformação de matéria-prima).<br>
-        <strong>3. Setor Terciário:</strong> Comércio e serviços (escolas, hospitais, transportes, bancos).
+        <strong>Exemplo de Interdependência dos Setores:</strong><br>
+        1. O cultivo do algodão no campo é uma atividade do <strong>Setor Primário</strong>[cite: 2].<br>
+        2. A transformação do algodão em tecido na indústria têxtil é do <strong>Setor Secundário</strong>[cite: 2].<br>
+        3. O transporte das roupas e as lojas onde são vendidas pertencem ao <strong>Setor Terciário</strong>[cite: 2].
       </div>
-      <p><em>Lembre-se: Os setores são interdependentes! O algodão do setor primário vira tecido na indústria (secundário) e é vendido na loja (terciário).</em></p>
 
-      <h3>4. Extrativismo: Vegetal, Animal e Mineral</h3>
-      <p>O extrativismo é a atividade humana mais antiga do planeta!</p>
+      <h3>TEMA 2: Extrativismo e Agropecuária</h3>
+      <p><strong>O Extrativismo</strong></p>
+      <p>Dá-se o nome de extrativismo à atividade de extração de elementos da natureza para obtenção de alimentos, comércio ou fabricação de produtos[cite: 2]. É considerada a atividade humana mais antiga[cite: 2].</p>
       <ul>
-        <li><strong>Vegetal:</strong> Retirada de recursos vegetais da natureza (madeira, castanhas, látex).</li>
-        <li><strong>Animal:</strong> Caça e pesca. *A caça de animais silvestres é altamente controlada ou proibida.*</li>
-        <li><strong>Mineral:</strong> Extração de minérios (ferro, ouro, sal, petróleo). Pode ser feito por garimpo (artesanal) ou indústrias mineradoras mecanizadas.</li>
+        <li><strong>Extrativismo Vegetal:</strong> Extração de recursos como madeira, látex (para borracha), frutos e sementes[cite: 2]. Se praticado em grandes áreas com técnicas inadequadas, gera sérios danos ambientais[cite: 2].</li>
+        <li><strong>Extrativismo Animal:</strong> Compreende a caça (abate de animais silvestres, hoje geralmente proibida ou controlada para evitar extinção) e a pesca (retirada de peixes/frutos do mar, artesanal ou industrial)[cite: 2].</li>
+        <li><strong>Extrativismo Mineral:</strong> Retirada de minerais metálicos (ferro, ouro) e não metálicos (sal marinho, petróleo)[cite: 2]. Pode ser realizado de forma tradicional por <em>garimpeiros</em> (oferece riscos de contaminação por mercúrio/resíduos e desabamentos) ou por grandes empresas com maquinário pesado[cite: 2].</li>
       </ul>
 
-      <!-- INTERAÇÃO 3 -->
+      <!-- INTERAÇÃO 3 DE FIXAÇÃO -->
       <div class="box-interativo">
-        <h4>🔍 Desafio de Fixação #2: Tipos de Pesca e Riscos do Garimpo</h4>
-        <p>O que é o garimpo e qual o principal risco ambiental associado a ele?</p>
-        <button class="btn-revelar" onclick="alternarResposta('res-3')">👁️ Revelar Resposta</button>
-        <div id="res-3" class="resposta-oculta">
-          O garimpo é a extração de minerais usando técnicas tradicionais/manuais. Riscos: Contaminação dos rios e solos por produtos químicos (como o mercúrio) e riscos de desabamento para os garimpeiros.
-        </div>
+        <h4>⚡ Desafio de Fixação #3: Praticando os Setores e Extrativismo</h4>
+        <p>A extração de minério de ferro por garimpeiros ou mineradoras é um exemplo de qual tipo de extrativismo?</p>
+        <input type="text" id="fix-3" class="input-texto" placeholder="Digite sua resposta...">
+        <button class="btn-verificar" onclick="verificarFixacao3()">Verificar Resposta</button>
+        <div id="fb-fix-3" class="feedback"></div>
       </div>
 
-      <h3>5. Agropecuária (Agricultura + Pecuária)</h3>
-      <p><strong>Fatores Naturais da Agricultura:</strong> O relevo (áreas planas facilitam máquinas; morros exigem a técnica de <em>terraceamento</em>), solo (rico em húmus) e irrigação (água).</p>
-      
+      <h3>A Agropecuária</h3>
+      <p>Compreende a agricultura e a pecuária, voltadas à obtenção de alimentos e matérias-primas industriais[cite: 2].</p>
+
+      <p><strong>A Agricultura e Fatores Naturais:</strong></p>
+      <ul>
+        <li><strong>Relevo:</strong> Áreas planas favorecem a mecanização e o escoamento[cite: 2]. Em morros/montanhas, utiliza-se a técnica de <em>terraceamento</em> (construção de "degraus") para conter a erosão e permitir o plantio[cite: 2].</li>
+        <li><strong>Clima e Solo:</strong> O clima define as culturas adequadas (ex: banana prefere clima quente; maçã prefere frio)[cite: 2]. O solo ideal deve ser rico em <em>húmus</em> (matéria orgânica em decomposição)[cite: 2].</li>
+        <li><strong>Água:</strong> A falta de chuvas é corrigida com sistemas de <em>irrigação</em> e o excesso de água é resolvido com sistemas de <em>drenagem</em>[cite: 2].</li>
+      </ul>
+
       <p><strong>Sistemas de Produção Agrícola:</strong></p>
       <ul>
-        <li><strong>Extensiva / Familiar:</strong> Pequenas propriedades, mão de obra familiar, uso de ferramentas simples (enxada), baixa produtividade, foco no consumo próprio e feiras regionais.</li>
-        <li><strong>Intensiva / Comercial:</strong> Grandes propriedades (empresas agrícolas), alto uso de máquinas, fertilizantes, biotecnologia, foco na exportação e no mercado internacional.</li>
+        <li><strong>Produção Extensiva:</strong> Usa técnicas simples/tradicionais (como a enxada), pouco fertilizante, baixa mecanização, baixa produtividade e maior uso de mão de obra[cite: 2].</li>
+        <li><strong>Produção Intensiva:</strong> Usa máquinas modernas, fertilizantes, agrotóxicos, irrigação e sementes selecionadas, apresentando elevada produtividade e mão de obra reduzida[cite: 2].</li>
       </ul>
 
-      <!-- INTERAÇÃO 4 -->
+      <p><strong>Organização da Produção:</strong></p>
+      <ul>
+        <li><strong>Agricultura Familiar:</strong> Pequena escala e pequenas propriedades, uso de mão de obra familiar para subsistência[cite: 2]. O excedente é vendido em feiras locais[cite: 2].</li>
+        <li><strong>Agricultura Comercial:</strong> Larga escala para abastecer grandes mercados nacionais e internacionais, com alta tecnologia e elevadíssima produtividade[cite: 2].</li>
+      </ul>
+
+      <p><strong>A Pecuária e seus Sistemas de Criação:</strong></p>
+      <p>Pecuária é a criação de animais (bovinos, equinos, suínos, ovinos, aves)[cite: 2]. Divide-se em dois sistemas[cite: 2]:</p>
+      <ul>
+        <li><strong>Pecuária Intensiva:</strong> Animais são <em>confinados</em> em locais fechados (estábulos, granjas, pastos cercados), recebem ração balanceada, veterinários e inseminação artificial[cite: 2]. Geralmente associada à <strong>produção de leite</strong>[cite: 2].</li>
+        <li><strong>Pecuária Extensiva:</strong> Animais criados <em>soltos</em> em grandes áreas, com técnicas tradicionais e baixos cuidados[cite: 2]. Geralmente associada à <strong>pecuária de corte</strong> (carne e couro)[cite: 2].</li>
+      </ul>
+
+      <!-- INTERAÇÃO 4 DE FIXAÇÃO -->
       <div class="box-interativo">
-        <h4>🐮 Pecuária Intensiva x Pecuária Extensiva</h4>
-        <p>Clique abaixo para testar se você sabe a diferença entre os dois modelos de criação de gado:</p>
-        <button class="btn-revelar" onclick="alternarResposta('res-4')">👁️ Revelar Resposta</button>
-        <div id="res-4" class="resposta-oculta">
-          <p><strong>Pecuária Intensiva:</strong> Animais criados presos/confinados, alimentação por ração balanceada, veterinários, inseminação artificial. Foco principal: Produção de LEITE.</p>
-          <p><strong>Pecuária Extensiva:</strong> Animais criados soltos no pasto, pouca tecnologia, menor rendimento. Foco principal: Produção de CARNE (corte) e couro.</p>
-        </div>
+        <h4>⚡ Desafio de Fixação #4: Pecuária de Leite vs. Corte</h4>
+        <p>A criação de gado bovino solto em grandes pastagens com foco principal na obtenção de carne é chamada de:</p>
+        <label class="opcao-inline"><input type="radio" name="fix4" value="A"> A) Pecuária Intensiva</label>
+        <label class="opcao-inline"><input type="radio" name="fix4" value="B"> B) Pecuária Extensiva</label>
+        <button class="btn-verificar" onclick="verificarFixacao4()">Verificar Resposta</button>
+        <div id="fb-fix-4" class="feedback"></div>
       </div>
 
-      <div class="destaque-estudo">
-        📌 <strong>Dica de Ouro da Agroindústria:</strong> A Agroindústria é a junção do setor primário com o secundário, onde os produtos agrícolas ou animais são processados no próprio local ou perto dele (ex: fábrica de sucos ao lado da plantação de laranjas).
-      </div>
     </article>
   </div>
 
@@ -629,7 +667,7 @@
 <script>
 const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 
-// NAVEGAÇÃO PRINCIPAL DO PORTAL
+// NAVEGAÇÃO PRINCIPAL
 function esconderTodasAreas() {
   const ids = ['home-principal', 'area-resumos', 'resumo-conteudo', 'menu-principal', 'area-quiz'];
   ids.forEach(id => {
@@ -671,12 +709,62 @@ function voltarResumos() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function alternarResposta(id) {
-  const el = document.getElementById(id);
-  if (el.style.display === 'block') {
-    el.style.display = 'none';
+// FUNÇÕES DAS INTERAÇÕES DE FIXAÇÃO NO TEXTO
+function normalizar(str) {
+  return str.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+}
+
+function verificarFixacao1() {
+  const resp = document.getElementById('fix-1').value;
+  const fb = document.getElementById('fb-fix-1');
+  fb.style.display = 'block';
+  if (normalizar(resp).includes("nao renovavel") || normalizar(resp).includes("esgotavel")) {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Exato!</strong> O petróleo e o carvão são recursos NÃO RENOVÁVEIS ou esgotáveis, pois levam milhões de anos para se formar na natureza.";
   } else {
-    el.style.display = 'block';
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Ops!</strong> A resposta correta é <strong>Não Renovável (ou esgotável)</strong>. Eles podem acabar com o consumo humano intensivo.";
+  }
+}
+
+function verificarFixacao2() {
+  const marcado = document.querySelector('input[name="fix2"]:checked');
+  const fb = document.getElementById('fb-fix-2');
+  if(!marcado) { alert("Selecione uma opção!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "B") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Correto!</strong> A Biomassa utiliza matéria orgânica (como cana-de-açúcar, milho e madeira) para gerar energia e combustíveis como o etanol.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Incorreto.</strong> A resposta correta é a <strong>Biomassa</strong> (Letra B).";
+  }
+}
+
+function verificarFixacao3() {
+  const resp = document.getElementById('fix-3').value;
+  const fb = document.getElementById('fb-fix-3');
+  fb.style.display = 'block';
+  if (normalizar(resp).includes("mineral")) {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Perfeito!</strong> Trata-se do <strong>Extrativismo Mineral</strong>, que retira minérios metálicos e não metálicos do solo/subsolo.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Quase lá!</strong> A resposta exata é <strong>Extrativismo Mineral</strong>.";
+  }
+}
+
+function verificarFixacao4() {
+  const marcado = document.querySelector('input[name="fix4"]:checked');
+  const fb = document.getElementById('fb-fix-4');
+  if(!marcado) { alert("Selecione uma opção!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "B") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Excelente!</strong> Na <strong>Pecuária Extensiva</strong> os animais são criados soltos no pasto e o foco principal é o abate para corte (carne e couro).";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Incorreto.</strong> A resposta certa é a <strong>Pecuária Extensiva</strong> (Letra B). Na intensiva os animais ficam presos/confinados.";
   }
 }
 
@@ -734,9 +822,9 @@ const bancoQuizzes = {
       {
         tipo: "texto",
         topico: "Extrativismo",
-        pergunta: "Qual é o nome dado à atividade econômica que envolve o abate de animais e a pesca para obtenção de alimento ou matérias-primas?",
+        pergunta: "Qual é o nome dado à atividade econômica que envolve a caça e a pesca de animais na natureza?",
         respostasAceitas: ["extrativismo animal", "extrativismo animal."],
-        explicacao: "O extrativismo animal envolve atividades como a caça e a pesca."
+        explicacao: "O extrativismo animal envolve a caça e a pesca."
       },
       {
         tipo: "opcoes",
@@ -786,21 +874,9 @@ const bancoQuizzes = {
         tipo: "opcoes",
         topico: "Evolução dos Instrumentos",
         pergunta: "Qual astrônomo aperfeiçoou a luneta em 1609 para observar as crateras da Lua e descobrir as luas de Júpiter?",
-        opcoes: {
-          A: "Isaac Newton",
-          B: "Galileu Galilei",
-          C: "Johannes Kepler",
-          D: "Nicolau Copérnico"
-        },
+        opcoes: { A: "Isaac Newton", B: "Galileu Galilei", C: "Johannes Kepler", D: "Nicolau Copérnico" },
         respostaCorreta: "B",
         explicacao: "Galileu Galilei aperfeiçoou a luneta em 1609 e fez descobertas fundamentais como as luas de Júpiter."
-      },
-      {
-        tipo: "texto",
-        topico: "Evolução dos Instrumentos",
-        pergunta: "Qual telescópio espacial, lançado em 1990 em órbita fora da atmosfera terrestre, gera imagens de altíssima resolução de galáxias distantes? (Digite o nome):",
-        respostasAceitas: ["hubble", "telescopio hubble", "telescopio espacial hubble"],
-        explicacao: "O Telescópio Espacial Hubble foi lançado em 1990 e revolucionou a observação de galáxias distantes."
       }
     ]
   },
@@ -810,7 +886,7 @@ const bancoQuizzes = {
       {
         tipo: "texto",
         topico: "Conceito de Fração",
-        pergunta: "Ana dividiu seu palmo em 6 partes iguais e mediu uma caneta que ocupou 5 dessas partes. Qual é a fração que representa a medida da caneta? (Digite no formato 'numerador/denominador', ex: 5/6):",
+        pergunta: "Ana dividiu seu palmo em 6 partes iguais e mediu uma caneta que ocupou 5 dessas partes. Qual é a fração que representa a medida da caneta?",
         respostasAceitas: ["5/6", "5 / 6"],
         explicacao: "O total de partes (6) fica no denominador e as partes consideradas (5) ficam no numerador: 5/6."
       }
@@ -829,21 +905,16 @@ const bancoQuizzes = {
         tipo: "opcoes",
         topico: "Território grego",
         pergunta: "Na Antiguidade, a Grécia era um país unificado com um único governo?",
-        opcoes: {
-          A: "Sim, toda a Grécia obedecia a um único rei.",
-          B: "Não. Era formada por várias comunidades e cidades independentes.",
-          C: "Sim, mas somente Atenas podia criar leis.",
-          D: "Não. A Grécia fazia parte do Império Romano desde o início."
-        },
+        opcoes: { A: "Sim, toda a Grécia obedecia a um único rei.", B: "Não. Era formada por várias comunidades e cidades independentes.", C: "Sim, mas somente Atenas podia criar leis.", D: "Não. A Grécia fazia parte do Império Romano desde o início." },
         respostaCorreta: "B",
         explicacao: "A Grécia Antiga não formava um Estado único. Havia várias comunidades e cidades independentes, embora compartilhassem elementos culturais."
       }
     ]
   },
   matematica: {
-    titulo: "Quiz de Matemática - Operações e Potência (Pegue papel e lápis!)",
+    titulo: "Quiz de Matemática - Operações e Potência",
     questoes: [
-      { tipo: "texto", topico: "Potenciação", pergunta: "Calcule no rascunho: Quanto é 5³ + 4²? (Digite apenas o valor numérico):", respostasAceitas: ["141"], explicacao: "5³ = 5 × 5 × 5 = 125. 4² = 4 × 4 = 16. Somando: 125 + 16 = 141." }
+      { tipo: "texto", topico: "Potenciação", pergunta: "Calcule no rascunho: Quanto é 5³ + 4²?", respostasAceitas: ["141"], explicacao: "5³ = 125. 4² = 16. Somando: 125 + 16 = 141." }
     ]
   },
   portugues: {
@@ -855,7 +926,7 @@ const bancoQuizzes = {
   ingles1: {
     titulo: "Quiz de Inglês - Unit 5: My Week",
     questoes: [
-      { tipo: "texto", topico: "Daily Routines", pergunta: "Como escrevemos 'almoçar' em inglês? (Digite apenas a expressão):", respostasAceitas: ["have lunch"], explicacao: "'Almoçar' é 'have lunch'." }
+      { tipo: "texto", topico: "Daily Routines", pergunta: "Como escrevemos 'almoçar' em inglês?", respostasAceitas: ["have lunch"], explicacao: "'Almoçar' é 'have lunch'." }
     ]
   },
   ingles2: {
@@ -867,7 +938,7 @@ const bancoQuizzes = {
   espanhol: {
     titulo: "Quiz de Espanhol - Unidades 3, 5 e Caderno",
     questoes: [
-      { tipo: "texto", topico: "Objetos Escolares", pergunta: "¿Cómo se llama el objeto que 'sirve para borrar si nos equivocamos'? Digite em espanhol:", respostasAceitas: ["la goma", "goma"], explicacao: "'La goma' é a borracha em espanhol." }
+      { tipo: "texto", topico: "Objetos Escolares", pergunta: "¿Cómo se llama el objeto que 'sirve para borrar si nos equivocamos'?", respostasAceitas: ["la goma", "goma"], explicacao: "'La goma' é a borracha em espanhol." }
     ]
   }
 };
@@ -876,16 +947,6 @@ let quizAtual = null;
 let respostasUsuario = {};
 let respostasRespondidas = 0;
 let acertos = 0;
-
-function normalizarTexto(str) {
-  return str.toString()
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
-            .replace(/\s+/g, "")
-            .trim();
-}
 
 function abrirQuiz(chave) {
   quizAtual = bancoQuizzes[chave];
@@ -977,8 +1038,8 @@ function responderTexto(index) {
 
   respostasRespondidas++;
 
-  const valNorm = normalizarTexto(valDigitado);
-  const acertou = q.respostasAceitas.some(aceita => normalizarTexto(aceita) === valNorm);
+  const valNorm = normalizar(valDigitado);
+  const acertou = q.respostasAceitas.some(aceita => normalizar(aceita) === valNorm);
 
   if (acertou) acertos++;
 
