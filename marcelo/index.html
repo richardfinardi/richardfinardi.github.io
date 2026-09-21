@@ -25,12 +25,34 @@
     h1 {
       color: #1a237e;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
     p.subtitulo {
       text-align: center;
       color: #666;
-      margin-bottom: 25px;
+      margin-bottom: 15px;
+    }
+
+    /* ESTILO DO CONTADOR DE ACESSOS GLOBAL */
+    .contador-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .contador-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #e8eaf6;
+      border: 1px solid #c5cae9;
+      color: #1a237e;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: 600;
+    }
+    .contador-badge strong {
+      color: #2e7d32;
+      font-size: 1.1em;
     }
     
     /* MENU PRINCIPAL DE QUIZZES */
@@ -185,7 +207,7 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
-      margin-top: 28px;
+      margin-top: 15px;
     }
 
     .btn-home {
@@ -380,6 +402,13 @@
   <div id="home-principal">
     <h1>Portal de Estudos 🚀</h1>
     <p class="subtitulo">Escolha como você quer estudar:</p>
+
+    <!-- EXIBIÇÃO DO CONTADOR DE ACESSOS GLOBAL -->
+    <div class="contador-box">
+      <span class="contador-badge">
+        🌐 Total de Acessos ao Portal: <strong id="numero-acessos">Carregando...</strong>
+      </span>
+    </div>
 
     <div class="home-opcoes">
       <button class="btn-home btn-resumos-home" onclick="abrirArea('resumos')">
@@ -582,7 +611,7 @@
     </article>
   </div>
 
-  <!-- ================= MENU DE QUIZZES (APENAS GEO E HIST 3º BIM) ================= -->
+  <!-- ================= MENU DE QUIZZES (GEO E HIST 3º BIM) ================= -->
   <div id="menu-principal" style="display: none;">
     <button class="btn-voltar" onclick="voltarInicio()">⬅ Início</button>
     <h1>Portal de Estudo e Desafios 🚀</h1>
@@ -619,6 +648,32 @@
 
 <script>
 const EMAIL_PROFESSOR = "richard@consultoriarf.net";
+
+// LÓGICA DO CONTADOR GLOBAL DE ACESSOS (API GRATUITA COUNTERAPI)
+function carregarContadorGlobal() {
+  const elementoNumero = document.getElementById('numero-acessos');
+  
+  // Nome único reservado para o seu projeto no servidor da API
+  const namespace = "portal_estudos_rf_6ano";
+  const key = "visitas_totais";
+
+  fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.count !== undefined) {
+        elementoNumero.innerText = data.count;
+      } else {
+        elementoNumero.innerText = "1";
+      }
+    })
+    .catch(err => {
+      console.error("Erro no contador:", err);
+      elementoNumero.innerText = "Ativo";
+    });
+}
+
+// Inicia o contador global assim que a página é aberta
+window.addEventListener('DOMContentLoaded', carregarContadorGlobal);
 
 // NAVEGAÇÃO PRINCIPAL
 function esconderTodasAreas() {
