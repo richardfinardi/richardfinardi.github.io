@@ -33,7 +33,7 @@
       margin-bottom: 25px;
     }
     
-    /* MENU PRINCIPAL */
+    /* MENU PRINCIPAL DE QUIZZES */
     #menu-principal {
       display: flex;
       flex-direction: column;
@@ -58,15 +58,8 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
-    .btn-ciencias { background-color: #00695c; }
-    .btn-matematica2 { background-color: #00838f; }
-    .btn-historia { background-color: #795548; }
     .btn-geografia { background-color: #2e7d32; }
-    .btn-matematica { background-color: #6a1b9a; }
-    .btn-portugues { background-color: #0288d1; }
-    .btn-ingles1 { background-color: #388e3c; }
-    .btn-ingles2 { background-color: #f57c00; }
-    .btn-espanhol { background-color: #d32f2f; }
+    .btn-historia { background-color: #795548; }
 
     /* ESTILOS DOS QUIZZES */
     .btn-voltar {
@@ -331,7 +324,7 @@
       margin-bottom: 18px;
     }
 
-    /* ESTILOS DE INTERAÇÃO DE MULTIPLA ESCOLHA */
+    /* ESTILOS DE INTERAÇÃO DE MÚLTIPLA ESCOLHA */
     .box-interativo {
       background-color: #e8f5e9;
       border: 2px solid #81c784;
@@ -411,14 +404,14 @@
     </div>
 
     <div class="grid-resumos">
-      <button class="card-resumo-menu" onclick="abrirResumo('grecia_roma')">
-        <h3>🏛️ História — Grécia Antiga e Roma</h3>
-        <p>Pólis, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e Triunviratos.</p>
-      </button>
-
       <button class="card-resumo-menu" onclick="abrirResumo('geografia_3bim')">
         <h3>🌎 Geografia — Recursos Naturais, Extrativismo e Agropecuária</h3>
         <p>Material completo do 3º Bimestre: Fontes de energia, setores, extrativismo e sistemas agropecuários.</p>
+      </button>
+
+      <button class="card-resumo-menu" onclick="abrirResumo('grecia_roma')">
+        <h3>🏛️ História — Grécia Antiga e Roma</h3>
+        <p>Pólis, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e Triunviratos.</p>
       </button>
     </div>
   </div>
@@ -430,26 +423,7 @@
       <button class="btn-voltar" onclick="voltarInicio()">🏠 Início</button>
     </div>
 
-    <!-- RESUMO DE HISTÓRIA -->
-    <article id="resumo-grecia_roma" class="resumo-artigo">
-      <h2>História — Grécia Antiga e Roma</h2>
-      <p><strong>Material de Estudo — 6º Ano</strong></p>
-
-      <h3>1. Como era a Grécia Antiga</h3>
-      <p>A Grécia Antiga <strong>não era um único país</strong> com um único governo. Ela era formada por várias cidades independentes. Essas cidades compartilhavam elementos culturais, como a língua, costumes e muitos deuses, mas cada uma tinha suas próprias leis e seu próprio governo.</p>
-      <div class="destaque-estudo">Guarde: PÓLIS = cidade-Estado independente.</div>
-
-      <h3>2. As pólis gregas</h3>
-      <p>Entre os séculos VIII e VII a.C., várias pólis se desenvolveram. Cada pólis podia ter <strong>governo, leis, exército e território próprios</strong>. Atenas e Esparta, por exemplo, eram gregas, mas independentes uma da outra.</p>
-
-      <h3>3. Esparta</h3>
-      <p>Esparta ficava na região do <strong>Peloponeso</strong> e tinha uma sociedade muito voltada para a guerra, a disciplina e o treinamento militar.</p>
-      <p><strong>Esparciatas:</strong> cidadãos e membros da elite espartana.</p>
-      <p><strong>Periecos:</strong> homens livres ligados principalmente à agricultura, ao artesanato e ao comércio.</p>
-      <p><strong>Hilotas:</strong> população dominada pelos espartanos, que trabalhava principalmente na agricultura.</p>
-    </article>
-
-    <!-- MATERIAL DE GEOGRAFIA 3º BIMESTRE (COMPLETO E 100% MÚLTIPLA ESCOLHA) -->
+    <!-- MATERIAL DE GEOGRAFIA 3º BIMESTRE -->
     <article id="resumo-geografia_3bim" class="resumo-artigo">
       <h2>Geografia — Recursos Naturais e Atividades Econômicas</h2>
       <p><strong>Material de Estudo Completo e Interativo — 3º Bimestre (6º Ano)</strong></p>
@@ -532,7 +506,7 @@
       <p><strong>O Extrativismo</strong></p>
       <p>Dá-se o nome de extrativismo à atividade de extração de elementos da natureza para obtenção de alimentos, comércio ou fabricação de produtos[cite: 2]. É considerada a atividade humana mais antiga[cite: 2].</p>
       <ul>
-        <li><strong>Extrativismo Vegetal:</strong> Extração de recursos como madeira, látex (para borracha), frutos e sementes[cite: 2]. Se praticado em grandes áreas com técnicas inadequada, gera sérios danos ambientais[cite: 2].</li>
+        <li><strong>Extrativismo Vegetal:</strong> Extração de recursos como madeira, látex (para borracha), frutos e sementes[cite: 2]. Se praticado em grandes áreas com técnicas inadequadas, gera sérios danos ambientais[cite: 2].</li>
         <li><strong>Extrativismo Animal:</strong> Compreende a caça (abate de animais silvestres, hoje geralmente proibida ou controlada para evitar extinção) e a pesca (retirada de peixes/frutos do mar, artesanal ou industrial)[cite: 2].</li>
         <li><strong>Extrativismo Mineral:</strong> Retirada de minerais metálicos (ferro, ouro) e não metálicos (sal marinho, petróleo)[cite: 2]. Pode ser realizado de forma tradicional por <em>garimpeiros</em> (oferece riscos de contaminação por mercúrio/resíduos e desabamentos) ou por grandes empresas com maquinário pesado[cite: 2].</li>
       </ul>
@@ -586,11 +560,29 @@
         <button class="btn-verificar" onclick="verificarFixacao4()">Verificar Resposta</button>
         <div id="fb-fix-4" class="feedback"></div>
       </div>
+    </article>
 
+    <!-- RESUMO DE HISTÓRIA -->
+    <article id="resumo-grecia_roma" class="resumo-artigo">
+      <h2>História — Grécia Antiga e Roma</h2>
+      <p><strong>Material de Estudo — 3º Bimestre</strong></p>
+
+      <h3>1. Como era a Grécia Antiga</h3>
+      <p>A Grécia Antiga <strong>não era um único país</strong> com um único governo. Ela era formada por várias cidades independentes. Essas cidades compartilhavam elementos culturais, como a língua, costumes e muitos deuses, mas cada uma tinha suas próprias leis e seu próprio governo.</p>
+      <div class="destaque-estudo">Guarde: PÓLIS = cidade-Estado independente.</div>
+
+      <h3>2. As pólis gregas</h3>
+      <p>Entre os séculos VIII e VII a.C., várias pólis se desenvolveram. Cada pólis podia ter <strong>governo, leis, exército e território próprios</strong>. Atenas e Esparta, por exemplo, eram gregas, mas independentes uma da outra.</p>
+
+      <h3>3. Esparta</h3>
+      <p>Esparta ficava na região do <strong>Peloponeso</strong> e tinha uma sociedade muito voltada para a guerra, a disciplina e o treinamento militar.</p>
+      <p><strong>Esparciatas:</strong> cidadãos e membros da elite espartana.</p>
+      <p><strong>Periecos:</strong> homens livres ligados principalmente à agricultura, ao artesanato e ao comércio.</p>
+      <p><strong>Hilotas:</strong> população dominada pelos espartanos, que trabalhava principalmente na agricultura.</p>
     </article>
   </div>
 
-  <!-- ================= MENU DE QUIZZES ================= -->
+  <!-- ================= MENU DE QUIZZES (APENAS GEO E HIST 3º BIM) ================= -->
   <div id="menu-principal" style="display: none;">
     <button class="btn-voltar" onclick="voltarInicio()">⬅ Início</button>
     <h1>Portal de Estudo e Desafios 🚀</h1>
@@ -600,40 +592,8 @@
       <span>🌎 Quiz de Geografia: Recursos & Agropecuária (3º Bim)</span> <span>➜</span>
     </button>
 
-    <button class="btn-quiz-menu btn-ciencias" onclick="abrirQuiz('ciencias_ceu')">
-      <span>🌌 Quiz de Ciências: O Estudo do Céu (6º Ano)</span> <span>➜</span>
-    </button>
-
-    <button class="btn-quiz-menu btn-matematica2" onclick="abrirQuiz('fracoes')">
-      <span>🍕 Quiz de Matemática: Frações (6º Ano)</span> <span>➜</span>
-    </button>
-
-    <button class="btn-quiz-menu btn-historia" onclick="abrirQuiz('historia')">
-      <span>📜 Quiz de História (Livros 03 e 04 - Bimestral)</span> <span>➜</span>
-    </button>
-    
     <button class="btn-quiz-menu btn-historia" onclick="abrirQuiz('historia_grecia_roma')">
-      <span>🏛️ Quiz de História: Grécia Antiga e Roma (6º Ano)</span> <span>➜</span>
-    </button>
-    
-    <button class="btn-quiz-menu btn-matematica" onclick="abrirQuiz('matematica')">
-      <span>🧮 Quiz de Matemática (Operações/Potência)</span> <span>➜</span>
-    </button>
-
-    <button class="btn-quiz-menu btn-portugues" onclick="abrirQuiz('portugues')">
-      <span>📚 Quiz de Português (6º Ano)</span> <span>➜</span>
-    </button>
-
-    <button class="btn-quiz-menu btn-ingles1" onclick="abrirQuiz('ingles1')">
-      <span>🇬🇧 Quiz de Inglês (Unit 5 - My Week)</span> <span>➜</span>
-    </button>
-
-    <button class="btn-quiz-menu btn-ingles2" onclick="abrirQuiz('ingles2')">
-      <span>🇬🇧 Quiz de Inglês (Units 3 & 4)</span> <span>➜</span>
-    </button>
-
-    <button class="btn-quiz-menu btn-espanhol" onclick="abrirQuiz('espanhol')">
-      <span>🇪🇸 Quiz de Espanhol (Unidades 3, 5 + Caderno)</span> <span>➜</span>
+      <span>🏛️ Quiz de História: Grécia Antiga e Roma (3º Bim)</span> <span>➜</span>
     </button>
   </div>
 
@@ -759,23 +719,6 @@ function verificarFixacao4() {
   }
 }
 
-// NORMALIZADOR ANTI-ERRO DE DIGITAÇÃO (IGNORA PLURAL, ACENTOS E MAIÚSCULAS)
-function normalizarTexto(str) {
-  let s = str.toString()
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "") // remove acentos
-            .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "") // remove pontuação
-            .replace(/\s+/g, "") // remove espaços
-            .trim();
-  
-  // Remove sufixos de plural comum no final da palavra
-  if (s.length > 3 && s.endsWith("s")) {
-    s = s.slice(0, -1);
-  }
-  return s;
-}
-
 // BANCO DE DADOS DOS QUIZZES
 const bancoQuizzes = {
   geografia_3bim: {
@@ -887,39 +830,8 @@ const bancoQuizzes = {
       }
     ]
   },
-  ciencias_ceu: {
-    titulo: "Quiz de Ciências - O Estudo do Céu e Astronomia (6º Ano)",
-    questoes: [
-      {
-        tipo: "opcoes",
-        topico: "Evolução dos Instrumentos",
-        pergunta: "Qual astrônomo aperfeiçoou a luneta em 1609 para observar as crateras da Lua e descobrir as luas de Júpiter?",
-        opcoes: { A: "Isaac Newton", B: "Galileu Galilei", C: "Johannes Kepler", D: "Nicolau Copérnico" },
-        respostaCorreta: "B",
-        explicacao: "Galileu Galilei aperfeiçoou a luneta em 1609 e fez descobertas fundamentais como as luas de Júpiter."
-      }
-    ]
-  },
-  fracoes: {
-    titulo: "Quiz de Matemática: Frações - 6º Ano",
-    questoes: [
-      {
-        tipo: "texto",
-        topico: "Conceito de Fração",
-        pergunta: "Ana dividiu seu palmo em 6 partes iguais e mediu uma caneta que ocupou 5 dessas partes. Qual é a fração que representa a medida da caneta?",
-        respostasAceitas: ["5/6", "5 / 6"],
-        explicacao: "O total de partes (6) fica no denominador e as partes consideradas (5) ficam no numerador: 5/6."
-      }
-    ]
-  },
-  historia: {
-    titulo: "Quiz de História - Livros 03 e 04 (Prova Bimestral)",
-    questoes: [
-      { tipo: "opcoes", topico: "Povoamento da América", pergunta: "De acordo com os estudos arqueológicos, de qual continente saíram os primeiros grupos de Homo sapiens que povoaram a Terra?", opcoes: { A: "Europa", B: "América", C: "África", D: "Ásia" }, respostaCorreta: "C", explicacao: "A espécie Homo sapiens surgiu no continente africano e de lá migrou para as demais regiões do planeta." }
-    ]
-  },
   historia_grecia_roma: {
-    titulo: "Quiz de História - Grécia Antiga e Roma (6º Ano)",
+    titulo: "Quiz de História - Grécia Antiga e Roma (3º Bim)",
     questoes: [
       {
         tipo: "opcoes",
@@ -928,37 +840,33 @@ const bancoQuizzes = {
         opcoes: { A: "Sim, toda a Grécia obedecia a um único rei.", B: "Não. Era formada por várias comunidades e cidades independentes.", C: "Sim, mas somente Atenas podia criar leis.", D: "Não. A Grécia fazia parte do Império Romano desde o início." },
         respostaCorreta: "B",
         explicacao: "A Grécia Antiga não formava um Estado único. Havia várias comunidades e cidades independentes, embora compartilhassem elementos culturais."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Pólis",
+        pergunta: "O que eram as pólis na Grécia Antiga?",
+        opcoes: {
+          A: "Cidades-Estado independentes, com governo e leis próprios.",
+          B: "Templos construídos para os deuses.",
+          C: "Navios usados no comércio pelo Mediterrâneo.",
+          D: "Exércitos formados apenas por estrangeiros."
+        },
+        respostaCorreta: "A",
+        explicacao: "As pólis eram cidades-Estado: cada uma possuía governo, leis e organização próprios."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Esparta",
+        pergunta: "Qual característica marcava fortemente a sociedade de Esparta?",
+        opcoes: {
+          A: "A preparação militar e a disciplina.",
+          B: "A proibição de qualquer treinamento físico.",
+          C: "A ausência de grupos sociais.",
+          D: "A participação política de todos os habitantes."
+        },
+        respostaCorreta: "A",
+        explicacao: "Esparta era uma sociedade fortemente militarizada, e a educação dos cidadãos valorizava a preparação para a guerra."
       }
-    ]
-  },
-  matematica: {
-    titulo: "Quiz de Matemática - Operações e Potência",
-    questoes: [
-      { tipo: "texto", topico: "Potenciação", pergunta: "Calcule no rascunho: Quanto é 5³ + 4²?", respostasAceitas: ["141"], explicacao: "5³ = 125. 4² = 16. Somando: 125 + 16 = 141." }
-    ]
-  },
-  portugues: {
-    titulo: "Quiz de Português - 6º Ano",
-    questoes: [
-      { tipo: "opcoes", topico: "Pronomes Retos", pergunta: "O Pedro estava jogando videogame e disse: 'O Pedro e o Lucas venceram a partida!'. Como trocar os nomes por um pronome?", opcoes: { A: "Nós vencemos a partida!", B: "Eles venceram a partida!", C: "Eu venci a partida!", D: "Vocês venceram a partida!" }, respostaCorreta: "A", explicacao: "Como o Pedro se inclui no grupo, ele usa 'Nós'." }
-    ]
-  },
-  ingles1: {
-    titulo: "Quiz de Inglês - Unit 5: My Week",
-    questoes: [
-      { tipo: "texto", topico: "Daily Routines", pergunta: "Como escrevemos 'almoçar' em inglês?", respostasAceitas: ["have lunch"], explicacao: "'Almoçar' é 'have lunch'." }
-    ]
-  },
-  ingles2: {
-    titulo: "Quiz de Inglês - Units 3 & 4",
-    questoes: [
-      { tipo: "opcoes", topico: "Verbo Like", pergunta: "Qual é a resposta curta correta para 'Do you like pop music?' (SIM)?", opcoes: { A: "Yes, I like.", B: "Yes, I do.", C: "Yes, I am.", D: "Yes, I have." }, respostaCorreta: "B", explicacao: "Usamos o auxiliar 'Yes, I do'." }
-    ]
-  },
-  espanhol: {
-    titulo: "Quiz de Espanhol - Unidades 3, 5 e Caderno",
-    questoes: [
-      { tipo: "texto", topico: "Objetos Escolares", pergunta: "¿Cómo se llama el objeto que 'sirve para borrar si nos equivocamos'?", respostasAceitas: ["la goma", "goma"], explicacao: "'La goma' é a borracha em espanhol." }
     ]
   }
 };
@@ -992,9 +900,6 @@ function abrirQuiz(chave) {
       for (let letra in q.opcoes) {
         html += `<button class="opcao" onclick="responderOpcao(${idx}, '${letra}', this)"><strong>${letra})</strong> ${q.opcoes[letra]}</button>`;
       }
-    } else {
-      html += `<input type="text" id="input-${idx}" class="input-texto" placeholder="Digite sua resposta...">`;
-      html += `<button class="btn-responder" onclick="responderTexto(${idx})">Confirmar Resposta</button>`;
     }
     
     html += `<div id="fb-${idx}" class="feedback"></div>`;
@@ -1034,50 +939,6 @@ function responderOpcao(index, letraEscolhida, elemento) {
     elemento.style.borderColor = '#c62828';
     fbDiv.className = 'feedback incorreto';
     fbDiv.innerHTML = `<strong>Você marcou ${letraEscolhida}.</strong> A alternativa correta é <strong>${q.respostaCorreta}</strong>.<br>${q.explicacao}`;
-  }
-
-  fbDiv.style.display = 'block';
-  conferirFim();
-}
-
-function responderTexto(index) {
-  const q = quizAtual.questoes[index];
-  const inputEl = document.getElementById(`input-${index}`);
-  const fbDiv = document.getElementById(`fb-${index}`);
-  const valDigitado = inputEl.value.trim();
-
-  if (!valDigitado) {
-    alert("Por favor, digite uma resposta antes de confirmar!");
-    return;
-  }
-
-  inputEl.disabled = true;
-  const btn = inputEl.nextElementSibling;
-  btn.disabled = true;
-  btn.style.opacity = "0.5";
-
-  respostasRespondidas++;
-
-  const valNorm = normalizarTexto(valDigitado);
-  const acertou = q.respostasAceitas.some(aceita => normalizarTexto(aceita) === valNorm);
-
-  if (acertou) acertos++;
-
-  respostasUsuario[index] = {
-    topico: q.topico,
-    pergunta: q.pergunta,
-    escolhida: valDigitado,
-    correta: q.respostasAceitas[0],
-    acertou: acertou,
-    explicacao: q.explicacao
-  };
-
-  if (acertou) {
-    fbDiv.className = 'feedback correto';
-    fbDiv.innerHTML = `<strong>Excelente! Resposta correta.</strong><br>${q.explicacao}`;
-  } else {
-    fbDiv.className = 'feedback incorreto';
-    fbDiv.innerHTML = `<strong>Resposta digitada: "${valDigitado}".</strong><br><strong>Esperado:</strong> ${q.respostasAceitas[0]}<br>${q.explicacao}`;
   }
 
   fbDiv.style.display = 'block';
@@ -1126,7 +987,7 @@ function enviarRelatorioPorEmail() {
     const status = r.acertou ? "[ACERTOU]" : "[ERROU]";
     relatorio += `Q${idx + 1} (${r.topico}): ${status}\n`;
     relatorio += `Pergunta: ${r.pergunta}\n`;
-    relatorio += `• Marcada/Digitada: ${r.escolhida}\n`;
+    relatorio += `• Marcada: ${r.escolhida}\n`;
     relatorio += `• Resposta Correta: ${r.correta}\n`;
     if (!r.acertou) {
       relatorio += `• Explicação: ${r.explicacao}\n`;
