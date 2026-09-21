@@ -82,6 +82,7 @@
     }
     .btn-geografia { background-color: #2e7d32; }
     .btn-historia { background-color: #795548; }
+    .btn-espanhol { background-color: #d32f2f; }
 
     /* ESTILOS DOS QUIZZES */
     .btn-voltar {
@@ -286,13 +287,13 @@
 
     .card-resumo-menu:hover {
       transform: translateY(-2px);
-      border-color: #2e7d32;
+      border-color: #d32f2f;
       box-shadow: 0 5px 14px rgba(0,0,0,.10);
     }
 
     .card-resumo-menu h3 {
       margin: 0 0 8px;
-      color: #2e7d32;
+      color: #d32f2f;
     }
 
     .card-resumo-menu p {
@@ -312,10 +313,10 @@
     }
 
     .resumo-artigo h3 {
-      color: #2e7d32;
+      color: #d32f2f;
       margin-top: 28px;
       margin-bottom: 8px;
-      border-bottom: 2px solid #e8f5e9;
+      border-bottom: 2px solid #ffebee;
       padding-bottom: 6px;
     }
 
@@ -348,21 +349,21 @@
 
     /* ESTILOS DE INTERAÇÃO DE MÚLTIPLA ESCOLHA */
     .box-interativo {
-      background-color: #e8f5e9;
-      border: 2px solid #81c784;
+      background-color: #fbe9e7;
+      border: 2px solid #ff7043;
       border-radius: 10px;
       padding: 16px;
       margin: 22px 0;
     }
     .box-interativo h4 {
       margin-top: 0;
-      color: #1b5e20;
+      color: #bf360c;
       display: flex;
       align-items: center;
       gap: 8px;
     }
     .btn-verificar {
-      background: #2e7d32;
+      background: #d32f2f;
       color: white;
       border: none;
       padding: 10px 18px;
@@ -376,6 +377,34 @@
       display: block;
       cursor: pointer;
       font-size: 1.02em;
+    }
+
+    /* TABELAS ILUSTRATIVAS DE VOCABULÁRIO E GRAMÁTICA */
+    .tabela-estudo {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      background: #fff;
+    }
+    .tabela-estudo th, .tabela-estudo td {
+      border: 1px solid #e0e0e0;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    .tabela-estudo th {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+
+    /* CONTAINER DE IMAGENS ILUSTRATIVAS */
+    .img-ilustrativa {
+      width: 100%;
+      max-width: 500px;
+      display: block;
+      margin: 15px auto;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
 
     @media (max-width: 650px) {
@@ -433,6 +462,11 @@
     </div>
 
     <div class="grid-resumos">
+      <button class="card-resumo-menu" onclick="abrirResumo('espanhol_3bim')">
+        <h3>🇪🇸 Espanhol — Unidad 6: Mi cuerpo habla</h3>
+        <p>Partes del cuerpo, el rostro, lenguaje corporal, descripción física (Ser/Tener/Llevar) y Presente de Indicativo.</p>
+      </button>
+
       <button class="card-resumo-menu" onclick="abrirResumo('geografia_3bim')">
         <h3>🌎 Geografia — Recursos Naturais, Extrativismo e Agropecuária</h3>
         <p>Material completo do 3º Bimestre: Fontes de energia, setores, extrativismo e sistemas agropecuários.</p>
@@ -451,6 +485,207 @@
       <button class="btn-voltar" onclick="voltarResumos()">⬅ Voltar aos Materiais</button>
       <button class="btn-voltar" onclick="voltarInicio()">🏠 Início</button>
     </div>
+
+    <!-- MATERIAL DE ESPANHOL 3º BIMESTRE (UNIDAD 6) -->
+    <article id="resumo-espanhol_3bim" class="resumo-artigo">
+      <h2>Español — Unidad 6: Mi cuerpo habla</h2>
+      <p><strong>Material de Estudo Completo e Interativo — 3º Bimestre (6º Ano)</strong></p>
+
+      <h3>1. Las Partes del Cuerpo Humano (O Corpo Humano)</h3>
+      <p>Para nos comunicarmos e descrevermos ações físicas, é fundamental dominar o vocabulário do corpo humano em espanhol[cite: 3]. Veja a classificação principal[cite: 3]:</p>
+
+      <!-- ILUSTRAÇÃO DO CORPO HUMANO EM SVG/CSS -->
+      <div style="text-align: center; background: #fffde7; border: 2px solid #fbc02d; border-radius: 12px; padding: 15px; margin: 15px 0;">
+        <svg width="220" height="200" viewBox="0 0 200 200" style="display: block; margin: 0 auto;">
+          <!-- Cabeça -->
+          <circle cx="100" cy="35" r="22" fill="#ffe0b2" stroke="#e65100" stroke-width="2"/>
+          <circle cx="93" cy="30" r="3" fill="#333"/>
+          <circle cx="107" cy="30" r="3" fill="#333"/>
+          <path d="M 92 42 Q 100 50 108 42" stroke="#c62828" stroke-width="2" fill="none"/>
+          <!-- Tronco -->
+          <line x1="100" y1="57" x2="100" y2="120" stroke="#1565c0" stroke-width="6"/>
+          <!-- Braços -->
+          <line x1="100" y1="70" x2="60" y2="100" stroke="#1565c0" stroke-width="4"/>
+          <line x1="100" y1="70" x2="140" y2="100" stroke="#1565c0" stroke-width="4"/>
+          <!-- Mãos -->
+          <circle cx="58" cy="102" r="5" fill="#ffe0b2"/>
+          <circle cx="142" cy="102" r="5" fill="#ffe0b2"/>
+          <!-- Pernas -->
+          <line x1="100" y1="120" x2="75" y2="170" stroke="#2e7d32" stroke-width="5"/>
+          <line x1="100" y1="120" x2="125" y2="170" stroke="#2e7d32" stroke-width="5"/>
+          <!-- Pés -->
+          <rect x="63" y="170" width="16" height="6" fill="#424242" rx="3"/>
+          <rect x="121" y="170" width="16" height="6" fill="#424242" rx="3"/>
+        </svg>
+        <span style="font-size: 0.85em; color: #f57f17; font-weight: bold;">Esquema: El Cuerpo Humano</span>
+      </div>
+
+      <table class="tabela-estudo">
+        <thead>
+          <tr>
+            <th>Español</th>
+            <th>Português</th>
+            <th>Detalhes / Observações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>La cabeza</strong></td><td>A cabeça</td><td>Contém o rosto, cabelo e órgãos dos sentidos[cite: 3].</td></tr>
+          <tr><td><strong>El cuello</strong></td><td>O pescoço</td><td>Conecta a cabeça ao tronco[cite: 3].</td></tr>
+          <tr><td><strong>El hombro</strong></td><td>O ombro</td><td>Região articulada superior[cite: 3].</td></tr>
+          <tr><td><strong>El brazo / El codo</strong></td><td>O braço / O cotovelo</td><td><em>El codo</em> é o cotovelo[cite: 3].</td></tr>
+          <tr><td><strong>La mano / El dedo</strong></td><td>A mão / O dedo</td><td>Usados para gestos e toque[cite: 3].</td></tr>
+          <tr><td><strong>La barriga / El pecho</strong></td><td>A barriga / O peito</td><td>Região do tronco[cite: 3].</td></tr>
+          <tr><td><strong>La espalda</strong></td><td>As costas</td><td>Parte posterior do tronco[cite: 3].</td></tr>
+          <tr><td><strong>La pierna / La rodilla</strong></td><td>A perna / O joelho</td><td><em>La rodilla</em> significa o joelho[cite: 3].</td></tr>
+          <tr><td><strong>El pie / El tobillo</strong></td><td>O pé / O tornozelo</td><td><em>El tobillo</em> é o tornozelo[cite: 3].</td></tr>
+        </tbody>
+      </table>
+
+      <h3>2. El Rostro y la Cabeza (O Rosto)</h3>
+      <p>O rosto é a parte mais expressiva do nosso corpo[cite: 3]. Veja as palavras essenciais[cite: 3]:</p>
+      <ul>
+        <li><strong>El pelo / El cabello:</strong> Cabelo[cite: 3].</li>
+        <li><strong>La frente:</strong> A testa[cite: 3].</li>
+        <li><strong>Las cejas:</strong> As sobrancelhas[cite: 3].</li>
+        <li><strong>Los ojos:</strong> Os olhos (podem ser <em>negros, marrones, verdes, azules, claros, oscuros</em>)[cite: 3].</li>
+        <li><strong>Las orejas / Los oídos:</strong> As orelhas / os ouvidos[cite: 3].</li>
+        <li><strong>La nariz:</strong> O nariz[cite: 3].</li>
+        <li><strong>Las mejillas / Los mofletes:</strong> As bochechas[cite: 3].</li>
+        <li><strong>La boca / La lengua / Los labios:</strong> A boca / a língua / os lábios[cite: 3].</li>
+        <li><strong>La barbilla / La mentón:</strong> O queixo[cite: 3].</li>
+      </ul>
+
+      <!-- INTERAÇÃO ESPANHOL 1 -->
+      <div class="box-interativo">
+        <h4>⚡ Desafio de Fixação #1: Vocabulario del Cuerpo</h4>
+        <p>Como se diz <strong>"joelho"</strong> e <strong>"bochecha"</strong> em espanhol?</p>
+        <label class="opcao-inline"><input type="radio" name="esp_fix1" value="A"> A) La rodilla y La mejilla (moflete)</label>
+        <label class="opcao-inline"><input type="radio" name="esp_fix1" value="B"> B) El codo y La barbilla</label>
+        <label class="opcao-inline"><input type="radio" name="esp_fix1" value="C"> C) El tobillo y La ceja</label>
+        <button class="btn-verificar" onclick="verificarEspFix1()">Verificar Resposta</button>
+        <div id="fb-esp-fix-1" class="feedback"></div>
+      </div>
+
+      <h3>3. Expresiones Idiomáticas con el Cuerpo</h3>
+      <p>Assim como no português, o espanhol possui várias expressões populares que utilizam partes do corpo[cite: 3]:</p>
+      <div class="comparacao">
+        🗣️ <strong>Hablar por los codos:</strong> Quando alguém fala demais, sem parar[cite: 3].<br>
+        🧩 <strong>No tener ni pies ni cabeza:</strong> Quando algo não tem sentido ou coerência[cite: 3].<br>
+        💰 <strong>Costar un ojo de la cara:</strong> Quando algo é extremamente caro[cite: 3].<br>
+        😁 <strong>Sonreír de oreja a oreja:</strong> Estar muito feliz ou radiante[cite: 3].
+      </div>
+
+      <!-- INTERAÇÃO ESPANHOL 2 -->
+      <div class="box-interativo">
+        <h4>⚡ Desafio de Fixação #2: Modismos y Expresiones</h4>
+        <p>Se um produto em uma loja é muito caro, qual expressão em espanhol você deve usar?</p>
+        <label class="opcao-inline"><input type="radio" name="esp_fix2" value="A"> A) Hablar por los codos</label>
+        <label class="opcao-inline"><input type="radio" name="esp_fix2" value="B"> B) Costar un ojo de la cara</label>
+        <label class="opcao-inline"><input type="radio" name="esp_fix2" value="C"> C) No tener ni pies ni cabeza</label>
+        <button class="btn-verificar" onclick="verificarEspFix2()">Verificar Resposta</button>
+        <div id="fb-esp-fix-2" class="feedback"></div>
+      </div>
+
+      <h3>4. La Descripción Física: SER, TENER y LLEVAR</h3>
+      <p>Para descrever uma pessoa fisicamente em espanhol, devemos escolher o verbo correto de acordo com a característica[cite: 3]:</p>
+
+      <table class="tabela-estudo">
+        <thead>
+          <tr>
+            <th>Verbo</th>
+            <th>Uso Principal</th>
+            <th>Exemplos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SER</strong></td>
+            <td>Características permanentes ou estruturais (altura, corpo, idade geral, beleza)[cite: 3].</td>
+            <td>Es alto/baja, delgado/gordo, guapo/fea, joven/mayor, calvo[cite: 3].</td>
+          </tr>
+          <tr>
+            <td><strong>TENER</strong></td>
+            <td>Atributos específicos como cabelo, olhos e traços do rosto[cite: 3].</td>
+            <td>Tiene el pelo rizado/liso/rubio/moreno, tiene los ojos verdes, tiene pecas/barba/bigote[cite: 3].</td>
+          </tr>
+          <tr>
+            <td><strong>LLEVAR</strong></td>
+            <td>Acessórios, roupas ou penteados temporários[cite: 3].</td>
+            <td>Lleva gafas (óculos), lleva trenzas (tranças), lleva una camiseta verde[cite: 3].</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="destaque-estudo">
+        📌 <strong>Regra do Cabelo (El Pelo):</strong><br>
+        • Formato: <em>liso, rizado (cacheado), ondulado</em>[cite: 3].<br>
+        • Tamanho: <em>largo (longo), corto (curto)</em>[cite: 3].<br>
+        • Cor: <em>rubio (loiro), moreno/castaño (castanho), pelirrojo (ruivo), canoso (grisalho)</em>[cite: 3].
+      </div>
+
+      <!-- INTERAÇÃO ESPANHOL 3 -->
+      <div class="box-interativo">
+        <h4>⚡ Desafio de Fixação #3: Uso de Ser, Tener y Llevar</h4>
+        <p>Como dizemos em espanhol: "Ela é alta, tem olhos verdes e usa óculos"?</p>
+        <label class="opcao-inline"><input type="radio" name="esp_fix3" value="A"> A) Ella tiene alta, es ojos verdes y lleva gafas.</label>
+        <label class="opcao-inline"><input type="radio" name="esp_fix3" value="B"> B) Ella es alta, tiene los ojos verdes y lleva gafas.</label>
+        <label class="opcao-inline"><input type="radio" name="esp_fix3" value="C"> C) Ella lleva alta, tiene ojos verdes y es gafas.</label>
+        <button class="btn-verificar" onclick="verificarEspFix3()">Verificar Resposta</button>
+        <div id="fb-esp-fix-3" class="feedback"></div>
+      </div>
+
+      <h3>5. El Lenguaje Corporal (Linguagem Corporal)</h3>
+      <p>A linguagem não verbal (gestos e atitudes) transmite emoções e impressões[cite: 3]. O material destaca as atitudes corporais e o que elas transmitem[cite: 3]:</p>
+      <ul>
+        <li><strong>Cruzar los brazos:</strong> Transmite postura defensiva ou desinteresse[cite: 3].</li>
+        <li><strong>Encorvar la postura:</strong> Transmite insegurança ou cansaço[cite: 3].</li>
+        <li><strong>Fruncir el ceño (franzir a testa/sobrancelha):</strong> Transmite preocupação, dúvida ou preocupação[cite: 3].</li>
+        <li><strong>Bostezar (bocejar):</strong> Transmite tédio ou sono[cite: 3].</li>
+        <li><strong>Mirar la hora:</strong> Transmite pressa ou desinteresse na conversa[cite: 3].</li>
+      </ul>
+
+      <h3>6. Gramática: Presente de Indicativo (Habitual)</h3>
+      <p>O Presente do Indicativo expressa ações frequentes ou hábitos do dia a dia (ex: <em>"Siempre escucha música cuando practica deportes"</em>)[cite: 3].</p>
+
+      <p><strong>Verbos Regulares:</strong></p>
+      <table class="tabela-estudo">
+        <thead>
+          <tr>
+            <th>Pronombre</th>
+            <th>Hablar (-AR)</th>
+            <th>Beber (-ER)</th>
+            <th>Escribir (-IR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Yo</strong></td><td>habl-o</td><td>beb-o</td><td>escrib-o</td></tr>
+          <tr><td><strong>Tú</strong></td><td>habl-as</td><td>beb-es</td><td>escrib-es</td></tr>
+          <tr><td><strong>Él / Ella / Ud.</strong></td><td>habl-a</td><td>beb-e</td><td>escrib-e</td></tr>
+          <tr><td><strong>Nosotros(as)</strong></td><td>habl-amos</td><td>beb-emos</td><td>escrib-imos</td></tr>
+          <tr><td><strong>Vosotros(as)</strong></td><td>habl-áis</td><td>beb-éis</td><td>escrib-ís</td></tr>
+          <tr><td><strong>Ellos / Ellas / Uds.</strong></td><td>habl-an</td><td>beb-en</td><td>escrib-en</td></tr>
+        </tbody>
+      </table>
+
+      <p><strong>Verbos com Alteração Vocálica (Irregulares):</strong></p>
+      <p>Alguns verbos sofrem trocas na vogal do radical no presente para as pessoas <em>Yo, Tú, Él/Ella e Ellos/Ellas</em> (com exceção de <em>Nosotros</em> e <em>Vosotros</em>)[cite: 3]:</p>
+      <ul>
+        <li><strong>O → UE (Contar, Encontrar):</strong> Yo c<strong>ue</strong>nto, tú c<strong>ue</strong>ntas, él c<strong>ue</strong>nta, nosotros contamos, ellos c<strong>ue</strong>ntan[cite: 3].</li>
+        <li><strong>E → IE (Preferir, Querer):</strong> Yo pref<strong>ie</strong>ro, tú pref<strong>ie</strong>res, él pref<strong>ie</strong>re, nosotros preferimos, ellos pref<strong>ie</strong>ren[cite: 3].</li>
+      </ul>
+
+      <!-- INTERAÇÃO ESPANHOL 4 -->
+      <div class="box-interativo">
+        <h4>⚡ Desafio de Fixação #4: Conjugación de Verbos</h4>
+        <p>Qual é a conjugação correta do verbo <strong>PREFERIR</strong> para a pessoa <strong>YO</strong> no presente?</p>
+        <label class="opcao-inline"><input type="radio" name="esp_fix4" value="A"> A) Yo prefero</label>
+        <label class="opcao-inline"><input type="radio" name="esp_fix4" value="B"> B) Yo prefiero</label>
+        <label class="opcao-inline"><input type="radio" name="esp_fix4" value="C"> C) Yo profiero</label>
+        <button class="btn-verificar" onclick="verificarEspFix4()">Verificar Resposta</button>
+        <div id="fb-esp-fix-4" class="feedback"></div>
+      </div>
+
+    </article>
 
     <!-- MATERIAL DE GEOGRAFIA 3º BIMESTRE -->
     <article id="resumo-geografia_3bim" class="resumo-artigo">
@@ -474,7 +709,7 @@
         <li><strong>Não Renováveis ou Esgotáveis:</strong> Não podem ser repostos ou têm um ritmo de reposição natural extremamente lento[cite: 2]. Exemplos: combustíveis fósseis (petróleo, gás natural, carvão mineral) e minerais metálicos e não metálicos[cite: 2].</li>
       </ul>
 
-      <!-- INTERAÇÃO 1 DE FIXAÇÃO - MÚLTIPLA ESCOLHA -->
+      <!-- INTERAÇÃO 1 DE FIXAÇÃO -->
       <div class="box-interativo">
         <h4>⚡ Desafio de Fixação #1: Teste seus Conceitos</h4>
         <p>A qual categoria de recurso natural pertencem o <strong>Petróleo</strong> e o <strong>Carvão Mineral</strong>?</p>
@@ -490,22 +725,22 @@
 
       <p><strong>1. Fontes de Energia Não Renováveis:</strong></p>
       <ul>
-        <li><strong>Carvão Mineral:</strong> Foi a principal fonte de energia a partir da segunda metade do século XVIII e XIX (Revolução Industrial)[cite: 2]. A queima do carvão fornecia vapor para máquinas e locomotivas[cite: 2]. Hoje é usado em <em>termelétricas</em> (usinas que queimam combustíveis para gerar eletricidade) e na produção de aço[cite: 2]. É o combustível fóssil mais poluente e um dos maiores agravantes do efeito estufa[cite: 2].</li>
-        <li><strong>Energia Nuclear:</strong> Usada para gerar eletricidade, mover embarcações marítimas e para fins militares/medicinais[cite: 2]. Produz <em>resíduos radioativos (lixo atômico)</em> que exigem descarte monitorado[cite: 2]. Vazamentos contaminam solo, água, ar e causam doenças graves como o câncer[cite: 2].</li>
-        <li><strong>Petróleo:</strong> Teve exploração intensificada a partir de 1859 nos EUA com o impulso da indústria automobilística (gasolina, querosene, diesel)[cite: 2]. É matéria-prima da indústria petroquímica (borracha sintética, tintas, fertilizantes, asfalto)[cite: 2]. Extração pode ser em terra (<em>onshore</em>) ou no mar (<em>offshore</em>)[cite: 2].</li>
-        <li><strong>Gás Natural:</strong> Encontrado frequentemente em conjunto com o petróleo[cite: 2]. É usado para aquecimento residencial, energia elétrica e combustível veicular[cite: 2]. É mais barato e menos poluente que outros combustíveis fósseis[cite: 2].</li>
+        <li><strong>Carvão Mineral:</strong> Foi a principal fonte de energia a partir da segunda metade do século XVIII e XIX (Revolução Industrial)[cite: 2]. A queima do carvão fornecia vapor para máquinas e locomotivas[cite: 2]. Hoje é usado em <em>termelétricas</em> e na produção de aço[cite: 2]. É o combustível fóssil mais poluente e um dos maiores agravantes do efeito estufa[cite: 2].</li>
+        <li><strong>Energia Nuclear:</strong> Usada para gerar eletricidade e mover embarcações[cite: 2]. Produz <em>resíduos radioativos (lixo atômico)</em> que exigem descarte monitorado[cite: 2].</li>
+        <li><strong>Petróleo:</strong> Matéria-prima da indústria petroquímica e combustíveis[cite: 2]. Extração em terra (<em>onshore</em>) ou no mar (<em>offshore</em>)[cite: 2].</li>
+        <li><strong>Gás Natural:</strong> Encontrado frequentemente com o petróleo, mais limpo e barato[cite: 2].</li>
       </ul>
 
       <p><strong>2. Fontes de Energia Renováveis:</strong></p>
       <ul>
-        <li><strong>Energia Eólica:</strong> Produzida pela movimentação de hélices (moinhos) pelo vento[cite: 2]. Requer incidência constante de ventos[cite: 2]. No Brasil, destaca-se nos estados do RN, CE, RS e BA[cite: 2].</li>
-        <li><strong>Energia Solar:</strong> Produzida a partir da radiação do Sol captada por placas solares[cite: 2]. É um recurso inesgotável[cite: 2].</li>
-        <li><strong>Energia Geotérmica:</strong> Proveniente do calor do interior da Terra[cite: 2]. Muito comum em países com vulcanismo ativo e fontes de águas quentes[cite: 2].</li>
-        <li><strong>Biomassa:</strong> Proveniente de matéria orgânica (animal ou vegetal)[cite: 2]. Inclui madeira/lenha, cana-de-açúcar (etanol), milho, óleos vegetais, casca de arroz e o lixo (pela queima ou uso do gás metano dos aterros sanitários)[cite: 2].</li>
-        <li><strong>Hidreletricidade:</strong> Obtida pela força do movimento da água dos rios represada por barragens[cite: 2]. É renovável e não poluente no ar, mas causa sérios <em>impactos ambientais e sociais</em> (inundação de ecossistemas, perda de espécies e remoção de cidades/populações)[cite: 2].</li>
+        <li><strong>Energia Eólica:</strong> Ventos/hélices[cite: 2].</li>
+        <li><strong>Energia Solar:</strong> Placas solares/Sol[cite: 2].</li>
+        <li><strong>Energia Geotérmica:</strong> Calor interno da Terra[cite: 2].</li>
+        <li><strong>Biomassa:</strong> Matéria orgânica (cana-de-açúcar/etanol, lixo)[cite: 2].</li>
+        <li><strong>Hidreletricidade:</strong> Força da água represada em rios[cite: 2].</li>
       </ul>
 
-      <!-- INTERAÇÃO 2 DE FIXAÇÃO - MÚLTIPLA ESCOLHA -->
+      <!-- INTERAÇÃO 2 DE FIXAÇÃO -->
       <div class="box-interativo">
         <h4>⚡ Desafio de Fixação #2: Qual é a Fonte de Energia?</h4>
         <p>Qual das fontes energéticas abaixo é gerada a partir da matéria orgânica, como a cana-de-açúcar para a produção de etanol?</p>
@@ -517,30 +752,20 @@
       </div>
 
       <h3>Os Setores da Economia</h3>
-      <p>As atividades econômicas são agrupadas em três setores interdependentes (que dependem uns dos outros)[cite: 2]:</p>
       <ul>
-        <li><strong>Setor Primário:</strong> Reúne as atividades de agricultura, pecuária e extrativismo (vegetal, animal e mineral)[cite: 2].</li>
-        <li><strong>Setor Secundário:</strong> Compreende as indústrias e a construção civil — produção de bens transformando matérias-primas com ajuda de máquinas[cite: 2].</li>
-        <li><strong>Setor Terciário:</strong> Abrange o comércio e os serviços (educação, saúde, transporte, setor bancário, administração pública, etc.)[cite: 2].</li>
+        <li><strong>Setor Primário:</strong> Agricultura, pecuária e extrativismo[cite: 2].</li>
+        <li><strong>Setor Secundário:</strong> Indústria e construção civil[cite: 2].</li>
+        <li><strong>Setor Terciário:</strong> Comércio e serviços[cite: 2].</li>
       </ul>
-
-      <div class="comparacao">
-        <strong>Exemplo de Interdependência dos Setores:</strong><br>
-        1. O cultivo do algodão no campo é uma atividade do <strong>Setor Primário</strong>[cite: 2].<br>
-        2. A transformação do algodão em tecido na indústria têxtil é do <strong>Setor Secundário</strong>[cite: 2].<br>
-        3. O transporte das roupas e as lojas onde são vendidas pertencem ao <strong>Setor Terciário</strong>[cite: 2].
-      </div>
 
       <h3>TEMA 2: Extrativismo e Agropecuária</h3>
-      <p><strong>O Extrativismo</strong></p>
-      <p>Dá-se o nome de extrativismo à atividade de extração de elementos da natureza para obtenção de alimentos, comércio ou fabricação de produtos[cite: 2]. É considerada a atividade humana mais antiga[cite: 2].</p>
       <ul>
-        <li><strong>Extrativismo Vegetal:</strong> Extração de recursos como madeira, látex (para borracha), frutos e sementes[cite: 2]. Se praticado em grandes áreas com técnicas inadequadas, gera sérios danos ambientais[cite: 2].</li>
-        <li><strong>Extrativismo Animal:</strong> Compreende a caça (abate de animais silvestres, hoje geralmente proibida ou controlada para evitar extinção) e a pesca (retirada de peixes/frutos do mar, artesanal ou industrial)[cite: 2].</li>
-        <li><strong>Extrativismo Mineral:</strong> Retirada de minerais metálicos (ferro, ouro) e não metálicos (sal marinho, petróleo)[cite: 2]. Pode ser realizado de forma tradicional por <em>garimpeiros</em> (oferece riscos de contaminação por mercúrio/resíduos e desabamentos) ou por grandes empresas com maquinário pesado[cite: 2].</li>
+        <li><strong>Extrativismo Vegetal:</strong> Madeira, sementes, látex[cite: 2].</li>
+        <li><strong>Extrativismo Animal:</strong> Caça e pesca[cite: 2].</li>
+        <li><strong>Extrativismo Mineral:</strong> Minérios, garimpo, petróleo[cite: 2].</li>
       </ul>
 
-      <!-- INTERAÇÃO 3 DE FIXAÇÃO - MÚLTIPLA ESCOLHA -->
+      <!-- INTERAÇÃO 3 DE FIXAÇÃO -->
       <div class="box-interativo">
         <h4>⚡ Desafio de Fixação #3: Praticando os Tipos de Extrativismo</h4>
         <p>A extração de minério de ferro ou ouro do subsolo por garimpeiros ou grandes mineradoras é um exemplo de:</p>
@@ -552,35 +777,11 @@
       </div>
 
       <h3>A Agropecuária</h3>
-      <p>Compreende a agricultura e a pecuária, voltadas à obtenção de alimentos e matérias-primas industriais[cite: 2].</p>
+      <p><strong>Agricultura:</strong> Relevo (terraceamento em morros), solo (húmus), água (irrigação e drenagem)[cite: 2].</p>
+      <p><strong>Sistemas:</strong> Extensiva/Familiar (pequena escala, consumo local) x Intensiva/Comercial (alta tecnologia, grande escala)[cite: 2].</p>
+      <p><strong>Pecuária:</strong> Intensiva (confinada, leite) x Extensiva (solta no pasto, corte/carne)[cite: 2].</p>
 
-      <p><strong>A Agricultura e Fatores Naturais:</strong></p>
-      <ul>
-        <li><strong>Relevo:</strong> Áreas planas favorecem a mecanização e o escoamento[cite: 2]. Em morros/montanhas, utiliza-se a técnica de <em>terraceamento</em> (construção de "degraus") para conter a erosão e permitir o plantio[cite: 2].</li>
-        <li><strong>Clima e Solo:</strong> O clima define as culturas adequadas (ex: banana prefere clima quente; maçã prefere frio)[cite: 2]. O solo ideal deve ser rico em <em>húmus</em> (matéria orgânica em decomposição)[cite: 2].</li>
-        <li><strong>Água:</strong> A falta de chuvas é corrigida com sistemas de <em>irrigação</em> e o excesso de água é resolvido com sistemas de <em>drenagem</em>[cite: 2].</li>
-      </ul>
-
-      <p><strong>Sistemas de Produção Agrícola:</strong></p>
-      <ul>
-        <li><strong>Produção Extensiva:</strong> Usa técnicas simples/tradicionais (como a enxada), pouco fertilizante, baixa mecanização, baixa produtividade e maior uso de mão de obra[cite: 2].</li>
-        <li><strong>Produção Intensiva:</strong> Usa máquinas modernas, fertilizantes, agrotóxicos, irrigação e sementes selecionadas, apresentando elevada produtividade e mão de obra reduzida[cite: 2].</li>
-      </ul>
-
-      <p><strong>Organização da Produção:</strong></p>
-      <ul>
-        <li><strong>Agricultura Familiar:</strong> Pequena escala e pequenas propriedades, uso de mão de obra familiar para subsistência[cite: 2]. O excedente é vendido em feiras locais[cite: 2].</li>
-        <li><strong>Agricultura Comercial:</strong> Larga escala para abastecer grandes mercados nacionais e internacionais, com alta tecnologia e elevadíssima produtividade[cite: 2].</li>
-      </ul>
-
-      <p><strong>A Pecuária e seus Sistemas de Criação:</strong></p>
-      <p>Pecuária é a criação de animais (bovinos, equinos, suínos, ovinos, aves)[cite: 2]. Divide-se em dois sistemas[cite: 2]:</p>
-      <ul>
-        <li><strong>Pecuária Intensiva:</strong> Animais são <em>confinados</em> em locais fechados (estábulos, granjas, pastos cercados), recebem ração balanceada, veterinários e inseminação artificial[cite: 2]. Geralmente associada à <strong>produção de leite</strong>[cite: 2].</li>
-        <li><strong>Pecuária Extensiva:</strong> Animais criados <em>soltos</em> em grandes áreas, com técnicas tradicionais e baixos cuidados[cite: 2]. Geralmente associada à <strong>pecuária de corte</strong> (carne e couro)[cite: 2].</li>
-      </ul>
-
-      <!-- INTERAÇÃO 4 DE FIXAÇÃO - MÚLTIPLA ESCOLHA -->
+      <!-- INTERAÇÃO 4 DE FIXAÇÃO -->
       <div class="box-interativo">
         <h4>⚡ Desafio de Fixação #4: Pecuária de Leite vs. Corte</h4>
         <p>A criação de gado bovino solto em grandes pastagens com foco principal na obtenção de carne é chamada de:</p>
@@ -611,11 +812,15 @@
     </article>
   </div>
 
-  <!-- ================= MENU DE QUIZZES (GEO E HIST 3º BIM) ================= -->
+  <!-- ================= MENU DE QUIZZES (GEO, ESP E HIST 3º BIM) ================= -->
   <div id="menu-principal" style="display: none;">
     <button class="btn-voltar" onclick="voltarInicio()">⬅ Início</button>
     <h1>Portal de Estudo e Desafios 🚀</h1>
     <p class="subtitulo">Escolha uma matéria abaixo para começar o teste:</p>
+
+    <button class="btn-quiz-menu btn-espanhol" onclick="abrirQuiz('espanhol_3bim')">
+      <span>🇪🇸 Quiz de Espanhol: Unidad 6 (3º Bim)</span> <span>➜</span>
+    </button>
 
     <button class="btn-quiz-menu btn-geografia" onclick="abrirQuiz('geografia_3bim')">
       <span>🌎 Quiz de Geografia: Recursos & Agropecuária (3º Bim)</span> <span>➜</span>
@@ -652,8 +857,6 @@ const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 // LÓGICA DO CONTADOR GLOBAL DE ACESSOS (API GRATUITA COUNTERAPI)
 function carregarContadorGlobal() {
   const elementoNumero = document.getElementById('numero-acessos');
-  
-  // Nome único reservado para o seu projeto no servidor da API
   const namespace = "portal_estudos_rf_6ano";
   const key = "visitas_totais";
 
@@ -672,7 +875,6 @@ function carregarContadorGlobal() {
     });
 }
 
-// Inicia o contador global assim que a página é aberta
 window.addEventListener('DOMContentLoaded', carregarContadorGlobal);
 
 // NAVEGAÇÃO PRINCIPAL
@@ -717,7 +919,64 @@ function voltarResumos() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// FUNÇÕES DAS INTERAÇÕES DE FIXAÇÃO NO TEXTO
+// INTERAÇÕES DE FIXAÇÃO - ESPANHOL
+function verificarEspFix1() {
+  const marcado = document.querySelector('input[name="esp_fix1"]:checked');
+  const fb = document.getElementById('fb-esp-fix-1');
+  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "A") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>¡Muy bien!</strong> 'Joelho' em espanhol é <strong>La rodilla</strong> e 'Bochecha' é <strong>La mejilla / El moflete</strong>.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>¡Incorrecto!</strong> A resposta certa é a <strong>Letra A (La rodilla y La mejilla)</strong>.";
+  }
+}
+
+function verificarEspFix2() {
+  const marcado = document.querySelector('input[name="esp_fix2"]:checked');
+  const fb = document.getElementById('fb-esp-fix-2');
+  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "B") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>¡Excelente!</strong> A expressão <strong>Costar un ojo de la cara</strong> significa que algo é extremamente caro.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>¡Incorrecto!</strong> A resposta certa é a <strong>Letra B (Costar un ojo de la cara)</strong>.";
+  }
+}
+
+function verificarEspFix3() {
+  const marcado = document.querySelector('input[name="esp_fix3"]:checked');
+  const fb = document.getElementById('fb-esp-fix-3');
+  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "B") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>¡Perfecto!</strong> Usamos <strong>SER</strong> para altura (es alta), <strong>TENER</strong> para olhos/cabelo (tiene los ojos verdes) e <strong>LLEVAR</strong> para acessórios (lleva gafas).";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>¡Incorrecto!</strong> A alternativa correta é a <strong>Letra B</strong>.";
+  }
+}
+
+function verificarEspFix4() {
+  const marcado = document.querySelector('input[name="esp_fix4"]:checked');
+  const fb = document.getElementById('fb-esp-fix-4');
+  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "B") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>¡Muy bien!</strong> O verbo preferir sofre a troca e→ie no radical: <strong>Yo prefiero</strong>.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>¡Incorrecto!</strong> A resposta certa é a <strong>Letra B (Yo prefiero)</strong>.";
+  }
+}
+
+// INTERAÇÕES DE FIXAÇÃO - GEOGRAFIA
 function verificarFixacao1() {
   const marcado = document.querySelector('input[name="fix1"]:checked');
   const fb = document.getElementById('fb-fix-1');
@@ -776,6 +1035,102 @@ function verificarFixacao4() {
 
 // BANCO DE DADOS DOS QUIZZES
 const bancoQuizzes = {
+  espanhol_3bim: {
+    titulo: "Quiz de Español - Unidad 6: Mi cuerpo habla (3º Bim)",
+    questoes: [
+      {
+        tipo: "opcoes",
+        topico: "Vocabulario del Cuerpo",
+        pergunta: "¿Cómo se llama la parte del cuerpo que conecta el brazo con el antebrazo?",
+        opcoes: {
+          A: "El tobillo",
+          B: "El codo",
+          C: "La rodilla",
+          D: "El hombro"
+        },
+        respostaCorreta: "B",
+        explicacao: "'El codo' é o cotovelo em espanhol."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Vocabulario del Rostro",
+        pergunta: "¿Qué parte del rostro está ubicada encima de los ojos?",
+        opcoes: {
+          A: "Las cejas",
+          B: "Los mofletes",
+          C: "La barbilla",
+          D: "Las orejas"
+        },
+        respostaCorreta: "A",
+        explicacao: "'Las cejas' são as sobrancelhas."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Expresiones Idiomáticas",
+        pergunta: "¿Qué significa la expresión 'Hablar por los codos'?",
+        opcoes: {
+          A: "Estar muy triste o molesto.",
+          B: "Hablar muchísimo, sin parar.",
+          C: "Comprar algo muy caro.",
+          D: "No entender nada de una clase."
+        },
+        respostaCorreta: "B",
+        explicacao: "'Hablar por los codos' significa falar demais."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Descripción Física",
+        pergunta: "Para describir que una persona lleva lentes u óculos, ¿qué verbo usamos?",
+        opcoes: {
+          A: "Ser (Ella es gafas)",
+          B: "Tener (Ella tiene gafas)",
+          C: "Llevar (Ella lleva gafas)",
+          D: "Estar (Ella está gafas)"
+        },
+        respostaCorreta: "C",
+        explicacao: "Usamos o verbo LLEVAR para roupas e acessórios como 'gafas' (óculos)."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Descripción Física",
+        pergunta: "¿Cómo se dice 'loiro' e 'cacheado' en español para describir el cabello?",
+        opcoes: {
+          A: "Rubio y rizado",
+          B: "Moreno y liso",
+          C: "Pelirrojo y largo",
+          D: "Castaño y corto"
+        },
+        respostaCorreta: "A",
+        explicacao: "'Rubio' significa loiro e 'rizado' significa cacheado/crespo."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Lenguaje Corporal",
+        pergunta: "Si una persona está en una reunión y empieza a 'bostezar', ¿qué impresión transmite?",
+        opcoes: {
+          A: "Mucha alegría y entusiasmo.",
+          B: "Aburrimiento, cansancio o sueño.",
+          C: "Prisa por salir corriendo.",
+          D: "Estar muy enamorada."
+        },
+        respostaCorreta: "B",
+        explicacao: "'Bostezar' (bocejar) transmite tédio ou cansaço."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Presente de Indicativo",
+        pergunta: "¿Cuál es la forma correcta del verbo 'CONTAR' (o->ue) para la persona 'TÚ'?",
+        opcoes: {
+          A: "Tú contas",
+          B: "Tú cuentas",
+          C: "Tú cuentes",
+          D: "Tú contáis"
+        },
+        respostaCorreta: "B",
+        explicacao: "O verbo contar troca o->ue no presente: tú cuentas."
+      }
+    ]
+  },
   geografia_3bim: {
     titulo: "Quiz de Geografia - Recursos Naturais e Agropecuária (3º Bimestre)",
     questoes: [
