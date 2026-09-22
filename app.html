@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.30 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.30">
+    <title>CONSULTORIA.RF V5.2.31 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.31">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1804,7 +1804,7 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
 
 
 <style id="v5228-finalizacao-estudo">
-/* V5.2.30 — conclusão da análise, envio por e-mail e estudo de caso temporário + faturamento simulado */
+/* V5.2.31 — conclusão da análise, envio por e-mail e estudo de caso temporário + faturamento simulado */
 .rf-result-top-actions{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;justify-content:flex-end}
 .rf-final-btn,.rf-study-btn,.rf-study-action{border:1px solid rgba(255,132,54,.45);border-radius:.65rem;padding:.58rem .78rem;font-size:.75rem;font-weight:800;transition:.18s;white-space:nowrap}
 .rf-final-btn{background:#ff8436;color:#fff}.rf-final-btn:hover{filter:brightness(1.06)}
@@ -1830,7 +1830,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
 
 <style id="v5229-estudo-faturamento-tabelas">
 /* ================================================================
-   V5.2.30 — FATURAMENTO NO ESTUDO DE CASO + APRESENTAÇÃO DE TABELAS
+   V5.2.31 — FATURAMENTO NO ESTUDO DE CASO + APRESENTAÇÃO DE TABELAS
    ================================================================ */
 .rf-study-revenue{
     display:grid;grid-template-columns:minmax(180px,1.15fr) repeat(3,minmax(135px,.85fr));
@@ -1888,8 +1888,8 @@ body.light-mode .rf-study-revenue-input{background:#fff;color:#111827;border-col
 }
 </style>
 
-<style id="v5230-agendamento-reuniao">
-/* V5.2.30 - agendamento de reuniao incorporado ao portal */
+<style id="v5231-agendamento-reuniao">
+/* V5.2.31 - Google Calendar incorporado diretamente em Resultados & Analises */
 .rf-schedule-btn{
     border:1px solid rgba(52,211,153,.38);
     border-radius:.65rem;
@@ -1901,62 +1901,85 @@ body.light-mode .rf-study-revenue-input{background:#fff;color:#111827;border-col
     background:rgba(16,185,129,.12);
     color:#6ee7b7;
 }
-.rf-schedule-btn:hover{background:rgba(16,185,129,.22);transform:translateY(-1px)}
-.rf-schedule-backdrop{
-    position:fixed;inset:0;z-index:10050;
-    background:rgba(0,0,0,.78);
-    backdrop-filter:blur(5px);
-    padding:1rem;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.rf-schedule-btn:hover,
+.rf-schedule-btn.is-open{
+    background:rgba(16,185,129,.22);
+    border-color:rgba(52,211,153,.58);
 }
-.rf-schedule-backdrop.hidden{display:none!important}
-.rf-schedule-modal{
-    width:min(1100px,96vw);
-    height:min(860px,94vh);
-    background:#101014;
-    border:1px solid #303039;
+.rf-schedule-panel{
+    scroll-margin-top:88px;
+    background:#16161a;
+    border:1px solid rgba(52,211,153,.30);
     border-radius:1rem;
     overflow:hidden;
-    box-shadow:0 24px 80px rgba(0,0,0,.48);
-    display:flex;
-    flex-direction:column;
+    box-shadow:0 16px 42px rgba(0,0,0,.16);
 }
-.rf-schedule-head{
+.rf-schedule-panel.hidden{display:none!important}
+.rf-schedule-inline-head{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:1rem;
-    padding:.9rem 1rem;
+    padding:.85rem 1rem;
     border-bottom:1px solid #2b2b32;
-    background:#16161a;
 }
-.rf-schedule-title{font-size:.92rem;font-weight:900;color:#fff}
-.rf-schedule-sub{font-size:.68rem;color:#94a3b8;margin-top:.12rem}
-.rf-schedule-close{
+.rf-schedule-inline-title{
+    font-size:.92rem;
+    font-weight:900;
+    color:#fff;
+}
+.rf-schedule-inline-sub{
+    font-size:.68rem;
+    color:#94a3b8;
+    margin-top:.15rem;
+}
+.rf-schedule-inline-close{
     flex:0 0 auto;
     border:1px solid #3a3a43;
     background:#222229;
     color:#e5e7eb;
     border-radius:.6rem;
     padding:.5rem .7rem;
-    font-size:.75rem;
+    font-size:.72rem;
     font-weight:800;
 }
-.rf-schedule-close:hover{background:#2d2d36}
-.rf-schedule-frame-wrap{flex:1;min-height:0;background:#fff}
-.rf-schedule-frame{display:block;width:100%;height:100%;min-height:600px;border:0;background:#fff}
-body.light-mode .rf-schedule-modal{background:#fff;border-color:#cbd3dd}
-body.light-mode .rf-schedule-head{background:#f8fafc;border-color:#dbe1e8}
-body.light-mode .rf-schedule-title{color:#172033}
-body.light-mode .rf-schedule-close{background:#fff;border-color:#cbd3dd;color:#172033}
+.rf-schedule-inline-close:hover{background:#2d2d36}
+.rf-schedule-embed{
+    width:100%;
+    background:#fff;
+    min-height:600px;
+}
+.rf-schedule-embed iframe{
+    display:block;
+    width:100%;
+    height:600px;
+    border:0;
+    background:#fff;
+}
+body.light-mode .rf-schedule-panel{
+    background:#fff;
+    border-color:#a8d8c7;
+}
+body.light-mode .rf-schedule-inline-head{
+    border-color:#dbe1e8;
+}
+body.light-mode .rf-schedule-inline-title{color:#172033}
+body.light-mode .rf-schedule-inline-close{
+    background:#fff;
+    border-color:#cbd3dd;
+    color:#172033;
+}
 @media(max-width:767px){
-    .rf-schedule-backdrop{padding:0}
-    .rf-schedule-modal{width:100vw;height:100dvh;max-height:none;border-radius:0;border:0}
-    .rf-schedule-head{padding:.75rem}
-    .rf-schedule-frame{min-height:0;height:100%}
     .rf-schedule-btn{width:100%}
+    .rf-schedule-inline-head{
+        align-items:flex-start;
+        padding:.75rem;
+    }
+    .rf-schedule-embed,
+    .rf-schedule-embed iframe{
+        min-height:680px;
+        height:680px;
+    }
 }
 </style>
 </head>
@@ -1966,7 +1989,7 @@ body.light-mode .rf-schedule-close{background:#fff;border-color:#cbd3dd;color:#1
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.30</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.31</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -2001,7 +2024,7 @@ body.light-mode .rf-schedule-close{background:#fff;border-color:#cbd3dd;color:#1
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.30</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.31</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2564,6 +2587,20 @@ body.light-mode .rf-schedule-close{background:#fff;border-color:#cbd3dd;color:#1
                 </div>
             </div>
 
+            <div id="rf-schedule-panel" class="rf-schedule-panel hidden">
+                <div class="rf-schedule-inline-head">
+                    <div>
+                        <div class="rf-schedule-inline-title">&#128197; Agendar reuni&atilde;o de custos</div>
+                        <div class="rf-schedule-inline-sub">Escolha um dia e hor&aacute;rio dispon&iacute;vel diretamente pelo calend&aacute;rio abaixo.</div>
+                    </div>
+                    <button type="button" class="rf-schedule-inline-close" onclick="rfFecharAgendamentoReuniao()">&#10005; Fechar agenda</button>
+                </div>
+                <div class="rf-schedule-embed">
+                    <!-- Google Calendar Appointment Scheduling begin -->
+                    <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0W_S7i-rk3VR1FSbkXFq8TI-c6Cdpopt85YtwgOvi5mZ7JDxauNffzUfrS90umKqUL1m1Yqjc7?gv=true" style="border: 0" width="100%" height="600" frameborder="0"></iframe>
+                    <!-- end Google Calendar Appointment Scheduling -->
+                </div>
+            </div>
             <div id="rf-estudo-caso-panel" class="rf-study-card hidden">
                 <div class="rf-study-head">
                     <div>
@@ -3083,7 +3120,7 @@ body.light-mode .rf-schedule-close{background:#fff;border-color:#cbd3dd;color:#1
         let listaFuncionarios = [];
         let listaPlanoContas = [];
 
-        // V5.2.30 — conclusão da análise e estudo de caso temporário
+        // V5.2.31 — conclusão da análise e estudo de caso temporário
         let rfFinalizacaoAtual = null;
         let rfEstudoAtivo = false;
         let rfEstudoBase = null;
@@ -5863,7 +5900,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.30', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.31', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -8122,7 +8159,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.30 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
+        // V5.2.31 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
         // ======================================================
         function rfFinalizacaoPadrao() {
             return {
@@ -8147,21 +8184,36 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
         function rfAbrirAgendamentoReuniao() {
             if (!rfFinalizacaoConcluida()) return;
-            const modal = document.getElementById('rf-schedule-backdrop');
-            if (!modal) return;
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+            const panel = document.getElementById('rf-schedule-panel');
+            const btn = document.getElementById('rf-btn-agendar-reuniao');
+            if (!panel) return;
+
+            const abrir = panel.classList.contains('hidden');
+            panel.classList.toggle('hidden', !abrir);
+
+            if (btn) {
+                btn.classList.toggle('is-open', abrir);
+                btn.innerHTML = abrir ? '&#10005; Fechar agendamento' : '&#128197; Agendar reuni&atilde;o';
+            }
+
+            if (abrir) {
+                requestAnimationFrame(() => {
+                    panel.scrollIntoView({behavior:'smooth', block:'start'});
+                });
+            }
         }
 
         function rfFecharAgendamentoReuniao() {
-            const modal = document.getElementById('rf-schedule-backdrop');
-            if (modal) modal.classList.add('hidden');
-            document.body.style.overflow = '';
-        }
+            const panel = document.getElementById('rf-schedule-panel');
+            const btn = document.getElementById('rf-btn-agendar-reuniao');
 
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') rfFecharAgendamentoReuniao();
-        });
+            if (panel) panel.classList.add('hidden');
+
+            if (btn) {
+                btn.classList.remove('is-open');
+                btn.innerHTML = '&#128197; Agendar reuni&atilde;o';
+            }
+        }
         function rfAtualizarControlesFinalizacao() {
             const btn = document.getElementById('rf-btn-concluir-analise');
             const estudo = document.getElementById('rf-btn-estudo-caso');
@@ -8173,13 +8225,16 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 btn.textContent = concluido ? '📨 Reenviar análise final' : '✓ Concluir cadastros e enviar análise';
             }
             if (estudo) estudo.classList.toggle('hidden', !concluido || rfEstudoAtivo);
-            if (agendar) agendar.classList.toggle('hidden', !concluido);
+            if (agendar) {
+                agendar.classList.toggle('hidden', !concluido);
+                if (!concluido) rfFecharAgendamentoReuniao();
+            }
             if (status) {
                 if (rfEstudoAtivo) {
                     status.innerHTML = '<strong>ESTUDO DE CASO ATIVO:</strong> os números exibidos são uma simulação temporária e não estão gravados.';
                 } else if (concluido) {
                     const dt = rfFormatarDataFinalizacao(rfFinalizacaoAtual?.TFINALIZACAO_DATA);
-                    status.innerHTML = `✓ Cadastros marcados como concluídos${dt ? ` em <strong>${dt}</strong>` : ''}. O Estudo de Caso está liberado.`;
+                    status.innerHTML = `✓ Cadastros marcados como concluídos${dt ? ` em <strong>${dt}</strong>` : ''}. O Estudo de Caso e o agendamento de reunião estão liberados.`;
                 } else {
                     status.textContent = 'Cadastros ainda não marcados como concluídos.';
                 }
@@ -11160,27 +11215,5 @@ function v49PrepareTables(){if(v49ObserverBusy)return;v49ObserverBusy=true;try{[
 window.addEventListener('DOMContentLoaded',()=>{rfEnsureGridModal();rfEnsureCCDeleteModal();rfGridSetupHeaders();rfAtualizarControlesFinalizacao();});
 </script>
 
-<div id="rf-schedule-backdrop" class="rf-schedule-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="rf-schedule-title" onclick="if(event.target===this) rfFecharAgendamentoReuniao()">
-    <div class="rf-schedule-modal">
-        <div class="rf-schedule-head">
-            <div>
-                <div id="rf-schedule-title" class="rf-schedule-title">&#128197; Agendar reuni&atilde;o de custos</div>
-                <div class="rf-schedule-sub">Escolha abaixo o melhor dia e hor&aacute;rio dispon&iacute;vel.</div>
-            </div>
-            <button type="button" class="rf-schedule-close" onclick="rfFecharAgendamentoReuniao()">&#10005; Fechar</button>
-        </div>
-        <div class="rf-schedule-frame-wrap">
-            <iframe
-                id="rf-schedule-frame"
-                class="rf-schedule-frame"
-                src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0W_S7i-rk3VR1FSbkXFq8TI-c6Cdpopt85YtwgOvi5mZ7JDxauNffzUfrS90umKqUL1m1Yqjc7?gv=true"
-                width="100%"
-                height="600"
-                frameborder="0"
-                loading="lazy"
-                title="Agendamento de reuniao de custos"></iframe>
-        </div>
-    </div>
-</div>
 </body>
 </html>
