@@ -80,6 +80,7 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
+    .btn-matematica { background-color: #6a1b9a; }
     .btn-geografia { background-color: #2e7d32; }
     .btn-historia { background-color: #795548; }
     .btn-espanhol { background-color: #d32f2f; }
@@ -135,24 +136,6 @@
     .opcao:hover {
       border-color: #2196f3;
       background: #f0f7ff;
-    }
-    .input-texto {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #ccc;
-      border-radius: 6px;
-      font-size: 1em;
-      box-sizing: border-box;
-      margin-bottom: 10px;
-    }
-    .btn-responder {
-      background-color: #1565c0;
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
     }
     .feedback {
       display: none;
@@ -287,19 +270,7 @@
 
     .card-resumo-menu:hover {
       transform: translateY(-2px);
-      border-color: #d32f2f;
       box-shadow: 0 5px 14px rgba(0,0,0,.10);
-    }
-
-    .card-resumo-menu h3 {
-      margin: 0 0 8px;
-      color: #d32f2f;
-    }
-
-    .card-resumo-menu p {
-      margin: 0;
-      color: #666;
-      line-height: 1.4;
     }
 
     .resumo-artigo {
@@ -313,10 +284,10 @@
     }
 
     .resumo-artigo h3 {
-      color: #d32f2f;
+      color: #1a237e;
       margin-top: 28px;
       margin-bottom: 8px;
-      border-bottom: 2px solid #ffebee;
+      border-bottom: 2px solid #e8eaf6;
       padding-bottom: 6px;
     }
 
@@ -331,6 +302,19 @@
       border-radius: 8px;
       margin: 14px 0;
       font-weight: 600;
+    }
+
+    .aviso-papel {
+      background: #f3e5f5;
+      border: 2px solid #ab47bc;
+      color: #4a148c;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .comparacao {
@@ -349,21 +333,21 @@
 
     /* ESTILOS DE INTERAÇÃO DE MÚLTIPLA ESCOLHA */
     .box-interativo {
-      background-color: #fbe9e7;
-      border: 2px solid #ff7043;
+      background-color: #f3e5f5;
+      border: 2px solid #ab47bc;
       border-radius: 10px;
       padding: 16px;
       margin: 22px 0;
     }
     .box-interativo h4 {
       margin-top: 0;
-      color: #bf360c;
+      color: #4a148c;
       display: flex;
       align-items: center;
       gap: 8px;
     }
     .btn-verificar {
-      background: #d32f2f;
+      background: #6a1b9a;
       color: white;
       border: none;
       padding: 10px 18px;
@@ -379,7 +363,6 @@
       font-size: 1.02em;
     }
 
-    /* TABELAS ILUSTRATIVAS DE VOCABULÁRIO E GRAMÁTICA */
     .tabela-estudo {
       width: 100%;
       border-collapse: collapse;
@@ -392,8 +375,8 @@
       text-align: left;
     }
     .tabela-estudo th {
-      background-color: #ffebee;
-      color: #c62828;
+      background-color: #f3e5f5;
+      color: #4a148c;
     }
 
     @media (max-width: 650px) {
@@ -403,11 +386,9 @@
       .btn-home { min-height: auto; padding: 22px 16px; }
       .btn-quiz-menu { font-size: 1rem; padding: 15px; }
       .card { padding: 14px; }
-      .opcao, .input-texto { font-size: 1rem; }
+      .opcao { font-size: 1rem; }
       .input-aluno { width: 100%; max-width: none; }
       h1 { font-size: 1.7rem; }
-      .resumo-artigo h2 { font-size: 1.5rem; }
-      .resumo-artigo h3 { font-size: 1.15rem; }
     }
 
   </style>
@@ -451,18 +432,23 @@
     </div>
 
     <div class="grid-resumos">
-      <button class="card-resumo-menu" onclick="abrirResumo('espanhol_3bim')">
-        <h3>🇪🇸 Espanhol — Unidad 6: Mi cuerpo habla</h3>
+      <button class="card-resumo-menu" style="border-color: #6a1b9a;" onclick="abrirResumo('matematica_3bim')">
+        <h3 style="color: #6a1b9a;">🧮 Matemática — Frações (3º Bimestre)</h3>
+        <p>Adição, Subtração, mmc, Multiplicação, Cancelamento e Divisão de Frações com Rascunho Prático.</p>
+      </button>
+
+      <button class="card-resumo-menu" style="border-color: #d32f2f;" onclick="abrirResumo('espanhol_3bim')">
+        <h3 style="color: #d32f2f;">🇪🇸 Espanhol — Unidad 6: Mi cuerpo habla</h3>
         <p>Partes del cuerpo, el rostro, lenguaje corporal, descripción física (Ser/Tener/Llevar) y Presente de Indicativo.</p>
       </button>
 
-      <button class="card-resumo-menu" onclick="abrirResumo('geografia_3bim')">
-        <h3>🌎 Geografia — Recursos Naturais, Extrativismo e Agropecuária</h3>
+      <button class="card-resumo-menu" style="border-color: #2e7d32;" onclick="abrirResumo('geografia_3bim')">
+        <h3 style="color: #2e7d32;">🌎 Geografia — Recursos Naturais, Extrativismo e Agropecuária</h3>
         <p>Material completo do 3º Bimestre: Fontes de energia, setores, extrativismo e sistemas agropecuários.</p>
       </button>
 
-      <button class="card-resumo-menu" onclick="abrirResumo('grecia_roma')">
-        <h3>🏛️ História — Grécia Antiga e Roma</h3>
+      <button class="card-resumo-menu" style="border-color: #795548;" onclick="abrirResumo('grecia_roma')">
+        <h3 style="color: #795548;">🏛️ História — Grécia Antiga e Roma</h3>
         <p>Pólis, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e Triunviratos.</p>
       </button>
     </div>
@@ -475,109 +461,103 @@
       <button class="btn-voltar" onclick="voltarInicio()">🏠 Início</button>
     </div>
 
-    <!-- MATERIAL DE ESPANHOL 3º BIMESTRE (UNIDAD 6) -->
+    <!-- MATERIAL DE MATEMÁTICA 3º BIMESTRE -->
+    <article id="resumo-matematica_3bim" class="resumo-artigo">
+      <h2 style="color: #6a1b9a;">Matemática — Operações com Frações</h2>
+      <p><strong>Material de Estudo Raciocinado — 3º Bimestre (6º Ano)</strong></p>
+
+      <div class="aviso-papel">
+        📝 <strong>ATENÇÃO ALUNO:</strong> Para estudar Matemática, pegue papel e lápis! Faça os cálculos no rascunho antes de responder aos testes de fixação!
+      </div>
+
+      <h3 style="color: #6a1b9a;">1. Adição e Subtração de Frações com Denominadores Iguais</h3>
+      <p>Quando as frações possuem o <strong>mesmo denominador</strong> (número de baixo), a regra é simples: conservamos o denominador e somamos ou subtraímos os numeradores (números de cima)[cite: 4].</p>
+
+      <div class="comparacao">
+        📌 <strong>Exemplo do Livro:</strong> Maíra dedica 1/10 do tempo para consultas em domicílio e 7/10 para a clínica[cite: 4].<br>
+        • Total de tempo: 1/10 + 7/10 = <strong>8/10</strong>[cite: 4].<br>
+        • Quanto tempo a mais na clínica: 7/10 - 1/10 = <strong>6/10</strong>[cite: 4].
+      </div>
+
+      <h3 style="color: #6a1b9a;">2. Adição e Subtração com Denominadores Diferentes (Mínimo Múltiplo Comum - mmc)</h3>
+      <p>Não podemos somar ou subtrair frações com denominadores diferentes diretamente! Precisamos primeiro encontrar frações equivalentes que tenham o mesmo denominador[cite: 4]. Para isso, usamos o **Mínimo Múltiplo Comum (mmc)** dos denominadores[cite: 4].</p>
+
+      <p><strong>Passo a Passo no Papel:</strong></p>
+      <ol>
+        <li>Calcule o $mmc$ dos denominadores[cite: 4].</li>
+        <li>Substitua pelo novo denominador comum[cite: 4].</li>
+        <li>Divida o novo denominador pelo de baixo e multiplique pelo de cima para achar o novo numerador[cite: 4].</li>
+        <li>Efetue a soma ou subtração dos numeradores e simplifique se possível[cite: 4].</li>
+      </ol>
+
+      <!-- INTERAÇÃO MATEMÁTICA 1 -->
+      <div class="box-interativo">
+        <h4>⚡ Desafio de Fixação #1: Adição com Denominadores Diferentes</h4>
+        <div class="aviso-papel">✏️ Pegue o papel! Calcule o mmc de 12 e 15 e resolva: <strong>3/12 + 4/15</strong></div>
+        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="A"> A) 7/27</label>
+        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="B"> B) 31/60</label>
+        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="C"> C) 12/60</label>
+        <button class="btn-verificar" style="background:#6a1b9a;" onclick="verificarMatFix1()">Verificar Rascunho</button>
+        <div id="fb-mat-fix-1" class="feedback"></div>
+      </div>
+
+      <h3 style="color: #6a1b9a;">3. Multiplicação de Frações e Técnica do Cancelamento</h3>
+      <p>Para multiplicar frações, multiplicamos <strong>numerador por numerador</strong> e <strong>denominador por denominador</strong>[cite: 4].</p>
+
+      <p><strong>Técnica do Cancelamento (Simplificação Prévia):</strong></p>
+      <p>Para simplificar as contas no rascunho, podemos simplificar qualquer número de cima com qualquer número de baixo por um mesmo divisor comum antes de multiplicar[cite: 4].</p>
+      <div class="destaque-estudo">
+        Exemplo: 12/5 × 10/8 → Simplificando 10 e 5 por 5 (fica 2 e 1) e 12 e 8 por 4 (fica 3 e 2) → 3/1 × 2/2 = <strong>3</strong>[cite: 4].
+      </div>
+
+      <!-- INTERAÇÃO MATEMÁTICA 2 -->
+      <div class="box-interativo">
+        <h4>⚡ Desafio de Fixação #2: Multiplicação e Cancelamento</h4>
+        <div class="aviso-papel">✏️ Calcule no papel aplicando o cancelamento: <strong>(16/3) × (27/8) × (1/5)</strong></div>
+        <label class="opcao-inline"><input type="radio" name="mat_fix2" value="A"> A) 18/5</label>
+        <label class="opcao-inline"><input type="radio" name="mat_fix2" value="B"> B) 432/120</label>
+        <label class="opcao-inline"><input type="radio" name="mat_fix2" value="C"> C) 6/5</label>
+        <button class="btn-verificar" style="background:#6a1b9a;" onclick="verificarMatFix2()">Verificar Rascunho</button>
+        <div id="fb-mat-fix-2" class="feedback"></div>
+      </div>
+
+      <h3 style="color: #6a1b9a;">4. Divisão de Frações e Inverso do Número</h3>
+      <p>Dois números são inversos quando o produto entre eles resulta em 1[cite: 4]. Exemplo: O inverso de 4/5 é 5/4[cite: 4].</p>
+
+      <p><strong>Regra Prática da Divisão:</strong></p>
+      <div class="comparacao">
+        Para dividir duas frações, <strong>mantemos a primeira fração e multiplicamos pelo INVERSO da segunda fração</strong>[cite: 4].<br>
+        Exemplo: 3/4 ÷ 3/8 = 3/4 × 8/3 = 24/12 = <strong>2</strong>[cite: 4].
+      </div>
+
+      <!-- INTERAÇÃO MATEMÁTICA 3 -->
+      <div class="box-interativo">
+        <h4>⚡ Desafio de Fixação #3: Divisão de Frações</h4>
+        <div class="aviso-papel">✏️ Inverta a segunda fração e calcule no rascunho: <strong>(3/4) ÷ (1/8)</strong></div>
+        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="A"> A) 3/32</label>
+        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="B"> B) 6</label>
+        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="C"> C) 4/24</label>
+        <button class="btn-verificar" style="background:#6a1b9a;" onclick="verificarMatFix3()">Verificar Rascunho</button>
+        <div id="fb-mat-fix-3" class="feedback"></div>
+      </div>
+
+    </article>
+
+    <!-- MATERIAL DE ESPANHOL 3º BIMESTRE -->
     <article id="resumo-espanhol_3bim" class="resumo-artigo">
-      <h2>Español — Unidad 6: Mi cuerpo habla</h2>
+      <h2 style="color: #d32f2f;">Español — Unidad 6: Mi cuerpo habla</h2>
       <p><strong>Material de Estudo Completo e Interativo — 3º Bimestre (6º Ano)</strong></p>
 
-      <h3>1. Las Partes del Cuerpo Humano (O Corpo Humano)</h3>
-      <p>Para nos comunicarmos e descrevermos ações físicas, é fundamental dominar o vocabulário do corpo humano em espanhol. Veja a classificação principal:</p>
-
-      <!-- ILUSTRAÇÃO DO CORPO HUMANO EM SVG/CSS -->
-      <div style="text-align: center; background: #fffde7; border: 2px solid #fbc02d; border-radius: 12px; padding: 15px; margin: 15px 0;">
-        <svg width="220" height="200" viewBox="0 0 200 200" style="display: block; margin: 0 auto;">
-          <!-- Cabeça -->
-          <circle cx="100" cy="35" r="22" fill="#ffe0b2" stroke="#e65100" stroke-width="2"/>
-          <circle cx="93" cy="30" r="3" fill="#333"/>
-          <circle cx="107" cy="30" r="3" fill="#333"/>
-          <path d="M 92 42 Q 100 50 108 42" stroke="#c62828" stroke-width="2" fill="none"/>
-          <!-- Tronco -->
-          <line x1="100" y1="57" x2="100" y2="120" stroke="#1565c0" stroke-width="6"/>
-          <!-- Braços -->
-          <line x1="100" y1="70" x2="60" y2="100" stroke="#1565c0" stroke-width="4"/>
-          <line x1="100" y1="70" x2="140" y2="100" stroke="#1565c0" stroke-width="4"/>
-          <!-- Mãos -->
-          <circle cx="58" cy="102" r="5" fill="#ffe0b2"/>
-          <circle cx="142" cy="102" r="5" fill="#ffe0b2"/>
-          <!-- Pernas -->
-          <line x1="100" y1="120" x2="75" y2="170" stroke="#2e7d32" stroke-width="5"/>
-          <line x1="100" y1="120" x2="125" y2="170" stroke="#2e7d32" stroke-width="5"/>
-          <!-- Pés -->
-          <rect x="63" y="170" width="16" height="6" fill="#424242" rx="3"/>
-          <rect x="121" y="170" width="16" height="6" fill="#424242" rx="3"/>
-        </svg>
-        <span style="font-size: 0.85em; color: #f57f17; font-weight: bold;">Esquema: El Cuerpo Humano</span>
-      </div>
-
-      <table class="tabela-estudo">
-        <thead>
-          <tr>
-            <th>Español</th>
-            <th>Português</th>
-            <th>Detalhes / Observações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>La cabeza</strong></td><td>A cabeça</td><td>Contém o rosto, cabelo e órgãos dos sentidos.</td></tr>
-          <tr><td><strong>El cuello</strong></td><td>O pescoço</td><td>Conecta a cabeça ao tronco.</td></tr>
-          <tr><td><strong>El hombro</strong></td><td>O ombro</td><td>Região articulada superior.</td></tr>
-          <tr><td><strong>El brazo / El codo</strong></td><td>O braço / O cotovelo</td><td><em>El codo</em> é o cotovelo.</td></tr>
-          <tr><td><strong>La mano / El dedo</strong></td><td>A mão / O dedo</td><td>Usados para gestos e toque.</td></tr>
-          <tr><td><strong>La barriga / El pecho</strong></td><td>A barriga / O peito</td><td>Região do tronco.</td></tr>
-          <tr><td><strong>La espalda</strong></td><td>As costas</td><td>Parte posterior do tronco.</td></tr>
-          <tr><td><strong>La pierna / La rodilla</strong></td><td>A perna / O joelho</td><td><em>La rodilla</em> significa o joelho.</td></tr>
-          <tr><td><strong>El pie / El tobillo</strong></td><td>O pé / O tornozelo</td><td><em>El tobillo</em> é o tornozelo.</td></tr>
-        </tbody>
-      </table>
-
-      <h3>2. El Rostro y la Cabeza (O Rosto)</h3>
-      <p>O rosto é a parte mais expressiva do nosso corpo. Veja as palavras essenciais:</p>
+      <h3 style="color: #d32f2f;">1. Las Partes del Cuerpo Humano</h3>
+      <p>Vocabulário principal das partes do corpo em espanhol[cite: 3]:</p>
       <ul>
-        <li><strong>El pelo / El cabello:</strong> Cabelo.</li>
-        <li><strong>La frente:</strong> A testa.</li>
-        <li><strong>Las cejas:</strong> As sobrancelhas.</li>
-        <li><strong>Los ojos:</strong> Os olhos (podem ser <em>negros, marrones, verdes, azules, claros, oscuros</em>).</li>
-        <li><strong>Las orejas / Los oídos:</strong> As orelhas / os ouvidos.</li>
-        <li><strong>La nariz:</strong> O nariz.</li>
-        <li><strong>Las mejillas / Los mofletes:</strong> As bochechas.</li>
-        <li><strong>La boca / La lengua / Los labios:</strong> A boca / a língua / os lábios.</li>
-        <li><strong>La barbilla / La mentón:</strong> O queixo.</li>
+        <li><strong>El codo:</strong> O cotovelo[cite: 3].</li>
+        <li><strong>La rodilla:</strong> O joelho[cite: 3].</li>
+        <li><strong>El tobillo:</strong> O tornozelo[cite: 3].</li>
+        <li><strong>La espalda:</strong> As costas[cite: 3].</li>
       </ul>
 
-      <!-- INTERAÇÃO ESPANHOL 1 -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #1: Vocabulario del Cuerpo</h4>
-        <p>Como se diz <strong>"joelho"</strong> e <strong>"bochecha"</strong> em espanhol?</p>
-        <label class="opcao-inline"><input type="radio" name="esp_fix1" value="A"> A) La rodilla y La mejilla (moflete)</label>
-        <label class="opcao-inline"><input type="radio" name="esp_fix1" value="B"> B) El codo y La barbilla</label>
-        <label class="opcao-inline"><input type="radio" name="esp_fix1" value="C"> C) El tobillo y La ceja</label>
-        <button class="btn-verificar" onclick="verificarEspFix1()">Verificar Resposta</button>
-        <div id="fb-esp-fix-1" class="feedback"></div>
-      </div>
-
-      <h3>3. Expresiones Idiomáticas con el Cuerpo</h3>
-      <p>Assim como no português, o espanhol possui várias expressões populares que utilizam partes do corpo:</p>
-      <div class="comparacao">
-        🗣️ <strong>Hablar por los codos:</strong> Quando alguém fala demais, sem parar.<br>
-        🧩 <strong>No tener ni pies ni cabeza:</strong> Quando algo não tem sentido ou coerência.<br>
-        💰 <strong>Costar un ojo de la cara:</strong> Quando algo é extremamente caro.<br>
-        😁 <strong>Sonreír de oreja a oreja:</strong> Estar muito feliz ou radiante.
-      </div>
-
-      <!-- INTERAÇÃO ESPANHOL 2 -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #2: Modismos y Expresiones</h4>
-        <p>Se um produto em uma loja é muito caro, qual expressão em espanhol você deve usar?</p>
-        <label class="opcao-inline"><input type="radio" name="esp_fix2" value="A"> A) Hablar por los codos</label>
-        <label class="opcao-inline"><input type="radio" name="esp_fix2" value="B"> B) Costar un ojo de la cara</label>
-        <label class="opcao-inline"><input type="radio" name="esp_fix2" value="C"> C) No tener ni pies ni cabeza</label>
-        <button class="btn-verificar" onclick="verificarEspFix2()">Verificar Resposta</button>
-        <div id="fb-esp-fix-2" class="feedback"></div>
-      </div>
-
-      <h3>4. La Descripción Física: SER, TENER y LLEVAR</h3>
-      <p>Para descrever uma pessoa fisicamente em espanhol, devemos escolher o verbo correto de acordo com a característica:</p>
-
+      <h3 style="color: #d32f2f;">2. La Descripción Física: SER, TENER y LLEVAR</h3>
       <table class="tabela-estudo">
         <thead>
           <tr>
@@ -587,225 +567,52 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><strong>SER</strong></td>
-            <td>Características permanentes ou estruturais (altura, corpo, idade geral, beleza).</td>
-            <td>Es alto/baja, delgado/gordo, guapo/fea, joven/mayor, calvo.</td>
-          </tr>
-          <tr>
-            <td><strong>TENER</strong></td>
-            <td>Atributos específicos como cabelo, olhos e traços do rosto.</td>
-            <td>Tiene el pelo rizado/liso/rubio/moreno, tiene los ojos verdes, tiene pecas/barba/bigote.</td>
-          </tr>
-          <tr>
-            <td><strong>LLEVAR</strong></td>
-            <td>Acessórios, roupas ou penteados temporários.</td>
-            <td>Lleva gafas (óculos), lleva trenzas (tranças), lleva una camiseta verde.</td>
-          </tr>
+          <tr><td><strong>SER</strong></td><td>Características estruturais (altura, corpo, beleza)[cite: 3].</td><td>Es alto/baja, delgado, calvo[cite: 3].</td></tr>
+          <tr><td><strong>TENER</strong></td><td>Cabelo, olhos e traços do rosto[cite: 3].</td><td>Tiene el pelo rizado/rubio, ojos verdes[cite: 3].</td></tr>
+          <tr><td><strong>LLEVAR</strong></td><td>Acessórios, roupas ou penteados[cite: 3].</td><td>Lleva gafas (óculos), lleva trenzas[cite: 3].</td></tr>
         </tbody>
       </table>
 
-      <div class="destaque-estudo">
-        📌 <strong>Regra do Cabelo (El Pelo):</strong><br>
-        • Formato: <em>liso, rizado (cacheado), ondulado</em>.<br>
-        • Tamanho: <em>largo (longo), corto (curto)</em>.<br>
-        • Cor: <em>rubio (loiro), moreno/castaño (castanho), pelirrojo (ruivo), canoso (grisalho)</em>.
-      </div>
-
-      <!-- INTERAÇÃO ESPANHOL 3 -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #3: Uso de Ser, Tener y Llevar</h4>
+      <!-- INTERAÇÃO ESPANHOL -->
+      <div class="box-interativo" style="background:#fbe9e7; border-color:#ff7043;">
+        <h4 style="color:#bf360c;">⚡ Desafio de Fixação: Uso de Ser, Tener y Llevar</h4>
         <p>Como dizemos em espanhol: "Ela é alta, tem olhos verdes e usa óculos"?</p>
         <label class="opcao-inline"><input type="radio" name="esp_fix3" value="A"> A) Ella tiene alta, es ojos verdes y lleva gafas.</label>
         <label class="opcao-inline"><input type="radio" name="esp_fix3" value="B"> B) Ella es alta, tiene los ojos verdes y lleva gafas.</label>
-        <label class="opcao-inline"><input type="radio" name="esp_fix3" value="C"> C) Ella lleva alta, tiene ojos verdes y es gafas.</label>
-        <button class="btn-verificar" onclick="verificarEspFix3()">Verificar Resposta</button>
+        <button class="btn-verificar" style="background:#d32f2f;" onclick="verificarEspFix3()">Verificar Resposta</button>
         <div id="fb-esp-fix-3" class="feedback"></div>
       </div>
-
-      <h3>5. El Lenguaje Corporal (Linguagem Corporal)</h3>
-      <p>A linguagem não verbal (gestos e atitudes) transmite emoções e impressões. O material destaca as atitudes corporais e o que elas transmitem:</p>
-      <ul>
-        <li><strong>Cruzar los brazos:</strong> Transmite postura defensiva ou desinteresse.</li>
-        <li><strong>Encorvar la postura:</strong> Transmite insegurança ou cansaço.</li>
-        <li><strong>Fruncir el ceño (franzir a testa/sobrancelha):</strong> Transmite preocupação, dúvida ou preocupação.</li>
-        <li><strong>Bostezar (bocejar):</strong> Transmite tédio ou sono.</li>
-        <li><strong>Mirar la hora:</strong> Transmite pressa ou desinteresse na conversa.</li>
-      </ul>
-
-      <h3>6. Gramática: Presente de Indicativo (Habitual)</h3>
-      <p>O Presente do Indicativo expressa ações frequentes ou hábitos do dia a dia (ex: <em>"Siempre escucha música cuando practica deportes"</em>).</p>
-
-      <p><strong>Verbos Regulares:</strong></p>
-      <table class="tabela-estudo">
-        <thead>
-          <tr>
-            <th>Pronombre</th>
-            <th>Hablar (-AR)</th>
-            <th>Beber (-ER)</th>
-            <th>Escribir (-IR)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Yo</strong></td><td>habl-o</td><td>beb-o</td><td>escrib-o</td></tr>
-          <tr><td><strong>Tú</strong></td><td>habl-as</td><td>beb-es</td><td>escrib-es</td></tr>
-          <tr><td><strong>Él / Ella / Ud.</strong></td><td>habl-a</td><td>beb-e</td><td>escrib-e</td></tr>
-          <tr><td><strong>Nosotros(as)</strong></td><td>habl-amos</td><td>beb-emos</td><td>escrib-imos</td></tr>
-          <tr><td><strong>Vosotros(as)</strong></td><td>habl-áis</td><td>beb-éis</td><td>escrib-ís</td></tr>
-          <tr><td><strong>Ellos / Ellas / Uds.</strong></td><td>habl-an</td><td>beb-en</td><td>escrib-en</td></tr>
-        </tbody>
-      </table>
-
-      <p><strong>Verbos com Alteração Vocálica (Irregulares):</strong></p>
-      <p>Alguns verbos sofrem trocas na vogal do radical no presente para as pessoas <em>Yo, Tú, Él/Ella e Ellos/Ellas</em> (com exceção de <em>Nosotros</em> e <em>Vosotros</em>):</p>
-      <ul>
-        <li><strong>O → UE (Contar, Encontrar):</strong> Yo c<strong>ue</strong>nto, tú c<strong>ue</strong>ntas, él c<strong>ue</strong>nta, nosotros contamos, ellos c<strong>ue</strong>ntan.</li>
-        <li><strong>E → IE (Preferir, Querer):</strong> Yo pref<strong>ie</strong>ro, tú pref<strong>ie</strong>res, él pref<strong>ie</strong>re, nosotros preferimos, ellos pref<strong>ie</strong>ren.</li>
-      </ul>
-
-      <!-- INTERAÇÃO ESPANHOL 4 -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #4: Conjugación de Verbos</h4>
-        <p>Qual é a conjugação correta do verbo <strong>PREFERIR</strong> para a pessoa <strong>YO</strong> no presente?</p>
-        <label class="opcao-inline"><input type="radio" name="esp_fix4" value="A"> A) Yo prefero</label>
-        <label class="opcao-inline"><input type="radio" name="esp_fix4" value="B"> B) Yo prefiero</label>
-        <label class="opcao-inline"><input type="radio" name="esp_fix4" value="C"> C) Yo profiero</label>
-        <button class="btn-verificar" onclick="verificarEspFix4()">Verificar Resposta</button>
-        <div id="fb-esp-fix-4" class="feedback"></div>
-      </div>
-
     </article>
 
     <!-- MATERIAL DE GEOGRAFIA 3º BIMESTRE -->
     <article id="resumo-geografia_3bim" class="resumo-artigo">
-      <h2>Geografia — Recursos Naturais e Atividades Econômicas</h2>
-      <p><strong>Material de Estudo Completo e Interativo — 3º Bimestre (6º Ano)</strong></p>
+      <h2 style="color: #2e7d32;">Geografia — Recursos Naturais e Atividades Econômicas</h2>
+      <p><strong>Material de Estudo Completo — 3º Bimestre (6º Ano)</strong></p>
 
-      <h3>TEMA 1: Recursos Naturais e Atividades Econômicas</h3>
-      <p><strong>O que são Recursos Naturais?</strong></p>
-      <p>Recurso natural é o nome dado aos elementos da natureza que são utilizados pelas sociedades com propósitos econômicos. As sociedades humanas sempre dependeram dos recursos naturais, que são extraídos, transformados e usados para múltiplas finalidades:</p>
-      <ul>
-        <li>A <strong>água dos rios</strong> pode ser utilizada para consumo humano, irrigação, produção de energia etc.</li>
-        <li>A <strong>madeira das árvores</strong> pode ser utilizada em construções e na confecção de objetos.</li>
-        <li>Os <strong>solos</strong> são aproveitados para a prática da agricultura.</li>
-      </ul>
-      <p>O aumento do consumo de produtos industrializados no mundo intensificou a exploração dos recursos naturais pela indústria, agricultura e extrativismo.</p>
+      <h3 style="color: #2e7d32;">1. Recursos Naturais e Fontes de Energia</h3>
+      <p>Classificação em Inesgotáveis, Renováveis e Não Renováveis[cite: 2]. Fontes de energia renováveis (Solar, Eólica, Biomassa, Geotérmica e Hidreletricidade) e não renováveis (Petróleo, Carvão Mineral, Gás Natural e Nuclear)[cite: 2].</p>
 
-      <p><strong>Classificação dos Recursos Naturais:</strong></p>
-      <ul>
-        <li><strong>Inesgotáveis ou Permanentes:</strong> São aqueles que não acabam e nem devem acabar considerando o tempo de permanência humana na Terra. Exemplos: calor interno do planeta, vento e radiação solar. Podemos usar abundantemente sem risco de esgotar.</li>
-        <li><strong>Renováveis:</strong> Podem ser repostos pela natureza ou pelos seres humanos, desde que usados de maneira adequada. Exemplos: solo, vegetação e água. *Atenção:* A água está distribuída de maneira desigual no planeta e sua disponibilidade para consumo varia.</li>
-        <li><strong>Não Renováveis ou Esgotáveis:</strong> Não podem ser repostos ou têm um ritmo de reposição natural extremamente lento. Exemplos: combustíveis fósseis (petróleo, gás natural, carvão mineral) e minerais metálicos e não metálicos.</li>
-      </ul>
-
-      <!-- INTERAÇÃO 1 DE FIXAÇÃO -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #1: Teste seus Conceitos</h4>
-        <p>A qual categoria de recurso natural pertencem o <strong>Petróleo</strong> e o <strong>Carvão Mineral</strong>?</p>
-        <label class="opcao-inline"><input type="radio" name="fix1" value="A"> A) Recursos Inesgotáveis ou Permanentes</label>
-        <label class="opcao-inline"><input type="radio" name="fix1" value="B"> B) Recursos Não Renováveis ou Esgotáveis</label>
-        <label class="opcao-inline"><input type="radio" name="fix1" value="C"> C) Recursos Renováveis Infinitos</label>
-        <button class="btn-verificar" onclick="verificarFixacao1()">Verificar Resposta</button>
-        <div id="fb-fix-1" class="feedback"></div>
-      </div>
-
-      <h3>As Fontes de Energia</h3>
-      <p>A produção de energia possibilita o desenvolvimento de diversas atividades econômicas e pode ser realizada a partir de fontes não renováveis e renováveis.</p>
-
-      <p><strong>1. Fontes de Energia Não Renováveis:</strong></p>
-      <ul>
-        <li><strong>Carvão Mineral:</strong> Foi a principal fonte de energia a partir da segunda metade do século XVIII e XIX (Revolução Industrial). A queima do carvão fornecia vapor para máquinas e locomotivas. Hoje é usado em <em>termelétricas</em> e na produção de aço. É o combustível fóssil mais poluente e um dos maiores agravantes do efeito estufa.</li>
-        <li><strong>Energia Nuclear:</strong> Usada para gerar eletricidade e mover embarcações. Produz <em>resíduos radioativos (lixo atômico)</em> que exigem descarte monitorado.</li>
-        <li><strong>Petróleo:</strong> Matéria-prima da indústria petroquímica e combustíveis. Extração em terra (<em>onshore</em>) ou no mar (<em>offshore</em>).</li>
-        <li><strong>Gás Natural:</strong> Encontrado frequentemente com o petróleo, mais limpo e barato.</li>
-      </ul>
-
-      <p><strong>2. Fontes de Energia Renováveis:</strong></p>
-      <ul>
-        <li><strong>Energia Eólica:</strong> Ventos/hélices.</li>
-        <li><strong>Energia Solar:</strong> Placas solares/Sol.</li>
-        <li><strong>Energia Geotérmica:</strong> Calor interno da Terra.</li>
-        <li><strong>Biomassa:</strong> Matéria orgânica (cana-de-açúcar/etanol, lixo).</li>
-        <li><strong>Hidreletricidade:</strong> Força da água represada em rios.</li>
-      </ul>
-
-      <!-- INTERAÇÃO 2 DE FIXAÇÃO -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #2: Qual é a Fonte de Energia?</h4>
-        <p>Qual das fontes energéticas abaixo é gerada a partir da matéria orgânica, como a cana-de-açúcar para a produção de etanol?</p>
-        <label class="opcao-inline"><input type="radio" name="fix2" value="A"> A) Energia Geotérmica</label>
-        <label class="opcao-inline"><input type="radio" name="fix2" value="B"> B) Biomassa</label>
-        <label class="opcao-inline"><input type="radio" name="fix2" value="C"> C) Energia Nuclear</label>
-        <button class="btn-verificar" onclick="verificarFixacao2()">Verificar Resposta</button>
-        <div id="fb-fix-2" class="feedback"></div>
-      </div>
-
-      <h3>Os Setores da Economia</h3>
-      <ul>
-        <li><strong>Setor Primário:</strong> Agricultura, pecuária e extrativismo.</li>
-        <li><strong>Setor Secundário:</strong> Indústria e construção civil.</li>
-        <li><strong>Setor Terciário:</strong> Comércio e serviços.</li>
-      </ul>
-
-      <h3>TEMA 2: Extrativismo e Agropecuária</h3>
-      <ul>
-        <li><strong>Extrativismo Vegetal:</strong> Madeira, sementes, látex.</li>
-        <li><strong>Extrativismo Animal:</strong> Caça e pesca.</li>
-        <li><strong>Extrativismo Mineral:</strong> Minérios, garimpo, petróleo.</li>
-      </ul>
-
-      <!-- INTERAÇÃO 3 DE FIXAÇÃO -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #3: Praticando os Tipos de Extrativismo</h4>
-        <p>A extração de minério de ferro ou ouro do subsolo por garimpeiros ou grandes mineradoras é um exemplo de:</p>
-        <label class="opcao-inline"><input type="radio" name="fix3" value="A"> A) Extrativismo Vegetal</label>
-        <label class="opcao-inline"><input type="radio" name="fix3" value="B"> B) Extrativismo Mineral</label>
-        <label class="opcao-inline"><input type="radio" name="fix3" value="C"> C) Extrativismo Animal</label>
-        <button class="btn-verificar" onclick="verificarFixacao3()">Verificar Resposta</button>
-        <div id="fb-fix-3" class="feedback"></div>
-      </div>
-
-      <h3>A Agropecuária</h3>
-      <p><strong>Agricultura:</strong> Relevo (terraceamento em morros), solo (húmus), água (irrigação e drenagem).</p>
-      <p><strong>Sistemas:</strong> Extensiva/Familiar (pequena escala, consumo local) x Intensiva/Comercial (alta tecnologia, grande escala).</p>
-      <p><strong>Pecuária:</strong> Intensiva (confinada, leite) x Extensiva (solta no pasto, corte/carne).</p>
-
-      <!-- INTERAÇÃO 4 DE FIXAÇÃO -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #4: Pecuária de Leite vs. Corte</h4>
-        <p>A criação de gado bovino solto em grandes pastagens com foco principal na obtenção de carne é chamada de:</p>
-        <label class="opcao-inline"><input type="radio" name="fix4" value="A"> A) Pecuária Intensiva</label>
-        <label class="opcao-inline"><input type="radio" name="fix4" value="B"> B) Pecuária Extensiva</label>
-        <button class="btn-verificar" onclick="verificarFixacao4()">Verificar Resposta</button>
-        <div id="fb-fix-4" class="feedback"></div>
-      </div>
+      <h3 style="color: #2e7d32;">2. Extrativismo e Agropecuária</h3>
+      <p>Setores da economia (Primário, Secundário e Terciário)[cite: 2]. Extrativismo Vegetal, Animal e Mineral[cite: 2]. Sistemas agrícolas (Familiar x Comercial) e Pecuária (Intensiva/Leite x Extensiva/Corte)[cite: 2].</p>
     </article>
 
     <!-- RESUMO DE HISTÓRIA -->
     <article id="resumo-grecia_roma" class="resumo-artigo">
-      <h2>História — Grécia Antiga e Roma</h2>
+      <h2 style="color: #795548;">História — Grécia Antiga e Roma</h2>
       <p><strong>Material de Estudo — 3º Bimestre</strong></p>
-
-      <h3>1. Como era a Grécia Antiga</h3>
-      <p>A Grécia Antiga <strong>não era um único país</strong> com um único governo. Ela era formada por várias cidades independentes. Essas cidades compartilhavam elementos culturais, como a língua, costumes e muitos deuses, mas cada uma tinha suas próprias leis e seu próprio governo.</p>
-      <div class="destaque-estudo">Guarde: PÓLIS = cidade-Estado independente.</div>
-
-      <h3>2. As pólis gregas</h3>
-      <p>Entre os séculos VIII e VII a.C., várias pólis se desenvolveram. Cada pólis podia ter <strong>governo, leis, exército e território próprios</strong>. Atenas e Esparta, por exemplo, eram gregas, mas independentes uma da outra.</p>
-
-      <h3>3. Esparta</h3>
-      <p>Esparta ficava na região do <strong>Peloponeso</strong> e tinha uma sociedade muito voltada para a guerra, a disciplina e o treinamento militar.</p>
-      <p><strong>Esparciatas:</strong> cidadãos e membros da elite espartana.</p>
-      <p><strong>Periecos:</strong> homens livres ligados principalmente à agricultura, ao artesanato e ao comércio.</p>
-      <p><strong>Hilotas:</strong> população dominada pelos espartanos, que trabalhava principalmente na agricultura.</p>
+      <p>Pólis gregas, Atenas, Esparta, mitos, Guerra de Troia, crise da República Romana e o início do Império Romano.</p>
     </article>
   </div>
 
-  <!-- ================= MENU DE QUIZZES (GEO, ESP E HIST 3º BIM) ================= -->
+  <!-- ================= MENU DE QUIZZES ================= -->
   <div id="menu-principal" style="display: none;">
     <button class="btn-voltar" onclick="voltarInicio()">⬅ Início</button>
     <h1>Portal de Estudo e Desafios 🚀</h1>
     <p class="subtitulo">Escolha uma matéria abaixo para começar o teste:</p>
+
+    <button class="btn-quiz-menu btn-matematica" onclick="abrirQuiz('matematica_3bim')">
+      <span>🧮 Quiz de Matemática: Frações & Operações (3º Bim)</span> <span>➜</span>
+    </button>
 
     <button class="btn-quiz-menu btn-espanhol" onclick="abrirQuiz('espanhol_3bim')">
       <span>🇪🇸 Quiz de Espanhol: Unidad 6 (3º Bim)</span> <span>➜</span>
@@ -843,7 +650,7 @@
 <script>
 const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 
-// LÓGICA DO CONTADOR GLOBAL DE ACESSOS (API GRATUITA COUNTERAPI)
+// LÓGICA DO CONTADOR GLOBAL DE ACESSOS (API COUNTERAPI)
 function carregarContadorGlobal() {
   const elementoNumero = document.getElementById('numero-acessos');
   const namespace = "portal_estudos_rf_6ano";
@@ -908,122 +715,122 @@ function voltarResumos() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// INTERAÇÕES DE FIXAÇÃO - ESPANHOL
-function verificarEspFix1() {
-  const marcado = document.querySelector('input[name="esp_fix1"]:checked');
-  const fb = document.getElementById('fb-esp-fix-1');
-  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
-  fb.style.display = 'block';
-  if(marcado.value === "A") {
-    fb.className = "feedback correto";
-    fb.innerHTML = "<strong>¡Muy bien!</strong> 'Joelho' em espanhol é <strong>La rodilla</strong> e 'Bochecha' é <strong>La mejilla / El moflete</strong>.";
-  } else {
-    fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>¡Incorrecto!</strong> A resposta certa é a <strong>Letra A (La rodilla y La mejilla)</strong>.";
-  }
-}
-
-function verificarEspFix2() {
-  const marcado = document.querySelector('input[name="esp_fix2"]:checked');
-  const fb = document.getElementById('fb-esp-fix-2');
-  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
+// FIXAÇÃO MATEMÁTICA
+function verificarMatFix1() {
+  const marcado = document.querySelector('input[name="mat_fix1"]:checked');
+  const fb = document.getElementById('fb-mat-fix-1');
+  if(!marcado) { alert("Escolha uma alternativa após resolver no papel!"); return; }
   fb.style.display = 'block';
   if(marcado.value === "B") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>¡Excelente!</strong> A expressão <strong>Costar un ojo de la cara</strong> significa que algo é extremamente caro.";
+    fb.innerHTML = "<strong>Exato!</strong> Passo a passo: mmc(12,15) = 60.<br>3/12 = 15/60 e 4/15 = 16/60.<br>Somando os numeradores: 15/60 + 16/60 = <strong>31/60</strong>.";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>¡Incorrecto!</strong> A resposta certa é a <strong>Letra B (Costar un ojo de la cara)</strong>.";
+    fb.innerHTML = "<strong>Incorreto!</strong> Confira seu rascunho: mmc(12,15)=60. As frações ficam 15/60 + 16/60 = <strong>31/60 (Letra B)</strong>.";
+  }
+}
+
+function verificarMatFix2() {
+  const marcado = document.querySelector('input[name="mat_fix2"]:checked');
+  const fb = document.getElementById('fb-mat-fix-2');
+  if(!marcado) { alert("Escolha uma alternativa após resolver no papel!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "A") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Perfeito!</strong> Cancelamento no papel: 16 e 8 simplificam por 8 (fica 2 e 1). 27 e 3 simplificam por 3 (fica 9 e 1).<br>Resultado: (2×9×1) / (1×1×5) = <strong>18/5</strong>.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Incorreto!</strong> A alternativa simplificada correta é a <strong>Letra A (18/5)</strong>.";
+  }
+}
+
+function verificarMatFix3() {
+  const marcado = document.querySelector('input[name="mat_fix3"]:checked');
+  const fb = document.getElementById('fb-mat-fix-3');
+  if(!marcado) { alert("Escolha uma alternativa após resolver no papel!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "B") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Excelente!</strong> Divisão de frações: 3/4 ÷ 1/8 = 3/4 × 8/1 = 24/4 = <strong>6</strong>.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Incorreto!</strong> Lembre-se de inverter a segunda fração: 3/4 × 8/1 = 24/4 = <strong>6 (Letra B)</strong>.";
   }
 }
 
 function verificarEspFix3() {
   const marcado = document.querySelector('input[name="esp_fix3"]:checked');
   const fb = document.getElementById('fb-esp-fix-3');
-  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
+  if(!marcado) { alert("Selecione uma opção!"); return; }
   fb.style.display = 'block';
   if(marcado.value === "B") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>¡Perfecto!</strong> Usamos <strong>SER</strong> para altura (es alta), <strong>TENER</strong> para olhos/cabelo (tiene los ojos verdes) e <strong>LLEVAR</strong> para acessórios (lleva gafas).";
+    fb.innerHTML = "<strong>¡Perfecto!</strong> Usamos <strong>SER</strong> para altura, <strong>TENER</strong> para olhos e <strong>LLEVAR</strong> para óculos.";
   } else {
     fb.className = "feedback incorreto";
     fb.innerHTML = "<strong>¡Incorrecto!</strong> A alternativa correta é a <strong>Letra B</strong>.";
   }
 }
 
-function verificarEspFix4() {
-  const marcado = document.querySelector('input[name="esp_fix4"]:checked');
-  const fb = document.getElementById('fb-esp-fix-4');
-  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
-  fb.style.display = 'block';
-  if(marcado.value === "B") {
-    fb.className = "feedback correto";
-    fb.innerHTML = "<strong>¡Muy bien!</strong> O verbo preferir sofre a troca e→ie no radical: <strong>Yo prefiero</strong>.";
-  } else {
-    fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>¡Incorrecto!</strong> A resposta certa é a <strong>Letra B (Yo prefiero)</strong>.";
-  }
-}
-
-// INTERAÇÕES DE FIXAÇÃO - GEOGRAFIA
-function verificarFixacao1() {
-  const marcado = document.querySelector('input[name="fix1"]:checked');
-  const fb = document.getElementById('fb-fix-1');
-  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
-  fb.style.display = 'block';
-  if(marcado.value === "B") {
-    fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Exato!</strong> O petróleo e o carvão mineral são recursos <strong>Não Renováveis (ou esgotáveis)</strong>, pois levam milhões de anos para se formar na natureza.";
-  } else {
-    fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Ops!</strong> A resposta correta é a <strong>Letra B (Recursos Não Renováveis ou Esgotáveis)</strong>.";
-  }
-}
-
-function verificarFixacao2() {
-  const marcado = document.querySelector('input[name="fix2"]:checked');
-  const fb = document.getElementById('fb-fix-2');
-  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
-  fb.style.display = 'block';
-  if(marcado.value === "B") {
-    fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Correto!</strong> A <strong>Biomassa</strong> utiliza matéria orgânica (como cana-de-açúcar, milho e madeira) para gerar energia e combustíveis como o etanol.";
-  } else {
-    fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto.</strong> A resposta correta é a <strong>Biomassa (Letra B)</strong>.";
-  }
-}
-
-function verificarFixacao3() {
-  const marcado = document.querySelector('input[name="fix3"]:checked');
-  const fb = document.getElementById('fb-fix-3');
-  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
-  fb.style.display = 'block';
-  if(marcado.value === "B") {
-    fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Perfeito!</strong> Trata-se do <strong>Extrativismo Mineral (Letra B)</strong>, que retira minérios metálicos e não metálicos da natureza.";
-  } else {
-    fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto.</strong> A resposta certa é <strong>Extrativismo Mineral (Letra B)</strong>.";
-  }
-}
-
-function verificarFixacao4() {
-  const marcado = document.querySelector('input[name="fix4"]:checked');
-  const fb = document.getElementById('fb-fix-4');
-  if(!marcado) { alert("Por favor, selecione uma opção!"); return; }
-  fb.style.display = 'block';
-  if(marcado.value === "B") {
-    fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Excelente!</strong> Na <strong>Pecuária Extensiva (Letra B)</strong> os animais são criados soltos no pasto e o foco principal é o abate para corte (carne e couro).";
-  } else {
-    fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto.</strong> A resposta certa é a <strong>Pecuária Extensiva (Letra B)</strong>.";
-  }
-}
-
 // BANCO DE DADOS DOS QUIZZES
 const bancoQuizzes = {
+  matematica_3bim: {
+    titulo: "Quiz de Matemática - Frações e Operações (3º Bim)",
+    questoes: [
+      {
+        tipo: "opcoes",
+        topico: "Adição e Subtração de Frações",
+        pergunta: "✏️ PEGUE PAPEL E LÁPIS! Calcule no rascunho: Quanto é 7/10 - 1/10 + 2/10?",
+        opcoes: {
+          A: "8/10",
+          B: "6/10",
+          C: "8/30",
+          D: "5/10"
+        },
+        respostaCorreta: "A",
+        explicacao: "Como os denominadores são iguais, mantemos o 10 e fazemos 7 - 1 + 2 = 8/10."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Mínimo Múltiplo Comum (mmc)",
+        pergunta: "✏️ RESOLVA NO PAPEL! Calcule a soma com mmc: 1/3 + 1/4",
+        opcoes: {
+          A: "2/7",
+          B: "7/12",
+          C: "1/12",
+          D: "5/12"
+        },
+        respostaCorreta: "B",
+        explicacao: "mmc(3,4) = 12. As frações ficam 4/12 + 3/12 = 7/12."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Multiplicação de Frações",
+        pergunta: "✏️ CALCULE NO RASCUNHO! Qual o resultado de (2/5) × (7/4)?",
+        opcoes: {
+          A: "14/20 (ou 7/10)",
+          B: "9/9",
+          C: "14/9",
+          D: "8/20"
+        },
+        respostaCorreta: "A",
+        explicacao: "Multiplica em cima (2×7=14) e em baixo (5×4=20) = 14/20, simplificando fica 7/10."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Divisão de Frações",
+        pergunta: "✏️ INVERTA A SEGUNDA E CALCULE NO PAPEL: Quanto é (3/4) ÷ (3/8)?",
+        opcoes: {
+          A: "9/32",
+          B: "2",
+          C: "1",
+          D: "12/8"
+        },
+        respostaCorreta: "B",
+        explicacao: "3/4 ÷ 3/8 = 3/4 × 8/3 = 24/12 = 2."
+      }
+    ]
+  },
   espanhol_3bim: {
     titulo: "Quiz de Español - Unidad 6: Mi cuerpo habla (3º Bim)",
     questoes: [
@@ -1042,32 +849,6 @@ const bancoQuizzes = {
       },
       {
         tipo: "opcoes",
-        topico: "Vocabulario del Rostro",
-        pergunta: "¿Qué parte del rostro está ubicada encima de los ojos?",
-        opcoes: {
-          A: "Las cejas",
-          B: "Los mofletes",
-          C: "La barbilla",
-          D: "Las orejas"
-        },
-        respostaCorreta: "A",
-        explicacao: "'Las cejas' são as sobrancelhas."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Expresiones Idiomáticas",
-        pergunta: "¿Qué significa la expresión 'Hablar por los codos'?",
-        opcoes: {
-          A: "Estar muy triste o molesto.",
-          B: "Hablar muchísimo, sin parar.",
-          C: "Comprar algo muy caro.",
-          D: "No entender nada de una clase."
-        },
-        respostaCorreta: "B",
-        explicacao: "'Hablar por los codos' significa falar demais."
-      },
-      {
-        tipo: "opcoes",
         topico: "Descripción Física",
         pergunta: "Para describir que una persona lleva lentes u óculos, ¿qué verbo usamos?",
         opcoes: {
@@ -1078,45 +859,6 @@ const bancoQuizzes = {
         },
         respostaCorreta: "C",
         explicacao: "Usamos o verbo LLEVAR para roupas e acessórios como 'gafas' (óculos)."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Descripción Física",
-        pergunta: "¿Cómo se dice 'loiro' e 'cacheado' en español para describir el cabello?",
-        opcoes: {
-          A: "Rubio y rizado",
-          B: "Moreno y liso",
-          C: "Pelirrojo y largo",
-          D: "Castaño y corto"
-        },
-        respostaCorreta: "A",
-        explicacao: "'Rubio' significa loiro e 'rizado' significa cacheado/crespo."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Lenguaje Corporal",
-        pergunta: "Si una persona está en una reunión y empieza a 'bostezar', ¿qué impresión transmite?",
-        opcoes: {
-          A: "Mucha alegría y entusiasmo.",
-          B: "Aburrimiento, cansancio o sueño.",
-          C: "Prisa por salir corriendo.",
-          D: "Estar muy enamorada."
-        },
-        respostaCorreta: "B",
-        explicacao: "'Bostezar' (bocejar) transmite tédio ou cansaço."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Presente de Indicativo",
-        pergunta: "¿Cuál es la forma correcta del verbo 'CONTAR' (o->ue) para la persona 'TÚ'?",
-        opcoes: {
-          A: "Tú contas",
-          B: "Tú cuentas",
-          C: "Tú cuentes",
-          D: "Tú contáis"
-        },
-        respostaCorreta: "B",
-        explicacao: "O verbo contar troca o->ue no presente: tú cuentas."
       }
     ]
   },
@@ -1135,97 +877,6 @@ const bancoQuizzes = {
         },
         respostaCorreta: "B",
         explicacao: "Vento e radiação solar são recursos inesgotáveis (ou permanentes), pois sua quantidade independe do uso humano."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Fontes de Energia",
-        pergunta: "Qual das fontes de energia abaixo é classificada como NÃO renovável?",
-        opcoes: {
-          A: "Energia Eólica",
-          B: "Biomassa",
-          C: "Petróleo",
-          D: "Energia Solar"
-        },
-        respostaCorreta: "C",
-        explicacao: "O petróleo é um combustível fóssil e se esgota com o uso, sendo uma fonte não renovável."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Fontes Energéticas",
-        pergunta: "Qual fonte de energia renovável é obtida a partir do calor vindo do interior do planeta Terra?",
-        opcoes: {
-          A: "Energia Solar",
-          B: "Energia Geotérmica",
-          C: "Hidreletricidade",
-          D: "Energia Nuclear"
-        },
-        respostaCorreta: "B",
-        explicacao: "A energia geotérmica aproveita o calor interno da Terra, muito comum em áreas de vulcanismo ativo."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Setores da Economia",
-        pergunta: "A agricultura, a pecuária e as atividades extrativas pertencem a qual setor da economia?",
-        opcoes: {
-          A: "Setor Primário",
-          B: "Setor Secundário",
-          C: "Setor Terciário",
-          D: "Setor Quaternário"
-        },
-        respostaCorreta: "A",
-        explicacao: "O Setor Primário é aquele responsável pela extração e produção de matérias-primas diretamente da natureza."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Extrativismo",
-        pergunta: "A retirada de frutos, sementes, madeira e látex da natureza sem o cultivo prévio é um exemplo de:",
-        opcoes: {
-          A: "Extrativismo Animal",
-          B: "Extrativismo Vegetal",
-          C: "Extrativismo Mineral",
-          D: "Agroindústria"
-        },
-        respostaCorreta: "B",
-        explicacao: "O extrativismo vegetal envolve a retirada de produtos vegetais diretamente das matas/florestas."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Agricultura",
-        pergunta: "Qual técnica é utilizada para criar 'degraus' em terrenos inclinados/montanhosos para evitar a erosão do solo?",
-        opcoes: {
-          A: "Irrigação por Pivô",
-          B: "Terraceamento",
-          C: "Adubação Química",
-          D: "Pecuária Confinada"
-        },
-        respostaCorreta: "B",
-        explicacao: "O terraceamento constrói degraus em morros para conter a água e evitar o desgaste erosivo do solo."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Sistemas Agrícolas",
-        pergunta: "A Agricultura Familiar caracteriza-se principalmente por:",
-        opcoes: {
-          A: "Uso de tratores gigantes, grandes extensões de terra e foco no mercado internacional.",
-          B: "Produção em pequena escala, uso de mão de obra familiar e abastecimento local.",
-          C: "Produção exclusiva de petróleo e minérios.",
-          D: "Criação de gado apenas em confinamento."
-        },
-        respostaCorreta: "B",
-        explicacao: "A agricultura familiar é realizada em pequenas propriedades, com trabalho familiar focado no consumo direto e mercado local."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Pecuária",
-        pergunta: "Na pecuária intensiva, os animais são tipicamente criados de que forma?",
-        opcoes: {
-          A: "Soltos em vastas pastagens sem acompanhamento médico.",
-          B: "Confinados em galpões/estábulos, com alimentação balanceada e cuidados veterinários.",
-          C: "Em florestas tropicais sem cercas.",
-          D: "Apenas para extração de couro sem foco no leite."
-        },
-        respostaCorreta: "B",
-        explicacao: "A pecuária intensiva usa o confinamento, tecnologia e nutrição balanceada para alta produtividade."
       }
     ]
   },
@@ -1239,32 +890,6 @@ const bancoQuizzes = {
         opcoes: { A: "Sim, toda a Grécia obedecia a um único rei.", B: "Não. Era formada por várias comunidades e cidades independentes.", C: "Sim, mas somente Atenas podia criar leis.", D: "Não. A Grécia fazia parte do Império Romano desde o início." },
         respostaCorreta: "B",
         explicacao: "A Grécia Antiga não formava um Estado único. Havia várias comunidades e cidades independentes, embora compartilhassem elementos culturais."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Pólis",
-        pergunta: "O que eram as pólis na Grécia Antiga?",
-        opcoes: {
-          A: "Cidades-Estado independentes, com governo e leis próprios.",
-          B: "Templos construídos para os deuses.",
-          C: "Navios usados no comércio pelo Mediterrâneo.",
-          D: "Exércitos formados apenas por estrangeiros."
-        },
-        respostaCorreta: "A",
-        explicacao: "As pólis eram cidades-Estado: cada uma possuía governo, leis e organização próprios."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Esparta",
-        pergunta: "Qual característica marcava fortemente a sociedade de Esparta?",
-        opcoes: {
-          A: "A preparação militar e a disciplina.",
-          B: "A proibição de qualquer treinamento físico.",
-          C: "A ausência de grupos sociais.",
-          D: "A participação política de todos os habitantes."
-        },
-        respostaCorreta: "A",
-        explicacao: "Esparta era uma sociedade fortemente militarizada, e a educação dos cidadãos valorizava a preparação para a guerra."
       }
     ]
   }
