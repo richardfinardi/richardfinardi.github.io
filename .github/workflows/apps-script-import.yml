@@ -1,0 +1,61 @@
+name: Apps Script Import
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pull-from-apps-script:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: apps-script
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install clasp
+        run: npm install -g @google/clasp@3.4.1
+
+      - name: Configurar autorizacao Google
+        env:
+          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+        run: |
+          test -n "$CLASPRC_JSON" || (echo "Secret CLASPRC_JSON nao configurado" && exit 1)
+          printf '%s' "$CLASPRC_JSON" > "$HOME/.clasprc.json"
+          chmod 600 "$HOME/.clasprc.json"
+
+      - name: Configurar projeto Apps Script
+        env:
+          APPS_SCRIPT_ID: ${{ secrets.APPS_SCRIPT_ID }}
+        run: |
+          test -n "$APPS_SCRIPT_ID" || (echo "Secret APPS_SCRIPT_ID nao configurado" && exit 1)
+          printf '{"scriptId":"%s","rootDir":"."}\n' "$APPS_SCRIPT_ID" > .clasp.json
+
+      - name: Importar codigo atual do Apps Script
+        run: clasp pull
+
+      - name: Remover configuracao local
+        run: rm -f .clasp.json
+
+      - name: Versionar backend importado
+        working-directory: .
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps-script
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteracao encontrada."
+          else
+            git commit -m "chore: importar backend atual do Apps Script"
+            git push
+          fi
