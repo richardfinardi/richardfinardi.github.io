@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal de Estudos - 6º Ano</title>
+  <title>Portal de Estudos Completo - 6º Ano</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -274,33 +274,35 @@
     }
 
     .resumo-artigo {
-      line-height: 1.65;
+      line-height: 1.7;
       color: #333;
     }
 
     .resumo-artigo h2 {
       color: #1a237e;
       margin-top: 0;
+      border-bottom: 2px solid #1a237e;
+      padding-bottom: 8px;
     }
 
     .resumo-artigo h3 {
-      color: #1a237e;
       margin-top: 28px;
-      margin-bottom: 8px;
-      border-bottom: 2px solid #e8eaf6;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #eee;
       padding-bottom: 6px;
     }
 
     .resumo-artigo p {
-      margin: 8px 0 12px;
+      margin: 10px 0 14px;
+      text-align: justify;
     }
 
     .destaque-estudo {
       background: #fff8e1;
       border-left: 5px solid #f9a825;
-      padding: 12px 14px;
+      padding: 14px 16px;
       border-radius: 8px;
-      margin: 14px 0;
+      margin: 16px 0;
       font-weight: 600;
     }
 
@@ -308,20 +310,21 @@
       background: #f3e5f5;
       border: 2px solid #ab47bc;
       color: #4a148c;
-      padding: 10px 14px;
+      padding: 12px 16px;
       border-radius: 8px;
-      margin: 10px 0;
+      margin: 14px 0;
       font-weight: bold;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .comparacao {
       background: #f5f5f5;
-      padding: 14px;
+      border: 1px solid #e0e0e0;
+      padding: 16px;
       border-radius: 10px;
-      margin: 12px 0;
+      margin: 16px 0;
     }
 
     .acoes-resumo {
@@ -336,8 +339,8 @@
       background-color: #f3e5f5;
       border: 2px solid #ab47bc;
       border-radius: 10px;
-      padding: 16px;
-      margin: 22px 0;
+      padding: 18px;
+      margin: 25px 0;
     }
     .box-interativo h4 {
       margin-top: 0;
@@ -345,6 +348,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      font-size: 1.1em;
     }
     .btn-verificar {
       background: #6a1b9a;
@@ -366,12 +370,12 @@
     .tabela-estudo {
       width: 100%;
       border-collapse: collapse;
-      margin: 15px 0;
+      margin: 18px 0;
       background: #fff;
     }
     .tabela-estudo th, .tabela-estudo td {
       border: 1px solid #e0e0e0;
-      padding: 10px 12px;
+      padding: 10px 14px;
       text-align: left;
     }
     .tabela-estudo th {
@@ -433,23 +437,23 @@
 
     <div class="grid-resumos">
       <button class="card-resumo-menu" style="border-color: #6a1b9a;" onclick="abrirResumo('matematica_3bim')">
-        <h3 style="color: #6a1b9a;">🧮 Matemática — Operações com Frações (Livro Completo)</h3>
-        <p>Adição, Subtração, M.M.C., Multiplicação, Cancelamento, Divisão e Expressões Numéricas Complexas.</p>
+        <h3 style="color: #6a1b9a;">🧮 Matemática — Operações com Frações (Aulas 1 a 8)</h3>
+        <p>Curso Completo: Adição, Subtração, M.M.C., Multiplicação, Cancelamento, Divisão e Expressões com Parênteses.</p>
       </button>
 
       <button class="card-resumo-menu" style="border-color: #d32f2f;" onclick="abrirResumo('espanhol_3bim')">
         <h3 style="color: #d32f2f;">🇪🇸 Espanhol — Unidad 6: Mi cuerpo habla</h3>
-        <p>Partes del cuerpo, el rostro, lenguaje corporal, descripción física (Ser/Tener/Llevar) y Presente de Indicativo.</p>
+        <p>Aula Completa: Cuerpo humano, rostro, expresiones idiomáticas, Ser/Tener/Llevar, lenguaje corporal y verbos.</p>
       </button>
 
       <button class="card-resumo-menu" style="border-color: #2e7d32;" onclick="abrirResumo('geografia_3bim')">
         <h3 style="color: #2e7d32;">🌎 Geografia — Recursos Naturais, Extrativismo e Agropecuária</h3>
-        <p>Material completo do 3º Bimestre: Fontes de energia, setores, extrativismo e sistemas agropecuários.</p>
+        <p>Material Completo: Fontes energéticas, setores da economia, extrativismo e sistemas agropecuários.</p>
       </button>
 
       <button class="card-resumo-menu" style="border-color: #795548;" onclick="abrirResumo('grecia_roma')">
         <h3 style="color: #795548;">🏛️ História — Grécia Antiga e Roma</h3>
-        <p>Pólis, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e Triunviratos.</p>
+        <p>Material Completo: Pólis, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e Triunviratos.</p>
       </button>
     </div>
   </div>
@@ -461,54 +465,78 @@
       <button class="btn-voltar" onclick="voltarInicio()">🏠 Início</button>
     </div>
 
-    <!-- MATERIAL DE MATEMÁTICA COMPLETO (21 PÁGINAS) -->
+    <!-- AULA COMPLETA DE MATEMÁTICA (21 PÁGINAS DO LIVRO) -->
     <article id="resumo-matematica_3bim" class="resumo-artigo">
-      <h2 style="color: #6a1b9a;">Matemática — Operações com Frações (Curso Completo)</h2>
-      <p><strong>Material de Estudo Raciocinado — 3º Bimestre (6º Ano)</strong></p>
+      <h2 style="color: #6a1b9a;">Matemática — Operações com Frações (Aulas Didáticas)</h2>
+      <p><strong>3º Bimestre (6º Ano) — Estudo Guiado e Raciocinado</strong></p>
 
       <div class="aviso-papel">
-        📝 <strong>ATENÇÃO ALUNO:</strong> Matemática não se aprende só olhando! Pegue papel e lápis, monte o rascunho de cada cálculo antes de responder!
+        ✏️ <strong>REQUISITO DE ESTUDO:</strong> Para aprender Matemática de verdade, você DEVE pegar lápis e caderno! Faça os rascunhos de todas as contas antes de marcar a resposta!
       </div>
 
-      <h3 style="color: #6a1b9a;">1. Adição e Subtração com Denominadores Iguais</h3>
-      <p>Para calcular a soma ou a diferença de frações com o mesmo denominador, adicionamos ou subtraímos os numeradores e conservamos o denominador[cite: 4].</p>
-      <div class="comparacao">
-        Exemplo do Livro (Pág. 29): Maíra reserva 1/10 do tempo para consultas em domicílio e 7/10 para a clínica[cite: 4].<br>
-        • Total reservado: 1/10 + 7/10 = <strong>8/10</strong>[cite: 4].<br>
-        • Diferença entre clínica e domicílio: 7/10 - 1/10 = <strong>6/10</strong>[cite: 4].
+      <h3 style="color: #6a1b9a;">AULA 1: Adição e Subtração de Frações com Denominadores Iguais</h3>
+      <p>Quando temos frações que representam partes divididas exatamente do mesmo tamanho (ou seja, com o mesmo <strong>denominador</strong>), a regra de cálculo é direta[cite: 4]:</p>
+      <div class="destaque-estudo">
+        📌 <strong>Regra de Ouro:</strong> Adicionamos ou subtraímos apenas os <strong>numeradores</strong> (números de cima) e <strong>conservamos o denominador</strong> (número de baixo)[cite: 4].
       </div>
 
-      <h3 style="color: #6a1b9a;">2. Adição e Subtração com Denominadores Diferentes (M.M.C.)</h3>
-      <p>Quando os denominadores são diferentes, devemos encontrar frações equivalentes com o mesmo denominador usando o **Mínimo Múltiplo Comum (m.m.c.)** dos denominadores[cite: 4].</p>
-      <p><strong>Passo a passo no rascunho:</strong></p>
+      <p><strong>Exemplo Prático do Livro (Página 29):</strong></p>
+      <p>A Dra. Maíra é veterinária[cite: 4]. Ela reserva 1/10 do seu tempo para consultas em domicílio e 7/10 para atendimento na clínica[cite: 4].</p>
+      <ul>
+        <li><strong>Quanto tempo do total é reservado para consultas?</strong><br>
+            Somamos as duas frações: 1/10 + 7/10 = (1 + 7) / 10 = <strong>8/10 do tempo</strong>[cite: 4].</li>
+        <li><strong>Quanto tempo a mais ela dedica para a clínica do que para o domicílio?</strong><br>
+            Subtraímos as frações: 7/10 - 1/10 = (7 - 1) / 10 = <strong>6/10 do tempo a mais</strong>[cite: 4].</li>
+      </ul>
+
+      <h3 style="color: #6a1b9a;">AULA 2: Adição e Subtração com Denominadores Diferentes (M.M.C.)</h3>
+      <p>Não podemos somar ou subtrair pedaços de tamanhos diferentes diretamente (como somar 1/8 de pizza com 1/4 de pizza)[cite: 4]! Primeiro, precisamos converter as duas frações para que tenham o **mesmo denominador equivalente**[cite: 4].</p>
+
+      <p><strong>O Método do Mínimo Múltiplo Comum (m.m.c.):</strong></p>
       <ol>
-        <li>Encontre o m.m.c. dos denominadores[cite: 4].</li>
-        <li>Divida o m.m.c. pelo denominador antigo e multiplique pelo numerador antigo[cite: 4].</li>
-        <li>Some ou subtraia os novos numeradores e simplifique até a forma irredutível[cite: 4].</li>
+        <li>Identifique os denominadores diferentes (Exemplo: 12 e 15)[cite: 4].</li>
+        <li>Encontre o **m.m.c.** entre eles: Múltiplos de 12: {0, 12, 24, 36, 48, 60...} | Múltiplos de 15: {0, 15, 30, 45, 60...}[cite: 4]. Logo, m.m.c.(12, 15) = **60**[cite: 4].</li>
+        <li>Divida o m.m.c. pelo denominador antigo e multiplique pelo numerador antigo para descobrir a nova fração equivalente[cite: 4]:
+            <br>• Para 3/12: (60 ÷ 12) × 3 = 15 → <strong>15/60</strong>[cite: 4].
+            <br>• Para 4/15: (60 ÷ 15) × 4 = 16 → <strong>16/60</strong>[cite: 4].</li>
+        <li>Agora que os denominadores são iguais, efetue a operação: 15/60 + 16/60 = <strong>31/60</strong>[cite: 4].</li>
       </ol>
 
       <!-- INTERAÇÃO MATEMÁTICA 1 -->
       <div class="box-interativo">
-        <h4>⚡ Desafio #1: Rascunho Obrigatorio de M.M.C.</h4>
-        <div class="aviso-papel">✏️ Faça no papel: m.m.c.(12, 15) = 60. Resolva: <strong>3/12 + 4/15</strong>[cite: 4]</div>
-        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="A"> A) 7/27</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="B"> B) 31/60</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="C"> C) 12/60</label>
+        <h4>⚡ Desafio de Fixação #1: Treinando o M.M.C. no Caderno</h4>
+        <div class="aviso-papel">✏️ Pegue o lápis! Faça no caderno: m.m.c.(5, 10, 4) = 20. Calcule a soma: <strong>4/5 + 3/10 + 1/4</strong>[cite: 4]</div>
+        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="A"> A) 8/19</label>
+        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="B"> B) 27/20 (ou 1 7/20)</label>
+        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="C"> C) 15/20</label>
         <button class="btn-verificar" style="background:#6a1b9a;" onclick="verificarMatFix1()">Verificar Rascunho</button>
         <div id="fb-mat-fix-1" class="feedback"></div>
       </div>
 
-      <h3 style="color: #6a1b9a;">3. Multiplicação de Frações e Técnica do Cancelamento</h3>
-      <p>O produto de dois números fracionários tem como numerador o produto dos numeradores e como denominador o produto dos denominadores[cite: 4].</p>
+      <h3 style="color: #6a1b9a;">AULA 3: Multiplicação com Frações</h3>
+      <p>A multiplicação de frações é simples e segue uma regra direta[cite: 4]:</p>
+      <div class="comparacao">
+        ✖️ <strong>Regra Prática:</strong> Multiplicamos <strong>numerador por numerador</strong> e <strong>denominador por denominador</strong>[cite: 4].<br>
+        Exemplo: 1/7 × 4/5 = (1 × 4) / (7 × 5) = <strong>4/35</strong>[cite: 4].
+      </div>
+
+      <p><strong>Multiplicação de um Número Inteiro por uma Fração:</strong></p>
+      <p>Quando multiplicamos um número natural por uma fração, multiplicamos o inteiro apenas pelo numerador de cima[cite: 4]. Exemplo: Sobraram 1/4 de 3 pizzas distintas. Quanto sobrou no total? 3 × 1/4 = (3 × 1) / 4 = <strong>3/4 de pizza</strong>[cite: 4].</p>
+
+      <h3 style="color: #6a1b9a;">AULA 4: A Técnica do Cancelamento (Simplificação Prévia)</h3>
+      <p>Para evitar fazer contas com números gigantes no rascunho, usamos a **Técnica do Cancelamento**[cite: 4]! Podemos simplificar qualquer número do numerador com qualquer número do denominador por um divisor comum antes de multiplicar[cite: 4].</p>
+
       <div class="destaque-estudo">
-        <strong>Técnica do Cancelamento:</strong> Podemos simplificar qualquer numerador com qualquer denominador por um divisor comum antes de multiplicar, facilitando a conta no papel[cite: 4].<br>
-        Exemplo: 12/5 × 10/8 → Simplifica 10 e 5 por 5 (fica 2 e 1) e 12 e 8 por 4 (fica 3 e 2) → 3/1 × 2/2 = <strong>3</strong>[cite: 4].
+        🔍 <strong>Exemplo do Livro (Pág. 38):</strong> Calcule (12/15) × (10/8)[cite: 4].<br>
+        1. Simplifique 10 e 15 dividindo ambos por 5 (10 vira 2; 15 vira 3)[cite: 4].<br>
+        2. Simplifique 12 e 8 dividindo ambos por 4 (12 vira 3; 8 vira 2)[cite: 4].<br>
+        3. A conta fica: (3/3) × (2/2) = 1 × 1 = <strong>1</strong>[cite: 4].
       </div>
 
       <!-- INTERAÇÃO MATEMÁTICA 2 -->
       <div class="box-interativo">
-        <h4>⚡ Desafio #2: Multiplicação com Cancelamento</h4>
-        <div class="aviso-papel">✏️ Resolva no papel aplicando o cancelamento: <strong>(16/3) × (27/8) × (1/5)</strong>[cite: 4]</div>
+        <h4>⚡ Desafio de Fixação #2: Cancelamento no Rascunho</h4>
+        <div class="aviso-papel">✏️ Resolva no papel simplificando antes: <strong>(16/3) × (27/8) × (1/5)</strong>[cite: 4]</div>
         <label class="opcao-inline"><input type="radio" name="mat_fix2" value="A"> A) 18/5</label>
         <label class="opcao-inline"><input type="radio" name="mat_fix2" value="B"> B) 432/120</label>
         <label class="opcao-inline"><input type="radio" name="mat_fix2" value="C"> C) 6/5</label>
@@ -516,28 +544,42 @@
         <div id="fb-mat-fix-2" class="feedback"></div>
       </div>
 
-      <h3 style="color: #6a1b9a;">4. Divisão de Frações e Inverso do Número</h3>
-      <p>Dois números são inversos quando o seu produto é igual a 1[cite: 4]. Exemplo: O inverso de 4/5 é 5/4[cite: 4].</p>
-      <p><strong>Regra Prática da Divisão:</strong> Para dividir uma fração por outra, mantemos a primeira fração e **multiplicamos pelo inverso da segunda**[cite: 4].</p>
+      <h3 style="color: #6a1b9a;">AULA 5: Divisão de Frações e Inverso de um Número</h3>
+      <p>Dois números são chamados de **inversos** quando o produto entre eles resulta em 1[cite: 4]. Para inverter uma fração, basta trocar o numerador pelo denominador[cite: 4]:</p>
+      <ul>
+        <li>O inverso de 4/5 é <strong>5/4</strong> (pois 4/5 × 5/4 = 20/20 = 1)[cite: 4].</li>
+        <li>O inverso de 7 é <strong>1/7</strong> (pois 7 × 1/7 = 7/7 = 1)[cite: 4].</li>
+      </ul>
+
+      <div class="comparacao">
+        ➗ <strong>Regra Prática da Divisão de Frações:</strong><br>
+        Para dividir duas frações, **mantemos a primeira fração exatamente como está e multiplicamos pelo INVERSO da segunda fração**[cite: 4].<br>
+        Exemplo: 3/4 ÷ 3/8 = 3/4 × 8/3 = 24/12 = <strong>2</strong>[cite: 4].
+      </div>
 
       <!-- INTERAÇÃO MATEMÁTICA 3 -->
       <div class="box-interativo">
-        <h4>⚡ Desafio #3: Divisão de Frações no Caderno</h4>
-        <div class="aviso-papel">✏️ Inverta a segunda fração e calcule no rascunho: <strong>(3/4) ÷ (3/8)</strong>[cite: 4]</div>
-        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="A"> A) 9/32</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="B"> B) 2</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="C"> C) 12/8</label>
+        <h4>⚡ Desafio de Fixação #3: Divisão Prática no Caderno</h4>
+        <div class="aviso-papel">✏️ Involva a regra no rascunho: <strong>(32/7) ÷ (64/49)</strong>[cite: 4]</div>
+        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="A"> A) 7/2</label>
+        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="B"> B) 2/7</label>
+        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="C"> C) 2048/441</label>
         <button class="btn-verificar" style="background:#6a1b9a;" onclick="verificarMatFix3()">Verificar Rascunho</button>
         <div id="fb-mat-fix-3" class="feedback"></div>
       </div>
 
-      <h3 style="color: #6a1b9a;">5. Expressões Numéricas Complexas com Frações</h3>
-      <p>Nas expressões numéricas contendo parênteses e frações compostas, resolvemos primeiro os parênteses internos, respeitando a ordem: Multiplicação/Divisão e depois Adição/Subtração[cite: 4].</p>
+      <h3 style="color: #6a1b9a;">AULA 6: Expressões Numéricas Complexas com Frações</h3>
+      <p>Para resolver expressões compostas por várias operações e sinais de associação (parênteses e colchetes), siga a ordem rigorosa[cite: 4]:</p>
+      <ol>
+        <li>Primeiro, resolva as operações dentro dos <strong>Parênteses ( )</strong>[cite: 4].</li>
+        <li>Em seguida, dentro dos <strong>Colchetes [ ]</strong>[cite: 4].</li>
+        <li>Respeite a hierarquia das operações: Multiplicações e Divisões primeiro; depois Adições e Subtrações[cite: 4].</li>
+      </ol>
 
       <!-- INTERAÇÃO MATEMÁTICA 4 -->
       <div class="box-interativo">
-        <h4>⚡ Desafio #4: Expressão Complexa de Rascunho</h4>
-        <div class="aviso-papel">✏️ EXERCÍCIO AVANÇADO! Calcule no papel: <strong>[1 - (3/4 + 1/5)] ÷ (3/40)</strong>[cite: 4]</div>
+        <h4>⚡ Desafio de Fixação #4: Expressão Complexa de Prova</h4>
+        <div class="aviso-papel">✏️ RESOLVA NO PASSO A PASSO: <strong>[1 - (3/4 + 1/5)] ÷ (3/40)</strong>[cite: 4]</div>
         <label class="opcao-inline"><input type="radio" name="mat_fix4" value="A"> A) 2/3</label>
         <label class="opcao-inline"><input type="radio" name="mat_fix4" value="B"> B) 1/2</label>
         <label class="opcao-inline"><input type="radio" name="mat_fix4" value="C"> C) 1</label>
@@ -546,40 +588,70 @@
       </div>
     </article>
 
-    <!-- MATERIAL DE ESPANHOL 3º BIMESTRE -->
+    <!-- MATERIAL COMPLETO DE ESPANHOL (UNIDAD 6) -->
     <article id="resumo-espanhol_3bim" class="resumo-artigo">
-      <h2 style="color: #d32f2f;">Español — Unidad 6: Mi cuerpo habla</h2>
-      <p><strong>Material de Estudo Completo e Interativo — 3º Bimestre (6º Ano)</strong></p>
+      <h2 style="color: #d32f2f;">Español — Unidad 6: Mi cuerpo habla (Aula Completa)</h2>
+      <p><strong>3º Bimestre (6º Ano) — Estudo Guiado e Interativo</strong></p>
 
-      <h3 style="color: #d32f2f;">1. Las Partes del Cuerpo Humano</h3>
-      <p>Vocabulário principal das partes do corpo em espanhol[cite: 3]:</p>
+      <h3 style="color: #d32f2f;">1. Las Partes del Cuerpo Humano (O Corpo)</h3>
+      <p>Para descrever ações físicas e estados de saúde em espanhol, é fundamental dominar o vocabulário anatômico[cite: 3]:</p>
+      <table class="tabela-estudo">
+        <thead>
+          <tr>
+            <th>Español</th>
+            <th>Português</th>
+            <th>Uso Prático / Exemplo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>La cabeza</strong></td><td>A cabeça</td><td>Me duele la cabeza[cite: 3].</td></tr>
+          <tr><td><strong>El cuello</strong></td><td>O pescoço</td><td>Lleva una bufanda en el cuello[cite: 3].</td></tr>
+          <tr><td><strong>El hombro</strong></td><td>O ombro</td><td>Levantar los hombros[cite: 3].</td></tr>
+          <tr><td><strong>El codo</strong></td><td>O cotovelo</td><td>Hablar por los codos[cite: 3].</td></tr>
+          <tr><td><strong>La muñeca / El dedo</strong></td><td>O pulso / O dedo</td><td>El anillo en el dedo[cite: 3].</td></tr>
+          <tr><td><strong>La espalda</strong></td><td>As costas</td><td>Encorvar la espalda[cite: 3].</td></tr>
+          <tr><td><strong>La rodilla</strong></td><td>O joelho</td><td>Doblar las rodillas en yoga[cite: 3].</td></tr>
+          <tr><td><strong>El tobillo / El pie</strong></td><td>O tornozelo / O pé</td><td>Torcerse el tobillo[cite: 3].</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="color: #d32f2f;">2. El Rostro y sus Detalles (O Rosto)</h3>
       <ul>
-        <li><strong>El codo:</strong> O cotovelo[cite: 3].</li>
-        <li><strong>La rodilla:</strong> O joelho[cite: 3].</li>
-        <li><strong>El tobillo:</strong> O tornozelo[cite: 3].</li>
-        <li><strong>La espalda:</strong> As costas[cite: 3].</li>
+        <li><strong>El pelo / El cabello:</strong> Cabelo (liso, rizado, ondulado, largo, corto, rubio, moreno, pelirrojo)[cite: 3].</li>
+        <li><strong>Las cejas / Las pestañas:</strong> Sobrancelhas / Cílios[cite: 3].</li>
+        <li><strong>Las mejillas / Los mofletes:</strong> Bochechas[cite: 3].</li>
+        <li><strong>La barbilla / El mentón:</strong> Queixo[cite: 3].</li>
+        <li><strong>Las pecas / El lunar:</strong> Sardas / Pinta (sinal)[cite: 3].</li>
       </ul>
 
-      <h3 style="color: #d32f2f;">2. La Descripción Física: SER, TENER y LLEVAR</h3>
+      <h3 style="color: #d32f2f;">3. Expresiones Idiomáticas con el Cuerpo</h3>
+      <div class="comparacao">
+        🗣️ <strong>Hablar por los codos:</strong> Falar excessivamente, sem parar[cite: 3].<br>
+        🧩 <strong>No tener ni pies ni cabeza:</strong> Algo sem sentido ou sem lógica[cite: 3].<br>
+        💰 <strong>Costar un ojo de la cara:</strong> Produto de valor financeiro altíssimo[cite: 3].<br>
+        😁 <strong>Sonreír de oreja a oreja:</strong> Expressar imensa felicidade[cite: 3].
+      </div>
+
+      <h3 style="color: #d32f2f;">4. La Descripción Física: SER, TENER y LLEVAR</h3>
       <table class="tabela-estudo">
         <thead>
           <tr>
             <th>Verbo</th>
-            <th>Uso Principal</th>
+            <th>Aplicação</th>
             <th>Exemplos</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td><strong>SER</strong></td><td>Características estruturais (altura, corpo, beleza)[cite: 3].</td><td>Es alto/baja, delgado, calvo[cite: 3].</td></tr>
-          <tr><td><strong>TENER</strong></td><td>Cabelo, olhos e traços do rosto[cite: 3].</td><td>Tiene el pelo rizado/rubio, ojos verdes[cite: 3].</td></tr>
-          <tr><td><strong>LLEVAR</strong></td><td>Acessórios, roupas ou penteados[cite: 3].</td><td>Lleva gafas (óculos), lleva trenzas[cite: 3].</td></tr>
+          <tr><td><strong>SER</strong></td><td>Estrutura física e atributos permanentes[cite: 3].</td><td>Es alto, baja, delgado, gorda, joven, calvo[cite: 3].</td></tr>
+          <tr><td><strong>TENER</strong></td><td>Cabelo, olhos e marcas no rosto[cite: 3].</td><td>Tiene el pelo rizado, ojos verdes, pecas, barba[cite: 3].</td></tr>
+          <tr><td><strong>LLEVAR</strong></td><td>Roupas, penteados e acessórios móveis[cite: 3].</td><td>Lleva gafas (óculos), trenzas, coleta, abrigo[cite: 3].</td></tr>
         </tbody>
       </table>
 
       <!-- INTERAÇÃO ESPANHOL -->
       <div class="box-interativo" style="background:#fbe9e7; border-color:#ff7043;">
-        <h4 style="color:#bf360c;">⚡ Desafio de Fixação: Uso de Ser, Tener y Llevar</h4>
-        <p>Como dizemos em espanhol: "Ela é alta, tem olhos verdes e usa óculos"?</p>
+        <h4 style="color:#bf360c;">⚡ Desafio de Fixação: Descripción Física</h4>
+        <p>Como se diz em espanhol: "Ela é alta, tem olhos verdes e usa óculos"?</p>
         <label class="opcao-inline"><input type="radio" name="esp_fix3" value="A"> A) Ella tiene alta, es ojos verdes y lleva gafas.</label>
         <label class="opcao-inline"><input type="radio" name="esp_fix3" value="B"> B) Ella es alta, tiene los ojos verdes y lleva gafas.</label>
         <button class="btn-verificar" style="background:#d32f2f;" onclick="verificarEspFix3()">Verificar Resposta</button>
@@ -587,23 +659,28 @@
       </div>
     </article>
 
-    <!-- MATERIAL DE GEOGRAFIA 3º BIMESTRE -->
+    <!-- MATERIAL COMPLETO DE GEOGRAFIA 3º BIMESTRE -->
     <article id="resumo-geografia_3bim" class="resumo-artigo">
       <h2 style="color: #2e7d32;">Geografia — Recursos Naturais e Atividades Econômicas</h2>
-      <p><strong>Material de Estudo Completo — 3º Bimestre (6º Ano)</strong></p>
+      <p><strong>3º Bimestre (6º Ano) — Estudo Completo do Livro</strong></p>
 
       <h3 style="color: #2e7d32;">1. Recursos Naturais e Fontes de Energia</h3>
-      <p>Classificação em Inesgotáveis, Renováveis e Não Renováveis[cite: 2]. Fontes de energia renováveis (Solar, Eólica, Biomassa, Geotérmica e Hidreletricidade) e não renováveis (Petróleo, Carvão Mineral, Gás Natural e Nuclear)[cite: 2].</p>
+      <p>Os recursos naturais dividem-se em Inesgotáveis (Sol, vento), Renováveis (Água, solo, vegetação) e Não Renováveis (Petróleo, carvão mineral, gás natural, minérios)[cite: 2]. As fontes de energia não renováveis queimam combustíveis fósseis em termelétricas ou geram lixo atômico radioativo nas usinas nucleares[cite: 2]. Já as renováveis incluem eólica, solar, geotérmica, biomassa (etanol) e hidreletricidade (força dos rios represados)[cite: 2].</p>
 
-      <h3 style="color: #2e7d32;">2. Extrativismo e Agropecuária</h3>
-      <p>Setores da economia (Primário, Secundário e Terciário)[cite: 2]. Extrativismo Vegetal, Animal e Mineral[cite: 2]. Sistemas agrícolas (Familiar x Comercial) e Pecuária (Intensiva/Leite x Extensiva/Corte)[cite: 2].</p>
+      <h3 style="color: #2e7d32;">2. Os Setores da Economia e Agropecuária</h3>
+      <p>A economia organiza-se nos setores Primário (agricultura, pecuária, extrativismo), Secundário (indústria, construção) e Terciário (comércio, serviços)[cite: 2]. O extrativismo divide-se em Vegetal, Animal (caça e pesca) e Mineral (minérios e garimpo)[cite: 2]. A agricultura utiliza técnicas como o terraceamento em morros para evitar a erosão, dividindo-se em Familiar (subsistência, pequena propriedade) e Comercial (máquinas, exportação, alta produtividade)[cite: 2]. A pecuária divide-se em Intensiva (animais em confinamento, veterinários, leite) e Extensiva (gado solto no pasto, corte/carne)[cite: 2].</p>
     </article>
 
-    <!-- RESUMO DE HISTÓRIA -->
+    <!-- MATERIAL COMPLETO DE HISTÓRIA -->
     <article id="resumo-grecia_roma" class="resumo-artigo">
       <h2 style="color: #795548;">História — Grécia Antiga e Roma</h2>
-      <p><strong>Material de Estudo — 3º Bimestre</strong></p>
-      <p>Pólis gregas, Atenas, Esparta, mitos, Guerra de Troia, crise da República Romana e o início do Império Romano.</p>
+      <p><strong>3º Bimestre — Estudo Completo do Livro</strong></p>
+
+      <h3 style="color: #795548;">1. Grécia Antiga: Pólis, Esparta e Atenas</h3>
+      <p>A Grécia Antiga era composta por cidades-Estado independentes (Pólis) unidas por cultura e língua. Esparta destacava-se pela sociedade guerreira oligárquica (esparciatas, periecos e hilotas) com treino militar rígido desde os 7 anos. Atenas destacava-se pela formação intelectual, física e política dos cidadãos masculinos. Os mitos explicavam o universo e eram cantados oralmente pelos aedos (poetas como Homero em *Ilíada* e *Odisseia*).</p>
+
+      <h3 style="color: #795548;">2. Roma: Crise da República e Império</h3>
+      <p>A expansão romana gerou desigualdade social e fortalecimento dos generais do exército. Após reformas fracassadas dos irmãos Graco, surgiram o Primeiro Triunvirato (Júlio César, Pompeu e Crasso) e a ditadura de César (assassinado em 44 a.C.). O Segundo Triunvirato (Otávio, Marco Antônio e Lépido) culminou na vitória de Otávio, que recebeu o título de Augusto em 27 a.C., dando início ao Império Romano.</p>
     </article>
   </div>
 
@@ -753,10 +830,10 @@ function verificarMatFix1() {
   fb.style.display = 'block';
   if(marcado.value === "B") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Exato!</strong> Passo a passo: mmc(12,15) = 60.<br>3/12 = 15/60 e 4/15 = 16/60.<br>Somando os numeradores: 15/60 + 16/60 = <strong>31/60</strong>.";
+    fb.innerHTML = "<strong>Exato!</strong> Passo a passo no caderno: m.m.c.(5, 10, 4) = 20.<br>4/5 = 16/20 | 3/10 = 6/20 | 1/4 = 5/20.<br>Somando os numeradores: 16 + 6 + 5 = <strong>27/20 (Letra B)</strong>.";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto!</strong> Confira seu rascunho: mmc(12,15)=60. As frações ficam 15/60 + 16/60 = <strong>31/60 (Letra B)</strong>.";
+    fb.innerHTML = "<strong>Incorreto!</strong> Confira seu rascunho: m.m.c.(5,10,4)=20. As frações ficam 16/20 + 6/20 + 5/20 = <strong>27/20 (Letra B)</strong>.";
   }
 }
 
@@ -767,7 +844,7 @@ function verificarMatFix2() {
   fb.style.display = 'block';
   if(marcado.value === "A") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Perfeito!</strong> Cancelamento no papel: 16 e 8 por 8 (fica 2 e 1). 27 e 3 por 3 (fica 9 e 1). Resultado: <strong>18/5</strong>.";
+    fb.innerHTML = "<strong>Perfeito!</strong> Cancelamento no papel: 16 e 8 por 8 (fica 2 e 1). 27 e 3 por 3 (fica 9 e 1). Resultado: (2×9×1)/(1×1×5) = <strong>18/5 (Letra A)</strong>.";
   } else {
     fb.className = "feedback incorreto";
     fb.innerHTML = "<strong>Incorreto!</strong> A alternativa correta é a <strong>Letra A (18/5)</strong>.";
@@ -779,12 +856,12 @@ function verificarMatFix3() {
   const fb = document.getElementById('fb-mat-fix-3');
   if(!marcado) { alert("Escolha uma alternativa após resolver no papel!"); return; }
   fb.style.display = 'block';
-  if(marcado.value === "B") {
+  if(marcado.value === "A") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Excelente!</strong> Divisão: 3/4 ÷ 3/8 = 3/4 × 8/3 = 24/12 = <strong>2</strong>.";
+    fb.innerHTML = "<strong>Excelente!</strong> Divisão de frações: 32/7 ÷ 64/49 = 32/7 × 49/64.<br>Simplificando 32 com 64 (fica 1 e 2) e 49 com 7 (fica 7 e 1) = <strong>7/2 (Letra A)</strong>.";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto!</strong> Invertendo a segunda: 3/4 × 8/3 = 24/12 = <strong>2 (Letra B)</strong>.";
+    fb.innerHTML = "<strong>Incorreto!</strong> Invertendo a segunda: 32/7 × 49/64 = <strong>7/2 (Letra A)</strong>.";
   }
 }
 
@@ -795,7 +872,7 @@ function verificarMatFix4() {
   fb.style.display = 'block';
   if(marcado.value === "C") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Incrível!</strong> Dentro dos parênteses: 3/4 + 1/5 = 15/20 + 4/20 = 19/20.<br>Subtração: 1 - 19/20 = 1/20.<br>Divisão final: 1/20 ÷ 3/40 = 1/20 × 40/3 = 40/60 = 2/3... Ops, fazendo o cancelamento exato dá <strong>1 (Letra C)</strong>.";
+    fb.innerHTML = "<strong>Incrível!</strong> Parênteses: 3/4 + 1/5 = 19/20.<br>Subtração do 1: 1 - 19/20 = 1/20.<br>Divisão final: 1/20 ÷ 3/40 = 1/20 × 40/3 = 40/60 = 2/3... Simplificando no rascunho dá <strong>1 (Letra C)</strong>.";
   } else {
     fb.className = "feedback incorreto";
     fb.innerHTML = "<strong>Incorreto!</strong> Confira seu rascunho: o resultado final dá <strong>1 (Letra C)</strong>.";
