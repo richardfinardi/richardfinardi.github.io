@@ -62,6 +62,14 @@ button,select,input{font:inherit}
 .breadcrumb b{color:#d7e2f0}
 .title{font-weight:800;font-size:20px;margin-top:4px}
 .actions{display:flex;align-items:center;gap:9px}
+.mobile-menu-btn{
+  display:none;width:39px;height:39px;border-radius:11px;border:1px solid #29405e;
+  background:#0f1d30;color:#d9e5f4;cursor:pointer;font-size:17px
+}
+.menu-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:25
+}
+.menu-overlay.open{display:block}
 .icon-btn,.secondary,.primary{
   border-radius:11px;height:39px;cursor:pointer
 }
@@ -177,18 +185,32 @@ tbody tr{cursor:pointer}tbody tr:hover td{background:#102139}
   .hero{flex-direction:column;align-items:flex-start}
 }
 @media(max-width:560px){
-  .sidebar{position:static;width:100%;height:auto;padding:10px}
+  .sidebar{
+    position:fixed;left:0;top:0;bottom:0;width:min(82vw,320px);height:100vh;padding:14px;
+    transform:translateX(-105%);transition:transform .25s ease;z-index:40;
+    box-shadow:24px 0 60px rgba(0,0,0,.35)
+  }
+  .sidebar.open{transform:translateX(0)}
   .app{display:block}.main{margin:0;width:100%}
-  .brand{justify-content:flex-start;border:0;margin:0}.brand-copy{display:block}
-  .nav{grid-template-columns:repeat(6,1fr);overflow:auto}
-  .nav button{padding:7px}.nav-text{display:none}
-  .topbar{position:static}.breadcrumb,.profile{display:none}
-  .toolbar{grid-template-columns:1fr}.kpis{grid-template-columns:1fr}.grid4{grid-template-columns:1fr 1fr}
-  .actions .secondary{display:none}.hero{padding:17px}.donut-zone{flex-direction:column}
+  .brand{justify-content:flex-start;border-bottom:1px solid #1d2e46;margin-bottom:10px}
+  .brand-copy,.group-title,.nav-text{display:block}
+  .nav{grid-template-columns:1fr;overflow:visible}
+  .nav button{justify-content:flex-start;padding:11px 12px}
+  .sidebar-foot{display:block;position:static;margin-top:18px}
+  .topbar{position:sticky;top:0;padding:10px 12px;min-height:64px}
+  .breadcrumb,.profile{display:none}
+  .mobile-menu-btn{display:grid;place-items:center}
+  .toolbar{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr}
+  .grid4{grid-template-columns:1fr 1fr}
+  .actions .secondary{display:none}
+  .hero{padding:17px}
+  .donut-zone{flex-direction:column}
 }
 </style>
 </head>
 <body>
+<div class="menu-overlay" id="menuOverlay" onclick="closeMobileMenu()"></div>
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
@@ -216,9 +238,12 @@ tbody tr{cursor:pointer}tbody tr:hover td{background:#102139}
 
   <main class="main">
     <div class="topbar">
-      <div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Abrir menu">☰</button>
+        <div>
         <div class="breadcrumb">Neosonic › <b id="crumb">Visão Executiva</b></div>
         <div class="title" id="pageTitle">Visão Executiva</div>
+        </div>
       </div>
       <div class="actions">
         <button class="icon-btn" onclick="refreshBtn(this)">↻</button>
@@ -505,9 +530,18 @@ document.querySelectorAll(".nav button").forEach(btn=>{
     document.getElementById(id).classList.add("active");
     document.getElementById("pageTitle").textContent=names[id];
     document.getElementById("crumb").textContent=names[id];
+    closeMobileMenu();
     window.scrollTo({top:0,behavior:"smooth"});
   }
 });
+function toggleMobileMenu(){
+  document.querySelector(".sidebar").classList.toggle("open");
+  document.getElementById("menuOverlay").classList.toggle("open");
+}
+function closeMobileMenu(){
+  document.querySelector(".sidebar").classList.remove("open");
+  document.getElementById("menuOverlay").classList.remove("open");
+}
 function refreshBtn(btn){btn.style.transform="rotate(360deg)";btn.style.transition=".6s";setTimeout(()=>btn.style.transform="",650)}
 function openDrawer(c,s,r,m,sh){
   dClient.textContent=c;dSegment.textContent=s+" • visão gerencial";dRevenue.textContent=r;dMargin.textContent=m;dShare.textContent=sh;
