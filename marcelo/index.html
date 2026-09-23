@@ -80,6 +80,8 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
+    .btn-filosofia { background-color: #e65100; }
+    .btn-portugues { background-color: #0288d1; }
     .btn-matematica { background-color: #6a1b9a; }
     .btn-geografia { background-color: #2e7d32; }
     .btn-historia { background-color: #795548; }
@@ -342,16 +344,22 @@
       padding: 18px;
       margin: 25px 0;
     }
+    .box-interativo.filo {
+      background-color: #fff3e0;
+      border-color: #ff9800;
+    }
+    .box-interativo.port {
+      background-color: #e1f5fe;
+      border-color: #03a9f4;
+    }
     .box-interativo h4 {
       margin-top: 0;
-      color: #4a148c;
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 1.1em;
     }
     .btn-verificar {
-      background: #6a1b9a;
       color: white;
       border: none;
       padding: 10px 18px;
@@ -436,24 +444,34 @@
     </div>
 
     <div class="grid-resumos">
+      <button class="card-resumo-menu" style="border-color: #e65100;" onclick="abrirResumo('filosofia_3bim')">
+        <h3 style="color: #e65100;">🤔 Filosofia — Cap. 05 e 06 (Prova Bimestral)</h3>
+        <p>Sofistas, Retórica, Relativismo vs. Valores Universais, Autoconhecimento e Maiêutica de Sócrates.</p>
+      </button>
+
+      <button class="card-resumo-menu" style="border-color: #0288d1;" onclick="abrirResumo('portugues_3bim')">
+        <h3 style="color: #0288d1;">📖 Língua Portuguesa — Módulos 5 e 6</h3>
+        <p>Acentuação de Paroxítonas, Frase/Oração/Período, Ordem Direta/Inversa, Sujeito, Predicado e Sintagmas.</p>
+      </button>
+
       <button class="card-resumo-menu" style="border-color: #6a1b9a;" onclick="abrirResumo('matematica_3bim')">
-        <h3 style="color: #6a1b9a;">🧮 Matemática — Operações com Frações (Aulas 1 a 8)</h3>
-        <p>Curso Completo: Adição, Subtração, M.M.C., Multiplicação, Cancelamento, Divisão e Expressões com Parênteses.</p>
+        <h3 style="color: #6a1b9a;">🧮 Matemática — Operações com Frações</h3>
+        <p>Curso Completo: Adição, Subtração, M.M.C., Multiplicação, Cancelamento, Divisão e Expressões Numéricas.</p>
       </button>
 
       <button class="card-resumo-menu" style="border-color: #d32f2f;" onclick="abrirResumo('espanhol_3bim')">
         <h3 style="color: #d32f2f;">🇪🇸 Espanhol — Unidad 6: Mi cuerpo habla</h3>
-        <p>Aula Completa: Cuerpo humano, rostro, expresiones idiomáticas, Ser/Tener/Llevar, lenguaje corporal y verbos.</p>
+        <p>Partes del cuerpo, el rostro, lenguaje corporal, descripción física (Ser/Tener/Llevar) y Presente de Indicativo.</p>
       </button>
 
       <button class="card-resumo-menu" style="border-color: #2e7d32;" onclick="abrirResumo('geografia_3bim')">
-        <h3 style="color: #2e7d32;">🌎 Geografia — Recursos Naturais, Extrativismo e Agropecuária</h3>
-        <p>Material Completo: Fontes energéticas, setores da economia, extrativismo e sistemas agropecuários.</p>
+        <h3 style="color: #2e7d32;">🌎 Geografia — Recursos Naturais e Agropecuária</h3>
+        <p>Fontes de energia, setores da economia, extrativismo e sistemas agropecuários.</p>
       </button>
 
       <button class="card-resumo-menu" style="border-color: #795548;" onclick="abrirResumo('grecia_roma')">
         <h3 style="color: #795548;">🏛️ História — Grécia Antiga e Roma</h3>
-        <p>Material Completo: Pólis, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e Triunviratos.</p>
+        <p>Pólis, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e Triunviratos.</p>
       </button>
     </div>
   </div>
@@ -465,222 +483,185 @@
       <button class="btn-voltar" onclick="voltarInicio()">🏠 Início</button>
     </div>
 
-    <!-- AULA COMPLETA DE MATEMÁTICA -->
-    <article id="resumo-matematica_3bim" class="resumo-artigo">
-      <h2 style="color: #6a1b9a;">Matemática — Operações com Frações (Aulas Didáticas)</h2>
-      <p><strong>3º Bimestre (6º Ano) — Estudo Guiado e Raciocinado</strong></p>
+    <!-- AULA COMPLETA DE FILOSOFIA (CAP. 5 E 6) -->
+    <article id="resumo-filosofia_3bim" class="resumo-artigo">
+      <h2 style="color: #e65100;">Filosofia — Capítulo 05 e 06 (Prova Bimestral)</h2>
+      <p><strong>6º Ano do Ensino Fundamental — O Surgimento da Filosofia Moral e o Debate Sócrates vs. Sofistas</strong></p>
 
+      <h3 style="color: #e65100;">1. Os Sofistas: Os Mestres do Discurso</h3>
+      <p>Na Grécia Antiga (século V a.C.), com o nascimento da **Democracia Ateniense**, os cidadãos precisavam debater nas assembleias públicas (*Eclésia*) para defender suas ideias e leis. Nesse contexto, surgiram os **Sofistas**: professores itinerantes (viajantes) que cobravam dinheiro para ensinar técnicas de oratória e debate aos jovens atenienses.</p>
+      <p>A palavra "sofista" vem do grego <em>sophia</em> (sabedoria), significando "sábio" ou "especialista no saber". No entanto, eles não buscavam uma verdade absoluta, mas sim ensinar a vencer debates.</p>
+
+      <h3 style="color: #e65100;">2. Retórica e Persuasão</h3>
+      <p>**Retórica** é a arte de falar bem e com eloquência, utilizando argumentos estruturados para convencer os ouvintes. Para os sofistas, o objetivo principal do discurso era a **persuasão** — conseguir convencer a plateia de que uma ideia era boa, independentemente de ser verdadeira ou falsa.</p>
+
+      <!-- INTERAÇÃO FILOSOFIA 1 -->
+      <div class="box-interativo filo">
+        <h4 style="color:#e65100;">⚡ Desafio de Fixação #1: Os Sofistas</h4>
+        <p>Qual era a principal característica da atuação dos sofistas na Atenas democrática?</p>
+        <label class="opcao-inline"><input type="radio" name="fil_fix1" value="A"> A) Ensinavam gratuitamente a busca pela verdade absoluta e matemática.</label>
+        <label class="opcao-inline"><input type="radio" name="fil_fix1" value="B"> B) Cobravam para ensinar retórica e persuasão para que os cidadãos vencessem debates políticos.</label>
+        <label class="opcao-inline"><input type="radio" name="fil_fix1" value="C"> C) Eram reis de Esparta que proibiam qualquer tipo de discurso em público.</label>
+        <button class="btn-verificar" style="background:#e65100;" onclick="verificarFilFix1()">Verificar Resposta</button>
+        <div id="fb-fil-fix-1" class="feedback"></div>
+      </div>
+
+      <h3 style="color: #e65100;">3. Valores Relativos vs. Valores Universais</h3>
+      <p>Uma das maiores divergências da filosofia antiga ocorreu entre o **Relativismo dos Sofistas** e o **Universalismo de Sócrates**:</p>
+      
+      <div class="comparacao">
+        <strong>• Relativismo Moral (Sofistas):</strong> Defendido por pensadores como **Protágoras** (autor da célebre frase: <em>"O homem é a medida de todas as coisas"</em>). Para os sofistas, não existem conceitos universais do que é "Certo", "Errado", "Bom" ou "Justo". A verdade muda de acordo com a cultura, a época ou a opinião de cada pessoa (**valores relativos**).<br><br>
+        <strong>• Universalismo/Objetivismo (Sócrates):</strong> Sócrates discordava radicalmente dos sofistas. Ele acreditava que a Justiça, a Coragem e o Bem não dependem da opinião individual, mas sim de conceitos racionais válidos para todos os seres humanos em qualquer lugar (**valores universais**).
+      </div>
+
+      <h3 style="color: #e65100;">4. O Autoconhecimento em Sócrates</h3>
+      <p>Sócrates não cobrava por seus ensinamentos e não escreveu livros; ele conversava com as pessoas nas praças públicas (*Ágora*) de Atenas. Inspirado na inscrição gravada no Templo de Apolo em Delfos — **"Conhece-te a ti mesmo"** (*Gnothi Seauton*) —, Sócrates ensinava que a verdadeira sabedoria começa ao olhar para dentro de si e reconhecer a própria ignorância.</p>
+      <div class="destaque-estudo">
+        💡 <strong>A Frase Famosa de Sócrates:</strong> <em>"Só sei que nada sei"</em>. Somente quem admite que não sabe algo está pronto para aprender e buscar a verdade interior.
+      </div>
+
+      <h3 style="color: #e65100;">5. A Maiêutica de Sócrates (O Método Socrático)</h3>
+      <p>A mãe de Sócrates era parteira (*Fenarete*). Sócrates dizia que ele fazia o mesmo que sua mãe: enquanto ela ajudava a dar à luz crianças, ele ajudava as pessoas a **darem à luz ideias**. Esse método dialógico divide-se em duas etapas consecutivas:</p>
+
+      <ol>
+        <li><strong>1ª Etapa — Ironia (Refutação):</strong> Sócrates fazia perguntas fingindo ignorância, levando o interlocutor a contradições até que ele percebesse que seus preconceitos e certezas eram falsos.</li>
+        <li><strong>2ª Etapa — Maiêutica (Parto das Ideias):</strong> Através de novas perguntas guiadas, o indivíduo descobria a verdade e os conceitos universais por si mesmo, gerando o conhecimento dentro de sua própria razão.</li>
+      </ol>
+
+      <!-- INTERAÇÃO FILOSOFIA 2 -->
+      <div class="box-interativo filo">
+        <h4 style="color:#e65100;">⚡ Desafio de Fixação #2: A Maiêutica Socrática</h4>
+        <p>O que significa a etapa da "Maiêutica" no método de estudo e diálogo socrático?</p>
+        <label class="opcao-inline"><input type="radio" name="fil_fix2" value="A"> A) O momento em que Sócrates cobrava moedas de ouro dos seus alunos.</label>
+        <label class="opcao-inline"><input type="radio" name="fil_fix2" value="B"> B) O processo de 'dar à luz' a ideias verdadeiras através de perguntas inteligentes.</label>
+        <label class="opcao-inline"><input type="radio" name="fil_fix2" value="C"> C) Decorar discursos prontos escritos por historiadores antigos.</label>
+        <button class="btn-verificar" style="background:#e65100;" onclick="verificarFilFix2()">Verificar Resposta</button>
+        <div id="fb-fil-fix-2" class="feedback"></div>
+      </div>
+    </article>
+
+    <!-- AULA COMPLETA DE LÍNGUA PORTUGUESA (MÓDULOS 5 E 6) -->
+    <article id="resumo-portugues_3bim" class="resumo-artigo">
+      <h2 style="color: #0288d1;">Língua Portuguesa — Módulos 05 e 06 (Prova Bimestral)</h2>
+      <p><strong>6º Ano do Ensino Fundamental — Gramática, Sintaxe e Ortografia</strong></p>
+
+      <h3 style="color: #0288d1;">MÓDULO 5: Acentuação Gráfica das Palavras Paroxítonas</h3>
+      <p>Revisão de tonicidade: **Paroxítonas** são as palavras cuja sílaba tônica (a sílaba emitida com mais força) é a **penúltima** (Ex: *fá-cil*, *ca-der-no*, *a-mí-gvel*).</p>
+      <p>Na língua portuguesa, a maioria das palavras é paroxítona, por isso as regras mostram as terminações "especiais" que **exigem acento gráfico**:</p>
+
+      <table class="tabela-estudo">
+        <thead>
+          <tr>
+            <th>Terminações Exigidas</th>
+            <th>Exemplos Acentuados</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>-L, -R, -N, -X, -PS</strong></td><td>Fá-ci<strong>l</strong>, cá-de-ve<strong>r</strong>, hí-fe<strong>m</strong>, tó-ra<strong>x</strong>, bí-ce<strong>ps</strong>.</td></tr>
+          <tr><td><strong>-ÃO(S), -Ã(S)</strong></td><td>Ór-f<strong>ão</strong>, bên-ç<strong>ão</strong>, ím-ã.</td></tr>
+          <tr><td><strong>-I(S), -US, -UM, -UNS</strong></td><td>Já-u-r<strong>i</strong>, tá-x<strong>i</strong>, ví-r<strong>us</strong>, ál-b<strong>um</strong>, al-b<strong>uns</strong>.</td></tr>
+          <tr><td><strong>Ditongos Orais (crescentes/decrescentes)</strong></td><td>His-tó-r<strong>ia</strong>, e-gen-c<strong>ia</strong>, co-lé-g<strong>io</strong>, ré-g<strong>ua</strong>.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="destaque-estudo">
+        ⚠️ <strong>Atenção para a Pegadinha:</strong> Palavras paroxítonas terminadas em <em>-A, -E, -O, -EM, -ENS</em> **NÃO levam acento**! (Ex: <em>mesa, verde, amigo, jovem, nuvens</em>).
+      </div>
+
+      <!-- INTERAÇÃO PORTUGUÊS 1 -->
+      <div class="box-interativo port">
+        <h4 style="color:#0288d1;">⚡ Desafio de Fixação #1: Acentuação de Paroxítonas</h4>
+        <p>Qual das palavras paroxítonas abaixo está acentuada corretamente pela regra dos ditongos finais?</p>
+        <label class="opcao-inline"><input type="radio" name="port_fix1" value="A"> A) Mé-sa</label>
+        <label class="opcao-inline"><input type="radio" name="port_fix1" value="B"> B) Re-ló-gio</label>
+        <label class="opcao-inline"><input type="radio" name="port_fix1" value="C"> C) Ca-der-nó</label>
+        <button class="btn-verificar" style="background:#0288d1;" onclick="verificarPortFix1()">Verificar Resposta</button>
+        <div id="fb-port-fix-1" class="feedback"></div>
+      </div>
+
+      <h3 style="color: #0288d1;">MÓDULO 6: Frase, Oração e Período</h3>
+      <p>Compreender a estrutura do texto depende da diferenciação clara dessas três unidades sintáticas:</p>
+
+      <div class="comparacao">
+        <strong>• Frase:</strong> Todo enunciado com sentido completo capaz de transmitir uma comunicação. Pode ter verbo ou não!<br>
+        — <em>Frase Nominal (sem verbo):</em> "Que dia lindo!", "Socorro!".<br>
+        — <em>Frase Verbal (com verbo):</em> "Os alunos estudaram bastante."<br><br>
+        <strong>• Oração:</strong> Enunciado estruturado obrigatoriamente ao redor de **pelo menos um verbo** (ou locução verbal). A oração possui sujeito e predicado.<br><br>
+        <strong>• Período:</strong> A frase verbal composta por uma ou mais orações, terminando sempre em ponto final, ponto de interrogação ou exclamação.<br>
+        — <em>Período Simples:</em> Contém apenas 1 oração (1 verbo). Ex: "O estudante fez a prova."<br>
+        — <em>Período Composto:</em> Contém 2 ou mais orações (2 ou mais verbos). Ex: "O estudante fez a prova e comemorou a nota."
+      </div>
+
+      <h3 style="color: #0288d1;">Ordem Direta vs. Ordem Inversa</h3>
+      <ul>
+        <li><strong>Ordem Direta:</strong> É a organização sintática padrão da língua portuguesa: **SUJEITO + VERBO + COMPLEMENTOS**. Ex: <em>"Os alunos do 6º ano (Sujeito) leram (Verbo) o livro de história (Complemento)."</em></li>
+        <li><strong>Ordem Inversa (Invertida):</strong> Ocorre quando alteramos a posição dos termos na frase para dar destaque poético ou expressivo. Ex: <em>"Leram o livro de história os alunos do 6º ano."</em></li>
+      </ul>
+
+      <h3 style="color: #0288d1;">Sujeito e Predicado</h3>
+      <p>São os dois termos essenciais da oração:</p>
+      <ul>
+        <li><strong>Sujeito:</strong> O termo sobre o qual se declara algo ou que realiza/sofre a ação verbal. Para achar o sujeito, pergunte "Quem?" ou "O que?" ao verbo.
+            <br>• *Núcleo do Sujeito:* A palavra mais importante dentro do sujeito (substantivo ou pronome). Ex: "O **aluno** dedicado passou". (Núcleo = *aluno*).</li>
+        <li><strong>Predicado:</strong> Tudo o que se declara sobre o sujeito, contendo obrigatoriamente o verbo e seus complementos. Ex: Em "O aluno *passou no exame*", o predicado é *passou no exame*.</li>
+      </ul>
+
+      <h3 style="color: #0288d1;">Sintagma Nominal (SN) e Sintagma Verbal (SV)</h3>
+      <p>Um **Sintagma** é um grupo de palavras que se organizam ao redor de um elemento central chamado **núcleo**:</p>
+      <ul>
+        <li><strong>Sintagma Nominal (SN):</strong> Conjunto de palavras cujo núcleo é um **nome (substantivo ou pronome)**. Geralmente desempenha a função de Sujeito ou Objeto. Ex: Em <em>"Aqueles dois meninos inteligentes"</em>, o núcleo do SN é <strong>meninos</strong>.</li>
+        <li><strong>Sintagma Verbal (SV):</strong> Conjunto de palavras cujo núcleo é um **verbo**. Coincide com a estrutura do Predicado. Ex: Em <em>"compraram os livros novos"</em>, o núcleo do SV é o verbo <strong>compraram</strong>.</li>
+      </ul>
+
+      <!-- INTERAÇÃO PORTUGUÊS 2 -->
+      <div class="box-interativo port">
+        <h4 style="color:#0288d1;">⚡ Desafio de Fixação #2: Análise Sintática</h4>
+        <p>Na frase em ordem direta: <em>"Os pássaros coloridos cantavam na árvore"</em>, qual é o Núcleo do Sintagma Nominal (Sujeito)?</p>
+        <label class="opcao-inline"><input type="radio" name="port_fix2" value="A"> A) Coloridos</label>
+        <label class="opcao-inline"><input type="radio" name="port_fix2" value="B"> B) Pássaros</label>
+        <label class="opcao-inline"><input type="radio" name="port_fix2" value="C"> C) Cantavam</label>
+        <button class="btn-verificar" style="background:#0288d1;" onclick="verificarPortFix2()">Verificar Resposta</button>
+        <div id="fb-port-fix-2" class="feedback"></div>
+      </div>
+    </article>
+
+    <!-- MATERIAL DE MATEMÁTICA -->
+    <article id="resumo-matematica_3bim" class="resumo-artigo">
+      <h2 style="color: #6a1b9a;">Matemática — Operações com Frações</h2>
+      <p><strong>3º Bimestre (6º Ano) — Estudo Guiado e Raciocinado</strong></p>
       <div class="aviso-papel">
         ✏️ <strong>REQUISITO DE ESTUDO:</strong> Para aprender Matemática de verdade, você DEVE pegar lápis e caderno! Faça os rascunhos de todas as contas antes de marcar a resposta!
       </div>
 
-      <h3 style="color: #6a1b9a;">AULA 1: Adição e Subtração de Frações com Denominadores Iguais</h3>
-      <p>Quando temos frações que representam partes divididas exatamente do mesmo tamanho (ou seja, com o mesmo <strong>denominador</strong>), a regra de cálculo é direta:</p>
-      <div class="destaque-estudo">
-        📌 <strong>Regra de Ouro:</strong> Adicionamos ou subtraímos apenas os <strong>numeradores</strong> (números de cima) e <strong>conservamos o denominador</strong> (número de baixo).
-      </div>
+      <h3 style="color: #6a1b9a;">1. Adição e Subtração de Frações</h3>
+      <p>Denominadores Iguais: conserva o denominador e opera os numeradores. Denominadores Diferentes: calcula o m.m.c., obtém as frações equivalentes e opera os novos numeradores.</p>
 
-      <p><strong>Exemplo Prático do Livro (Página 29):</strong></p>
-      <p>A Dra. Maíra é veterinária. Ela reserva 1/10 do seu tempo para consultas em domicílio e 7/10 para atendimento na clínica.</p>
-      <ul>
-        <li><strong>Quanto tempo do total é reservado para consultas?</strong><br>
-            Somamos as duas frações: 1/10 + 7/10 = (1 + 7) / 10 = <strong>8/10 do tempo</strong>.</li>
-        <li><strong>Quanto tempo a mais ela dedica para a clínica do que para o domicílio?</strong><br>
-            Subtraímos as frações: 7/10 - 1/10 = (7 - 1) / 10 = <strong>6/10 do tempo a mais</strong>.</li>
-      </ul>
+      <h3 style="color: #6a1b9a;">2. Multiplicação e Técnica do Cancelamento</h3>
+      <p>Multiplica numerador por numerador e denominador por denominador. Na técnica do cancelamento, simplificamos números de cima com números de baixo por divisores comuns antes de multiplicar.</p>
 
-      <h3 style="color: #6a1b9a;">AULA 2: Adição e Subtração com Denominadores Diferentes (M.M.C.)</h3>
-      <p>Não podemos somar ou subtrair pedaços de tamanhos diferentes diretamente (como somar 1/8 de pizza com 1/4 de pizza)! Primeiro, precisamos converter as duas frações para que tenham o <strong>mesmo denominador equivalente</strong>.</p>
-
-      <p><strong>O Método do Mínimo Múltiplo Comum (m.m.c.):</strong></p>
-      <ol>
-        <li>Identifique os denominadores diferentes (Exemplo: 12 e 15).</li>
-        <li>Encontre o <strong>m.m.c.</strong> entre eles: Múltiplos de 12: {0, 12, 24, 36, 48, 60...} | Múltiplos de 15: {0, 15, 30, 45, 60...}. Logo, m.m.c.(12, 15) = <strong>60</strong>.</li>
-        <li>Divida o m.m.c. pelo denominador antigo e multiplique pelo numerador antigo para descobrir a nova fração equivalente:
-            <br>• Para 3/12: (60 ÷ 12) × 3 = 15 → <strong>15/60</strong>.
-            <br>• Para 4/15: (60 ÷ 15) × 4 = 16 → <strong>16/60</strong>.</li>
-        <li>Agora que os denominadores são iguais, efetue a operação: 15/60 + 16/60 = <strong>31/60</strong>.</li>
-      </ol>
-
-      <!-- INTERAÇÃO MATEMÁTICA 1 -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #1: Treinando o M.M.C. no Caderno</h4>
-        <div class="aviso-papel">✏️ Pegue o lápis! Faça no caderno: m.m.c.(5, 10, 4) = 20. Calcule a soma: <strong>4/5 + 3/10 + 1/4</strong></div>
-        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="A"> A) 8/19</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="B"> B) 27/20 (ou 1 7/20)</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix1" value="C"> C) 15/20</label>
-        <button class="btn-verificar" style="background:#6a1b9a;" onclick="verificarMatFix1()">Verificar Rascunho</button>
-        <div id="fb-mat-fix-1" class="feedback"></div>
-      </div>
-
-      <h3 style="color: #6a1b9a;">AULA 3: Multiplicação com Frações</h3>
-      <p>A multiplicação de frações é simples e segue uma regra direta:</p>
-      <div class="comparacao">
-        ✖️ <strong>Regra Prática:</strong> Multiplicamos <strong>numerador por numerador</strong> e <strong>denominador por denominador</strong>.<br>
-        Exemplo: 1/7 × 4/5 = (1 × 4) / (7 × 5) = <strong>4/35</strong>.
-      </div>
-
-      <p><strong>Multiplicação de um Número Inteiro por uma Fração:</strong></p>
-      <p>Quando multiplicamos um número natural por uma fração, multiplicamos o inteiro apenas pelo numerador de cima. Exemplo: Sobraram 1/4 de 3 pizzas distintas. Quanto sobrou no total? 3 × 1/4 = (3 × 1) / 4 = <strong>3/4 de pizza</strong>.</p>
-
-      <h3 style="color: #6a1b9a;">AULA 4: A Técnica do Cancelamento (Simplificação Prévia)</h3>
-      <p>Para evitar fazer contas com números gigantes no rascunho, usamos a <strong>Técnica do Cancelamento</strong>! Podemos simplificar qualquer número do numerador com qualquer número do denominador por um divisor comum antes de multiplicar.</p>
-
-      <div class="destaque-estudo">
-        🔍 <strong>Exemplo do Livro (Pág. 38):</strong> Calcule (12/15) × (10/8).<br>
-        1. Simplifique 10 e 15 dividindo ambos por 5 (10 vira 2; 15 vira 3).<br>
-        2. Simplifique 12 e 8 dividindo ambos por 4 (12 vira 3; 8 vira 2).<br>
-        3. A conta fica: (3/3) × (2/2) = 1 × 1 = <strong>1</strong>.
-      </div>
-
-      <!-- INTERAÇÃO MATEMÁTICA 2 -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #2: Cancelamento no Rascunho</h4>
-        <div class="aviso-papel">✏️ Resolva no papel simplificando antes: <strong>(16/3) × (27/8) × (1/5)</strong></div>
-        <label class="opcao-inline"><input type="radio" name="mat_fix2" value="A"> A) 18/5</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix2" value="B"> B) 432/120</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix2" value="C"> C) 6/5</label>
-        <button class="btn-verificar" style="background:#6a1b9a;" onclick="verificarMatFix2()">Verificar Rascunho</button>
-        <div id="fb-mat-fix-2" class="feedback"></div>
-      </div>
-
-      <h3 style="color: #6a1b9a;">AULA 5: Divisão de Frações e Inverso de um Número</h3>
-      <p>Dois números são chamados de <strong>inversos</strong> quando o produto entre eles resulta em 1. Para inverter uma fração, basta trocar o numerador pelo denominador:</p>
-      <ul>
-        <li>O inverso de 4/5 é <strong>5/4</strong> (pois 4/5 × 5/4 = 20/20 = 1).</li>
-        <li>O inverso de 7 é <strong>1/7</strong> (pois 7 × 1/7 = 7/7 = 1).</li>
-      </ul>
-
-      <div class="comparacao">
-        ➗ <strong>Regra Prática da Divisão de Frações:</strong><br>
-        Para dividir duas frações, <strong>mantemos a primeira fração exatamente como está e multiplicamos pelo INVERSO da segunda fração</strong>.<br>
-        Exemplo: 3/4 ÷ 3/8 = 3/4 × 8/3 = 24/12 = <strong>2</strong>.
-      </div>
-
-      <!-- INTERAÇÃO MATEMÁTICA 3 -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #3: Divisão Prática no Caderno</h4>
-        <div class="aviso-papel">✏️ Involva a regra no rascunho: <strong>(32/7) ÷ (64/49)</strong></div>
-        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="A"> A) 7/2</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="B"> B) 2/7</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix3" value="C"> C) 2048/441</label>
-        <button class="btn-verificar" style="background:#6a1b9a;" onclick="verificarMatFix3()">Verificar Rascunho</button>
-        <div id="fb-mat-fix-3" class="feedback"></div>
-      </div>
-
-      <h3 style="color: #6a1b9a;">AULA 6: Expressões Numéricas Complexas com Frações</h3>
-      <p>Para resolver expressões compostas por várias operações e sinais de associação (parênteses e colchetes), siga a ordem rigorosa:</p>
-      <ol>
-        <li>Primeiro, resolva as operações dentro dos <strong>Parênteses ( )</strong>.</li>
-        <li>Em seguida, dentro dos <strong>Colchetes [ ]</strong>.</li>
-        <li>Respeite a hierarquia das operações: Multiplicações e Divisões primeiro; depois Adições e Subtrações.</li>
-      </ol>
-
-      <!-- INTERAÇÃO MATEMÁTICA 4 -->
-      <div class="box-interativo">
-        <h4>⚡ Desafio de Fixação #4: Expressão Complexa de Prova</h4>
-        <div class="aviso-papel">✏️ RESOLVA NO PASSO A PASSO: <strong>[1 - (3/4 + 1/5)] ÷ (3/40)</strong></div>
-        <label class="opcao-inline"><input type="radio" name="mat_fix4" value="A"> A) 2/3</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix4" value="B"> B) 1/2</label>
-        <label class="opcao-inline"><input type="radio" name="mat_fix4" value="C"> C) 1</label>
-        <button class="btn-verificar" style="background:#6a1b9a;" onclick="verificarMatFix4()">Verificar Rascunho</button>
-        <div id="fb-mat-fix-4" class="feedback"></div>
-      </div>
+      <h3 style="color: #6a1b9a;">3. Divisão de Frações</h3>
+      <p>Mantém a primeira fração e multiplica pelo inverso da segunda fração.</p>
     </article>
 
-    <!-- MATERIAL COMPLETO DE ESPANHOL (UNIDAD 6) -->
+    <!-- MATERIAL DE ESPANHOL -->
     <article id="resumo-espanhol_3bim" class="resumo-artigo">
-      <h2 style="color: #d32f2f;">Español — Unidad 6: Mi cuerpo habla (Aula Completa)</h2>
-      <p><strong>3º Bimestre (6º Ano) — Estudo Guiado e Interativo</strong></p>
-
-      <h3 style="color: #d32f2f;">1. Las Partes del Cuerpo Humano (O Corpo)</h3>
-      <p>Para descrever ações físicas e estados de saúde em espanhol, é fundamental dominar o vocabulário anatômico:</p>
-      <table class="tabela-estudo">
-        <thead>
-          <tr>
-            <th>Español</th>
-            <th>Português</th>
-            <th>Uso Prático / Exemplo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>La cabeza</strong></td><td>A cabeça</td><td>Me duele la cabeza.</td></tr>
-          <tr><td><strong>El cuello</strong></td><td>O pescoço</td><td>Lleva una bufanda en el cuello.</td></tr>
-          <tr><td><strong>El hombro</strong></td><td>O ombro</td><td>Levantar los hombros.</td></tr>
-          <tr><td><strong>El codo</strong></td><td>O cotovelo</td><td>Hablar por los codos.</td></tr>
-          <tr><td><strong>La muñeca / El dedo</strong></td><td>O pulso / O dedo</td><td>El anillo en el dedo.</td></tr>
-          <tr><td><strong>La espalda</strong></td><td>As costas</td><td>Encorvar la espalda.</td></tr>
-          <tr><td><strong>La rodilla</strong></td><td>O joelho</td><td>Doblar las rodillas en yoga.</td></tr>
-          <tr><td><strong>El tobillo / El pie</strong></td><td>O tornozelo / O pé</td><td>Torcerse el tobillo.</td></tr>
-        </tbody>
-      </table>
-
-      <h3 style="color: #d32f2f;">2. El Rostro y sus Detalles (O Rosto)</h3>
-      <ul>
-        <li><strong>El pelo / El cabello:</strong> Cabelo (liso, rizado, ondulado, largo, corto, rubio, moreno, pelirrojo).</li>
-        <li><strong>Las cejas / Las pestañas:</strong> Sobrancelhas / Cílios.</li>
-        <li><strong>Las mejillas / Los mofletes:</strong> Bochechas.</li>
-        <li><strong>La barbilla / El mentón:</strong> Queixo.</li>
-        <li><strong>Las pecas / El lunar:</strong> Sardas / Pinta (sinal).</li>
-      </ul>
-
-      <h3 style="color: #d32f2f;">3. Expresiones Idiomáticas con el Cuerpo</h3>
-      <div class="comparacao">
-        🗣️ <strong>Hablar por los codos:</strong> Falar excessivamente, sem parar.<br>
-        🧩 <strong>No tener ni pies ni cabeza:</strong> Algo sem sentido ou sem lógica.<br>
-        💰 <strong>Costar un ojo de la cara:</strong> Produto de valor financeiro altíssimo.<br>
-        😁 <strong>Sonreír de oreja a oreja:</strong> Expressar imensa felicidade.
-      </div>
-
-      <h3 style="color: #d32f2f;">4. La Descripción Física: SER, TENER y LLEVAR</h3>
-      <table class="tabela-estudo">
-        <thead>
-          <tr>
-            <th>Verbo</th>
-            <th>Aplicação</th>
-            <th>Exemplos</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>SER</strong></td><td>Estrutura física e atributos permanentes.</td><td>Es alto, baja, delgado, gorda, joven, calvo.</td></tr>
-          <tr><td><strong>TENER</strong></td><td>Cabelo, olhos e marcas no rosto.</td><td>Tiene el pelo rizado, ojos verdes, pecas, barba.</td></tr>
-          <tr><td><strong>LLEVAR</strong></td><td>Roupas, penteados e acessórios móveis.</td><td>Lleva gafas (óculos), trenzas, coleta, abrigo.</td></tr>
-        </tbody>
-      </table>
-
-      <!-- INTERAÇÃO ESPANHOL -->
-      <div class="box-interativo" style="background:#fbe9e7; border-color:#ff7043;">
-        <h4 style="color:#bf360c;">⚡ Desafio de Fixação: Descripción Física</h4>
-        <p>Como se diz em espanhol: "Ela é alta, tem olhos verdes e usa óculos"?</p>
-        <label class="opcao-inline"><input type="radio" name="esp_fix3" value="A"> A) Ella tiene alta, es ojos verdes y lleva gafas.</label>
-        <label class="opcao-inline"><input type="radio" name="esp_fix3" value="B"> B) Ella es alta, tiene los ojos verdes y lleva gafas.</label>
-        <button class="btn-verificar" style="background:#d32f2f;" onclick="verificarEspFix3()">Verificar Resposta</button>
-        <div id="fb-esp-fix-3" class="feedback"></div>
-      </div>
+      <h2 style="color: #d32f2f;">Español — Unidad 6: Mi cuerpo habla</h2>
+      <p><strong>3º Bimestre (6º Ano) — Estudo Completo</strong></p>
+      <p>Partes do corpo humano, expressões idiomáticas (*hablar por los codos*), descrição física (*Ser/Tener/Llevar*), linguagem corporal e verbos no presente do indicativo.</p>
     </article>
 
-    <!-- MATERIAL COMPLETO DE GEOGRAFIA 3º BIMESTRE -->
+    <!-- MATERIAL DE GEOGRAFIA -->
     <article id="resumo-geografia_3bim" class="resumo-artigo">
-      <h2 style="color: #2e7d32;">Geografia — Recursos Naturais e Atividades Econômicas</h2>
-      <p><strong>3º Bimestre (6º Ano) — Estudo Completo do Livro</strong></p>
-
-      <h3 style="color: #2e7d32;">1. Recursos Naturais e Fontes de Energia</h3>
-      <p>Os recursos naturais dividem-se em Inesgotáveis (Sol, vento), Renováveis (Água, solo, vegetação) e Não Renováveis (Petróleo, carvão mineral, gás natural, minérios). As fontes de energia não renováveis queimam combustíveis fósseis em termelétricas ou geram lixo atômico radioativo nas usinas nucleares. Já as renováveis incluem eólica, solar, geotérmica, biomassa (etanol) e hidreletricidade (força dos rios represados).</p>
-
-      <h3 style="color: #2e7d32;">2. Os Setores da Economia e Agropecuária</h3>
-      <p>A economia organiza-se nos setores Primário (agricultura, pecuária, extrativismo), Secundário (indústria, construção) e Terciário (comércio, serviços). O extrativismo divide-se em Vegetal, Animal (caça e pesca) e Mineral (minérios e garimpo). A agricultura utiliza técnicas como o terraceamento em morros para evitar a erosão, dividindo-se em Familiar (subsistência, pequena propriedade) e Comercial (máquinas, exportação, alta produtividade). A pecuária divide-se em Intensiva (animais em confinamento, veterinários, leite) e Extensiva (gado solto no pasto, corte/carne).</p>
+      <h2 style="color: #2e7d32;">Geografia — Recursos Naturais e Agropecuária</h2>
+      <p><strong>3º Bimestre (6º Ano) — Estudo Completo</strong></p>
+      <p>Recursos Inesgotáveis, Renováveis e Não Renováveis, Fontes de Energia, Extrativismo e Sistemas Agropecuários.</p>
     </article>
 
-    <!-- MATERIAL COMPLETO DE HISTÓRIA -->
+    <!-- MATERIAL DE HISTÓRIA -->
     <article id="resumo-grecia_roma" class="resumo-artigo">
       <h2 style="color: #795548;">História — Grécia Antiga e Roma</h2>
-      <p><strong>3º Bimestre — Estudo Completo do Livro</strong></p>
-
-      <h3 style="color: #795548;">1. Grécia Antiga: Pólis, Esparta e Atenas</h3>
-      <p>A Grécia Antiga era composta por cidades-Estado independentes (Pólis) unidas por cultura e língua. Esparta destacava-se pela sociedade guerreira oligárquica (esparciatas, periecos e hilotas) com treino militar rígido desde os 7 anos. Atenas destacava-se pela formação intelectual, física e política dos cidadãos masculinos. Os mitos explicavam o universo e eram cantados oralmente pelos aedos (poetas como Homero em *Ilíada* e *Odisseia*).</p>
-
-      <h3 style="color: #795548;">2. Roma: Crise da República e Império</h3>
-      <p>A expansão romana gerou desigualdade social e fortalecimento dos generais do exército. Após reformas fracassadas dos irmãos Graco, surgiram o Primeiro Triunvirato (Júlio César, Pompeu e Crasso) e a ditadura de César (assassinado em 44 a.C.). O Segundo Triunvirato (Otávio, Marco Antônio e Lépido) culminou na vitória de Otávio, que recebeu o título de Augusto em 27 a.C., dando início ao Império Romano.</p>
+      <p><strong>3º Bimestre — Estudo Completo</strong></p>
+      <p>Pólis gregas, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e o início do Império Romano.</p>
     </article>
   </div>
 
@@ -690,8 +671,16 @@
     <h1>Portal de Estudo e Desafios 🚀</h1>
     <p class="subtitulo">Escolha uma matéria abaixo para começar o teste:</p>
 
+    <button class="btn-quiz-menu btn-filosofia" onclick="abrirQuiz('filosofia_3bim')">
+      <span>🤔 Quiz de Filosofia: Sofistas & Sócrates (3º Bim)</span> <span>➜</span>
+    </button>
+
+    <button class="btn-quiz-menu btn-portugues" onclick="abrirQuiz('portugues_3bim')">
+      <span>📖 Quiz de Português: Paroxítonas & Sintaxe (3º Bim)</span> <span>➜</span>
+    </button>
+
     <button class="btn-quiz-menu btn-matematica" onclick="abrirQuiz('matematica_3bim')">
-      <span>🧮 Quiz de Matemática: Frações (15 Questões Completa)</span> <span>➜</span>
+      <span>🧮 Quiz de Matemática: Frações (15 Questões)</span> <span>➜</span>
     </button>
 
     <button class="btn-quiz-menu btn-espanhol" onclick="abrirQuiz('espanhol_3bim')">
@@ -742,7 +731,6 @@
 const EMAIL_PROFESSOR = "richard@consultoriarf.net";
 let fotoRascunhoBase64 = "";
 
-// PRÉVIA E PROCESSAMENTO DA FOTO
 function previewFoto(event) {
   const input = event.target;
   if (input.files && input.files[0]) {
@@ -757,7 +745,6 @@ function previewFoto(event) {
   }
 }
 
-// CONTADOR GLOBAL DE ACESSOS (API COUNTERAPI)
 function carregarContadorGlobal() {
   const elementoNumero = document.getElementById('numero-acessos');
   const namespace = "portal_estudos_rf_6ano";
@@ -780,7 +767,6 @@ function carregarContadorGlobal() {
 
 window.addEventListener('DOMContentLoaded', carregarContadorGlobal);
 
-// NAVEGAÇÃO PRINCIPAL
 function esconderTodasAreas() {
   const ids = ['home-principal', 'area-resumos', 'resumo-conteudo', 'menu-principal', 'area-quiz'];
   ids.forEach(id => {
@@ -822,6 +808,64 @@ function voltarResumos() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// FIXAÇÕES FILOSOFIA
+function verificarFilFix1() {
+  const marcado = document.querySelector('input[name="fil_fix1"]:checked');
+  const fb = document.getElementById('fb-fil-fix-1');
+  if(!marcado) { alert("Selecione uma opção!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "B") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Perfeito! (Letra B)</strong> Os sofistas eram mestres pagos que ensinavam a arte da persuasão e da retórica para o debate político na democracia ateniense.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Incorreto!</strong> A alternativa certa é a <strong>Letra B</strong>.";
+  }
+}
+
+function verificarFilFix2() {
+  const marcado = document.querySelector('input[name="fil_fix2"]:checked');
+  const fb = document.getElementById('fb-fil-fix-2');
+  if(!marcado) { alert("Selecione uma opção!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "B") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Excelente! (Letra B)</strong> A maiêutica socrática inspirou-se na profissão de sua mãe (parteira): ajudar os homens a 'darem à luz' ideias verdadeiras através da razão.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Incorreto!</strong> A resposta certa é a <strong>Letra B</strong>.";
+  }
+}
+
+// FIXAÇÕES PORTUGUÊS
+function verificarPortFix1() {
+  const marcado = document.querySelector('input[name="port_fix1"]:checked');
+  const fb = document.getElementById('fb-port-fix-1');
+  if(!marcado) { alert("Selecione uma opção!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "B") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Correto! (Letra B)</strong> A palavra <em>Re-ló-gio</em> é paroxítona e termina em ditongo oral (-io), por isso exige acento gráfico.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Incorreto!</strong> A alternativa correta é a <strong>Letra B (Re-ló-gio)</strong>. Paroxítonas terminadas em -A (mesa) não levam acento.";
+  }
+}
+
+function verificarPortFix2() {
+  const marcado = document.querySelector('input[name="port_fix2"]:checked');
+  const fb = document.getElementById('fb-port-fix-2');
+  if(!marcado) { alert("Selecione uma opção!"); return; }
+  fb.style.display = 'block';
+  if(marcado.value === "B") {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Exato! (Letra B)</strong> Dentro do Sintagma Nominal 'Os pássaros coloridos', a palavra principal (núcleo) é o substantivo <strong>pássaros</strong>.";
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Incorreto!</strong> O núcleo do sintagma nominal é o substantivo <strong>Pássaros (Letra B)</strong>.";
+  }
+}
+
 // FIXAÇÕES MATEMÁTICA
 function verificarMatFix1() {
   const marcado = document.querySelector('input[name="mat_fix1"]:checked');
@@ -830,10 +874,10 @@ function verificarMatFix1() {
   fb.style.display = 'block';
   if(marcado.value === "B") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Exato!</strong> Passo a passo no caderno: m.m.c.(5, 10, 4) = 20.<br>4/5 = 16/20 | 3/10 = 6/20 | 1/4 = 5/20.<br>Somando os numeradores: 16 + 6 + 5 = <strong>27/20 (Letra B)</strong>.";
+    fb.innerHTML = "<strong>Exato!</strong> m.m.c.(5, 10, 4) = 20.<br>4/5 = 16/20 | 3/10 = 6/20 | 1/4 = 5/20.<br>Soma: 16 + 6 + 5 = <strong>27/20 (Letra B)</strong>.";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto!</strong> Confira seu rascunho: m.m.c.(5,10,4)=20. As frações ficam 16/20 + 6/20 + 5/20 = <strong>27/20 (Letra B)</strong>.";
+    fb.innerHTML = "<strong>Incorreto!</strong> Resultado correto: <strong>27/20 (Letra B)</strong>.";
   }
 }
 
@@ -844,10 +888,10 @@ function verificarMatFix2() {
   fb.style.display = 'block';
   if(marcado.value === "A") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Perfeito!</strong> Cancelamento no papel: 16 e 8 por 8 (fica 2 e 1). 27 e 3 por 3 (fica 9 e 1). Resultado: (2×9×1)/(1×1×5) = <strong>18/5 (Letra A)</strong>.";
+    fb.innerHTML = "<strong>Perfeito!</strong> Cancelamento: 16 e 8 por 8 (fica 2 e 1). 27 e 3 por 3 (fica 9 e 1). Resultado: <strong>18/5 (Letra A)</strong>.";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto!</strong> A alternativa correta é a <strong>Letra A (18/5)</strong>.";
+    fb.innerHTML = "<strong>Incorreto!</strong> Alternativa correta: <strong>18/5 (Letra A)</strong>.";
   }
 }
 
@@ -858,10 +902,10 @@ function verificarMatFix3() {
   fb.style.display = 'block';
   if(marcado.value === "A") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Excelente!</strong> Divisão de frações: 32/7 ÷ 64/49 = 32/7 × 49/64.<br>Simplificando 32 com 64 (fica 1 e 2) e 49 com 7 (fica 7 e 1) = <strong>7/2 (Letra A)</strong>.";
+    fb.innerHTML = "<strong>Excelente!</strong> 32/7 ÷ 64/49 = 32/7 × 49/64 = <strong>7/2 (Letra A)</strong>.";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto!</strong> Invertendo a segunda: 32/7 × 49/64 = <strong>7/2 (Letra A)</strong>.";
+    fb.innerHTML = "<strong>Incorreto!</strong> Resultado: <strong>7/2 (Letra A)</strong>.";
   }
 }
 
@@ -872,29 +916,129 @@ function verificarMatFix4() {
   fb.style.display = 'block';
   if(marcado.value === "A") {
     fb.className = "feedback correto";
-    fb.innerHTML = "<strong>Incrível! Resposta correta (Letra A).</strong><br>• Parênteses: 3/4 + 1/5 = 19/20.<br>• Subtração do 1: 1 - 19/20 = 1/20.<br>• Divisão final: 1/20 ÷ 3/40 = 1/20 × 40/3 = 40/60 = <strong>2/3</strong>.";
+    fb.innerHTML = "<strong>Incrível! Resposta correta (Letra A).</strong><br>• Parênteses: 3/4 + 1/5 = 19/20.<br>• Subtração: 1 - 19/20 = 1/20.<br>• Divisão final: 1/20 ÷ 3/40 = 1/20 × 40/3 = 40/60 = <strong>2/3</strong>.";
   } else {
     fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>Incorreto!</strong> O resultado correto é <strong>2/3 (Letra A)</strong>.<br>Confira o passo a passo: 1/20 × 40/3 = 40/60 = 2/3.";
+    fb.innerHTML = "<strong>Incorreto!</strong> O resultado correto é <strong>2/3 (Letra A)</strong>.";
   }
 }
 
-function verificarEspFix3() {
-  const marcado = document.querySelector('input[name="esp_fix3"]:checked');
-  const fb = document.getElementById('fb-esp-fix-3');
-  if(!marcado) { alert("Selecione uma opção!"); return; }
-  fb.style.display = 'block';
-  if(marcado.value === "B") {
-    fb.className = "feedback correto";
-    fb.innerHTML = "<strong>¡Perfecto!</strong> Usamos <strong>SER</strong> para altura, <strong>TENER</strong> para olhos e <strong>LLEVAR</strong> para óculos.";
-  } else {
-    fb.className = "feedback incorreto";
-    fb.innerHTML = "<strong>¡Incorrecto!</strong> A alternativa correta é a <strong>Letra B</strong>.";
-  }
-}
-
-// BANCO DE DADOS DOS QUIZZES EXPANDIDO (15 QUESTÕES DE MATEMÁTICA CORRIGIDAS)
+// BANCO DE DADOS DOS QUIZZES
 const bancoQuizzes = {
+  filosofia_3bim: {
+    titulo: "Quiz de Filosofia - Capítulos 05 e 06 (3º Bim)",
+    questoes: [
+      {
+        tipo: "opcoes",
+        topico: "Os Sofistas",
+        pergunta: "Quem eram os sofistas na Atenas da Antiguidade Clássica?",
+        opcoes: {
+          A: "Filósofos que se isolavam nas montanhas para contemplar a natureza sem falar com ninguém.",
+          B: "Mestres itinerantes que cobravam para ensinar a arte da retórica e do discurso persuasivo.",
+          C: "Sacerdotes religiosos que realizavam sacrifícios aos deuses do Olimpo.",
+          D: "Guerreiros de Esparta que combatiam o uso da palavra na política."
+        },
+        respostaCorreta: "B",
+        explicacao: "Os sofistas eram professores que cobravam para ensinar os jovens a falar bem e vencer debates na democracia ateniense."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Relativismo Moral",
+        pergunta: "Qual sofista ficou famoso pela frase 'O homem é a medida de todas as coisas'?",
+        opcoes: {
+          A: "Sócrates",
+          B: "Protágoras",
+          C: "Platão",
+          D: "Aristóteles"
+        },
+        respostaCorreta: "B",
+        explicacao: "Protágoras defendia o relativismo moral: cada indivíduo ou cultura possui sua própria versão da verdade."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Autoconhecimento Socrático",
+        pergunta: "Qual máxima estava inscrita no Templo de Apolo em Delfos e inspirou a filosofia de Sócrates?",
+        opcoes: {
+          A: "Conhece-te a ti mesmo.",
+          B: "A força supera a razão.",
+          C: "O dinheiro compra a sabedoria.",
+          D: "Apenas os reis podem pensar."
+        },
+        respostaCorreta: "A",
+        explicacao: "'Conhece-te a ti mesmo' norteou Sócrates na busca pelo conhecimento interior e pela virtude."
+      },
+      {
+        tipo: "opcoes",
+        topico: "A Maiêutica",
+        pergunta: "Em que consiste a segunda etapa do método dialógico de Sócrates chamada 'Maiêutica'?",
+        opcoes: {
+          A: "Em dar discursos longos e decorados para impressionar a plateia.",
+          B: "Em ajudar o interlocutor a dar à luz a conceitos e ideias verdadeiras através de perguntas.",
+          C: "Em concordar imediatamente com todas as opiniões dos políticos de Atenas.",
+          D: "Em escrever livros teóricos sobre a origem do universo."
+        },
+        respostaCorreta: "B",
+        explicacao: "Maiêutica significa o 'parto das ideias', ajudando a pessoa a extrair a verdade de dentro de sua própria razão."
+      }
+    ]
+  },
+  portugues_3bim: {
+    titulo: "Quiz de Língua Portuguesa - Módulos 5 e 6 (3º Bim)",
+    questoes: [
+      {
+        tipo: "opcoes",
+        topico: "Acentuação de Paroxítonas",
+        pergunta: "Assinale a alternativa em que TODAS as palavras são paroxítonas acentuadas pela regra da terminação (L, R, N, X, PS):",
+        opcoes: {
+          A: "Fácil, caráter, hífen, tórax.",
+          B: "Café, cipó, caju, saci.",
+          C: "Mesa, cadeira, livro, caneta.",
+          D: "Você, também, parabéns, armazém."
+        },
+        respostaCorreta: "A",
+        explicacao: "Fácil (-L), caráter (-R), hífen (-N) e tórax (-X) são paroxítonas acentuadas."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Frase e Oração",
+        pergunta: "Qual das opções abaixo representa uma FRASE NOMINAL (sem verbo)?",
+        opcoes: {
+          A: "O menino correu para a escola.",
+          B: "Que dia maravilhoso!",
+          C: "Os estudantes estudaram gramática.",
+          D: "Nós faremos o exame amanhã."
+        },
+        respostaCorreta: "B",
+        explicacao: "'Que dia maravilhoso!' comunica sentido completo mas não possui nenhum verbo (Frase Nominal)."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Ordem Sintática",
+        pergunta: "A frase 'Venceram a partida os atletas dedicados' encontra-se em qual ordem sintática?",
+        opcoes: {
+          A: "Ordem Direta (Sujeito + Verbo + Complemento)",
+          B: "Ordem Inversa (Invertida)",
+          C: "Ordem Passiva Nominal",
+          D: "Ordem Imperativa"
+        },
+        respostaCorreta: "B",
+        explicacao: "O verbo veio antes do sujeito ('os atletas dedicados'), caracterizando a Ordem Inversa."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Sintagma Nominal",
+        pergunta: "Na oração 'Aqueles dois alunos estudiosos venceram o torneio', qual é o NÚCLEO do Sintagma Nominal que funciona como Sujeito?",
+        opcoes: {
+          A: "Aqueles",
+          B: "Dois",
+          C: "Alunos",
+          D: "Estudiosos"
+        },
+        respostaCorreta: "C",
+        explicacao: "O substantivo 'alunos' é a palavra principal (núcleo) do Sintagma Nominal."
+      }
+    ]
+  },
   matematica_3bim: {
     titulo: "Quiz de Matemática - Frações e Operações (Livro Completo)",
     questoes: [
@@ -932,86 +1076,6 @@ const bancoQuizzes = {
       },
       {
         tipo: "opcoes",
-        topico: "Problemas com Frações",
-        pergunta: "✏️ RASCUNHO OBRIGATÓRIO! Paulo colheu 3/4 das figurinhas e Clara colheu 1/5. Que fração falta para completarem o álbum juntos?",
-        opcoes: { A: "19/20", B: "1/20", C: "4/20", D: "5/20" },
-        respostaCorreta: "B",
-        explicacao: "Total juntado: 3/4 + 1/5 = 15/20 + 4/20 = 19/20. O que falta para 1 inteiro (20/20) é 1/20."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Multiplicação de Número por Fração",
-        pergunta: "✏️ NO PAPEL! Calcule: 5 × (7/4)",
-        opcoes: { A: "35/20", B: "35/4", C: "12/4", D: "35/35" },
-        respostaCorreta: "B",
-        explicacao: "Multiplica o inteiro pelo numerador: (5 × 7) / 4 = 35/4."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Multiplicação de Duas Frações",
-        pergunta: "✏️ CALCULE NO RASCUNHO! Quanto é (1/7) × (4/5)?",
-        opcoes: { A: "5/12", B: "4/35", C: "4/12", D: "35/4" },
-        respostaCorreta: "B",
-        explicacao: "Numerador × numerador (1×4=4) e denominador × denominador (7×5=35) = 4/35."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Técnica do Cancelamento",
-        pergunta: "✏️ APLIQUE O CANCELAMENTO! Calcule: (5/3) × (9/5) × (1/3)",
-        opcoes: { A: "1", B: "45/45", C: "1/3", D: "3/5" },
-        respostaCorreta: "A",
-        explicacao: "5 cancela com 5. 9 no numerador cancela com 3×3 (9) do denominador. O resultado é 1."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Problemas de Multiplicação",
-        pergunta: "✏️ NO CADERNO! Em uma empresa de 35 funcionárias, 2/5 não estão satisfeitas. Quantas funcionárias estão insatisfeitas?",
-        opcoes: { A: "7", B: "14", C: "10", D: "20" },
-        respostaCorreta: "B",
-        explicacao: "(2/5) × 35 = (35 ÷ 5) × 2 = 7 × 2 = 14 funcionárias."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Inverso de um Número",
-        pergunta: "✏️ PENSE E RESPONDA! Qual é o número inverso de 21/6?",
-        opcoes: { A: "6/21", B: "21/6", C: "1/21", D: "6/1" },
-        respostaCorreta: "A",
-        explicacao: "Para obter o inverso de uma fração, basta inverter o numerador com o denominador: 6/21."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Divisão de Fração por Número",
-        pergunta: "✏️ CALCULE NO PAPEL! Quanto é (1/3) ÷ 2?",
-        opcoes: { A: "2/3", B: "1/6", C: "1/5", D: "3/2" },
-        respostaCorreta: "B",
-        explicacao: "1/3 ÷ 2/1 = 1/3 × 1/2 = 1/6."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Divisão de Número por Fração",
-        pergunta: "✏️ RASCUNHO A LÁPIS! Quantos copos de 1/4 de litro são necessários para encher uma jarra de 2 litros? (Calcule 2 ÷ 1/4)",
-        opcoes: { A: "4 copos", B: "8 copos", C: "2 copos", D: "6 copos" },
-        respostaCorreta: "B",
-        explicacao: "2 ÷ 1/4 = 2 × 4/1 = 8 copos."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Divisão de Duas Frações",
-        pergunta: "✏️ INVERTA A SEGUNDA E MULTIPLIQUE! Calcule: (32/7) ÷ (64/49)",
-        opcoes: { A: "7/2", B: "2/7", C: "1/2", D: "14/4" },
-        respostaCorreta: "A",
-        explicacao: "32/7 × 49/64. Simplificando 32 com 64 (fica 1 e 2) e 49 com 7 (fica 7 e 1) = 7/2."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Sequências com Frações",
-        pergunta: "✏️ RECONHEÇA O PADRÃO NO PAPEL! Qual é o próximo termo da sequência: 2/3, 2/9, 2/27, ...?",
-        opcoes: { A: "2/54", B: "2/81", C: "1/81", D: "2/30" },
-        respostaCorreta: "B",
-        explicacao: "Cada termo é multiplicado por 1/3. Logo: 2/27 × 1/3 = 2/81."
-      },
-      {
-        tipo: "opcoes",
         topico: "Expressão Numérica Composta",
         pergunta: "✏️ DESAFIO DE RASCUNHO! Calcule: [1 - (3/4 + 1/5)] ÷ (3/40)",
         opcoes: { A: "2/3", B: "1/2", C: "1", D: "3/4" },
@@ -1030,14 +1094,6 @@ const bancoQuizzes = {
         opcoes: { A: "El tobillo", B: "El codo", C: "La rodilla", D: "El hombro" },
         respostaCorreta: "B",
         explicacao: "'El codo' é o cotovelo em espanhol."
-      },
-      {
-        tipo: "opcoes",
-        topico: "Descripción Física",
-        pergunta: "Para describir que una persona lleva lentes u óculos, ¿qué verbo usamos?",
-        opcoes: { A: "Ser (Ella es gafas)", B: "Tener (Ella tiene gafas)", C: "Llevar (Ella lleva gafas)", D: "Estar (Ella está gafas)" },
-        respostaCorreta: "C",
-        explicacao: "Usamos o verbo LLEVAR para roupas e acessórios como 'gafas' (óculos)."
       }
     ]
   },
@@ -1173,7 +1229,6 @@ function enviarRelatorioPorEmail() {
     return;
   }
 
-  // BLOQUEIO PEDAGÓGICO: Exige foto no Quiz de Matemática
   if (quizAtual.titulo.includes("Matemática") && !fotoRascunhoBase64) {
     alert("⚠️ ATENÇÃO: Para o Quiz de Matemática, é OBRIGATÓRIO tirar e anexar uma foto do rascunho do caderno mostrando suas contas antes de enviar ao professor!");
     return;
