@@ -86,6 +86,8 @@
     .btn-geografia { background-color: #2e7d32; }
     .btn-historia { background-color: #795548; }
     .btn-espanhol { background-color: #d32f2f; }
+    .btn-ciencias { background-color: #00897b; }
+    .btn-ingles { background-color: #3949ab; }
 
     /* ESTILOS DOS QUIZZES */
     .btn-voltar {
@@ -473,6 +475,16 @@
         <h3 style="color: #795548;">🏛️ História — Grécia Antiga e Roma</h3>
         <p>Pólis, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e Triunviratos.</p>
       </button>
+
+      <button class="card-resumo-menu" style="border-color: #00897b;" onclick="abrirResumo('ciencias_materiais')">
+        <h3 style="color: #00897b;">🔬 Ciências — Materiais: massa, volume e estados físicos</h3>
+        <p>Aula guiada com explicações, exemplos e questões de fixação sobre massa, volume, sólidos, líquidos e gases.</p>
+      </button>
+
+      <button class="card-resumo-menu" style="border-color: #3949ab;" onclick="abrirResumo('ingles_units_5_6')">
+        <h3 style="color: #3949ab;">🇬🇧 Inglês — Units 5 e 6</h3>
+        <p>Aula guiada com vocabulário, gramática e exercícios sobre rotina, tarefas, hábitos, frequência, comida e Simple Present.</p>
+      </button>
     </div>
   </div>
 
@@ -663,6 +675,263 @@
       <p><strong>3º Bimestre — Estudo Completo</strong></p>
       <p>Pólis gregas, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e o início do Império Romano.</p>
     </article>
+
+
+    <!-- MATERIAL DE CIÊNCIAS: AULA GUIADA, NÃO RESUMO -->
+    <article id="resumo-ciencias_materiais" class="resumo-artigo">
+      <h2 style="color:#00897b;">Ciências — Materiais: massa, volume e estados físicos</h2>
+      <p><strong>6º Ano — Aula guiada de aprendizagem</strong></p>
+      <div class="destaque-estudo">
+        🎯 <strong>Como estudar:</strong> leia cada explicação, tente explicar com suas palavras e só depois responda ao desafio de fixação. O objetivo aqui não é decorar: é entender como observar e medir os materiais.
+      </div>
+
+      <h3 style="color:#00897b;">1. Massa: quanto de material existe?</h3>
+      <p><strong>Massa</strong> é uma maneira de indicar a quantidade de matéria de um material. Para medir massa usamos uma <strong>balança</strong>. As unidades mais usadas neste conteúdo são o <strong>quilograma (kg)</strong> e o <strong>grama (g)</strong>.</p>
+      <div class="comparacao">
+        <strong>Relação importante:</strong> 1 kg = 1.000 g.<br>
+        Exemplo: 2 kg correspondem a 2.000 g. Para passar de kg para g, neste nível de estudo, multiplique por 1.000.
+      </div>
+      <p>Uma balança precisa estar <strong>calibrada</strong>. Isso significa conferir se o valor indicado pelo equipamento coincide com uma massa conhecida, usando um <strong>peso-padrão</strong>.</p>
+
+      <div class="box-interativo" style="background:#e0f2f1;border-color:#00897b;">
+        <h4 style="color:#00695c;">⚡ Fixação 1 — Massa</h4>
+        <p>Um pacote tem massa de 3 kg. Quantos gramas ele possui?</p>
+        <label class="opcao-inline"><input type="radio" name="cien_fix1" value="A"> A) 30 g</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix1" value="B"> B) 300 g</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix1" value="C"> C) 3.000 g</label>
+        <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien_fix1')">Verificar Resposta</button>
+        <div id="fb-cien-fix-1" class="feedback"></div>
+      </div>
+
+      <h3 style="color:#00897b;">2. Volume: quanto espaço o material ocupa?</h3>
+      <p><strong>Volume</strong> é a medida do espaço ocupado por um material, seja ele sólido, líquido ou gasoso. Neste conteúdo aparecem principalmente <strong>litro (L)</strong> e <strong>mililitro (mL)</strong>.</p>
+      <div class="comparacao">
+        <strong>Relação importante:</strong> 1 L = 1.000 mL.<br>
+        Um gás ocupa todo o volume do recipiente em que está. Por isso, o volume de um gás armazenado corresponde ao volume do recipiente que o contém.
+      </div>
+      <p>Para medir líquidos podemos usar um recipiente graduado, como uma <strong>proveta</strong>. A leitura deve ser feita com o recipiente em superfície plana, na altura dos olhos. Quando a superfície do líquido forma uma curva, ela é chamada de <strong>menisco</strong>; a leitura indicada no material é feita pelo ponto mais baixo dessa curva.</p>
+
+      <div class="box-interativo" style="background:#e0f2f1;border-color:#00897b;">
+        <h4 style="color:#00695c;">⚡ Fixação 2 — Leitura de volume</h4>
+        <p>Ao medir água em uma proveta com menisco, onde deve ser observada a leitura indicada no material?</p>
+        <label class="opcao-inline"><input type="radio" name="cien_fix2" value="A"> A) No ponto mais alto da curva.</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix2" value="B"> B) No ponto mais baixo da curva.</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix2" value="C"> C) Na borda superior da proveta.</label>
+        <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien_fix2')">Verificar Resposta</button>
+        <div id="fb-cien-fix-2" class="feedback"></div>
+      </div>
+
+      <h3 style="color:#00897b;">3. Descobrindo o volume de um sólido por deslocamento</h3>
+      <p>Um sólido pode ter seu volume medido observando quanto o nível de um líquido sobe quando o objeto é mergulhado. Basta calcular a diferença entre o nível <strong>depois</strong> e o nível <strong>antes</strong> da imersão.</p>
+      <div class="destaque-estudo">
+        🧪 <strong>Exemplo do livro:</strong> a água estava em 400 mL e passou para 600 mL. Então o volume do sólido é 600 − 400 = <strong>200 mL</strong>.
+      </div>
+
+      <div class="box-interativo" style="background:#e0f2f1;border-color:#00897b;">
+        <h4 style="color:#00695c;">⚡ Fixação 3 — Deslocamento</h4>
+        <p>Uma proveta tinha 350 mL de água. Depois de mergulhar uma pedra, passou a marcar 525 mL. Qual é o volume da pedra?</p>
+        <label class="opcao-inline"><input type="radio" name="cien_fix3" value="A"> A) 175 mL</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix3" value="B"> B) 350 mL</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix3" value="C"> C) 875 mL</label>
+        <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien_fix3')">Verificar Resposta</button>
+        <div id="fb-cien-fix-3" class="feedback"></div>
+      </div>
+
+      <h3 style="color:#00897b;">4. Estados físicos dos materiais</h3>
+      <p>Os materiais podem ser encontrados nos estados <strong>sólido, líquido ou gasoso</strong>. Em determinada temperatura, cada material apresenta um estado físico característico, e a variação de temperatura pode alterar esse estado.</p>
+
+      <table class="tabela-estudo">
+        <thead><tr><th>Estado</th><th>Forma</th><th>Volume</th><th>O que observar</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sólido</strong></td><td>Definida</td><td>Constante</td><td>Pode apresentar elasticidade, maleabilidade e resistência.</td></tr>
+          <tr><td><strong>Líquido</strong></td><td>Variável: assume a forma do recipiente</td><td>Constante</td><td>Pode apresentar volatilidade e viscosidade.</td></tr>
+          <tr><td><strong>Gasoso</strong></td><td>Variável</td><td>Variável</td><td>Ocupa o espaço do recipiente e pode expandir ou ser comprimido.</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="color:#00897b;">5. Propriedades dos sólidos</h3>
+      <p><strong>Elasticidade</strong> é a capacidade de recuperar total ou parcialmente a forma depois de ser esticado, desde que o material não se rompa. <strong>Maleabilidade</strong> é a capacidade de ser moldado. <strong>Resistência</strong> é a capacidade de suportar esforços antes de se deformar.</p>
+
+      <div class="box-interativo" style="background:#e0f2f1;border-color:#00897b;">
+        <h4 style="color:#00695c;">⚡ Fixação 4 — Propriedades dos sólidos</h4>
+        <p>Qual propriedade explica por que alguns materiais podem ser moldados em diferentes formas?</p>
+        <label class="opcao-inline"><input type="radio" name="cien_fix4" value="A"> A) Maleabilidade</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix4" value="B"> B) Volatilidade</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix4" value="C"> C) Viscosidade</label>
+        <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien_fix4')">Verificar Resposta</button>
+        <div id="fb-cien-fix-4" class="feedback"></div>
+      </div>
+
+      <h3 style="color:#00897b;">6. Propriedades dos líquidos</h3>
+      <p><strong>Volatilidade</strong> está ligada à facilidade com que um líquido passa para o estado gasoso por evaporação. Quanto maior a facilidade de evaporar, mais volátil é o líquido.</p>
+      <p><strong>Viscosidade</strong> é a resistência de um líquido ao escoamento. Quanto mais lentamente ele escorre por uma abertura ou pelas paredes de um recipiente, mais viscoso ele é. O mel, por exemplo, é mais viscoso que a água.</p>
+
+      <div class="box-interativo" style="background:#e0f2f1;border-color:#00897b;">
+        <h4 style="color:#00695c;">⚡ Fixação 5 — Líquidos</h4>
+        <p>Um líquido escorre muito lentamente. Qual característica está sendo observada?</p>
+        <label class="opcao-inline"><input type="radio" name="cien_fix5" value="A"> A) Elasticidade</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix5" value="B"> B) Resistência</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix5" value="C"> C) Viscosidade</label>
+        <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien_fix5')">Verificar Resposta</button>
+        <div id="fb-cien-fix-5" class="feedback"></div>
+      </div>
+
+      <h3 style="color:#00897b;">7. O estado gasoso: expansão e compressão</h3>
+      <p>Os gases têm <strong>forma e volume variáveis</strong>. Eles adquirem a forma do recipiente e ocupam seu espaço interior. Uma característica importante é a capacidade de <strong>expansão</strong>, quando o volume aumenta, e de <strong>compressão</strong>, quando o volume diminui.</p>
+
+      <div class="box-interativo" style="background:#e0f2f1;border-color:#00897b;">
+        <h4 style="color:#00695c;">⚡ Fixação 6 — Gases</h4>
+        <p>Qual alternativa descreve corretamente um gás?</p>
+        <label class="opcao-inline"><input type="radio" name="cien_fix6" value="A"> A) Tem forma definida e volume constante.</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix6" value="B"> B) Tem forma variável e volume variável.</label>
+        <label class="opcao-inline"><input type="radio" name="cien_fix6" value="C"> C) Tem forma variável, mas volume sempre constante.</label>
+        <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien_fix6')">Verificar Resposta</button>
+        <div id="fb-cien-fix-6" class="feedback"></div>
+      </div>
+    </article>
+
+    <!-- MATERIAL DE INGLÊS: AULA GUIADA, NÃO RESUMO -->
+    <article id="resumo-ingles_units_5_6" class="resumo-artigo">
+      <h2 style="color:#3949ab;">English — Units 5 and 6</h2>
+      <p><strong>6º Ano — Aula guiada de vocabulário e gramática</strong></p>
+      <div class="destaque-estudo">
+        🎯 <strong>Como estudar:</strong> leia os exemplos em voz alta, cubra a tradução e tente lembrar sozinho. Nas questões, tente responder antes de olhar qualquer explicação.
+      </div>
+
+      <h3 style="color:#3949ab;">1. Daily routines — rotina diária</h3>
+      <table class="tabela-estudo">
+        <thead><tr><th>English</th><th>Português</th></tr></thead>
+        <tbody>
+          <tr><td>get up</td><td>levantar</td></tr>
+          <tr><td>have breakfast</td><td>tomar café da manhã</td></tr>
+          <tr><td>go to school</td><td>ir para a escola</td></tr>
+          <tr><td>have lunch</td><td>almoçar</td></tr>
+          <tr><td>go home</td><td>ir para casa</td></tr>
+          <tr><td>do my homework</td><td>fazer minha lição de casa</td></tr>
+          <tr><td>have dinner</td><td>jantar</td></tr>
+          <tr><td>take a shower</td><td>tomar banho</td></tr>
+          <tr><td>go to bed</td><td>ir para a cama / dormir</td></tr>
+        </tbody>
+      </table>
+      <div class="comparacao">
+        <strong>Modelo:</strong> I get up at 6:45 on Mondays. / I have breakfast at 7:10.<br>
+        Para horários, o material usa <strong>at</strong>: at 6:45, at seven o'clock.
+      </div>
+
+      <div class="box-interativo" style="background:#e8eaf6;border-color:#3949ab;">
+        <h4 style="color:#283593;">⚡ Fixação 1 — Daily routines</h4>
+        <p>Complete: “I ______ at 6:45 and then I have breakfast.”</p>
+        <label class="opcao-inline"><input type="radio" name="ing_fix1" value="A"> A) get up</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix1" value="B"> B) go to bed</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix1" value="C"> C) have dinner</label>
+        <button class="btn-verificar" style="background:#3949ab;" onclick="verificarFixacaoNova('ing_fix1')">Verificar Resposta</button>
+        <div id="fb-ing-fix-1" class="feedback"></div>
+      </div>
+
+      <h3 style="color:#3949ab;">2. Chores — tarefas de casa</h3>
+      <table class="tabela-estudo">
+        <thead><tr><th>English</th><th>Português</th></tr></thead>
+        <tbody>
+          <tr><td>put away my clothes</td><td>guardar minhas roupas</td></tr>
+          <tr><td>clean my room</td><td>limpar meu quarto</td></tr>
+          <tr><td>take out the trash</td><td>tirar o lixo</td></tr>
+          <tr><td>wash the dishes</td><td>lavar a louça</td></tr>
+          <tr><td>help with cooking</td><td>ajudar a cozinhar</td></tr>
+          <tr><td>make my bed</td><td>arrumar minha cama</td></tr>
+          <tr><td>clear the table</td><td>tirar os itens da mesa</td></tr>
+          <tr><td>dry the dishes</td><td>secar a louça</td></tr>
+        </tbody>
+      </table>
+      <p>Expressões de tempo importantes no material: <strong>in the morning(s)</strong>, <strong>in the afternoon(s)</strong>, <strong>in the evening(s)</strong>, <strong>at lunchtime</strong>, <strong>at dinnertime</strong> e <strong>at night</strong>.</p>
+
+      <div class="box-interativo" style="background:#e8eaf6;border-color:#3949ab;">
+        <h4 style="color:#283593;">⚡ Fixação 2 — Chores</h4>
+        <p>Qual expressão significa “tirar o lixo”?</p>
+        <label class="opcao-inline"><input type="radio" name="ing_fix2" value="A"> A) make my bed</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix2" value="B"> B) take out the trash</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix2" value="C"> C) wash the dishes</label>
+        <button class="btn-verificar" style="background:#3949ab;" onclick="verificarFixacaoNova('ing_fix2')">Verificar Resposta</button>
+        <div id="fb-ing-fix-2" class="feedback"></div>
+      </div>
+
+      <h3 style="color:#3949ab;">3. Good and bad habits — bons e maus hábitos</h3>
+      <p>Algumas expressões trabalhadas na Unit 6 são: <strong>go to bed early</strong>, <strong>go to bed late</strong>, <strong>watch TV all evening</strong>, <strong>be late</strong>, <strong>be on time</strong>, <strong>exercise</strong>, <strong>study for tests</strong>, <strong>eat healthy food</strong>, <strong>drink sugary drinks</strong> e <strong>eat fast food</strong>.</p>
+      <div class="comparacao">
+        <strong>Observe:</strong> “be on time” = estar no horário. “be late” = estar atrasado. “go to bed early” = ir dormir cedo.
+      </div>
+
+      <div class="box-interativo" style="background:#e8eaf6;border-color:#3949ab;">
+        <h4 style="color:#283593;">⚡ Fixação 3 — Habits</h4>
+        <p>Qual frase representa um hábito de estudo presente no material?</p>
+        <label class="opcao-inline"><input type="radio" name="ing_fix3" value="A"> A) study for tests</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix3" value="B"> B) clear the table</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix3" value="C"> C) take out the trash</label>
+        <button class="btn-verificar" style="background:#3949ab;" onclick="verificarFixacaoNova('ing_fix3')">Verificar Resposta</button>
+        <div id="fb-ing-fix-3" class="feedback"></div>
+      </div>
+
+      <h3 style="color:#3949ab;">4. Adverbs of frequency — advérbios de frequência</h3>
+      <p>Os advérbios mostram com que frequência uma ação acontece. A escala apresentada vai de <strong>never (0%)</strong> até <strong>always (100%)</strong>:</p>
+      <table class="tabela-estudo">
+        <thead><tr><th>Adverb</th><th>Ideia em português</th></tr></thead>
+        <tbody>
+          <tr><td>never</td><td>nunca</td></tr>
+          <tr><td>rarely</td><td>raramente</td></tr>
+          <tr><td>sometimes</td><td>às vezes</td></tr>
+          <tr><td>often</td><td>frequentemente</td></tr>
+          <tr><td>usually</td><td>geralmente</td></tr>
+          <tr><td>always</td><td>sempre</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Posição na frase:</strong> com verbos comuns, o advérbio vem normalmente <strong>antes do verbo</strong>: “I always study at home.” Com o verbo <strong>be</strong>, vem <strong>depois</strong>: “I am always on time.”</p>
+
+      <div class="box-interativo" style="background:#e8eaf6;border-color:#3949ab;">
+        <h4 style="color:#283593;">⚡ Fixação 4 — Frequency</h4>
+        <p>Qual frase está organizada de acordo com o padrão apresentado no material?</p>
+        <label class="opcao-inline"><input type="radio" name="ing_fix4" value="A"> A) I study always at home.</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix4" value="B"> B) I always study at home.</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix4" value="C"> C) Always I at home study.</label>
+        <button class="btn-verificar" style="background:#3949ab;" onclick="verificarFixacaoNova('ing_fix4')">Verificar Resposta</button>
+        <div id="fb-ing-fix-4" class="feedback"></div>
+      </div>
+
+      <h3 style="color:#3949ab;">5. Food and drink — comida e bebida</h3>
+      <p>Vocabulário trabalhado: <strong>beans</strong> (feijão), <strong>bread</strong> (pão), <strong>cheese</strong> (queijo), <strong>fish</strong> (peixe), <strong>fruit</strong> (fruta), <strong>juice</strong> (suco), <strong>meat</strong> (carne), <strong>milk</strong> (leite), <strong>pasta</strong> (massa/macarrão), <strong>rice</strong> (arroz), <strong>vegetables</strong> (vegetais) e <strong>water</strong> (água).</p>
+
+      <div class="box-interativo" style="background:#e8eaf6;border-color:#3949ab;">
+        <h4 style="color:#283593;">⚡ Fixação 5 — Food and drink</h4>
+        <p>Qual palavra significa “queijo”?</p>
+        <label class="opcao-inline"><input type="radio" name="ing_fix5" value="A"> A) bread</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix5" value="B"> B) cheese</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix5" value="C"> C) beans</label>
+        <button class="btn-verificar" style="background:#3949ab;" onclick="verificarFixacaoNova('ing_fix5')">Verificar Resposta</button>
+        <div id="fb-ing-fix-5" class="feedback"></div>
+      </div>
+
+      <h3 style="color:#3949ab;">6. Simple Present questions — Do / Does</h3>
+      <p>Para fazer perguntas no Simple Present, o material separa os sujeitos assim:</p>
+      <div class="comparacao">
+        <strong>Do + I / you / we / they</strong><br>
+        Do you like your school lunches? — Yes, I do. / No, I don't.<br><br>
+        <strong>Does + he / she / it</strong><br>
+        Does she like cheese? — Yes, she does. / No, she doesn't.
+      </div>
+      <p>Nas respostas curtas afirmativas usamos <strong>do/does</strong>; nas negativas usamos <strong>don't/doesn't</strong>.</p>
+
+      <div class="box-interativo" style="background:#e8eaf6;border-color:#3949ab;">
+        <h4 style="color:#283593;">⚡ Fixação 6 — Do or Does?</h4>
+        <p>Complete: “_____ your best friend speak English?”</p>
+        <label class="opcao-inline"><input type="radio" name="ing_fix6" value="A"> A) Do</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix6" value="B"> B) Does</label>
+        <label class="opcao-inline"><input type="radio" name="ing_fix6" value="C"> C) Is</label>
+        <button class="btn-verificar" style="background:#3949ab;" onclick="verificarFixacaoNova('ing_fix6')">Verificar Resposta</button>
+        <div id="fb-ing-fix-6" class="feedback"></div>
+      </div>
+
+      <div class="destaque-estudo">
+        🧠 <strong>Treino final antes do quiz:</strong> tente criar 4 frases sobre sua rotina, 4 frases sobre tarefas de casa e 4 perguntas usando Do/Does. Depois faça o quiz sem voltar ao material.
+      </div>
+    </article>
   </div>
 
   <!-- ================= MENU DE QUIZZES ================= -->
@@ -693,6 +962,14 @@
 
     <button class="btn-quiz-menu btn-historia" onclick="abrirQuiz('historia_grecia_roma')">
       <span>🏛️ Quiz de História: Grécia Antiga e Roma (3º Bim)</span> <span>➜</span>
+    </button>
+
+    <button class="btn-quiz-menu btn-ciencias" onclick="abrirQuiz('ciencias_materiais')">
+      <span>🔬 Quiz de Ciências: Materiais e Estados Físicos</span> <span>➜</span>
+    </button>
+
+    <button class="btn-quiz-menu btn-ingles" onclick="abrirQuiz('ingles_units_5_6')">
+      <span>🇬🇧 Quiz de Inglês: Units 5 e 6</span> <span>➜</span>
     </button>
   </div>
 
@@ -923,8 +1200,275 @@ function verificarMatFix4() {
   }
 }
 
+// QUESTÕES DE FIXAÇÃO DOS NOVOS MATERIAIS
+const fixacoesNovas = {
+  cien_fix1: { nome: "cien_fix1", correta: "C", feedback: "fb-cien-fix-1", explicacao: "1 kg equivale a 1.000 g. Portanto, 3 kg equivalem a 3.000 g." },
+  cien_fix2: { nome: "cien_fix2", correta: "B", feedback: "fb-cien-fix-2", explicacao: "Na proveta, quando há menisco, a leitura indicada no material é feita pelo ponto mais baixo da curva, com os olhos na altura do nível." },
+  cien_fix3: { nome: "cien_fix3", correta: "A", feedback: "fb-cien-fix-3", explicacao: "O volume do sólido é a diferença entre o nível final e o inicial: 525 mL − 350 mL = 175 mL." },
+  cien_fix4: { nome: "cien_fix4", correta: "A", feedback: "fb-cien-fix-4", explicacao: "Maleabilidade é a característica que permite que um material seja moldado." },
+  cien_fix5: { nome: "cien_fix5", correta: "C", feedback: "fb-cien-fix-5", explicacao: "Viscosidade é a resistência ao escoamento. Quanto mais lentamente o líquido escorre, mais viscoso ele é." },
+  cien_fix6: { nome: "cien_fix6", correta: "B", feedback: "fb-cien-fix-6", explicacao: "No estado gasoso, forma e volume são variáveis; o gás ocupa o espaço disponível no recipiente." },
+
+  ing_fix1: { nome: "ing_fix1", correta: "A", feedback: "fb-ing-fix-1", explicacao: "Get up significa levantar. A frase descreve levantar às 6:45 antes do café da manhã." },
+  ing_fix2: { nome: "ing_fix2", correta: "B", feedback: "fb-ing-fix-2", explicacao: "Take out the trash significa tirar o lixo." },
+  ing_fix3: { nome: "ing_fix3", correta: "A", feedback: "fb-ing-fix-3", explicacao: "Study for tests significa estudar para provas e aparece entre os hábitos trabalhados na Unit 6." },
+  ing_fix4: { nome: "ing_fix4", correta: "B", feedback: "fb-ing-fix-4", explicacao: "Com um verbo comum como study, o advérbio de frequência aparece antes do verbo: I always study at home." },
+  ing_fix5: { nome: "ing_fix5", correta: "B", feedback: "fb-ing-fix-5", explicacao: "Cheese significa queijo." },
+  ing_fix6: { nome: "ing_fix6", correta: "B", feedback: "fb-ing-fix-6", explicacao: "Best friend equivale a he/she, então a pergunta no Simple Present usa Does." }
+};
+
+function verificarFixacaoNova(chave) {
+  const dados = fixacoesNovas[chave];
+  if (!dados) return;
+
+  const marcado = document.querySelector('input[name="' + dados.nome + '"]:checked');
+  const fb = document.getElementById(dados.feedback);
+
+  if (!marcado) {
+    alert("Selecione uma opção!");
+    return;
+  }
+
+  fb.style.display = "block";
+  if (marcado.value === dados.correta) {
+    fb.className = "feedback correto";
+    fb.innerHTML = "<strong>Muito bem!</strong> " + dados.explicacao;
+  } else {
+    fb.className = "feedback incorreto";
+    fb.innerHTML = "<strong>Ainda não.</strong> A alternativa correta é <strong>" + dados.correta + "</strong>.<br>" + dados.explicacao;
+  }
+}
+
 // BANCO DE DADOS DOS QUIZZES
 const bancoQuizzes = {
+  ciencias_materiais: {
+    titulo: "Quiz de Ciências - Materiais: massa, volume e estados físicos",
+    questoes: [
+      {
+        tipo: "opcoes",
+        topico: "Massa",
+        pergunta: "Qual instrumento é usado para medir a massa de um material?",
+        opcoes: { A: "Proveta", B: "Balança", C: "Termômetro", D: "Régua" },
+        respostaCorreta: "B",
+        explicacao: "A massa é medida com balanças; o conteúdo também mostra a importância da calibração do equipamento."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Unidades de massa",
+        pergunta: "Quanto vale 1 kg em gramas?",
+        opcoes: { A: "10 g", B: "100 g", C: "1.000 g", D: "10.000 g" },
+        respostaCorreta: "C",
+        explicacao: "1 quilograma equivale a 1.000 gramas."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Calibração",
+        pergunta: "Para que serve um peso-padrão na calibração de uma balança?",
+        opcoes: {
+          A: "Para verificar se a massa indicada coincide com uma massa conhecida.",
+          B: "Para medir a temperatura do objeto.",
+          C: "Para aumentar o volume do recipiente.",
+          D: "Para transformar gramas em litros."
+        },
+        respostaCorreta: "A",
+        explicacao: "Na calibração, usa-se uma massa conhecida para conferir se o valor indicado pela balança corresponde ao esperado."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Volume",
+        pergunta: "Qual relação entre litro e mililitro está correta?",
+        opcoes: { A: "1 L = 10 mL", B: "1 L = 100 mL", C: "1 L = 500 mL", D: "1 L = 1.000 mL" },
+        respostaCorreta: "D",
+        explicacao: "O conteúdo apresenta 1 litro como equivalente a 1.000 mililitros."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Proveta e menisco",
+        pergunta: "Ao medir um líquido em uma proveta, por que a leitura deve ser feita com os olhos na altura do nível do líquido?",
+        opcoes: {
+          A: "Para evitar erro de leitura e observar corretamente o nível indicado.",
+          B: "Para fazer o líquido evaporar mais rápido.",
+          C: "Para mudar a massa do líquido.",
+          D: "Para impedir a formação do menisco."
+        },
+        respostaCorreta: "A",
+        explicacao: "A leitura correta exige observar a graduação na altura do líquido; quando há menisco, considera-se o ponto indicado no material."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Deslocamento de líquido",
+        pergunta: "A água estava em 420 mL. Depois de mergulhar um objeto, passou para 670 mL. Qual é o volume do objeto?",
+        opcoes: { A: "250 mL", B: "420 mL", C: "670 mL", D: "1.090 mL" },
+        respostaCorreta: "A",
+        explicacao: "O volume é a diferença entre o nível final e o inicial: 670 − 420 = 250 mL."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Estado sólido",
+        pergunta: "Qual alternativa descreve corretamente um material no estado sólido?",
+        opcoes: {
+          A: "Forma definida e volume constante.",
+          B: "Forma variável e volume variável.",
+          C: "Forma variável e volume sempre igual ao do recipiente.",
+          D: "Sem massa e sem volume."
+        },
+        respostaCorreta: "A",
+        explicacao: "No conteúdo, os sólidos apresentam forma definida e volume constante em determinada temperatura."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Propriedades dos sólidos",
+        pergunta: "Qual propriedade é a capacidade de um material recuperar sua forma depois de ser esticado, sem se romper?",
+        opcoes: { A: "Viscosidade", B: "Elasticidade", C: "Volatilidade", D: "Compressão" },
+        respostaCorreta: "B",
+        explicacao: "Elasticidade é a capacidade de recuperar total ou parcialmente a forma após ser esticado."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Estado líquido",
+        pergunta: "Qual afirmação diferencia viscosidade de volatilidade?",
+        opcoes: {
+          A: "Viscosidade trata da resistência ao escoamento; volatilidade, da facilidade de evaporação.",
+          B: "Viscosidade trata da massa; volatilidade, do volume.",
+          C: "Viscosidade existe apenas em sólidos; volatilidade apenas em gases.",
+          D: "As duas palavras significam exatamente a mesma propriedade."
+        },
+        respostaCorreta: "A",
+        explicacao: "Viscosidade indica resistência ao escoamento. Volatilidade está relacionada à facilidade de passar para o estado gasoso por evaporação."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Estado gasoso",
+        pergunta: "O que significam expansão e compressão de um gás?",
+        opcoes: {
+          A: "Expansão é aumento de volume e compressão é diminuição de volume.",
+          B: "Expansão é diminuição de massa e compressão é aumento de massa.",
+          C: "Expansão e compressão só acontecem em sólidos.",
+          D: "As duas sempre mantêm o volume do gás inalterado."
+        },
+        respostaCorreta: "A",
+        explicacao: "O material define expansão como aumento do volume e compressão como diminuição do volume de uma mesma quantidade de material."
+      }
+    ]
+  },
+
+  ingles_units_5_6: {
+    titulo: "Quiz de Inglês - Units 5 e 6",
+    questoes: [
+      {
+        tipo: "opcoes",
+        topico: "Daily routines",
+        pergunta: "Qual expressão em inglês significa “tomar café da manhã”?",
+        opcoes: { A: "have breakfast", B: "have dinner", C: "go home", D: "go to bed" },
+        respostaCorreta: "A",
+        explicacao: "Have breakfast é a expressão usada para tomar café da manhã."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Daily routines",
+        pergunta: "Complete corretamente: “I _____ at 10:00 p.m.”, se a ideia for “eu vou dormir às 22h”.",
+        opcoes: { A: "go to school", B: "go to bed", C: "have lunch", D: "do my homework" },
+        respostaCorreta: "B",
+        explicacao: "Go to bed significa ir para a cama/ir dormir."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Chores",
+        pergunta: "Qual tarefa doméstica corresponde a “lavar a louça”?",
+        opcoes: { A: "clear the table", B: "make my bed", C: "wash the dishes", D: "clean my room" },
+        respostaCorreta: "C",
+        explicacao: "Wash the dishes significa lavar a louça."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Chores",
+        pergunta: "Qual expressão significa “arrumar minha cama”?",
+        opcoes: { A: "make my bed", B: "take out the trash", C: "dry the dishes", D: "put away my clothes" },
+        respostaCorreta: "A",
+        explicacao: "Make my bed é a expressão usada para arrumar a cama."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Good and bad habits",
+        pergunta: "Qual expressão significa “estar no horário”?",
+        opcoes: { A: "be late", B: "be on time", C: "go to bed late", D: "watch TV all evening" },
+        respostaCorreta: "B",
+        explicacao: "Be on time significa estar no horário; be late significa estar atrasado."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Adverbs of frequency",
+        pergunta: "Qual advérbio representa 0% de frequência no esquema do material?",
+        opcoes: { A: "always", B: "usually", C: "sometimes", D: "never" },
+        respostaCorreta: "D",
+        explicacao: "Never representa a ideia de nunca, indicada como 0% na escala do material."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Adverbs of frequency",
+        pergunta: "Qual frase usa corretamente o advérbio de frequência com um verbo comum?",
+        opcoes: {
+          A: "I often study at home.",
+          B: "I study at often home.",
+          C: "Often I at home study.",
+          D: "I at home often."
+        },
+        respostaCorreta: "A",
+        explicacao: "Com verbos comuns, o advérbio de frequência aparece antes do verbo principal: I often study."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Adverbs of frequency",
+        pergunta: "Qual frase usa corretamente o advérbio com o verbo be?",
+        opcoes: {
+          A: "She usually is on time.",
+          B: "She is usually on time.",
+          C: "Usually she on time is.",
+          D: "She on time usually."
+        },
+        respostaCorreta: "B",
+        explicacao: "Com o verbo be, o advérbio de frequência aparece depois do verbo: She is usually on time."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Food and drink",
+        pergunta: "Qual palavra significa “feijão”?",
+        opcoes: { A: "beans", B: "bread", C: "rice", D: "meat" },
+        respostaCorreta: "A",
+        explicacao: "Beans significa feijão."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Food and drink",
+        pergunta: "Qual grupo contém apenas palavras de alimentos/bebidas trabalhadas no material?",
+        opcoes: {
+          A: "cheese, fish, fruit, water",
+          B: "school, room, trash, table",
+          C: "early, late, often, never",
+          D: "get up, go home, study, exercise"
+        },
+        respostaCorreta: "A",
+        explicacao: "Cheese, fish, fruit e water fazem parte do vocabulário de food and drink."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Simple Present questions",
+        pergunta: "Complete: “_____ you help with chores?”",
+        opcoes: { A: "Does", B: "Do", C: "Is", D: "Are" },
+        respostaCorreta: "B",
+        explicacao: "Com you, a pergunta no Simple Present usa Do."
+      },
+      {
+        tipo: "opcoes",
+        topico: "Simple Present questions",
+        pergunta: "Complete: “_____ your friend speak English?”",
+        opcoes: { A: "Do", B: "Does", C: "Am", D: "Are" },
+        respostaCorreta: "B",
+        explicacao: "Your friend equivale a he/she, por isso a pergunta usa Does."
+      }
+    ]
+  },
+
   filosofia_3bim: {
     titulo: "Quiz de Filosofia - Capítulos 05 e 06 (3º Bim)",
     questoes: [
