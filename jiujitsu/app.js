@@ -429,6 +429,19 @@ function renderImportPreview(rows){
   }catch(err){$("#importStatus").textContent=err.message;$("#btnConfirmImport").disabled=false}
  };
 }
+$("#btnDownloadExcelModel").onclick=()=>{
+ if(!window.XLSX){$("#importStatus").textContent="Leitor de Excel não carregou. Verifique sua conexão.";return;}
+ const dados=[
+  ["DATA","LOCAL","TIPO","OBSERVACAO"],
+  ["25/09/2026","TEGA","GI","Exemplo - apague esta linha antes de importar"],
+  ["26/09/2026","TEGA","NOGI","Exemplo - apague esta linha antes de importar"]
+ ];
+ const ws=XLSX.utils.aoa_to_sheet(dados);
+ ws["!cols"]=[{wch:14},{wch:22},{wch:12},{wch:48}];
+ const wb=XLSX.utils.book_new();
+ XLSX.utils.book_append_sheet(wb,ws,"TREINOS");
+ XLSX.writeFile(wb,"modelo-importacao-treinos.xlsx",{compression:true});
+};
 $("#btnImportExcel").onclick=()=>$("#fileImportExcel").click();
 $("#fileImportExcel").onchange=async e=>{
  const file=e.target.files&&e.target.files[0];if(!file)return;
