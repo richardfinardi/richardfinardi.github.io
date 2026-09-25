@@ -13,8 +13,15 @@ const FALLBACK_GRADS=[
  {row:11,faixa:"AZUL",grau:"4º GRAU",data:"2026-09-21"}
 ];
 const $=s=>document.querySelector(s);
-const fmt=d=>d?new Date(d+"T12:00:00").toLocaleDateString("pt-BR"):"—";
-const today=()=>new Date().toISOString().slice(0,10);
+const fmt=d=>{
+ if(!d)return "—";
+ const m=String(d).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+ return m?m[3]+"/"+m[2]+"/"+m[1]:String(d);
+};
+const today=()=>{
+ const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
+ return y+"-"+m+"-"+day;
+};
 const daysSince=d=>Math.max(0,Math.floor((new Date()-new Date(d+"T12:00:00"))/86400000));
 const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 $("#data").value=today();$("#local").value="TEGA";$("#gradData").value=today();
@@ -90,10 +97,22 @@ function renderFaixas(){
 }
 
 function renderHistorico(){
- const ano=$("#filtroAno").value;
- const rows=DATA.slice().filter(x=>!ano||x.data.indexOf(ano)===0).sort((a,b)=>b.data.localeCompare(a.data));
+ const ano=$("#filtroAno").value,mes=$("#filtroMes").value,tipo=$("#filtroTipo").value,local=$("#filtroLocal").value;
+ const busca=$("#filtroBusca").value.trim().toLowerCase();
+ const rows=DATA.slice().filter(x=>{
+  if(ano&&x.data.slice(0,4)!==ano)return false;
+  if(mes&&x.data.slice(5,7)!==mes)return false;
+  if(tipo&&x.tipo!==tipo)return false;
+  if(local&&(x.local||"")!==local)return false;
+  if(busca){
+   const alvo=[x.data,fmt(x.data),x.local,x.tipo,x.observacao].join(" ").toLowerCase();
+   if(!alvo.includes(busca))return false;
+  }
+  return true;
+ }).sort((a,b)=>b.data.localeCompare(a.data));
  const show=rows.slice(0,visible);
- $("#historico").innerHTML=show.map(x=>'<div class="row"><strong>'+fmt(x.data)+'</strong><div><b>'+esc(x.local||"—")+'</b><br><small>'+(x.tipo||"GI")+(x.observacao?" • "+esc(x.observacao):"")+'</small></div><div class="row-actions"><button class="icon-btn" onclick="editTreino(\''+x.id+'\')">✎</button><button class="icon-btn delete" onclick="deleteTreino(\''+x.id+'\')">×</button></div></div>').join("")||"<p>Nenhum treino.</p>";
+ $("#qtdFiltrada").textContent=rows.length+" treino"+(rows.length===1?"":"s");
+ $("#historico").innerHTML=show.map(x=>'<div class="row"><strong>'+fmt(x.data)+'</strong><div><b>'+esc(x.local||"—")+'</b><br><small>'+(x.tipo||"GI")+(x.observacao?" • "+esc(x.observacao):"")+'</small></div><div class="row-actions"><button class="icon-btn" onclick="editTreino(\''+x.id+'\')">✎</button><button class="icon-btn delete" onclick="deleteTreino(\''+x.id+'\')">×</button></div></div>').join("")||"<p>Nenhum treino encontrado.</p>";
  $("#btnMais").hidden=visible>=rows.length;
 }
 
@@ -112,6 +131,9 @@ async function carregar(){
   const anos=[...new Set(DATA.map(x=>x.data.slice(0,4)))].sort().reverse();
   const current=$("#filtroAno").value;
   $("#filtroAno").innerHTML='<option value="">Todos</option>'+anos.map(a=>'<option '+(a===current?'selected':'')+'>'+a+'</option>').join("");
+  const localAtual=$("#filtroLocal").value;
+  const locais=[...new Set(DATA.map(x=>x.local).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR"));
+  $("#filtroLocal").innerHTML='<option value="">Todos</option>'+locais.map(l=>'<option value="'+esc(l)+'" '+(l===localAtual?'selected':'')+'>'+esc(l)+'</option>').join("");
   renderResumo();renderHistorico();renderGrads();
  }catch(e){$("#status").textContent=e.message}
 }
@@ -132,7 +154,10 @@ $("#btnCancelarGrad").onclick=clearGrad;
 $("#formGrad").onsubmit=async e=>{e.preventDefault();$("#statusGrad").textContent="Salvando...";try{await api("saveGraduacao",{graduacao:{row:Number($("#gradRow").value||0),faixa:$("#gradFaixa").value,grau:$("#gradGrau").value,data:$("#gradData").value}});clearGrad();$("#statusGrad").textContent="Graduação salva.";await carregar()}catch(err){$("#statusGrad").textContent=err.message}};
 window.deleteGrad=async row=>{if(!confirm("Apagar este marco de graduação?"))return;try{await api("deleteGraduacao",{row:row});await carregar()}catch(e){alert(e.message)}};
 
-$("#filtroAno").onchange=()=>{visible=PAGE;renderHistorico()};
+["#filtroAno","#filtroMes","#filtroTipo","#filtroLocal"].forEach(s=>$(s).onchange=()=>{visible=PAGE;renderHistorico()});
+$("#filtroBusca").oninput=()=>{visible=PAGE;renderHistorico()};
+$("#btnLimparFiltros").onclick=()=>{$("#filtroBusca").value="";$("#filtroAno").value="";$("#filtroMes").value="";$("#filtroTipo").value="";$("#filtroLocal").value="";visible=PAGE;renderHistorico()};
+$("#btnNovoTreino").onclick=()=>{clearTreino();showView("Treinos");setTimeout(()=>$("#data").focus(),200)};
 $("#btnMais").onclick=()=>{visible+=PAGE;renderHistorico()};
 if("serviceWorker"in navigator)navigator.serviceWorker.register("./sw.js");
 carregar();
