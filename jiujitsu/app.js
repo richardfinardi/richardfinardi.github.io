@@ -42,53 +42,53 @@ $("#btnOpenRegister").onclick=()=>{history.replaceState(null,"",location.pathnam
 $("#btnBackLogin").onclick=()=>{history.replaceState(null,"",location.pathname);setAuthMode("login")};
 
 let API_SEQ=0;
-const API_PENDING=new Map();
 
-window.addEventListener("message",e=>{
- if(!e.data||e.data.type!=="JJ_API_RESULT")return;
- const p=API_PENDING.get(e.data.id);if(!p)return;
- API_PENDING.delete(e.data.id);
- p.cleanup();
- p.resolve(e.data.result);
-});
+function pollApiResult(requestId,timeoutMs=30000){
+ return new Promise((resolve,reject)=>{
+  const started=Date.now();
+  const attempt=()=>{
+   if(Date.now()-started>timeoutMs){reject(new Error("Não foi possível conectar ao servidor."));return;}
+   const cb="__jjcb_"+requestId.replace(/[^A-Za-z0-9_$]/g,"_");
+   const script=document.createElement("script");
+   let done=false;
+   const cleanup=()=>{if(done)return;done=true;try{delete window[cb]}catch(_){window[cb]=undefined}script.remove()};
+   window[cb]=payload=>{
+    cleanup();
+    if(payload&&payload.ready)resolve(payload.result);
+    else setTimeout(attempt,350);
+   };
+   script.onerror=()=>{cleanup();setTimeout(attempt,500)};
+   script.src=cfg.API_URL+(cfg.API_URL.includes("?")?"&":"?")+"requestId="+encodeURIComponent(requestId)+"&callback="+encodeURIComponent(cb)+"&_="+Date.now();
+   document.head.appendChild(script);
+  };
+  attempt();
+ });
+}
 
 async function api(action,payload={}){
  if(!cfg.API_URL)throw new Error("API ainda não configurada");
  const body=Object.assign({action},payload);
  if(TOKEN&&action!=="login"&&action!=="register")body.token=TOKEN;
 
- const id="r"+Date.now()+"_"+(++API_SEQ);
+ const id="r"+Date.now()+"_"+(++API_SEQ)+"_"+Math.random().toString(36).slice(2,10);
  const frameName="jj_api_"+id;
+ const iframe=document.createElement("iframe");
+ iframe.name=frameName;
+ iframe.style.cssText="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;top:-9999px;border:0";
+ iframe.setAttribute("aria-hidden","true");
 
- const j=await new Promise((resolve,reject)=>{
-  const iframe=document.createElement("iframe");
-  iframe.name=frameName;
-  iframe.style.cssText="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;top:-9999px;border:0";
-  iframe.setAttribute("aria-hidden","true");
+ const form=document.createElement("form");
+ form.method="POST";form.action=cfg.API_URL;form.target=frameName;form.style.display="none";
+ const p=document.createElement("input");p.type="hidden";p.name="payload";p.value=JSON.stringify(body);
+ const rid=document.createElement("input");rid.type="hidden";rid.name="requestId";rid.value=id;
+ form.appendChild(p);form.appendChild(rid);
 
-  const form=document.createElement("form");
-  form.method="POST";
-  form.action=cfg.API_URL;
-  form.target=frameName;
-  form.style.display="none";
+ document.body.appendChild(iframe);document.body.appendChild(form);
+ const resultPromise=pollApiResult(id);
+ form.submit();
+ setTimeout(()=>{form.remove();iframe.remove()},1500);
 
-  const payloadInput=document.createElement("input");
-  payloadInput.type="hidden";payloadInput.name="payload";payloadInput.value=JSON.stringify(body);
-  const idInput=document.createElement("input");
-  idInput.type="hidden";idInput.name="requestId";idInput.value=id;
-  form.appendChild(payloadInput);form.appendChild(idInput);
-
-  const cleanup=()=>{clearTimeout(timer);form.remove();setTimeout(()=>iframe.remove(),50)};
-  const timer=setTimeout(()=>{
-    API_PENDING.delete(id);cleanup();reject(new Error("Não foi possível conectar ao servidor."));
-  },30000);
-
-  API_PENDING.set(id,{resolve,reject,cleanup});
-  document.body.appendChild(iframe);
-  document.body.appendChild(form);
-  form.submit();
- });
-
+ const j=await resultPromise;
  if(!j||!j.ok){
   const err=j&&j.error?j.error:"Erro na API";
   if(err==="AUTH_REQUIRED"||err==="SESSION_EXPIRED"){clearSession();showAuth();throw new Error("Sua sessão expirou. Entre novamente.");}
