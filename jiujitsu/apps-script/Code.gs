@@ -1,5 +1,5 @@
 const SHEET_ID='1fn-RSRPiq86bG7m84TeMUrhpGyCChaTNtngKL8Majj4';
-const TAB_TREINOS='TREINOS',TAB_GRADUACOES='GRADUACOES',TAB_USUARIOS='USUARIOS',TAB_SESSOES='SESSOES';
+const TAB_TREINOS='TREINOS',TAB_GRADUACOES='GRADUACOES',TAB_USUARIOS='USUARIOS',TAB_SESSOES='SESSOES',TAB_RECUPERACOES='RECUPERACOES';
 const SESSION_DAYS=30;
 const LEGACY_OWNER_EMAIL='richard@consultoriarf.net';
 
@@ -46,6 +46,8 @@ function dispatch_(b){
   const a=String(b.action||'');
   if(a==='register')return registrar_(b);
   if(a==='login')return login_(b);
+  if(a==='requestPasswordReset')return solicitarResetSenha_(b);
+  if(a==='resetPassword')return resetarSenha_(b);
   const user=auth_(b.token);
   if(a==='logout')return logout_(b.token,user.userId);
   if(a==='me')return {ok:true,user:publicUser_(user)};
@@ -58,6 +60,7 @@ function dispatch_(b){
   if(a==='deleteGraduacao')return apagarGraduacao_(user.userId,b.id||b.row);
   if(a==='setupGraduacao')return setupGraduacao_(user.userId,b);
   if(a==='updateProfile')return updateProfile_(user.userId,b);
+  if(a==='changePassword')return trocarSenha_(user.userId,b);
   return {ok:false,error:'Ação inválida'};
  }catch(err){return {ok:false,error:String(err.message||err)};}
 }
@@ -65,9 +68,9 @@ let SS_CACHE=null;
 function ss_(){return SS_CACHE||(SS_CACHE=SpreadsheetApp.openById(SHEET_ID));}
 function sheets_(){
  const ss=ss_();
- const t=ss.getSheetByName(TAB_TREINOS),g=ss.getSheetByName(TAB_GRADUACOES),u=ss.getSheetByName(TAB_USUARIOS),s=ss.getSheetByName(TAB_SESSOES);
- if(!t||!g||!u||!s)throw new Error('Estrutura do banco incompleta');
- return {t,g,u,s};
+ const t=ss.getSheetByName(TAB_TREINOS),g=ss.getSheetByName(TAB_GRADUACOES),u=ss.getSheetByName(TAB_USUARIOS),s=ss.getSheetByName(TAB_SESSOES),r=ss.getSheetByName(TAB_RECUPERACOES);
+ if(!t||!g||!u||!s||!r)throw new Error('Estrutura do banco incompleta');
+ return {t,g,u,s,r};
 }
 function registrar_(b){
  const lock=LockService.getScriptLock();lock.waitLock(20000);
@@ -200,6 +203,76 @@ function setupGraduacao_(userId,b){
  if(normal_(grau)!=='INICIO')g.appendRow([Utilities.getUuid(),userId,faixa,grau,new Date(dataGrau+'T12:00:00'),new Date()]);
  return {ok:true};
 }
+function solicitarResetSenha_(b){
+ const email=normalEmail_(b.email);
+ if(!email)throw new Error('Informe seu e-mail');
+ const {u,r}=sheets_(),uv=u.getDataRange().getValues();
+ let userId='';
+ for(let i=1;i<uv.length;i++)if(normalEmail_(uv[i][2])===email){userId=String(uv[i][0]);break;}
+ // resposta neutra para não revelar se o e-mail existe
+ if(!userId)return {ok:true,message:'Se o e-mail estiver cadastrado, você receberá um código.'};
+
+ const codigo=String(Math.floor(100000+Math.random()*900000));
+ const now=new Date(),exp=new Date(now.getTime()+15*60*1000);
+ r.appendRow([Utilities.getUuid(),userId,email,hash_(codigo),now,exp,0,'']);
+
+ MailApp.sendEmail({
+  to:email,
+  subject:'Meu Jiu-Jitsu - código para recuperar sua senha',
+  htmlBody:'<div style="font-family:Arial,sans-serif"><h2>Meu Jiu-Jitsu</h2><p>Seu código para redefinir a senha é:</p><div style="font-size:32px;font-weight:700;letter-spacing:6px">'+codigo+'</div><p>Ele vale por 15 minutos.</p><p>Se você não pediu a troca, ignore este e-mail.</p></div>'
+ });
+ return {ok:true,message:'Enviamos um código para seu e-mail.'};
+}
+
+function resetarSenha_(b){
+ const email=normalEmail_(b.email),codigo=String(b.codigo||'').trim(),senha=String(b.novaSenha||'');
+ if(!email||!codigo)throw new Error('Informe e-mail e código');
+ if(senha.length<6)throw new Error('A nova senha precisa ter pelo menos 6 caracteres');
+
+ const {u,s,r}=sheets_(),rv=r.getDataRange().getValues(),now=new Date();
+ let row=-1,userId='';
+ for(let i=rv.length-1;i>=1;i--){
+  if(normalEmail_(rv[i][2])!==email)continue;
+  if(String(rv[i][6])==='1'||rv[i][6]===true)continue;
+  const exp=rv[i][5] instanceof Date?rv[i][5]:new Date(rv[i][5]);
+  if(exp<now)continue;
+  if(String(rv[i][3])===hash_(codigo)){row=i+1;userId=String(rv[i][1]);break;}
+ }
+ if(row<0)throw new Error('Código inválido ou expirado');
+
+ const uv=u.getDataRange().getValues();let userRow=-1;
+ for(let i=1;i<uv.length;i++)if(String(uv[i][0])===userId){userRow=i+1;break;}
+ if(userRow<0)throw new Error('Usuário não encontrado');
+
+ const salt=Utilities.getUuid();
+ u.getRange(userRow,4,1,2).setValues([[hash_(salt+'|'+senha),salt]]);
+ r.getRange(row,7,1,2).setValues([[1,new Date()]]);
+ revogarSessoes_(s,userId,'');
+ return {ok:true,message:'Senha alterada. Faça login novamente.'};
+}
+
+function trocarSenha_(userId,b){
+ const atual=String(b.senhaAtual||''),nova=String(b.novaSenha||'');
+ if(nova.length<6)throw new Error('A nova senha precisa ter pelo menos 6 caracteres');
+ const {u,s}=sheets_(),uv=u.getDataRange().getValues();let row=-1,user=null;
+ for(let i=1;i<uv.length;i++)if(String(uv[i][0])===userId){row=i+1;user=uv[i];break;}
+ if(row<0)throw new Error('Usuário não encontrado');
+ if(hash_(String(user[4])+'|'+atual)!==String(user[3]))throw new Error('Senha atual incorreta');
+
+ const salt=Utilities.getUuid();
+ u.getRange(row,4,1,2).setValues([[hash_(salt+'|'+nova),salt]]);
+ revogarSessoes_(s,userId,hash_(String(b.token||'')));
+ return {ok:true,message:'Senha alterada com sucesso.'};
+}
+
+function revogarSessoes_(s,userId,keepHash){
+ const v=s.getDataRange().getValues();
+ for(let i=v.length-1;i>=1;i--){
+  if(String(v[i][1])===userId&&(!keepHash||String(v[i][0])!==keepHash))s.deleteRow(i+1);
+ }
+ CacheService.getScriptCache().removeAll(v.slice(1).filter(r=>String(r[1])===userId).map(r=>'JJ_AUTH_'+String(r[0])));
+}
+
 function updateProfile_(userId,b){
  const nome=String(b.nome||'').trim();if(nome.length<2)throw new Error('Informe seu nome');
  const {u}=sheets_(),v=u.getDataRange().getValues();
@@ -230,4 +303,4 @@ function dateIso_(v){
 }
 function normal_(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();}
 function json_(o){return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);}
-// deploy-trigger performance-v19
+// deploy-trigger password-recovery-v20
