@@ -358,6 +358,88 @@ function mostrarErro(msg){
 
 window.editTreino=id=>{const x=DATA.find(t=>t.id===id);if(!x)return;$("#treinoId").value=x.id;$("#data").value=x.data;$("#local").value=x.local||"TEGA";$("#tipo").value=x.tipo||"GI";$("#obs").value=x.observacao||"";$("#formTitulo").textContent="Editar treino";$("#btnCancelarEdicao").hidden=false;showView("Treinos")};
 function clearTreino(){$("#treinoId").value="";$("#data").value=today();$("#local").value="TEGA";$("#tipo").value="GI";$("#obs").value="";$("#formTitulo").textContent="Novo treino";$("#btnCancelarEdicao").hidden=true}
+function normHeader(s){
+ return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9]+/g," ").trim();
+}
+function excelDateToIso(v){
+ if(v instanceof Date&&!isNaN(v.getTime())){
+  return v.getFullYear()+"-"+String(v.getMonth()+1).padStart(2,"0")+"-"+String(v.getDate()).padStart(2,"0");
+ }
+ if(typeof v==="number"&&window.XLSX){
+  const d=XLSX.SSF.parse_date_code(v);
+  if(d)return d.y+"-"+String(d.m).padStart(2,"0")+"-"+String(d.d).padStart(2,"0");
+ }
+ const s=String(v||"").trim();
+ let m=s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/);if(m)return m[1]+"-"+String(m[2]).padStart(2,"0")+"-"+String(m[3]).padStart(2,"0");
+ m=s.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);if(m)return m[3]+"-"+String(m[2]).padStart(2,"0")+"-"+String(m[1]).padStart(2,"0");
+ return "";
+}
+function pickCol(row,aliases){
+ const keys=Object.keys(row);
+ for(const a of aliases){
+  const hit=keys.find(k=>normHeader(k)===a);
+  if(hit!=null)return row[hit];
+ }
+ return "";
+}
+function parseImportWorkbook(file){
+ return new Promise((resolve,reject)=>{
+  if(!window.XLSX){reject(new Error("Leitor de Excel não carregou. Verifique sua conexão."));return;}
+  const reader=new FileReader();
+  reader.onerror=()=>reject(new Error("Não foi possível ler o arquivo."));
+  reader.onload=()=>{
+   try{
+    const wb=XLSX.read(reader.result,{type:"array",cellDates:true});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const raw=XLSX.utils.sheet_to_json(ws,{defval:"",raw:true});
+    const rows=[];
+    raw.forEach((r,i)=>{
+      const data=excelDateToIso(pickCol(r,["DATA","DATE","DT TREINO","DATA TREINO"]));
+      const local=String(pickCol(r,["LOCAL","ACADEMIA","LOCAL TREINO"])||"TEGA").trim()||"TEGA";
+      let tipo=normHeader(pickCol(r,["TIPO","MODALIDADE","GI NOGI","GI NO GI"])).replace(/ /g,"");
+      if(tipo==="NO-GI"||tipo==="NO GI")tipo="NOGI";
+      if(!tipo)tipo="GI";
+      const observacao=String(pickCol(r,["OBSERVACAO","OBSERVACOES","OBS","NOTA","NOTAS"])||"").trim();
+      if(!data)return;
+      rows.push({data,local,tipo,observacao,_linha:i+2});
+    });
+    if(!rows.length)throw new Error("Não encontrei treinos válidos. A planilha precisa ter uma coluna DATA.");
+    resolve(rows);
+   }catch(err){reject(err)}
+  };
+  reader.readAsArrayBuffer(file);
+ });
+}
+function renderImportPreview(rows){
+ const el=$("#importPreview");el.hidden=false;
+ const sample=rows.slice(0,5);
+ el.innerHTML='<div class="import-summary"><strong>'+rows.length+'</strong><span> treinos encontrados</span></div>'+
+ '<div class="import-table-wrap"><table><thead><tr><th>Data</th><th>Local</th><th>Tipo</th><th>Observação</th></tr></thead><tbody>'+
+ sample.map(r=>'<tr><td>'+fmt(r.data)+'</td><td>'+esc(r.local)+'</td><td>'+esc(r.tipo)+'</td><td>'+esc(r.observacao)+'</td></tr>').join("")+
+ '</tbody></table></div><button id="btnConfirmImport" class="primary full" type="button">Importar '+rows.length+' treinos</button>';
+ $("#btnConfirmImport").onclick=async()=>{
+  $("#importStatus").textContent="Importando...";
+  $("#btnConfirmImport").disabled=true;
+  try{
+   const clean=rows.map(({data,local,tipo,observacao})=>({data,local,tipo,observacao}));
+   const j=await api("importTreinos",{treinos:clean});
+   $("#importStatus").textContent=j.inserted+" importados"+(j.skipped?" • "+j.skipped+" duplicados ignorados":"")+".";
+   el.hidden=true;$("#fileImportExcel").value="";
+   await carregar();
+  }catch(err){$("#importStatus").textContent=err.message;$("#btnConfirmImport").disabled=false}
+ };
+}
+$("#btnImportExcel").onclick=()=>$("#fileImportExcel").click();
+$("#fileImportExcel").onchange=async e=>{
+ const file=e.target.files&&e.target.files[0];if(!file)return;
+ $("#importStatus").textContent="Lendo planilha...";
+ try{
+  const rows=await parseImportWorkbook(file);
+  $("#importStatus").textContent="";
+  renderImportPreview(rows);
+ }catch(err){$("#importStatus").textContent=err.message;$("#importPreview").hidden=true}
+};
+
 $("#btnCancelarEdicao").onclick=clearTreino;
 $("#formTreino").onsubmit=async e=>{e.preventDefault();$("#status").textContent="Salvando...";try{await api($("#treinoId").value?"update":"save",{treino:{id:$("#treinoId").value,data:$("#data").value,local:$("#local").value.trim()||"TEGA",tipo:$("#tipo").value,observacao:$("#obs").value.trim()}});clearTreino();$("#status").textContent="Treino salvo.";await carregar()}catch(err){$("#status").textContent=err.message}};
 window.deleteTreino=async id=>{if(!confirm("Apagar este treino?"))return;try{await api("delete",{id});await carregar()}catch(e){alert(e.message)}};
