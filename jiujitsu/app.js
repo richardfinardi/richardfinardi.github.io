@@ -41,15 +41,48 @@ function setAuthMode(mode){
 $("#btnOpenRegister").onclick=()=>{history.replaceState(null,"",location.pathname+"#cadastro");setAuthMode("register")};
 $("#btnBackLogin").onclick=()=>{history.replaceState(null,"",location.pathname);setAuthMode("login")};
 
+let BRIDGE_FRAME=null,BRIDGE_READY=null,BRIDGE_SEQ=0;
+const BRIDGE_PENDING=new Map();
+
+function ensureBridge(){
+ if(BRIDGE_READY)return BRIDGE_READY;
+ BRIDGE_READY=new Promise((resolve,reject)=>{
+  BRIDGE_FRAME=document.createElement("iframe");
+  BRIDGE_FRAME.src=cfg.API_URL+(cfg.API_URL.includes("?")?"&":"?")+"bridge=1";
+  BRIDGE_FRAME.style.cssText="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;top:-9999px;border:0";
+  BRIDGE_FRAME.setAttribute("aria-hidden","true");
+  document.body.appendChild(BRIDGE_FRAME);
+  const timer=setTimeout(()=>reject(new Error("Não foi possível conectar ao servidor.")),15000);
+  const ready=e=>{
+   if(e.source===BRIDGE_FRAME.contentWindow&&e.data&&e.data.type==="JJ_BRIDGE_READY"){
+    clearTimeout(timer);window.removeEventListener("message",ready);resolve();
+   }
+  };
+  window.addEventListener("message",ready);
+ });
+ return BRIDGE_READY;
+}
+window.addEventListener("message",e=>{
+ if(!BRIDGE_FRAME||e.source!==BRIDGE_FRAME.contentWindow||!e.data||e.data.type!=="JJ_API_RESULT")return;
+ const p=BRIDGE_PENDING.get(e.data.id);if(!p)return;
+ BRIDGE_PENDING.delete(e.data.id);p.resolve(e.data.result);
+});
+
 async function api(action,payload={}){
  if(!cfg.API_URL)throw new Error("API ainda não configurada");
+ await ensureBridge();
  const body=Object.assign({action},payload);
  if(TOKEN&&action!=="login"&&action!=="register")body.token=TOKEN;
- const r=await fetch(cfg.API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)});
- const j=await r.json();
- if(!j.ok){
-  if(j.error==="AUTH_REQUIRED"||j.error==="SESSION_EXPIRED"){clearSession();showAuth();throw new Error("Sua sessão expirou. Entre novamente.");}
-  throw new Error(j.error||"Erro na API");
+ const id="r"+Date.now()+"_"+(++BRIDGE_SEQ);
+ const j=await new Promise((resolve,reject)=>{
+  const timer=setTimeout(()=>{BRIDGE_PENDING.delete(id);reject(new Error("Servidor demorou para responder."))},30000);
+  BRIDGE_PENDING.set(id,{resolve:r=>{clearTimeout(timer);resolve(r)},reject});
+  BRIDGE_FRAME.contentWindow.postMessage({type:"JJ_API",id,body},"*");
+ });
+ if(!j||!j.ok){
+  const err=j&&j.error?j.error:"Erro na API";
+  if(err==="AUTH_REQUIRED"||err==="SESSION_EXPIRED"){clearSession();showAuth();throw new Error("Sua sessão expirou. Entre novamente.");}
+  throw new Error(err);
  }
  return j;
 }
