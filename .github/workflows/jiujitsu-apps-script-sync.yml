@@ -1,0 +1,50 @@
+name: Jiu Jitsu Apps Script Sync
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "jiujitsu/apps-script/**"
+      - ".github/workflows/jiujitsu-apps-script-sync.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: jiujitsu/apps-script
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install clasp
+        run: npm install -g @google/clasp@3.4.1
+
+      - name: Autorizar Google
+        env:
+          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+        run: |
+          test -n "$CLASPRC_JSON" || (echo "Secret CLASPRC_JSON nao configurado" && exit 1)
+          printf '%s' "$CLASPRC_JSON" > "$HOME/.clasprc.json"
+          chmod 600 "$HOME/.clasprc.json"
+
+      - name: Configurar projeto
+        run: printf '{"scriptId":"1niahvqKlDNCcAoBkhjJG6XJgpWmJ83Oi2-pCo9De6ZXZ-Bv8xbYAgiVr","rootDir":"."}\n' > .clasp.json
+
+      - name: Enviar codigo
+        run: clasp push --force
+
+      - name: Atualizar Web App
+        run: clasp update-deployment AKfycbymMb73cD7fUv0dtMXgKKKj3fmt9qxgrNQLuZ5fUl0hngLFEiZGwiQZiCnZ_8-s2EE0 --description "Jiu Jitsu GitHub ${{ github.sha }}"
