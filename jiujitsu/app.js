@@ -59,18 +59,37 @@ function calcProfile(grads){
  return {faixa:faixaStart?faixaStart.faixa:"—",faixaData:faixaStart?faixaStart.data:"",grau:grau?grau.grau:"—",grauData:grau?grau.data:""};
 }
 function countMap(arr,keyFn){const m={};arr.forEach(x=>{const k=keyFn(x);if(k)m[k]=(m[k]||0)+1});return m}
+function normTxt(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase()}
+function grauNumero(grau){
+ const g=normTxt(grau);
+ if(g==="INICIO"||g==="SEM GRAU")return 0;
+ const m=g.match(/([1-4])/);return m?Number(m[1]):0;
+}
+function renderBeltIcon(faixa,grau){
+ const el=$("#kpiBeltIcon");if(!el)return;
+ const f=normTxt(faixa),g=grauNumero(grau);
+ const colors={BRANCA:"#f4f4f4",AZUL:"#2b78ff",ROXA:"#7a3db8",MARROM:"#6b3f22",PRETA:"#111111"};
+ el.style.setProperty("--belt",colors[f]||"#2b78ff");
+ el.style.setProperty("--rank",f==="PRETA"?"#d8171f":"#090a0c");
+ el.innerHTML="";
+ for(let i=1;i<=g;i++){const s=document.createElement("i");s.className="stripe s"+i;el.appendChild(s);}
+}
 
 function renderResumo(){
  const now=new Date(),year=String(now.getFullYear()),ym=year+"-"+String(now.getMonth()+1).padStart(2,"0");
  const nogi=DATA.filter(x=>x.tipo==="NOGI").length;
- const ano=DATA.filter(x=>x.data.indexOf(year)===0).length;
+ const anoData=DATA.filter(x=>x.data.indexOf(year)===0);
+ const ano=anoData.length;
+ const giAno=anoData.filter(x=>x.tipo==="GI").length;
+ const nogiAno=anoData.filter(x=>x.tipo==="NOGI").length;
  const p=calcProfile(GRADS);
  $("#kpiTotal").textContent=DATA.length;
  $("#kpiMes").textContent=DATA.filter(x=>x.data.indexOf(ym)===0).length;
  $("#kpiAno").textContent=ano;
- $("#kpiNogi").textContent=nogi;
- $("#kpiNogiPct").textContent=DATA.length?Math.round(nogi/DATA.length*100)+"% do total":"0%";
+ $("#kpiGiAno").textContent=giAno;
+ $("#kpiNogiAno").textContent=nogiAno;
  $("#kpiFaixa").textContent=p.faixa;
+ renderBeltIcon(p.faixa,p.grau);
  $("#kpiDiasFaixa").textContent=p.faixaData?daysSince(p.faixaData)+" dias • desde "+fmt(p.faixaData):"";
  $("#kpiGrau").textContent=p.grau==="INÍCIO"?"SEM GRAU":p.grau;
  $("#kpiDiasGrau").textContent=p.grauData?daysSince(p.grauData)+" dias • desde "+fmt(p.grauData):"";

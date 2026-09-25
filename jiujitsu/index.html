@@ -8,15 +8,15 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Jiu-Jitsu">
-<link rel="icon" href="./tega-icon-192.png?v=9" type="image/png">
-<link rel="apple-touch-icon" href="./tega-icon-192.png?v=9">
+<link rel="icon" href="./tega-app-192.png?v=10" type="image/png">
+<link rel="apple-touch-icon" href="./tega-app-192.png?v=10">
 <title>Jiu-Jitsu | Treinos & Evolução</title>
-<link rel="manifest" href="./manifest.json?v=9">
-<link rel="stylesheet" href="./styles.css?v=8">
+<link rel="manifest" href="./manifest.json?v=10">
+<link rel="stylesheet" href="./styles.css?v=10">
 </head>
 <body>
 <header class="top">
-  <div class="brand"><img class="app-logo" src="./tega-icon-192.png?v=9" alt="TEGA Jiu-Jitsu"><div><span class="eyebrow">MEU JIU-JITSU</span><h1>Treinos & evolução</h1></div></div>
+  <div class="brand"><img class="app-logo" src="./tega-app-192.png?v=10" alt="TEGA Jiu-Jitsu"><div><span class="eyebrow">MEU JIU-JITSU</span><h1>Treinos & evolução</h1></div></div>
   <button id="btnInstall" class="ghost" hidden>Instalar</button>
 </header>
 <main>
@@ -25,10 +25,10 @@
   <section class="cards">
     <article><small>Treinos</small><strong id="kpiTotal">—</strong><span>Total registrado</span></article>
     <article><small>Este mês</small><strong id="kpiMes">—</strong><span>Treinos realizados</span></article>
-    <article><small>Faixa atual</small><strong id="kpiFaixa">—</strong><span id="kpiDiasFaixa">—</span></article>
+    <article class="belt-card"><small>Faixa atual</small><div class="belt-card-main"><div id="kpiBeltIcon" class="belt-icon" aria-hidden="true"></div><strong id="kpiFaixa">—</strong></div><span id="kpiDiasFaixa">—</span></article>
     <article><small>Grau atual</small><strong id="kpiGrau">—</strong><span id="kpiDiasGrau">—</span></article>
     <article><small>Este ano</small><strong id="kpiAno">—</strong><span>Treinos realizados</span></article>
-    <article><small>NOGI</small><strong id="kpiNogi">—</strong><span id="kpiNogiPct">—</span></article>
+    <article class="gi-nogi-card"><small>GI / NOGI • este ano</small><div class="split-stat"><span>GI</span><strong id="kpiGiAno">—</strong></div><div class="split-stat"><span>NOGI</span><strong id="kpiNogiAno">—</strong></div></article>
   </section>
   <section class="panel"><div class="panel-head"><h2>Treinos por mês</h2><span id="anoGrafico" class="muted"></span></div><div id="graficoMes" class="bars"></div></section>
   <section class="panel"><div class="panel-head"><h2>GI x NOGI</h2></div><div id="tipoResumo"></div></section>
@@ -99,6 +99,6 @@
   <button data-view="Evolucao">Evolução</button>
 </nav>
 <script src="./config.js?v=8"></script>
-<script src="./app.js?v=8"></script>
+<script src="./app.js?v=10"></script>
 </body>
 </html>
