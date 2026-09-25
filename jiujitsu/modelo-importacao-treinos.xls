@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+<Worksheet ss:Name="TREINOS"><Table>
+<Row><Cell><Data ss:Type="String">DATA</Data></Cell><Cell><Data ss:Type="String">LOCAL</Data></Cell><Cell><Data ss:Type="String">TIPO</Data></Cell><Cell><Data ss:Type="String">OBSERVACAO</Data></Cell></Row>
+<Row><Cell><Data ss:Type="String">25/09/2026</Data></Cell><Cell><Data ss:Type="String">TEGA</Data></Cell><Cell><Data ss:Type="String">GI</Data></Cell><Cell><Data ss:Type="String">Exemplo - apague esta linha antes de importar</Data></Cell></Row>
+<Row><Cell><Data ss:Type="String">26/09/2026</Data></Cell><Cell><Data ss:Type="String">TEGA</Data></Cell><Cell><Data ss:Type="String">NOGI</Data></Cell><Cell><Data ss:Type="String">Exemplo - apague esta linha antes de importar</Data></Cell></Row>
+</Table></Worksheet></Workbook>
