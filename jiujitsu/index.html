@@ -11,11 +11,17 @@
 <link rel="icon" href="./tega-app-192.png?v=10" type="image/png">
 <link rel="apple-touch-icon" href="./tega-app-192.png?v=10">
 <title>Jiu-Jitsu | Treinos & Evolução</title>
-<link rel="manifest" href="./manifest.json?v=19">
-<link rel="stylesheet" href="./styles.css?v=19">
+<link rel="manifest" href="./manifest.json?v=20">
+<link rel="stylesheet" href="./styles.css?v=20">
 </head>
 <body>
-<section id="authShell" class="auth-shell">
+<section id="bootShell" class="auth-shell">
+  <div class="boot-card">
+    <img class="auth-logo" src="./tega-app-192.png?v=10" alt="TEGA Jiu-Jitsu">
+    <div class="boot-spinner"></div>
+  </div>
+</section>
+<section id="authShell" class="auth-shell" hidden>
   <div class="auth-card">
     <img class="auth-logo" src="./tega-app-192.png?v=10" alt="TEGA Jiu-Jitsu">
     <span class="eyebrow">MEU JIU-JITSU</span>
@@ -28,6 +34,7 @@
       <form id="formLogin" class="auth-form">
         <label>E-mail<input id="loginEmail" type="email" autocomplete="email" required></label>
         <label>Senha<input id="loginSenha" type="password" autocomplete="current-password" required></label>
+        <button id="btnForgotPassword" class="text-link" type="button">Esqueci minha senha</button>
         <button class="primary" type="submit">Entrar</button>
       </form>
       <div class="auth-divider"><span>ou</span></div>
@@ -51,6 +58,25 @@
       </form>
     </div>
 
+    <div id="recoveryPanel" class="auth-panel" hidden>
+      <div class="auth-section-head">
+        <button id="btnBackRecovery" class="auth-back" type="button">←</button>
+        <div>
+          <div class="auth-section-title">Recuperar senha</div>
+          <div class="muted auth-mini">Enviaremos um código de 6 dígitos para seu e-mail.</div>
+        </div>
+      </div>
+      <form id="formRecoveryRequest" class="auth-form">
+        <label>E-mail<input id="recoveryEmail" type="email" autocomplete="email" required></label>
+        <button class="primary" type="submit">Enviar código</button>
+      </form>
+      <form id="formRecoveryReset" class="auth-form" hidden>
+        <label>Código<input id="recoveryCode" inputmode="numeric" maxlength="6" required></label>
+        <label>Nova senha<input id="recoveryNewPassword" type="password" minlength="6" autocomplete="new-password" required></label>
+        <label>Confirmar nova senha<input id="recoveryNewPassword2" type="password" minlength="6" autocomplete="new-password" required></label>
+        <button class="primary" type="submit">Redefinir senha</button>
+      </form>
+    </div>
     <p id="authStatus" class="status"></p>
   </div>
 </section>
@@ -171,6 +197,14 @@
     <h2 id="perfilNome">—</h2>
     <div id="perfilEmail" class="muted"></div>
     <div class="profile-line"><span>Academia</span><strong>TEGA</strong></div>
+    <button id="btnTogglePassword" class="ghost full" type="button">Trocar senha</button>
+    <form id="formChangePassword" class="profile-password-form" hidden>
+      <label>Senha atual<input id="senhaAtual" type="password" autocomplete="current-password" required></label>
+      <label>Nova senha<input id="novaSenha" type="password" minlength="6" autocomplete="new-password" required></label>
+      <label>Confirmar nova senha<input id="novaSenha2" type="password" minlength="6" autocomplete="new-password" required></label>
+      <button class="primary" type="submit">Salvar nova senha</button>
+      <p id="passwordStatus" class="status"></p>
+    </form>
     <button id="btnSair" class="danger full" type="button">Sair da conta</button>
   </section>
 </section>
@@ -183,6 +217,6 @@
 </nav>
 </div>
 <script src="./config.js?v=8"></script>
-<script src="./app.js?v=19"></script>
+<script src="./app.js?v=20"></script>
 </body>
 </html>
