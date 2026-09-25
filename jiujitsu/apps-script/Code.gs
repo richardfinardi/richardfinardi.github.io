@@ -3,26 +3,54 @@ const TAB_TREINOS='TREINOS',TAB_GRADUACOES='GRADUACOES',TAB_USUARIOS='USUARIOS',
 const SESSION_DAYS=30;
 const LEGACY_OWNER_EMAIL='richard@consultoriarf.net';
 
-function doGet(){return json_({ok:true,service:'jiujitsu-api',version:'3.0'});}
+function doGet(){
+ return HtmlService.createHtmlOutput(bridgeHtml_())
+  .setTitle('Jiu-Jitsu Bridge')
+  .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
 function doPost(e){
  try{
   const b=JSON.parse((e&&e.postData&&e.postData.contents)||'{}');
-  const a=String(b.action||'');
-  if(a==='register')return json_(registrar_(b));
-  if(a==='login')return json_(login_(b));
-  const user=auth_(b.token);
-  if(a==='logout')return json_(logout_(b.token,user.userId));
-  if(a==='me')return json_({ok:true,user:publicUser_(user)});
-  if(a==='list')return json_(listar_(user.userId));
-  if(a==='save')return json_(salvar_(user.userId,b.treino||{}));
-  if(a==='update')return json_(atualizar_(user.userId,b.treino||{}));
-  if(a==='delete')return json_(apagar_(user.userId,b.id));
-  if(a==='saveGraduacao')return json_(salvarGraduacao_(user.userId,b.graduacao||{}));
-  if(a==='deleteGraduacao')return json_(apagarGraduacao_(user.userId,b.id||b.row));
-  if(a==='setupGraduacao')return json_(setupGraduacao_(user.userId,b));
-  if(a==='updateProfile')return json_(updateProfile_(user.userId,b));
-  return json_({ok:false,error:'Ação inválida'});
+  return json_(dispatch_(b));
  }catch(err){return json_({ok:false,error:String(err.message||err)});}
+}
+function bridgeDispatch_(raw){
+ try{
+  const b=typeof raw==='string'?JSON.parse(raw):raw;
+  return dispatch_(b||{});
+ }catch(err){return {ok:false,error:String(err.message||err)};}
+}
+function dispatch_(b){
+ try{
+  const a=String(b.action||'');
+  if(a==='register')return registrar_(b);
+  if(a==='login')return login_(b);
+  const user=auth_(b.token);
+  if(a==='logout')return logout_(b.token,user.userId);
+  if(a==='me')return {ok:true,user:publicUser_(user)};
+  if(a==='list')return listar_(user.userId);
+  if(a==='save')return salvar_(user.userId,b.treino||{});
+  if(a==='update')return atualizar_(user.userId,b.treino||{});
+  if(a==='delete')return apagar_(user.userId,b.id);
+  if(a==='saveGraduacao')return salvarGraduacao_(user.userId,b.graduacao||{});
+  if(a==='deleteGraduacao')return apagarGraduacao_(user.userId,b.id||b.row);
+  if(a==='setupGraduacao')return setupGraduacao_(user.userId,b);
+  if(a==='updateProfile')return updateProfile_(user.userId,b);
+  return {ok:false,error:'Ação inválida'};
+ }catch(err){return {ok:false,error:String(err.message||err)};}
+}
+function bridgeHtml_(){
+ return '<!doctype html><html><head><meta charset="utf-8"></head><body><script>'+
+ 'window.addEventListener("message",function(e){'+
+ 'var ok=e.origin==="https://consultoriarf.net"||e.origin==="https://www.consultoriarf.net"||e.origin==="https://richardfinardi.github.io";'+
+ 'if(!ok||!e.data||e.data.type!=="JJ_API")return;'+
+ 'var id=e.data.id;'+
+ 'google.script.run.withSuccessHandler(function(r){e.source.postMessage({type:"JJ_API_RESULT",id:id,result:r},e.origin);})'+
+ '.withFailureHandler(function(err){e.source.postMessage({type:"JJ_API_RESULT",id:id,result:{ok:false,error:String(err&&err.message||err)}},e.origin);})'+
+ '.bridgeDispatch_(JSON.stringify(e.data.body||{}));'+
+ '});'+
+ 'parent.postMessage({type:"JJ_BRIDGE_READY"},"*");'+
+ '<\\/script></body></html>';
 }
 
 function ss_(){return SpreadsheetApp.openById(SHEET_ID);}
@@ -210,4 +238,4 @@ function dateIso_(v){
 }
 function normal_(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();}
 function json_(o){return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);}
-// deploy-trigger
+// deploy-trigger cors-bridge
