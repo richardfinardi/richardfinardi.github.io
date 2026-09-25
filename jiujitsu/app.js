@@ -34,12 +34,12 @@ if($("#btnInstall"))$("#btnInstall").onclick=async()=>{if(!deferredPrompt)return
 
 function setAuthMode(mode){
  const login=mode==="login";
- $("#formLogin").hidden=!login;$("#formRegister").hidden=login;
- $("#tabLogin").classList.toggle("active",login);$("#tabRegister").classList.toggle("active",!login);
+ $("#loginPanel").hidden=!login;
+ $("#registerPanel").hidden=login;
  $("#authStatus").textContent="";
 }
-$("#tabLogin").onclick=()=>setAuthMode("login");
-$("#tabRegister").onclick=()=>setAuthMode("register");
+$("#btnOpenRegister").onclick=()=>{history.replaceState(null,"",location.pathname+"#cadastro");setAuthMode("register")};
+$("#btnBackLogin").onclick=()=>{history.replaceState(null,"",location.pathname);setAuthMode("login")};
 
 async function api(action,payload={}){
  if(!cfg.API_URL)throw new Error("API ainda não configurada");
