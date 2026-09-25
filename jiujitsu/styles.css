@@ -16,3 +16,24 @@
 .split-stat{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #242b34;padding:5px 0 3px}
 .split-stat span{font-size:13px;color:#8e9aa8}
 .cards .split-stat strong{font-size:22px;margin:0}
+
+.summary-rank-card{grid-column:1/-1;min-height:148px}
+.rank-overview{display:flex;align-items:center;gap:14px;margin-top:9px}
+.rank-copy{min-width:0;flex:1}
+.rank-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.cards .rank-title strong,.rank-title strong{font-size:30px;margin:0;line-height:1}
+.rank-title .pill{font-size:12px;padding:6px 9px}
+.rank-since{display:block;line-height:1.35}
+.belt-icon-large{width:74px;height:58px;border-radius:13px}
+.belt-icon-large:before{left:7px;right:7px;top:18px;height:21px;border-radius:7px}
+.belt-icon-large:after{right:10px;top:20px;width:22px;height:17px}
+.belt-icon-large .stripe{top:23px;height:11px;width:2px}
+.belt-icon-large .stripe.s1{right:27px}.belt-icon-large .stripe.s2{right:22px}.belt-icon-large .stripe.s3{right:17px}.belt-icon-large .stripe.s4{right:12px}
+.belt-panel .rank-overview{margin-top:10px}
+.belt-panel .rank-title strong{font-size:34px}
+@media(max-width:420px){
+  .summary-rank-card{min-height:142px}
+  .belt-icon-large{width:68px;height:54px}
+  .rank-overview{gap:12px}
+  .cards .rank-title strong{font-size:28px}
+}
