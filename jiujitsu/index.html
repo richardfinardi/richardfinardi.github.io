@@ -11,10 +11,54 @@
 <link rel="icon" href="./tega-app-192.png?v=10" type="image/png">
 <link rel="apple-touch-icon" href="./tega-app-192.png?v=10">
 <title>Jiu-Jitsu | Treinos & Evolução</title>
-<link rel="manifest" href="./manifest.json?v=12">
-<link rel="stylesheet" href="./styles.css?v=12">
+<link rel="manifest" href="./manifest.json?v=13">
+<link rel="stylesheet" href="./styles.css?v=13">
 </head>
 <body>
+<section id="authShell" class="auth-shell">
+  <div class="auth-card">
+    <img class="auth-logo" src="./tega-app-192.png?v=10" alt="TEGA Jiu-Jitsu">
+    <span class="eyebrow">MEU JIU-JITSU</span>
+    <h1>Treinos & evolução</h1>
+    <p class="muted auth-sub">Seu histórico de treinos, faixa e evolução.</p>
+    <div class="auth-tabs">
+      <button id="tabLogin" class="active" type="button">Entrar</button>
+      <button id="tabRegister" type="button">Criar conta</button>
+    </div>
+    <form id="formLogin" class="auth-form">
+      <label>E-mail<input id="loginEmail" type="email" autocomplete="email" required></label>
+      <label>Senha<input id="loginSenha" type="password" autocomplete="current-password" required></label>
+      <button class="primary" type="submit">Entrar</button>
+    </form>
+    <form id="formRegister" class="auth-form" hidden>
+      <label>Nome<input id="regNome" type="text" autocomplete="name" required></label>
+      <label>E-mail<input id="regEmail" type="email" autocomplete="email" required></label>
+      <label>Senha<input id="regSenha" type="password" minlength="6" autocomplete="new-password" required></label>
+      <label>Confirmar senha<input id="regSenha2" type="password" minlength="6" autocomplete="new-password" required></label>
+      <button class="primary" type="submit">Criar conta</button>
+    </form>
+    <p id="authStatus" class="status"></p>
+  </div>
+</section>
+
+<section id="setupShell" class="auth-shell" hidden>
+  <div class="auth-card">
+    <img class="auth-logo" src="./tega-app-192.png?v=10" alt="TEGA Jiu-Jitsu">
+    <span class="eyebrow">PRIMEIRO ACESSO</span>
+    <h1>Sua graduação atual</h1>
+    <p class="muted auth-sub">Preencha sua faixa atual para começar.</p>
+    <form id="formSetup" class="auth-form">
+      <label>Faixa<select id="setupFaixa"><option>BRANCA</option><option>AZUL</option><option>ROXA</option><option>MARROM</option><option>PRETA</option></select></label>
+      <label>Grau<select id="setupGrau"><option>INÍCIO</option><option>1º GRAU</option><option>2º GRAU</option><option>3º GRAU</option><option>4º GRAU</option></select></label>
+      <label>Data da faixa<input id="setupDataFaixa" type="date" required></label>
+      <label id="setupDataGrauLabel" hidden>Data do grau<input id="setupDataGrau" type="date"></label>
+      <button class="primary" type="submit">Começar</button>
+    </form>
+    <p id="setupStatus" class="status"></p>
+  </div>
+</section>
+
+<div id="appShell" hidden>
 <header class="top">
   <div class="brand"><img class="app-logo" src="./tega-app-192.png?v=10" alt="TEGA Jiu-Jitsu"><div><span class="eyebrow">MEU JIU-JITSU</span><h1>Treinos & evolução</h1></div></div>
   <button id="btnInstall" class="ghost" hidden>Instalar</button>
@@ -106,13 +150,25 @@
   <section class="panel"><div class="panel-head"><h2>Linha do tempo</h2></div><div id="graduacoes" class="timeline"></div></section>
   <section class="panel"><div class="panel-head"><h2>Treinos por faixa</h2></div><div id="faixasResumo" class="stats-list"></div></section>
 </section>
+
+<section id="viewPerfil" class="view">
+  <section class="panel profile-panel">
+    <small class="muted">MEU PERFIL</small>
+    <h2 id="perfilNome">—</h2>
+    <div id="perfilEmail" class="muted"></div>
+    <div class="profile-line"><span>Academia</span><strong>TEGA</strong></div>
+    <button id="btnSair" class="danger full" type="button">Sair da conta</button>
+  </section>
+</section>
 </main>
 <nav class="bottom">
   <button data-view="Resumo" class="active">Resumo</button>
   <button data-view="Treinos">Treinos</button>
   <button data-view="Evolucao">Evolução</button>
+  <button data-view="Perfil">Perfil</button>
 </nav>
+</div>
 <script src="./config.js?v=8"></script>
-<script src="./app.js?v=12"></script>
+<script src="./app.js?v=13"></script>
 </body>
 </html>
