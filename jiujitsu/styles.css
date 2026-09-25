@@ -50,3 +50,5 @@
 .auth-form{display:grid;grid-template-columns:1fr;gap:12px}.auth-form .primary{grid-column:auto;margin-top:4px;min-height:48px}
 .profile-panel h2{font-size:30px;margin:8px 0 4px}.profile-line{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #252d37;margin-top:18px;padding-top:16px}
 .profile-line span{color:#8e9aa8}.bottom{grid-template-columns:repeat(4,1fr)}.bottom button{font-size:14px;padding:10px 4px}
+
+.demo-link{display:block;text-align:center;margin-top:10px;color:#8fb8ff;text-decoration:none;font-weight:700;font-size:13px}.demo-link:hover{text-decoration:underline}
