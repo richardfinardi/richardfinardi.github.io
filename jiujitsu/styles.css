@@ -37,3 +37,6 @@
   .rank-overview{gap:12px}
   .cards .rank-title strong{font-size:28px}
 }
+
+.load-error{margin:10px 16px 0;padding:10px 12px;border:1px solid #5b4520;background:#2a2112;color:#ffd98a;border-radius:12px;font-size:13px}
+@media(max-width:420px){.load-error{margin:10px 12px 0}}
