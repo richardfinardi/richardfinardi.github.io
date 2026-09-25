@@ -77,3 +77,11 @@
   .auth-card>h1{font-size:26px}
   .demo-hero-btn{margin-bottom:18px}
 }
+
+.boot-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+.boot-card .auth-logo{margin:0}
+.boot-spinner{width:34px;height:34px;border:3px solid #28313c;border-top-color:#2b78ff;border-radius:50%;animation:jjspin .8s linear infinite}
+@keyframes jjspin{to{transform:rotate(360deg)}}
+.text-link{border:0;background:none;color:#8fb8ff;padding:0;margin-top:-4px;text-align:right;font-size:12px;font-weight:700}
+.profile-password-form{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid #252d37}
+.profile-password-form .primary{grid-column:auto}
