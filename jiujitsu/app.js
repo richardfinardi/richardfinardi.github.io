@@ -13,6 +13,12 @@ const FALLBACK_GRADS=[
  {row:11,faixa:"AZUL",grau:"4º GRAU",data:"2026-09-21"}
 ];
 const $=s=>document.querySelector(s);
+const isoDate=v=>{
+ const s=String(v||"").trim();
+ let m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);if(m)return m[1]+"-"+m[2]+"-"+m[3];
+ m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})/);if(m)return m[3]+"-"+m[2]+"-"+m[1];
+ return s;
+};
 const fmt=d=>{
  if(!d)return "—";
  const m=String(d).match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -127,7 +133,7 @@ function renderGrads(){
 
 async function carregar(){
  try{
-  const j=await api("list");DATA=j.data||[];GRADS=(j.graduacoes&&j.graduacoes.length)?j.graduacoes:FALLBACK_GRADS.slice();
+  const j=await api("list");DATA=(j.data||[]).map(x=>Object.assign({},x,{data:isoDate(x.data)}));GRADS=((j.graduacoes&&j.graduacoes.length)?j.graduacoes:FALLBACK_GRADS.slice()).map(x=>Object.assign({},x,{data:isoDate(x.data)}));
   const anos=[...new Set(DATA.map(x=>x.data.slice(0,4)))].sort().reverse();
   const current=$("#filtroAno").value;
   $("#filtroAno").innerHTML='<option value="">Todos</option>'+anos.map(a=>'<option '+(a===current?'selected':'')+'>'+a+'</option>').join("");
