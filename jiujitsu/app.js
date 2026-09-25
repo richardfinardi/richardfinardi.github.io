@@ -41,44 +41,54 @@ function setAuthMode(mode){
 $("#btnOpenRegister").onclick=()=>{history.replaceState(null,"",location.pathname+"#cadastro");setAuthMode("register")};
 $("#btnBackLogin").onclick=()=>{history.replaceState(null,"",location.pathname);setAuthMode("login")};
 
-let BRIDGE_FRAME=null,BRIDGE_READY=null,BRIDGE_SEQ=0;
-const BRIDGE_PENDING=new Map();
+let API_SEQ=0;
+const API_PENDING=new Map();
 
-function ensureBridge(){
- if(BRIDGE_READY)return BRIDGE_READY;
- BRIDGE_READY=new Promise((resolve,reject)=>{
-  BRIDGE_FRAME=document.createElement("iframe");
-  BRIDGE_FRAME.src=cfg.API_URL+(cfg.API_URL.includes("?")?"&":"?")+"bridge=1";
-  BRIDGE_FRAME.style.cssText="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;top:-9999px;border:0";
-  BRIDGE_FRAME.setAttribute("aria-hidden","true");
-  document.body.appendChild(BRIDGE_FRAME);
-  const timer=setTimeout(()=>reject(new Error("Não foi possível conectar ao servidor.")),15000);
-  const ready=e=>{
-   if(e.source===BRIDGE_FRAME.contentWindow&&e.data&&e.data.type==="JJ_BRIDGE_READY"){
-    clearTimeout(timer);window.removeEventListener("message",ready);resolve();
-   }
-  };
-  window.addEventListener("message",ready);
- });
- return BRIDGE_READY;
-}
 window.addEventListener("message",e=>{
- if(!BRIDGE_FRAME||e.source!==BRIDGE_FRAME.contentWindow||!e.data||e.data.type!=="JJ_API_RESULT")return;
- const p=BRIDGE_PENDING.get(e.data.id);if(!p)return;
- BRIDGE_PENDING.delete(e.data.id);p.resolve(e.data.result);
+ if(!e.data||e.data.type!=="JJ_API_RESULT")return;
+ const p=API_PENDING.get(e.data.id);if(!p)return;
+ API_PENDING.delete(e.data.id);
+ p.cleanup();
+ p.resolve(e.data.result);
 });
 
 async function api(action,payload={}){
  if(!cfg.API_URL)throw new Error("API ainda não configurada");
- await ensureBridge();
  const body=Object.assign({action},payload);
  if(TOKEN&&action!=="login"&&action!=="register")body.token=TOKEN;
- const id="r"+Date.now()+"_"+(++BRIDGE_SEQ);
+
+ const id="r"+Date.now()+"_"+(++API_SEQ);
+ const frameName="jj_api_"+id;
+
  const j=await new Promise((resolve,reject)=>{
-  const timer=setTimeout(()=>{BRIDGE_PENDING.delete(id);reject(new Error("Servidor demorou para responder."))},30000);
-  BRIDGE_PENDING.set(id,{resolve:r=>{clearTimeout(timer);resolve(r)},reject});
-  BRIDGE_FRAME.contentWindow.postMessage({type:"JJ_API",id,body},"*");
+  const iframe=document.createElement("iframe");
+  iframe.name=frameName;
+  iframe.style.cssText="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;top:-9999px;border:0";
+  iframe.setAttribute("aria-hidden","true");
+
+  const form=document.createElement("form");
+  form.method="POST";
+  form.action=cfg.API_URL;
+  form.target=frameName;
+  form.style.display="none";
+
+  const payloadInput=document.createElement("input");
+  payloadInput.type="hidden";payloadInput.name="payload";payloadInput.value=JSON.stringify(body);
+  const idInput=document.createElement("input");
+  idInput.type="hidden";idInput.name="requestId";idInput.value=id;
+  form.appendChild(payloadInput);form.appendChild(idInput);
+
+  const cleanup=()=>{clearTimeout(timer);form.remove();setTimeout(()=>iframe.remove(),50)};
+  const timer=setTimeout(()=>{
+    API_PENDING.delete(id);cleanup();reject(new Error("Não foi possível conectar ao servidor."));
+  },30000);
+
+  API_PENDING.set(id,{resolve,reject,cleanup});
+  document.body.appendChild(iframe);
+  document.body.appendChild(form);
+  form.submit();
  });
+
  if(!j||!j.ok){
   const err=j&&j.error?j.error:"Erro na API";
   if(err==="AUTH_REQUIRED"||err==="SESSION_EXPIRED"){clearSession();showAuth();throw new Error("Sua sessão expirou. Entre novamente.");}
@@ -86,7 +96,6 @@ async function api(action,payload={}){
  }
  return j;
 }
-
 function saveSession(j){
  TOKEN=j.token||TOKEN;
  if(TOKEN)localStorage.setItem("jj-token",TOKEN);
