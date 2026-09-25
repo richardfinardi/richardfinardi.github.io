@@ -4,21 +4,23 @@ const SESSION_DAYS=30;
 const LEGACY_OWNER_EMAIL='richard@consultoriarf.net';
 
 function doGet(){
- return HtmlService.createHtmlOutput(bridgeHtml_())
-  .setTitle('Jiu-Jitsu Bridge')
-  .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+ return json_({ok:true,service:'jiujitsu-api',version:'3.1'});
 }
 function doPost(e){
  try{
+  const formPayload=e&&e.parameter&&e.parameter.payload;
+  if(formPayload){
+   const reqId=String((e.parameter&&e.parameter.requestId)||'');
+   const result=dispatch_(JSON.parse(formPayload));
+   return postMessageHtml_(reqId,result);
+  }
   const b=JSON.parse((e&&e.postData&&e.postData.contents)||'{}');
   return json_(dispatch_(b));
- }catch(err){return json_({ok:false,error:String(err.message||err)});}
-}
-function bridgeDispatch_(raw){
- try{
-  const b=typeof raw==='string'?JSON.parse(raw):raw;
-  return dispatch_(b||{});
- }catch(err){return {ok:false,error:String(err.message||err)};}
+ }catch(err){
+  const reqId=String((e&&e.parameter&&e.parameter.requestId)||'');
+  if(e&&e.parameter&&e.parameter.payload)return postMessageHtml_(reqId,{ok:false,error:String(err.message||err)});
+  return json_({ok:false,error:String(err.message||err)});
+ }
 }
 function dispatch_(b){
  try{
@@ -39,20 +41,15 @@ function dispatch_(b){
   return {ok:false,error:'Ação inválida'};
  }catch(err){return {ok:false,error:String(err.message||err)};}
 }
-function bridgeHtml_(){
- return '<!doctype html><html><head><meta charset="utf-8"></head><body><script>'+
- 'window.addEventListener("message",function(e){'+
- 'var ok=e.origin==="https://consultoriarf.net"||e.origin==="https://www.consultoriarf.net"||e.origin==="https://richardfinardi.github.io";'+
- 'if(!ok||!e.data||e.data.type!=="JJ_API")return;'+
- 'var id=e.data.id;'+
- 'google.script.run.withSuccessHandler(function(r){e.source.postMessage({type:"JJ_API_RESULT",id:id,result:r},e.origin);})'+
- '.withFailureHandler(function(err){e.source.postMessage({type:"JJ_API_RESULT",id:id,result:{ok:false,error:String(err&&err.message||err)}},e.origin);})'+
- '.bridgeDispatch_(JSON.stringify(e.data.body||{}));'+
- '});'+
- 'parent.postMessage({type:"JJ_BRIDGE_READY"},"*");'+
- '<\\/script></body></html>';
+function postMessageHtml_(requestId,result){
+ const data=JSON.stringify({type:'JJ_API_RESULT',id:requestId,result:result})
+  .replace(/</g,'\\u003c')
+  .replace(/>/g,'\\u003e')
+  .replace(/&/g,'\\u0026');
+ return HtmlService.createHtmlOutput(
+  '<!doctype html><html><body><script>parent.postMessage('+data+',\"*\");<\\/script></body></html>'
+ ).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
-
 function ss_(){return SpreadsheetApp.openById(SHEET_ID);}
 function ensure_(){
  const ss=ss_();
@@ -238,4 +235,4 @@ function dateIso_(v){
 }
 function normal_(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();}
 function json_(o){return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);}
-// deploy-trigger cors-bridge
+// deploy-trigger form-post-bridge
