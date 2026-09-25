@@ -43,25 +43,21 @@ $("#btnBackLogin").onclick=()=>{history.replaceState(null,"",location.pathname);
 
 let API_SEQ=0;
 
-function pollApiResult(requestId,timeoutMs=30000){
+function readApiResult(requestId){
  return new Promise((resolve,reject)=>{
-  const started=Date.now();
-  const attempt=()=>{
-   if(Date.now()-started>timeoutMs){reject(new Error("Não foi possível conectar ao servidor."));return;}
-   const cb="__jjcb_"+requestId.replace(/[^A-Za-z0-9_$]/g,"_");
-   const script=document.createElement("script");
-   let done=false;
-   const cleanup=()=>{if(done)return;done=true;try{delete window[cb]}catch(_){window[cb]=undefined}script.remove()};
-   window[cb]=payload=>{
-    cleanup();
-    if(payload&&payload.ready)resolve(payload.result);
-    else setTimeout(attempt,350);
-   };
-   script.onerror=()=>{cleanup();setTimeout(attempt,500)};
-   script.src=cfg.API_URL+(cfg.API_URL.includes("?")?"&":"?")+"requestId="+encodeURIComponent(requestId)+"&callback="+encodeURIComponent(cb)+"&_="+Date.now();
-   document.head.appendChild(script);
+  const cb="__jjcb_"+requestId.replace(/[^A-Za-z0-9_$]/g,"_");
+  const script=document.createElement("script");
+  let finished=false;
+  const cleanup=()=>{if(finished)return;finished=true;try{delete window[cb]}catch(_){window[cb]=undefined}script.remove()};
+  const timer=setTimeout(()=>{cleanup();reject(new Error("Servidor demorou para responder."))},15000);
+  window[cb]=payload=>{
+   clearTimeout(timer);cleanup();
+   if(payload&&payload.ready)resolve(payload.result);
+   else reject(new Error("Resposta do servidor não encontrada."));
   };
-  attempt();
+  script.onerror=()=>{clearTimeout(timer);cleanup();reject(new Error("Não foi possível ler a resposta do servidor."))};
+  script.src=cfg.API_URL+(cfg.API_URL.includes("?")?"&":"?")+"requestId="+encodeURIComponent(requestId)+"&callback="+encodeURIComponent(cb)+"&_="+Date.now();
+  document.head.appendChild(script);
  });
 }
 
@@ -72,6 +68,7 @@ async function api(action,payload={}){
 
  const id="r"+Date.now()+"_"+(++API_SEQ)+"_"+Math.random().toString(36).slice(2,10);
  const frameName="jj_api_"+id;
+
  const iframe=document.createElement("iframe");
  iframe.name=frameName;
  iframe.style.cssText="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;top:-9999px;border:0";
@@ -83,12 +80,24 @@ async function api(action,payload={}){
  const rid=document.createElement("input");rid.type="hidden";rid.name="requestId";rid.value=id;
  form.appendChild(p);form.appendChild(rid);
 
- document.body.appendChild(iframe);document.body.appendChild(form);
- const resultPromise=pollApiResult(id);
- form.submit();
- setTimeout(()=>{form.remove();iframe.remove()},1500);
+ document.body.appendChild(iframe);
+ document.body.appendChild(form);
 
- const j=await resultPromise;
+ const j=await new Promise((resolve,reject)=>{
+  let sent=false,done=false;
+  const timer=setTimeout(()=>{if(done)return;done=true;form.remove();iframe.remove();reject(new Error("Não foi possível conectar ao servidor."))},30000);
+  iframe.onload=async()=>{
+   if(!sent||done)return;
+   try{
+    const result=await readApiResult(id);
+    if(done)return;done=true;clearTimeout(timer);form.remove();iframe.remove();resolve(result);
+   }catch(err){
+    if(done)return;done=true;clearTimeout(timer);form.remove();iframe.remove();reject(err);
+   }
+  };
+  setTimeout(()=>{sent=true;form.submit()},0);
+ });
+
  if(!j||!j.ok){
   const err=j&&j.error?j.error:"Erro na API";
   if(err==="AUTH_REQUIRED"||err==="SESSION_EXPIRED"){clearSession();showAuth();throw new Error("Sua sessão expirou. Entre novamente.");}
@@ -131,7 +140,14 @@ $("#formLogin").onsubmit=async e=>{
   const j=await api("login",{email:$("#loginEmail").value.trim(),senha:$("#loginSenha").value});
   saveSession(j);
   $("#loginSenha").value="";
-  if(j.needsSetup)showSetup();else await enterApp();
+  if(j.needsSetup)showSetup();
+  else{
+   showApp();
+   DATA=(Array.isArray(j.data)?j.data:[]).filter(x=>x&&x.data).map(x=>Object.assign({},x,{data:isoDate(x.data)}));
+   GRADS=(Array.isArray(j.graduacoes)?j.graduacoes:[]).filter(x=>x&&x.data&&x.faixa).map(x=>Object.assign({},x,{data:isoDate(x.data)}));
+   try{if(cacheKey())localStorage.setItem(cacheKey(),JSON.stringify({data:DATA,graduacoes:GRADS,ts:Date.now()}))}catch(_){}
+   preencherFiltros();renderResumo();renderHistorico();renderGrads();
+  }
  }catch(err){$("#authStatus").textContent=err.message}
 };
 $("#formRegister").onsubmit=async e=>{
@@ -302,16 +318,30 @@ $("#btnMais").onclick=()=>{visible+=PAGE;renderHistorico()};
 async function bootstrap(){
  if("serviceWorker"in navigator)navigator.serviceWorker.register("./sw.js");
  if(!TOKEN){showAuth();return;}
+
+ let cached=null;
  try{
-  const j=await api("me");CURRENT_USER=j.user;
+  const keys=Object.keys(localStorage).filter(k=>k.startsWith("jj-last-data-"));
+  if(keys.length)cached=JSON.parse(localStorage.getItem(keys[0])||"null");
+ }catch(_){}
+ if(cached&&Array.isArray(cached.data)){
+  DATA=cached.data;GRADS=Array.isArray(cached.graduacoes)?cached.graduacoes:[];
+  showApp();preencherFiltros();renderResumo();renderHistorico();renderGrads();
+ }
+
+ try{
+  const j=await api("bootstrap");
+  CURRENT_USER=j.user;
   $("#perfilNome").textContent=CURRENT_USER.nome||"—";$("#perfilEmail").textContent=CURRENT_USER.email||"";
-  const list=await api("list");
-  const grads=Array.isArray(list.graduacoes)?list.graduacoes:[];
+  const grads=Array.isArray(j.graduacoes)?j.graduacoes:[];
   if(!grads.length){showSetup();return;}
   showApp();
-  DATA=(Array.isArray(list.data)?list.data:[]).filter(x=>x&&x.data).map(x=>Object.assign({},x,{data:isoDate(x.data)}));
+  DATA=(Array.isArray(j.data)?j.data:[]).filter(x=>x&&x.data).map(x=>Object.assign({},x,{data:isoDate(x.data)}));
   GRADS=grads.filter(x=>x&&x.data&&x.faixa).map(x=>Object.assign({},x,{data:isoDate(x.data)}));
+  try{if(cacheKey())localStorage.setItem(cacheKey(),JSON.stringify({data:DATA,graduacoes:GRADS,ts:Date.now()}))}catch(_){}
   preencherFiltros();renderResumo();renderHistorico();renderGrads();
- }catch(e){if(TOKEN){$("#authStatus").textContent=e.message}showAuth();}
+ }catch(e){
+  if(!cached){if(TOKEN)$("#authStatus").textContent=e.message;showAuth();}
+ }
 }
 bootstrap();
