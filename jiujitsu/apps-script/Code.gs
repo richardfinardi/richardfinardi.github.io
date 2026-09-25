@@ -3,22 +3,41 @@ const TAB_TREINOS='TREINOS',TAB_GRADUACOES='GRADUACOES',TAB_USUARIOS='USUARIOS',
 const SESSION_DAYS=30;
 const LEGACY_OWNER_EMAIL='richard@consultoriarf.net';
 
-function doGet(){
- return json_({ok:true,service:'jiujitsu-api',version:'3.1'});
+function doGet(e){
+ try{
+  const requestId=String((e&&e.parameter&&e.parameter.requestId)||'');
+  const callback=String((e&&e.parameter&&e.parameter.callback)||'');
+  if(requestId&&callback){
+   const safeCb=/^[A-Za-z_$][A-Za-z0-9_$.]*$/.test(callback)?callback:'';
+   if(!safeCb)return ContentService.createTextOutput('invalid callback').setMimeType(ContentService.MimeType.TEXT);
+   const cache=CacheService.getScriptCache();
+   const key='JJ_REQ_'+requestId;
+   const raw=cache.get(key);
+   const payload=raw?{ready:true,result:JSON.parse(raw)}:{ready:false};
+   if(raw)cache.remove(key);
+   return ContentService.createTextOutput(safeCb+'('+JSON.stringify(payload)+');')
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+  return json_({ok:true,service:'jiujitsu-api',version:'3.2'});
+ }catch(err){return json_({ok:false,error:String(err.message||err)});}
 }
 function doPost(e){
  try{
   const formPayload=e&&e.parameter&&e.parameter.payload;
-  if(formPayload){
-   const reqId=String((e.parameter&&e.parameter.requestId)||'');
+  const requestId=String((e&&e.parameter&&e.parameter.requestId)||'');
+  if(formPayload&&requestId){
    const result=dispatch_(JSON.parse(formPayload));
-   return postMessageHtml_(reqId,result);
+   CacheService.getScriptCache().put('JJ_REQ_'+requestId,JSON.stringify(result),120);
+   return HtmlService.createHtmlOutput('<!doctype html><html><body>OK</body></html>');
   }
   const b=JSON.parse((e&&e.postData&&e.postData.contents)||'{}');
   return json_(dispatch_(b));
  }catch(err){
-  const reqId=String((e&&e.parameter&&e.parameter.requestId)||'');
-  if(e&&e.parameter&&e.parameter.payload)return postMessageHtml_(reqId,{ok:false,error:String(err.message||err)});
+  const requestId=String((e&&e.parameter&&e.parameter.requestId)||'');
+  if(requestId){
+   CacheService.getScriptCache().put('JJ_REQ_'+requestId,JSON.stringify({ok:false,error:String(err.message||err)}),120);
+   return HtmlService.createHtmlOutput('<!doctype html><html><body>ERRO</body></html>');
+  }
   return json_({ok:false,error:String(err.message||err)});
  }
 }
@@ -40,15 +59,6 @@ function dispatch_(b){
   if(a==='updateProfile')return updateProfile_(user.userId,b);
   return {ok:false,error:'Ação inválida'};
  }catch(err){return {ok:false,error:String(err.message||err)};}
-}
-function postMessageHtml_(requestId,result){
- const data=JSON.stringify({type:'JJ_API_RESULT',id:requestId,result:result})
-  .replace(/</g,'\\u003c')
-  .replace(/>/g,'\\u003e')
-  .replace(/&/g,'\\u0026');
- return HtmlService.createHtmlOutput(
-  '<!doctype html><html><body><script>parent.postMessage('+data+',\"*\");</scr'+'ipt></body></html>'
- ).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 function ss_(){return SpreadsheetApp.openById(SHEET_ID);}
 function ensure_(){
@@ -235,4 +245,4 @@ function dateIso_(v){
 }
 function normal_(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();}
 function json_(o){return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);}
-// deploy-trigger fix-postmessage-html
+// deploy-trigger jsonp-polling
