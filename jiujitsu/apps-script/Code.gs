@@ -1,6 +1,7 @@
 const SHEET_ID='1fn-RSRPiq86bG7m84TeMUrhpGyCChaTNtngKL8Majj4';
 const TAB_TREINOS='TREINOS',TAB_GRADUACOES='GRADUACOES',TAB_USUARIOS='USUARIOS',TAB_SESSOES='SESSOES';
 const SESSION_DAYS=30;
+const LEGACY_OWNER_EMAIL='richard@consultoriarf.net';
 
 function doGet(){return json_({ok:true,service:'jiujitsu-api',version:'3.0'});}
 function doPost(e){
@@ -74,7 +75,7 @@ function registrar_(b){
   u.appendRow([userId,nome,email,hash,salt,'TEGA',1,now,now]);
 
   let adoptedLegacy=false;
-  if(existingUsers===0){
+  if(email===LEGACY_OWNER_EMAIL){
    adoptedLegacy=claimLegacy_(t,2,userId)||adoptedLegacy;
    adoptedLegacy=claimLegacy_(g,2,userId)||adoptedLegacy;
   }
