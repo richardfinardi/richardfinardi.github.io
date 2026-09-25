@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d10">
+<title>Jiu-Jitsu | Treinos</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <span class="eyebrow">MEU JIU-JITSU</span>
+    <h1>Treinos & evolução</h1>
+  </div>
+  <button id="btnInstall" class="ghost" hidden>Instalar</button>
+</header>
+
+<main>
+<section class="cards">
+  <article><small>Treinos</small><strong id="kpiTotal">—</strong><span>Total registrado</span></article>
+  <article><small>Este mês</small><strong id="kpiMes">—</strong><span>Treinos realizados</span></article>
+  <article><small>Faixa atual</small><strong id="kpiFaixa">—</strong><span id="kpiDiasFaixa">—</span></article>
+  <article><small>NOGI</small><strong id="kpiNogi">—</strong><span>Treinos sem kimono</span></article>
+</section>
+
+<section class="panel">
+  <div class="panel-head"><h2>Novo treino</h2><button id="btnHoje" class="ghost">Hoje</button></div>
+  <form id="formTreino">
+    <label>Data<input id="data" name="data" type="date" required></label>
+    <label>Local<input id="local" name="local" placeholder="Ex.: TEGA" required></label>
+    <label>Tipo<select id="tipo" name="tipo"><option value="GI">GI</option><option value="NOGI">NOGI</option></select></label>
+    <label>Observação<input id="obs" name="obs" placeholder="Opcional"></label>
+    <button type="submit" class="primary">Salvar treino</button>
+  </form>
+  <p id="status" class="status"></p>
+</section>
+
+<section class="panel">
+  <div class="panel-head"><h2>Histórico</h2><select id="filtroAno"></select></div>
+  <div id="historico" class="list"></div>
+</section>
+</main>
+
+<nav class="bottom">
+  <button class="active">Resumo</button>
+  <button id="goNovo">+ Treino</button>
+</nav>
+
+<script src="./config.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
