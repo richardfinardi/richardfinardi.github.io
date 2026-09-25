@@ -51,12 +51,14 @@ async function api(action,payload={}){
 }
 
 function calcProfile(grads){
- const sorted=grads.slice().sort((a,b)=>a.data.localeCompare(b.data));
- const starts=sorted.filter(g=>String(g.grau).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase()==="INICIO");
+ const valid=(Array.isArray(grads)?grads:[]).filter(g=>g&&g.data&&g.faixa);
+ const sorted=valid.slice().sort((a,b)=>String(a.data).localeCompare(String(b.data)));
+ if(!sorted.length)return {faixa:"—",faixaData:"",grau:"—",grauData:""};
+ const starts=sorted.filter(g=>normTxt(g.grau)==="INICIO");
  const faixaStart=starts.length?starts[starts.length-1]:sorted[0];
  let grau=faixaStart;
- if(faixaStart)sorted.forEach(g=>{if(g.faixa===faixaStart.faixa&&g.data>=faixaStart.data)grau=g});
- return {faixa:faixaStart?faixaStart.faixa:"—",faixaData:faixaStart?faixaStart.data:"",grau:grau?grau.grau:"—",grauData:grau?grau.data:""};
+ sorted.forEach(g=>{if(g.faixa===faixaStart.faixa&&String(g.data)>=String(faixaStart.data))grau=g});
+ return {faixa:faixaStart.faixa,faixaData:faixaStart.data,grau:grau?grau.grau:"—",grauData:grau?grau.data:""};
 }
 function countMap(arr,keyFn){const m={};arr.forEach(x=>{const k=keyFn(x);if(k)m[k]=(m[k]||0)+1});return m}
 function normTxt(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase()}
@@ -166,19 +168,48 @@ function renderGrads(){
  $("#graduacoes").innerHTML=GRADS.slice().sort((a,b)=>b.data.localeCompare(a.data)).map(g=>'<div class="time-item"><span class="dot"></span><div class="time-main"><strong>'+esc(g.faixa)+' • '+esc(g.grau)+'</strong><small>'+fmt(g.data)+'</small></div><div class="time-actions"><button class="icon-btn" onclick="editGrad('+g.row+')">✎</button><button class="icon-btn delete" onclick="deleteGrad('+g.row+')">×</button></div></div>').join("");
 }
 
-async function carregar(){
+async function carregar(tentativa=0){
  try{
-  const j=await api("list");DATA=(j.data||[]).map(x=>Object.assign({},x,{data:isoDate(x.data)}));GRADS=((j.graduacoes&&j.graduacoes.length)?j.graduacoes:FALLBACK_GRADS.slice()).map(x=>Object.assign({},x,{data:isoDate(x.data)}));
-  const anos=[...new Set(DATA.map(x=>x.data.slice(0,4)))].sort().reverse();
-  const current=$("#filtroAno").value;
-  $("#filtroAno").innerHTML='<option value="">Todos</option>'+anos.map(a=>'<option '+(a===current?'selected':'')+'>'+a+'</option>').join("");
-  const localAtual=$("#filtroLocal").value;
-  const locais=[...new Set(DATA.map(x=>x.local).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR"));
-  $("#filtroLocal").innerHTML='<option value="">Todos</option>'+locais.map(l=>'<option value="'+esc(l)+'" '+(l===localAtual?'selected':'')+'>'+esc(l)+'</option>').join("");
-  renderResumo();renderHistorico();renderGrads();
- }catch(e){$("#status").textContent=e.message}
+  const j=await api("list");
+  const rawData=Array.isArray(j.data)?j.data:[];
+  const rawGrads=(Array.isArray(j.graduacoes)&&j.graduacoes.length)?j.graduacoes:FALLBACK_GRADS.slice();
+  DATA=rawData.filter(x=>x&&x.data).map(x=>Object.assign({},x,{data:isoDate(x.data)}));
+  GRADS=rawGrads.filter(x=>x&&x.data&&x.faixa).map(x=>Object.assign({},x,{data:isoDate(x.data)}));
+  try{localStorage.setItem("jj-last-data",JSON.stringify({data:DATA,graduacoes:GRADS,ts:Date.now()}))}catch(_){}
+  preencherFiltros();
+  renderResumo();
+  renderHistorico();
+  renderGrads();
+  const aviso=$("#loadError");if(aviso)aviso.remove();
+ }catch(e){
+  let cache=null;
+  try{cache=JSON.parse(localStorage.getItem("jj-last-data")||"null")}catch(_){}
+  if(cache&&Array.isArray(cache.data)&&cache.data.length){
+   DATA=cache.data;GRADS=Array.isArray(cache.graduacoes)&&cache.graduacoes.length?cache.graduacoes:FALLBACK_GRADS.slice();
+   preencherFiltros();renderResumo();renderHistorico();renderGrads();
+   mostrarErro("Conexão temporariamente indisponível. Mostrando os últimos dados salvos.");
+   return;
+  }
+  mostrarErro("Não consegui carregar os dados agora. Tentando novamente…");
+  if(tentativa<3)setTimeout(()=>carregar(tentativa+1),1200*(tentativa+1));
+ }
 }
-
+function preencherFiltros(){
+ const anos=[...new Set(DATA.map(x=>String(x.data).slice(0,4)).filter(Boolean))].sort().reverse();
+ const current=$("#filtroAno")?$("#filtroAno").value:"";
+ if($("#filtroAno"))$("#filtroAno").innerHTML='<option value="">Todos</option>'+anos.map(a=>'<option '+(a===current?'selected':'')+'>'+a+'</option>').join("");
+ const localAtual=$("#filtroLocal")?$("#filtroLocal").value:"";
+ const locais=[...new Set(DATA.map(x=>x.local).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR"));
+ if($("#filtroLocal"))$("#filtroLocal").innerHTML='<option value="">Todos</option>'+locais.map(l=>'<option value="'+esc(l)+'" '+(l===localAtual?'selected':'')+'>'+esc(l)+'</option>').join("");
+}
+function mostrarErro(msg){
+ let el=$("#loadError");
+ if(!el){
+  el=document.createElement("div");el.id="loadError";el.className="load-error";
+  const resumo=$("#viewResumo");if(resumo)resumo.insertBefore(el,resumo.firstChild);
+ }
+ el.textContent=msg;
+}
 window.editTreino=id=>{
  const x=DATA.find(t=>t.id===id);if(!x)return;
  $("#treinoId").value=x.id;$("#data").value=x.data;$("#local").value=x.local||"TEGA";$("#tipo").value=x.tipo||"GI";$("#obs").value=x.observacao||"";
