@@ -65,7 +65,7 @@ function clearSession(){
 }
 function showAuth(){
  $("#authShell").hidden=false;$("#setupShell").hidden=true;$("#appShell").hidden=true;
- setAuthMode("login");
+ setAuthMode(location.hash==="#cadastro"?"register":"login");
 }
 function showSetup(){
  $("#authShell").hidden=true;$("#setupShell").hidden=false;$("#appShell").hidden=true;
