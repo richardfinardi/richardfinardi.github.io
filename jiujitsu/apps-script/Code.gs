@@ -54,6 +54,7 @@ function dispatch_(b){
   if(a==='bootstrap'){const list=listar_(user.userId);return {ok:true,user:publicUser_(user),data:list.data,graduacoes:list.graduacoes};}
   if(a==='list')return listar_(user.userId);
   if(a==='save')return salvar_(user.userId,b.treino||{});
+  if(a==='importTreinos')return importarTreinos_(user.userId,b.treinos||[]);
   if(a==='update')return atualizar_(user.userId,b.treino||{});
   if(a==='delete')return apagar_(user.userId,b.id);
   if(a==='saveGraduacao')return salvarGraduacao_(user.userId,b.graduacao||{});
@@ -163,6 +164,37 @@ function salvar_(userId,x){
  t.appendRow([Utilities.getUuid(),userId,new Date(x.data+'T12:00:00'),String(x.local||'TEGA').trim()||'TEGA',String(x.tipo||'GI').toUpperCase(),x.observacao||'',new Date()]);
  return {ok:true};
 }
+function importarTreinos_(userId,rows){
+ if(!Array.isArray(rows)||!rows.length)throw new Error('Nenhum treino válido para importar');
+ if(rows.length>1000)throw new Error('Importe no máximo 1000 treinos por vez');
+ const {t}=sheets_();
+ const existing=t.getLastRow()>1?t.getRange(2,1,t.getLastRow()-1,7).getValues():[];
+ const seen=new Set();
+ existing.forEach(r=>{
+  if(String(r[1])!==userId)return;
+  const d=dateIso_(r[2]),local=String(r[3]||'TEGA').trim().toUpperCase(),tipo=String(r[4]||'GI').trim().toUpperCase(),obs=String(r[5]||'').trim().toUpperCase();
+  seen.add([d,local,tipo,obs].join('|'));
+ });
+ const now=new Date(),toInsert=[];let skipped=0;
+ rows.forEach((x,i)=>{
+  const data=dateIso_(x.data);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(data))throw new Error('Data inválida na linha '+(i+2));
+  const local=String(x.local||'TEGA').trim()||'TEGA';
+  const tipo=normal_(x.tipo||'GI').replace(/[- ]/g,'');
+  if(tipo!=='GI'&&tipo!=='NOGI')throw new Error('Tipo inválido na linha '+(i+2)+' (use GI ou NOGI)');
+  const obs=String(x.observacao||'').trim();
+  const key=[data,local.toUpperCase(),tipo,obs.toUpperCase()].join('|');
+  if(seen.has(key)){skipped++;return;}
+  seen.add(key);
+  toInsert.push([Utilities.getUuid(),userId,new Date(data+'T12:00:00'),local,tipo,obs,now]);
+ });
+ if(toInsert.length){
+  const start=t.getLastRow()+1;
+  t.getRange(start,1,toInsert.length,7).setValues(toInsert);
+ }
+ return {ok:true,inserted:toInsert.length,skipped,total:rows.length};
+}
+
 function atualizar_(userId,x){
  if(!x.id)throw new Error('ID obrigatório');
  const {t}=sheets_(),v=t.getDataRange().getValues();
@@ -303,4 +335,4 @@ function dateIso_(v){
 }
 function normal_(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();}
 function json_(o){return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);}
-// deploy-trigger password-recovery-v20
+// deploy-trigger excel-import-v21
