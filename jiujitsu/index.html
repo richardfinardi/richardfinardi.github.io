@@ -11,8 +11,8 @@
 <link rel="icon" href="./tega-app-192.png?v=10" type="image/png">
 <link rel="apple-touch-icon" href="./tega-app-192.png?v=10">
 <title>Jiu-Jitsu | Treinos & Evolução</title>
-<link rel="manifest" href="./manifest.json?v=14">
-<link rel="stylesheet" href="./styles.css?v=14">
+<link rel="manifest" href="./manifest.json?v=15">
+<link rel="stylesheet" href="./styles.css?v=15">
 </head>
 <body>
 <section id="authShell" class="auth-shell">
@@ -21,24 +21,37 @@
     <span class="eyebrow">MEU JIU-JITSU</span>
     <h1>Treinos & evolução</h1>
     <p class="muted auth-sub">Seu histórico de treinos, faixa e evolução.</p>
-    <div class="auth-tabs">
-      <button id="tabLogin" class="active" type="button">Entrar</button>
-      <button id="tabRegister" type="button">Criar conta</button>
+    <a class="demo-hero-btn" href="./demo.html">Ver demonstração</a>
+
+    <div id="loginPanel" class="auth-panel">
+      <div class="auth-section-title">Entrar</div>
+      <form id="formLogin" class="auth-form">
+        <label>E-mail<input id="loginEmail" type="email" autocomplete="email" required></label>
+        <label>Senha<input id="loginSenha" type="password" autocomplete="current-password" required></label>
+        <button class="primary" type="submit">Entrar</button>
+      </form>
+      <div class="auth-divider"><span>ou</span></div>
+      <button id="btnOpenRegister" class="ghost auth-create-btn" type="button">Criar conta</button>
     </div>
-    <form id="formLogin" class="auth-form">
-      <label>E-mail<input id="loginEmail" type="email" autocomplete="email" required></label>
-      <label>Senha<input id="loginSenha" type="password" autocomplete="current-password" required></label>
-      <button class="primary" type="submit">Entrar</button>
-    </form>
-    <form id="formRegister" class="auth-form" hidden>
-      <label>Nome<input id="regNome" type="text" autocomplete="name" required></label>
-      <label>E-mail<input id="regEmail" type="email" autocomplete="email" required></label>
-      <label>Senha<input id="regSenha" type="password" minlength="6" autocomplete="new-password" required></label>
-      <label>Confirmar senha<input id="regSenha2" type="password" minlength="6" autocomplete="new-password" required></label>
-      <button class="primary" type="submit">Criar conta</button>
-    </form>
+
+    <div id="registerPanel" class="auth-panel" hidden>
+      <div class="auth-section-head">
+        <button id="btnBackLogin" class="auth-back" type="button">←</button>
+        <div>
+          <div class="auth-section-title">Criar conta</div>
+          <div class="muted auth-mini">Depois você informa sua graduação atual.</div>
+        </div>
+      </div>
+      <form id="formRegister" class="auth-form">
+        <label>Nome<input id="regNome" type="text" autocomplete="name" required></label>
+        <label>E-mail<input id="regEmail" type="email" autocomplete="email" required></label>
+        <label>Senha<input id="regSenha" type="password" minlength="6" autocomplete="new-password" required></label>
+        <label>Confirmar senha<input id="regSenha2" type="password" minlength="6" autocomplete="new-password" required></label>
+        <button class="primary" type="submit">Criar conta</button>
+      </form>
+    </div>
+
     <p id="authStatus" class="status"></p>
-    <a class="demo-link" href="./demo.html">Ver demonstração sem cadastro</a>
   </div>
 </section>
 
@@ -170,6 +183,6 @@
 </nav>
 </div>
 <script src="./config.js?v=8"></script>
-<script src="./app.js?v=14"></script>
+<script src="./app.js?v=15"></script>
 </body>
 </html>
