@@ -21,7 +21,21 @@ function ensure_(){
  if(!g){g=ss.insertSheet(TAB_GRADUACOES);g.appendRow(['FAIXA','GRAU','DATA_INICIO']);}
  return {t,g};
 }
-function dateIso_(v){return Utilities.formatDate(new Date(v),Session.getScriptTimeZone(),'yyyy-MM-dd');}
+function dateIso_(v){
+ if(v===null||v===undefined||v==='')return '';
+ if(typeof v==='string'){
+  const s=v.trim();
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
+  const m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+  if(m)return m[3]+'-'+m[2]+'-'+m[1];
+ }
+ if(Object.prototype.toString.call(v)==='[object Date]'&&!isNaN(v.getTime())){
+  return Utilities.formatDate(v,Session.getScriptTimeZone(),'yyyy-MM-dd');
+ }
+ const d=new Date(v);
+ if(isNaN(d.getTime()))return String(v);
+ return Utilities.formatDate(d,Session.getScriptTimeZone(),'yyyy-MM-dd');
+}
 function listar_(){
  const {t,g}=ensure_();
  const tv=t.getDataRange().getValues();
