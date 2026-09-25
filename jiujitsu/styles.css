@@ -85,3 +85,14 @@
 .text-link{border:0;background:none;color:#8fb8ff;padding:0;margin-top:-4px;text-align:right;font-size:12px;font-weight:700}
 .profile-password-form{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid #252d37}
 .profile-password-form .primary{grid-column:auto}
+
+.import-help{margin:0 0 12px;line-height:1.45}
+.import-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.import-download{display:flex;align-items:center;justify-content:center;text-decoration:none;text-align:center;font-weight:700}
+.import-preview{margin-top:14px;padding-top:12px;border-top:1px solid #252d37}
+.import-summary{margin-bottom:10px;color:#8e9aa8}.import-summary strong{color:#fff;font-size:24px}
+.import-table-wrap{overflow:auto;border:1px solid #252d37;border-radius:12px}
+.import-table-wrap table{width:100%;border-collapse:collapse;font-size:12px}
+.import-table-wrap th,.import-table-wrap td{padding:9px 10px;border-bottom:1px solid #20262e;text-align:left;white-space:nowrap}
+.import-table-wrap th{color:#8fb8ff;background:#0d1116}
+@media(max-width:420px){.import-actions{grid-template-columns:1fr}}
