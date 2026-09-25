@@ -1,5 +1,17 @@
 const cfg=window.JJ_CONFIG||{};
 let deferredPrompt=null,DATA=[],GRADS=[],PAGE=40,visible=40;
+const FALLBACK_GRADS=[
+ {row:2,faixa:"BRANCA",grau:"INÍCIO",data:"2024-01-29"},
+ {row:3,faixa:"BRANCA",grau:"1º GRAU",data:"2024-02-19"},
+ {row:4,faixa:"BRANCA",grau:"2º GRAU",data:"2024-05-15"},
+ {row:5,faixa:"BRANCA",grau:"3º GRAU",data:"2024-08-19"},
+ {row:6,faixa:"BRANCA",grau:"4º GRAU",data:"2024-11-01"},
+ {row:7,faixa:"AZUL",grau:"INÍCIO",data:"2024-12-11"},
+ {row:8,faixa:"AZUL",grau:"1º GRAU",data:"2025-07-30"},
+ {row:9,faixa:"AZUL",grau:"2º GRAU",data:"2025-12-17"},
+ {row:10,faixa:"AZUL",grau:"3º GRAU",data:"2026-07-06"},
+ {row:11,faixa:"AZUL",grau:"4º GRAU",data:"2026-09-21"}
+];
 const $=s=>document.querySelector(s);
 const fmt=d=>d?new Date(d+"T12:00:00").toLocaleDateString("pt-BR"):"—";
 const today=()=>new Date().toISOString().slice(0,10);
@@ -96,7 +108,7 @@ function renderGrads(){
 
 async function carregar(){
  try{
-  const j=await api("list");DATA=j.data||[];GRADS=j.graduacoes||[];
+  const j=await api("list");DATA=j.data||[];GRADS=(j.graduacoes&&j.graduacoes.length)?j.graduacoes:FALLBACK_GRADS.slice();
   const anos=[...new Set(DATA.map(x=>x.data.slice(0,4)))].sort().reverse();
   const current=$("#filtroAno").value;
   $("#filtroAno").innerHTML='<option value="">Todos</option>'+anos.map(a=>'<option '+(a===current?'selected':'')+'>'+a+'</option>').join("");
