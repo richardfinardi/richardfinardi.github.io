@@ -65,14 +65,29 @@ function grauNumero(grau){
  if(g==="INICIO"||g==="SEM GRAU")return 0;
  const m=g.match(/([1-4])/);return m?Number(m[1]):0;
 }
-function renderBeltIcon(faixa,grau){
- const el=$("#kpiBeltIcon");if(!el)return;
+function renderBeltIcon(target,faixa,grau){
+ const el=$(target);if(!el)return;
  const f=normTxt(faixa),g=grauNumero(grau);
  const colors={BRANCA:"#f4f4f4",AZUL:"#2b78ff",ROXA:"#7a3db8",MARROM:"#6b3f22",PRETA:"#111111"};
  el.style.setProperty("--belt",colors[f]||"#2b78ff");
  el.style.setProperty("--rank",f==="PRETA"?"#d8171f":"#090a0c");
  el.innerHTML="";
  for(let i=1;i<=g;i++){const s=document.createElement("i");s.className="stripe s"+i;el.appendChild(s);}
+}
+function tempoCompacto(iso){
+ if(!iso)return "";
+ const start=new Date(iso+"T12:00:00"),end=new Date();
+ if(isNaN(start.getTime()))return "";
+ let months=(end.getFullYear()-start.getFullYear())*12+(end.getMonth()-start.getMonth());
+ if(end.getDate()<start.getDate())months--;
+ months=Math.max(0,months);
+ if(months>=12){
+  const a=Math.floor(months/12),m=months%12;
+  return a+"a"+(m?m+"m":"");
+ }
+ if(months>=1)return months+"m";
+ const days=Math.max(0,Math.floor((new Date(end.getFullYear(),end.getMonth(),end.getDate())-new Date(start.getFullYear(),start.getMonth(),start.getDate()))/86400000));
+ return days+" "+(days===1?"dia":"dias");
 }
 
 function renderResumo(){
@@ -89,10 +104,10 @@ function renderResumo(){
  $("#kpiGiAno").textContent=giAno;
  $("#kpiNogiAno").textContent=nogiAno;
  $("#kpiFaixa").textContent=p.faixa;
- renderBeltIcon(p.faixa,p.grau);
- $("#kpiDiasFaixa").textContent=p.faixaData?daysSince(p.faixaData)+" dias • desde "+fmt(p.faixaData):"";
  $("#kpiGrau").textContent=p.grau==="INÍCIO"?"SEM GRAU":p.grau;
- $("#kpiDiasGrau").textContent=p.grauData?daysSince(p.grauData)+" dias • desde "+fmt(p.grauData):"";
+ renderBeltIcon("#kpiBeltIcon",p.faixa,p.grau);
+ $("#kpiDiasFaixa").textContent=p.faixaData?p.faixa+" DESDE "+fmt(p.faixaData)+" ("+tempoCompacto(p.faixaData)+")":"";
+ $("#kpiDiasGrau").textContent=p.grauData?(p.grau==="INÍCIO"?"SEM GRAU":p.grau)+" DESDE "+fmt(p.grauData)+" ("+tempoCompacto(p.grauData)+")":"";
 
  const months=[];for(let i=1;i<=12;i++)months.push(year+"-"+String(i).padStart(2,"0"));
  const mc=countMap(DATA.filter(x=>x.data.indexOf(year)===0),x=>x.data.slice(0,7));
@@ -145,8 +160,9 @@ function renderGrads(){
  const p=calcProfile(GRADS);
  $("#evoFaixa").textContent=p.faixa;
  $("#evoGrau").textContent=p.grau==="INÍCIO"?"SEM GRAU":p.grau;
- $("#evoFaixaDesde").textContent=p.faixaData?"Faixa desde "+fmt(p.faixaData)+" • "+daysSince(p.faixaData)+" dias":"";
- $("#evoGrauDesde").textContent=p.grauData&&p.grau!=="INÍCIO"?"Grau desde "+fmt(p.grauData)+" • "+daysSince(p.grauData)+" dias":"";
+ renderBeltIcon("#evoBeltIcon",p.faixa,p.grau);
+ $("#evoFaixaDesde").textContent=p.faixaData?p.faixa+" DESDE "+fmt(p.faixaData)+" ("+tempoCompacto(p.faixaData)+")":"";
+ $("#evoGrauDesde").textContent=p.grauData?(p.grau==="INÍCIO"?"SEM GRAU":p.grau)+" DESDE "+fmt(p.grauData)+" ("+tempoCompacto(p.grauData)+")":"";
  $("#graduacoes").innerHTML=GRADS.slice().sort((a,b)=>b.data.localeCompare(a.data)).map(g=>'<div class="time-item"><span class="dot"></span><div class="time-main"><strong>'+esc(g.faixa)+' • '+esc(g.grau)+'</strong><small>'+fmt(g.data)+'</small></div><div class="time-actions"><button class="icon-btn" onclick="editGrad('+g.row+')">✎</button><button class="icon-btn delete" onclick="deleteGrad('+g.row+')">×</button></div></div>').join("");
 }
 
