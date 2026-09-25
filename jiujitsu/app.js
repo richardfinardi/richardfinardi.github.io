@@ -32,14 +32,22 @@ setDefaultDates();
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;if($("#btnInstall"))$("#btnInstall").hidden=false});
 if($("#btnInstall"))$("#btnInstall").onclick=async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$("#btnInstall").hidden=true};
 
+function hideBoot(){if($("#bootShell"))$("#bootShell").hidden=true}
 function setAuthMode(mode){
- const login=mode==="login";
+ const login=mode==="login",register=mode==="register",recovery=mode==="recovery";
  $("#loginPanel").hidden=!login;
- $("#registerPanel").hidden=login;
+ $("#registerPanel").hidden=!register;
+ $("#recoveryPanel").hidden=!recovery;
  $("#authStatus").textContent="";
 }
 $("#btnOpenRegister").onclick=()=>{history.replaceState(null,"",location.pathname+"#cadastro");setAuthMode("register")};
 $("#btnBackLogin").onclick=()=>{history.replaceState(null,"",location.pathname);setAuthMode("login")};
+$("#btnForgotPassword").onclick=()=>{
+ $("#recoveryEmail").value=$("#loginEmail").value.trim();
+ $("#formRecoveryRequest").hidden=false;$("#formRecoveryReset").hidden=true;
+ setAuthMode("recovery");
+};
+$("#btnBackRecovery").onclick=()=>setAuthMode("login");
 
 let API_SEQ=0;
 
@@ -64,7 +72,7 @@ function readApiResult(requestId){
 async function api(action,payload={}){
  if(!cfg.API_URL)throw new Error("API ainda não configurada");
  const body=Object.assign({action},payload);
- if(TOKEN&&action!=="login"&&action!=="register")body.token=TOKEN;
+ if(TOKEN&&!["login","register","requestPasswordReset","resetPassword"].includes(action))body.token=TOKEN;
 
  const id="r"+Date.now()+"_"+(++API_SEQ)+"_"+Math.random().toString(36).slice(2,10);
  const frameName="jj_api_"+id;
@@ -119,13 +127,16 @@ function clearSession(){
  localStorage.removeItem("jj-user-id");
 }
 function showAuth(){
+ hideBoot();
  $("#authShell").hidden=false;$("#setupShell").hidden=true;$("#appShell").hidden=true;
  setAuthMode(location.hash==="#cadastro"?"register":"login");
 }
 function showSetup(){
+ hideBoot();
  $("#authShell").hidden=true;$("#setupShell").hidden=false;$("#appShell").hidden=true;
 }
 function showApp(){
+ hideBoot();
  $("#authShell").hidden=true;$("#setupShell").hidden=true;$("#appShell").hidden=false;
  if(CURRENT_USER){
   $("#perfilNome").textContent=CURRENT_USER.nome||"—";
@@ -166,6 +177,33 @@ $("#formRegister").onsubmit=async e=>{
   if(j.needsSetup)showSetup();else await enterApp();
  }catch(err){$("#authStatus").textContent=err.message}
 };
+$("#formRecoveryRequest").onsubmit=async e=>{
+ e.preventDefault();
+ const email=$("#recoveryEmail").value.trim();
+ $("#authStatus").textContent="Enviando código...";
+ try{
+  const j=await api("requestPasswordReset",{email});
+  $("#authStatus").textContent=j.message||"Código enviado.";
+  $("#formRecoveryRequest").hidden=true;
+  $("#formRecoveryReset").hidden=false;
+  $("#recoveryCode").focus();
+ }catch(err){$("#authStatus").textContent=err.message}
+};
+$("#formRecoveryReset").onsubmit=async e=>{
+ e.preventDefault();
+ const p1=$("#recoveryNewPassword").value,p2=$("#recoveryNewPassword2").value;
+ if(p1!==p2){$("#authStatus").textContent="As senhas não conferem.";return;}
+ $("#authStatus").textContent="Alterando senha...";
+ try{
+  const j=await api("resetPassword",{email:$("#recoveryEmail").value.trim(),codigo:$("#recoveryCode").value.trim(),novaSenha:p1});
+  $("#authStatus").textContent=j.message||"Senha alterada.";
+  $("#loginEmail").value=$("#recoveryEmail").value.trim();
+  $("#loginSenha").value="";
+  $("#recoveryCode").value="";$("#recoveryNewPassword").value="";$("#recoveryNewPassword2").value="";
+  setTimeout(()=>setAuthMode("login"),700);
+ }catch(err){$("#authStatus").textContent=err.message}
+};
+
 $("#setupGrau").onchange=()=>{
  const temGrau=$("#setupGrau").value!=="INÍCIO";
  $("#setupDataGrauLabel").hidden=!temGrau;
@@ -180,6 +218,23 @@ $("#formSetup").onsubmit=async e=>{
   await enterApp();
  }catch(err){$("#setupStatus").textContent=err.message}
 };
+$("#btnTogglePassword").onclick=()=>{
+ $("#formChangePassword").hidden=!$("#formChangePassword").hidden;
+ $("#passwordStatus").textContent="";
+};
+$("#formChangePassword").onsubmit=async e=>{
+ e.preventDefault();
+ const atual=$("#senhaAtual").value,nova=$("#novaSenha").value,nova2=$("#novaSenha2").value;
+ if(nova!==nova2){$("#passwordStatus").textContent="As novas senhas não conferem.";return;}
+ $("#passwordStatus").textContent="Alterando...";
+ try{
+  const j=await api("changePassword",{senhaAtual:atual,novaSenha:nova});
+  $("#passwordStatus").textContent=j.message||"Senha alterada.";
+  $("#senhaAtual").value="";$("#novaSenha").value="";$("#novaSenha2").value="";
+  setTimeout(()=>{$("#formChangePassword").hidden=true;$("#passwordStatus").textContent=""},1200);
+ }catch(err){$("#passwordStatus").textContent=err.message}
+};
+
 $("#btnSair").onclick=async()=>{
  try{if(TOKEN)await api("logout")}catch(_){}
  clearSession();showAuth();
