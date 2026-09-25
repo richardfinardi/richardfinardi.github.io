@@ -47,7 +47,7 @@ function postMessageHtml_(requestId,result){
   .replace(/>/g,'\\u003e')
   .replace(/&/g,'\\u0026');
  return HtmlService.createHtmlOutput(
-  '<!doctype html><html><body><script>parent.postMessage('+data+',\"*\");<\\/script></body></html>'
+  '<!doctype html><html><body><script>parent.postMessage('+data+',\"*\");</scr'+'ipt></body></html>'
  ).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 function ss_(){return SpreadsheetApp.openById(SHEET_ID);}
@@ -235,4 +235,4 @@ function dateIso_(v){
 }
 function normal_(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();}
 function json_(o){return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);}
-// deploy-trigger form-post-bridge
+// deploy-trigger fix-postmessage-html
