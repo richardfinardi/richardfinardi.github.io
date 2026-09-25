@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d10">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Jiu-Jitsu">
+<link rel="icon" href="./tega-app-192.png?v=10" type="image/png">
+<link rel="apple-touch-icon" href="./tega-app-192.png?v=10">
+<title>Meu Jiu-Jitsu • Demonstração</title>
+<link rel="manifest" href="./manifest.json?v=12">
+<link rel="stylesheet" href="./styles.css?v=12">
+<link rel="stylesheet" href="./demo.css?v=1">
+</head>
+<body>
+<div class="demo-banner"><span>Modo demonstração</span><button id="btnQueroConta" type="button">Quero minha conta</button></div>
+<header class="top demo-top">
+  <div class="brand"><img class="app-logo" src="./tega-app-192.png?v=10" alt="TEGA Jiu-Jitsu"><div><span class="eyebrow">MEU JIU-JITSU</span><h1>Treinos & evolução</h1></div></div>
+  
+</header>
+<main>
+<section id="viewResumo" class="view active">
+  <section class="quick-actions"><button id="btnNovoTreino" class="primary quick">＋ Registrar treino</button></section>
+  <section class="cards">
+    <article><small>Treinos</small><strong id="kpiTotal">—</strong><span>Total registrado</span></article>
+    <article><small>Este mês</small><strong id="kpiMes">—</strong><span>Treinos realizados</span></article>
+    <article class="rank-card summary-rank-card">
+      <small>FAIXA ATUAL</small>
+      <div class="rank-overview">
+        <div id="kpiBeltIcon" class="belt-icon belt-icon-large" aria-hidden="true"></div>
+        <div class="rank-copy">
+          <div class="rank-title"><strong id="kpiFaixa">—</strong><span id="kpiGrau" class="pill">—</span></div>
+          <span id="kpiDiasFaixa" class="rank-since">—</span>
+          <span id="kpiDiasGrau" class="rank-since">—</span>
+        </div>
+      </div>
+    </article>
+    <article><small>Este ano</small><strong id="kpiAno">—</strong><span>Treinos realizados</span></article>
+    <article class="gi-nogi-card"><small>GI / NOGI • este ano</small><div class="split-stat"><span>GI</span><strong id="kpiGiAno">—</strong></div><div class="split-stat"><span>NOGI</span><strong id="kpiNogiAno">—</strong></div></article>
+  </section>
+  <section class="panel"><div class="panel-head"><h2>Treinos por mês</h2><span id="anoGrafico" class="muted"></span></div><div id="graficoMes" class="bars"></div></section>
+  <section class="panel"><div class="panel-head"><h2>GI x NOGI</h2></div><div id="tipoResumo"></div></section>
+  <section class="panel"><div class="panel-head"><h2>Locais</h2></div><div id="locaisResumo" class="stats-list"></div></section>
+  <section class="panel"><div class="panel-head"><h2>Por ano</h2></div><div id="anosResumo" class="stats-list"></div></section>
+</section>
+
+<section id="viewTreinos" class="view">
+  <section class="panel">
+    <div class="panel-head"><h2 id="formTitulo">Novo treino</h2><button id="btnCancelarEdicao" class="ghost small" hidden>Cancelar</button></div>
+    <form id="formTreino">
+      <input type="hidden" id="treinoId">
+      <label>Data<input id="data" type="date" required></label>
+      <label>Local<input id="local" value="TEGA" required></label>
+      <label>Tipo<select id="tipo"><option value="GI">GI</option><option value="NOGI">NOGI</option></select></label>
+      <label>Observação<input id="obs" placeholder="Opcional"></label>
+      <button type="submit" class="primary">Salvar treino</button>
+    </form>
+    <p id="status" class="status"></p>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><h2>Histórico</h2><span id="qtdFiltrada" class="muted"></span></div>
+    <div class="history-filters">
+      <input id="filtroBusca" type="search" placeholder="Pesquisar local, tipo, observação ou data">
+      <div class="filter-grid">
+        <label>Ano<select id="filtroAno"></select></label>
+        <label>Mês<select id="filtroMes">
+          <option value="">Todos</option><option value="01">Janeiro</option><option value="02">Fevereiro</option>
+          <option value="03">Março</option><option value="04">Abril</option><option value="05">Maio</option>
+          <option value="06">Junho</option><option value="07">Julho</option><option value="08">Agosto</option>
+          <option value="09">Setembro</option><option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+        </select></label>
+        <label>Tipo<select id="filtroTipo"><option value="">Todos</option><option value="GI">GI</option><option value="NOGI">NOGI</option></select></label>
+        <label>Local<select id="filtroLocal"><option value="">Todos</option></select></label>
+      </div>
+      <button id="btnLimparFiltros" class="ghost full" type="button">Limpar filtros</button>
+    </div>
+    <div id="historico" class="list"></div>
+    <button id="btnMais" class="ghost full" hidden>Carregar mais</button>
+  </section>
+</section>
+
+<section id="viewEvolucao" class="view">
+  <section class="panel belt-panel rank-card">
+    <small class="muted">FAIXA ATUAL</small>
+    <div class="rank-overview">
+      <div id="evoBeltIcon" class="belt-icon belt-icon-large" aria-hidden="true"></div>
+      <div class="rank-copy">
+        <div class="rank-title"><strong id="evoFaixa">—</strong><span id="evoGrau" class="pill">—</span></div>
+        <div id="evoFaixaDesde" class="rank-since muted"></div>
+        <div id="evoGrauDesde" class="rank-since muted"></div>
+      </div>
+    </div>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><h2 id="gradTitulo">Registrar graduação</h2><button id="btnCancelarGrad" class="ghost small" hidden>Cancelar</button></div>
+    <form id="formGrad">
+      <input type="hidden" id="gradRow">
+      <label>Faixa<select id="gradFaixa"><option>BRANCA</option><option>AZUL</option><option>ROXA</option><option>MARROM</option><option>PRETA</option></select></label>
+      <label>Marco<select id="gradGrau"><option>INÍCIO</option><option>1º GRAU</option><option>2º GRAU</option><option>3º GRAU</option><option>4º GRAU</option></select></label>
+      <label class="wide">Data<input id="gradData" type="date" required></label>
+      <button type="submit" class="primary">Salvar graduação</button>
+    </form>
+    <p id="statusGrad" class="status"></p>
+  </section>
+  <section class="panel"><div class="panel-head"><h2>Linha do tempo</h2></div><div id="graduacoes" class="timeline"></div></section>
+  <section class="panel"><div class="panel-head"><h2>Treinos por faixa</h2></div><div id="faixasResumo" class="stats-list"></div></section>
+</section>
+</main>
+<nav class="bottom">
+  <button data-view="Resumo" class="active">Resumo</button>
+  <button data-view="Treinos">Treinos</button>
+  <button data-view="Evolucao">Evolução</button>
+</nav>
+<div id="demoModal" class="demo-modal" hidden>
+  <div class="demo-modal-card">
+    <img src="./tega-app-192.png?v=10" alt="TEGA">
+    <h2>Curtiu o app?</h2>
+    <p>Na versão completa, cada pessoa terá seu próprio histórico, graduação e indicadores.</p>
+    <strong>Cadastro multiusuário em preparação.</strong>
+    <button id="btnFecharDemo" class="ghost full" type="button">Continuar vendo a demo</button>
+  </div>
+</div>
+<script src="./demo.js?v=1"></script>
+</body>
+</html>
