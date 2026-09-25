@@ -108,11 +108,15 @@ async function api(action,payload={}){
 function saveSession(j){
  TOKEN=j.token||TOKEN;
  if(TOKEN)localStorage.setItem("jj-token",TOKEN);
- if(j.user)CURRENT_USER=j.user;
+ if(j.user){
+  CURRENT_USER=j.user;
+  if(j.user.userId)localStorage.setItem("jj-user-id",j.user.userId);
+ }
 }
 function clearSession(){
  TOKEN="";CURRENT_USER=null;DATA=[];GRADS=[];
  localStorage.removeItem("jj-token");
+ localStorage.removeItem("jj-user-id");
 }
 function showAuth(){
  $("#authShell").hidden=false;$("#setupShell").hidden=true;$("#appShell").hidden=true;
@@ -277,7 +281,7 @@ function preencherFiltros(){
  const localAtual=$("#filtroLocal").value,locais=[...new Set(DATA.map(x=>x.local).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR"));
  $("#filtroLocal").innerHTML='<option value="">Todos</option>'+locais.map(l=>'<option value="'+esc(l)+'" '+(l===localAtual?'selected':'')+'>'+esc(l)+'</option>').join("");
 }
-function cacheKey(){return CURRENT_USER&&CURRENT_USER.userId?"jj-last-data-"+CURRENT_USER.userId:"";}
+function cacheKey(){const uid=(CURRENT_USER&&CURRENT_USER.userId)||localStorage.getItem("jj-user-id")||"";return uid?"jj-last-data-"+uid:"";}
 async function carregar(tentativa=0){
  try{
   const j=await api("list");
@@ -320,10 +324,7 @@ async function bootstrap(){
  if(!TOKEN){showAuth();return;}
 
  let cached=null;
- try{
-  const keys=Object.keys(localStorage).filter(k=>k.startsWith("jj-last-data-"));
-  if(keys.length)cached=JSON.parse(localStorage.getItem(keys[0])||"null");
- }catch(_){}
+ try{cached=cacheKey()?JSON.parse(localStorage.getItem(cacheKey())||"null"):null}catch(_){}
  if(cached&&Array.isArray(cached.data)){
   DATA=cached.data;GRADS=Array.isArray(cached.graduacoes)?cached.graduacoes:[];
   showApp();preencherFiltros();renderResumo();renderHistorico();renderGrads();
