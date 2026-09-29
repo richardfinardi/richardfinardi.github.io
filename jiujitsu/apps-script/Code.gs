@@ -27,7 +27,7 @@ function bridgeHtml_(requestId,result){
   .replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026')
   .replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
  return HtmlService
-  .createHtmlOutput('<!doctype html><html><head><meta charset="utf-8"></head><body><script>try{parent.postMessage('+payload+',"*");}catch(e){}<\\/script></body></html>')
+  .createHtmlOutput('<!doctype html><html><head><meta charset="utf-8"></head><body><script>try{parent.postMessage('+payload+',"*");}catch(e){}</script></body></html>')
   .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 function doPost(e){
