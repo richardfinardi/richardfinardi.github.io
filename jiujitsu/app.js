@@ -92,44 +92,16 @@ async function api(action,payload={}){
  document.body.appendChild(form);
 
  const j=await new Promise((resolve,reject)=>{
-  let sent=false,done=false,fallbackStarted=false;
-  const cleanup=()=>{
-   window.removeEventListener("message",onMessage);
-   form.remove();
-   iframe.remove();
-  };
-  const finish=(fn,value)=>{
-   if(done)return;
-   done=true;
-   clearTimeout(timer);
-   cleanup();
-   fn(value);
-  };
-  const onMessage=e=>{
-   if(done)return;
-   let msg=e.data;
-   if(typeof msg==="string"){try{msg=JSON.parse(msg)}catch(_){return}}
-   if(!msg||msg.type!=="JJ_API_RESPONSE"||msg.requestId!==id)return;
-   finish(resolve,msg.result);
-  };
-  window.addEventListener("message",onMessage);
-  const timer=setTimeout(()=>finish(reject,new Error("Não foi possível conectar ao servidor.")),30000);
-
-  iframe.onload=()=>{
-   if(!sent||done||fallbackStarted)return;
-   fallbackStarted=true;
-   // Fallback legado para Android/desktop enquanto o novo backend propaga.
-   // No Safari/iPhone o retorno principal chega via postMessage.
-   setTimeout(async()=>{
-    if(done)return;
-    try{
-     const result=await readApiResult(id);
-     if(!done)finish(resolve,result);
-    }catch(_){
-     // Alguns Safaris bloqueiam o JSONP redirecionado do Apps Script.
-     // Mantemos a espera pelo postMessage até o timeout principal.
-    }
-   },700);
+  let sent=false,done=false;
+  const timer=setTimeout(()=>{if(done)return;done=true;form.remove();iframe.remove();reject(new Error("Não foi possível conectar ao servidor."))},30000);
+  iframe.onload=async()=>{
+   if(!sent||done)return;
+   try{
+    const result=await readApiResult(id);
+    if(done)return;done=true;clearTimeout(timer);form.remove();iframe.remove();resolve(result);
+   }catch(err){
+    if(done)return;done=true;clearTimeout(timer);form.remove();iframe.remove();reject(err);
+   }
   };
   setTimeout(()=>{sent=true;form.submit()},0);
  });
