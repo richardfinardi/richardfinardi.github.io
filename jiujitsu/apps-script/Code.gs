@@ -21,33 +21,22 @@ function doGet(e){
   return json_({ok:true,service:'jiujitsu-api',version:'3.2'});
  }catch(err){return json_({ok:false,error:String(err.message||err)});}
 }
-function bridgeHtml_(requestId,result){
- const message={type:'JJ_API_RESPONSE',requestId:String(requestId||''),result:result};
- const payload=JSON.stringify(message)
-  .replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026')
-  .replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
- return HtmlService
-  .createHtmlOutput('<!doctype html><html><head><meta charset="utf-8"></head><body><script>try{parent.postMessage('+payload+',"*");}catch(e){}</script></body></html>')
-  .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-}
 function doPost(e){
  try{
   const formPayload=e&&e.parameter&&e.parameter.payload;
   const requestId=String((e&&e.parameter&&e.parameter.requestId)||'');
   if(formPayload&&requestId){
    const result=dispatch_(JSON.parse(formPayload));
-   // Mantem o cache como fallback para versoes antigas do frontend.
    CacheService.getScriptCache().put('JJ_REQ_'+requestId,JSON.stringify(result),120);
-   return bridgeHtml_(requestId,result);
+   return HtmlService.createHtmlOutput('<!doctype html><html><body>OK</body></html>');
   }
   const b=JSON.parse((e&&e.postData&&e.postData.contents)||'{}');
   return json_(dispatch_(b));
  }catch(err){
   const requestId=String((e&&e.parameter&&e.parameter.requestId)||'');
   if(requestId){
-   const result={ok:false,error:String(err.message||err)};
-   CacheService.getScriptCache().put('JJ_REQ_'+requestId,JSON.stringify(result),120);
-   return bridgeHtml_(requestId,result);
+   CacheService.getScriptCache().put('JJ_REQ_'+requestId,JSON.stringify({ok:false,error:String(err.message||err)}),120);
+   return HtmlService.createHtmlOutput('<!doctype html><html><body>ERRO</body></html>');
   }
   return json_({ok:false,error:String(err.message||err)});
  }
