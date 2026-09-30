@@ -1,0 +1,45 @@
+name: Gerar PDFs Coffee & Bass
+
+on:
+  push:
+    paths:
+      - ".github/workflows/coffee-bass-pdf.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  gerar-pdfs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar Inkscape
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y inkscape zip
+
+      - name: Gerar PDFs vetoriais
+        run: |
+          cd arquivos/coffee-bass
+          inkscape coffee_bass_bordado_vetorizado.svg --export-filename=coffee_bass_bordado_vetorizado.pdf
+          inkscape coffee_bass_bordado_vetorizado_fundo_preto.svg --export-filename=coffee_bass_bordado_vetorizado_fundo_preto.pdf
+          rm -f coffee_bass_bordado_vetores.zip
+          zip coffee_bass_bordado_vetores.zip \
+            coffee_bass_bordado_vetorizado.svg \
+            coffee_bass_bordado_vetorizado_fundo_preto.svg \
+            coffee_bass_bordado_vetorizado.eps \
+            coffee_bass_bordado_vetorizado.pdf \
+            coffee_bass_bordado_vetorizado_fundo_preto.pdf
+
+      - name: Commitar PDFs e ZIP atualizado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add arquivos/coffee-bass/coffee_bass_bordado_vetorizado.pdf
+          git add arquivos/coffee-bass/coffee_bass_bordado_vetorizado_fundo_preto.pdf
+          git add arquivos/coffee-bass/coffee_bass_bordado_vetores.zip
+          git diff --cached --quiet || git commit -m "Adiciona PDFs Coffee & Bass"
+          git push
