@@ -470,7 +470,19 @@ $("#btnNovoTreino").onclick=()=>{clearTreino();showView("Treinos");setTimeout(()
 $("#btnMais").onclick=()=>{visible+=PAGE;renderHistorico()};
 
 async function bootstrap(){
- if("serviceWorker"in navigator)navigator.serviceWorker.register("./sw.js");
+ if("serviceWorker"in navigator){
+  try{
+   const regs=await navigator.serviceWorker.getRegistrations();
+   if(regs.length){
+    await Promise.all(regs.map(r=>r.unregister()));
+    if(navigator.serviceWorker.controller&&!sessionStorage.getItem("jj-sw-hotfix-v24")){
+     sessionStorage.setItem("jj-sw-hotfix-v24","1");
+     location.reload();
+     return;
+    }
+   }
+  }catch(_){}
+ }
  if(!TOKEN){showAuth();return;}
 
  let cached=null;
