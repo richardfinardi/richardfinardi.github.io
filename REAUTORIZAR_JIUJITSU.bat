@@ -41,9 +41,26 @@ echo.
 echo [3/6] Reautorizando Google...
 echo Entre na mesma conta Google que e dona do Apps Script do Jiu-Jitsu.
 echo.
-call clasp.cmd login
+echo Limpando autorizacao antiga...
+call clasp.cmd logout >nul 2>&1
+echo.
+echo O clasp vai mostrar um link abaixo.
+echo 1. Abra o link no navegador.
+echo 2. Autorize a conta Google.
+echo 3. Copie o codigo/endereco final solicitado e cole aqui no CMD.
+echo.
+call clasp.cmd login --no-localhost
 if errorlevel 1 (
   echo ERRO: a autorizacao Google nao foi concluida.
+  pause
+  exit /b 1
+)
+
+echo.
+echo Conferindo conta autorizada...
+call clasp.cmd show-authorized-user
+if errorlevel 1 (
+  echo ERRO: nao foi possivel confirmar a conta Google.
   pause
   exit /b 1
 )
