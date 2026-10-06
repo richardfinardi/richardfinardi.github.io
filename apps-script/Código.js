@@ -1,6 +1,11 @@
 /**
  * CONSULTORIA.RF | GESTÃO DE CUSTOS
- * BACKEND V5.2.34
+ * BACKEND V5.2.37
+ *
+ * V5.2.37:
+ * - Corrige definitivamente a leitura do TPLANO_CONTAS quando um cabeçalho contém espaço/está vazio.
+ * - O schema oficial da TPLANO_CONTAS passa a ser usado como fallback em memória.
+ * - Filtros por cliente/período passam a ignorar espaços e diferença de maiúsculas/minúsculas.
  *
  * V5.2.34:
  * - Redeploy do Web App para restaurar as leituras GET/PERIODO_BUNDLE (incluindo TPLANO_CONTAS).
@@ -481,7 +486,28 @@ function converterSheetParaObjetos(sheet) {
     .getRange(1, 1, lastRow, lastCol)
     .getValues();
 
-  const headers = data[0];
+  // V5.2.37 — schema defensivo.
+  // Um simples espaço em A1 da TPLANO_CONTAS fazia o backend devolver os registros
+  // sem TCLIENTE_ID. O cálculo por coluna continuava funcionando, mas a API/bundle
+  // filtrava tudo e o frontend enxergava zero contas.
+  const schemaFallback = {
+    TPLANO_CONTAS: [
+      "TCLIENTE_ID",
+      "TPERIODO_ID",
+      "TCENTRO_CUSTO_ID",
+      "TPLANO_CONTA_ID",
+      "TPLANO_CONTA_NOME",
+      "TPLANO_CONTA_CRITERIO",
+      "TPLANO_CONTA_VALOR"
+    ]
+  };
+
+  const nomeAba = String(sheet.getName() || "").trim().toUpperCase();
+  const schema = schemaFallback[nomeAba] || [];
+  const headers = data[0].map((header, index) => {
+    const limpo = String(header ?? "").trim();
+    return limpo || schema[index] || "";
+  });
   const rows = data.slice(1);
 
   return rows.map(row => {
@@ -499,9 +525,12 @@ function converterSheetParaObjetos(sheet) {
 
 
 function filtrarClientePeriodo(rows, clienteId, periodoId) {
+  const cli = String(clienteId || "").trim().toUpperCase();
+  const per = String(periodoId || "").trim().toUpperCase();
+
   return rows.filter(row =>
-    String(row.TCLIENTE_ID || "") === String(clienteId || "") &&
-    String(row.TPERIODO_ID || "") === String(periodoId || "")
+    String(row.TCLIENTE_ID || "").trim().toUpperCase() === cli &&
+    String(row.TPERIODO_ID || "").trim().toUpperCase() === per
   );
 }
 
