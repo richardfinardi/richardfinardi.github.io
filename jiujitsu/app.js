@@ -312,6 +312,12 @@ function renderFaixas(){
  DATA.forEach(t=>{let belt=starts.length?starts[0].faixa:"SEM FAIXA";starts.forEach(s=>{if(t.data>=s.data)belt=s.faixa});map[belt]=(map[belt]||0)+1});
  renderStats("#faixasResumo",map,false);
 }
+function faixaNoTreino(data){
+ const starts=GRADS.filter(g=>g&&g.data&&g.faixa&&normTxt(g.grau)==="INICIO").sort((a,b)=>String(a.data).localeCompare(String(b.data)));
+ let faixa="";starts.forEach(g=>{if(String(g.data)<=String(data))faixa=g.faixa});
+ if(!faixa){const anteriores=GRADS.filter(g=>g&&g.data&&g.faixa&&String(g.data)<=String(data)).sort((a,b)=>String(a.data).localeCompare(String(b.data)));if(anteriores.length)faixa=anteriores[anteriores.length-1].faixa;}
+ return faixa;
+}
 function renderHistorico(){
  const ano=$("#filtroAno").value,mes=$("#filtroMes").value,tipo=$("#filtroTipo").value,local=$("#filtroLocal").value,busca=$("#filtroBusca").value.trim().toLowerCase();
  const rows=DATA.slice().filter(x=>{
@@ -319,7 +325,7 @@ function renderHistorico(){
   if(busca&&!([x.data,fmt(x.data),x.local,x.tipo,x.observacao].join(" ").toLowerCase().includes(busca)))return false;return true;
  }).sort((a,b)=>b.data.localeCompare(a.data));
  $("#qtdFiltrada").textContent=rows.length+" treino"+(rows.length===1?"":"s");
- $("#historico").innerHTML=rows.slice(0,visible).map(x=>'<div class="row"><strong>'+fmt(x.data)+'</strong><div><b>'+esc(x.local||"—")+'</b><br><small>'+(x.tipo||"GI")+(x.observacao?" • "+esc(x.observacao):"")+'</small></div><div class="row-actions"><button class="icon-btn" onclick="editTreino(\''+x.id+'\')">✎</button><button class="icon-btn delete" onclick="deleteTreino(\''+x.id+'\')">×</button></div></div>').join("")||"<p>Nenhum treino encontrado.</p>";
+ $("#historico").innerHTML=rows.slice(0,visible).map(x=>'<div class="row"><strong>'+fmt(x.data)+'</strong><div><b>'+esc(x.local||"—")+'</b><br><small>'+(x.tipo||"GI")+(faixaNoTreino(x.data)?" • Faixa "+esc(faixaNoTreino(x.data)):"")+(x.observacao?" • "+esc(x.observacao):"")+'</small></div><div class="row-actions"><button class="icon-btn" onclick="editTreino(\''+x.id+'\')">✎</button><button class="icon-btn delete" onclick="deleteTreino(\''+x.id+'\')">×</button></div></div>').join("")||"<p>Nenhum treino encontrado.</p>";
  $("#btnMais").hidden=visible>=rows.length;
 }
 function renderGrads(){
