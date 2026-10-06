@@ -1,6 +1,7 @@
-const CACHE = 'consultoria-rf-v5.2.37';
+const CACHE = 'consultoria-rf-v5.2.38';
 const APP_SHELL = [
   './app.html',
+  './api-config.js',
   './manifest.json',
   './rf-icon-192-v5216.png',
   './rf-icon-512-v5216.png'
