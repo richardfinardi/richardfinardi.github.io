@@ -3294,8 +3294,9 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
         </div>
     </div>
 
+    <script src="./api-config.js?v=5.2.38"></script>
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
+        const API_URL = window.RF_API_URL || "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
         function v49ResponseJSON(response, context) {
             if (!response || !response.ok) {
