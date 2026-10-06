@@ -1,6 +1,10 @@
 /**
  * CONSULTORIA.RF | GESTÃO DE CUSTOS
- * BACKEND V5.2.28
+ * BACKEND V5.2.34
+ *
+ * V5.2.34:
+ * - Redeploy do Web App para restaurar as leituras GET/PERIODO_BUNDLE (incluindo TPLANO_CONTAS).
+ * - Corrige o cenário em que o frontend permanecia apenas no cache e o Raio-X ficava sem o detalhamento do plano de contas.
  *
  * NOVO:
  * - TPERIODO_DESCONSIDERAR_DEPRECIACAO na coluna K (índice 10): SIM / NAO
