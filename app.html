@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.32 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.32">
+    <title>CONSULTORIA.RF V5.2.33 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.33">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1804,7 +1804,7 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
 
 
 <style id="v5228-finalizacao-estudo">
-/* V5.2.32 — conclusão da análise, envio por e-mail e estudo de caso temporário + faturamento simulado */
+/* V5.2.33 — conclusão da análise, envio por e-mail e estudo de caso temporário + faturamento simulado */
 .rf-result-top-actions{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;justify-content:flex-end}
 .rf-final-btn,.rf-study-btn,.rf-study-action{border:1px solid rgba(255,132,54,.45);border-radius:.65rem;padding:.58rem .78rem;font-size:.75rem;font-weight:800;transition:.18s;white-space:nowrap}
 .rf-final-btn{background:#ff8436;color:#fff}.rf-final-btn:hover{filter:brightness(1.06)}
@@ -1830,7 +1830,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
 
 <style id="v5229-estudo-faturamento-tabelas">
 /* ================================================================
-   V5.2.32 — FATURAMENTO NO ESTUDO DE CASO + APRESENTAÇÃO DE TABELAS
+   V5.2.33 — FATURAMENTO NO ESTUDO DE CASO + APRESENTAÇÃO DE TABELAS
    ================================================================ */
 .rf-study-revenue{
     display:grid;grid-template-columns:minmax(180px,1.15fr) repeat(3,minmax(135px,.85fr));
@@ -1889,7 +1889,7 @@ body.light-mode .rf-study-revenue-input{background:#fff;color:#111827;border-col
 </style>
 
 <style id="v5231-agendamento-reuniao">
-/* V5.2.32 - Google Calendar incorporado diretamente em Resultados & Analises */
+/* V5.2.33 - Google Calendar incorporado diretamente em Resultados & Analises */
 .rf-schedule-btn{
     border:1px solid rgba(52,211,153,.38);
     border-radius:.65rem;
@@ -1983,7 +1983,7 @@ body.light-mode .rf-schedule-inline-close{
 }
 </style>
 <style id="v5232-table-cleanup">
-/* V5.2.32 — pente fino visual de tabelas */
+/* V5.2.33 — pente fino visual de tabelas */
 
 .rf-inline-table thead th{
     white-space:nowrap !important;
@@ -2184,7 +2184,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.32</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.33</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -2219,7 +2219,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.32</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.33</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2235,6 +2235,19 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
                 <button id="btn-login" onclick="fazerLogin()" class="w-full bg-brand-primary hover:bg-brand-hover text-white font-bold py-3 rounded-lg transition text-sm shadow-lg shadow-brand-primary/20">
                     Entrar no Sistema
                 </button>
+
+                <div class="flex items-center gap-3 py-1" aria-hidden="true">
+                    <span class="h-px flex-1 bg-brand-border"></span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-brand-muted">ou</span>
+                    <span class="h-px flex-1 bg-brand-border"></span>
+                </div>
+
+                <button id="btn-demo" type="button" onclick="entrarDemonstracao()" class="w-full border border-brand-primary text-brand-primary hover:bg-brand-primary/10 font-bold py-3 rounded-lg transition text-sm">
+                    Veja a Demonstração
+                </button>
+                <p class="text-[11px] leading-relaxed text-center text-brand-muted">
+                    Acesso imediato ao ambiente Demonstração. Você pode navegar, cadastrar e alterar os dados livremente.
+                </p>
             </div>
         </div>
     </div>
@@ -3315,7 +3328,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
         let listaFuncionarios = [];
         let listaPlanoContas = [];
 
-        // V5.2.32 — conclusão da análise e estudo de caso temporário
+        // V5.2.33 — conclusão da análise e estudo de caso temporário
         let rfFinalizacaoAtual = null;
         let rfEstudoAtivo = false;
         let rfEstudoBase = null;
@@ -6004,6 +6017,29 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 ]);
                 const usuarios = await v49ResponseJSON(resUsers, 'TUSUARIO');
                 const clientes = await v49ResponseJSON(resClientes, 'TCLIENTE');
+                const demoPublico = String(usuarioLogado.RF_DEMO_PUBLICO || '').trim().toUpperCase() === 'SIM';
+                if (demoPublico) {
+                    const clienteDemo = clientes.find(c => String(c.TCLIENTE_ID) === String(usuarioLogado.TCLIENTE_ID));
+                    const clienteDemoAtivo = !!clienteDemo && String(clienteDemo.TCLIENTE_ATIVO || 'SIM').trim().toUpperCase() !== 'NAO';
+
+                    if (!clienteDemoAtivo) {
+                        localStorage.removeItem('usuarioLogadoRF');
+                        localStorage.removeItem('rf_validacao_usuario_em');
+                        localStorage.removeItem('rf_ultima_aba');
+                        document.documentElement.classList.remove('rf-has-session');
+                        alert('O ambiente Demonstração está temporariamente indisponível.');
+                        location.reload();
+                        return false;
+                    }
+
+                    usuarioLogado.TUSUARIO_ADM = 'NAO';
+                    usuarioLogado.TUSUARIO_ATIVO = 'SIM';
+                    usuarioLogado.TCLIENTE_NOME = clienteDemo.TCLIENTE_NOME || usuarioLogado.TCLIENTE_NOME || 'DEMONSTRAÇÃO';
+                    localStorage.setItem('usuarioLogadoRF', JSON.stringify(usuarioLogado));
+                    localStorage.setItem('rf_validacao_usuario_em', String(agora));
+                    return true;
+                }
+
                 const idUser = String(usuarioLogado.TUSUARIO_ID || '').trim().toUpperCase();
                 const email = String(usuarioLogado.TUSUARIO_EMAIL || '').trim().toLowerCase();
                 const atual = usuarios.find(u =>
@@ -6095,7 +6131,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.32', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.33', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -6108,6 +6144,70 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         }
 
         window.matchMedia('(display-mode: standalone)').addEventListener?.('change', rfAtualizarBotaoInstalacao);
+
+        async function entrarDemonstracao() {
+            const btn = document.getElementById('btn-demo');
+
+            try {
+                if (btn) {
+                    btn.innerText = "Abrindo demonstração...";
+                    btn.disabled = true;
+                }
+                setSyncStatus(true);
+
+                const resCli = await fetch(`${API_URL}?action=TCLIENTE`, { cache: 'no-store' });
+                const clientes = await v49ResponseJSON(resCli, "TCLIENTE");
+                const normalizar = (valor) => String(valor || '')
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .trim()
+                    .toUpperCase();
+
+                const demo = clientes.find(c =>
+                    normalizar(c.TCLIENTE_NOME) === 'DEMONSTRACAO'
+                );
+
+                if (!demo) {
+                    throw new Error('O cliente Demonstração não foi encontrado.');
+                }
+
+                if (String(demo.TCLIENTE_ATIVO || 'SIM').trim().toUpperCase() === 'NAO') {
+                    throw new Error('O ambiente Demonstração está temporariamente inativo.');
+                }
+
+                usuarioLogado = {
+                    TUSUARIO_ID: 'DEMO-PUBLICO',
+                    TUSUARIO_NOME: 'DEMONSTRAÇÃO',
+                    TUSUARIO_EMAIL: '',
+                    TUSUARIO_ADM: 'NAO',
+                    TUSUARIO_ATIVO: 'SIM',
+                    TCLIENTE_ID: demo.TCLIENTE_ID,
+                    TCLIENTE_NOME: demo.TCLIENTE_NOME || 'DEMONSTRAÇÃO',
+                    RF_DEMO_PUBLICO: 'SIM'
+                };
+
+                empresaLogadaNome = demo.TCLIENTE_NOME || 'DEMONSTRAÇÃO';
+                empresaLogadaCnpj = demo.TCLIENTE_CNPJ || '---';
+
+                localStorage.removeItem('rf_admin_cliente_contexto');
+                localStorage.removeItem('rf_admin_cliente_login');
+                localStorage.setItem('rf_ultima_aba', 'res');
+                localStorage.setItem('usuarioLogadoRF', JSON.stringify(usuarioLogado));
+                localStorage.setItem('rf_validacao_usuario_em', String(Date.now()));
+                document.documentElement.classList.add('rf-has-session');
+
+                await iniciarSessao();
+            } catch (err) {
+                console.error('Erro ao abrir demonstração:', err);
+                alert(err?.message || 'Não foi possível abrir a demonstração.');
+                setSyncStatus(false, "Erro na Demonstração");
+            } finally {
+                if (btn) {
+                    btn.innerText = "Veja a Demonstração";
+                    btn.disabled = false;
+                }
+            }
+        }
 
         async function fazerLogin() {
             const email = document.getElementById('login-email').value.trim();
@@ -6215,7 +6315,8 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             document.getElementById('wrapper-periodo-global').classList.remove('hidden');
             document.getElementById('user-display-name').innerText = usuarioLogado.TUSUARIO_NOME;
 
-            const isAdm = ['SIM','TRUE'].includes(String(usuarioLogado.TUSUARIO_ADM || '').toUpperCase());
+            const isDemoPublico = String(usuarioLogado.RF_DEMO_PUBLICO || '').trim().toUpperCase() === 'SIM';
+            const isAdm = !isDemoPublico && ['SIM','TRUE'].includes(String(usuarioLogado.TUSUARIO_ADM || '').toUpperCase());
             const badge = document.getElementById('role-badge');
             const sectionAdmin = document.getElementById('section-admin');
             const tabAdmin = document.getElementById('tab-btn-admin');
@@ -6253,7 +6354,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     if (sel) sel.value = adminClienteSelecionadoId;
                 }
             } else {
-                if (badge) badge.innerText = "PORTAL CLIENTE";
+                if (badge) badge.innerText = isDemoPublico ? "DEMONSTRAÇÃO" : "PORTAL CLIENTE";
                 if (sectionAdmin) sectionAdmin.classList.add('hidden');
                 if (tabAdmin) tabAdmin.classList.add('hidden');
                 if (wrapperAdminCliente) wrapperAdminCliente.classList.add('hidden');
@@ -8354,7 +8455,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.32 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
+        // V5.2.33 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
         // ======================================================
         function rfFinalizacaoPadrao() {
             return {
