@@ -116,17 +116,17 @@ jobs:
             printf '%s\n' "$DEPLOY_ID" > deployment-id.txt
 
             python - "$OLD_ID" "$DEPLOY_ID" <<'PY'
-import pathlib, sys
-old, new = sys.argv[1], sys.argv[2]
-for rel in ("../app.html", "../script.js"):
-    p = pathlib.Path(rel)
-    if not p.exists():
-        continue
-    txt = p.read_text(encoding="utf-8")
-    txt2 = txt.replace(old, new)
-    if txt2 != txt:
-        p.write_text(txt2, encoding="utf-8")
-PY
+            import pathlib, sys
+            old, new = sys.argv[1], sys.argv[2]
+            for rel in ("../app.html", "../script.js"):
+                p = pathlib.Path(rel)
+                if not p.exists():
+                    continue
+                txt = p.read_text(encoding="utf-8")
+                txt2 = txt.replace(old, new)
+                if txt2 != txt:
+                    p.write_text(txt2, encoding="utf-8")
+            PY
           else
             printf '%s\n' "$DEPLOY_ID" > deployment-id.txt
           fi
