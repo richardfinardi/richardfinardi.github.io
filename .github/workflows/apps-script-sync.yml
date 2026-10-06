@@ -52,5 +52,5 @@ jobs:
       - name: Enviar codigo para Apps Script
         run: clasp push --force
 
-      - name: Criar novo deployment Web App
-        run: clasp deploy --description "Recovery deploy GitHub ${{ github.sha }}"
+      - name: Atualizar Web App atual
+        run: clasp update-deployment AKfycbzt1-Q6lhtGm-fbu81_jdtGK7mGhhB_xvBS-jxDcwi9_Xpk3Uyk4h7ZMSkE6bFun3Oc --description "Deploy automatico GitHub ${{ github.sha }}"
