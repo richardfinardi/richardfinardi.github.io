@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   push-to-apps-script:
@@ -52,104 +52,5 @@ jobs:
       - name: Enviar codigo para Apps Script
         run: clasp push --force
 
-      - name: Validar e recuperar Web App
-        id: deploy
-        shell: bash
-        run: |
-          set -u
-          FALLBACK_ID="AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL"
-          if [ -s deployment-id.txt ]; then
-            DEPLOY_ID="$(tr -d '\r\n ' < deployment-id.txt)"
-          else
-            DEPLOY_ID="$FALLBACK_ID"
-          fi
-
-          {
-            echo "GitHub SHA: ${GITHUB_SHA}"
-            echo "Data UTC: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-            echo "Deployment inicial: $DEPLOY_ID"
-            echo
-            echo "=== clasp deployments ANTES ==="
-            clasp deployments || true
-            echo
-          } > deployment-diagnostic.txt
-
-          echo "Atualizando deployment $DEPLOY_ID..."
-          set +e
-          clasp update-deployment "$DEPLOY_ID" --description "Deploy automatico GitHub ${GITHUB_SHA}" >> deployment-diagnostic.txt 2>&1
-          UPDATE_RC=$?
-          set -e
-
-          test_url() {
-            local id="$1"
-            local url="https://script.google.com/macros/s/$id/exec?action=TCLIENTE&_rf=$(date +%s)"
-            local body="/tmp/rf-api-body.txt"
-            local code
-            code="$(curl -sS -L --max-time 30 -o "$body" -w '%{http_code}' "$url" || true)"
-            echo "$code"
-            {
-              echo "Teste $id => HTTP $code"
-              echo "URL final testada: $url"
-              echo "Resposta inicial:"
-              head -c 300 "$body" 2>/dev/null || true
-              echo
-            } >> deployment-diagnostic.txt
-          }
-
-          HTTP_CODE="$(test_url "$DEPLOY_ID")"
-
-          if [ "$UPDATE_RC" -ne 0 ] || [ "$HTTP_CODE" != "200" ]; then
-            echo "Deployment atual inválido (update_rc=$UPDATE_RC / HTTP=$HTTP_CODE). Criando novo..." | tee -a deployment-diagnostic.txt
-            DEPLOY_OUT="$(clasp deploy --description "Recuperacao Web App GitHub ${GITHUB_SHA}" 2>&1)"
-            printf '%s\n' "$DEPLOY_OUT" >> deployment-diagnostic.txt
-            NEW_ID="$(printf '%s\n' "$DEPLOY_OUT" | grep -oE 'AKfy[A-Za-z0-9_-]+' | tail -n 1 || true)"
-            test -n "$NEW_ID" || (echo "Nao foi possivel identificar o novo deployment ID" | tee -a deployment-diagnostic.txt && exit 1)
-
-            NEW_HTTP="$(test_url "$NEW_ID")"
-            if [ "$NEW_HTTP" != "200" ]; then
-              echo "Novo deployment tambem nao respondeu 200 (HTTP=$NEW_HTTP)." | tee -a deployment-diagnostic.txt
-              exit 1
-            fi
-
-            OLD_ID="$DEPLOY_ID"
-            DEPLOY_ID="$NEW_ID"
-            printf '%s\n' "$DEPLOY_ID" > deployment-id.txt
-
-            python - "$OLD_ID" "$DEPLOY_ID" <<'PY'
-            import pathlib, sys
-            old, new = sys.argv[1], sys.argv[2]
-            for rel in ("../app.html", "../script.js"):
-                p = pathlib.Path(rel)
-                if not p.exists():
-                    continue
-                txt = p.read_text(encoding="utf-8")
-                txt2 = txt.replace(old, new)
-                if txt2 != txt:
-                    p.write_text(txt2, encoding="utf-8")
-            PY
-          else
-            printf '%s\n' "$DEPLOY_ID" > deployment-id.txt
-          fi
-
-          {
-            echo
-            echo "=== clasp deployments DEPOIS ==="
-            clasp deployments || true
-            echo
-            echo "Deployment ativo final: $DEPLOY_ID"
-          } >> deployment-diagnostic.txt
-
-          echo "deployment_id=$DEPLOY_ID" >> "$GITHUB_OUTPUT"
-
-      - name: Versionar recuperacao do deployment
-        working-directory: .
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add apps-script/deployment-id.txt apps-script/deployment-diagnostic.txt app.html script.js
-          if git diff --cached --quiet; then
-            echo "Nenhuma alteracao de deployment para versionar."
-          else
-            git commit -m "chore: registrar deployment ativo do Apps Script [skip ci]"
-            git push
-          fi
+      - name: Criar novo deployment Web App
+        run: clasp deploy --description "Recovery deploy GitHub ${{ github.sha }}"
