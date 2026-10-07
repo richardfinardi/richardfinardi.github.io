@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.39 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.39">
+    <title>CONSULTORIA.RF V5.2.40 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.40">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1804,7 +1804,7 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
 
 
 <style id="v5228-finalizacao-estudo">
-/* V5.2.39 — conclusão da análise, envio por e-mail e estudo de caso temporário + faturamento simulado */
+/* V5.2.40 — conclusão da análise, envio por e-mail e estudo de caso temporário + faturamento simulado */
 .rf-result-top-actions{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;justify-content:flex-end}
 .rf-final-btn,.rf-study-btn,.rf-study-action{border:1px solid rgba(255,132,54,.45);border-radius:.65rem;padding:.58rem .78rem;font-size:.75rem;font-weight:800;transition:.18s;white-space:nowrap}
 .rf-final-btn{background:#ff8436;color:#fff}.rf-final-btn:hover{filter:brightness(1.06)}
@@ -1830,7 +1830,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
 
 <style id="v5229-estudo-faturamento-tabelas">
 /* ================================================================
-   V5.2.39 — FATURAMENTO NO ESTUDO DE CASO + APRESENTAÇÃO DE TABELAS
+   V5.2.40 — FATURAMENTO NO ESTUDO DE CASO + APRESENTAÇÃO DE TABELAS
    ================================================================ */
 .rf-study-revenue{
     display:grid;grid-template-columns:minmax(180px,1.15fr) repeat(3,minmax(135px,.85fr));
@@ -1889,7 +1889,7 @@ body.light-mode .rf-study-revenue-input{background:#fff;color:#111827;border-col
 </style>
 
 <style id="v5231-agendamento-reuniao">
-/* V5.2.39 - Google Calendar incorporado diretamente em Resultados & Analises */
+/* V5.2.40 - Google Calendar incorporado diretamente em Resultados & Analises */
 .rf-schedule-btn{
     border:1px solid rgba(52,211,153,.38);
     border-radius:.65rem;
@@ -1983,7 +1983,7 @@ body.light-mode .rf-schedule-inline-close{
 }
 </style>
 <style id="v5232-table-cleanup">
-/* V5.2.39 — pente fino visual de tabelas */
+/* V5.2.40 — pente fino visual de tabelas */
 
 .rf-inline-table thead th{
     white-space:nowrap !important;
@@ -2184,7 +2184,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.39</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.40</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -2219,7 +2219,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.39</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.40</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -2846,15 +2846,18 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
                 </div>
                 <div class="rf-study-grid">
                     <div class="rf-study-section">
-                        <div class="rf-study-section-head"><h4>Funcionários</h4><p>Desmarque “Considerar” para simular a retirada do funcionário ou altere o salário-base.</p></div>
-                        <div class="rf-study-table-wrap"><table class="rf-study-table"><thead><tr><th>Considerar</th><th>Funcionário</th><th>Centro(s) de Custo</th><th>Salário atual</th><th>Salário simulado</th><th>Custo mensal simulado</th></tr></thead><tbody id="rf-estudo-func-body"></tbody></table></div>
+                        <div class="rf-study-section-head rf-study-section-head-search">
+                            <div><h4>Funcionários</h4><p>Desmarque “Considerar” para simular a retirada do funcionário ou altere o salário-base. Ordenado do maior para o menor custo mensal atual.</p></div>
+                            <input id="rf-estudo-func-pesquisa" class="rf-study-search" type="search" autocomplete="off" placeholder="Pesquisar funcionário ou centro de custo..." oninput="rfRenderEstudoFuncionarios()">
+                        </div>
+                        <div class="rf-study-table-wrap"><table class="rf-study-table"><thead><tr><th>Considerar</th><th>Funcionário</th><th>Centro(s) de Custo</th><th>Salário atual</th><th>Custo mensal atual</th><th>% fat. atual</th><th>Salário simulado</th><th>Custo mensal simulado</th></tr></thead><tbody id="rf-estudo-func-body"></tbody></table></div>
                     </div>
                     <div class="rf-study-section">
                         <div class="rf-study-section-head rf-study-section-head-search">
-                            <div><h4>Plano de Contas</h4><p>Altere o valor mensal da conta para testar o impacto no DRE, centros de custo e diagnóstico. Ordenado do maior para o menor valor atual.</p></div>
+                            <div><h4>Plano de Contas</h4><p>Desmarque “Considerar” para retirar a conta do cenário ou altere o valor mensal. Ordenado do maior para o menor valor atual.</p></div>
                             <input id="rf-estudo-plano-pesquisa" class="rf-study-search" type="search" autocomplete="off" placeholder="Pesquisar conta ou critério..." oninput="rfRenderEstudoPlano()">
                         </div>
-                        <div class="rf-study-table-wrap"><table class="rf-study-table"><thead><tr><th>Conta</th><th>Critério</th><th>Valor atual</th><th>Valor simulado</th></tr></thead><tbody id="rf-estudo-plano-body"></tbody></table></div>
+                        <div class="rf-study-table-wrap"><table class="rf-study-table"><thead><tr><th>Considerar</th><th>Conta</th><th>Critério</th><th>Valor atual</th><th>% fat. atual</th><th>Valor simulado</th></tr></thead><tbody id="rf-estudo-plano-body"></tbody></table></div>
                     </div>
                 </div>
             </div>
@@ -3297,7 +3300,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
         </div>
     </div>
 
-    <script src="./api-config.js?v=5.2.39"></script>
+    <script src="./api-config.js?v=5.2.40"></script>
     <script>
         const API_URL = window.RF_API_URL || "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
@@ -3332,7 +3335,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
         let listaFuncionarios = [];
         let listaPlanoContas = [];
 
-        // V5.2.39 — conclusão da análise e estudo de caso temporário
+        // V5.2.40 — conclusão da análise e estudo de caso temporário
         let rfFinalizacaoAtual = null;
         let rfEstudoAtivo = false;
         let rfEstudoBase = null;
@@ -6135,7 +6138,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.39', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.40', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -7097,7 +7100,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
                     rfAplicarBundleDados(bundle.data, true);
 
-                    // V5.2.39 — TPLANO_CONTAS é crítico para cadastro e Raio-X.
+                    // V5.2.40 — TPLANO_CONTAS é crítico para cadastro e Raio-X.
                     // Não confia apenas no bundle/cache: força a leitura da aba oficial e mescla no período atual.
                     // Isso restaura o detalhamento nominal das contas mesmo quando um bundle antigo chega sem TPLANO_CONTAS.
                     try {
@@ -8487,7 +8490,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.39 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
+        // V5.2.40 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
         // ======================================================
         function rfFinalizacaoPadrao() {
             return {
@@ -8872,7 +8875,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             rfEstudoDraft = {
                 periodo:rfDeepClone(rfEstudoBase.periodo),
                 funcionarios:rfDeepClone(rfEstudoBase.funcionarios).map(f => ({...f,__rfSimConsiderar:true})),
-                plano:rfDeepClone(rfEstudoBase.plano)
+                plano:rfDeepClone(rfEstudoBase.plano).map(p => ({...p,__rfSimConsiderar:true}))
             };
             rfEstudoAtivo = true;
             document.getElementById('rf-estudo-caso-panel')?.classList.remove('hidden');
@@ -8887,18 +8890,54 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const chk = document.getElementById('rf-estudo-sem-dep');
             if (chk) chk.checked = String(rfEstudoDraft.periodo?.TPERIODO_DESCONSIDERAR_DEPRECIACAO || 'NAO').toUpperCase() === 'SIM';
             rfEstudoAtualizarFaturamentoCampos();
-            const fb = document.getElementById('rf-estudo-func-body');
-            if (fb) fb.innerHTML = rfEstudoDraft.funcionarios.length ? rfEstudoDraft.funcionarios.map((f,i) => {
-                const orig = rfEstudoBase.funcionarios.find(x => String(x.TFUNCIONARIO_ID) === String(f.TFUNCIONARIO_ID)) || f;
-                rfGridCalcFuncRow(f);
-                const considerar = f.__rfSimConsiderar !== false;
-                return `<tr class="${considerar?'':'rf-study-removed'}"><td><input type="checkbox" ${considerar?'checked':''} onchange="rfEstudoFuncionarioConsiderar(${i},this.checked)"></td><td><strong>${rfEmailEsc(f.TFUNCIONARIO_NOME||'-')}</strong></td><td>${rfEmailEsc(rfCentroFuncionarioTexto(f))}</td><td>${formatarMoedaBR(rfFuncionarioSalarioMensal(orig))}</td><td><input type="number" step="0.01" min="0" value="${Number(f.TFUNCIONARIO_SALARIO_BASE||0)}" onchange="rfEstudoFuncionarioSalario(${i},this.value)" oninput="rfEstudoFuncionarioSalario(${i},this.value,true)"></td><td><strong>${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL||0)}</strong></td></tr>`;
-            }).join('') : '<tr><td colspan="6" class="rf-study-muted">Nenhum funcionário cadastrado.</td></tr>';
+            rfRenderEstudoFuncionarios();
             rfRenderEstudoPlano();
         }
 
         function rfEstudoNormalizarPesquisa(v) {
             return String(v ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+        }
+
+        function rfEstudoPctFaturamentoAtual(valor) {
+            const fat = Math.max(0, Number(rfEstudoBase?.periodo?.TPERIODO_FATURAMENTO || 0) || 0);
+            const pct = fat > 0 ? ((Number(valor) || 0) / fat) * 100 : 0;
+            return pct.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}) + '%';
+        }
+
+        function rfEstudoFuncionarioCustoAtual(orig) {
+            const copia = rfDeepClone(orig || {});
+            rfGridCalcFuncRow(copia);
+            return Number(copia.TFUNCIONARIO_CUSTO_MENSAL || 0) || 0;
+        }
+
+        function rfRenderEstudoFuncionarios() {
+            const fb = document.getElementById('rf-estudo-func-body');
+            if (!fb || !rfEstudoDraft || !rfEstudoBase) return;
+
+            const termo = rfEstudoNormalizarPesquisa(document.getElementById('rf-estudo-func-pesquisa')?.value || '');
+            const linhas = (rfEstudoDraft.funcionarios || []).map((f, i) => {
+                const orig = rfEstudoBase.funcionarios.find(x => String(x.TFUNCIONARIO_ID) === String(f.TFUNCIONARIO_ID)) || f;
+                rfGridCalcFuncRow(f);
+                const centro = rfCentroFuncionarioTexto(f);
+                const custoAtual = rfEstudoFuncionarioCustoAtual(orig);
+                return {
+                    f, i, orig, centro, custoAtual,
+                    pesquisa:rfEstudoNormalizarPesquisa(`${f.TFUNCIONARIO_NOME || ''} ${centro || ''}`)
+                };
+            }).filter(x => !termo || x.pesquisa.includes(termo))
+              .sort((a,b) => (b.custoAtual - a.custoAtual) || String(a.f.TFUNCIONARIO_NOME || '').localeCompare(String(b.f.TFUNCIONARIO_NOME || ''), 'pt-BR'));
+
+            if (!linhas.length) {
+                fb.innerHTML = termo
+                    ? '<tr><td colspan="8" class="rf-study-muted">Nenhum funcionário encontrado para a pesquisa.</td></tr>'
+                    : '<tr><td colspan="8" class="rf-study-muted">Nenhum funcionário cadastrado.</td></tr>';
+                return;
+            }
+
+            fb.innerHTML = linhas.map(({f,i,orig,centro,custoAtual}) => {
+                const considerar = f.__rfSimConsiderar !== false;
+                return `<tr class="${considerar?'':'rf-study-removed'}"><td><input type="checkbox" ${considerar?'checked':''} onchange="rfEstudoFuncionarioConsiderar(${i},this.checked)"></td><td><strong>${rfEmailEsc(f.TFUNCIONARIO_NOME||'-')}</strong></td><td>${rfEmailEsc(centro)}</td><td>${formatarMoedaBR(rfFuncionarioSalarioMensal(orig))}</td><td><strong>${formatarMoedaBR(custoAtual)}</strong></td><td><strong>${rfEstudoPctFaturamentoAtual(custoAtual)}</strong></td><td><input type="number" step="0.01" min="0" value="${Number(f.TFUNCIONARIO_SALARIO_BASE||0)}" onchange="rfEstudoFuncionarioSalario(${i},this.value)" oninput="rfEstudoFuncionarioSalario(${i},this.value,true)"></td><td><strong>${formatarMoedaBR(f.TFUNCIONARIO_CUSTO_MENSAL||0)}</strong></td></tr>`;
+            }).join('');
         }
 
         function rfRenderEstudoPlano() {
@@ -8920,14 +8959,15 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
             if (!linhas.length) {
                 pb.innerHTML = termo
-                    ? '<tr><td colspan="4" class="rf-study-muted">Nenhuma conta encontrada para a pesquisa.</td></tr>'
-                    : '<tr><td colspan="4" class="rf-study-muted">Nenhuma conta cadastrada.</td></tr>';
+                    ? '<tr><td colspan="6" class="rf-study-muted">Nenhuma conta encontrada para a pesquisa.</td></tr>'
+                    : '<tr><td colspan="6" class="rf-study-muted">Nenhuma conta cadastrada.</td></tr>';
                 return;
             }
 
-            pb.innerHTML = linhas.map(({p,i,orig}) =>
-                `<tr><td><strong>${rfEmailEsc(p.TPLANO_CONTA_NOME||'-')}</strong></td><td>${rfEmailEsc(p.TPLANO_CONTA_CRITERIO||'-')}</td><td>${formatarMoedaBR(orig.TPLANO_CONTA_VALOR||0)}</td><td><input type="number" step="0.01" min="0" value="${Number(p.TPLANO_CONTA_VALOR||0)}" onchange="rfEstudoPlanoValor(${i},this.value)" oninput="rfEstudoPlanoValor(${i},this.value,true)"></td></tr>`
-            ).join('');
+            pb.innerHTML = linhas.map(({p,i,orig,valorAtual}) => {
+                const considerar = p.__rfSimConsiderar !== false;
+                return `<tr class="${considerar?'':'rf-study-removed'}"><td><input type="checkbox" ${considerar?'checked':''} onchange="rfEstudoPlanoConsiderar(${i},this.checked)"></td><td><strong>${rfEmailEsc(p.TPLANO_CONTA_NOME||'-')}</strong></td><td>${rfEmailEsc(p.TPLANO_CONTA_CRITERIO||'-')}</td><td>${formatarMoedaBR(valorAtual)}</td><td><strong>${rfEstudoPctFaturamentoAtual(valorAtual)}</strong></td><td><input type="number" step="0.01" min="0" value="${Number(p.TPLANO_CONTA_VALOR||0)}" onchange="rfEstudoPlanoValor(${i},this.value)" oninput="rfEstudoPlanoValor(${i},this.value,true)"></td></tr>`;
+            }).join('');
         }
 
         function rfEstudoFaturamentoValores() {
@@ -8979,9 +9019,10 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             rfEstudoDraft.periodo.TPERIODO_DESCONSIDERAR_DEPRECIACAO = checked ? 'SIM' : 'NAO';
             rfEstudoAgendar();
         }
-        function rfEstudoFuncionarioConsiderar(i, checked) { if(!rfEstudoDraft?.funcionarios?.[i])return; rfEstudoDraft.funcionarios[i].__rfSimConsiderar=!!checked; rfRenderEstudoCaso(); rfEstudoAgendar(); }
-        function rfEstudoFuncionarioSalario(i, v, debounceOnly=false) { if(!rfEstudoDraft?.funcionarios?.[i])return; rfEstudoDraft.funcionarios[i].TFUNCIONARIO_SALARIO_BASE=Math.max(0,Number(v)||0); rfGridCalcFuncRow(rfEstudoDraft.funcionarios[i]); if(!debounceOnly)rfRenderEstudoCaso(); rfEstudoAgendar(); }
-        function rfEstudoPlanoValor(i, v, debounceOnly=false) { if(!rfEstudoDraft?.plano?.[i])return; rfEstudoDraft.plano[i].TPLANO_CONTA_VALOR=Math.max(0,Number(v)||0); if(!debounceOnly)rfRenderEstudoCaso(); rfEstudoAgendar(); }
+        function rfEstudoFuncionarioConsiderar(i, checked) { if(!rfEstudoDraft?.funcionarios?.[i])return; rfEstudoDraft.funcionarios[i].__rfSimConsiderar=!!checked; rfRenderEstudoFuncionarios(); rfEstudoAgendar(); }
+        function rfEstudoFuncionarioSalario(i, v, debounceOnly=false) { if(!rfEstudoDraft?.funcionarios?.[i])return; rfEstudoDraft.funcionarios[i].TFUNCIONARIO_SALARIO_BASE=Math.max(0,Number(v)||0); rfGridCalcFuncRow(rfEstudoDraft.funcionarios[i]); if(!debounceOnly)rfRenderEstudoFuncionarios(); rfEstudoAgendar(); }
+        function rfEstudoPlanoConsiderar(i, checked) { if(!rfEstudoDraft?.plano?.[i])return; rfEstudoDraft.plano[i].__rfSimConsiderar=!!checked; rfRenderEstudoPlano(); rfEstudoAgendar(); }
+        function rfEstudoPlanoValor(i, v, debounceOnly=false) { if(!rfEstudoDraft?.plano?.[i])return; rfEstudoDraft.plano[i].TPLANO_CONTA_VALOR=Math.max(0,Number(v)||0); if(!debounceOnly)rfRenderEstudoPlano(); rfEstudoAgendar(); }
         function rfEstudoAgendar(){clearTimeout(rfEstudoTimer);rfEstudoTimer=setTimeout(()=>rfEstudoAplicar(true),260);}
 
         async function rfEstudoAplicar(render=true) {
@@ -8989,7 +9030,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             periodoAtivoObj = rfDeepClone(rfEstudoDraft.periodo);
             listaRecursos = rfDeepClone(rfEstudoBase.recursos);
             listaFuncionarios = rfDeepClone(rfEstudoDraft.funcionarios.filter(f => f.__rfSimConsiderar !== false)).map(f => { delete f.__rfSimConsiderar; rfGridCalcFuncRow(f); f.TFUNCIONARIO_VALOR_RATEIO=f.TFUNCIONARIO_SOBRA_RATEIO||0; return f; });
-            listaPlanoContas = rfDeepClone(rfEstudoDraft.plano);
+            listaPlanoContas = rfDeepClone(rfEstudoDraft.plano.filter(p => p.__rfSimConsiderar !== false)).map(p => { delete p.__rfSimConsiderar; return p; });
             listaCC = rfSimRecalcularCentros(rfEstudoBase.cc, listaRecursos, listaFuncionarios, listaPlanoContas, periodoAtivoObj);
             if (render) await gerarAnalisesEResultados();
             rfAtualizarControlesFinalizacao();
@@ -8997,7 +9038,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
         function rfEstudoRestaurar() {
             if (!rfEstudoBase) return;
-            rfEstudoDraft = {periodo:rfDeepClone(rfEstudoBase.periodo),funcionarios:rfDeepClone(rfEstudoBase.funcionarios).map(f=>({...f,__rfSimConsiderar:true})),plano:rfDeepClone(rfEstudoBase.plano)};
+            rfEstudoDraft = {periodo:rfDeepClone(rfEstudoBase.periodo),funcionarios:rfDeepClone(rfEstudoBase.funcionarios).map(f=>({...f,__rfSimConsiderar:true})),plano:rfDeepClone(rfEstudoBase.plano).map(p=>({...p,__rfSimConsiderar:true}))};
             rfRenderEstudoCaso(); rfEstudoAplicar(true);
         }
 
@@ -9034,7 +9075,8 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             });
             rfEstudoDraft.plano.forEach(p=>{
                 const o=rfEstudoBase.plano.find(x=>String(x.TPLANO_CONTA_ID)===String(p.TPLANO_CONTA_ID)); if(!o)return;
-                if(Math.abs((Number(p.TPLANO_CONTA_VALOR)||0)-(Number(o.TPLANO_CONTA_VALOR)||0))>.005) out.push({item:`Plano de Contas — ${p.TPLANO_CONTA_NOME||p.TPLANO_CONTA_ID}`,original:formatarMoedaBR(o.TPLANO_CONTA_VALOR||0),simulado:formatarMoedaBR(p.TPLANO_CONTA_VALOR||0)});
+                if(p.__rfSimConsiderar===false) out.push({item:`Plano de Contas — ${p.TPLANO_CONTA_NOME||p.TPLANO_CONTA_ID}`,original:'Considerada',simulado:'Retirada do cenário'});
+                else if(Math.abs((Number(p.TPLANO_CONTA_VALOR)||0)-(Number(o.TPLANO_CONTA_VALOR)||0))>.005) out.push({item:`Plano de Contas — ${p.TPLANO_CONTA_NOME||p.TPLANO_CONTA_ID}`,original:formatarMoedaBR(o.TPLANO_CONTA_VALOR||0),simulado:formatarMoedaBR(p.TPLANO_CONTA_VALOR||0)});
             });
             return out;
         }
@@ -10105,7 +10147,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 }
             });
 
-            // V5.2.39 — fallback para o valor consolidado oficial gravado no Centro de Custo.
+            // V5.2.40 — fallback para o valor consolidado oficial gravado no Centro de Custo.
             // Evita Raio-X zerado quando o detalhamento do Plano de Contas não estiver presente no bundle/cache.
             const planoConsolidadoCC = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0) || 0;
             if (planoConsolidadoCC > 0.000001 && subtotalPlanoContas <= 0.000001) {
