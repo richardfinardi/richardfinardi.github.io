@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONSULTORIA.RF V5.2.40 | Gestão de Custos</title>
-    <link rel="manifest" href="./manifest.json?v=5.2.40">
+    <title>CONSULTORIA.RF V5.2.41 | Gestão de Custos</title>
+    <link rel="manifest" href="./manifest.json?v=5.2.41">
     <meta name="theme-color" content="#000000">
     <meta name="background-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
@@ -1804,7 +1804,7 @@ body.light-mode .rf-period-status-badge.is-closed{background:#fff8e8!important;b
 
 
 <style id="v5228-finalizacao-estudo">
-/* V5.2.40 — conclusão da análise, envio por e-mail e estudo de caso temporário + faturamento simulado */
+/* V5.2.41 — conclusão da análise, envio por e-mail e estudo de caso temporário + faturamento simulado */
 .rf-result-top-actions{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;justify-content:flex-end}
 .rf-final-btn,.rf-study-btn,.rf-study-action{border:1px solid rgba(255,132,54,.45);border-radius:.65rem;padding:.58rem .78rem;font-size:.75rem;font-weight:800;transition:.18s;white-space:nowrap}
 .rf-final-btn{background:#ff8436;color:#fff}.rf-final-btn:hover{filter:brightness(1.06)}
@@ -1830,7 +1830,7 @@ body.light-mode .rf-mail-modal{background:#fff;border-color:#d7dee8;box-shadow:0
 
 <style id="v5229-estudo-faturamento-tabelas">
 /* ================================================================
-   V5.2.40 — FATURAMENTO NO ESTUDO DE CASO + APRESENTAÇÃO DE TABELAS
+   V5.2.41 — FATURAMENTO NO ESTUDO DE CASO + APRESENTAÇÃO DE TABELAS
    ================================================================ */
 .rf-study-revenue{
     display:grid;grid-template-columns:minmax(180px,1.15fr) repeat(3,minmax(135px,.85fr));
@@ -1889,7 +1889,7 @@ body.light-mode .rf-study-revenue-input{background:#fff;color:#111827;border-col
 </style>
 
 <style id="v5231-agendamento-reuniao">
-/* V5.2.40 - Google Calendar incorporado diretamente em Resultados & Analises */
+/* V5.2.41 - Google Calendar incorporado diretamente em Resultados & Analises */
 .rf-schedule-btn{
     border:1px solid rgba(52,211,153,.38);
     border-radius:.65rem;
@@ -1983,7 +1983,7 @@ body.light-mode .rf-schedule-inline-close{
 }
 </style>
 <style id="v5232-table-cleanup">
-/* V5.2.40 — pente fino visual de tabelas */
+/* V5.2.41 — pente fino visual de tabelas */
 
 .rf-inline-table thead th{
     white-space:nowrap !important;
@@ -2184,7 +2184,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
     <header id="app-header" class="border-b border-brand-border bg-[#0d0d0f]/95 px-4 md:px-6 py-3 flex flex-wrap justify-between items-center sticky top-0 z-50 gap-2">
         <div class="flex items-center gap-2 md:gap-3">
             <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-header" class="h-6 md:h-8 w-auto">
-            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.40</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted border border-brand-border px-1.5 py-0.5 rounded font-mono font-bold">V5.2.41</span>
             <span id="role-badge" class="hidden text-[10px] md:text-xs bg-brand-primary/10 text-brand-primary border border-brand-primary/30 px-2 py-0.5 md:py-1 rounded-full font-bold uppercase"></span>
         </div>
 
@@ -2219,7 +2219,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
         <div class="bg-brand-card p-6 md:p-8 rounded-2xl border border-brand-border w-full max-w-md space-y-6 shadow-2xl">
             <div class="text-center space-y-2">
                 <img src="LOGO_APLICACAO_FUNDO_PRETO.png" alt="CONSULTORIA.RF" id="app-logo-login" class="h-10 w-auto mx-auto mb-2">
-                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.40</span>
+                <span class="text-[11px] bg-brand-border text-brand-muted px-2 py-0.5 rounded font-mono font-bold">PORTAL CLIENTE V5.2.41</span>
                 <h1 class="text-xl md:text-2xl font-bold text-white pt-2">Painel de Acesso</h1>
                 <p class="text-brand-muted text-xs md:text-sm">Insira suas credenciais cadastradas</p>
             </div>
@@ -3300,7 +3300,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
         </div>
     </div>
 
-    <script src="./api-config.js?v=5.2.40"></script>
+    <script src="./api-config.js?v=5.2.41"></script>
     <script>
         const API_URL = window.RF_API_URL || "https://script.google.com/macros/s/AKfycbwLQ07C51AHB64HS7PJ7vfD99CKuZy-ubfewbXgN4e15enkfCUU6EzhafHU_zZXAPKL/exec";
 
@@ -3335,12 +3335,14 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
         let listaFuncionarios = [];
         let listaPlanoContas = [];
 
-        // V5.2.40 — conclusão da análise e estudo de caso temporário
+        // V5.2.41 — conclusão da análise e estudo de caso temporário
         let rfFinalizacaoAtual = null;
         let rfEstudoAtivo = false;
         let rfEstudoBase = null;
         let rfEstudoDraft = null;
         let rfEstudoTimer = null;
+        let rfEstudoAplicando = false;
+        let rfEstudoRecalculoPendente = false;
         let tabelaPadroes = [];
         let chartCCInstance = null;
         let dadosCSVImportacao = [];
@@ -4116,6 +4118,13 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
         }
 
         function rfAplicarBundleDados(data, renderizar = true) {
+            // Durante o Estudo de Caso, a tela trabalha sobre um snapshot isolado.
+            // Qualquer bundle/cache que chegar em segundo plano pode ser salvo no cache,
+            // mas NÃO pode substituir os arrays globais usados pela simulação.
+            if (rfEstudoAtivo) {
+                console.info('Bundle recebido durante Estudo de Caso: aplicação na tela adiada para não contaminar a simulação.');
+                return false;
+            }
             const d = data || {};
             listaInvestimentos = Array.isArray(d.TINVESTIMENTOS) ? d.TINVESTIMENTOS : [];
             listaCC = Array.isArray(d.TCENTRO_CUSTO) ? d.TCENTRO_CUSTO : [];
@@ -4254,16 +4263,22 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
                         : [];
                     if (!periodosEmpresa.length) throw new Error('Nenhum período retornado pelo servidor.');
 
-                    const selecaoUsuario = String(document.getElementById('global-periodo-select')?.value || periodoAtivoObj?.TPERIODO_ID || '');
+                    const emEstudo = rfEstudoAtivo;
+                    const selecaoUsuario = String(document.getElementById('global-periodo-select')?.value || (emEstudo ? rfEstudoBase?.periodo?.TPERIODO_ID : periodoAtivoObj?.TPERIODO_ID) || '');
                     const preferenciaFinal = selecaoUsuario || preferido;
-                    rfAplicarPeriodosNaTela(periodosEmpresa, preferenciaFinal);
+
+                    // Atualiza os caches, mas durante a simulação não substitui período,
+                    // padrões ou demais dados globais que fazem parte do cenário em memória.
+                    if (!emEstudo) rfAplicarPeriodosNaTela(periodosEmpresa, preferenciaFinal);
                     rfCacheSet(rfCacheChave('periodos', clienteId), periodosEmpresa).catch(() => {});
 
-                    tabelaPadroes = Array.isArray(padroes) ? padroes : [];
-                    rfAplicarPadroesNaTela();
-                    rfCacheSet(rfCacheChave('padroes'), tabelaPadroes).catch(() => {});
+                    if (!emEstudo) {
+                        tabelaPadroes = Array.isArray(padroes) ? padroes : [];
+                        rfAplicarPadroesNaTela();
+                    }
+                    rfCacheSet(rfCacheChave('padroes'), Array.isArray(padroes) ? padroes : []).catch(() => {});
 
-                    const periodoId = String(periodoAtivoObj?.TPERIODO_ID || '');
+                    const periodoId = String((emEstudo ? rfEstudoBase?.periodo?.TPERIODO_ID : periodoAtivoObj?.TPERIODO_ID) || '');
                     if (!periodoId) throw new Error('Período ativo não identificado.');
 
                     const resBundle = await fetch(
@@ -4276,8 +4291,13 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
                     }
 
                     await rfCacheSet(rfCacheChave('bundle', clienteId, periodoId), bundle.data);
-                    if (String(periodoAtivoObj?.TPERIODO_ID || '') !== periodoId) {
+                    const periodoTelaId = String((rfEstudoAtivo ? rfEstudoBase?.periodo?.TPERIODO_ID : periodoAtivoObj?.TPERIODO_ID) || '');
+                    if (periodoTelaId !== periodoId) {
                         return true; // o usuário trocou de período enquanto a atualização rodava
+                    }
+                    if (rfEstudoAtivo) {
+                        setSyncStatus(false, 'Estudo de Caso ativo');
+                        return true;
                     }
                     rfAplicarBundleDados(bundle.data, true);
                     atualizarTagsPeriodoHeader();
@@ -6138,7 +6158,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
-                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.40', { scope: './' });
+                    const reg = await navigator.serviceWorker.register('./sw.js?v=5.2.41', { scope: './' });
                     await reg.update();
                     console.info('Service Worker CONSULTORIA.RF ativo:', reg.scope);
                 } catch (err) {
@@ -7094,13 +7114,20 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
                     // Se houve troca de período enquanto a API respondia, não mistura dados na tela atual.
                     if (String(usuarioLogado?.TCLIENTE_ID || '') !== clienteRaw ||
-                        String(periodoAtivoObj?.TPERIODO_ID || '') !== periodoRaw) {
+                        String((rfEstudoAtivo ? rfEstudoBase?.periodo?.TPERIODO_ID : periodoAtivoObj?.TPERIODO_ID) || '') !== periodoRaw) {
+                        return true;
+                    }
+
+                    // A requisição pode ter começado antes de o usuário abrir o Estudo de Caso.
+                    // Nesse caso, apenas mantém o cache atualizado e NÃO toca no cenário em memória.
+                    if (rfEstudoAtivo) {
+                        if (!opcoes.silencioso) setSyncStatus(false, 'Estudo de Caso ativo');
                         return true;
                     }
 
                     rfAplicarBundleDados(bundle.data, true);
 
-                    // V5.2.40 — TPLANO_CONTAS é crítico para cadastro e Raio-X.
+                    // V5.2.41 — TPLANO_CONTAS é crítico para cadastro e Raio-X.
                     // Não confia apenas no bundle/cache: força a leitura da aba oficial e mescla no período atual.
                     // Isso restaura o detalhamento nominal das contas mesmo quando um bundle antigo chega sem TPLANO_CONTAS.
                     try {
@@ -7135,6 +7162,13 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     return true;
                 } catch (bundleErr) {
                     console.warn("PERIODO_BUNDLE indisponível:", bundleErr);
+
+                    // Se o estudo começou enquanto a leitura estava em andamento, não executa
+                    // loaders de fallback que poderiam sobrescrever o snapshot simulado.
+                    if (rfEstudoAtivo) {
+                        if (!opcoes.silencioso) setSyncStatus(false, 'Estudo de Caso ativo');
+                        return false;
+                    }
 
                     // Se já existe uma cópia local na tela, preserva-a em vez de substituir por mensagens de erro.
                     if (rfUsandoCacheLocal && String(periodoAtivoObj?.TPERIODO_ID || '') === periodoRaw) {
@@ -8490,7 +8524,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
 
 
         // ======================================================
-        // V5.2.40 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
+        // V5.2.41 — CONCLUSÃO DA ANÁLISE / E-MAIL / ESTUDO DE CASO
         // ======================================================
         function rfFinalizacaoPadrao() {
             return {
@@ -8790,11 +8824,22 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                     const m = map[String(f.TCENTRO_CUSTO_ID || '')];
                     if (m) { m.custoFunc += custo; m.horasFunc += horas; }
                 } else {
-                    rfSimParseRateio(f.TCENTRO_CUSTO_ID).forEach(x => {
-                        const m = map[String(x.id ?? x.ID ?? '')]; if (!m) return;
-                        const pct = (Number(x.pct ?? x.PCT ?? 0) || 0) / 100;
-                        m.custoFunc += custo * pct; m.horasFunc += horas * pct;
-                    });
+                    const rateios = rfSimParseRateio(f.TCENTRO_CUSTO_ID);
+                    if (rateios.length) {
+                        rateios.forEach(x => {
+                            const m = map[String(x.id ?? x.ID ?? '')]; if (!m) return;
+                            const pct = (Number(x.pct ?? x.PCT ?? 0) || 0) / 100;
+                            m.custoFunc += custo * pct; m.horasFunc += horas * pct;
+                        });
+                    } else {
+                        // Mesma compatibilidade do backend: registros antigos marcados como rateio,
+                        // mas contendo um único ID de CC, continuam sendo alocados integralmente.
+                        let legado = String(f.TCENTRO_CUSTO_ID || '').trim();
+                        if (legado.startsWith('"') && legado.endsWith('"')) legado = legado.substring(1, legado.length - 1);
+                        legado = legado.replace(/""/g, '"').replace(/;/g, ',');
+                        const m = map[legado];
+                        if (m) { m.custoFunc += custo; m.horasFunc += horas; }
+                    }
                 }
             });
 
@@ -8877,6 +8922,10 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 funcionarios:rfDeepClone(rfEstudoBase.funcionarios).map(f => ({...f,__rfSimConsiderar:true})),
                 plano:rfDeepClone(rfEstudoBase.plano).map(p => ({...p,__rfSimConsiderar:true}))
             };
+            rfEstudoAplicando = false;
+            rfEstudoRecalculoPendente = false;
+            clearTimeout(rfEstudoTimer);
+            rfEstudoTimer = null;
             rfEstudoAtivo = true;
             document.getElementById('rf-estudo-caso-panel')?.classList.remove('hidden');
             rfRenderEstudoCaso();
@@ -9023,23 +9072,78 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
         function rfEstudoFuncionarioSalario(i, v, debounceOnly=false) { if(!rfEstudoDraft?.funcionarios?.[i])return; rfEstudoDraft.funcionarios[i].TFUNCIONARIO_SALARIO_BASE=Math.max(0,Number(v)||0); rfGridCalcFuncRow(rfEstudoDraft.funcionarios[i]); if(!debounceOnly)rfRenderEstudoFuncionarios(); rfEstudoAgendar(); }
         function rfEstudoPlanoConsiderar(i, checked) { if(!rfEstudoDraft?.plano?.[i])return; rfEstudoDraft.plano[i].__rfSimConsiderar=!!checked; rfRenderEstudoPlano(); rfEstudoAgendar(); }
         function rfEstudoPlanoValor(i, v, debounceOnly=false) { if(!rfEstudoDraft?.plano?.[i])return; rfEstudoDraft.plano[i].TPLANO_CONTA_VALOR=Math.max(0,Number(v)||0); if(!debounceOnly)rfRenderEstudoPlano(); rfEstudoAgendar(); }
-        function rfEstudoAgendar(){clearTimeout(rfEstudoTimer);rfEstudoTimer=setTimeout(()=>rfEstudoAplicar(true),260);}
+        function rfEstudoAgendar() {
+            clearTimeout(rfEstudoTimer);
+            rfEstudoTimer = null;
+
+            // Se um cálculo ainda está renderizando, não inicia outro em paralelo.
+            // Apenas marca que existe uma versão mais nova do cenário e o loop atual
+            // recalcula novamente assim que terminar.
+            if (rfEstudoAplicando) {
+                rfEstudoRecalculoPendente = true;
+                return;
+            }
+
+            rfEstudoTimer = setTimeout(() => {
+                rfEstudoRecalculoPendente = true;
+                rfEstudoAplicar(true);
+            }, 260);
+        }
 
         async function rfEstudoAplicar(render=true) {
             if (!rfEstudoAtivo || !rfEstudoDraft || !rfEstudoBase) return;
-            periodoAtivoObj = rfDeepClone(rfEstudoDraft.periodo);
-            listaRecursos = rfDeepClone(rfEstudoBase.recursos);
-            listaFuncionarios = rfDeepClone(rfEstudoDraft.funcionarios.filter(f => f.__rfSimConsiderar !== false)).map(f => { delete f.__rfSimConsiderar; rfGridCalcFuncRow(f); f.TFUNCIONARIO_VALOR_RATEIO=f.TFUNCIONARIO_SOBRA_RATEIO||0; return f; });
-            listaPlanoContas = rfDeepClone(rfEstudoDraft.plano.filter(p => p.__rfSimConsiderar !== false)).map(p => { delete p.__rfSimConsiderar; return p; });
-            listaCC = rfSimRecalcularCentros(rfEstudoBase.cc, listaRecursos, listaFuncionarios, listaPlanoContas, periodoAtivoObj);
-            if (render) await gerarAnalisesEResultados();
-            rfAtualizarControlesFinalizacao();
+
+            if (rfEstudoAplicando) {
+                rfEstudoRecalculoPendente = true;
+                return;
+            }
+
+            rfEstudoAplicando = true;
+            clearTimeout(rfEstudoTimer);
+            rfEstudoTimer = null;
+
+            try {
+                do {
+                    rfEstudoRecalculoPendente = false;
+
+                    // Trabalha sempre com um snapshot completo do draft.
+                    // Assim uma nova digitação nunca altera os dados no meio de um cálculo.
+                    const draft = rfDeepClone(rfEstudoDraft);
+                    const base = rfEstudoBase;
+
+                    periodoAtivoObj = rfDeepClone(draft.periodo);
+                    listaRecursos = rfDeepClone(base.recursos);
+                    listaFuncionarios = rfDeepClone(draft.funcionarios.filter(f => f.__rfSimConsiderar !== false)).map(f => {
+                        delete f.__rfSimConsiderar;
+                        rfGridCalcFuncRow(f);
+                        f.TFUNCIONARIO_VALOR_RATEIO = f.TFUNCIONARIO_SOBRA_RATEIO || 0;
+                        return f;
+                    });
+                    listaPlanoContas = rfDeepClone(draft.plano.filter(p => p.__rfSimConsiderar !== false)).map(p => {
+                        delete p.__rfSimConsiderar;
+                        return p;
+                    });
+                    listaCC = rfSimRecalcularCentros(base.cc, listaRecursos, listaFuncionarios, listaPlanoContas, periodoAtivoObj);
+
+                    if (render) await gerarAnalisesEResultados();
+
+                    // Se houve outra alteração enquanto o cálculo estava rodando,
+                    // repete usando o draft mais recente antes de liberar a simulação.
+                } while (render && rfEstudoAtivo && rfEstudoDraft && rfEstudoRecalculoPendente);
+            } finally {
+                rfEstudoAplicando = false;
+                rfAtualizarControlesFinalizacao();
+            }
         }
 
         function rfEstudoRestaurar() {
             if (!rfEstudoBase) return;
+            clearTimeout(rfEstudoTimer);
+            rfEstudoTimer = null;
+            rfEstudoRecalculoPendente = true;
             rfEstudoDraft = {periodo:rfDeepClone(rfEstudoBase.periodo),funcionarios:rfDeepClone(rfEstudoBase.funcionarios).map(f=>({...f,__rfSimConsiderar:true})),plano:rfDeepClone(rfEstudoBase.plano).map(p=>({...p,__rfSimConsiderar:true}))};
-            rfRenderEstudoCaso(); rfEstudoAplicar(true);
+            rfRenderEstudoCaso();
+            rfEstudoAplicar(true);
         }
 
         async function rfEncerrarEstudoCaso(render=true) {
@@ -9050,7 +9154,11 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             listaRecursos = rfDeepClone(rfEstudoBase.recursos);
             listaFuncionarios = rfDeepClone(rfEstudoBase.funcionarios);
             listaPlanoContas = rfDeepClone(rfEstudoBase.plano);
-            rfEstudoAtivo=false; rfEstudoDraft=null; rfEstudoBase=null;
+            rfEstudoAtivo=false;
+            rfEstudoRecalculoPendente=false;
+            rfEstudoAplicando=false;
+            rfEstudoDraft=null;
+            rfEstudoBase=null;
             document.getElementById('rf-estudo-caso-panel')?.classList.add('hidden');
             rfAtualizarControlesFinalizacao();
             if (render) await gerarAnalisesEResultados();
@@ -10147,7 +10255,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 }
             });
 
-            // V5.2.40 — fallback para o valor consolidado oficial gravado no Centro de Custo.
+            // V5.2.41 — fallback para o valor consolidado oficial gravado no Centro de Custo.
             // Evita Raio-X zerado quando o detalhamento do Plano de Contas não estiver presente no bundle/cache.
             const planoConsolidadoCC = parseFloat(ccObj ? ccObj.TCENTRO_CUSTO_CUSTO_PLANO_CONTAS : 0) || 0;
             if (planoConsolidadoCC > 0.000001 && subtotalPlanoContas <= 0.000001) {
