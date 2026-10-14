@@ -1,7 +1,7 @@
 // RF_DEPLOY_RECOVERY_TRIGGER_20261006
 /**
  * CONSULTORIA.RF | GESTÃO DE CUSTOS
- * BACKEND V5.2.37
+ * BACKEND V5.2.42
  *
  * V5.2.37:
  * - Corrige definitivamente a leitura do TPLANO_CONTAS quando um cabeçalho contém espaço/está vazio.
@@ -61,6 +61,78 @@
  *   campos de configuração.
  */
 
+
+
+// V5.2.42 — garante novos campos sem remover dados existentes.
+function rfGarantirColunaCadastro_(sheet, nome, posicao) {
+  const largura = Math.max(sheet.getLastColumn(), posicao);
+  const cab = sheet.getRange(1, 1, 1, largura).getValues()[0];
+  if (cab.some(function(x) {return String(x || "").trim().toUpperCase() === nome;})) return;
+  if (String(cab[posicao - 1] || "").trim()) sheet.insertColumnBefore(posicao);
+  sheet.getRange(1, posicao).setValue(nome);
+}
+
+// Retotaliza os benefícios vinculados aos funcionários do mesmo cliente/período.
+// Benefícios sem seleção explícita preservam o valor manual/histórico.
+function rfSincronizarBeneficiosDependentes_(ss, clienteId, periodoId) {
+  const shBen = ss.getSheetByName("TBENEFICIOS");
+  const shFunc = ss.getSheetByName("TFUNCIONARIO");
+  if (!shBen || !shFunc) return;
+  rfGarantirColunaCadastro_(shBen, "TBENEFICIO_MULTIPLICA_DEPENDENTES", 6);
+  rfGarantirColunaCadastro_(shFunc, "TFUNCIONARIO_BENEFICIOS_IDS", 14);
+  rfGarantirColunaCadastro_(shFunc, "TFUNCIONARIO_DEPENDENTES", 15);
+  const benDados = shBen.getDataRange().getValues();
+  const funcDados = shFunc.getDataRange().getValues();
+  const chave = function(x) { return String(x == null ? "" : x).trim(); };
+  const mapa = {};
+  for (let i = 1; i < benDados.length; i++) {
+    const b = benDados[i];
+    if (chave(b[0]) !== chave(clienteId) || chave(b[1]) !== chave(periodoId)) continue;
+    mapa[chave(b[2])] = {
+      valor: numeroSeguro(b[4], 0),
+      multiplica: String(b[5] || "").trim().toUpperCase() === "SIM"
+    };
+  }
+  function parseIds(raw) {
+    if (Array.isArray(raw)) return raw.map(chave);
+    let texto = String(raw || "").trim();
+    if (!texto) return [];
+    try {
+      if (texto.startsWith('"') && texto.endsWith('"')) texto = texto.slice(1, -1);
+      texto = texto.replace(/""/g, '"').replace(/;/g, ",");
+      const ids = JSON.parse(texto);
+      return Array.isArray(ids) ? ids.map(chave) : [];
+    } catch (e) { return []; }
+  }
+  for (let i = 1; i < funcDados.length; i++) {
+    const f = funcDados[i];
+    if (chave(f[0]) !== chave(clienteId) || chave(f[1]) !== chave(periodoId)) continue;
+    const ids = parseIds(f[13]);
+    if (!ids.length) continue;
+    const dependentes = Math.max(0, parseInt(f[14], 10) || 0);
+    let novoBen = 0;
+    ids.forEach(function(id) {
+      const b = mapa[id];
+      if (!b) return;
+      novoBen += b.valor * (b.multiplica ? dependentes + 1 : 1);
+    });
+    novoBen = Math.round((novoBen + Number.EPSILON) * 100) / 100;
+    const antigoBen = numeroSeguro(f[8], 0);
+    if (Math.abs(novoBen - antigoBen) < 0.005) continue;
+    const novoCusto = Math.round((numeroSeguro(f[9], 0) - antigoBen + novoBen + Number.EPSILON) * 100) / 100;
+    shFunc.getRange(i + 1, 9, 1, 2).setValues([[novoBen, novoCusto]]);
+    if (String(f[10] || "").trim().toUpperCase() === "SIM") {
+      let somaPct = 0;
+      try {
+        let raw = String(f[2] || "").trim();
+        if (raw.startsWith('"') && raw.endsWith('"')) raw = raw.slice(1, -1);
+        const rateios = JSON.parse(raw.replace(/""/g, '"').replace(/;/g, ","));
+        if (Array.isArray(rateios)) rateios.forEach(function(r) {somaPct += numeroSeguro(r.pct == null ? r.PCT : r.pct, 0);});
+      } catch (e) {}
+      shFunc.getRange(i + 1, 12).setValue(novoCusto * Math.max(0, (100 - somaPct) / 100));
+    }
+  }
+}
 
 // ======================================================
 // RESPOSTAS JSON
@@ -1317,44 +1389,13 @@ function doPost(e) {
         );
       }
 
-      // ----------------------------------------------
-      // TFUNCIONARIO — guarda também quais benefícios
-      // foram selecionados na linha (coluna N).
-      // ----------------------------------------------
+      // V5.2.42 — colunas F (benefícios) e O (dependentes).
+      if (nomeSheet === "TBENEFICIOS") {
+        rfGarantirColunaCadastro_(sheetBatch, "TBENEFICIO_MULTIPLICA_DEPENDENTES", 6);
+      }
       if (nomeSheet === "TFUNCIONARIO") {
-        const headerAtual =
-          sheetBatch
-            .getRange(
-              1,
-              1,
-              1,
-              Math.max(sheetBatch.getLastColumn(), 14)
-            )
-            .getValues()[0];
-
-        const nomeBeneficios =
-          "TFUNCIONARIO_BENEFICIOS_IDS";
-
-        if (
-          String(headerAtual[13] || "")
-            .trim()
-            .toUpperCase() !==
-          nomeBeneficios
-        ) {
-          // A estrutura oficial tinha A:M.
-          // Se N já estiver ocupada por outro campo,
-          // insere uma nova coluna N para não sobrescrever.
-          if (
-            headerAtual[13] &&
-            String(headerAtual[13]).trim() !== ""
-          ) {
-            sheetBatch.insertColumnAfter(13);
-          }
-
-          sheetBatch
-            .getRange(1, 14)
-            .setValue(nomeBeneficios);
-        }
+        rfGarantirColunaCadastro_(sheetBatch, "TFUNCIONARIO_BENEFICIOS_IDS", 14);
+        rfGarantirColunaCadastro_(sheetBatch, "TFUNCIONARIO_DEPENDENTES", 15);
       }
 
       const mapaBatch = {
@@ -1837,6 +1878,11 @@ function doPost(e) {
 
       SpreadsheetApp.flush();
 
+      // Atualiza todos os funcionários atingidos por alterações de benefícios.
+      if (nomeSheet === "TBENEFICIOS" || nomeSheet === "TFUNCIONARIO") {
+        rfSincronizarBeneficiosDependentes_(ss, clienteTarget, periodoTarget);
+      }
+
       // Um único recálculo após todas as alterações.
       recalcularTodosCentrosDeCusto(
         ss,
@@ -1868,6 +1914,14 @@ function doPost(e) {
       );
     }
 
+
+    if (nomeSheet === "TBENEFICIOS") {
+      rfGarantirColunaCadastro_(sheet, "TBENEFICIO_MULTIPLICA_DEPENDENTES", 6);
+    }
+    if (nomeSheet === "TFUNCIONARIO") {
+      rfGarantirColunaCadastro_(sheet, "TFUNCIONARIO_BENEFICIOS_IDS", 14);
+      rfGarantirColunaCadastro_(sheet, "TFUNCIONARIO_DEPENDENTES", 15);
+    }
 
     // ==================================================
     // LOCALIZAÇÃO SEGURA DA COLUNA ID
@@ -2428,6 +2482,9 @@ function doPost(e) {
       ].includes(nomeSheet)
     ) {
 
+      if (nomeSheet === "TBENEFICIOS" || nomeSheet === "TFUNCIONARIO") {
+        rfSincronizarBeneficiosDependentes_(ss, params.data[0], params.data[1]);
+      }
       recalcularTodosCentrosDeCusto(
         ss,
         params.data[0],
