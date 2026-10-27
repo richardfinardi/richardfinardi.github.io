@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="30 exercícios de matemática do 6º ano: adição, subtração, multiplicação e divisão de frações, problemas e medidas geométricas.">
+  <title>30 Exercícios de Matemática - 6º Ano | Portal de Estudos</title>
+  <style>
+    :root { --roxo:#512e92; --roxo-escuro:#30205c; --texto:#252239; --neutro:#6d6980; --fundo:#f5f3fa; --borda:#e8e3f0; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif; color:var(--texto); background:var(--fundo); line-height:1.6; }
+    .pagina { width:min(100% - 32px, 960px); margin:26px auto 50px; }
+    .barra { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px; }
+    .link-voltar { text-decoration:none; color:var(--roxo); font-weight:700; }
+    .imprimir { border:0; border-radius:9px; padding:11px 16px; color:white; background:var(--roxo); font:inherit; font-weight:700; cursor:pointer; }
+    .imprimir:hover { background:var(--roxo-escuro); }
+    .cabecalho { background:linear-gradient(125deg,var(--roxo-escuro),var(--roxo)); color:white; padding:32px clamp(20px,5vw,42px); border-radius:19px; }
+    .sobretitulo { font-size:.78rem; letter-spacing:.16em; font-weight:800; text-transform:uppercase; opacity:.8; }
+    h1 { font-size:clamp(1.85rem,5vw,2.65rem); line-height:1.15; margin:9px 0 10px; }
+    .cabecalho p { margin:0; color:#e7dcff; font-size:1rem; }
+    .dados { display:flex; flex-wrap:wrap; gap:12px 26px; margin-top:25px; font-size:.93rem; }
+    .linha { display:inline-block; border-bottom:1px solid #e4d7ff; min-width:170px; height:1.4em; vertical-align:bottom; }
+    .orientacao { margin:21px 0 27px; background:white; border:1px solid var(--borda); padding:14px 19px; border-radius:12px; color:#504b65; }
+    .secao { margin:0 0 23px; padding:22px 24px 25px; background:white; border:1px solid var(--borda); border-radius:16px; box-shadow:0 5px 18px rgba(40,20,80,.035); }
+    h2 { margin:0 0 17px; display:flex; align-items:center; gap:11px; font-size:1.19rem; color:var(--roxo-escuro); line-height:1.3; }
+    .secao-num { display:inline-flex; justify-content:center; align-items:center; background:#eee8f8; color:var(--roxo); width:35px; height:35px; border-radius:9px; font-size:.84rem; flex-shrink:0; }
+    .questoes { list-style:none; display:grid; grid-template-columns:1fr; gap:12px; margin:0; padding:0; }
+    .questoes.short { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .questao { background:#fbfafe; border:1px solid #ede9f4; border-radius:11px; padding:17px; display:flex; align-items:flex-start; gap:12px; break-inside:avoid; page-break-inside:avoid; min-width:0; }
+    .numero { color:var(--roxo); font-weight:800; min-width:24px; flex-shrink:0; }
+    .enunciado { flex:1; min-width:0; }
+    .enunciado strong { color:#322654; }
+    .fracao { display:inline-flex; flex-direction:column; text-align:center; vertical-align:middle; line-height:1.08; font-size:.97em; min-width:1.2em; margin:0 .16em; position:relative; top:-1px; }
+    .fracao .numerador { border-bottom:1.5px solid currentColor; padding:0 .18em .12em; }
+    .fracao .denominador { padding:.12em .18em 0; }
+    .subitem { padding-top:6px; }
+    @media(max-width:650px) { .pagina{width:min(100% - 20px,960px);margin-top:12px;} .cabecalho{padding:27px 22px;border-radius:14px;} .secao{padding:18px 14px;border-radius:12px;} .questoes.short{grid-template-columns:1fr;} .imprimir{padding:10px 12px;} .linha{min-width:125px;} }
+    @media print {
+      @page { size:A4; margin:15mm; }
+      body{background:white;color:#111;font-size:11pt;}
+      .pagina{width:100%;margin:0;}
+      .barra{display:none;}
+      .cabecalho{padding:0 0 13px;background:none;color:#111;border-bottom:2px solid #333;border-radius:0;}
+      .cabecalho p,.sobretitulo{color:#333;}
+      h1{font-size:20pt;}
+      .dados{margin-top:16px;}
+      .linha{border-color:#333;}
+      .orientacao{padding:10px 0;border:0;margin:12px 0;}
+      .secao{box-shadow:none;border:0;border-radius:0;padding:12px 0 0;margin:0 0 13px;break-inside:auto;}
+      h2{font-size:12pt;color:#111;break-after:avoid;}
+      .secao-num{background:none;border:1px solid #aaa;color:#333;width:26px;height:26px;}
+      .questoes{gap:9px;}
+      .questao{background:white;border:1px solid #ddd;padding:11px 12px;border-radius:5px;}
+      .numero,.enunciado strong{color:#111;}
+    }
+  </style>
+</head>
+<body>
+<main class="pagina">
+  <nav class="barra" aria-label="Navegação">
+    <a class="link-voltar" href="./">← Voltar ao Portal de Estudos</a>
+    <button class="imprimir" type="button" onclick="window.print()">Imprimir exercícios</button>
+  </nav>
+  <header class="cabecalho">
+    <div class="sobretitulo">Matemática · 6º ano · 30 questões</div>
+    <h1>Lista de exercícios</h1>
+    <p>Frações, situações-problema e medidas geométricas.</p>
+    <div class="dados"><span>Aluno(a): <span class="linha"></span></span><span>Data: <span class="linha" style="min-width:110px"></span></span></div>
+  </header>
+  <div class="orientacao"><strong>Orientações:</strong> resolva os exercícios no caderno, mostrando os cálculos. Simplifique as frações sempre que possível.</div>
+  <section class="secao" aria-labelledby="s1">
+<h2 id="s1"><span class="secao-num">01</span>Adição de frações</h2>
+<ol class="questoes short" start="1">
+<li class="questao"><span class="numero" aria-hidden="true">1.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="2 sobre 7"><span class="numerador">2</span><span class="denominador">7</span></span> + <span class="fracao" aria-label="3 sobre 7"><span class="numerador">3</span><span class="denominador">7</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">2.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="1 sobre 4"><span class="numerador">1</span><span class="denominador">4</span></span> + <span class="fracao" aria-label="2 sobre 8"><span class="numerador">2</span><span class="denominador">8</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">3.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="3 sobre 5"><span class="numerador">3</span><span class="denominador">5</span></span> + <span class="fracao" aria-label="1 sobre 2"><span class="numerador">1</span><span class="denominador">2</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">4.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="5 sobre 6"><span class="numerador">5</span><span class="denominador">6</span></span> + <span class="fracao" aria-label="3 sobre 4"><span class="numerador">3</span><span class="denominador">4</span></span> =</div></li>
+</ol></section>
+<section class="secao" aria-labelledby="s2">
+<h2 id="s2"><span class="secao-num">02</span>Subtração de frações</h2>
+<ol class="questoes short" start="5">
+<li class="questao"><span class="numero" aria-hidden="true">5.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="7 sobre 9"><span class="numerador">7</span><span class="denominador">9</span></span> − <span class="fracao" aria-label="2 sobre 9"><span class="numerador">2</span><span class="denominador">9</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">6.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="5 sobre 6"><span class="numerador">5</span><span class="denominador">6</span></span> − <span class="fracao" aria-label="1 sobre 3"><span class="numerador">1</span><span class="denominador">3</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">7.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="7 sobre 8"><span class="numerador">7</span><span class="denominador">8</span></span> − <span class="fracao" aria-label="1 sobre 4"><span class="numerador">1</span><span class="denominador">4</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">8.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="9 sobre 10"><span class="numerador">9</span><span class="denominador">10</span></span> − <span class="fracao" aria-label="2 sobre 5"><span class="numerador">2</span><span class="denominador">5</span></span> =</div></li>
+</ol></section>
+<section class="secao" aria-labelledby="s3">
+<h2 id="s3"><span class="secao-num">03</span>Multiplicação de frações</h2>
+<ol class="questoes short" start="9">
+<li class="questao"><span class="numero" aria-hidden="true">9.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="2 sobre 3"><span class="numerador">2</span><span class="denominador">3</span></span> × <span class="fracao" aria-label="3 sobre 5"><span class="numerador">3</span><span class="denominador">5</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">10.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="4 sobre 7"><span class="numerador">4</span><span class="denominador">7</span></span> × <span class="fracao" aria-label="2 sobre 3"><span class="numerador">2</span><span class="denominador">3</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">11.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="5 sobre 8"><span class="numerador">5</span><span class="denominador">8</span></span> × <span class="fracao" aria-label="4 sobre 5"><span class="numerador">4</span><span class="denominador">5</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">12.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="3 sobre 4"><span class="numerador">3</span><span class="denominador">4</span></span> × <span class="fracao" aria-label="6 sobre 7"><span class="numerador">6</span><span class="denominador">7</span></span> =</div></li>
+</ol></section>
+<section class="secao" aria-labelledby="s4">
+<h2 id="s4"><span class="secao-num">04</span>Divisão de frações</h2>
+<ol class="questoes short" start="13">
+<li class="questao"><span class="numero" aria-hidden="true">13.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="2 sobre 3"><span class="numerador">2</span><span class="denominador">3</span></span> ÷ <span class="fracao" aria-label="1 sobre 4"><span class="numerador">1</span><span class="denominador">4</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">14.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="5 sobre 6"><span class="numerador">5</span><span class="denominador">6</span></span> ÷ <span class="fracao" aria-label="2 sobre 3"><span class="numerador">2</span><span class="denominador">3</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">15.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="3 sobre 5"><span class="numerador">3</span><span class="denominador">5</span></span> ÷ <span class="fracao" aria-label="9 sobre 10"><span class="numerador">9</span><span class="denominador">10</span></span> =</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">16.</span><div class="enunciado">Calcule: <span class="fracao" aria-label="7 sobre 8"><span class="numerador">7</span><span class="denominador">8</span></span> ÷ <span class="fracao" aria-label="1 sobre 2"><span class="numerador">1</span><span class="denominador">2</span></span> =</div></li>
+</ol></section>
+<section class="secao" aria-labelledby="s5">
+<h2 id="s5"><span class="secao-num">05</span>Situações-problema com frações</h2>
+<ol class="questoes long" start="17">
+<li class="questao"><span class="numero" aria-hidden="true">17.</span><div class="enunciado"><strong>A pizza:</strong> Uma pizza foi dividida em 8 fatias iguais. Ana comeu 2 fatias e Pedro comeu 3. Que fração da pizza os dois comeram juntos? Que fração sobrou?</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">18.</span><div class="enunciado"><strong>A caixa-d'água:</strong> Uma caixa-d'água estava com <span class="fracao" aria-label="3 sobre 4"><span class="numerador">3</span><span class="denominador">4</span></span> de sua capacidade preenchida. Foram utilizados <span class="fracao" aria-label="1 sobre 6"><span class="numerador">1</span><span class="denominador">6</span></span> da capacidade total. Que fração da capacidade permaneceu preenchida?</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">19.</span><div class="enunciado"><strong>A leitura:</strong> Lucas está lendo um livro de 120 páginas. Ele já leu <span class="fracao" aria-label="2 sobre 5"><span class="numerador">2</span><span class="denominador">5</span></span> do livro. Quantas páginas Lucas leu? Quantas faltam?</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">20.</span><div class="enunciado"><strong>A receita:</strong> Para preparar um bolo, são necessários <span class="fracao" aria-label="3 sobre 4"><span class="numerador">3</span><span class="denominador">4</span></span> de xícara de leite. Quantas xícaras serão necessárias para preparar 2 bolos?</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">21.</span><div class="enunciado"><strong>A turma:</strong> Em uma sala há 30 alunos. Sabendo que <span class="fracao" aria-label="3 sobre 5"><span class="numerador">3</span><span class="denominador">5</span></span> dos alunos praticam algum esporte, quantos alunos praticam esporte?</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">22.</span><div class="enunciado"><strong>A corda:</strong> Mariana possui uma corda de <span class="fracao" aria-label="5 sobre 6"><span class="numerador">5</span><span class="denominador">6</span></span> de metro. Ela corta um pedaço de <span class="fracao" aria-label="1 sobre 3"><span class="numerador">1</span><span class="denominador">3</span></span> de metro. Qual é o comprimento da corda que sobrou?</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">23.</span><div class="enunciado"><strong>O suco:</strong> Uma jarra contém <span class="fracao" aria-label="2 sobre 3"><span class="numerador">2</span><span class="denominador">3</span></span> de litro de suco. Cada copo comporta <span class="fracao" aria-label="1 sobre 6"><span class="numerador">1</span><span class="denominador">6</span></span> de litro. Quantos copos completos podem ser servidos?</div></li>
+</ol></section>
+<section class="secao" aria-labelledby="s6">
+<h2 id="s6"><span class="secao-num">06</span>Medidas geométricas</h2>
+<ol class="questoes long" start="24">
+<li class="questao"><span class="numero" aria-hidden="true">24.</span><div class="enunciado"><strong>Perímetro do quadrado:</strong> Um quadrado possui lados de 7 cm. Calcule seu perímetro.</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">25.</span><div class="enunciado"><strong>Perímetro do retângulo:</strong> Um terreno retangular possui 12 metros de comprimento e 5 metros de largura. Qual é seu perímetro?</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">26.</span><div class="enunciado"><strong>Área do quadrado:</strong> Uma placa quadrada possui lados de 9 cm. Calcule sua área em centímetros quadrados.</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">27.</span><div class="enunciado"><strong>Área do retângulo:</strong> Uma folha retangular possui 8 cm de comprimento e 6 cm de largura. Qual é sua área?</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">28.</span><div class="enunciado"><strong>O jardim:</strong> Um jardim retangular mede 10 metros de comprimento e 4 metros de largura. Calcule:<div class='subitem'>a) O perímetro do jardim.</div><div class='subitem'>b) A área total do jardim.</div></div></li>
+<li class="questao"><span class="numero" aria-hidden="true">29.</span><div class="enunciado"><strong>O piso:</strong> Uma sala retangular mede 5 metros de comprimento por 3 metros de largura. O piso será revestido com placas quadradas de 1 m² cada, sem perdas nem cortes. Quantas placas serão necessárias?</div></li>
+<li class="questao"><span class="numero" aria-hidden="true">30.</span><div class="enunciado"><strong>Conversão de medidas:</strong> Uma barra de madeira mede 2 metros e 35 centímetros de comprimento.<div class='subitem'>a) Qual é o comprimento total em centímetros?</div><div class='subitem'>b) Se forem cortados 80 centímetros da barra, quantos centímetros restarão?</div></div></li>
+</ol></section>
+</main>
+</body>
+</html>
