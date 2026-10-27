@@ -1,5 +1,11 @@
 name: Monitoramento de APIs
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/monitoramento.yml'
+      - 'monitoramento/config.json'
+      - 'monitoramento/monitor.py'
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
