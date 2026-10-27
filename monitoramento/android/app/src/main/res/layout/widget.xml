@@ -1,64 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Widget 1.1: compacto, translucido e legivel sobre o papel de parede. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_vertical"
     android:background="@drawable/bg_widget"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="13dp"
-    android:paddingBottom="12dp">
+    android:paddingLeft="11dp"
+    android:paddingRight="11dp"
+    android:paddingTop="7dp"
+    android:paddingBottom="6dp">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="28dp"
+    <LinearLayout android:layout_width="match_parent" android:layout_height="21dp"
         android:gravity="center_vertical" android:orientation="horizontal">
         <TextView android:id="@+id/widget_title"
-            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
-            android:gravity="center_vertical" android:text="MONITORAMENTO RF"
-            android:textColor="#F2F7FF" android:textStyle="bold" android:textSize="14sp"/>
+            android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:gravity="center_vertical"
+            android:text="MONITORAMENTO RF" android:singleLine="true"
+            android:ellipsize="end" android:textColor="#FFFFFFFF"
+            android:textStyle="bold" android:textSize="12sp"/>
         <TextView android:id="@+id/widget_refresh"
-            android:layout_width="36dp" android:layout_height="match_parent"
-            android:gravity="center" android:text="↻" android:textSize="25sp"
-            android:contentDescription="Atualizar" android:textColor="#7FDAD2"/>
+            android:layout_width="27dp" android:layout_height="match_parent"
+            android:gravity="center" android:text="↻" android:textSize="22sp"
+            android:contentDescription="Atualizar" android:textColor="#9EF0E5"/>
     </LinearLayout>
 
-    <TextView android:id="@+id/widget_summary" android:layout_width="match_parent"
-        android:layout_height="25dp" android:gravity="center_vertical"
-        android:text="Aguardando primeira verificação" android:textColor="#B6CADB" android:textSize="12sp"/>
+    <TextView android:id="@+id/widget_summary"
+        android:layout_width="match_parent" android:layout_height="17dp"
+        android:gravity="center_vertical" android:singleLine="true"
+        android:ellipsize="end" android:text="Aguardando verificação"
+        android:textColor="#DBD9E3EF" android:textSize="10sp"/>
 
-    <TextView android:layout_width="match_parent" android:layout_height="1dp"
-        android:background="#38516C" android:layout_marginBottom="6dp"/>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
-        android:layout_weight="1" android:orientation="vertical">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal" android:gravity="center_vertical">
-            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Sintercan" android:textColor="#F2F7FF" android:textSize="13sp"/>
-            <TextView android:id="@+id/status_sintercan" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AGUARDANDO" android:textSize="11sp" android:textStyle="bold" android:textColor="#97A9C1"/>
-        </LinearLayout>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal" android:gravity="center_vertical">
-            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="PSTEC" android:textColor="#F2F7FF" android:textSize="13sp"/>
-            <TextView android:id="@+id/status_pstec" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AGUARDANDO" android:textSize="11sp" android:textStyle="bold" android:textColor="#97A9C1"/>
-        </LinearLayout>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal" android:gravity="center_vertical">
-            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Anfeer" android:textColor="#F2F7FF" android:textSize="13sp"/>
-            <TextView android:id="@+id/status_anfeer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AGUARDANDO" android:textSize="11sp" android:textStyle="bold" android:textColor="#97A9C1"/>
-        </LinearLayout>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal" android:gravity="center_vertical">
-            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Columbia" android:textColor="#F2F7FF" android:textSize="13sp"/>
-            <TextView android:id="@+id/status_columbia" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AGUARDANDO" android:textSize="11sp" android:textStyle="bold" android:textColor="#97A9C1"/>
-        </LinearLayout>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal" android:gravity="center_vertical">
-            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Brastorno" android:textColor="#F2F7FF" android:textSize="13sp"/>
-            <TextView android:id="@+id/status_brastorno" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AGUARDANDO" android:textSize="11sp" android:textStyle="bold" android:textColor="#97A9C1"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <TextView android:layout_width="match_parent" android:layout_height="1dp"
-        android:background="#38516C" android:layout_marginTop="5dp"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="28dp"
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="#66758BA3" android:layout_marginBottom="2dp" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="20dp"
         android:orientation="horizontal" android:gravity="center_vertical">
-        <TextView android:id="@+id/widget_updated" android:layout_width="0dp" android:layout_weight="1"
-            android:layout_height="wrap_content" android:text="Atualização pendente" android:textColor="#A2B9CB" android:textSize="10sp"/>
-        <TextView android:id="@+id/widget_open" android:layout_width="wrap_content" android:layout_height="match_parent"
-            android:gravity="center_vertical" android:text="Abrir ›" android:textColor="#7FDAD2" android:textSize="11sp"/>
+        <TextView android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:singleLine="true"
+            android:ellipsize="end" android:text="Sintercan" android:textColor="#FFFFFFFF"
+            android:textSize="11sp"/>
+        <TextView android:id="@+id/status_sintercan"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:singleLine="true" android:text="AGUARDANDO"
+            android:textSize="10sp" android:textStyle="bold"
+            android:textColor="#B6C7D9"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="20dp"
+        android:orientation="horizontal" android:gravity="center_vertical">
+        <TextView android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:singleLine="true"
+            android:ellipsize="end" android:text="PSTEC" android:textColor="#FFFFFFFF"
+            android:textSize="11sp"/>
+        <TextView android:id="@+id/status_pstec"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:singleLine="true" android:text="AGUARDANDO"
+            android:textSize="10sp" android:textStyle="bold"
+            android:textColor="#B6C7D9"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="20dp"
+        android:orientation="horizontal" android:gravity="center_vertical">
+        <TextView android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:singleLine="true"
+            android:ellipsize="end" android:text="Anfeer" android:textColor="#FFFFFFFF"
+            android:textSize="11sp"/>
+        <TextView android:id="@+id/status_anfeer"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:singleLine="true" android:text="AGUARDANDO"
+            android:textSize="10sp" android:textStyle="bold"
+            android:textColor="#B6C7D9"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="20dp"
+        android:orientation="horizontal" android:gravity="center_vertical">
+        <TextView android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:singleLine="true"
+            android:ellipsize="end" android:text="Columbia" android:textColor="#FFFFFFFF"
+            android:textSize="11sp"/>
+        <TextView android:id="@+id/status_columbia"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:singleLine="true" android:text="AGUARDANDO"
+            android:textSize="10sp" android:textStyle="bold"
+            android:textColor="#B6C7D9"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="20dp"
+        android:orientation="horizontal" android:gravity="center_vertical">
+        <TextView android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:singleLine="true"
+            android:ellipsize="end" android:text="Brastorno" android:textColor="#FFFFFFFF"
+            android:textSize="11sp"/>
+        <TextView android:id="@+id/status_brastorno"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:singleLine="true" android:text="AGUARDANDO"
+            android:textSize="10sp" android:textStyle="bold"
+            android:textColor="#B6C7D9"/>
+    </LinearLayout>
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="#66758BA3" android:layout_marginTop="3dp" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="20dp"
+        android:orientation="horizontal" android:gravity="center_vertical">
+        <TextView android:id="@+id/widget_updated"
+            android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content" android:singleLine="true"
+            android:ellipsize="end" android:text="Atualização pendente"
+            android:textColor="#D0C4D4E2" android:textSize="9sp"/>
+        <TextView android:id="@+id/widget_open"
+            android:layout_width="wrap_content" android:layout_height="match_parent"
+            android:gravity="center_vertical" android:text="Abrir ›"
+            android:textColor="#9EF0E5" android:textSize="10sp"/>
     </LinearLayout>
 </LinearLayout>

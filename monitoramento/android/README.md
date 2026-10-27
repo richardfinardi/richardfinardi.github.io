@@ -18,3 +18,10 @@ gradle -p monitoramento/android :app:assembleDebug
 ```
 
 APK em `monitoramento/android/app/build/outputs/apk/debug/app-debug.apk`.
+
+## Versão 1.1.0 — compacto e translúcido
+
+- Layout compacto com cinco linhas, altura mínima de 172dp e largura de 210dp; bordas arredondadas.
+- Fundo azul escuro a 60% de opacidade (40% de transparência), permitindo ver o papel de parede.
+- Widget pode ser redimensionado pela tela inicial do Android.
+- Atenção: o APK debug compilado pelo GitHub Actions recebe nova assinatura a cada execução. Para instalar esta versão no lugar da anterior, pode ser preciso remover o widget, desinstalar o aplicativo antigo e instalar novamente, adicionando o novo widget. Os dados permanecem disponíveis online no painel.
