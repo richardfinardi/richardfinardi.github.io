@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#101D2D" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+        android:orientation="vertical" android:gravity="center_horizontal"
+        android:padding="24dp">
+        <ImageView android:layout_width="68dp" android:layout_height="68dp"
+            android:src="@drawable/ic_app" android:contentDescription="Monitoramento RF" android:layout_marginTop="30dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center" android:layout_marginTop="18dp" android:text="Monitoramento RF"
+            android:textSize="26sp" android:textStyle="bold" android:textColor="#F2F7FF"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center" android:layout_marginTop="14dp" android:layout_marginBottom="30dp"
+            android:text="Acompanhe Sintercan, PSTEC, Anfeer, Columbia e Brastorno diretamente na tela inicial do celular."
+            android:textSize="15sp" android:lineSpacingExtra="4dp" android:textColor="#B6CADB"/>
+        <Button android:id="@+id/button_add" android:layout_width="match_parent" android:layout_height="52dp"
+            android:textAllCaps="false" android:text="Adicionar widget à tela inicial"
+            android:backgroundTint="#53CBBB" android:textColor="#101D2D"/>
+        <Button android:id="@+id/button_refresh" android:layout_width="match_parent" android:layout_height="52dp"
+            android:layout_marginTop="12dp" android:textAllCaps="false" android:text="Atualizar agora"
+            android:backgroundTint="#293D56" android:textColor="#FFFFFF"/>
+        <Button android:id="@+id/button_panel" android:layout_width="match_parent" android:layout_height="52dp"
+            android:layout_marginTop="12dp" android:textAllCaps="false" android:text="Abrir painel completo"
+            android:backgroundTint="#293D56" android:textColor="#FFFFFF"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center" android:layout_marginTop="26dp"
+            android:text="O widget consulta o painel automaticamente aproximadamente a cada 15 minutos, sujeito às restrições de bateria do Android. Toque em ↻ para atualizar na hora."
+            android:textSize="12sp" android:lineSpacingExtra="3dp" android:textColor="#8CA8BE"/>
+    </LinearLayout>
+</ScrollView>
