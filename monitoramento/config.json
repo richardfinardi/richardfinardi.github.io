@@ -1,0 +1,12 @@
+{
+  "intervalo_minutos": 5,
+  "limite_lentidao_ms": 2500,
+  "falhas_para_alerta": 3,
+  "monitores": [
+    {"id":"brastorno","nome":"Brastorno","url":"https://brastorno.consultoriarf.net/openapi.json","tipo":"fastapi","ativo":true},
+    {"id":"sintercan","nome":"Sintercan","url":"https://sintercan.consultoriarf.net/openapi.json","tipo":"fastapi","ativo":true},
+    {"id":"pstec","nome":"PSTEC","url":"https://pstec.consultoriarf.net/openapi.json","tipo":"fastapi","ativo":true},
+    {"id":"anfeer","nome":"Anfeer","url":"https://anfeer.consultoriarf.net/openapi.json","tipo":"fastapi","ativo":true},
+    {"id":"columbia","nome":"Columbia","url":"https://columbia.consultoriarf.net/openapi.json","tipo":"fastapi","ativo":true}
+  ]
+}

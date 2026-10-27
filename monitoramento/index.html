@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>Monitoramento | Consultoria RF</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--surface:#151f31;--line:#2a3850;--text:#f4f7fc;--muted:#a7b7cb;--ok:#4adea6;--bad:#ff7780;--warn:#fac96a;--blue:#82acff}
+*{box-sizing:border-box}body{background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+.wrap{max-width:1180px;margin:auto;padding:24px 18px 70px}header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:30px}
+.brand{display:flex;align-items:center;gap:14px}.logo{display:grid;place-items:center;font-weight:900;color:#fff;background:#3056a8;width:48px;height:48px;border-radius:14px;letter-spacing:-1px}
+.eyebrow{color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}h1{font-size:clamp(25px,4vw,34px);margin:2px 0}h2{font-size:19px;margin:0 0 14px}
+small,.secondary{color:var(--muted)}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button,select{font:inherit;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);padding:11px 13px}button{cursor:pointer}button:hover{border-color:var(--blue)}button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+button:disabled{cursor:wait;opacity:.65}.meta{font-size:13px;color:var(--muted);margin:12px 0 22px}
+.pulse{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--muted);margin-right:8px}.pulse.online{background:var(--ok)}.pulse.offline{background:var(--bad)}.pulse.instavel,.pulse.lento{background:var(--warn)}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:28px}
+.metric{padding:20px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}.metric .label{color:var(--muted);font-size:13px}.metric strong{display:block;font-size:33px;margin-top:8px;line-height:1.2}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;min-width:0}
+.cardtop{display:flex;justify-content:space-between;gap:12px;align-items:start}.card h3{margin:0;font-size:20px}.badge{padding:4px 10px;font-size:12px;font-weight:700;border-radius:99px;background:#253149;color:var(--muted);white-space:nowrap}
+.badge.online{background:#13382f;color:var(--ok)}.badge.offline{background:#441e2b;color:var(--bad)}.badge.instavel,.badge.lento{background:#463923;color:var(--warn)}
+.card a{font-size:13px;display:block;color:var(--blue);word-break:break-all;text-decoration:none;margin-top:8px}
+.stats{display:flex;gap:15px;flex-wrap:wrap;margin-top:19px}.stats span{font-size:12px;color:var(--muted)}.stats strong{display:block;font-size:16px;color:var(--text)}
+.bars{display:flex;gap:3px;margin-top:20px;height:27px}.bar{background:#3b495f;flex:1;min-width:2px;border-radius:3px}.bar.online{background:#39af86}.bar.lento{background:#d4a348}.bar.instavel{background:#d4a348}.bar.offline{background:#d65f70}
+section{margin-top:30px}.events{background:var(--surface);border-radius:16px;border:1px solid var(--line);overflow:hidden}
+.event{display:grid;grid-template-columns:170px 1fr auto;gap:10px;padding:14px 17px;align-items:center;border-bottom:1px solid var(--line)}.event:last-child{border:0}
+.event time{color:var(--muted);font-size:13px}.event strong{font-size:13px}.event p{margin:1px 0 0;color:var(--muted);font-size:13px}
+.note{border:1px solid var(--line);padding:15px 18px;border-radius:12px;color:var(--muted);font-size:13px}.empty{color:var(--muted);padding:28px;text-align:center}
+footer{color:var(--muted);margin-top:35px;font-size:12px}
+@media(max-width:700px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}.event{grid-template-columns:1fr auto}.event time{grid-column:1/-1}.metric{padding:15px}.metric strong{font-size:28px}}@media(max-width:360px){.metrics{gap:8px}.metric{padding:12px}.metric strong{font-size:23px}}
+</style></head><body><main class="wrap">
+<header><div class="brand"><div class="logo">RF</div><div><div class="eyebrow">Consultoria RF • Infraestrutura</div><h1>Monitoramento das APIs</h1><div class="secondary">Disponibilidade e incidentes dos clientes</div></div></div>
+<div class="controls"><label for="filtro">Exibir </label><select id="filtro"><option value="todos">Todos</option><option value="problemas">Com problemas</option><option value="online">Online</option></select><button id="atualizar" type="button">Atualizar painel</button></div></header>
+<p class="meta"><span class="pulse" id="sinal"></span><span id="atualizacao">Aguardando a primeira verificação automática.</span></p>
+<div class="metrics" aria-live="polite"><div class="metric"><div class="label">APIs monitoradas</div><strong id="total">—</strong></div><div class="metric"><div class="label">Online</div><strong id="ativos">—</strong></div><div class="metric"><div class="label">Com problemas</div><strong id="problemas">—</strong></div><div class="metric"><div class="label">Disponibilidade média*</div><strong id="uptime">—</strong></div></div>
+<section aria-label="Serviços"><h2>Status dos serviços</h2><div class="grid" id="servicos"><div class="empty">Carregando configurações...</div></div></section>
+<section><h2>Últimos incidentes</h2><div id="eventos" class="events"><div class="empty">Nenhum incidente registrado.</div></div></section>
+<section><div class="note">O painel mostra o resultado da última verificação feita no GitHub Actions, não um teste contínuo no seu navegador. As verificações são programadas para cada 5 minutos, mas o GitHub pode atrasar ou pular execuções. <b>*</b> A disponibilidade é calculada sobre as verificações realizadas desde o início do histórico, não representa um SLA mensal. Uma página do Cloudflare pode estar no ar mesmo quando o backend falhou; por isso o monitor verifica a resposta JSON da API.</div></section>
+<footer>Consultoria RF • Horários apresentados no fuso de Brasília • Configuração em <code>monitoramento/config.json</code>.</footer>
+</main><script src="./app.js" defer></script></body></html>
