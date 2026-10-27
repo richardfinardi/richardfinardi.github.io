@@ -25,3 +25,11 @@ APK em `monitoramento/android/app/build/outputs/apk/debug/app-debug.apk`.
 - Fundo azul escuro a 60% de opacidade (40% de transparência), permitindo ver o papel de parede.
 - Widget pode ser redimensionado pela tela inicial do Android.
 - Atenção: o APK debug compilado pelo GitHub Actions recebe nova assinatura a cada execução. Para instalar esta versão no lugar da anterior, pode ser preciso remover o widget, desinstalar o aplicativo antigo e instalar novamente, adicionando o novo widget. Os dados permanecem disponíveis online no painel.
+
+## Atualizacao 1.2.0 (widget de 2 x 2 celulas)
+
+- Altura real do cartao compacta, sem o vazio superior/inferior.
+- Fundo com 50% de opacidade e bordas discretas.
+- Grade de 2x2 celulas, linhas de 16dp, card com altura natural.
+- Atualizacoes futuras tentam reutilizar a mesma assinatura de teste via cache do GitHub Actions.
+- Remova o widget antigo da tela e adicione o novo. Devido a assinatura da versao anterior, podera ser preciso desinstalar o APK anterior uma ultima vez.

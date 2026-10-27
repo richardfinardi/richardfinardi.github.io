@@ -34,6 +34,11 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.11.1'
+      - name: Manter assinatura Android entre as proximas versoes
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: rf-widget-debug-key-v1
       - name: Compilar APK
         run: gradle --no-daemon -p monitoramento/android :app:assembleDebug
       - name: Preparar APK

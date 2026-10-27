@@ -152,7 +152,7 @@ public final class StatusRepository {
                 String formatted = time.atZoneSameInstant(ZoneId.systemDefault())
                         .format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
                 long elapsed = Duration.between(time.toInstant(), java.time.Instant.now()).toMinutes();
-                updated = (elapsed > 20 ? "Dados atrasados • " : "Verificado ") + formatted;
+                updated = (elapsed > 20 ? "Atrasado • " : "Verificado ") + formatted;
             } catch (Exception ignored) { }
         }
         views.setTextViewText(R.id.widget_updated, updated);
