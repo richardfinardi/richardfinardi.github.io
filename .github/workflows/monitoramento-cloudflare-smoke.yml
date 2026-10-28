@@ -1,0 +1,45 @@
+name: Confirmar monitoramento Cloudflare AUVRIUN
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/monitoramento-cloudflare-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar-primeiro-cron:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar cron, cinco APIs e atualizacao recente
+        run: |
+          node <<'JS'
+          const fs = require('fs');
+          const url = JSON.parse(fs.readFileSync('monitoramento/data-source.json','utf8')).worker_url;
+          if (!url || !url.startsWith('https://') || !url.endsWith('/status')) throw new Error('Endereco Cloudflare nao configurado');
+          for (let attempt=1; attempt<=21; attempt++) {
+            try {
+              const res = await fetch(url + '?check=' + Date.now(), {signal:AbortSignal.timeout(10000),cache:'no-store'});
+              if (!res.ok) throw new Error('HTTP ' + res.status);
+              const data = await res.json();
+              const age = data.atualizado_em ? (Date.now()-Date.parse(data.atualizado_em))/60000 : Infinity;
+              console.log('Tentativa '+attempt+': '+(data.monitores?.length||0)+' APIs; atualizacao '+(Number.isFinite(age)?age.toFixed(1)+' min atras':'ainda nao executou'));
+              if (Array.isArray(data.monitores) && data.monitores.length === 5 && age >= 0 && age < 10) {
+                console.log('PRIMEIRO CRON CONFIRMADO: '+data.atualizado_em);
+                for (const mon of data.monitores) console.log(mon.nome+': '+mon.estado+' (HTTP '+mon.http+')');
+                process.exit(0);
+              }
+            } catch (err) {
+              console.log('Tentativa '+attempt+' falhou: '+err.message);
+            }
+            if (attempt < 21) await new Promise(resolve=>setTimeout(resolve,20000));
+          }
+          throw new Error('Nao houve verificacao real dentro de 7 minutos. Conferir Cron Triggers no Cloudflare.');
+          JS
