@@ -2286,6 +2286,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
             <button id="tab-btn-func" onclick="alternarAbaCliente('func')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Funcionários</button>
             <button id="tab-btn-plc" onclick="alternarAbaCliente('plc')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Plano de Contas</button>
             <button id="tab-btn-admin" onclick="alternarAbaCliente('admin')" class="hidden px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Administração</button>
+            <button id="tab-btn-aerocris" onclick="alternarAbaCliente('aerocris')" class="hidden px-4 py-2 rounded-lg text-xs md:text-sm font-bold bg-brand-card text-brand-muted hover:text-white transition whitespace-nowrap">Aerocris · Pré-custeio</button>
 
             <div id="sidebar-tools">
                 <button id="sidebar-toggle" onclick="toggleSidebar()" aria-label="Abrir ou recolher menu lateral" title="Abrir / recolher menu">☰ <span class="sidebar-toggle-label">Menu</span></button>
@@ -2489,6 +2490,11 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
                     </button>
                 </div>
             </div>
+        </section>
+
+        <!-- Pré-custeio Aerocris: ambiente de estudo admin, sem alteração do banco ou períodos -->
+        <section id="section-aerocris" class="hidden space-y-3">
+          <iframe id="rf-aerocris-frame" src="./aerocris/index.html?v=1" title="Pré-custeio Aerocris" loading="lazy" style="display:block;width:100%;min-height:1170px;border:0;border-radius:14px;background:#0d0d0f"></iframe>
         </section>
 
         <section id="section-config-periodo" class="space-y-6">
@@ -6347,6 +6353,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             const badge = document.getElementById('role-badge');
             const sectionAdmin = document.getElementById('section-admin');
             const tabAdmin = document.getElementById('tab-btn-admin');
+            const tabAerocris = document.getElementById('tab-btn-aerocris');
             const wrapperAdminCliente = document.getElementById('wrapper-admin-cliente-global');
 
             if (badge) badge.classList.remove('hidden');
@@ -6354,6 +6361,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if (isAdm) {
                 if (badge) badge.innerText = "ADMINISTRADOR";
                 if (tabAdmin) tabAdmin.classList.remove('hidden');
+                if (tabAerocris) tabAerocris.classList.remove('hidden');
                 if (wrapperAdminCliente) wrapperAdminCliente.classList.remove('hidden');
 
                 if (!localStorage.getItem('rf_admin_cliente_login')) {
@@ -6384,13 +6392,14 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
                 if (badge) badge.innerText = isDemoPublico ? "DEMONSTRAÇÃO" : "PORTAL CLIENTE";
                 if (sectionAdmin) sectionAdmin.classList.add('hidden');
                 if (tabAdmin) tabAdmin.classList.add('hidden');
+                if (tabAerocris) tabAerocris.classList.add('hidden');
                 if (wrapperAdminCliente) wrapperAdminCliente.classList.add('hidden');
-                if (localStorage.getItem('rf_ultima_aba') === 'admin') localStorage.setItem('rf_ultima_aba', 'res');
+                if (['admin','aerocris'].includes(localStorage.getItem('rf_ultima_aba'))) localStorage.setItem('rf_ultima_aba', 'res');
             }
 
             const ultimaAba = localStorage.getItem('rf_ultima_aba');
             const abaInicial = ultimaAba || (isAdm ? 'admin' : 'res');
-            const abaFinal = abaInicial === 'admin' && !isAdm ? 'res' : abaInicial;
+            const abaFinal = (['admin','aerocris'].includes(abaInicial) && !isAdm) ? 'res' : abaInicial;
 
             // Portal cliente: tenta primeiro a cópia local do dispositivo.
             // Se existir, a tela abre imediatamente e a API é revalidada sem bloquear o usuário.
@@ -7214,6 +7223,7 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if (usuarioLogado) localStorage.setItem('rf_ultima_aba', aba);
             if (window.innerWidth < 768) document.body.classList.remove('sidebar-open');
             document.getElementById('section-config-periodo').classList.add('hidden');
+            document.getElementById('section-aerocris')?.classList.add('hidden');
             document.getElementById('section-centro-custo').classList.add('hidden');
             document.getElementById('section-recursos').classList.add('hidden');
             document.getElementById('section-beneficios').classList.add('hidden');
@@ -7235,8 +7245,14 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             document.getElementById('tab-btn-res').className = classInactive;
             const btnAdmin = document.getElementById('tab-btn-admin');
             if (btnAdmin && !btnAdmin.classList.contains('hidden')) btnAdmin.className = classInactive;
+            const btnAerocris = document.getElementById('tab-btn-aerocris');
+            if (btnAerocris && !btnAerocris.classList.contains('hidden')) btnAerocris.className = classInactive;
 
-            if (aba === 'admin') {
+            if (aba === 'aerocris') {
+                if (!rfAdminEhAdministrador()) return alternarAbaCliente('res');
+                document.getElementById('section-aerocris').classList.remove('hidden');
+                if (btnAerocris) btnAerocris.className = classActive;
+            } else if (aba === 'admin') {
                 const isAdm = usuarioLogado && ['SIM','TRUE'].includes(String(usuarioLogado.TUSUARIO_ADM || '').toUpperCase());
                 if (!isAdm) return alternarAbaCliente('res');
                 document.getElementById('section-admin').classList.remove('hidden');
