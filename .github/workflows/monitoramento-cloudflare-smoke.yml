@@ -21,7 +21,7 @@ jobs:
       - name: Verificar cron, cinco APIs e atualizacao recente
         run: |
           node <<'JS'
-          const fs = require('fs');
+          const fs = await import('node:fs');
           const url = JSON.parse(fs.readFileSync('monitoramento/data-source.json','utf8')).worker_url;
           if (!url || !url.startsWith('https://') || !url.endsWith('/status')) throw new Error('Endereco Cloudflare nao configurado');
           for (let attempt=1; attempt<=21; attempt++) {
