@@ -2494,7 +2494,7 @@ body.light-mode .rf-inline-table .rf-grid-head-filterbtn.rf-active{
 
         <!-- Pré-custeio Aerocris: ambiente de estudo admin, sem alteração do banco ou períodos -->
         <section id="section-aerocris" class="hidden space-y-3">
-          <iframe id="rf-aerocris-frame" src="./aerocris/index.html?v=1" title="Pré-custeio Aerocris" loading="lazy" style="display:block;width:100%;min-height:1170px;border:0;border-radius:14px;background:#0d0d0f"></iframe>
+          <iframe id="rf-aerocris-frame" data-src="./aerocris/index.html?v=1" title="Pré-custeio Aerocris" loading="lazy" style="display:block;width:100%;min-height:1170px;border:0;border-radius:14px;background:#0d0d0f"></iframe>
         </section>
 
         <section id="section-config-periodo" class="space-y-6">
@@ -7251,6 +7251,8 @@ COMISSAO DE VENDEDORES;NÃO RATEAR - DESPESA VARIÁVEL (DEDUÇÃO DA VENDA);1500
             if (aba === 'aerocris') {
                 if (!rfAdminEhAdministrador()) return alternarAbaCliente('res');
                 document.getElementById('section-aerocris').classList.remove('hidden');
+                const aerocrisFrame = document.getElementById('rf-aerocris-frame');
+                if (aerocrisFrame && !aerocrisFrame.getAttribute('src')) aerocrisFrame.src = aerocrisFrame.dataset.src;
                 if (btnAerocris) btnAerocris.className = classActive;
             } else if (aba === 'admin') {
                 const isAdm = usuarioLogado && ['SIM','TRUE'].includes(String(usuarioLogado.TUSUARIO_ADM || '').toUpperCase());
