@@ -18,7 +18,7 @@ async function probe(monitor) {
   try {
     const response = await fetch(monitor.url, {
       method: "GET",
-      redirect: "error",
+      redirect: "manual",
       headers: { "Accept": "application/json", "User-Agent": "Auvriun-API-Monitor/1.0" },
       signal: AbortSignal.timeout(12000)
     });
@@ -90,7 +90,15 @@ export class MonitorState extends DurableObject {
   }
 
   async run() {
-    const previous = await this.ctx.storage.get("status") || { monitores: [], eventos: [] };
+    let previous = await this.ctx.storage.get("status") || { monitores: [], eventos: [] };
+    // Descartar o historico inicial contaminado pelo bug redirect:"error".
+    // O Worker da Cloudflare rejeita essa opcao antes de fazer a requisicao.
+    const recorded = previous.monitores || [];
+    if (recorded.length && recorded.every(m =>
+      typeof m.erro === "string" && m.erro.startsWith("Invalid redirect value"))) {
+      console.warn("Resetando verificacoes falsas geradas pelo redirect invalido.");
+      previous = { monitores: [], eventos: [] };
+    }
     const previousById = new Map((previous.monitores || []).map(m => [m.id, m]));
     const monitors = config.monitores.filter(m => m.ativo !== false);
     const probes = await Promise.all(monitors.map(probe));
