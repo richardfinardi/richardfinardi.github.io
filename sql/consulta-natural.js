@@ -1,4 +1,4 @@
-/* CPS JoinLab — Consultas por objetivo v2.0 (28/10/2026)
+/* CPS JoinLab — Consultas por objetivo v2.1 (28/10/2026)
    Gerador local baseado no catalogo de JOINs extraidos de 172 SQLs.
    Nao usa API privada, nao executa instrucoes e nao inventa relacionamentos.
 */
@@ -20,8 +20,8 @@
 
   const concepts = [
     {id:'torcamento',name:'Orçamentos',pattern:/\borcamentos?\b|\bpropostas? comerciais?\b/g},
-    {id:'tnota_fiscal',name:'Notas fiscais',pattern:/\bnotas? fiscais?\b|\bnf[-s]?(?:e)?\b|\bnfs[- ]?e\b|\bfaturad[oa]s?\b|\bfaturament[oa]\b/g},
-    {id:'treceber',name:'Contas a receber',pattern:/\b(?:a receber|falta(?:m)? (?:valor(?:es)? )?(?:a )?receber|contas? a receber|recebiment[oa]s?|recebidos?|recebidas?|nao pag[oa]s?|pagamentos? de clientes?)\b|\b(?:inadimplencia|inadimplentes?)\b/g},
+    {id:'tnota_fiscal',name:'Notas fiscais',pattern:/\bnotas? fisca(?:l|is)\b|\bnf[-s]?(?:e)?\b|\bnfs[- ]?e\b|\bfaturad[oa]s?\b|\bfaturament[oa]\b/g},
+    {id:'treceber',name:'Contas a receber',pattern:/\b(?:a receber|falta(?:m)? (?:valor(?:es)? )?(?:a )?receber|contas? a receber|recebiment[oa]s?|recebidos?|recebidas?|recebid[oa]s?|nao (?:foi|foram|estao|esta|foi totalmente)? ?(?:recebid[oa]s?|pag[oa]s?)|nao pag[oa]s?|pagamentos? de clientes?)\b|\b(?:inadimplencia|inadimplentes?)\b/g},
     {id:'tos',name:'Ordens de serviço',pattern:/\b(?:ordens? de servico|ordem de producao)\b/g},
     {id:'tlis_mat',name:'Lista de materiais',pattern:/\b(?:listas? de materiais|materiais?|materias? primas?|componentes?)\b/g},
     {id:'tsol_max_os',name:'Solicitações de materiais',pattern:/\b(?:solicitac(?:ao|oes) de (?:material|compra)|materiais? solicitados?|solicitacoes? da os)\b/g},
@@ -122,12 +122,12 @@
     found.sort((a,b)=>a.ix-b.ix || specificity.indexOf(b.id)-specificity.indexOf(a.id));
     const explicitRoot = found.find(x=>x.via==='manual') || found[0];
     const emp=q.match(/\bempresa\s*(?:n(?:ro|umero|\.)?\s*)?(\d{1,5})\b/);
-    const missing=/\bsem\b|\bnao (?:possui|tem|tiveram|tiver|temos|geraram|emitiram|foram emitidas|existe)\b/.test(q);
-    const unpaid=/\b(?:a receber|falta(?:m)? receber|nao recebid[oa]s?|nao pag[oa]s?|em aberto|pendentes?|inadimplentes?)\b/.test(q);
+    const missing=/\bsem\s+(?:notas?|nfs?|ordens?|apontamentos?|pedidos?|solicitacoes?|itens?|compras?|registro)|\bnao (?:possui|tem|tiveram|tiver|temos|geraram|emitiram|existe)\b/.test(q);
+    const unpaid=/\b(?:a receber|falta(?:m)? (?:valor(?:es)? )?(?:a )?receber|ainda falta(?:m)? (?:valor(?:es)? )?(?:a )?receber|nao recebid[oa]s?|nao pag[oa]s?|nao (?:foi|foram|estao|esta) (?:totalmente )?(?:recebid[oa]s?|pag[oa]s?)|ainda nao (?:foi|foram|estao|esta) (?:totalmente )?(?:recebid[oa]s?|pag[oa]s?)|em aberto|pendentes?|inadimplentes?|saldo a receber|valor a receber)\b/.test(q);
     const late=/\b(?:vencid[oa]s?|atrasad[oa]s?|em atraso)\b/.test(q);
     const paid=/\b(?:quitad[oa]s?|totalmente recebid[oa]s?|ja pag[oa]s?|integralmente pag[oa]s?)\b/.test(q);
     const period=/\b(?:mes passado|mes atual|mes de|ano de|ultimos? \d+ dias|entre \d|periodo de|\d\d\/\d\d\/\d\d\d\d)\b/.test(q);
-    const expectsReceipt=/\b(?:nao recebid[oa]s?|ainda nao recebid[oa]s?|sem recebimento|nao entregues?|pendente de entrega)\b/.test(q)&&found.some(x=>x.id==='tord_com'||x.id==='tcompras');
+    const expectsReceipt=/\b(?:nao (?:(?:foi|foram) )?recebid[oa]s?|ainda nao (?:(?:foi|foram) )?recebid[oa]s?|sem recebimento|nao entregues?|pendente de entrega)\b/.test(q)&&found.some(x=>x.id==='tord_com'||x.id==='tcompras') && !/\b(?:contas? a receber|a receber|financeiro|valor a receber)\b/.test(q);
     return {q, found,root:explicitRoot, company:emp?Number(emp[1]):null, missing, unpaid, late, paid, period, expectsReceipt};
   }
   function isFinanceRecipe(intent) {
@@ -159,6 +159,7 @@ WITH notas AS (
      AND nf.sub_serie = i.sub_serie
      AND nf.numero = i.numero_nf
     WHERE nf.modelo = '55'
+      AND nf.cancelada = 0
       AND nf.nfe_cod_status = '100'
       AND i.cod_orcamento IS NOT NULL
     UNION
@@ -173,6 +174,7 @@ WITH notas AS (
      AND nf.sub_serie = s.sub_serie
      AND nf.numero = s.numero_nf
     WHERE nf.modelo = '1'
+      AND nf.cancelada = 0
       AND NULLIF(TRIM(nf.numero_nfse::text), '') IS NOT NULL
       AND s.cod_orcamento IS NOT NULL
 ),
@@ -199,6 +201,7 @@ financeiro_orcamento AS (
                              AND COALESCE(r.valor_corrigido,r.valor,0)>COALESCE(r.valor_pago,0)) AS parcelas_vencidas
     FROM treceber r
     WHERE COALESCE(r.previsao,0)=0
+      AND r.n_nf > 0 -- titulo vinculado a numero de NF
       AND r.cod_orcamento IS NOT NULL
     GROUP BY r.cod_empresa, r.cod_orcamento
 )
@@ -218,8 +221,8 @@ JOIN financeiro_orcamento f
       evidence:['COMISSÃO.txt','CAPITAL_FINANCEIRO.SQL','COMISSAO ANFEER (POR EMISSÃO DE NOTA FISCAL).txt'],
       warnings:[
         'Saldo financeiro agregado por orçamento, não vinculado individualmente a cada NF. Para vincular títulos à NF, é preciso validar também N_NF + empresa + série/modelo e evitar colisões.',
-        'NF-e filtrada por status 100; NFS-e depende de número preenchido. Confirme regras de cancelamento/devolução de notas de serviço no seu ambiente.',
-        'Confirme se os valores corrigidos e pagamentos do TRECEBER são a regra final desejada e se todos os títulos estão vinculados a COD_ORCAMENTO.',
+        'NF-e filtrada por status 100 e CANCELADA = 0; NFS-e exige numero municipal e CANCELADA = 0. Confira excecoes no CPS.',
+        'TRECEBER considera PREVISAO = 0 e N_NF > 0. Confira a regra para valores corrigidos e titulos vinculados a COD_ORCAMENTO.',
         ...(i.period?['Há um período na solicitação que não foi aplicado automaticamente; acrescente os limites em DT_EMISSAO ou DT_VENCIMENTO.']:[])
       ],kind:'Consulta financeira estruturada'};
   }
@@ -277,6 +280,12 @@ JOIN financeiro_orcamento f
       return {sql,tableRoute:[root.toUpperCase(),s.to.toUpperCase()],warnings:['Filtro NOT EXISTS aplicado usando as chaves identificadas nas queries. Revise definição de ausência (sem filhos, sem movimentações etc.).'],evidence:s.rel.files.slice(0,3),joins,kind:'Consulta de ausência (NOT EXISTS)'};
     }
     const conditions=[];
+    const hasNF=aliases.has('tnota_fiscal'), nfAlias=aliases.get('tnota_fiscal');
+    // Nota emitida tem regra de emissao: nao basta a tabela TNOTA_FISCAL aparecer no JOIN.
+    if(hasNF && /\b(?:emitid[oa]s?|faturad[oa]s?|emitiram|emissao)\b/.test(i.q)) {
+      conditions.push(nfAlias+'.cancelada = 0');
+      conditions.push('('+nfAlias+".modelo = '55' AND "+nfAlias+".nfe_cod_status = '100' OR "+nfAlias+".modelo = '1' AND NULLIF(TRIM("+nfAlias+".numero_nfse::text), '') IS NOT NULL)");
+    }
     if(i.company!==null) {
       if(root==='tempresa')conditions.push(aliases.get(root)+'.codigo = '+i.company);
       else if(root==='treceber'||root==='tpagar'||i.root.id!=='tempresa'){
@@ -284,9 +293,15 @@ JOIN financeiro_orcamento f
       }
     }
     if(i.unpaid && !i.expectsReceipt) {
-      for(const table of ['treceber','tpagar'])if(aliases.has(table)) {
-        conditions.push('COALESCE('+aliases.get(table)+'.pago,0) <> 1');
-        break;
+      const table=['treceber','tpagar'].find(x=>aliases.has(x));
+      if(table) {
+        const a=aliases.get(table);
+        conditions.push('COALESCE('+a+'.pago,0) = 0');
+        if(table==='treceber') {
+          conditions.push('COALESCE('+a+'.previsao,0) = 0');
+          if(hasNF)conditions.push(a+'.n_nf > 0');
+          conditions.push('COALESCE('+a+'.valor_corrigido,'+a+'.valor,0) > COALESCE('+a+'.valor_pago,0)');
+        }
       }
     }
     if(i.late) {
@@ -298,6 +313,8 @@ JOIN financeiro_orcamento f
     const warnings=['Consulta relacional: JOINs baseados nas queries; revise duplicações de linha e cardinalidade antes de totalizar valores.'];
     if(disconnected.length)warnings.unshift('Não foi possível conectar: '+disconnected.join(', ')+'. Essas tabelas ficaram fora do SQL.');
     if(i.expectsReceipt)warnings.unshift('Pedido ainda não recebido: falta regra validada para recebimento físico/entrada em estoque. SQL mostra os vínculos, mas NÃO filtra pedidos sem recebimento.');
+    if(i.unpaid && !i.expectsReceipt && !aliases.has('treceber') && !aliases.has('tpagar'))warnings.unshift('Saldo pendente solicitado, mas nenhuma tabela financeira no caminho: filtro de saldo NÃO aplicado.');
+    if(/\b(?:emitid[oa]s?|faturad[oa]s?|emitiram|emissao)\b/.test(i.q) && !hasNF)warnings.unshift('Nota emitida solicitada, mas TNOTA_FISCAL nao entrou no caminho: filtro de emissao NÃO aplicado.');
     if(i.missing)warnings.push('Condição de ausência (SEM/NÃO TEM) com múltiplas tabelas: revise o filtro NOT EXISTS; não foi aplicado automaticamente.');
     if(i.period)warnings.push('Período mencionado, mas nenhum filtro temporal foi aplicado. Defina a coluna e datas exatas.');
     if(i.paid && !i.unpaid)warnings.push('Pedido de valores já pagos detectado; confira o filtro PAGO, que não foi aplicado nesta consulta relacional.');
@@ -366,6 +383,6 @@ JOIN financeiro_orcamento f
   $('#nl-ask').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();run();}});
   try{$('#nl-ask').value=localStorage.getItem('cps-joinlab-ask')||'';$('#nl-extra').value=localStorage.getItem('cps-joinlab-manual')||'';}catch(e){}
   const origMenu=window.location.hash; if(origMenu==='#natural')openTab('natural');
-  window.CPSJoinLabNL={generate,parseRequest,route,version:'2.0'}; // diagnostic/testing only
+  window.CPSJoinLabNL={generate,parseRequest,route,version:'2.1'}; // diagnostic/testing only
   function $$(sel){return Array.from(document.querySelectorAll(sel));}
 })();
