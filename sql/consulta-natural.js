@@ -1,12 +1,35 @@
-/* CPS JoinLab — Consultas por objetivo v2.1 (28/10/2026)
+/* CPS JoinLab — Consultas por objetivo v3.0 (28/10/2026)
    Gerador local baseado no catalogo de JOINs extraidos de 172 SQLs.
    Nao usa API privada, nao executa instrucoes e nao inventa relacionamentos.
 */
 (function () {
   'use strict';
   var DB = JSON.parse(document.querySelector('#data-json').textContent);
-  var RR = DB.relationships.filter(r => r.keys && r.keys.length && !r.needs_review && (!r.derived || r.id==='R0154'));
-  var allTables = new Set(DB.tables.map(t => t.name));
+  var SCHEMA=window.CPSSchema||{meta:{tables:0,cols:0},tables:{},core:[],automatic:[]};
+  var allTables = new Set([...DB.tables.map(t=>t.name),...Object.keys(SCHEMA.tables)]);
+  var RR = DB.relationships.filter(r=>r.keys&&r.keys.length&&!r.needs_review&&(!r.derived||r.id==='R0154'))
+    .map(r=>({...r,origin:'SQL historico',files:r.files||[]}));
+  function sigRel(r){
+    const names=[r.a,r.b].sort(),pairs=(r.a===names[0]?r.keys:r.keys.map(([a,b])=>[b,a]));
+    return names.join('/')+'/'+pairs.map(([a,b])=>a+'='+b).sort().join('/');
+  }
+  const seen=new Set(RR.map(sigRel));
+  function addSchemaJoin(r,source,id){
+    const a=r.origem,b=r.destino;
+    if(!allTables.has(a)||!allTables.has(b))return;
+    let keys=[];
+    if(source==='Estrutura CPS')keys=(r.join||'').split(';').map(x=>x.split('=')).filter(x=>x.length===2&&x.every(Boolean));
+    else {const re=/a\.([a-z_][a-z0-9_]*)\s*=\s*b\.([a-z_][a-z0-9_]*)/gi;let m;
+      while((m=re.exec(r.join||''))!==null)keys.push([m[1].toLowerCase(),m[2].toLowerCase()]);}
+    if(!keys.length)return;
+    const af=(SCHEMA.tables[a]?.fields||[]).map(c=>c[0]),bf=(SCHEMA.tables[b]?.fields||[]).map(c=>c[0]);
+    if(!keys.every(([x,y])=>af.includes(x)&&bf.includes(y)))return;
+    const edge={a,b,keys,origin:source,files:[],file_count:0,id};
+    const sig=sigRel(edge);if(seen.has(sig))return;
+    seen.add(sig);RR.push(edge);
+  }
+  (SCHEMA.core||[]).forEach((r,i)=>addSchemaJoin(r,'Estrutura CPS','CORE_'+(i+1)));
+  (SCHEMA.automatic||[]).forEach((r,i)=>addSchemaJoin(r,'Sugestao automatica','AUTO_'+(i+1)));
   var adj = new Map();
   RR.forEach(r => {
     for (const t of [r.a,r.b]) {
@@ -68,7 +91,7 @@
   function edgeCost(r) {
     const hasEmp = r.keys.some(([a,b])=>a==='cod_empresa' && b==='cod_empresa');
     const weak = r.keys.length < 2 ? 5 : 0;
-    return 9 + 9/(1+Math.log2(1+(r.file_count||1))) + (hasEmp ? 0 : 7) + weak + (r.derived?13:0) + ((r.a==='tord_serv'||r.b==='tord_serv')?55:0);
+    return 9 + 9/(1+Math.log2(1+(r.file_count||1))) + (hasEmp ? 0 : 7) + weak + (r.derived?13:0) + ((r.a==='tord_serv'||r.b==='tord_serv')?55:0) + (r.origin==='Estrutura CPS'?25:0) + (r.origin==='Sugestao automatica'?65:0);
   }
   // Dijkstra em grafo pequeno. Nunca atravessa cadastro genérico como atalho.
   function route(fromSet, dest, occupied) {
@@ -101,10 +124,9 @@
       const ix=(c.id==='tos') ? Math.min(firstText(q,new RegExp(c.pattern.source,'g')),firstText(raw,/\bOS\b/g)) : firstText(q,new RegExp(c.pattern.source,'g'));
       if(Number.isFinite(ix)&&allTables.has(c.id))found.push({...c,ix,via:'texto'});
     }
-    for(const t of DB.tables) {
-      const rx=new RegExp('\\b'+t.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','g');
-      let ix=firstText(q,rx);
-      if(Number.isFinite(ix) && !found.some(x=>x.id===t.name))found.push({id:t.name,name:t.name.toUpperCase(),ix,via:'tabela explícita'});
+    for(const name of allTables) {
+      const rx=new RegExp('\\b'+name+'\\b','g'),ix=firstText(q,rx);
+      if(Number.isFinite(ix) && !found.some(x=>x.id===name))found.push({id:name,name:name.toUpperCase(),ix,via:'tabela explicita'});
     }
     if(manual.trim()) {
       for(const t of manual.split(/[,;\s]+/).map(x=>x.toLowerCase().trim()).filter(Boolean)) {
