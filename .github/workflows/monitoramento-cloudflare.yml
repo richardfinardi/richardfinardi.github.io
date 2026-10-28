@@ -3,13 +3,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -20,8 +23,39 @@ jobs:
         run: |
           test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Configure CLOUDFLARE_ACCOUNT_ID nos secrets"; exit 1; }
           test -n "$CLOUDFLARE_API_TOKEN" || { echo "Configure CLOUDFLARE_API_TOKEN nos secrets"; exit 1; }
-      - name: Publicar Worker e agendamento
+      - name: Publicar Worker, armazenamento e cron de 5 minutos
+        id: deploy
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: npx --yes wrangler@4 deploy --config monitoramento/cloudflare/wrangler.json
+        run: |
+          set -euo pipefail
+          npx --yes wrangler@4 deploy --config monitoramento/cloudflare/wrangler.json 2>&1 | tee /tmp/worker-deploy.log
+          WORKER_URL=$(grep -Eo 'https://[a-zA-Z0-9._-]+[.]workers[.]dev' /tmp/worker-deploy.log | head -n 1 || true)
+          if [ -z "$WORKER_URL" ]; then
+            echo "::error::Worker publicado, mas o URL workers.dev nao apareceu na saida."
+            echo "Abra o painel Cloudflare Workers e veja o endereco do projeto auvriun-api-monitor."
+            exit 1
+          fi
+          echo "worker_status_url=${WORKER_URL%/}/status" >> "$GITHUB_OUTPUT"
+      - name: Confirmar que o endpoint publico responde
+        env:
+          WORKER_URL: ${{ steps.deploy.outputs.worker_status_url }}
+        run: |
+          curl --fail --silent --show-error --max-time 25 "$WORKER_URL" > /tmp/worker-status.json
+          node -e 'const o=require("/tmp/worker-status.json"); if(!Array.isArray(o.monitores))process.exit(1); console.log("Endpoint status validado: "+o.monitores.length+" APIs registradas.");'
+      - name: Configurar painel e widget automaticamente
+        env:
+          WORKER_URL: ${{ steps.deploy.outputs.worker_status_url }}
+        run: |
+          node -e 'const fs=require("fs"); const p="monitoramento/data-source.json"; fs.writeFileSync(p,JSON.stringify({worker_url:process.env.WORKER_URL,nota:"Status via Cloudflare Worker da AUVRIUN. Nao alterar sem atualizar o Worker."},null,2)+"\n");'
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add monitoramento/data-source.json
+          if git diff --cached --quiet; then echo "Endereco ja configurado."; exit 0; fi
+          git commit -m "chore(monitoramento): conectar painel e widget ao Cloudflare [skip ci]"
+          for attempt in 1 2 3; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            sleep 3
+          done
+          exit 1
