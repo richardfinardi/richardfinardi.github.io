@@ -1,0 +1,4 @@
+{
+  "worker_url": "",
+  "nota": "Preencher com https://auvriun-api-monitor.<subdominio>.workers.dev/status apos publicar o Worker. Mantem fallback GitHub ate validar."
+}

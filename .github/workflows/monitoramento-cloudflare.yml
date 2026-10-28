@@ -1,0 +1,27 @@
+name: Deploy AUVRIUN Monitor - Cloudflare
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Confirmar credenciais Cloudflare
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Configure CLOUDFLARE_ACCOUNT_ID nos secrets"; exit 1; }
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Configure CLOUDFLARE_API_TOKEN nos secrets"; exit 1; }
+      - name: Publicar Worker e agendamento
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx --yes wrangler@4 deploy --config monitoramento/cloudflare/wrangler.json
