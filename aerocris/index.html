@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aerocris | Pré-custeio - CONSULTORIA.RF</title>
+<style>
+:root{font-family:Inter,"Segoe UI",Arial,sans-serif;color:#e5e7eb;background:#0d0d0f;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;padding:20px 14px 60px}main{max-width:1180px;margin:auto}
+h1,h2,h3,p{margin-top:0}h1{font-size:clamp(22px,4vw,31px);margin-bottom:8px}h2{font-size:18px;margin-bottom:10px}
+small,.muted{color:#a1a1aa}.eyebrow{color:#f6a45d;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.panel{background:#18181c;border:1px solid #303039;border-radius:14px;padding:18px;margin:17px 0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}button,.upload{border:1px solid #4a4a55;background:#25252d;color:#f4f4f5;border-radius:8px;padding:10px 13px;font-size:12px;font-weight:750;cursor:pointer}
+button:hover,.upload:hover{background:#353541}.accent{background:#c65319;border-color:#c65319}.accent:hover{background:#d86b2f}
+button:disabled{opacity:.5;cursor:default}input[type=file]{display:none}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+.metric{border:1px solid #34343c;border-radius:11px;background:#222228;padding:15px}
+.metric strong{font-size:25px;display:block;margin:5px 0;color:#fafafa}.metric span{color:#aaaab4;font-size:11px;text-transform:uppercase;font-weight:700}
+.warning{border-left:3px solid #f59e0b;padding:11px 13px;background:#302719;border-radius:7px;color:#f6d99c;font-size:12px;line-height:1.6;margin-top:12px}
+.ok{border-left-color:#27b793;background:#152d28;color:#94f2d1}
+.tabs{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}.tabs button.active{background:#c65319;border-color:#c65319}
+.tablewrap{overflow:auto;border:1px solid #34343d;border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap}
+th,td{padding:10px 11px;border-bottom:1px solid #303037;text-align:left}
+th{position:sticky;top:0;background:#24242b;color:#c7c7ce;font-size:10px;letter-spacing:.03em;text-transform:uppercase}
+td.num,th.num{text-align:right}tr:hover td{background:#22222a}
+input[type=number]{background:#101014;color:#f3f4f6;border:1px solid #474752;border-radius:6px;padding:7px;text-align:right;width:90px}
+input[type=number]:focus{outline:2px solid #e37a40}input[type=number].wide{width:115px}
+tfoot td{background:#27272e;font-weight:800;color:#fff}
+.pill{display:inline-block;padding:3px 7px;font-size:10px;font-weight:750;border-radius:20px;background:#263c34;color:#73e0b3}
+.pill.off{background:#393032;color:#ffb99f}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.note{font-size:12px;line-height:1.65;color:#bcbcc5}
+.hide{display:none!important}.status{font-size:12px;color:#cfcfd5;font-weight:700}
+a{color:#f6a45d}
+@media(max-width:760px){.metrics{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}.panel{padding:13px}body{padding:12px 9px 45px}td,th{padding:9px 8px}.metric strong{font-size:21px}}
+@media print{body{background:#fff;color:#141414;padding:0}.panel,.metric{border-color:#bbb;background:#fff}.metric strong{color:#141414}.tabs,.actions,#import-note{display:none!important}th{background:#eee;color:#111}td{border-color:#ddd}.note,.muted{color:#444}}
+</style></head>
+<body><main id="application" class="hide">
+<div class="top">
+ <div><span class="eyebrow">CONSULTORIA.RF / ESTUDOS DE CUSTO</span><h1>Aerocris · Pré-custeio</h1><p class="muted">Comparação de estruturas, capacidade, folha de pagamento e rateios · base 3º trimestre de 2026</p></div>
+ <div class="actions"><label class="upload accent" for="arquivo">Importar base privada (.json)</label><input id="arquivo" type="file" accept=".json,application/json"><button id="baixar">Exportar rascunho</button><button onclick="window.print()">Imprimir</button></div>
+</div>
+<div id="import-note" class="warning">Estrutura pronta, sem dados financeiros no repositório. Importe a base privada preparada a partir dos três anexos para carregar recursos, DRE e salários somente nesta sessão do navegador. Nenhum arquivo é enviado à internet.</div>
+<div class="metrics"><div class="metric"><span>Versão 1</span><strong>9 centros</strong><small>Estrutura completa</small></div><div class="metric"><span>Versão 2</span><strong>5 centros</strong><small>4 setores rateados</small></div><div class="metric"><span>Jornada por turno</span><strong>42 h</strong><small>8h24 por dia, intervalo 1h</small></div><div class="metric"><span>Máquinas 5 eixos</span><strong>4</strong><small>Priorizar operadores de maior salário</small></div></div>
+<div class="panel"><div class="top"><div><h2>Parâmetros de capacidade</h2><div class="note">Base mensal aproximada: 42 h/semana × 52/12 = 182 h por turno. Horas efetivas = postos × turnos × 182 × utilização. Ajuste os postos e os turnos conforme a operação real.</div></div><span class="status" id="status-dados">Sem base financeira</span></div>
+<div class="tabs"><button class="active" data-tab="comparar">Comparativo</button><button data-tab="premissas">Centros e horas</button><button data-tab="rateios">Rateios da V2</button><button data-tab="folha">Mão de obra</button><button data-tab="dre">Conciliação DRE</button></div>
+<div id="comparar" class="tabcontent"><div class="tablewrap"><table><thead><tr><th>Centro de custo</th><th class="num">Custo V1 (R$/mês)</th><th class="num">Horas V1</th><th class="num">R$/h V1</th><th class="num">Custo V2 (R$/mês)</th><th class="num">R$/h V2</th></tr></thead><tbody id="compare-body"></tbody><tfoot id="compare-foot"></tfoot></table></div><p class="note" id="comparativo-nota"></p></div>
+<div id="premissas" class="tabcontent hide"><div class="tablewrap"><table><thead><tr><th>Centro</th><th>V1</th><th>V2</th><th class="num">Utilização</th><th class="num">Postos</th><th class="num">Turnos</th><th class="num">Horas/mês</th><th class="num">Salário-base/mês</th><th class="num">Outros custos/mês</th></tr></thead><tbody id="premissas-body"></tbody></table></div><p class="note">Postos são máquinas para os centros mecanizados e posições de trabalho nos setores manuais. Os valores de salários-base não incluem automaticamente encargos, benefícios, depreciação ou demais despesas; informe custos adicionais apenas após conciliar com a DRE para evitar dupla contagem.</p></div>
+<div id="rateios" class="tabcontent hide"><div class="top"><h2>Distribuição dos quatro centros que deixam de ser independentes</h2><button id="auto-rateio">Recalcular proporções por horas</button></div><p class="note">Rateio inicial <strong>provisório</strong> pelas horas efetivas dos cinco centros remanescentes. Ajuste os percentuais conforme uso real de Corte, Engenharia, Ajustagem e Inspeção. Cada linha deve fechar exatamente 100%.</p><div class="tablewrap"><table><thead><tr><th>Origem</th><th class="num">Torno CNC</th><th class="num">CTU 3 eixos</th><th class="num">CTU 5 eixos</th><th class="num">Fresa</th><th class="num">Montagem</th><th class="num">Total</th></tr></thead><tbody id="rateios-body"></tbody></table></div><div id="validacao-rateios" class="warning"></div></div>
+<div id="folha" class="tabcontent hide"><h2>Alocação sugerida — operadores CNC</h2><p class="note">Para cada turno, os quatro maiores salários-base dos operadores de centro de usinagem CNC são sugeridos para as quatro máquinas de 5 eixos. Os demais permanecem provisoriamente em CTU 3 eixos. A alocação depende de validação operacional; não substitui vínculo nominal real da máquina.</p><div class="tablewrap"><table><thead><tr><th>Turno</th><th>Operador sugerido</th><th>Senioridade</th><th class="num">Salário-base (R$)</th></tr></thead><tbody id="operadores-body"></tbody></table></div><p id="pendentes" class="warning"></p></div>
+<div id="dre" class="tabcontent hide"><div class="cols"><div class="panel"><h2>DRE — julho a setembro/2026</h2><div id="dre-resumo" class="note">Importe a base privada.</div></div><div class="panel"><h2>Cuidados para o fechamento</h2><p class="note">A DRE contém totais trimestrais; mensalização = trimestre ÷ 3. Recursos são <strong>investimentos</strong>, não despesas mensais. A folha recebida contém salários-base e vagas previstas; encargos, benefícios, impostos, serviços de terceiros e depreciação exigem conciliação antes do custeio definitivo.</p><p class="note">Na versão 2, nenhum custo de setor excluído deve desaparecer: o valor é redistribuído aos cinco centros mantidos. Custos administrativos permanecem identificados separadamente até definição do critério aprovado.</p></div></div></div></div>
+<div class="panel"><h2>Próxima etapa no sistema</h2><p class="note">Cadastrar o cliente AEROCRIS no módulo Administração. Em seguida criar períodos <strong>3T/2026 · V1 — 9 centros</strong> e <strong>3T/2026 · V2 — 5 centros</strong>, vinculando o plano validado ao backend. Este pré-custeio é apenas uma simulação local: <strong>não altera o cliente, o período ativo ou o banco de dados</strong>.</p></div>
+</main><div id="denied" class="panel hide"><h2>Acesso pelo portal de custos</h2><p>Abra este módulo dentro da aba Aerocris no aplicativo <a href="../app.html">Análise de Custos</a>, com perfil administrador.</p></div>
+<script>
+"use strict";
+(function(){
+const CC=[
+{id:"CORTE",nome:"Corte",util:55,keep:false,turnos:2},
+{id:"TORNO CNC",nome:"Torno CNC",util:55,keep:true,turnos:2},
+{id:"CTU 3 EIXOS",nome:"CTU 3 Eixos",util:70,keep:true,turnos:2},
+{id:"CTU 5 EIXOS",nome:"CTU 5 Eixos",util:70,keep:true,turnos:2},
+{id:"ENGENHARIA",nome:"Engenharia",util:70,keep:false,turnos:1},
+{id:"FRESA CONVENCIONAL",nome:"Fresa Convencional",util:55,keep:true,turnos:2},
+{id:"MONTAGEM COMPONENTES",nome:"Montagem Componentes",util:55,keep:true,turnos:1},
+{id:"AJUSTAGEM",nome:"Ajustagem",util:70,keep:false,turnos:2},
+{id:"INSPEÇÃO",nome:"Inspeção",util:70,keep:false,turnos:2}
+];
+const KEPT=CC.filter(c=>c.keep), REMOVED=CC.filter(c=>!c.keep);
+let base=null,prefs={postos:{},turnos:{},outros:{},rateios:{}},tab="comparar";
+const $=id=>document.getElementById(id);
+const fmt=n=>Number(n||0).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const money=n=>"R$ "+fmt(n);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sum=a=>a.reduce((s,v)=>s+(Number(v)||0),0);
+function mapDept(setor){
+const x=String(setor||"").trim().toUpperCase();
+const mapping={"SERRA":"CORTE","TORNO CNC":"TORNO CNC","FRESA CONVENCIONAL":"FRESA CONVENCIONAL","MONTAGEM":"MONTAGEM COMPONENTES","AJUSTAGEM":"AJUSTAGEM","ENGENHARIA":"ENGENHARIA","CONTROLE DE QUALIDADE":"INSPEÇÃO","GESTÃO DA QUALIDADE":"INSPEÇÃO","ADMINISTRAÇÃO":"ADM"};
+return mapping[x]||"PENDENTE";
+}
+function staffing(){
+const people=base&&Array.isArray(base.funcionarios)?base.funcionarios:[];
+const cnc=people.filter(p=>String(p.setor).trim()==="CENTRO DE USINAGEM"&&/OPERADOR DE CENTRO DE USINAGEM CNC/i.test(p.funcao));
+const five=[],selected=new Set();
+["1º TURNO","2º TURNO"].forEach(t=>{
+cnc.filter(p=>p.turno===t).sort((a,b)=>Number(b.salario)-Number(a.salario)).slice(0,4).forEach(p=>{selected.add(p);five.push(p);});
+});
+const values={},counts={},pendentes=[];
+people.forEach(p=>{
+let id=mapDept(p.setor);
+if(String(p.setor).trim()==="CENTRO DE USINAGEM")id=selected.has(p)?"CTU 5 EIXOS":"CTU 3 EIXOS";
+if(id==="PENDENTE")pendentes.push(p);
+values[id]=(values[id]||0)+(Number(p.salario)||0);
+counts[id]=(counts[id]||0)+1;
+});
+return {values,counts,pendentes,five,cnc};
+}
+function countedResources(id){
+if(!base||!Array.isArray(base.recursos))return id==="CTU 5 EIXOS"?4:0;
+return base.recursos.filter(r=>r.centro===id&&(id==="CORTE"||id==="TORNO CNC"||id==="CTU 3 EIXOS"||id==="CTU 5 EIXOS"||id==="FRESA CONVENCIONAL")).length;
+}
+function defaultPosts(c,staff){
+if(["CORTE","TORNO CNC","CTU 3 EIXOS","CTU 5 EIXOS","FRESA CONVENCIONAL"].includes(c.id))return countedResources(c.id);
+if(c.id==="MONTAGEM COMPONENTES")return staff.counts[c.id]||0;
+return staff.counts[c.id]||0;
+}
+function capacity(c,staff){
+const posts=Number(prefs.postos[c.id]??defaultPosts(c,staff));
+const shifts=Number(prefs.turnos[c.id]??c.turnos);
+return {posts,shifts,h:Math.max(0,posts*shifts*182*c.util/100)};
+}
+function weightedRates(staff){
+const hs=KEPT.map(c=>capacity(c,staff).h),den=sum(hs);
+return den>0?hs.map(v=>100*v/den):KEPT.map(()=>0);
+}
+function rateFor(id,staff){return Array.isArray(prefs.rateios[id])?prefs.rateios[id]:weightedRates(staff);}
+function compute(){
+const staff=staffing(),capacities={},v1={},v2={};
+CC.forEach(c=>{capacities[c.id]=capacity(c,staff);v1[c.id]=(staff.values[c.id]||0)+(Number(prefs.outros[c.id])||0);if(c.keep)v2[c.id]=v1[c.id];});
+let valid=true;
+REMOVED.forEach(c=>{
+const rates=rateFor(c.id,staff),total=sum(rates);
+if(Math.abs(total-100)>0.05||rates.some(r=>Number(r)<0))valid=false;
+KEPT.forEach((target,i)=>{v2[target.id]+=(v1[c.id]||0)*(Number(rates[i])||0)/100;});
+});
+const t1=sum(CC.map(c=>v1[c.id])),t2=sum(KEPT.map(c=>v2[c.id]));
+return {staff,capacities,v1,v2,valid,t1,t2};
+}
+function numInput(key,id,v,min,max){
+return '<input type="number" data-field="'+key+'" data-id="'+esc(id)+'" min="'+min+'" max="'+max+'" step="any" value="'+esc(v)+'">';
+}
+function render(){
+const d=compute();
+$("status-dados").textContent=base?"Base privada carregada apenas nesta sessão":"Sem base financeira";
+$("status-dados").style.color=base?"#5fe1b7":"#eab27d";
+$("premissas-body").innerHTML=CC.map(c=>{
+const h=d.capacities[c.id],sal=d.staff.values[c.id]||0,extra=Number(prefs.outros[c.id])||0;
+return "<tr><td><strong>"+esc(c.nome)+"</strong></td><td><span class=pill>Sim</span></td><td><span class='pill "+(c.keep?"":"off")+"'>"+(c.keep?"Sim":"Rateado")+"</span></td><td class=num>"+c.util+"%</td><td class=num>"+numInput("postos",c.id,h.posts,0,1000)+"</td><td class=num>"+numInput("turnos",c.id,h.shifts,0,3)+"</td><td class=num>"+fmt(h.h)+"</td><td class=num>"+money(sal)+"</td><td class=num>"+numInput("outros",c.id,extra,0,100000000)+"</td></tr>";
+}).join("");
+$("compare-body").innerHTML=CC.map(c=>{
+const h=d.capacities[c.id].h,a=d.v1[c.id]||0,b=c.keep?d.v2[c.id]:null;
+return "<tr><td>"+esc(c.nome)+(c.keep?"":" <small>· rateado na V2</small>")+"</td><td class=num>"+money(a)+"</td><td class=num>"+fmt(h)+"</td><td class=num>"+(h.h?money(a/h.h):"—")+"</td><td class=num>"+(c.keep?money(b):"Distribuído")+"</td><td class=num>"+(c.keep&&h.h?money(b/h.h):"—")+"</td></tr>";
+}).join("");
+$("compare-foot").innerHTML="<tr><td>TOTAL (9 CC → 5 CC)</td><td class=num>"+money(d.t1)+"</td><td></td><td></td><td class=num>"+money(d.t2)+"</td><td></td></tr>";
+$("comparativo-nota").textContent="A comparação usa salário-base mensal mais os custos mensais complementares que você informar. "+(d.valid&&Math.abs(d.t1-d.t2)<0.01?"O rateio preserva 100% dos custos considerados.":"ATENÇÃO: o rateio não fechou 100%; corrija antes de considerar a versão 2.")+" Não é custo-hora definitivo sem conciliar folha, encargos, benefícios, depreciação e plano de contas.";
+$("rateios-body").innerHTML=REMOVED.map(c=>{
+const rates=rateFor(c.id,d.staff);
+return "<tr><td><strong>"+esc(c.nome)+"</strong></td>"+rates.map((v,i)=>"<td class=num><input type=number class=wide data-rateio='"+esc(c.id)+"' data-target='"+i+"' min=0 max=100 step=0.01 value='"+Number(v).toFixed(2)+"'></td>").join("")+"<td class=num style='color:"+(Math.abs(sum(rates)-100)<0.05?"#65deb7":"#ff9090")+"'>"+fmt(sum(rates))+"%</td></tr>";
+}).join("");
+const msg=d.valid&&Math.abs(d.t1-d.t2)<0.01?"Rateios fechados em 100%. Custo V1 = custo V2; critérios ainda dependem de validação com a Aerocris.":"Há um rateio que não soma 100%, ou ainda falta carregar dados para definir as proporções.";
+$("validacao-rateios").textContent=msg;$("validacao-rateios").className="warning"+(d.valid&&Math.abs(d.t1-d.t2)<0.01?" ok":"");
+$("operadores-body").innerHTML=d.staff.five.length?d.staff.five.map(p=>"<tr><td>"+esc(p.turno)+"</td><td>"+esc(p.nome)+"</td><td>"+esc(p.senioridade)+"</td><td class=num>"+money(p.salario)+"</td></tr>").join(""):"<tr><td colspan=4>Importe a base privada para sugerir a alocação por salário e turno.</td></tr>";
+$("pendentes").textContent=d.staff.pendentes.length?d.staff.pendentes.length+" posições de áreas de apoio (incluindo eventuais vagas) ainda necessitam definição do centro de custo e do critério de rateio. Salário-base ainda não incorporado ao total dos nove centros: "+money(sum(d.staff.pendentes.map(p=>p.salario)))+".":"Nenhuma posição pendente de mapeamento nesta base.";
+if(base&&base.dre){
+const find=label=>base.dre.find(x=>x.conta===label);
+const rows=[["Receita bruta","RECEITA BRUTA"],["Custos de produção/serviços","CUSTOS DE PRODUÇÃO/SERVIÇOS"],["Mão de obra direta + encargos","MÃO-DE-OBRA DIRETA/ENCARGOS"],["Despesas operacionais","DESPESAS OPERACIONAIS"],["Lucro líquido","LUCRO LÍQUIDO DO EXERCÍCIO"]];
+$("dre-resumo").innerHTML=rows.map(([a,b])=>"<p><strong>"+a+"</strong><span style='float:right'>"+money((find(b)?.trimestre||0)/3)+" / mês</span></p>").join("")+"<small>Referência contábil trimestral mensalizada; não somar diretamente aos salários-base apresentados.</small>";
+}else $("dre-resumo").textContent="Importe a base privada para ver o resumo mensalizado.";
+}
+$("arquivo").addEventListener("change",async e=>{
+const f=e.target.files&&e.target.files[0];if(!f)return;
+try{
+const obj=JSON.parse(await f.text());
+if(obj.schema!=="rf-aerocris-base-privada-v1"||!Array.isArray(obj.funcionarios)||!Array.isArray(obj.recursos))throw Error("Arquivo não corresponde à base privada Aerocris.");
+base=obj;prefs=obj.rascunho&&obj.rascunho.prefs?obj.rascunho.prefs:{postos:{},turnos:{},outros:{},rateios:{}};
+["postos","turnos","outros","rateios"].forEach(k=>{if(!prefs[k])prefs[k]={};});
+$("import-note").className="warning ok";$("import-note").textContent="Base carregada em memória neste navegador: "+base.recursos.length+" recursos, "+base.funcionarios.length+" posições e "+base.dre.length+" linhas de DRE. Dados não publicados nem enviados. Cadastros de cliente e período ainda não foram realizados.";
+render();
+}catch(err){alert("Erro ao carregar base privada: "+err.message);}
+e.target.value="";
+});
+document.addEventListener("change",e=>{
+const f=e.target.dataset.field,id=e.target.dataset.id;
+if(f&&id){const v=Number(e.target.value);if(!Number.isFinite(v)||v<0)return alert("Informe um valor válido.");prefs[f][id]=v;render();}
+if(e.target.hasAttribute("data-rateio")){
+const origem=e.target.dataset.rateio,idx=Number(e.target.dataset.target),old=rateFor(origem,staffing()).slice();
+old[idx]=Number(e.target.value)||0;prefs.rateios[origem]=old;render();
+}
+});
+$("auto-rateio").addEventListener("click",()=>{prefs.rateios={};render();});
+document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{
+tab=b.dataset.tab;document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".tabcontent").forEach(x=>x.classList.toggle("hide",x.id!==tab));
+}));
+$("baixar").addEventListener("click",()=>{
+if(!base)return alert("Importe a base privada antes de exportar um rascunho.");
+const doc=Object.assign({},base,{rascunho:{prefs,exportado_em:new Date().toISOString()}});
+const blob=new Blob([JSON.stringify(doc,null,2)],{type:"application/json"});
+const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="aerocris_rascunho_privado.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+let autorizado=false;
+try{autorizado=window.parent!==window&&typeof window.parent.rfAdminEhAdministrador==="function"&&!!window.parent.rfAdminEhAdministrador();}catch(e){}
+$("application").classList.toggle("hide",!autorizado);$("denied").classList.toggle("hide",autorizado);
+if(autorizado)render();
+})();
+</script></body></html>
