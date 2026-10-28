@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#122543">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="../LOGO%20MINIMALISTA.png" type="image/png">
+  <title>Visões | Consultoria RF</title>
+  <style>
+    :root{color-scheme:light;--navy:#122543;--navy2:#1b3455;--ink:#1c2940;--muted:#67768d;--bg:#f3f6fa;--line:#dfe6ef;--teal:#0f947c;--white:#fff}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    button:disabled{cursor:wait;opacity:.7}
+    a{text-decoration:none;color:inherit}
+    [hidden]{display:none!important}
+    .header{background:var(--navy);color:white;border-bottom:3px solid #23b69c}
+    .header-inner{max-width:1100px;margin:auto;min-height:76px;padding:15px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .brand-mark{width:42px;height:42px;flex:none;display:grid;place-items:center;border-radius:12px;background:#fff;color:#172f4d;font-size:15px;font-weight:900;letter-spacing:-1px}
+    .brand h1{font-size:16px;line-height:1.15;letter-spacing:.01em;margin:0}
+    .brand p{font-size:11px;color:#b8cbe0;margin:3px 0 0}
+    .header-actions{display:flex;align-items:center;gap:12px}
+    .header-user{font-weight:700;font-size:12px;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .logout{background:#ffffff15;color:#f0f4fb;border:1px solid #ffffff35;border-radius:9px;padding:9px 13px;font-weight:700;font-size:12px}
+    .logout:hover{background:#ffffff28}
+    main{max-width:1100px;margin:0 auto;padding:31px 22px 52px}
+    .auth-layout{max-width:850px;margin:36px auto 0;display:grid;grid-template-columns:1fr 1fr;background:white;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 18px 60px #20344b14}
+    .auth-aside{background:linear-gradient(155deg,#142c4c,#23466a);color:white;padding:40px 32px;display:flex;flex-direction:column;justify-content:space-between;gap:25px}
+    .auth-aside h2{font-size:29px;line-height:1.16;letter-spacing:-.04em;margin:16px 0}
+    .auth-aside p{font-size:13px;color:#c8d6e5;max-width:285px}
+    .mini-stack{display:flex;gap:8px;flex-wrap:wrap}
+    .mini-stack span{border:1px solid #ffffff30;border-radius:8px;padding:7px 9px;font-size:10px;font-weight:750;color:#e1edf8;background:#ffffff0e}
+    .auth-content{padding:39px 32px}
+    .auth-content h2{font-size:24px;letter-spacing:-.03em;margin:0 0 6px}
+    .auth-content .intro{margin:0 0 25px;color:var(--muted);font-size:12px}
+    .field{margin-bottom:17px}
+    .field label{display:block;font-size:12px;font-weight:750;margin-bottom:6px}
+    .field input{display:block;width:100%;height:45px;border:1px solid #cfd9e6;border-radius:10px;padding:0 13px;outline:0;background:#fbfcfe;color:var(--ink)}
+    .field input:focus{border-color:#159e90;box-shadow:0 0 0 3px #159e901d}
+    .password-wrap{position:relative}
+    .password-wrap input{padding-right:78px}
+    .show-pass{position:absolute;right:5px;top:5px;border:0;background:transparent;color:#50617a;padding:8px 9px;font-weight:700;font-size:11px;border-radius:7px}
+    .show-pass:hover{background:#edf3f8}
+    .primary{display:block;width:100%;border:0;border-radius:10px;background:var(--navy);color:white;font-weight:800;padding:13px 15px}
+    .primary:hover{background:#1c4269}
+    .notice{font-size:12px;margin:14px 0 0;color:var(--muted)}
+    .notice.error{color:#b03b45}
+    .security{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:#718097;margin-top:18px}
+    .security svg{width:15px;height:15px;flex:none;margin-top:1px}
+    .welcome{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px}
+    .eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:900}
+    .welcome h2{font-size:29px;letter-spacing:-.04em;margin:4px 0 3px}
+    .welcome p{margin:0;color:var(--muted);font-size:12px}
+    .counter{padding:9px 13px;background:#e6f3f0;color:#216b59;border:1px solid #cde6df;border-radius:11px;font-size:12px;font-weight:800;white-space:nowrap}
+    .app-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+    .app-card{display:flex;flex-direction:column;min-height:192px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:20px;box-shadow:0 3px 16px #1f33550a;transition:transform .15s,box-shadow .15s,border-color .15s}
+    .app-card:hover{transform:translateY(-2px);border-color:#9bb6cf;box-shadow:0 10px 24px #1f33551c}
+    .app-top{display:flex;align-items:center;gap:12px}
+    .app-logo{width:42px;height:42px;border-radius:12px;background:var(--tint);color:var(--color);display:grid;place-items:center;font-weight:900;font-size:14px;letter-spacing:-.04em;flex:none}
+    .app-title{font-size:16px;font-weight:850;line-height:1.1}
+    .app-sub{font-size:11px;color:var(--muted);margin-top:5px}
+    .card-footer{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-top:auto;padding-top:20px}
+    .status{font-size:10px;font-weight:800;border-radius:7px;padding:5px 8px;background:#f0f3f7;color:#69788d;white-space:nowrap}
+    .status.ok{background:#e5f6ed;color:#1d7f52}
+    .status.warning{background:#fff2de;color:#a26517}
+    .status.fail{background:#fff0f0;color:#ae4a50}
+    .open{font-size:12px;color:#0d7468;font-weight:850}
+    .info{margin-top:20px;padding:15px 18px;border:1px solid var(--line);background:#fff;border-radius:13px;color:#627187;font-size:12px}
+    .info strong{color:#273b53}
+    footer{text-align:center;margin:33px 0 0;font-size:11px;color:#93a0b1}
+    @media(max-width:800px){.app-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:630px){
+      main{padding:20px 15px 35px}.header-inner{padding:12px 15px;min-height:69px}.brand h1{font-size:14px}
+      .auth-layout{display:block;margin:12px auto 0}.auth-aside{padding:25px 23px;gap:12px}.auth-aside h2{font-size:22px;margin:0}.auth-aside p{margin:8px 0 0}.mini-stack{display:none}.auth-content{padding:26px 23px}
+      .welcome{align-items:flex-start;flex-direction:column;gap:10px}.welcome h2{font-size:25px}.header-user{display:none}
+      .app-grid{grid-template-columns:1fr;gap:11px}.app-card{min-height:144px;padding:17px}.card-footer{padding-top:15px}
+    }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <a class="brand" href="./" aria-label="Página inicial de Visões">
+      <span class="brand-mark">RF</span>
+      <span><h1>Consultoria RF</h1><p>Visões · Central de aplicações</p></span>
+    </a>
+    <div class="header-actions" id="userControls" hidden>
+      <span id="displayUser" class="header-user"></span>
+      <button type="button" class="logout" id="logoutButton">Sair de todas</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="loginView" class="auth-layout" aria-labelledby="loginTitle">
+    <aside class="auth-aside">
+      <div><div class="eyebrow" style="color:#53ddc2">Central de aplicações</div>
+        <h2>Um acesso.<br>Cinco clientes.</h2>
+        <p>Entre com seu usuário e senha padrão para abrir as aplicações de seus clientes a partir de um único menu.</p>
+      </div>
+      <div class="mini-stack" aria-hidden="true"><span>ANFEER</span><span>PSTEC</span><span>SINTERCAN</span><span>COLUMBIA</span><span>BRASTORNO</span></div>
+    </aside>
+    <div class="auth-content">
+      <h2 id="loginTitle">Entrar em Visões</h2>
+      <p class="intro">Usaremos as próprias APIs dos clientes para validar cada sessão.</p>
+      <form id="loginForm">
+        <div class="field"><label for="username">Usuário</label><input id="username" name="username" autocomplete="username" autocapitalize="characters" spellcheck="false" required placeholder="Seu usuário CPS / GRV"></div>
+        <div class="field"><label for="password">Senha</label>
+          <div class="password-wrap"><input id="password" type="password" name="password" autocomplete="current-password" required placeholder="Digite sua senha"><button class="show-pass" type="button" id="togglePassword" aria-label="Mostrar senha">Mostrar</button></div>
+        </div>
+        <button type="submit" class="primary" id="loginButton">Entrar nas aplicações</button>
+        <p class="notice" id="loginMessage" role="status" aria-live="polite">O acesso depende das permissões e da disponibilidade de cada cliente.</p>
+        <div class="security">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <span>A senha não é salva no navegador nem no GitHub. Apenas as sessões retornadas pelos sistemas são armazenadas neste dispositivo.</span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section id="dashboardView" hidden aria-labelledby="dashboardTitle">
+    <div class="welcome">
+      <div><span class="eyebrow">Área de trabalho</span><h2 id="dashboardTitle">Minhas aplicações</h2><p>Escolha o cliente. O login já validado será reaproveitado.</p></div>
+      <span class="counter" id="sessionCounter">0 de 5 sessões</span>
+    </div>
+    <div class="app-grid">
+      <a class="app-card" href="../anfeer/" style="--color:#c4323a;--tint:#ffedf0" aria-label="Abrir ANFEER">
+        <div class="app-top"><span class="app-logo">AN</span><span><span class="app-title">ANFEER</span><span class="app-sub" style="display:block">Apontamentos, PLR e manutenção</span></span></div>
+        <div class="card-footer"><span class="status" id="status-anfeer">Verificando</span><span class="open">Abrir ↗</span></div>
+      </a>
+      <a class="app-card" href="../pstec/" style="--color:#0f52a4;--tint:#eaf2ff" aria-label="Abrir PSTEC">
+        <div class="app-top"><span class="app-logo">PS</span><span><span class="app-title">PSTEC</span><span class="app-sub" style="display:block">Gestão, produção e indicadores</span></span></div>
+        <div class="card-footer"><span class="status" id="status-pstec">Verificando</span><span class="open">Abrir ↗</span></div>
+      </a>
+      <a class="app-card" href="../sintercan/" style="--color:#a27008;--tint:#fff5db" aria-label="Abrir Sintercan">
+        <div class="app-top"><span class="app-logo">SI</span><span><span class="app-title">Sintercan</span><span class="app-sub" style="display:block">Produção, carteira e faturamento</span></span></div>
+        <div class="card-footer"><span class="status" id="status-sintercan">Verificando</span><span class="open">Abrir ↗</span></div>
+      </a>
+      <a class="app-card" href="../columbia/" style="--color:#16689a;--tint:#e6f5fd" aria-label="Abrir Columbia">
+        <div class="app-top"><span class="app-logo">CO</span><span><span class="app-title">Columbia</span><span class="app-sub" style="display:block">Análises, produção e PCP</span></span></div>
+        <div class="card-footer"><span class="status" id="status-columbia">Verificando</span><span class="open">Abrir ↗</span></div>
+      </a>
+      <a class="app-card" href="../brastorno/" style="--color:#557d31;--tint:#edf5e7" aria-label="Abrir Brastorno">
+        <div class="app-top"><span class="app-logo">BR</span><span><span class="app-title">Brastorno</span><span class="app-sub" style="display:block">Controle de fábrica e Kanban</span></span></div>
+        <div class="card-footer"><span class="status" id="status-brastorno">Verificando</span><span class="open">Abrir ↗</span></div>
+      </a>
+    </div>
+    <div class="info" id="dashboardMessage" role="status" aria-live="polite">
+      <strong>Importante:</strong> Cada sistema continua aplicando suas próprias permissões. Se uma API estiver desligada ou rejeitar o acesso, o login individual poderá ser solicitado.
+    </div>
+    <footer>Consultoria RF · Visões</footer>
+  </section>
+</main>
+<script>
+(function(){
+  'use strict';
+  var APPS=[
+    {id:'anfeer',type:'profile',key:'anfeer_user',url:'https://anfeer.consultoriarf.net/login'},
+    {id:'pstec',type:'jwt',key:'pstec_token',url:'https://pstec.consultoriarf.net/producao/login'},
+    {id:'sintercan',type:'profile',key:'sintercan_user',url:'https://sintercan.consultoriarf.net/login'},
+    {id:'columbia',type:'jwt',key:'columbia_analista_token',url:'https://columbia.consultoriarf.net/producao/portal/login',fallback:'https://columbia.consultoriarf.net/producao/analista/login'},
+    {id:'brastorno',type:'jwt',key:'brastorno_token',url:'https://brastorno.consultoriarf.net/producao/login'}
+  ];
+  var AUTH_KEYS=['anfeer_user','pstec_token','pstec_usuario_nome','pstec_perm_faturamento','pstec_perm_finalizacao','sintercan_user','columbia_analista_token','columbia_permissoes','columbia_analista_usuario','columbia_analista_cod_responsavel','brastorno_token','brastorno_usuario_nome'];
+  var PERMISSION_FIELDS=['u_analista_cadastro','u_anexo','u_custos','u_engenharia','u_faturamento','u_finalizacao','u_notas','u_pcp','u_vendedor'];
+  var labels={ok:['Conectado','ok'],saved:['Sessão salva','ok'],denied:['Sem acesso','warning'],unavailable:['API indisponível','fail'],none:['Login necessário','']};
+  var currentResults={};
+  var loginView=document.getElementById('loginView');
+  var dashboardView=document.getElementById('dashboardView');
+  var message=document.getElementById('loginMessage');
+  function save(key,val){try{localStorage.setItem(key,String(val));}catch(e){throw Error('O armazenamento local do navegador está bloqueado.');}}
+  function read(key){try{return localStorage.getItem(key);}catch(e){return null;}}
+  function remove(key){try{localStorage.removeItem(key);}catch(e){}}
+  function tokenNotExpired(token){
+    if(!token)return false;
+    try{
+      var part=token.split('.')[1];
+      if(!part)return true;
+      var payload=JSON.parse(atob(part.replace(/-/g,'+').replace(/_/g,'/')));
+      return !payload.exp || Number(payload.exp)*1000>Date.now()+5000;
+    }catch(e){return true;}
+  }
+  function hasSession(app){
+    var val=read(app.key);
+    if(!val)return false;
+    if(app.type==='jwt')return tokenNotExpired(val);
+    try{var user=JSON.parse(val);return !!(user && (user.nome || user.usuario));}catch(e){return false;}
+  }
+  function setStatus(app,kind){
+    var item=document.getElementById('status-'+app.id);
+    var status=labels[kind]||labels.none;
+    item.textContent=status[0];
+    item.className='status'+(status[1]?' '+status[1]:'');
+  }
+  function render(){
+    var count=0;
+    APPS.forEach(function(app){
+      var kind=currentResults[app.id]|| (hasSession(app)?'saved':'none');
+      setStatus(app,kind);
+      if(kind==='ok'||kind==='saved')count++;
+    });
+    document.getElementById('sessionCounter').textContent=count+' de 5 sessões';
+  }
+  function showDashboard(username){
+    loginView.hidden=true;
+    dashboardView.hidden=false;
+    document.getElementById('userControls').hidden=false;
+    document.getElementById('displayUser').textContent=username||'Usuário';
+    render();
+  }
+  function showLogin(){
+    dashboardView.hidden=true;
+    loginView.hidden=false;
+    document.getElementById('userControls').hidden=true;
+    document.getElementById('password').value='';
+  }
+  function clearSessions(){
+    AUTH_KEYS.forEach(remove);
+    remove('rf_visoes_usuario');
+    currentResults={};
+  }
+  function storeSession(app,data,usuario){
+    if(!data || typeof data!=='object'||Array.isArray(data))throw Error('Resposta de autenticação inválida.');
+    if(app.type==='profile'){
+      if(!(data.nome || data.usuario))throw Error('Dados do usuário não recebidos.');
+      save(app.key,JSON.stringify(data));
+    }else{
+      if(typeof data.access_token!=='string' || data.access_token.length<10)throw Error('Token de acesso não recebido.');
+      save(app.key,data.access_token);
+      if(app.id==='pstec'){
+        save('pstec_usuario_nome',data.usuario||usuario);
+        save('pstec_perm_faturamento',data.u_faturamento==null?0:data.u_faturamento);
+        save('pstec_perm_finalizacao',data.u_finalizacao==null?0:data.u_finalizacao);
+      }
+      if(app.id==='brastorno')save('brastorno_usuario_nome',data.usuario||usuario);
+      if(app.id==='columbia'){
+        var perms={};
+        PERMISSION_FIELDS.forEach(function(field){perms[field]=Number(data[field]||0)===1?1:0;});
+        save('columbia_permissoes',JSON.stringify(perms));
+        save('columbia_analista_usuario',data.usuario||usuario);
+        save('columbia_analista_cod_responsavel',data.cod_responsavel==null?'':data.cod_responsavel);
+      }
+    }
+  }
+  async function request(url,usuario,senha,signal){
+    return fetch(url,{
+      method:'POST',mode:'cors',credentials:'omit',cache:'no-store',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({usuario:usuario,senha:senha}),
+      signal:signal
+    });
+  }
+  async function loginApp(app,usuario,senha){
+    var controller=new AbortController();
+    var timeout=setTimeout(function(){controller.abort();},14000);
+    try{
+      var response=await request(app.url,usuario,senha,controller.signal);
+      if(app.fallback && (response.status===404||response.status===405)){
+        response=await request(app.fallback,usuario,senha,controller.signal);
+      }
+      if(!response.ok){
+        var authError=new Error('Autenticação recusada.');
+        authError.kind=(response.status===401||response.status===403)?'denied':'unavailable';
+        throw authError;
+      }
+      var data=await response.json();
+      storeSession(app,data,usuario);
+      return 'ok';
+    }catch(e){
+      if(e.kind)return e.kind;
+      return 'unavailable';
+    }finally{clearTimeout(timeout);}
+  }
+  document.getElementById('loginForm').addEventListener('submit',async function(e){
+    e.preventDefault();
+    var username=document.getElementById('username').value.trim().toUpperCase();
+    var pwd=document.getElementById('password');
+    var senha=pwd.value;
+    var button=document.getElementById('loginButton');
+    if(!username || !senha)return;
+    button.disabled=true;
+    button.textContent='Autenticando as aplicações...';
+    message.className='notice';
+    message.textContent='Verificando o acesso às cinco aplicações. Algumas APIs podem estar temporariamente indisponíveis.';
+    clearSessions();
+    try{
+      var results=await Promise.all(APPS.map(function(app){return loginApp(app,username,senha);}));
+      var connected=0;
+      APPS.forEach(function(app,i){currentResults[app.id]=results[i];if(results[i]==='ok')connected++;});
+      pwd.value='';
+      senha='';
+      if(!connected){
+        message.className='notice error';
+        message.textContent='Não foi possível autenticar em nenhuma aplicação. Confira seus dados ou a conexão das APIs e tente novamente.';
+        return;
+      }
+      save('rf_visoes_usuario',username);
+      showDashboard(username);
+      var errors=APPS.length-connected;
+      document.getElementById('dashboardMessage').textContent=errors
+        ? connected+' aplicação(ões) autenticada(s). '+errors+' não foi/foram autenticada(s). Você pode abrir os links normalmente e, se necessário, usar o login individual.'
+        : 'Acesso validado nas cinco aplicações. Se algum sistema expirar a sessão, ele poderá solicitar nova autenticação.';
+    }catch(err){
+      message.className='notice error';
+      message.textContent='Não foi possível concluir o login. Verifique se o navegador permite armazenamento local e tente novamente.';
+    }finally{
+      pwd.value='';
+      button.disabled=false;
+      button.textContent='Entrar nas aplicações';
+    }
+  });
+  document.getElementById('togglePassword').addEventListener('click',function(){
+    var pwd=document.getElementById('password');
+    var show=pwd.type==='password';
+    pwd.type=show?'text':'password';
+    this.textContent=show?'Ocultar':'Mostrar';
+    this.setAttribute('aria-label',show?'Ocultar senha':'Mostrar senha');
+  });
+  document.getElementById('logoutButton').addEventListener('click',function(){
+    clearSessions();
+    showLogin();
+    document.getElementById('username').value='';
+    message.textContent='Você saiu das sessões salvas neste navegador.';
+    message.className='notice';
+  });
+  document.getElementById('username').value=read('rf_visoes_usuario')||'';
+  if(APPS.some(hasSession))showDashboard(read('rf_visoes_usuario')||read('pstec_usuario_nome')||read('columbia_analista_usuario')||'Usuário');
+  else showLogin();
+})();
+</script>
+</body>
+</html>
