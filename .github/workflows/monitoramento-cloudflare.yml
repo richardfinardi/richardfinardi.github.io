@@ -73,8 +73,18 @@ jobs:
         env:
           WORKER_URL: ${{ steps.deploy.outputs.worker_status_url }}
         run: |
-          curl --fail --silent --show-error --max-time 25 "$WORKER_URL" > /tmp/worker-status.json
-          node -e 'const o=require("/tmp/worker-status.json"); if(!Array.isArray(o.monitores))process.exit(1); console.log("Endpoint status validado: "+o.monitores.length+" APIs registradas.");'
+          set -euo pipefail
+          for attempt in $(seq 1 15); do
+            echo "Tentativa $attempt/15: aguardar certificado HTTPS e DNS do novo subdominio Cloudflare"
+            if curl --fail --silent --show-error --connect-timeout 8 --max-time 14 "$WORKER_URL" -o /tmp/worker-status.json; then
+              if node -e 'const o=require("/tmp/worker-status.json"); if(!Array.isArray(o.monitores))process.exit(1); console.log("Endpoint status validado: "+o.monitores.length+" APIs registradas.");'; then
+                exit 0
+              fi
+            fi
+            if [ "$attempt" -lt 15 ]; then sleep 20; fi
+          done
+          echo "::error::Cloudflare Worker publicado, mas endereco publico nao respondeu em 15 tentativas."
+          exit 1
       - name: Configurar painel e widget automaticamente
         env:
           WORKER_URL: ${{ steps.deploy.outputs.worker_status_url }}
