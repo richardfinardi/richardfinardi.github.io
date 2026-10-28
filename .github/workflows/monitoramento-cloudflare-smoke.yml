@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  verificar-primeiro-cron:
+  verificar-apos-correcao:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -31,11 +31,16 @@ jobs:
               const data = await res.json();
               const age = data.atualizado_em ? (Date.now()-Date.parse(data.atualizado_em))/60000 : Infinity;
               console.log('Tentativa '+attempt+': '+(data.monitores?.length||0)+' APIs; atualizacao '+(Number.isFinite(age)?age.toFixed(1)+' min atras':'ainda nao executou'));
-              if (Array.isArray(data.monitores) && data.monitores.length === 5 && age >= 0 && age < 10) {
-                console.log('PRIMEIRO CRON CONFIRMADO: '+data.atualizado_em);
-                for (const mon of data.monitores) console.log(mon.nome+': '+mon.estado+' (HTTP '+mon.http+')');
+              const monitors = Array.isArray(data.monitores) ? data.monitores : [];
+              const invalidRedirect = monitors.some(m => String(m.erro || '').includes('Invalid redirect value'));
+              const hasRealResponse = monitors.some(m => Number(m.http) >= 200);
+              const hasFreshFix = data.atualizado_em && Date.parse(data.atualizado_em) >= Date.parse('2026-10-28T13:24:00Z');
+              if (monitors.length === 5 && age >= 0 && age < 10 && hasFreshFix && !invalidRedirect && hasRealResponse) {
+                console.log('MONITORAMENTO CLOUDFARE VALIDADO: '+data.atualizado_em);
+                for (const mon of monitors) console.log(mon.nome+': '+mon.estado+' (HTTP '+mon.http+'), '+mon.tempo_ms+'ms, erro='+mon.erro);
                 process.exit(0);
               }
+              console.log('Aguardando verificacao corrigida. redirect_invalido='+invalidRedirect+', HTTP_real='+hasRealResponse+', apos_deploy='+hasFreshFix);
             } catch (err) {
               console.log('Tentativa '+attempt+' falhou: '+err.message);
             }
