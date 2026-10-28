@@ -27,6 +27,33 @@ jobs:
         run: |
           test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Configure CLOUDFLARE_ACCOUNT_ID nos secrets"; exit 1; }
           test -n "$CLOUDFLARE_API_TOKEN" || { echo "Configure CLOUDFLARE_API_TOKEN nos secrets"; exit 1; }
+      - name: Preparar subdominio workers.dev da AUVRIUN
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          node <<'JS'
+          const base = 'https://api.cloudflare.com/client/v4/accounts/' + process.env.CLOUDFLARE_ACCOUNT_ID + '/workers/subdomain';
+          const headers = { Authorization: 'Bearer ' + process.env.CLOUDFLARE_API_TOKEN, 'Content-Type':'application/json' };
+          const existing = await fetch(base, {headers});
+          const prior = await existing.json().catch(()=>({}));
+          if (prior.success && prior.result?.subdomain) {
+            console.log('Subdominio existente: ' + prior.result.subdomain + '.workers.dev');
+            process.exit(0);
+          }
+          if ([401,403].includes(existing.status)) throw new Error('Token Cloudflare sem permissao Workers Scripts para consultar subdominio (HTTP '+existing.status+')');
+          for (const name of ['auvriun-monitor', 'auvriun-rf', 'auvriun-consultoria-rf']) {
+            const created = await fetch(base, {method:'PUT',headers,body:JSON.stringify({subdomain:name})});
+            const body = await created.json().catch(()=>({}));
+            if (body.success && body.result?.subdomain) {
+              console.log('Subdominio criado: ' + body.result.subdomain + '.workers.dev');
+              process.exit(0);
+            }
+            console.log('Subdominio ' + name + ' indisponivel (HTTP ' + created.status + ')');
+            if ([401,403].includes(created.status)) throw new Error('Token sem permissao para criar subdominio workers.dev');
+          }
+          throw new Error('Nao foi possivel criar subdominio workers.dev. Abra Cloudflare > Workers & Pages > Onboarding.');
+          JS
       - name: Publicar Worker, armazenamento e cron de 5 minutos
         id: deploy
         env:
