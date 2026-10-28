@@ -47,10 +47,49 @@ public final class StatusRepository {
         render(context, cached, false);
     }
 
+    // Endereco do Worker configurado remotamente; nao exige nova versao do APK
+    // quando o subdominio workers.dev da conta AUVRIUN for definido.
+    private static String resolveStatusUrl(Context context) {
+        HttpURLConnection configConn = null;
+        try {
+            String configUrl = "https://consultoriarf.net/monitoramento/data-source.json?ts=" + System.currentTimeMillis();
+            configConn = (HttpURLConnection) new URL(configUrl).openConnection();
+            configConn.setConnectTimeout(2000);
+            configConn.setReadTimeout(2000);
+            configConn.setUseCaches(false);
+            if (configConn.getResponseCode() != 200) throw new Exception("HTTP " + configConn.getResponseCode());
+            try (InputStream in = configConn.getInputStream(); ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
+                byte[] buffer = new byte[1024];
+                int count;
+                while ((count = in.read(buffer)) != -1 && bytes.size() < 8192) {
+                    bytes.write(buffer, 0, count);
+                }
+                JSONObject source = new JSONObject(bytes.toString(StandardCharsets.UTF_8.name()));
+                String remote = source.optString("worker_url", "").trim();
+                if (!remote.isEmpty()) {
+                    URL parsed = new URL(remote);
+                    if (!"https".equals(parsed.getProtocol()) || !"/status".equals(parsed.getPath())) {
+                        throw new Exception("Endereco do Worker invalido");
+                    }
+                } else {
+                    remote = STATUS_URL;
+                }
+                context.getSharedPreferences(PREF, Context.MODE_PRIVATE).edit()
+                    .putString("remote_url", remote).apply();
+                return remote;
+            }
+        } catch (Exception ignored) {
+            return context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
+                .getString("remote_url", STATUS_URL);
+        } finally {
+            if (configConn != null) configConn.disconnect();
+        }
+    }
+
     public static void refresh(Context context) {
         String received = null;
         try {
-            HttpURLConnection conn = (HttpURLConnection) new URL(STATUS_URL).openConnection();
+            HttpURLConnection conn = (HttpURLConnection) new URL(resolveStatusUrl(context)).openConnection();
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(5000);
             conn.setUseCaches(false);
