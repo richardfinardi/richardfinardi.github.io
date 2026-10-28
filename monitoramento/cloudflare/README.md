@@ -19,19 +19,20 @@ sem banco de dados ou KV para criar manualmente.
 
 1. Acesse Cloudflare > seu perfil AUVRIUN > Workers & Pages. Verifique que
    \`*.workers.dev\` esteja ativado para a conta (nenhuma zona DNS obrigatoria).
-2. Crie um API Token com **Workers Scripts: Edit**, **Workers Cron Triggers: Edit**
-   (caso a interface ofereca a permissao), e **Durable Objects: Edit** se solicitado.
-   Limite ao proprio account AUVRIUN.
+2. Crie um token de API com a predefinicao **Edit Cloudflare Workers**, ou
+   com a funcao **Workers Admin** no produto Workers se a tela usar o novo
+   modelo de papeis. Restrinja o acesso apenas a conta AUVRIUN.
 3. Copie o **Account ID** da conta Cloudflare (sem compartilhá-lo com senha).
 4. No GitHub do repo \`richardfinardi/richardfinardi.github.io\`, crie em
    Settings > Secrets and variables > Actions:
    \`CLOUDFLARE_ACCOUNT_ID\` e \`CLOUDFLARE_API_TOKEN\`.
 5. Actions > **Deploy AUVRIUN Monitor - Cloudflare** > **Run workflow**.
    Ele publica automaticamente Worker, Durable Object e Cron Trigger.
-6. Abra a URL impressa no log como \`https://auvriun-api-monitor.<seu-subdominio>.workers.dev/status\`.
+6. O proprio workflow identifica a URL publicada e a registra no arquivo
+   \`monitoramento/data-source.json\`: nao e necessario copiar enderecos manualmente.
    Pode ser que a primeira verificacao leve alguns minutos apos o deploy.
-7. Informe a URL para atualizar \`monitoramento/data-source.json\`
-   no repositorio. O site e o APK atualizado passam a ler do Cloudflare diretamente.
+7. O painel e o APK versao 1.3.0 ou superior passam a ler o Cloudflare
+   diretamente. Confirme no painel que aparece \`Cloudflare AUVRIUN\`.
 8. Somente apos conferir verificacoes reais desative a tarefa antiga do GitHub
    em \`.github/workflows/monitoramento.yml\` para nao duplicar monitoramento.
 
