@@ -1,121 +1,371 @@
-/* CPS JoinLab: consulta em português — regras v1, sem acesso ao banco */
-(function(){
-'use strict';
-var style=document.createElement('style');
-style.textContent='.nlbox{width:100%;min-height:112px;background:#0a1829;border:1px solid #36506a;border-radius:10px;color:#e8f0fa;padding:14px;font:14px/1.65 Inter,system-ui,sans-serif;resize:vertical}.nlbox:focus{outline:1px solid #46d5cb}.nl-tags{display:flex;flex-wrap:wrap;gap:8px;margin:13px 0}.nl-tags span{border:1px solid #35636b;background:#14313d;border-radius:8px;padding:8px 11px;color:#b6efe5;font-size:12px}.nl-warning{padding:12px 15px;background:#30281e;border:1px solid #695433;color:#eed4a3;border-radius:9px;line-height:1.65;margin:15px 0;font-size:12px}.nl-code{margin-top:14px}.nl-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}';
-document.head.appendChild(style);
-var nav=document.createElement('button');
-nav.className='nav';nav.dataset.view='natural';nav.innerHTML='<span class="ico">✳</span> Consulta em português';
-document.querySelector('.sidebar .sidenote').before(nav);
-var mobile=document.createElement('button');mobile.dataset.view='natural';mobile.textContent='Por objetivo';document.querySelector('.mobile-nav').prepend(mobile);
-[nav,mobile].forEach(function(b){b.addEventListener('click',function(){openTab('natural')})});
-var view=document.createElement('section');view.className='view';view.id='view-natural';
-view.innerHTML='<div class="panel"><div class="eyebrow">NOVO · CONSULTA EM LINGUAGEM NATURAL</div><h2>O que você quer buscar no CPS?</h2><p class="sub">Descreva sua necessidade. Esta versão interpreta com segurança o cenário <b>orçamentos com notas fiscais emitidas e saldo a receber</b>, incluindo parcelas vencidas e filtro de empresa. Gera SQL PostgreSQL para você revisar; não executa no banco.</p><label for="nl-question">Descreva o resultado desejado</label><textarea id="nl-question" class="nlbox" placeholder="Ex.: Quero trazer orçamentos que emitiram nota fiscal e ainda falta receber"></textarea><div class="nl-toolbar"><button class="primary" id="nl-run">Interpretar e montar SQL →</button><button class="secondary" id="nl-clear">Limpar</button></div><div class="samples"><button class="chip nl-example" data-example="Orçamentos que emitiram nota fiscal e ainda falta receber">Notas + a receber</button><button class="chip nl-example" data-example="Orçamentos faturados com parcelas vencidas">Parcelas vencidas</button><button class="chip nl-example" data-example="Orçamentos com nota fiscal e saldo a receber da empresa 1">Empresa 1</button></div><p class="mini" style="margin-top:16px;line-height:1.7">Interpretação local baseada nas suas queries, sem serviço externo de IA. Pedidos não reconhecidos não geram SQL inventado.</p><div id="nl-result" style="margin-top:18px"></div></div>';
-document.querySelector('#view-builder').before(view);
-var ask=document.querySelector('#nl-question'),output=document.querySelector('#nl-result');
-function norm(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim()}
-function interpret(q){
- q=norm(q);
- var orc=/orcament|orcado|orcada/.test(q),nf=/nota(s)? fiscal|notas|\bnf\b|\bnfe\b|nfse|faturad|faturament|emitid/.test(q);
- var rec=/receb|pagament|vencid|atrasad|inadimpl|em aberto/.test(q);
- var pend=/a receber|falta receber|nao receb|nao pag|pendente|em aberto|vencid|atrasad|inadimpl|saldo/.test(q);
- var empresa=q.match(/\bempresa\s*(?:n[ºo.]?\s*)?(\d{1,5})\b/);
- var vencido=/vencid|atrasad|inadimpl/.test(q);
- var periodo=/\b(202\d|20[01]\d|\d{2}\/\d{2}|ultimo(s)? \d+ dia(s)?|mes passado|mes atual|mes de|entre \d|periodo)\b/.test(q);
- var quitado=/\b(ja foram recebidos|totalmente recebidos|totalmente pagos|quitados|ja pagos)\b/.test(q);
- return {ok:orc&&nf&&rec&&pend&&!periodo&&!quitado,empresa:empresa?Number(empresa[1]):null,vencido:vencido,periodo:periodo,quitado:quitado};
-}
-function sql(i){
-var s=[
-'/* CPS JoinLab - Consulta de referência (PostgreSQL).',
-'   Orçamentos COM nota fiscal emitida E saldo a receber.',
-'   1 linha por orçamento. Valores financeiros POR ORÇAMENTO, não por NF.',
-'   Fontes: CAPITAL_FINANCEIRO.SQL, COMISSÃO.txt, COMISSAO ANFEER (POR EMISSÃO DE NOTA FISCAL). */',
-'WITH notas_emitidas AS (',
-'    SELECT DISTINCT nf.cod_empresa, p.cod_orcamento, nf.modelo, nf.serie,',
-'           nf.sub_serie, nf.numero, nf.numero::text AS numero_exibicao, nf.dt_emissao',
-'    FROM tnota_fiscal_item p',
-'    JOIN tnota_fiscal nf ON nf.cod_empresa = p.cod_empresa',
-'     AND nf.modelo = p.modelo AND nf.serie = p.serie',
-'     AND nf.sub_serie = p.sub_serie AND nf.numero = p.numero_nf',
-"    WHERE nf.modelo = '55' AND nf.nfe_cod_status = '100'",
-'      AND p.cod_orcamento IS NOT NULL',
-'    UNION',
-'    SELECT DISTINCT nf.cod_empresa, s.cod_orcamento, nf.modelo, nf.serie,',
-'           nf.sub_serie, nf.numero, nf.numero_nfse::text AS numero_exibicao, nf.dt_emissao',
-'    FROM tnota_fiscal_servico s',
-'    JOIN tnota_fiscal nf ON nf.cod_empresa = s.cod_empresa',
-'     AND nf.modelo = s.modelo AND nf.serie = s.serie',
-'     AND nf.sub_serie = s.sub_serie AND nf.numero = s.numero_nf',
-"    WHERE nf.modelo = '1' AND NULLIF(TRIM(nf.numero_nfse::text), '') IS NOT NULL",
-'      AND s.cod_orcamento IS NOT NULL',
-'),',
-'notas_por_orcamento AS (',
-'    SELECT cod_empresa, cod_orcamento,',
-"           STRING_AGG(DISTINCT CASE WHEN modelo = '1' THEN 'NFS-e ' || numero_exibicao",
-"                            ELSE 'NF-e ' || numero_exibicao END, ', ') AS notas_emitidas,",
-'           COUNT(*) AS qtd_notas, MAX(dt_emissao) AS ultima_emissao',
-'    FROM notas_emitidas',
-'    GROUP BY cod_empresa, cod_orcamento',
-'),',
-'financeiro_por_orcamento AS (',
-'    /* Agregação anterior ao JOIN evita multiplicar parcelas pelas notas/itens. */',
-'    SELECT r.cod_empresa, r.cod_orcamento,',
-'           SUM(COALESCE(r.valor_corrigido, r.valor, 0)) AS valor_financeiro,',
-'           SUM(COALESCE(r.valor_pago, 0)) AS valor_recebido,',
-'           SUM(CASE WHEN COALESCE(r.pago, 0) = 1 THEN 0',
-'                    ELSE GREATEST(COALESCE(r.valor_corrigido, r.valor, 0) -',
-'                                  COALESCE(r.valor_pago, 0), 0) END) AS saldo_a_receber,',
-'           MIN(CASE WHEN COALESCE(r.pago, 0) <> 1',
-'                     AND GREATEST(COALESCE(r.valor_corrigido,r.valor,0) - COALESCE(r.valor_pago,0),0) > 0',
-'                    THEN r.dt_vencimento END) AS proximo_vencimento_aberto,',
-'           COUNT(*) FILTER (WHERE COALESCE(r.pago,0) <> 1',
-'                  AND r.dt_vencimento < CURRENT_DATE',
-'                  AND GREATEST(COALESCE(r.valor_corrigido,r.valor,0) - COALESCE(r.valor_pago,0),0) > 0) AS parcelas_vencidas',
-'    FROM treceber r',
-'    WHERE COALESCE(r.previsao, 0) = 0 AND r.cod_orcamento IS NOT NULL',
-'    GROUP BY r.cod_empresa, r.cod_orcamento',
-')',
-'SELECT o.cod_empresa, o.codigo AS cod_orcamento, o.n_orcamento AS orcamento,',
-'       o.cliente, n.notas_emitidas, n.qtd_notas, n.ultima_emissao,',
-'       f.valor_financeiro, f.valor_recebido, f.saldo_a_receber,',
-'       f.proximo_vencimento_aberto, f.parcelas_vencidas',
-'FROM torcamento o',
-'JOIN notas_por_orcamento n',
-'  ON n.cod_empresa = o.cod_empresa AND n.cod_orcamento = o.codigo',
-'JOIN financeiro_por_orcamento f',
-'  ON f.cod_empresa = o.cod_empresa AND f.cod_orcamento = o.codigo',
-'WHERE f.saldo_a_receber > 0'
-];
-if(i.empresa!==null)s[s.length-1]+='\n  AND o.cod_empresa = '+i.empresa;
-if(i.vencido)s[s.length-1]+='\n  AND f.parcelas_vencidas > 0';
-s.push('ORDER BY f.proximo_vencimento_aberto NULLS LAST, o.cod_empresa, o.n_orcamento;');
-return s.join('\n');
-}
-function go(){
- var txt=ask.value.trim();if(!txt){output.innerHTML='<div class="empty">Escreva sua pergunta acima.</div>';return}
- var i=interpret(txt);
- if(!i.ok){
- var reason=i.periodo?'Filtro de período ainda não implementado.':i.quitado?'Este protótipo trata de saldos a receber, não títulos quitados.':'Essa combinação ainda não está mapeada com segurança.';
- output.innerHTML='<div class="empty"><b>Não vou inventar JOINs.</b><br>'+reason+'<br>Experimente: <b>Orçamentos com nota fiscal emitida e saldo a receber</b>.</div>';return;
- }
- var code=sql(i);output.replaceChildren();
- var bar=document.createElement('div');bar.className='route-header';
- bar.innerHTML='<h3>Consulta reconhecida</h3><button class="copy" id="nl-copy">Copiar SQL</button>';output.appendChild(bar);
- var tags=document.createElement('div');tags.className='nl-tags';
- var arr=['ORÇAMENTO → NF-e / NFS-e','ORÇAMENTO → TRECEBER','Saldo pendente > 0','1 linha por orçamento'];
- if(i.vencido)arr.push('Somente parcelas vencidas');
- if(i.empresa!==null)arr.push('Empresa '+i.empresa);
- arr.forEach(function(t){var x=document.createElement('span');x.textContent=t;tags.appendChild(x)});output.appendChild(tags);
- var proof=document.createElement('p');proof.className='mini';proof.textContent='Evidências: COMISSÃO.txt (TRECEBER ↔ TORCAMENTO), CAPITAL_FINANCEIRO.SQL (NF e financeiro), COMISSAO ANFEER (POR EMISSÃO DE NOTA FISCAL).txt (NFS-e).';output.appendChild(proof);
- var warn=document.createElement('div');warn.className='nl-warning';
- warn.textContent='SQL de referência; não foi executado nem validado no banco. O saldo é por orçamento, não por NF individual. Validar o status/cancelamento de NFS-e, VALOR_CORRIGIDO, VALOR_PAGO e títulos sem COD_ORCAMENTO. Número de nota isolado não é usado como chave de contas a receber.';
- output.appendChild(warn);
- var pre=document.createElement('pre');pre.className='nl-code';pre.textContent=code;output.appendChild(pre);
- document.querySelector('#nl-copy').addEventListener('click',function(ev){copyText(code,ev.currentTarget)});
-}
-document.querySelector('#nl-run').addEventListener('click',go);
-document.querySelector('#nl-clear').addEventListener('click',function(){ask.value='';output.replaceChildren();ask.focus()});
-document.querySelectorAll('.nl-example').forEach(function(b){b.addEventListener('click',function(){ask.value=b.dataset.example;go()})});
-ask.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='Enter')go()});
+/* CPS JoinLab — Consultas por objetivo v2.0 (28/10/2026)
+   Gerador local baseado no catalogo de JOINs extraidos de 172 SQLs.
+   Nao usa API privada, nao executa instrucoes e nao inventa relacionamentos.
+*/
+(function () {
+  'use strict';
+  var DB = JSON.parse(document.querySelector('#data-json').textContent);
+  var RR = DB.relationships.filter(r => r.keys && r.keys.length && !r.needs_review && (!r.derived || r.id==='R0154'));
+  var allTables = new Set(DB.tables.map(t => t.name));
+  var adj = new Map();
+  RR.forEach(r => {
+    for (const t of [r.a,r.b]) {
+      if (!adj.has(t)) adj.set(t,[]);
+      adj.get(t).push(r);
+    }
+  });
+  function norm(t) { return String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim(); }
+  function html(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function firstText(raw, rx) { const m = rx.exec(raw); return m ? m.index : Infinity; }
+
+  const concepts = [
+    {id:'torcamento',name:'Orçamentos',pattern:/\borcamentos?\b|\bpropostas? comerciais?\b/g},
+    {id:'tnota_fiscal',name:'Notas fiscais',pattern:/\bnotas? fiscais?\b|\bnf[-s]?(?:e)?\b|\bnfs[- ]?e\b|\bfaturad[oa]s?\b|\bfaturament[oa]\b/g},
+    {id:'treceber',name:'Contas a receber',pattern:/\b(?:a receber|falta(?:m)? (?:valor(?:es)? )?(?:a )?receber|contas? a receber|recebiment[oa]s?|recebidos?|recebidas?|nao pag[oa]s?|pagamentos? de clientes?)\b|\b(?:inadimplencia|inadimplentes?)\b/g},
+    {id:'tos',name:'Ordens de serviço',pattern:/\b(?:ordens? de servico|ordem de producao)\b/g},
+    {id:'tlis_mat',name:'Lista de materiais',pattern:/\b(?:listas? de materiais|materiais?|materias? primas?|componentes?)\b/g},
+    {id:'tsol_max_os',name:'Solicitações de materiais',pattern:/\b(?:solicitac(?:ao|oes) de (?:material|compra)|materiais? solicitados?|solicitacoes? da os)\b/g},
+    {id:'tord_com',name:'Ordens de compra',pattern:/\b(?:ordens? de compras?|pedidos? de compras?|\boc\b)\b/g},
+    {id:'tpagar',name:'Contas a pagar',pattern:/\b(?:contas? a pagar|pagamentos? a fornecedores?|titulos? a pagar|despesas? a pagar)\b/g},
+    {id:'tcom_aux',name:'Itens de compras',pattern:/\b(?:itens? de compras?|materiais? comprados?)\b/g},
+    {id:'tcompras',name:'Compras / recebimento',pattern:/\b(?:recebimento de materiais?|entrada de compras?|notas? de entrada|compras? realizadas?)\b/g},
+    {id:'tcliente',name:'Clientes',pattern:/\b(?:clientes?|contatos? de clientes?)\b/g},
+    {id:'tfornece',name:'Fornecedores',pattern:/\b(?:fornecedores?)\b/g},
+    {id:'tproduto',name:'Produtos',pattern:/\b(?:produtos?|cadastro de produtos?|pecas?)\b/g},
+    {id:'tpro_pro',name:'Apontamentos de produção',pattern:/\b(?:apontamentos?|horas? apontadas?|horas? trabalhadas?)\b/g},
+    {id:'tctrl_ph',name:'Controle de produção',pattern:/\b(?:controle de producao|percentual produzido|etapas? de producao)\b/g},
+    {id:'tos_aux',name:'Sub-OS / etapas',pattern:/\b(?:sub[- ]?os|etapas? da os|operacoes? da os)\b/g},
+    {id:'tproduto_deposito',name:'Estoque / depósitos',pattern:/\b(?:estoque|depositos?|saldo em estoque)\b/g}
+  ];
+  const specificity = ['tsol_max_os','tord_com','tpagar','tcom_aux','tcompras','tcliente','treceber','tpro_pro','tctrl_ph','tproduto_deposito'];
+  const vagueTerms = /\b(com|que tenham|que tem|que tiveram|que foram|que estao|mostrar|trazer|quero|todos|todas|listar)\b/g;
+  const fields = {
+    tos:['codigo','produto','qtde'],
+    tos_aux:['cod_os','codigo'],
+    torcamento:['codigo','n_orcamento','cliente'],
+    torcamento_itens:['cod_orcamento','cod_produto'],
+    tnota_fiscal:['numero','modelo','dt_emissao','razao_social'],
+    tnota_fiscal_item:['cod_orcamento','cod_produto'],
+    tnota_fiscal_servico:['cod_orcamento'],
+    treceber:['n_nf','dt_vencimento','valor','valor_pago','pago'],
+    tcliente:['codigo','nome'],
+    tfornece:['codigo','nome'],
+    tord_com:['codigo','cod_fornecedor'],
+    tord_aux:['cod_ord_compra','cod_produto'],
+    tpagar:['aut_','parcela','dt_vencimento','valor','valor_pago','pago'],
+    tlis_mat:['cod_os','cod_os_aux','cod_produto','qtde'],
+    tsol_max_os:['cod_os','cod_os_aux','guid_lm'],
+    tsol_max:['guid_linha','cod_produto'],
+    tcom_aux:['cod_produto'],
+    tcompras:['codigo'],
+    tproduto:['codigo','nome'],
+    tpro_pro:['cod_os'],
+    tctrl_ph:['cod_os'],
+    tproduto_deposito:['cod_produto']
+  };
+  const genericTransits = new Set(['tempresa','tproduto','tcliente','tfornece','treceber','tpagar','tcc','ttp_movi','tdeposito','tproduto_deposito','tproduto_dep_loteserie','tproduto_dep_reserva']);
+  // Relacionamentos extraidos com GUID e empresa sao preferidos.
+  function edgeCost(r) {
+    const hasEmp = r.keys.some(([a,b])=>a==='cod_empresa' && b==='cod_empresa');
+    const weak = r.keys.length < 2 ? 5 : 0;
+    return 9 + 9/(1+Math.log2(1+(r.file_count||1))) + (hasEmp ? 0 : 7) + weak + (r.derived?13:0) + ((r.a==='tord_serv'||r.b==='tord_serv')?55:0);
+  }
+  // Dijkstra em grafo pequeno. Nunca atravessa cadastro genérico como atalho.
+  function route(fromSet, dest, occupied) {
+    if (fromSet.has(dest)) return {nodes:[dest],steps:[],cost:0};
+    const pq = [],best = new Map();
+    [...fromSet].forEach(a=> {pq.push({at:a,nodes:[a],steps:[],cost:0}); best.set(a,0);});
+    let iterations=0;
+    while(pq.length && ++iterations<1500) {
+      pq.sort((a,b)=>a.cost-b.cost);
+      const cur=pq.shift();
+      if (cur.at===dest) return cur;
+      if(cur.steps.length>=7) continue;
+      for(const r of adj.get(cur.at)||[]) {
+        const next = r.a===cur.at ? r.b : r.a;
+        if(cur.nodes.includes(next))continue;
+        if (occupied.has(next) && next!==dest)continue;
+        if(genericTransits.has(next) && next!==dest)continue;
+        const c = cur.cost+edgeCost(r);
+        if(c >= (best.get(next)||Infinity))continue;
+        best.set(next,c);
+        pq.push({at:next,nodes:[...cur.nodes,next],steps:[...cur.steps,{from:cur.at,to:next,rel:r}],cost:c});
+      }
+    }
+    return null;
+  }
+  function parseRequest(raw, manual) {
+    let q=norm(raw);
+    const found=[];
+    for(const c of concepts) {
+      const ix=(c.id==='tos') ? Math.min(firstText(q,new RegExp(c.pattern.source,'g')),firstText(raw,/\bOS\b/g)) : firstText(q,new RegExp(c.pattern.source,'g'));
+      if(Number.isFinite(ix)&&allTables.has(c.id))found.push({...c,ix,via:'texto'});
+    }
+    for(const t of DB.tables) {
+      const rx=new RegExp('\\b'+t.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','g');
+      let ix=firstText(q,rx);
+      if(Number.isFinite(ix) && !found.some(x=>x.id===t.name))found.push({id:t.name,name:t.name.toUpperCase(),ix,via:'tabela explícita'});
+    }
+    if(manual.trim()) {
+      for(const t of manual.split(/[,;\s]+/).map(x=>x.toLowerCase().trim()).filter(Boolean)) {
+        if(allTables.has(t) && !found.some(x=>x.id===t))found.push({id:t,name:t.toUpperCase(),ix:0,via:'manual'});
+      }
+    }
+    // Vencimentos/parcelas de orçamento ou NF implicam TRECEBER.
+    if (/\b(?:parcelas?|titulos?)\b/.test(q) && /\b(?:vencid[oa]s?|atrasad[oa]s?|em atraso)\b/.test(q) && found.some(x=>x.id==='torcamento'||x.id==='tnota_fiscal') && !found.some(x=>x.id==='treceber')) {
+      found.push({id:'treceber',name:'Contas a receber',ix:q.indexOf('parcela')>=0?q.indexOf('parcela'):q.length,via:'inferência por parcelas'});
+    }
+    // 'Ordens de compra não recebidas' descreve entrada física, não títulos a receber.
+    if(found.some(x=>x.id==='tord_com') && /\bnao recebid[oa]s?\b/.test(q) && !/\b(?:a receber|contas? a receber|valor(?:es)? a receber|financeir[oa]|recebimento de clientes)\b/.test(q)) {
+      for(let k=found.length-1;k>=0;k--)if(found[k].id==='treceber' && found[k].via==='texto')found.splice(k,1);
+    }
+    found.sort((a,b)=>a.ix-b.ix || specificity.indexOf(b.id)-specificity.indexOf(a.id));
+    const explicitRoot = found.find(x=>x.via==='manual') || found[0];
+    const emp=q.match(/\bempresa\s*(?:n(?:ro|umero|\.)?\s*)?(\d{1,5})\b/);
+    const missing=/\bsem\b|\bnao (?:possui|tem|tiveram|tiver|temos|geraram|emitiram|foram emitidas|existe)\b/.test(q);
+    const unpaid=/\b(?:a receber|falta(?:m)? receber|nao recebid[oa]s?|nao pag[oa]s?|em aberto|pendentes?|inadimplentes?)\b/.test(q);
+    const late=/\b(?:vencid[oa]s?|atrasad[oa]s?|em atraso)\b/.test(q);
+    const paid=/\b(?:quitad[oa]s?|totalmente recebid[oa]s?|ja pag[oa]s?|integralmente pag[oa]s?)\b/.test(q);
+    const period=/\b(?:mes passado|mes atual|mes de|ano de|ultimos? \d+ dias|entre \d|periodo de|\d\d\/\d\d\/\d\d\d\d)\b/.test(q);
+    const expectsReceipt=/\b(?:nao recebid[oa]s?|ainda nao recebid[oa]s?|sem recebimento|nao entregues?|pendente de entrega)\b/.test(q)&&found.some(x=>x.id==='tord_com'||x.id==='tcompras');
+    return {q, found,root:explicitRoot, company:emp?Number(emp[1]):null, missing, unpaid, late, paid, period, expectsReceipt};
+  }
+  function isFinanceRecipe(intent) {
+    const ids=new Set(intent.found.map(x=>x.id));
+    return ids.has('torcamento') && ids.has('tnota_fiscal') && ids.has('treceber') && (intent.unpaid || intent.late || intent.paid);
+  }
+  // SQL financeiro baseado em:
+  // COMISSÃO.txt: TRECEBER -> TORCAMENTO (cod_empresa,cod_orcamento)
+  // CAPITAL_FINANCEIRO.SQL: TRECEBER.valor_corrigido/valor_pago/pago/previsao e chave da NF
+  // COMISSAO ANFEER (POR EMISSÃO DE NOTA FISCAL).txt: NFS-e.
+  function buildFinanceSQL(i) {
+    const where=[];
+    if(i.unpaid || i.late) where.push('f.saldo_a_receber > 0');
+    if(i.late)where.push('f.parcelas_vencidas > 0');
+    if(i.paid && !i.unpaid && !i.late)where.push('f.saldo_a_receber <= 0');
+    if(i.company!==null)where.push('o.cod_empresa = '+i.company);
+    let sql=`/* CPS JoinLab · PostgreSQL · consulta de orçamentos faturados + financeiro.
+   1 linha por orçamento, sem multiplicar parcelas pelos itens das NFs.
+   Verifique as ressalvas abaixo do SQL antes de usar em produção. */
+WITH notas AS (
+    -- NF-e de produtos: relaciona o item ao orçamento.
+    SELECT DISTINCT i.cod_empresa, i.cod_orcamento,
+           'NF-e ' || nf.numero::text AS nota, nf.dt_emissao
+    FROM tnota_fiscal_item i
+    JOIN tnota_fiscal nf
+      ON nf.cod_empresa = i.cod_empresa
+     AND nf.modelo = i.modelo
+     AND nf.serie = i.serie
+     AND nf.sub_serie = i.sub_serie
+     AND nf.numero = i.numero_nf
+    WHERE nf.modelo = '55'
+      AND nf.nfe_cod_status = '100'
+      AND i.cod_orcamento IS NOT NULL
+    UNION
+    -- NFS-e: confirma emissao pelo numero municipal preenchido.
+    SELECT DISTINCT s.cod_empresa, s.cod_orcamento,
+           'NFS-e ' || nf.numero_nfse::text AS nota, nf.dt_emissao
+    FROM tnota_fiscal_servico s
+    JOIN tnota_fiscal nf
+      ON nf.cod_empresa = s.cod_empresa
+     AND nf.modelo = s.modelo
+     AND nf.serie = s.serie
+     AND nf.sub_serie = s.sub_serie
+     AND nf.numero = s.numero_nf
+    WHERE nf.modelo = '1'
+      AND NULLIF(TRIM(nf.numero_nfse::text), '') IS NOT NULL
+      AND s.cod_orcamento IS NOT NULL
+),
+notas_orcamento AS (
+    SELECT cod_empresa, cod_orcamento,
+           STRING_AGG(DISTINCT nota, ', ' ORDER BY nota) AS notas_emitidas,
+           COUNT(*) AS qtd_notas,
+           MAX(dt_emissao) AS ultima_emissao
+    FROM notas
+    GROUP BY cod_empresa, cod_orcamento
+),
+financeiro_orcamento AS (
+    SELECT r.cod_empresa, r.cod_orcamento,
+           SUM(COALESCE(r.valor_corrigido, r.valor, 0)) AS valor_financeiro,
+           SUM(COALESCE(r.valor_pago, 0)) AS valor_recebido,
+           SUM(CASE WHEN COALESCE(r.pago,0)=1 THEN 0
+                    ELSE GREATEST(COALESCE(r.valor_corrigido,r.valor,0)
+                                  -COALESCE(r.valor_pago,0),0) END) AS saldo_a_receber,
+           MIN(CASE WHEN COALESCE(r.pago,0)<>1
+                         AND COALESCE(r.valor_corrigido,r.valor,0)>COALESCE(r.valor_pago,0)
+                    THEN r.dt_vencimento END) AS proximo_vencimento,
+           COUNT(*) FILTER (WHERE COALESCE(r.pago,0)<>1
+                             AND r.dt_vencimento::date<CURRENT_DATE
+                             AND COALESCE(r.valor_corrigido,r.valor,0)>COALESCE(r.valor_pago,0)) AS parcelas_vencidas
+    FROM treceber r
+    WHERE COALESCE(r.previsao,0)=0
+      AND r.cod_orcamento IS NOT NULL
+    GROUP BY r.cod_empresa, r.cod_orcamento
+)
+SELECT o.cod_empresa, o.codigo AS cod_orcamento,
+       o.n_orcamento, o.cliente,
+       n.notas_emitidas, n.qtd_notas, n.ultima_emissao,
+       f.valor_financeiro, f.valor_recebido, f.saldo_a_receber,
+       f.proximo_vencimento, f.parcelas_vencidas
+FROM torcamento o
+JOIN notas_orcamento n
+  ON n.cod_empresa=o.cod_empresa AND n.cod_orcamento=o.codigo
+JOIN financeiro_orcamento f
+  ON f.cod_empresa=o.cod_empresa AND f.cod_orcamento=o.codigo`;
+    if(where.length)sql+='\nWHERE '+where.join('\n  AND ');
+    sql+='\nORDER BY f.proximo_vencimento NULLS LAST, o.cod_empresa, o.n_orcamento;';
+    return {sql, tableRoute:['TORCAMENTO','TNOTA_FISCAL_ITEM','TNOTA_FISCAL','TNOTA_FISCAL_SERVICO','TRECEBER'],
+      evidence:['COMISSÃO.txt','CAPITAL_FINANCEIRO.SQL','COMISSAO ANFEER (POR EMISSÃO DE NOTA FISCAL).txt'],
+      warnings:[
+        'Saldo financeiro agregado por orçamento, não vinculado individualmente a cada NF. Para vincular títulos à NF, é preciso validar também N_NF + empresa + série/modelo e evitar colisões.',
+        'NF-e filtrada por status 100; NFS-e depende de número preenchido. Confirme regras de cancelamento/devolução de notas de serviço no seu ambiente.',
+        'Confirme se os valores corrigidos e pagamentos do TRECEBER são a regra final desejada e se todos os títulos estão vinculados a COD_ORCAMENTO.',
+        ...(i.period?['Há um período na solicitação que não foi aplicado automaticamente; acrescente os limites em DT_EMISSAO ou DT_VENCIMENTO.']:[])
+      ],kind:'Consulta financeira estruturada'};
+  }
+  function buildJoinSQL(i) {
+    const requested=i.found.map(x=>x.id);
+    const root=i.root?.id;
+    if(!root)return {error:'Não identifiquei tabelas do CPS na pergunta. Mencione orçamento, nota fiscal, OS, compras, cliente ou o nome das tabelas.'};
+    const nodes=new Set([root]);
+    const joins=[];
+    const disconnected=[];
+    const pending=requested.filter(t=>t!==root);
+    while(pending.length) {
+      let best=null;
+      for(const dest of pending) {
+        const r=route(nodes,dest,nodes);
+        if(r && (!best || r.cost<best.cost))best={dest,...r};
+      }
+      if(!best){disconnected.push(...pending);break;}
+      for(const s of best.steps){if(!nodes.has(s.to)){joins.push(s);nodes.add(s.to);}}
+      pending.splice(pending.indexOf(best.dest),1);
+    }
+    const aliases=new Map([...nodes].map((x,n)=>[x,'t'+n]));
+    const cols=[];
+    const picked=new Set();
+    function addcol(table,field) {
+      const alias=aliases.get(table);if(!alias)return;
+      let key=table+'.'+field;if(picked.has(key))return;picked.add(key);
+      cols.push('    '+alias+'.'+field+' AS '+table+'_'+field);
+    }
+    if(aliases.has(root)){
+      if(fields[root]) for(const f of fields[root].slice(0,3))addcol(root,f);
+      else cols.push('    '+aliases.get(root)+'.*');
+    }
+    for(const c of i.found)if(c.id!==root && aliases.has(c.id)){
+      for(const f of (fields[c.id]||[]).slice(0,5))addcol(c.id,f);
+    }
+    if(cols.length===0)cols.push('    '+aliases.get(root)+'.*');
+    let sql='/* CPS JoinLab · caminho extraido das queries.\n   Modelo relacional de referência: revise filtros e cardinalidade. */\n';
+    sql+='SELECT\n'+cols.join(',\n')+'\nFROM '+root+' '+aliases.get(root);
+    for(const s of joins){
+      const r=s.rel,from=aliases.get(s.from),to=aliases.get(s.to);
+      const direction=s.from===r.a;
+      const cond=r.keys.map(k=>'    '+from+'.'+(direction?k[0]:k[1])+' = '+to+'.'+(direction?k[1]:k[0])).join('\nAND ');
+      sql+='\n'+(i.missing?'LEFT JOIN':'INNER JOIN')+' '+s.to+' '+to+'\n  ON '+cond;
+    }
+    const isAnti=i.missing && requested.length===2 && joins.length===1 && !i.expectsReceipt;
+    if(isAnti){
+      const s=joins[0],r=s.rel,rev=s.from===r.a;
+      const rootAlias=aliases.get(root);
+      const childAlias=aliases.get(s.to);
+      const predicate=r.keys.map(k=>rootAlias+'.'+(rev?k[0]:k[1])+' = '+childAlias+'.'+(rev?k[1]:k[0])).join(' AND ');
+      sql='/* CPS JoinLab - ausencia validada pela chave do JOIN. */\nSELECT '+rootAlias+'.*\nFROM '+root+' '+rootAlias+'\nWHERE NOT EXISTS (SELECT 1 FROM '+s.to+' '+childAlias+' WHERE '+predicate+')';
+      if(i.company!==null)sql+='\n  AND '+rootAlias+'.cod_empresa = '+i.company;
+      sql+='\nORDER BY 1;';
+      return {sql,tableRoute:[root.toUpperCase(),s.to.toUpperCase()],warnings:['Filtro NOT EXISTS aplicado usando as chaves identificadas nas queries. Revise definição de ausência (sem filhos, sem movimentações etc.).'],evidence:s.rel.files.slice(0,3),joins,kind:'Consulta de ausência (NOT EXISTS)'};
+    }
+    const conditions=[];
+    if(i.company!==null) {
+      if(root==='tempresa')conditions.push(aliases.get(root)+'.codigo = '+i.company);
+      else if(root==='treceber'||root==='tpagar'||i.root.id!=='tempresa'){
+        if(['cod_empresa'].some(x=>[...RR].some(r=>r.keys.some(p=>p.includes(x))&&(r.a===root||r.b===root))))conditions.push(aliases.get(root)+'.cod_empresa = '+i.company);
+      }
+    }
+    if(i.unpaid && !i.expectsReceipt) {
+      for(const table of ['treceber','tpagar'])if(aliases.has(table)) {
+        conditions.push('COALESCE('+aliases.get(table)+'.pago,0) <> 1');
+        break;
+      }
+    }
+    if(i.late) {
+      const table=['treceber','tpagar'].find(x=>aliases.has(x));
+      if(table)conditions.push(aliases.get(table)+'.dt_vencimento::date < CURRENT_DATE');
+    }
+    if(conditions.length)sql+='\nWHERE '+conditions.join('\n  AND ');
+    sql+='\nORDER BY 1;';
+    const warnings=['Consulta relacional: JOINs baseados nas queries; revise duplicações de linha e cardinalidade antes de totalizar valores.'];
+    if(disconnected.length)warnings.unshift('Não foi possível conectar: '+disconnected.join(', ')+'. Essas tabelas ficaram fora do SQL.');
+    if(i.expectsReceipt)warnings.unshift('Pedido ainda não recebido: falta regra validada para recebimento físico/entrada em estoque. SQL mostra os vínculos, mas NÃO filtra pedidos sem recebimento.');
+    if(i.missing)warnings.push('Condição de ausência (SEM/NÃO TEM) com múltiplas tabelas: revise o filtro NOT EXISTS; não foi aplicado automaticamente.');
+    if(i.period)warnings.push('Período mencionado, mas nenhum filtro temporal foi aplicado. Defina a coluna e datas exatas.');
+    if(i.paid && !i.unpaid)warnings.push('Pedido de valores já pagos detectado; confira o filtro PAGO, que não foi aplicado nesta consulta relacional.');
+    const risky=joins.filter(s=>!s.rel.keys.some(([a,b])=>a==='cod_empresa'&&b==='cod_empresa'));
+    if(risky.length)warnings.push('Há JOIN(s) sem COD_EMPRESA nas condições extraídas: '+risky.map(s=>s.rel.id).join(', ')+'. Confira isolamento entre empresas.');
+    const evidence=[...new Set(joins.flatMap(s=>s.rel.files.slice(0,2)))].slice(0,8);
+    return {sql,tableRoute:[...nodes].map(t=>t.toUpperCase()),warnings,evidence,joins,disconnected,kind:'Caminho dinâmico por relacionamentos'};
+  }
+  function generate(q,manual) {
+    const i=parseRequest(q,manual||'');
+    if(!i.root)return {intent:i,error:'Não identifiquei um assunto do CPS. Escreva "orçamentos com notas fiscais e saldo a receber", "OS com ordens de compra e pagamentos" ou informe as tabelas.'};
+    if(i.found.length<2)return {intent:i,error:'Identifiquei '+i.root.name+', mas preciso de pelo menos mais um assunto/tabela para construir os JOINs. Ex.: "'+i.root.name+' com notas fiscais".'};
+    if(isFinanceRecipe(i))return {intent:i,...buildFinanceSQL(i)};
+    return {intent:i,...buildJoinSQL(i)};
+  }
+
+  const css=document.createElement('style');css.textContent=`
+    .nl-lab{display:grid;gap:13px}.nl-text{font:14px/1.6 Inter,system-ui,sans-serif;width:100%;min-height:118px;resize:vertical;background:#091827;border:1px solid #36506a;color:#ecf5ff;border-radius:11px;padding:15px;outline:none}.nl-text:focus{border-color:#46d5cb}.nl-inputs{display:grid;grid-template-columns:1fr 180px;gap:12px}.nl-action{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.nl-chiprow{display:flex;flex-wrap:wrap;gap:7px;padding:3px 0}.nl-chip{border:1px solid #33736b;color:#bdf5ed;background:#14333a;border-radius:24px;font-size:12px;padding:7px 11px}.nl-chip.muted{color:#b9cfe4;border-color:#33536a;background:#1b2c3f}.nl-alert{padding:14px 16px;margin:12px 0;background:#30291d;border:1px solid #685635;border-radius:10px;color:#f4d9a8;font-size:12px;line-height:1.7}.nl-ok{padding:15px;background:#122e34;border:1px solid #28716b;border-radius:11px;color:#c0ece4;line-height:1.6}.nl-query{max-height:700px;white-space:pre;overflow:auto;font-size:12px}.nl-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:13px}.nl-head h3{margin:0}.nl-sources{font-size:12px;color:#9fb9cf;line-height:1.6}.nl-sources b{color:#d4e4f1}.nl-sub{font-size:12px;color:var(--muted);line-height:1.65}.nl-mini-btn{background:#102b3a;border:1px solid #375c6e;color:#c7e8ec;border-radius:8px;padding:9px 12px}.nl-node{font-family:Consolas,monospace}.nl-example{cursor:pointer}
+    @media(max-width:790px){.nl-inputs{grid-template-columns:1fr}.nl-action .primary{width:100%}}
+  `;document.head.appendChild(css);
+  // Replaces v1 programmatically without touching other tabs.
+  document.querySelectorAll('[data-view="natural"]').forEach(x=>x.remove());
+  const prev=document.getElementById('view-natural');if(prev)prev.remove();
+  const nav=document.createElement('button');nav.className='nav';nav.dataset.view='natural';nav.innerHTML='<span class="ico">✳</span> Consulta em português';
+  const side=document.querySelector('.sidebar .sidenote');side.parentNode.insertBefore(nav,side);
+  const mob=document.createElement('button');mob.dataset.view='natural';mob.textContent='Por objetivo';document.querySelector('.mobile-nav').prepend(mob);
+  [nav,mob].forEach(b=>b.addEventListener('click',()=>openTab('natural')));
+  const view=document.createElement('section');view.className='view';view.id='view-natural';
+  view.innerHTML=`<div class="panel nl-lab"><div><div class="eyebrow">CPS JOINLAB · CONSULTAS POR OBJETIVO</div><h2 style="margin:10px 0 7px">Descreva o que você quer buscar</h2><p class="sub" style="margin:0">Identifico tabelas, encontro JOINs nas suas 172 queries e monto SQL. Consultas financeiras usam regras de agregação para evitar duplicidade. Funciona diretamente no navegador, sem chave de IA.</p></div><div><label for="nl-ask">Sua solicitação</label><textarea id="nl-ask" class="nl-text" placeholder="Ex.: Quero orçamentos com notas fiscais emitidas e valores que ainda falta receber"></textarea></div><div class="nl-inputs"><div><label for="nl-extra">Tabelas obrigatórias (opcional)</label><input id="nl-extra" placeholder="Ex.: TOS,TORD_COM,TPAGAR" spellcheck="false"></div><div><label for="nl-type">Banco</label><select id="nl-type"><option value="pg">PostgreSQL</option><option value="sqlserver">SQL Server (estrutura)</option></select></div></div><div class="nl-action"><button class="primary" id="nl-build">Montar SQL →</button><button class="secondary" id="nl-reset">Limpar</button><span class="mini">Ctrl + Enter para gerar</span></div><div class="nl-chiprow"><button class="chip nl-example" data-q="Quero orçamentos que emitiram notas fiscais e ainda falta receber">Orçamentos · NF · a receber</button><button class="chip nl-example" data-q="Quero orçamentos com notas fiscais e parcelas vencidas da empresa 1">Vencidos · empresa 1</button><button class="chip nl-example" data-q="Quero OS com ordens de compra e contas a pagar">OS · OC · financeiro</button><button class="chip nl-example" data-q="Quero clientes com notas fiscais emitidas">Clientes · notas fiscais</button><button class="chip nl-example" data-q="Quero OS com solicitações de material e ordens de compra não recebidas">OS · solicitação · OC</button></div><div id="nl-output"></div></div><div class="hint"><strong>Importante:</strong> o interpretador é local, usa o catálogo de relações e regras documentadas — não é um modelo de IA generativa. Não consulta nem altera o banco. Quando uma regra de negócio não estiver confirmada, mostra a pendência em vez de inventar filtros.</div>`;
+  document.querySelector('#view-builder').before(view);
+  const $=sel=>document.querySelector(sel);const output=$('#nl-output');
+  function render(res){
+    output.replaceChildren();
+    if(res.error){output.innerHTML='<div class="nl-alert"><b>Preciso de mais informações.</b><br>'+html(res.error)+'</div>';return;}
+    const head=document.createElement('div');head.className='nl-head';head.innerHTML='<h3>'+html(res.kind)+'</h3><div class="nl-action"><button id="nl-copy" class="copy">Copiar SQL</button><button id="nl-download" class="nl-mini-btn">Baixar .sql</button></div>';output.append(head);
+    const chips=document.createElement('div');chips.className='nl-chiprow';
+    const all=[...res.intent.found.map(c=>c.name+' → '+c.id.toUpperCase()),...((res.intent.company!==null)?['Empresa '+res.intent.company]:[])];
+    for(const text of all){const s=document.createElement('span');s.className='nl-chip';s.textContent=text;chips.append(s);}output.append(chips);
+    let msg=document.createElement('div');msg.className='nl-ok';
+    msg.innerHTML='<b>Caminho interpretado:</b><br><span class="nl-node">'+res.tableRoute.map(html).join(' → ')+'</span><br><span class="nl-sub">'+(res.joins?'JOINs físicos recuperados: '+res.joins.length+'.':'Agregação controlada por orçamento e emissão de nota fiscal.')+'</span>';
+    output.append(msg);
+    const source=document.createElement('p');source.className='nl-sources';source.innerHTML='<b>Consultas de origem:</b> '+(res.evidence.map(html).join(' · ')||'Consulte a biblioteca de relacionamentos.');output.append(source);
+    for(const warning of res.warnings){const item=document.createElement('div');item.className='nl-alert';item.textContent=warning;output.append(item);}
+    const pre=document.createElement('pre');pre.className='nl-query';pre.textContent=res.sql;output.append(pre);
+    $('#nl-copy').addEventListener('click',e=>copyText(res.sql,e.currentTarget));
+    $('#nl-download').addEventListener('click',()=>downloadFile('cps_consulta_'+new Date().toISOString().slice(0,10)+'.sql',res.sql,'text/plain;charset=utf-8'));
+  }
+  function run(){
+    const q=$('#nl-ask').value.trim(), extra=$('#nl-extra').value;
+    if(!q && !extra.trim()){output.innerHTML='<div class="empty">Descreva a consulta ou informe as tabelas.</div>';return;}
+    const res=generate(q,extra);
+    if(res.sql && $('#nl-type').value==='sqlserver') {
+      if(res.kind==='Consulta financeira estruturada'){
+        res.warnings.unshift('Essa consulta financeira usa operadores PostgreSQL (STRING_AGG ORDER BY, FILTER, ::date). Mude para PostgreSQL ou adapte manualmente; não será apresentada como SQL Server pronto.');
+      }else{
+        res.sql=res.sql.replaceAll('::date','');
+        res.warnings.unshift('Estrutura dos JOINs compatível com SQL Server; valide nomes de campos e tipos no banco do cliente.');
+      }
+    }
+    render(res);
+    try{localStorage.setItem('cps-joinlab-ask',q);localStorage.setItem('cps-joinlab-manual',extra);}catch(e){}
+  }
+  $('#nl-build').addEventListener('click',run);
+  $('#nl-reset').addEventListener('click',()=>{ $('#nl-ask').value='';$('#nl-extra').value='';output.replaceChildren();$('#nl-ask').focus();try{localStorage.removeItem('cps-joinlab-ask');localStorage.removeItem('cps-joinlab-manual');}catch(e){} });
+  $$('.nl-example').forEach(b=>b.addEventListener('click',()=>{$('#nl-ask').value=b.dataset.q;$('#nl-extra').value='';run();}));
+  $('#nl-ask').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();run();}});
+  try{$('#nl-ask').value=localStorage.getItem('cps-joinlab-ask')||'';$('#nl-extra').value=localStorage.getItem('cps-joinlab-manual')||'';}catch(e){}
+  const origMenu=window.location.hash; if(origMenu==='#natural')openTab('natural');
+  window.CPSJoinLabNL={generate,parseRequest,route,version:'2.0'}; // diagnostic/testing only
+  function $$(sel){return Array.from(document.querySelectorAll(sel));}
 })();
