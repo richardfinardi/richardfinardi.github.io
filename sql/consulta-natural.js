@@ -86,6 +86,18 @@
     tctrl_ph:['cod_os'],
     tproduto_deposito:['cod_produto']
   };
+  function actualFields(table){return (SCHEMA.tables[table]?.fields||[]).map(c=>c[0]);}
+  function wantedFields(table,q){
+    const all=actualFields(table),matched=[];
+    const blacklist=new Set(['codigo','nome','cod_empresa','descricao','status','tipo','valor','data','dt_hora','dt_cadastro','usuario','cod_orcamento','cod_os','cod_produto','cod_cliente','cod_fornecedor','cod_deposito']);
+    for(const field of all){
+      if(blacklist.has(field)||field.length<5)continue;
+      const token=field.replace(/_/g,' ');
+      const rx=new RegExp('\\b'+token.replace(/ /g,'[ _]')+'\\b','i');
+      if(rx.test(q))matched.push(field);
+    }
+    return matched.sort((a,b)=>b.length-a.length).slice(0,12);
+  }
   const genericTransits = new Set(['tempresa','tproduto','tcliente','tfornece','treceber','tpagar','tcc','ttp_movi','tdeposito','tproduto_deposito','tproduto_dep_loteserie','tproduto_dep_reserva']);
   // Relacionamentos extraidos com GUID e empresa sao preferidos.
   function edgeCost(r) {
@@ -271,15 +283,22 @@ JOIN financeiro_orcamento f
     const picked=new Set();
     function addcol(table,field) {
       const alias=aliases.get(table);if(!alias)return;
+      if(SCHEMA.tables[table] && !actualFields(table).includes(field))return;
       let key=table+'.'+field;if(picked.has(key))return;picked.add(key);
       cols.push('    '+alias+'.'+field+' AS '+table+'_'+field);
     }
     if(aliases.has(root)){
-      if(fields[root]) for(const f of fields[root].slice(0,3))addcol(root,f);
+      let basics=(fields[root]||[]).filter(f=>!SCHEMA.tables[root]||actualFields(root).includes(f)).slice(0,3);
+      if(!basics.length)basics=['cod_empresa','codigo','nome','descricao'].filter(f=>actualFields(root).includes(f)).slice(0,3);
+      if(basics.length)basics.forEach(f=>addcol(root,f));
       else cols.push('    '+aliases.get(root)+'.*');
+      wantedFields(root,i.q).forEach(f=>addcol(root,f));
     }
     for(const c of i.found)if(c.id!==root && aliases.has(c.id)){
-      for(const f of (fields[c.id]||[]).slice(0,5))addcol(c.id,f);
+      let basic=(fields[c.id]||[]).filter(f=>!SCHEMA.tables[c.id]||actualFields(c.id).includes(f)).slice(0,5);
+      if(!basic.length)basic=['codigo','nome','descricao','cod_empresa'].filter(f=>actualFields(c.id).includes(f)).slice(0,3);
+      basic.forEach(f=>addcol(c.id,f));
+      wantedFields(c.id,i.q).forEach(f=>addcol(c.id,f));
     }
     if(cols.length===0)cols.push('    '+aliases.get(root)+'.*');
     let sql='/* CPS JoinLab · caminho extraido das queries.\n   Modelo relacional de referência: revise filtros e cardinalidade. */\n';
@@ -332,7 +351,11 @@ JOIN financeiro_orcamento f
     }
     if(conditions.length)sql+='\nWHERE '+conditions.join('\n  AND ');
     sql+='\nORDER BY 1;';
-    const warnings=['Consulta relacional: JOINs baseados nas queries; revise duplicações de linha e cardinalidade antes de totalizar valores.'];
+    const warnings=['Consulta relacional: revise duplicacoes e cardinalidade antes de totalizar valores.'];
+    const structural=joins.filter(x=>x.rel.origin==='Estrutura CPS');
+    const suggestions=joins.filter(x=>x.rel.origin==='Sugestao automatica');
+    if(structural.length)warnings.push('Relacionamento(s) estruturais do mapa CPS, sem validacao em registros: '+structural.map(x=>x.rel.id).join(', ')+'.');
+    if(suggestions.length)warnings.unshift('ATENCAO: '+suggestions.length+' JOIN(s) sao sugestoes por nome de campo, NAO confirmadas no banco: '+suggestions.map(x=>x.rel.id).join(', ')+'.');
     if(disconnected.length)warnings.unshift('Não foi possível conectar: '+disconnected.join(', ')+'. Essas tabelas ficaram fora do SQL.');
     if(i.expectsReceipt)warnings.unshift('Pedido ainda não recebido: falta regra validada para recebimento físico/entrada em estoque. SQL mostra os vínculos, mas NÃO filtra pedidos sem recebimento.');
     if(i.unpaid && !i.expectsReceipt && !aliases.has('treceber') && !aliases.has('tpagar'))warnings.unshift('Saldo pendente solicitado, mas nenhuma tabela financeira no caminho: filtro de saldo NÃO aplicado.');
@@ -343,12 +366,14 @@ JOIN financeiro_orcamento f
     const risky=joins.filter(s=>!s.rel.keys.some(([a,b])=>a==='cod_empresa'&&b==='cod_empresa'));
     if(risky.length)warnings.push('Há JOIN(s) sem COD_EMPRESA nas condições extraídas: '+risky.map(s=>s.rel.id).join(', ')+'. Confira isolamento entre empresas.');
     const evidence=[...new Set(joins.flatMap(s=>s.rel.files.slice(0,2)))].slice(0,8);
+    if(!evidence.length)evidence.push('Mapa estrutural CPS: '+SCHEMA.meta.tables+' tabelas / '+SCHEMA.meta.cols+' campos');
     return {sql,tableRoute:[...nodes].map(t=>t.toUpperCase()),warnings,evidence,joins,disconnected,kind:'Caminho dinâmico por relacionamentos'};
   }
   function generate(q,manual) {
     const i=parseRequest(q,manual||'');
     if(!i.root)return {intent:i,error:'Não identifiquei um assunto do CPS. Escreva "orçamentos com notas fiscais e saldo a receber", "OS com ordens de compra e pagamentos" ou informe as tabelas.'};
-    if(i.found.length<2)return {intent:i,error:'Identifiquei '+i.root.name+', mas preciso de pelo menos mais um assunto/tabela para construir os JOINs. Ex.: "'+i.root.name+' com notas fiscais".'};
+    if(i.found.length<2 && !wantedFields(i.root.id,i.q).length && !/\b(?:tabela|campos?|colunas?|todos|todas|listar|mostrar|trazer|quero)\b/.test(i.q))
+      return {intent:i,error:'Encontrei '+i.root.name+', mas nao identifiquei campos ou outras tabelas para consultar.'};
     if(isFinanceRecipe(i))return {intent:i,...buildFinanceSQL(i)};
     return {intent:i,...buildJoinSQL(i)};
   }
@@ -405,6 +430,6 @@ JOIN financeiro_orcamento f
   $('#nl-ask').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();run();}});
   try{$('#nl-ask').value=localStorage.getItem('cps-joinlab-ask')||'';$('#nl-extra').value=localStorage.getItem('cps-joinlab-manual')||'';}catch(e){}
   const origMenu=window.location.hash; if(origMenu==='#natural')openTab('natural');
-  window.CPSJoinLabNL={generate,parseRequest,route,version:'2.1'}; // diagnostic/testing only
+  window.CPSJoinLabNL={generate,parseRequest,route,schema:SCHEMA,version:'3.0'}; // diagnostic/testing only
   function $$(sel){return Array.from(document.querySelectorAll(sel));}
 })();
