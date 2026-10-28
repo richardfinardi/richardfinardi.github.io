@@ -1,4 +1,4 @@
 {
-  "worker_url": "",
-  "nota": "Preencher com https://auvriun-api-monitor.<subdominio>.workers.dev/status apos publicar o Worker. Mantem fallback GitHub ate validar."
+  "worker_url": "https://auvriun-api-monitor.auvriun-monitor.workers.dev/status",
+  "nota": "Status via Cloudflare Worker da AUVRIUN. Nao alterar sem atualizar o Worker."
 }
