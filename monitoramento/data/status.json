@@ -1,24 +1,25 @@
 {
-  "atualizado_em": "2026-10-27T23:48:02+00:00",
+  "atualizado_em": "2026-10-28T02:37:21+00:00",
   "intervalo_minutos": 5,
   "monitores": [
     {
       "id": "brastorno",
       "nome": "Brastorno",
       "url": "https://brastorno.consultoriarf.net/openapi.json",
-      "estado": "instavel",
+      "estado": "offline",
       "http": 530,
-      "tempo_ms": 131,
+      "tempo_ms": 170,
       "erro": "HTTP 530",
-      "ultima_verificacao": "2026-10-27T23:48:02+00:00",
+      "ultima_verificacao": "2026-10-28T02:37:21+00:00",
       "ultimo_sucesso": null,
-      "falhas_seguidas": 2,
-      "total_testes": 2,
+      "falhas_seguidas": 3,
+      "total_testes": 3,
       "testes_ok": 0,
-      "mudanca_em": "2026-10-27T20:24:45+00:00",
+      "mudanca_em": "2026-10-28T02:37:21+00:00",
       "recentes": [
         "instavel",
-        "instavel"
+        "instavel",
+        "offline"
       ]
     },
     {
@@ -27,15 +28,16 @@
       "url": "https://sintercan.consultoriarf.net/openapi.json",
       "estado": "online",
       "http": 200,
-      "tempo_ms": 454,
+      "tempo_ms": 657,
       "erro": "",
-      "ultima_verificacao": "2026-10-27T23:48:02+00:00",
-      "ultimo_sucesso": "2026-10-27T23:48:02+00:00",
+      "ultima_verificacao": "2026-10-28T02:37:21+00:00",
+      "ultimo_sucesso": "2026-10-28T02:37:21+00:00",
       "falhas_seguidas": 0,
-      "total_testes": 2,
-      "testes_ok": 2,
+      "total_testes": 3,
+      "testes_ok": 3,
       "mudanca_em": "2026-10-27T20:24:45+00:00",
       "recentes": [
+        "online",
         "online",
         "online"
       ]
@@ -46,15 +48,16 @@
       "url": "https://pstec.consultoriarf.net/openapi.json",
       "estado": "online",
       "http": 200,
-      "tempo_ms": 546,
+      "tempo_ms": 710,
       "erro": "",
-      "ultima_verificacao": "2026-10-27T23:48:02+00:00",
-      "ultimo_sucesso": "2026-10-27T23:48:02+00:00",
+      "ultima_verificacao": "2026-10-28T02:37:21+00:00",
+      "ultimo_sucesso": "2026-10-28T02:37:21+00:00",
       "falhas_seguidas": 0,
-      "total_testes": 2,
-      "testes_ok": 2,
+      "total_testes": 3,
+      "testes_ok": 3,
       "mudanca_em": "2026-10-27T20:24:45+00:00",
       "recentes": [
+        "online",
         "online",
         "online"
       ]
@@ -65,15 +68,16 @@
       "url": "https://anfeer.consultoriarf.net/openapi.json",
       "estado": "online",
       "http": 200,
-      "tempo_ms": 445,
+      "tempo_ms": 611,
       "erro": "",
-      "ultima_verificacao": "2026-10-27T23:48:02+00:00",
-      "ultimo_sucesso": "2026-10-27T23:48:02+00:00",
+      "ultima_verificacao": "2026-10-28T02:37:21+00:00",
+      "ultimo_sucesso": "2026-10-28T02:37:21+00:00",
       "falhas_seguidas": 0,
-      "total_testes": 2,
-      "testes_ok": 2,
+      "total_testes": 3,
+      "testes_ok": 3,
       "mudanca_em": "2026-10-27T20:24:45+00:00",
       "recentes": [
+        "online",
         "online",
         "online"
       ]
@@ -84,19 +88,28 @@
       "url": "https://columbia.consultoriarf.net/openapi.json",
       "estado": "online",
       "http": 200,
-      "tempo_ms": 496,
+      "tempo_ms": 645,
       "erro": "",
-      "ultima_verificacao": "2026-10-27T23:48:02+00:00",
-      "ultimo_sucesso": "2026-10-27T23:48:02+00:00",
+      "ultima_verificacao": "2026-10-28T02:37:21+00:00",
+      "ultimo_sucesso": "2026-10-28T02:37:21+00:00",
       "falhas_seguidas": 0,
-      "total_testes": 2,
-      "testes_ok": 2,
+      "total_testes": 3,
+      "testes_ok": 3,
       "mudanca_em": "2026-10-27T20:24:45+00:00",
       "recentes": [
+        "online",
         "online",
         "online"
       ]
     }
   ],
-  "eventos": []
+  "eventos": [
+    {
+      "em": "2026-10-28T02:37:21+00:00",
+      "id": "brastorno",
+      "nome": "Brastorno",
+      "tipo": "queda",
+      "detalhe": "HTTP 530"
+    }
+  ]
 }
