@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class StatusRepository {
-    public static final String STATUS_URL = "https://consultoriarf.net/monitoramento/data/status.json";
+    public static final String STATUS_URL = "https://auvriun-api-monitor.auvriun-monitor.workers.dev/status";
     public static final String PANEL_URL = "https://consultoriarf.net/monitoramento/";
     private static final String PREF = "rf_widget";
     private static final int GREEN = Color.rgb(76, 218, 159);
@@ -86,37 +86,65 @@ public final class StatusRepository {
         }
     }
 
+    private static String fetchStatus(String baseUrl) throws Exception {
+        HttpURLConnection conn = (HttpURLConnection) new URL(
+                baseUrl + (baseUrl.contains("?") ? "&" : "?") + "ts=" + System.currentTimeMillis()
+        ).openConnection();
+        conn.setConnectTimeout(8000);
+        conn.setReadTimeout(12000);
+        conn.setUseCaches(false);
+        conn.setRequestProperty("Cache-Control", "no-cache");
+        conn.setRequestProperty("Accept", "application/json");
+        conn.setRequestProperty("User-Agent", "MonitoramentoRF-Android/1.4");
+        try {
+            if (conn.getResponseCode() != 200) throw new Exception("HTTP " + conn.getResponseCode());
+            String received;
+            try (InputStream in = conn.getInputStream(); ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
+                byte[] buffer = new byte[4096];
+                int read;
+                while ((read = in.read(buffer)) != -1) {
+                    if (bytes.size() + read > 524288) throw new Exception("Resposta acima de 512 KB");
+                    bytes.write(buffer, 0, read);
+                }
+                received = bytes.toString(StandardCharsets.UTF_8.name());
+            }
+            JSONObject payload = new JSONObject(received);
+            JSONArray monitors = payload.optJSONArray("monitores");
+            String timestamp = payload.optString("atualizado_em", "");
+            if (monitors == null || monitors.length() < IDS.length ||
+                    timestamp.isEmpty() || "null".equals(timestamp)) {
+                throw new Exception("Resposta de monitoramento incompleta");
+            }
+            return received;
+        } finally {
+            conn.disconnect();
+        }
+    }
+
     public static void refresh(Context context) {
         String received = null;
+        String failure = "";
         try {
-            HttpURLConnection conn = (HttpURLConnection) new URL(resolveStatusUrl(context)).openConnection();
-            conn.setConnectTimeout(5000);
-            conn.setReadTimeout(5000);
-            conn.setUseCaches(false);
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("User-Agent", "MonitoramentoRF-Android/1.0");
+            // Prioridade absoluta: mesma URL Cloudflare que alimenta o painel.
+            received = fetchStatus(STATUS_URL);
+        } catch (Exception first) {
+            failure = first.getClass().getSimpleName();
+            // Segunda tentativa apenas se o painel apontar para outro Worker HTTPS.
             try {
-                if (conn.getResponseCode() != 200) throw new Exception("HTTP " + conn.getResponseCode());
-                try (InputStream in = conn.getInputStream(); ByteArrayOutputStream bytes = new ByteArrayOutputStream()) {
-                    byte[] buffer = new byte[4096];
-                    int read;
-                    while ((read = in.read(buffer)) != -1 && bytes.size() < 524288) {
-                        bytes.write(buffer, 0, read);
-                    }
-                    received = bytes.toString(StandardCharsets.UTF_8.name());
-                }
-                JSONObject payload = new JSONObject(received);
-                if (!payload.has("monitores") || !payload.get("monitores").getClass().equals(JSONArray.class)) {
-                    throw new Exception("Status invalido");
-                }
-            } finally {
-                conn.disconnect();
+                String discovered = resolveStatusUrl(context);
+                if (!STATUS_URL.equals(discovered)) received = fetchStatus(discovered);
+            } catch (Exception second) {
+                failure = second.getClass().getSimpleName();
             }
+        }
+        if (received != null) {
             context.getSharedPreferences(PREF, Context.MODE_PRIVATE).edit()
                     .putString("last_json", received).apply();
             render(context, received, false);
-        } catch (Exception error) {
-            String cached = context.getSharedPreferences(PREF, Context.MODE_PRIVATE).getString("last_json", "");
+        } else {
+            String cached = context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
+                    .getString("last_json", "");
+            android.util.Log.w("MonitoramentoRF", "Falha ao consultar o Cloudflare: " + failure);
             render(context, cached, true);
         }
     }
@@ -151,6 +179,15 @@ public final class StatusRepository {
             }
         } catch (Exception ignored) { }
 
+        boolean stale = true;
+        if (last != null && !last.isEmpty() && !"null".equals(last)) {
+            try {
+                long minutes = Duration.between(OffsetDateTime.parse(last).toInstant(),
+                        java.time.Instant.now()).toMinutes();
+                stale = minutes > 20 || minutes < -5;
+            } catch (Exception ignored) { }
+        }
+
         int healthy = 0;
         int degraded = 0;
         for (int i = 0; i < IDS.length; i++) {
@@ -174,12 +211,17 @@ public final class StatusRepository {
                 color = RED;
                 degraded++;
             }
+            if (stale) {
+                caption = "● SEM DADOS";
+                color = GREY;
+            }
             views.setTextViewText(LABEL_VIEWS[i], caption);
             views.setTextColor(LABEL_VIEWS[i], color);
         }
 
         String summary;
-        if (networkError) summary = "Sem conexão • último resultado";
+        if (networkError) summary = "Falha de conexão • Cloudflare";
+        else if (stale) summary = "Dados desatualizados • Cloudflare";
         else if (states.isEmpty()) summary = "Aguardando primeira verificação";
         else summary = healthy + " online • " + degraded + " em atenção";
         views.setTextViewText(R.id.widget_summary, summary);
@@ -191,7 +233,7 @@ public final class StatusRepository {
                 String formatted = time.atZoneSameInstant(ZoneId.systemDefault())
                         .format(DateTimeFormatter.ofPattern("dd/MM HH:mm"));
                 long elapsed = Duration.between(time.toInstant(), java.time.Instant.now()).toMinutes();
-                updated = (elapsed > 20 ? "Atrasado • " : "Verificado ") + formatted;
+                updated = (stale ? "Dados antigos • " : "Cloudflare • ") + formatted;
             } catch (Exception ignored) { }
         }
         views.setTextViewText(R.id.widget_updated, updated);
