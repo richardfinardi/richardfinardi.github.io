@@ -1,0 +1,24 @@
+name: Validar Worker AUVRIUN
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'monitoramento/cloudflare/**'
+      - 'monitoramento/config.json'
+      - '.github/workflows/monitoramento-cloudflare-validate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validar compilacao do Worker sem credenciais Cloudflare
+        run: npx --yes wrangler@4 deploy --dry-run --config monitoramento/cloudflare/wrangler.json
