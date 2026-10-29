@@ -121,7 +121,7 @@ public final class StatusRepository {
         }
     }
 
-    public static void refresh(Context context) {
+    public static synchronized void refresh(Context context) {
         String received = null;
         String failure = "";
         try {
@@ -138,6 +138,7 @@ public final class StatusRepository {
             }
         }
         if (received != null) {
+            IncidentNotifier.process(context, received);
             context.getSharedPreferences(PREF, Context.MODE_PRIVATE).edit()
                     .putString("last_json", received).apply();
             render(context, received, false);

@@ -23,9 +23,17 @@
         <Button android:id="@+id/button_panel" android:layout_width="match_parent" android:layout_height="52dp"
             android:layout_marginTop="12dp" android:textAllCaps="false" android:text="Abrir painel completo"
             android:backgroundTint="#293D56" android:textColor="#FFFFFF"/>
+        <Button android:id="@+id/button_test_alert" android:layout_width="match_parent"
+            android:layout_height="52dp" android:layout_marginTop="12dp"
+            android:textAllCaps="false" android:text="Testar notificação"
+            android:backgroundTint="#293D56" android:textColor="#FFFFFF"/>
+        <Button android:id="@+id/button_battery" android:layout_width="match_parent"
+            android:layout_height="52dp" android:layout_marginTop="12dp"
+            android:textAllCaps="false" android:text="Configurar bateria: Sem restrições"
+            android:backgroundTint="#293D56" android:textColor="#FFFFFF"/>
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
             android:gravity="center" android:layout_marginTop="26dp"
-            android:text="O widget consulta o painel automaticamente aproximadamente a cada 15 minutos, sujeito às restrições de bateria do Android. Toque em ↻ para atualizar na hora."
+            android:text="O widget tenta se atualizar em segundo plano a cada 15 minutos e avisa sobre novas quedas e recuperações. No Samsung, habilite as notificações e configure Bateria como Sem restrições. O Android pode adiar verificações em modo de economia."
             android:textSize="12sp" android:lineSpacingExtra="3dp" android:textColor="#8CA8BE"/>
     </LinearLayout>
 </ScrollView>

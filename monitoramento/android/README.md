@@ -33,3 +33,10 @@ APK em `monitoramento/android/app/build/outputs/apk/debug/app-debug.apk`.
 - Grade de 2x2 celulas, linhas de 16dp, card com altura natural.
 - Atualizacoes futuras tentam reutilizar a mesma assinatura de teste via cache do GitHub Actions.
 - Remova o widget antigo da tela e adicione o novo. Devido a assinatura da versao anterior, podera ser preciso desinstalar o APK anterior uma ultima vez.
+
+## 1.5.0 — consulta automática e alertas
+- JobScheduler periódico com AlarmManager setAndAllowWhileIdle como segundo disparador, ~15min, podendo atrasar conforme Samsung Doze.
+- Rearma após reiniciar o telefone ou atualizar aplicativo.
+- Notificações de incidentes novos (queda e recuperação) descobertos no histórico da API da Cloudflare. Sem repetição, mesmo após reiniciar o Android.
+- Abra uma vez o aplicativo e aceite a permissão de notificações. Há botão de teste e botão para configurações de bateria (Sem restrições).
+- Não é push de servidor em tempo real: as notificações dependem de uma atualização do Android, que pode ser postergada pelo sistema.
