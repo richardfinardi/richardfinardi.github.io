@@ -16,6 +16,8 @@ public final class RefreshJobService extends JobService {
         if (!RefreshSchedule.hasWidget(ctx)) return;
         JobScheduler jobs = (JobScheduler)ctx.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         if (jobs == null) return;
+        // Evita reiniciar a contagem dos 15 minutos a cada alarme ou reabertura.
+        if (jobs.getPendingJob(PERIODIC_ID) != null) return;
         jobs.schedule(new JobInfo.Builder(PERIODIC_ID,
             new ComponentName(ctx, RefreshJobService.class))
             .setPeriodic(FIFTEEN_MIN, 5L * 60 * 1000)
