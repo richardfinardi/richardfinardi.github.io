@@ -24,7 +24,7 @@ async function api(action,payload){
   const json=await response.json();if(!json.ok)throw Error(json.error||"Operação não realizada");return json.data||{};
  }catch(e){if(e.name==="AbortError")throw Error("Tempo de resposta excedido.");throw e}finally{clearTimeout(timeout)}
 }
-async function action(name,payload,ok){try{const b=event?.target?.closest("button");if(b)b.disabled=true;const r=await api(name,payload);toast(ok||"Operação concluída");await reload();return r}catch(e){err(e)}finally{const b=event?.target?.closest("button");if(b)b.disabled=false}}
+async function action(name,payload,ok){try{const r=await api(name,payload);toast(ok||"Operação concluída");await reload();return r}catch(e){err(e)}}
 function route(name){current=name;$$("[data-view]").forEach(el=>el.classList.toggle("hide",el.dataset.view!==name));$$("[data-page]").forEach(el=>el.classList.toggle("active",el.dataset.page===name));window.scrollTo({top:0,behavior:"smooth"});if(name==="busca")search(false);if(name==="config")renderConfig()}
 function showAuth(show){$("#loginView").classList.toggle("hide",!show);$("#appView").classList.toggle("hide",show);$("#topnav").classList.toggle("hide",show);$("#bottomnav").classList.toggle("hide",show);$("#logoutBtn").classList.toggle("hide",show);$("#headerName").textContent=show?"":(me?me.nome.split(" ")[0]:"")}
 function initDates(){const local=isoLocal(new Date());["homeDate","searchDate"].forEach(id=>$("#"+id).value=local.slice(0,10));const next=new Date(Date.now()+3600000);$("#avStart").value=isoLocal(next);$("#avEnd").value=isoLocal(new Date(next.getTime()+3600000))}
