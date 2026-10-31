@@ -94,24 +94,29 @@ function route_(r){
  if(a==="extend")return withLock_(()=>extend_(user,r));
  throw Error("Ação desconhecida.");
 }
+function createSession_(u){
+ const token=uuid_().replace(/-/g,"")+uuid_().replace(/-/g,"");
+ insert_("SESSOES",{hash_token:hash_(token),morador_id:u.id,expira_em:new Date(Date.now()+7*86400000).toISOString(),criado_em:timestamp_()});
+ return {token,me:publicUser_(u)};
+}
 function register_(r){
  const email=mail_(r.email),name=clean_(r.nome,100),bloco=clean_(r.bloco,50),apto=clean_(r.apartamento,25),pin=String(r.pin||"");
  require_(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),"E-mail inválido.");
  require_(name.length>=3&&bloco&&apto&&pin.length>=6,"Preencha todos os dados obrigatórios.");
  require_(!all_("MORADORES").some(x=>x.email===email),"Este e-mail já está cadastrado.");
+ // Cadastro de moradores é automático, sem convite nem aprovação de administrador.
+ // Privilégios administrativos continuam exigindo email predefinido e código secreto.
  const hasAdmin=all_("MORADORES").some(x=>x.perfil==="ADMIN");
  const adminEmail=mail_(property_("ADMIN_EMAIL"));
- const isFirstAdmin=!hasAdmin&&email===adminEmail&&property_("BOOTSTRAP_CODE")&&String(r.codigo)===property_("BOOTSTRAP_CODE");
- const normalCode=property_("REGISTRATION_CODE");
- require_(isFirstAdmin||(normalCode&&String(r.codigo)===normalCode),"Código de cadastro inválido.");
+ const isFirstAdmin=!hasAdmin&&email===adminEmail&&!!property_("BOOTSTRAP_CODE")&&String(r.codigo||"")===property_("BOOTSTRAP_CODE");
  const id=uuid_(),salt=uuid_()+uuid_(),u={
   id,nome:name,bloco,apartamento:apto,email,telefone:clean_(r.telefone,24),placa:clean_(r.placa,7).toUpperCase(),
-  perfil:isFirstAdmin?"ADMIN":"MORADOR",ativo:isFirstAdmin?"SIM":"PENDENTE",
+  perfil:isFirstAdmin?"ADMIN":"MORADOR",ativo:"SIM",
   pin_salt:salt,pin_hash:pinHash_(pin,salt),criado_em:timestamp_()
  };
- insert_("MORADORES",u);log_(u,"CADASTRO","MORADORES",id,isFirstAdmin?"Administrador inicial":"Aguardando aprovação");
- if(!isFirstAdmin)all_("MORADORES").filter(x=>x.perfil==="ADMIN"&&x.ativo==="SIM").forEach(admin=>notify_(admin.id,"CADASTRO","Novo morador aguardando aprovação",name+" · "+bloco+"/"+apto,id));
- return {status:u.ativo};
+ insert_("MORADORES",u);
+ log_(u,"CADASTRO","MORADORES",id,isFirstAdmin?"Administrador inicial":"Cadastro automático");
+ return Object.assign({status:"SIM"},createSession_(u));
 }
 function login_(r){
  const email=mail_(r.email),pin=String(r.pin||"");
@@ -119,11 +124,11 @@ function login_(r){
  require_(tries<6,"Muitas tentativas. Aguarde 15 minutos.");
  const u=all_("MORADORES").find(x=>x.email===email);
  if(!u||u.pin_hash!==pinHash_(pin,u.pin_salt)){cache.put(key,String(tries+1),900);throw Error("E-mail ou senha incorretos.")}
- require_(u.ativo==="SIM","Cadastro aguardando autorização da administração.");
+ // Cadastros anteriores que ficaram pendentes passam a poder acessar diretamente.
+ if(u.ativo==="PENDENTE")patch_("MORADORES",u,{ativo:"SIM"});
+ require_(u.ativo==="SIM","Este acesso está desativado.");
  cache.remove(key);
- const token=uuid_().replace(/-/g,"")+uuid_().replace(/-/g,"");
- insert_("SESSOES",{hash_token:hash_(token),morador_id:u.id,expira_em:new Date(Date.now()+7*86400000).toISOString(),criado_em:timestamp_()});
- return {token,me:publicUser_(u)};
+ return createSession_(u);
 }
 function validatePeriod_(start,end,requireFuture){
  const pattern=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
