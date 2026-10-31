@@ -2,7 +2,7 @@
 (function(){
 "use strict";
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const API=String(window.VAGAS_API_URL||"").trim();
+const API=String(window.VAGAS_API_URL||"https://script.google.com/macros/s/AKfycbzRxYxsoaUIDAhaQpcYZP1H-WtpDu--KauBTEz9goYzMbvW0R92ynV_LDYUYrNGCdFe/exec").trim();
 const ONE=String(window.VAGAS_ONESIGNAL_APP_ID||"").trim();
 const KEY="chacara_vagas_token";
 let token=localStorage.getItem(KEY)||"", me=null, data={}, deferredInstall=null, current="inicio", searchParams=null, refreshing=false, oneStarted=false;
@@ -137,7 +137,7 @@ function wire(){
 }
 async function main(){
  initDates();wire();
- if(!API)$("#systemAlert").innerHTML='<div class="msg warn"><strong>Instalação em andamento:</strong> a interface foi publicada, mas ainda falta ativar a API do Google Apps Script. Reservas reais não são aceitas até a conexão ser concluída.</div>';
+
  if(token)await reload();else showAuth(true);
  setInterval(()=>{if(!document.hidden&&token)reload()},60000);
 }
