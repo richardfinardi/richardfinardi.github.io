@@ -11,7 +11,7 @@
 Banco: CHACARA_DAS_FLORES_VAGAS_DB
 Local: Meu Drive / BANCO_DADOS
 ID: 1baP2aPHfxocrl-vACXgYY7g46s1sks4PYmQ_yF-NNMw
-Abas: MORADORES, VAGAS, DISPONIBILIDADES, RESERVAS, NOTIFICACOES, HISTORICO, SESSOES, CONFIG.
+Abas: MORADORES, VAGAS, DISPONIBILIDADES, RESERVAS, NOTIFICACOES, HISTORICO, SESSOES, CONFIG, LISTA_ESPERA.
 
 ## Ativação obrigatória da API (não foi implantada automaticamente)
 GitHub Pages hospeda o frontend, mas não executa Google Apps Script. Por segurança, a URL do backend não foi inventada e nenhuma operação é simulada como reserva real.
@@ -28,6 +28,7 @@ GitHub Pages hospeda o frontend, mas não executa Google Apps Script. Por segura
 6. Copie a URL terminada em /exec e coloque em config.js na variável pública VAGAS_API_URL.
 7. Abra https://consultoriarf.net/vagas/ para cadastrar o administrador usando seu ADMIN_EMAIL e BOOTSTRAP_CODE.
 8. Cadastros com REGISTRATION_CODE ficam pendentes até aprovação administrativa no painel.
+9. No editor Apps Script, execute uma vez setupTriggers() e autorize o gatilho para lembretes de reservas e avisos de atraso a cada 15 minutos.
 
 ## Atalho na tela inicial e notificações
 Android: abra o site no Chrome, toque em Instalar aplicativo ou no menu Adicionar à tela inicial.
@@ -45,6 +46,10 @@ Para push web real, configure uma aplicação OneSignal no domínio https://cons
 - Limite de duas reservas ativas e proibição de reservar vaga própria.
 - Acesso do morador restrito aos seus dados e reservas.
 - Encerramento de disponibilidade impedido enquanto houver reservas ativas.
+- Lista de espera com alerta quando surgir uma vaga, sem reserva automática.
+- Prorrogação de reserva se houver intervalo e a disponibilidade for de aprovação automática.
+- Painel de portaria para administradores com reservas confirmadas e em uso.
+- Lembretes de início e atraso via gatilho do Apps Script, após executar setupTriggers().
 - Código-fonte e banco estão separados; nenhum segredo deve ficar no GitHub público.
 
 ## Antes de liberar para o condomínio
