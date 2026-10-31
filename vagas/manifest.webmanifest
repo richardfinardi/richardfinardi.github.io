@@ -1,0 +1,18 @@
+{
+  "name": "Vagas · Condomínio Chácara das Flores",
+  "short_name": "Vagas Chácara",
+  "description": "Disponibilize e reserve vagas entre moradores",
+  "start_url": "/vagas/",
+  "scope": "/vagas/",
+  "display": "standalone",
+  "background_color": "#f3f8fc",
+  "theme_color": "#082b60",
+  "icons": [
+    {
+      "src": "/vagas/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
