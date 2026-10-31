@@ -22,12 +22,12 @@ GitHub Pages hospeda o frontend, mas não executa Google Apps Script. Por segura
 4. Em Configurações do projeto > Propriedades do script, configure:
    - ADMIN_EMAIL: e-mail do administrador inicial
    - BOOTSTRAP_CODE: código forte e exclusivo para cadastrar o administrador
-   - REGISTRATION_CODE: código separado distribuído aos moradores
+   - Não é necessário código nem aprovação para moradores comuns.
    - opcionais ONESIGNAL_APP_ID e ONESIGNAL_REST_API_KEY para push
 5. Implante > Nova implantação > Aplicativo da Web. Executar como "Eu" (proprietário do Sheets). Quem tem acesso: "Qualquer pessoa". O backend valida senha, sessão e autorização do morador em cada operação.
 6. Copie a URL terminada em /exec e coloque em config.js na variável pública VAGAS_API_URL.
 7. Abra https://consultoriarf.net/vagas/ para cadastrar o administrador usando seu ADMIN_EMAIL e BOOTSTRAP_CODE.
-8. Cadastros com REGISTRATION_CODE ficam pendentes até aprovação administrativa no painel.
+8. Os moradores criam suas contas e entram imediatamente. Apenas o primeiro administrador precisa preencher o código administrativo no cadastro.
 9. No editor Apps Script, execute uma vez setupTriggers() e autorize o gatilho para lembretes de reservas e avisos de atraso a cada 15 minutos.
 
 ## Atalho na tela inicial e notificações
@@ -36,7 +36,7 @@ iPhone: Safari > Compartilhar > Adicionar à Tela de Início.
 Para push web real, configure uma aplicação OneSignal no domínio https://consultoriarf.net; coloque seu ID público em VAGAS_ONESIGNAL_APP_ID no config.js e suas credenciais secretas somente nas Propriedades do Apps Script. O app usa o serviço worker /vagas/sw.js. No iPhone, Web Push exige iOS compatível e web app adicionado à tela inicial.
 
 ## Regras implementadas
-- Cadastro de moradores sujeito à aprovação; painel do administrador.
+- Cadastro de moradores imediato, sem código de convite nem aprovação; primeiro administrador usa código administrativo secreto.
 - Autenticação por e-mail + PIN com hash+salt+pepper no servidor; sessão expira em 7 dias.
 - Vagas próprias, publicação de disponibilidade por período e repetição semanal (4 semanas).
 - Aprovação individual por disponibilidade: automática ou sob aprovação do proprietário.
@@ -44,7 +44,7 @@ Para push web real, configure uma aplicação OneSignal no domínio https://cons
 - LockService no servidor para evitar duplicidade simultânea.
 - Check-in e checkout; avisos internos e chamadas opcionais ao OneSignal.
 - Limite de duas reservas ativas e proibição de reservar vaga própria.
-- Acesso do morador restrito aos seus dados e reservas.
+- Acesso do morador restrito aos seus dados e reservas. Atenção: cadastro aberto permite que qualquer pessoa com o link crie conta sem comprovação de residência.
 - Encerramento de disponibilidade impedido enquanto houver reservas ativas.
 - Lista de espera com alerta quando surgir uma vaga, sem reserva automática.
 - Prorrogação de reserva se houver intervalo e a disponibilidade for de aprovação automática.
@@ -53,7 +53,7 @@ Para push web real, configure uma aplicação OneSignal no domínio https://cons
 - Código-fonte e banco estão separados; nenhum segredo deve ficar no GitHub público.
 
 ## Antes de liberar para o condomínio
-Testar cadastro/primeiro administrador, horário local, conflito de reservas, duas solicitações simultâneas, aprovação, cancelamento e push em Android/iOS. É necessário definir política de privacidade, consentimento e retenção de dados LGPD. Google Sheets + Apps Script é adequado para piloto controlado, mas pode ser insuficiente para alto volume ou autenticação de maior criticidade.
+Atualize a implantação do Apps Script após qualquer alteração em backend/Code.gs (Implantar > Gerenciar implantações > Editar > Nova versão). Testar cadastro/primeiro administrador, horário local, conflito de reservas, duas solicitações simultâneas, aprovação, cancelamento e push em Android/iOS. É necessário definir política de privacidade, consentimento e retenção de dados LGPD. Google Sheets + Apps Script é adequado para piloto controlado, mas pode ser insuficiente para alto volume ou autenticação de maior criticidade.
 
 ## Pendências explícitas
 API Apps Script não implantada, configuração do OneSignal não fornecida, testes ponta a ponta com o domínio ainda não realizados. A interface exibe aviso e não registra reservas reais até que o servidor esteja ativado.
