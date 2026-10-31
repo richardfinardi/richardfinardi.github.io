@@ -45,7 +45,9 @@ function render(){
  $("#mySpots").innerHTML=(data.spots||[]).length?(data.spots||[]).map(x=>'<div class="listrow"><div><strong>Vaga '+h(x.numero)+" · "+h(x.bloco)+'</strong><div class="sub">'+h(x.andar||"")+'</div></div><span class="badge green">Cadastrada</span></div>').join(""):empty("Cadastre sua primeira vaga para disponibilizá-la.");
  const incoming=data.incoming||[];
  $("#myAvailability").innerHTML=(incoming.length?'<h3>Solicitações aguardando sua aprovação</h3>'+incoming.map(x=>'<div class="listrow"><div><strong>'+h(x.vagaLabel)+' · '+h(x.moradorNome)+'</strong><div class="sub">'+h(dt(x.inicio))+" até "+h(dt(x.fim))+" · "+h(x.placa)+'</div></div><div class="actions"><button class="btn small" data-action="approve" data-id="'+h(x.id)+'">Aprovar</button><button class="btn small danger" data-action="reject" data-id="'+h(x.id)+'">Recusar</button></div></div>').join(""):"")+'<h3 style="margin-top:16px">Períodos publicados</h3>'+((data.availability||[]).length?(data.availability||[]).map(x=>'<div class="listrow"><div><strong>'+h(x.vagaLabel)+'</strong><div class="sub">'+h(dt(x.inicio))+" até "+h(dt(x.fim))+'</div><div class="sub">'+(x.aprovacao==="COM_APROVACAO"?"Com aprovação":"Reserva automática")+'</div></div><div class="actions">'+badge(x.status)+'<button class="btn small danger" data-action="endAvailability" data-id="'+h(x.id)+'">Encerrar</button></div></div>').join(""):empty("Você ainda não publicou disponibilidades."));
- $("#myReservations").innerHTML=(data.reservations||[]).length?(data.reservations||[]).map(x=>'<div class="listrow"><div><strong>'+h(x.vagaLabel)+'</strong><div class="sub">'+h(dt(x.inicio))+" até "+h(dt(x.fim))+" · "+h(x.placa)+'</div><div class="sub">'+h(x.ownerLabel||"")+'</div></div><div class="actions">'+badge(x.status)+(x.status==="CONFIRMADA"?'<button class="btn small" data-action="checkin" data-id="'+h(x.id)+'">Já estacionei</button>':"")+(x.status==="EM_USO"?'<button class="btn small" data-action="checkout" data-id="'+h(x.id)+'">Liberei a vaga</button>':"")+(["PENDENTE","CONFIRMADA"].includes(x.status)?'<button class="btn small danger" data-action="cancel" data-id="'+h(x.id)+'">Cancelar</button>':"")+'</div></div>').join(""):empty("Você ainda não possui reservas.");
+ $("#myReservations").innerHTML=(data.reservations||[]).length?(data.reservations||[]).map(x=>'<div class="listrow"><div><strong>'+h(x.vagaLabel)+'</strong><div class="sub">'+h(dt(x.inicio))+" até "+h(dt(x.fim))+" · "+h(x.placa)+'</div><div class="sub">'+h(x.ownerLabel||"")+'</div></div><div class="actions">'+badge(x.status)+(x.status==="CONFIRMADA"?'<button class="btn small" data-action="checkin" data-id="'+h(x.id)+'">Já estacionei</button>':"")+(x.status==="EM_USO"?'<button class="btn small" data-action="checkout" data-id="'+h(x.id)+'">Liberei a vaga</button>':"")+(["CONFIRMADA","EM_USO"].includes(x.status)?'<button class="btn small outline" data-action="extend" data-id="'+h(x.id)+'">Prorrogar</button>':"")+(["PENDENTE","CONFIRMADA"].includes(x.status)?'<button class="btn small danger" data-action="cancel" data-id="'+h(x.id)+'">Cancelar</button>':"")+'</div></div>').join(""):empty("Você ainda não possui reservas.");
+ $("#myWaitlist").innerHTML=(data.waiting||[]).length?(data.waiting||[]).map(x=>'<div class="listrow"><div><strong>'+h(dt(x.inicio))+' até '+h(dt(x.fim))+'</strong></div>'+badge(x.status)+'</div>').join(""):empty("Você não está aguardando nenhuma vaga.");
+ if($("#portaria"))$("#portaria").innerHTML=(data.portaria||[]).length?(data.portaria||[]).map(x=>'<div class="listrow"><div><strong>'+h(x.vagaLabel)+' · '+h(x.morador)+'</strong><div class="sub">'+h(dt(x.inicio))+' até '+h(dt(x.fim))+' · '+h(x.placa)+'</div></div>'+badge(x.status)+'</div>').join(""):empty("Não há reservas confirmadas.");
  $("#myNotices").innerHTML=(data.notices||[]).length?(data.notices||[]).map(x=>'<div class="listrow"><div><strong>'+h(x.titulo)+'</strong><div class="sub">'+h(x.mensagem)+'</div><div class="sub">'+h(dt(x.criado_em.replace(" ","T")))+'</div></div>'+(x.lida==="SIM"?'<span class="badge">Lida</span>':'<span class="badge blue">Nova</span>')+'</div>').join(""):empty("Nenhuma notificação.");
  $("#profileSummary").innerHTML='<strong>'+h(me.nome)+'</strong><br>'+h(me.bloco)+" · Apto "+h(me.apartamento)+"<br>"+h(me.email)+"<br>Perfil: "+h(me.perfil);
  $("#adminSection").classList.toggle("hide",me.perfil!=="ADMIN");
@@ -64,6 +66,7 @@ function search(interactive){
  searchParams={inicio:date+"T"+ini,fim:date+"T"+fim,placa:val("searchPlaca").toUpperCase().replace(/[^A-Z0-9]/g,"")};
  const r=(data.listings||[]).filter(x=>x.inicio<=searchParams.inicio&&x.fim>=searchParams.fim&&x.vaga_id!==undefined&&!(x.ocupacoes||[]).some(z=>z.inicio<searchParams.fim&&searchParams.inicio<z.fim));
  $("#searchInfo").textContent=r.length+" vaga(s) compatível(is)";
+ $("#waitlistActions").classList.toggle("hide",!!r.length);
  $("#searchResults").innerHTML=r.length?r.map(spotHtml).join(""):empty("Nenhuma vaga disponível nesse período. Tente outro horário.");
 }
 async function booking(id){
@@ -85,6 +88,7 @@ async function publish(e){
 async function clickAction(button){
  const a=button.dataset.action,id=button.dataset.id;
  if(["reject","cancel","endAvailability"].includes(a)&&!confirm("Confirma esta operação?"))return;
+ if(a==="extend"){const novo=prompt("Digite o novo horário de saída no formato AAAA-MM-DDTHH:MM");if(!novo)return;if(!/^\d{4}-\d\d-\d\dT\d\d:\d\d$/.test(novo)){toast("Formato inválido.",true);return}await action("extend",{id,fim:novo},"Reserva prorrogada");return}
  const mapping={approve:"approve",reject:"reject",cancel:"cancel",checkin:"checkin",checkout:"checkout",endAvailability:"endAvailability",activate:"activate"};
  if(mapping[a])await action(mapping[a],{id},"Atualizado com sucesso");
 }
@@ -123,6 +127,7 @@ function wire(){
   const a=e.target.closest("[data-action]");if(a)await clickAction(a)
  });
  $("#markRead").onclick=()=>action("readNotices",{},"Notificações marcadas como lidas");
+ $("#waitlistBtn").onclick=async()=>{if(!searchParams||!searchParams.placa){toast("Informe primeiro o período e a placa.",true);return}if(!confirm("Deseja receber aviso caso uma vaga seja disponibilizada nesse período?"))return;try{await api("waitlist",searchParams);toast("Lista de espera ativada.");await reload();route("reservas")}catch(e){err(e)}};
  $("#installTop").onclick=install;$("#installSettings").onclick=install;
  $("#enablePush").onclick=async()=>{if(!ONE){renderConfig();return}await setupOneSignal(true)};
  window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBanner").classList.remove("hide")});
