@@ -17,7 +17,8 @@ const HEADERS={
  NOTIFICACOES:["id","morador_id","tipo","titulo","mensagem","lida","criado_em","referencia_id"],
  HISTORICO:["id","data_hora","ator_id","acao","entidade","entidade_id","detalhes"],
  SESSOES:["hash_token","morador_id","expira_em","criado_em"],
- CONFIG:["chave","valor","descricao"]
+ CONFIG:["chave","valor","descricao"],
+ LISTA_ESPERA:["id","morador_id","inicio","fim","placa","status","criado_em","notificado_em"]
 };
 function doGet(e){return out_({ok:true,data:{name:"Chácara das Flores Vagas",status:"api-online",version:"1.0.0"}})}
 function doPost(e){
@@ -89,6 +90,8 @@ function route_(r){
  if(a==="checkout")return withLock_(()=>checkout_(user,r));
  if(a==="activate")return withLock_(()=>activate_(user,r));
  if(a==="readNotices")return withLock_(()=>readNotices_(user));
+ if(a==="waitlist")return withLock_(()=>waitlist_(user,r));
+ if(a==="extend")return withLock_(()=>extend_(user,r));
  throw Error("Ação desconhecida.");
 }
 function register_(r){
@@ -156,7 +159,7 @@ function publish_(u,r){
   created.push({id:uuid_(),vaga_id:s.id,inicio:start,fim:end,aprovacao:approval,recorrencia:count>1?"SEMANAL_4":"NAO",status:"ATIVA",criado_em:timestamp_()});
  }
  created.forEach(x=>insert_("DISPONIBILIDADES",x));
- log_(u,"PUBLICAR_DISPONIBILIDADE","VAGAS",s.id,count+" intervalo(s) · "+approval);return {ids:created.map(x=>x.id)};
+ log_(u,"PUBLICAR_DISPONIBILIDADE","VAGAS",s.id,count+" intervalo(s) · "+approval);notifyWaitlist_();return {ids:created.map(x=>x.id)};
 }
 function occupancy_(vagaId,start,end,ignore){
  return all_("RESERVAS").find(x=>x.vaga_id===vagaId&&x.id!==ignore&&["CONFIRMADA","EM_USO"].includes(x.status)&&overlaps_(x.inicio,x.fim,start,end));
@@ -196,7 +199,7 @@ function cancel_(u,r){
  require_(["PENDENTE","CONFIRMADA"].includes(x.status),"Esta reserva não pode ser cancelada.");
  patch_("RESERVAS",x,{status:"CANCELADA",atualizado_em:timestamp_()});
  const spot=byId_("VAGAS",x.vaga_id);notify_(spot.morador_id,"CANCELAMENTO","Reserva cancelada",u.nome+" cancelou "+spotLabel_(spot)+" · "+x.inicio,x.id);
- log_(u,"CANCELAR","RESERVAS",x.id,spotLabel_(spot));return {status:"CANCELADA"};
+ log_(u,"CANCELAR","RESERVAS",x.id,spotLabel_(spot));notifyWaitlist_();return {status:"CANCELADA"};
 }
 function endAvailability_(u,r){
  const x=byId_("DISPONIBILIDADES",r.id),spot=x&&byId_("VAGAS",x.vaga_id);
@@ -214,7 +217,7 @@ function checkout_(u,r){
  const x=byId_("RESERVAS",r.id);require_(x&&x.solicitante_id===u.id&&x.status==="EM_USO","Reserva não está em uso.");
  patch_("RESERVAS",x,{status:"FINALIZADA",checkout_em:timestamp_(),atualizado_em:timestamp_()});
  const spot=byId_("VAGAS",x.vaga_id);notify_(spot.morador_id,"LIBERACAO","Sua vaga foi liberada",u.nome+" liberou "+spotLabel_(spot),x.id);
- log_(u,"CHECKOUT","RESERVAS",x.id,"");return {};
+ log_(u,"CHECKOUT","RESERVAS",x.id,"");notifyWaitlist_();return {};
 }
 function activate_(u,r){
  require_(u.perfil==="ADMIN","Ação restrita ao administrador.");
@@ -224,6 +227,63 @@ function activate_(u,r){
 }
 function readNotices_(u){
  all_("NOTIFICACOES").filter(x=>x.morador_id===u.id&&x.lida!=="SIM").forEach(x=>patch_("NOTIFICACOES",x,{lida:"SIM"}));return {};
+}
+function waitlist_(u,r){
+ const start=clean_(r.inicio,16),end=clean_(r.fim,16),placa=clean_(r.placa,7).toUpperCase();
+ validatePeriod_(start,end,true);
+ require_(/^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(placa),"Placa inválida.");
+ require_(!all_("LISTA_ESPERA").some(x=>x.morador_id===u.id&&x.inicio===start&&x.fim===end&&x.status==="AGUARDANDO"),"Você já está na lista de espera desse período.");
+ const item=insert_("LISTA_ESPERA",{id:uuid_(),morador_id:u.id,inicio:start,fim:end,placa,status:"AGUARDANDO",criado_em:timestamp_(),notificado_em:""});
+ log_(u,"ENTRAR_LISTA_ESPERA","LISTA_ESPERA",item.id,start+" - "+end);
+ return {id:item.id};
+}
+function notifyWaitlist_(){
+ const waiting=all_("LISTA_ESPERA").filter(x=>x.status==="AGUARDANDO"&&x.fim>clock_());
+ if(!waiting.length)return;
+ const avail=all_("DISPONIBILIDADES").filter(x=>x.status==="ATIVA"),spots=all_("VAGAS");
+ for(const w of waiting){
+  const choice=avail.find(a=>a.inicio<=w.inicio&&a.fim>=w.fim&&spots.some(s=>s.id===a.vaga_id&&s.ativa==="SIM"&&s.morador_id!==w.morador_id)&&!occupancy_(a.vaga_id,w.inicio,w.fim,null));
+  if(!choice)continue;
+  patch_("LISTA_ESPERA",w,{status:"NOTIFICADA",notificado_em:timestamp_()});
+  notify_(w.morador_id,"LISTA_ESPERA","Uma vaga ficou disponível!","Há disponibilidade entre "+w.inicio+" e "+w.fim+". Acesse o sistema para reservar.",w.id);
+ }
+}
+function extend_(u,r){
+ const x=byId_("RESERVAS",r.id);require_(x&&x.solicitante_id===u.id,"Reserva não encontrada.");
+ require_(["CONFIRMADA","EM_USO"].includes(x.status),"Somente reservas confirmadas ou em uso podem ser prorrogadas.");
+ const disp=byId_("DISPONIBILIDADES",x.disponibilidade_id);
+ require_(disp&&disp.status==="ATIVA","Disponibilidade encerrada.");
+ require_(disp.aprovacao==="AUTOMATICA","Esta vaga exige aprovação; consulte o proprietário para solicitar outro período.");
+ const next=clean_(r.fim,16);validatePeriod_(x.inicio,next,false);
+ require_(next>x.fim&&next<=disp.fim,"A nova saída deve ser posterior à atual e dentro da disponibilidade.");
+ require_(!occupancy_(x.vaga_id,x.inicio,next,x.id),"Há outra reserva neste horário.");
+ patch_("RESERVAS",x,{fim:next,atualizado_em:timestamp_()});
+ const spot=byId_("VAGAS",x.vaga_id);
+ notify_(spot.morador_id,"PRORROGACAO","Reserva prorrogada",u.nome+" prorrogou "+spotLabel_(spot)+" até "+next,x.id);
+ log_(u,"PRORROGAR","RESERVAS",x.id,next);return {fim:next};
+}
+/** Execute esta função uma vez no editor Apps Script para criar lembretes a cada 15 min. */
+function setupTriggers(){
+ const has=ScriptApp.getProjectTriggers().some(x=>x.getHandlerFunction()==="processReminders");
+ if(!has)ScriptApp.newTrigger("processReminders").timeBased().everyMinutes(15).create();
+}
+/** Envio de lembretes; não confirma saída de veículo automaticamente. */
+function processReminders(){
+ return withLock_(()=>{
+  const now=Date.now(), notices=all_("NOTIFICACOES"),res=all_("RESERVAS");
+  for(const x of res){
+   if(x.status!=="CONFIRMADA"&&x.status!=="EM_USO")continue;
+   const start=Date.parse(x.inicio+"-03:00"),end=Date.parse(x.fim+"-03:00");
+   const soon=x.status==="CONFIRMADA"&&start>now&&start-now<=3600000;
+   const late=x.status==="EM_USO"&&now>end;
+   const type=soon?"LEMBRETE_1H":late?"ATRASO":"";
+   if(!type||notices.some(n=>n.referencia_id===x.id&&n.tipo===type))continue;
+   const message=soon?"Sua reserva começa em menos de uma hora.":"O período reservado terminou. Libere a vaga e registre a saída.";
+   notify_(x.solicitante_id,type,soon?"Sua reserva está próxima":"Horário da vaga encerrado",message,x.id);
+  }
+  notifyWaitlist_();
+  return true;
+ });
 }
 function state_(u){
  const now=clock_(),users=all_("MORADORES"),spots=all_("VAGAS"),av=all_("DISPONIBILIDADES"),res=all_("RESERVAS");
@@ -246,5 +306,5 @@ function state_(u){
   return {id:x.id,vagaLabel:label(x.vaga_id),moradorNome:guest?guest.nome:"Morador",inicio:x.inicio,fim:x.fim,placa:x.placa};
  });
  const notices=all_("NOTIFICACOES").filter(x=>x.morador_id===u.id).sort((a,b)=>b.criado_em.localeCompare(a.criado_em)).slice(0,100);
- return {me:publicUser_(u),listings,spots:mine,availability:ownAvail,reservations:mineReservations,incoming,notices,users:u.perfil==="ADMIN"?users.map(publicUser_):[]};
+ return {me:publicUser_(u),listings,spots:mine,availability:ownAvail,reservations:mineReservations,incoming,notices,waiting:all_("LISTA_ESPERA").filter(x=>x.morador_id===u.id&&x.fim>now).map(x=>({id:x.id,inicio:x.inicio,fim:x.fim,status:x.status})),users:u.perfil==="ADMIN"?users.map(publicUser_):[],portaria:u.perfil==="ADMIN"||u.perfil==="PORTARIA"?res.filter(x=>["CONFIRMADA","EM_USO"].includes(x.status)&&x.fim>=now).map(x=>({id:x.id,vagaLabel:label(x.vaga_id),inicio:x.inicio,fim:x.fim,placa:x.placa,status:x.status,morador:((users.find(y=>y.id===x.solicitante_id))||{}).nome||""})):[]};
 }
