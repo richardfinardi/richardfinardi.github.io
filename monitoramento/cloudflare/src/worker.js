@@ -38,8 +38,48 @@ async function probe(monitor) {
   }
 }
 
+function emailChannel(env) {
+  if (env.GOOGLE_APPS_SCRIPT_URL && env.ALERT_WEBHOOK_TOKEN) return "Google Apps Script";
+  if (env.RESEND_API_KEY && env.ALERT_EMAIL_TO && env.ALERT_EMAIL_FROM) return "Resend";
+  return null;
+}
+
+async function sendGoogleEmail(event, env) {
+  const scriptUrl = String(env.GOOGLE_APPS_SCRIPT_URL || "");
+  if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(scriptUrl)) {
+    throw new Error("GOOGLE_APPS_SCRIPT_URL invalida: use URL de implantacao /exec");
+  }
+  const response = await fetch(scriptUrl, {
+    method: "POST",
+    redirect: "follow",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      token: env.ALERT_WEBHOOK_TOKEN,
+      event: {
+        id: event.id, nome: event.nome, url: event.url,
+        tipo: event.tipo, em: event.em, detalhe: event.detalhe
+      }
+    }),
+    signal: AbortSignal.timeout(30000)
+  });
+  if (!response.ok) throw new Error("Google Apps Script HTTP " + response.status);
+  let result;
+  try {
+    result = await response.json();
+  } catch (_) {
+    throw new Error("Google Apps Script retornou resposta nao-JSON; verifique acesso Anyone");
+  }
+  if (!result || result.ok !== true) {
+    const reason = ["INVALID_TOKEN", "NOT_CONFIGURED", "INVALID_EVENT", "NO_RECIPIENT", "QUOTA_EXCEEDED"]
+      .includes(result?.error) ? result.error : "FAILED";
+    throw new Error("Google Apps Script recusou o envio: " + reason);
+  }
+  return true;
+}
+
 async function sendEmail(event, env) {
-  if (!env.RESEND_API_KEY || !env.ALERT_EMAIL_TO || !env.ALERT_EMAIL_FROM) return null;
+  if (emailChannel(env) === "Google Apps Script") return sendGoogleEmail(event, env);
+  if (emailChannel(env) !== "Resend") throw new Error("Canal de e-mail nao configurado");
   const subject = event.tipo === "queda" ? "[RF Monitor] API FORA DO AR: " + event.nome :
     "[RF Monitor] API RECUPERADA: " + event.nome;
   const description = event.tipo === "queda" ? "Falha confirmada em 3 verificacoes consecutivas." :
@@ -77,13 +117,14 @@ export class MonitorState extends DurableObject {
         monitores: [], eventos: []
       };
       const email = await this.ctx.storage.get("email_status") || {};
-      const enabled = Boolean(this.env.RESEND_API_KEY && this.env.ALERT_EMAIL_TO && this.env.ALERT_EMAIL_FROM);
+      const channel = emailChannel(this.env);
+      const enabled = Boolean(channel);
       // Nunca divulgar enderecos, chaves ou cabecalhos do provedor.
       return new Response(JSON.stringify({
         ...status,
         alertas_email: {
           configurado: enabled,
-          canal: "Resend",
+          canal: channel || "Nenhum",
           ultimo_envio_em: email.ultimo_envio_em || null,
           ultima_falha_em: email.ultima_falha_em || null,
           ultimo_erro: email.ultimo_erro || null
@@ -158,13 +199,16 @@ export class MonitorState extends DurableObject {
     await this.ctx.storage.put("status", snapshot);
 
     // Mensagens sao enviadas pelo Worker, independentemente de navegador ou celular.
-    const emailEnabled = Boolean(this.env.RESEND_API_KEY && this.env.ALERT_EMAIL_TO && this.env.ALERT_EMAIL_FROM);
-    if (emailEnabled) {
-      // Ao configurar o canal pela primeira vez, nao enviar incidentes antigos.
-      let enabledSince = await this.ctx.storage.get("email_enabled_since");
+    const channel = emailChannel(this.env);
+    if (channel) {
+      // Cada provedor inicia na propria data de ativacao; jamais dispara incidentes
+      // antigos que ocorreram antes da autorizacao do usuario.
+      const activationKey = channel === "Google Apps Script" ?
+        "email_enabled_since_google" : "email_enabled_since";
+      let enabledSince = await this.ctx.storage.get(activationKey);
       if (!enabledSince) {
         enabledSince = now;
-        await this.ctx.storage.put("email_enabled_since", enabledSince);
+        await this.ctx.storage.put(activationKey, enabledSince);
       }
       const metrics = await this.ctx.storage.get("email_status") || {};
       let dirty = false;
@@ -180,7 +224,7 @@ export class MonitorState extends DurableObject {
           event.email_enviado = true;
           metrics.ultimo_envio_em = new Date().toISOString();
           metrics.ultimo_erro = null;
-          console.log("E-mail aceito pela Resend:", event.nome, event.tipo);
+          console.log("Alerta aceito por " + channel + ":", event.nome, event.tipo);
         } catch (error) {
           metrics.ultima_falha_em = new Date().toISOString();
           // Registrar somente o tipo de falha, sem resposta completa com dados pessoais.

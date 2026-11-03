@@ -49,7 +49,7 @@ const grid=$("servicos");grid.replaceChildren(...(filtered.map(card)));if(!filte
 const email=current.alertas_email;
 const badge=$("email_alert_badge"),desc=$("email_alert_desc"),hist=$("email_alert_history");
 if(email){
-  badge.textContent=email.configurado?"E-mail configurado":"E-mail não configurado";
+  badge.textContent=email.configurado?"Envio habilitado • "+(email.canal||"provedor"):"E-mail não configurado";
   badge.className="badge "+(email.configurado?"ativo":"pendente");
   desc.textContent=email.configurado?"O Cloudflare enviará avisos de queda após 3 falhas consecutivas e de recuperação após a primeira resposta válida.":"Faltam as credenciais do serviço de e-mail no Cloudflare AUVRIUN; o monitoramento continua funcionando normalmente.";
   const lines=[];
