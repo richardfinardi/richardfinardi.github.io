@@ -43,6 +43,25 @@ function testarEnvio() {
   Logger.log("Teste enviado para " + to);
 }
 
+function testarIntegracaoCompleta() {
+  var token = PropertiesService.getScriptProperties().getProperty("MONITOR_TOKEN");
+  if (!token) throw new Error("Execute configurarAlertas primeiro.");
+  var url = "https://auvriun-api-monitor.auvriun-monitor.workers.dev/test-email";
+  var res = UrlFetchApp.fetch(url, {
+    method: "post",
+    headers: {Authorization: "Bearer " + token},
+    muteHttpExceptions: true
+  });
+  var body;
+  try { body = JSON.parse(res.getContentText()); }
+  catch (ignored) { throw new Error("Cloudflare nao retornou JSON (HTTP " + res.getResponseCode() + ")"); }
+  if (res.getResponseCode() !== 200 || body.ok !== true) {
+    throw new Error("Teste Cloudflare falhou: HTTP " + res.getResponseCode() +
+      ". Confira os dois Secrets no Worker AUVRIUN e se o Apps Script esta implantado.");
+  }
+  Logger.log("TESTE COMPLETO: Cloudflare → Google Apps Script → Gmail. Confira sua caixa de entrada.");
+}
+
 function doPost(e) {
   var lock = LockService.getScriptLock();
   try {
@@ -61,7 +80,7 @@ function doPost(e) {
     var id = String(ev.id || "").slice(0, 80);
     var name = String(ev.nome || "").slice(0, 100);
     var when = String(ev.em || "").slice(0, 50);
-    if ((type !== "queda" && type !== "recuperacao") || !id || !name ||
+    if ((type !== "queda" && type !== "recuperacao" && type !== "teste") || !id || !name ||
         !when || isNaN(Date.parse(when))) {
       return response_({ok:false, error:"INVALID_EVENT"});
     }
@@ -73,7 +92,8 @@ function doPost(e) {
     if (props.getProperty(key)) {
       return response_({ok:true, duplicate:true});
     }
-    var title = type === "queda" ? "API FORA DO AR" : "API RECUPERADA";
+    var title = type === "queda" ? "API FORA DO AR" :
+      type === "recuperacao" ? "API RECUPERADA" : "TESTE DE INTEGRACAO";
     var subject = "[RF Monitor] " + title + ": " + name;
     var url = String(ev.url || "").slice(0, 200);
     var reason = String(ev.detalhe || "").slice(0, 500);

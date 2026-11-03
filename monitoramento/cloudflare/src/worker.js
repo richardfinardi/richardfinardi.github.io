@@ -131,6 +131,28 @@ export class MonitorState extends DurableObject {
         }
       }), { status: 200, headers: CORS });
     }
+    if (request.method === "POST" && path === "/test-email") {
+      const now = new Date().toISOString();
+      try {
+        await sendGoogleEmail({
+          id: "teste", nome: "Canal de alertas",
+          url: "https://consultoriarf.net/monitoramento/",
+          tipo: "teste", em: now,
+          detalhe: "Mensagem de teste: Cloudflare → Google Apps Script → Gmail."
+        }, this.env);
+        const email = await this.ctx.storage.get("email_status") || {};
+        email.ultimo_envio_em = now;
+        email.ultimo_erro = null;
+        await this.ctx.storage.put("email_status", email);
+        return new Response(JSON.stringify({ok:true}), {status:200,headers:CORS});
+      } catch (error) {
+        const email = await this.ctx.storage.get("email_status") || {};
+        email.ultima_falha_em = now;
+        email.ultimo_erro = String(error?.message || "Falha no teste").slice(0, 110);
+        await this.ctx.storage.put("email_status", email);
+        return new Response(JSON.stringify({ok:false,error:"FAILED"}), {status:502,headers:CORS});
+      }
+    }
     if (request.method === "POST" && path === "/run") {
       if (this.running) {
         await this.running;
@@ -254,6 +276,18 @@ export default {
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
     if (request.method === "GET" && path === "/status") {
       return instance(env).fetch(new Request("https://internal.monitor/status"));
+    }
+    if (request.method === "POST" && path === "/test-email") {
+      if (emailChannel(env) !== "Google Apps Script") {
+        return new Response(JSON.stringify({ok:false,error:"NOT_CONFIGURED"}), {status:503,headers:CORS});
+      }
+      const expected = "Bearer " + String(env.ALERT_WEBHOOK_TOKEN);
+      const actual = request.headers.get("Authorization") || "";
+      if (actual.length !== expected.length ||
+          [...actual].reduce((diff,ch,i)=>diff | (ch.charCodeAt(0) ^ expected.charCodeAt(i)), 0) !== 0) {
+        return new Response(JSON.stringify({ok:false,error:"UNAUTHORIZED"}), {status:401,headers:CORS});
+      }
+      return instance(env).fetch(new Request("https://internal.monitor/test-email", {method:"POST"}));
     }
     if (request.method === "GET" && (path === "/" || path === "/health")) {
       const response = await instance(env).fetch(new Request("https://internal.monitor/status"));

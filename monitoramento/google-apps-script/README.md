@@ -24,12 +24,15 @@ Não é necessário deixar o navegador ou computador ligado.
    Settings > Variables and Secrets**, adicione e implante:
    - `GOOGLE_APPS_SCRIPT_URL` = URL `.../exec` da etapa 7 (Secret).
    - `ALERT_WEBHOOK_TOKEN` = token da etapa 6 (Secret).
-9. Abra https://consultoriarf.net/monitoramento/ e clique em **Atualizar painel**.
-   Deve mostrar **Envio habilitado • Google Apps Script**.
+9. Volte ao Apps Script, selecione a função `testarIntegracaoCompleta` e
+   clique **Executar**. Autorize o acesso externo se solicitado. Isso dispara
+   um e-mail pelo caminho completo Cloudflare → Apps Script → Google.
+10. Abra https://consultoriarf.net/monitoramento/ e clique em **Atualizar painel**.
+    Deve mostrar **Envio habilitado • Google Apps Script** e o horário do último envio.
 
-**Importante:** o envio de teste na etapa 5 valida o Gmail, mas o envio Cloudflare →
-Apps Script precisa ser validado na primeira ocorrência real ou em um teste controlado.
-Se algo falhar, o painel registra a tentativa e o erro (sem divulgar a chave).
+**Importante:** o envio de teste na etapa 5 valida o Gmail; a função
+`testarIntegracaoCompleta` valida também a integração com Cloudflare.
+Se falhar, o painel registra o erro sem divulgar o token.
 
 ## Regras do envio
 
