@@ -58,7 +58,8 @@ async function sendEmail(event, env) {
     }),
     signal: AbortSignal.timeout(10000)
   });
-  if (!response.ok) throw new Error("Resend HTTP " + response.status + ": " + (await response.text()).slice(0, 250));
+  // Nao propagar corpo da falha do provedor para o painel publico.
+  if (!response.ok) throw new Error("Resend HTTP " + response.status);
   return true;
 }
 
