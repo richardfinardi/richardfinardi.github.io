@@ -75,7 +75,19 @@ export class MonitorState extends DurableObject {
         atualizado_em: null, intervalo_minutos: config.intervalo_minutos || 5,
         monitores: [], eventos: []
       };
-      return new Response(JSON.stringify(status), { status: 200, headers: CORS });
+      const email = await this.ctx.storage.get("email_status") || {};
+      const enabled = Boolean(this.env.RESEND_API_KEY && this.env.ALERT_EMAIL_TO && this.env.ALERT_EMAIL_FROM);
+      // Nunca divulgar enderecos, chaves ou cabecalhos do provedor.
+      return new Response(JSON.stringify({
+        ...status,
+        alertas_email: {
+          configurado: enabled,
+          canal: "Resend",
+          ultimo_envio_em: email.ultimo_envio_em || null,
+          ultima_falha_em: email.ultima_falha_em || null,
+          ultimo_erro: email.ultimo_erro || null
+        }
+      }), { status: 200, headers: CORS });
     }
     if (request.method === "POST" && path === "/run") {
       if (this.running) {
@@ -144,23 +156,41 @@ export class MonitorState extends DurableObject {
     };
     await this.ctx.storage.put("status", snapshot);
 
-    // Reenvio limitado: falhas do provedor nao apagam o incidente.
-    if (this.env.RESEND_API_KEY && this.env.ALERT_EMAIL_TO && this.env.ALERT_EMAIL_FROM) {
+    // Mensagens sao enviadas pelo Worker, independentemente de navegador ou celular.
+    const emailEnabled = Boolean(this.env.RESEND_API_KEY && this.env.ALERT_EMAIL_TO && this.env.ALERT_EMAIL_FROM);
+    if (emailEnabled) {
+      // Ao configurar o canal pela primeira vez, nao enviar incidentes antigos.
+      let enabledSince = await this.ctx.storage.get("email_enabled_since");
+      if (!enabledSince) {
+        enabledSince = now;
+        await this.ctx.storage.put("email_enabled_since", enabledSince);
+      }
+      const metrics = await this.ctx.storage.get("email_status") || {};
       let dirty = false;
-      for (const event of snapshot.eventos.filter(e =>
+      const pending = snapshot.eventos.filter(e =>
         !e.email_enviado && (e.email_tentativas || 0) < 3 &&
-        Date.now() - Date.parse(e.em) < 86400000).slice(-5)) {
+        Date.parse(e.em) >= Date.parse(enabledSince) &&
+        Date.now() - Date.parse(e.em) < 86400000).slice(-5);
+      for (const event of pending) {
+        event.email_tentativas = (event.email_tentativas || 0) + 1;
+        dirty = true;
         try {
-          event.email_enviado = await sendEmail(event, this.env);
-          event.email_tentativas = (event.email_tentativas || 0) + 1;
-          dirty = true;
-        } catch (e) {
-          event.email_tentativas = (event.email_tentativas || 0) + 1;
-          dirty = true;
-          console.error("Falha de alerta", event.nome, String(e));
+          await sendEmail(event, this.env);
+          event.email_enviado = true;
+          metrics.ultimo_envio_em = new Date().toISOString();
+          metrics.ultimo_erro = null;
+          console.log("E-mail aceito pela Resend:", event.nome, event.tipo);
+        } catch (error) {
+          metrics.ultima_falha_em = new Date().toISOString();
+          // Registrar somente o tipo de falha, sem resposta completa com dados pessoais.
+          metrics.ultimo_erro = String(error?.message || "Falha desconhecida").slice(0, 110);
+          console.error("Erro ao enviar alerta", event.nome, event.tipo, metrics.ultimo_erro);
         }
       }
-      if (dirty) await this.ctx.storage.put("status", snapshot);
+      if (dirty) {
+        await this.ctx.storage.put("status", snapshot);
+        await this.ctx.storage.put("email_status", metrics);
+      }
     }
   }
 }
