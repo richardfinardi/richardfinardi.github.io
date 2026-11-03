@@ -46,6 +46,22 @@ $("atualizacao").textContent=current.atualizado_em?"Última verificação: "+fmt
 $("sinal").className="pulse "+(current.atualizado_em?(issues?"offline":"online"):"");
 const selected=$("filtro").value,filtered=monitors.filter(m=>selected==="todos"||selected==="online"&&(m.estado==="online"||m.estado==="lento")||selected==="problemas"&&["offline","instavel"].includes(m.estado));
 const grid=$("servicos");grid.replaceChildren(...(filtered.map(card)));if(!filtered.length)grid.append(node("div","empty","Nenhuma API neste filtro."));
+const email=current.alertas_email;
+const badge=$("email_alert_badge"),desc=$("email_alert_desc"),hist=$("email_alert_history");
+if(email){
+  badge.textContent=email.configurado?"E-mail configurado":"E-mail não configurado";
+  badge.className="badge "+(email.configurado?"ativo":"pendente");
+  desc.textContent=email.configurado?"O Cloudflare enviará avisos de queda após 3 falhas consecutivas e de recuperação após a primeira resposta válida.":"Faltam as credenciais do serviço de e-mail no Cloudflare AUVRIUN; o monitoramento continua funcionando normalmente.";
+  const lines=[];
+  if(email.ultimo_envio_em)lines.push("Último envio aceito: "+fmtDate(email.ultimo_envio_em));
+  if(email.ultima_falha_em)lines.push("Última falha de envio: "+fmtDate(email.ultima_falha_em));
+  if(email.ultimo_erro)lines.push("Erro: "+email.ultimo_erro);
+  hist.textContent=lines.join(" • ");
+}else{
+  badge.textContent="Status do e-mail indisponível";badge.className="badge pendente";
+  desc.textContent="Sem informações de alertas nesta fonte de dados.";
+  hist.textContent="";
+}
 const ev=$("eventos");ev.replaceChildren();for(const e of (current.eventos||[]).slice().reverse().slice(0,40)){const row=node("div","event");row.append(node("time","",fmtDate(e.em)));const info=node("div");info.append(node("strong","",e.nome+" • "+(e.tipo==="queda"?"Indisponibilidade detectada":"Recuperação")),node("p","",e.detalhe||""));row.append(info);row.append(node("span","badge "+(e.tipo==="queda"?"offline":"online"),e.tipo==="queda"?"Queda":"Recuperada"));ev.append(row)}
 if(!ev.children.length)ev.append(node("div","empty","Nenhum incidente registrado."));
 }

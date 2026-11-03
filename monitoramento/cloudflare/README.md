@@ -57,3 +57,36 @@ Ao voltar, envia aviso de recuperacao. Retry limitado a tres tentativas.
 - Durable Object e classe de armazenamento sao provisionados no primeiro deploy.
 - A infraestrutura e persistente e independe do computador do usuario.
 - Se o Cloudflare estiver fora ou o Cron atrasar, painel/widget mostram dados atrasados.
+
+## Alertas por e-mail no monitoramento web (Resend)
+
+O monitoramento e o envio dos e-mails ocorrem no **Cloudflare Worker**, independentemente
+do navegador, GitHub Actions ou widget Android. A página pública de monitoramento
+mostra somente se o canal está configurado e o resultado dos últimos envios;
+não exibe as credenciais nem os endereços de destinatários.
+
+**Para ativar:**
+1. Em https://resend.com/domains, adicione um domínio ou subdomínio remetente
+   sob seu controle e publique no provedor DNS os registros solicitados pela Resend.
+   Verifique que esteja marcado como Verified. Não altere MX do Google Workspace.
+2. Crie uma chave de envio em https://resend.com/api-keys .
+3. Abra Cloudflare (conta AUVRIUN) > Workers & Pages >
+   auvriun-api-monitor > Settings > Variables and Secrets > Add.
+4. Cadastre as três variáveis abaixo e clique Deploy:
+   - RESEND_API_KEY: tipo Secret; chave da Resend (não divulgar).
+   - ALERT_EMAIL_FROM: tipo Secret; remetente no domínio verificado,
+     exemplo: Monitoramento RF <alertas@seudominio.com>.
+   - ALERT_EMAIL_TO: tipo Secret; destinatário(s) separados por vírgulas.
+5. Abra https://consultoriarf.net/monitoramento/ e atualize o painel.
+   O bloco "Alertas automáticos por e-mail" mostrará "E-mail configurado".
+   Isso confirma o preenchimento, não a entrega: valide o primeiro envio real.
+
+**Comportamento:** Queda após 3 verificações consecutivas sem resposta
+(~15 minutos ou mais); recuperação ao primeiro teste de sucesso; sem repetição
+de alertas enquanto a API permanece offline; até 3 tentativas quando houver
+erro no provedor. Incidentes anteriores à primeira configuração não são
+enviados retroativamente. O painel diferencia um e-mail aceito para envio
+pela Resend de uma entrega na caixa de entrada (não há confirmação de entrega).
+
+Se os e-mails não chegarem, verifique spam e a última falha exibida
+no painel. Não configure tokens em arquivos públicos ou no HTML.

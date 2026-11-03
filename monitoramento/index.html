@@ -25,6 +25,9 @@ section{margin-top:30px}.events{background:var(--surface);border-radius:16px;bor
 .event{display:grid;grid-template-columns:170px 1fr auto;gap:10px;padding:14px 17px;align-items:center;border-bottom:1px solid var(--line)}.event:last-child{border:0}
 .event time{color:var(--muted);font-size:13px}.event strong{font-size:13px}.event p{margin:1px 0 0;color:var(--muted);font-size:13px}
 .note{border:1px solid var(--line);padding:15px 18px;border-radius:12px;color:var(--muted);font-size:13px}.empty{color:var(--muted);padding:28px;text-align:center}
+.alertbox{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);padding:18px 20px;border-radius:16px}
+.alertbox h2{margin:0 0 5px}.alertbox p{margin:6px 0 0;color:var(--muted);font-size:13px}.alertbox .badge{display:inline-block}
+.alertbox .badge.ativo{color:var(--ok);background:#13382f}.alertbox .badge.pendente{color:var(--warn);background:#463923}
 footer{color:var(--muted);margin-top:35px;font-size:12px}
 @media(max-width:700px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}.event{grid-template-columns:1fr auto}.event time{grid-column:1/-1}.metric{padding:15px}.metric strong{font-size:28px}}@media(max-width:360px){.metrics{gap:8px}.metric{padding:12px}.metric strong{font-size:23px}}
 </style></head><body><main class="wrap">
@@ -32,6 +35,7 @@ footer{color:var(--muted);margin-top:35px;font-size:12px}
 <div class="controls"><label for="filtro">Exibir </label><select id="filtro"><option value="todos">Todos</option><option value="problemas">Com problemas</option><option value="online">Online</option></select><button id="atualizar" type="button">Atualizar painel</button></div></header>
 <p class="meta"><span class="pulse" id="sinal"></span><span id="atualizacao">Aguardando a primeira verificação automática.</span></p>
 <div class="metrics" aria-live="polite"><div class="metric"><div class="label">APIs monitoradas</div><strong id="total">—</strong></div><div class="metric"><div class="label">Online</div><strong id="ativos">—</strong></div><div class="metric"><div class="label">Com problemas</div><strong id="problemas">—</strong></div><div class="metric"><div class="label">Disponibilidade média*</div><strong id="uptime">—</strong></div></div>
+<section aria-label="Alertas por e-mail"><div class="alertbox"><div><h2>Alertas automáticos por e-mail</h2><span id="email_alert_badge" class="badge pendente">Verificando configuração</span><p id="email_alert_desc">O Cloudflare envia avisos após 3 falhas consecutivas e quando a API se recupera.</p><p id="email_alert_history"></p></div></div></section>
 <section aria-label="Serviços"><h2>Status dos serviços</h2><div class="grid" id="servicos"><div class="empty">Carregando configurações...</div></div></section>
 <section><h2>Últimos incidentes</h2><div id="eventos" class="events"><div class="empty">Nenhum incidente registrado.</div></div></section>
 <section><div class="note">O painel lê o estado consolidado do monitoramento. Quando o Cloudflare AUVRIUN estiver ativado, ele verificará as APIs a cada 5 minutos pelo Cron Trigger e manterá o histórico independentemente do navegador. Até a ativação, é exibido o histórico do GitHub Actions. <b>*</b> A disponibilidade é calculada sobre as verificações realizadas desde o início do histórico, não representa um SLA mensal. Uma página do Cloudflare pode estar no ar mesmo quando o backend falhou; por isso o monitor verifica a resposta JSON da API.</div></section>
