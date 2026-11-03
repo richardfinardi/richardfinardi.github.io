@@ -23,5 +23,6 @@
         "MonitorState"
       ]
     }
-  ]
+  ],
+  "keep_vars": true
 }
