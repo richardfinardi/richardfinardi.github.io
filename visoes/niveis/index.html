@@ -16,7 +16,18 @@
 const ENDPOINT='https://columbia.consultoriarf.net/niveis';
 const $=id=>document.getElementById(id),fields=['codigo','usuario','cod_modulo','modulo','nivel_acesso','cargo'];
 let data=[],filtered=[],sortKey='usuario',sortDir=1;
-function normalize(r){return {codigo:r.codigo??'',usuario:r['usuário']??r['usuÃ¡rio']??r['usuário']??r['Usuário']??r.USUARIO??r.usuario??r.nome_usuario??r.nome??'',cod_modulo:r.cod_modulo??'',modulo:r.modulo??'',nivel_acesso:r.nivel_acesso??'',cargo:r.cargo??''}}
+function normalize(r){
+ const userKey=Object.keys(r).find(k=>/^usu/i.test(k) && !/cod|id|senha|nivel|permiss|tipo/i.test(k));
+ const userValue=userKey?r[userKey]:'';
+ return {
+  codigo:r.codigo??'',
+  usuario:String(userValue??r.usuario??r.nome_usuario??r.nome??'').trim(),
+  cod_modulo:r.cod_modulo??'',
+  modulo:r.modulo??'',
+  nivel_acesso:r.nivel_acesso??'',
+  cargo:r.cargo??''
+ };
+}
 function unique(key){return [...new Set(data.map(r=>String(r[key]??'')).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR',{numeric:true}))}
 function options(id,key){const select=$(id),current=select.value,values=unique(key);select.replaceChildren(new Option('Todos',''),...values.map(v=>new Option(v,v)));select.value=values.includes(current)?current:''}
 function render(){const q=$('search').value.trim().toLocaleLowerCase('pt-BR');filtered=data.filter(r=>(!$('user').value||r.usuario===$('user').value)&&(!$('module').value||r.modulo===$('module').value)&&(!$('level').value||r.nivel_acesso===$('level').value)&&(!q||fields.some(k=>String(r[k]).toLocaleLowerCase('pt-BR').includes(q))));filtered.sort((a,b)=>sortDir*String(a[sortKey]).localeCompare(String(b[sortKey]),'pt-BR',{numeric:true}));const body=$('rows');body.replaceChildren();const frag=document.createDocumentFragment();for(const r of filtered){const tr=document.createElement('tr');for(const key of fields){const td=document.createElement('td');if(key==='nivel_acesso'){const badge=document.createElement('span');badge.className='badge';badge.textContent=r[key];td.append(badge)}else{td.textContent=r[key];if(!r[key])td.className='muted'}tr.append(td)}frag.append(tr)}body.append(frag);$('total').textContent=filtered.length.toLocaleString('pt-BR');$('users').textContent=new Set(filtered.map(r=>r.usuario)).size;$('modules').textContent=new Set(filtered.map(r=>r.modulo)).size;$('levels').textContent=new Set(filtered.map(r=>r.nivel_acesso)).size;$('count').textContent=filtered.length+' de '+data.length+' registros'}
