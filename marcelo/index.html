@@ -395,6 +395,10 @@
       color: #4a148c;
     }
 
+    .tabela-rolagem { overflow-x: auto; max-width: 100%; }
+    .tabela-rolagem .tabela-estudo { min-width: 460px; }
+    .resumo-artigo h3 small { font-size: .72em; font-weight: 500; color: #666; }
+
     @media (max-width: 650px) {
       body { padding: 10px; }
       .container { padding: 16px; border-radius: 10px; }
@@ -487,6 +491,12 @@
       <button class="card-resumo-menu" style="border-color: #00897b;" onclick="abrirResumo('ciencias_materiais')">
         <h3 style="color: #00897b;">🔬 Ciências — Materiais: massa, volume e estados físicos</h3>
         <p>Aula guiada com explicações, exemplos e questões de fixação sobre massa, volume, sólidos, líquidos e gases.</p>
+      </button>
+
+
+      <button class="card-resumo-menu" style="border-color: #00897b; background:#f1fbf9;" onclick="abrirResumo('ciencias_4bim')">
+        <h3 style="color: #00695c;">🔬 CIÊNCIAS - (4º BIMESTRE)</h3>
+        <p><strong>Módulo 7: Vida, célula e sistema nervoso humano.</strong> Cinco aulas com exemplos e exercícios de fixação: células, níveis de organização, sistema nervoso, coordenação nervosa e drogas.</p>
       </button>
 
       <button class="card-resumo-menu" style="border-color: #3949ab;" onclick="abrirResumo('ingles_units_5_6')">
@@ -940,6 +950,198 @@
         🧠 <strong>Treino final antes do quiz:</strong> tente criar 4 frases sobre sua rotina, 4 frases sobre tarefas de casa e 4 perguntas usando Do/Does. Depois faça o quiz sem voltar ao material.
       </div>
     </article>
+
+    <!-- CIÊNCIAS — 4º BIMESTRE, MÓDULO 7: AULAS E FIXAÇÕES -->
+    <article id="resumo-ciencias_4bim" class="resumo-artigo">
+      <h2 style="color:#00695c;border-color:#00897b;">🔬 Ciências — 4º Bimestre</h2>
+      <p><strong>6º ano | Módulo 7: Vida, célula e sistema nervoso humano</strong></p>
+      <div class="destaque-estudo">
+        📘 <strong>Conteúdo da avaliação mensal:</strong> Tema 1 (páginas 4 e 5), Tema 2 (página 7), Tema 3 (páginas 11 e 12), Tema 4 (páginas 14 e 15) e Tema 5 (páginas 17 e 18).
+        <br><br>Como estudar: leia um tema, explique com suas palavras, resolva a questão de fixação e só então passe ao próximo. No final, faça o quiz sem consultar o texto.
+      </div>
+
+      <h3 style="color:#00897b;">TEMA 1 — As células <small>(páginas 4 e 5)</small></h3>
+      <p><strong>O que é uma célula?</strong> É a menor unidade estrutural e funcional dos seres vivos. Todos os seres vivos são formados por uma ou mais células. Dentro delas ocorrem transformações químicas importantes para a vida, como processos ligados à obtenção de energia e à formação de componentes do corpo.</p>
+      <p><strong>Unicelulares</strong> são seres vivos formados por uma única célula, como a euglena mostrada no livro. <strong>Pluricelulares</strong> possuem duas ou mais células, como os musgos e os seres humanos.</p>
+      <div class="comparacao">
+        <strong>Imagine assim:</strong> uma casa pode ter um único cômodo ou vários cômodos. Um ser vivo pode ter uma célula ou muitas. Mas a célula não é só uma pecinha: ela realiza atividades necessárias à vida!
+      </div>
+      <h4>Como as células foram descobertas?</h4>
+      <p>No século XVII, <strong>Robert Hooke</strong> usou um microscópio para observar finas fatias de <strong>cortiça</strong>. Ele viu vários pequenos espaços e os chamou de <strong>células</strong>. Mais tarde, os pesquisadores descobriram estruturas celulares em outros seres vivos.</p>
+      <p>No século XIX, <strong>Matthias Schleiden e Theodor Schwann</strong> ajudaram a formular a <strong>teoria celular</strong>: os seres vivos são constituídos por células e a célula é a unidade básica de estrutura e funcionamento deles.</p>
+      <h4>Três elementos básicos apresentados no livro</h4>
+      <div class="tabela-rolagem">
+        <table class="tabela-estudo">
+          <thead><tr><th>Parte</th><th>O que faz?</th><th>Como memorizar?</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Membrana plasmática</strong></td><td>Envolve a célula e controla a entrada e a saída de materiais.</td><td>É como uma portaria.</td></tr>
+            <tr><td><strong>Citoplasma</strong></td><td>Material que preenche a célula e contém as organelas, que realizam funções específicas.</td><td>É a região onde ficam as organelas.</td></tr>
+            <tr><td><strong>Material hereditário</strong></td><td>Contém informações para características e funcionamento do organismo; muitos seres vivos têm DNA.</td><td>É o conjunto de instruções.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Nas células animais representadas no livro, o <strong>núcleo</strong> abriga o material hereditário. Nem todas as células possuem núcleo.</p>
+      <div class="box-interativo" style="background:#e8f5f2;border-color:#00897b;">
+          <h4 style="color:#00695c;">✍️ Questão de fixação 1</h4>
+          <p><strong>Qual parte da célula controla a entrada e saída de materiais?</strong></p>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix1" value="A"> A) Membrana plasmática</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix1" value="B"> B) Citoplasma</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix1" value="C"> C) Material hereditário</label>
+          <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien4_fix1')">Conferir resposta</button>
+          <div id="fb-cien4_fix1" class="feedback" role="status" aria-live="polite"></div>
+        </div>
+
+      <h3 style="color:#00897b;">TEMA 2 — Níveis de organização dos seres vivos <small>(página 7)</small></h3>
+      <p>Os organismos pluricelulares têm células que podem apresentar formas e funções diferentes. No ser humano, por exemplo, células do cérebro, dos músculos e da pele têm trabalhos diferentes, mesmo contendo o mesmo material hereditário.</p>
+      <div class="destaque-estudo" style="background:#e8f5e9;border-color:#00897b;">
+        <strong>Ordem para decorar:</strong> CÉLULA → TECIDO → ÓRGÃO → SISTEMA → ORGANISMO
+      </div>
+      <div class="tabela-rolagem">
+        <table class="tabela-estudo">
+          <thead><tr><th>Nível</th><th>Significado</th><th>Exemplo</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Célula</strong></td><td>Unidade básica da vida.</td><td>Célula muscular.</td></tr>
+            <tr><td><strong>Tecido</strong></td><td>Grupo de células semelhantes que realizam funções relacionadas.</td><td>Tecido muscular.</td></tr>
+            <tr><td><strong>Órgão</strong></td><td>Estrutura formada por diferentes tecidos.</td><td>Coração.</td></tr>
+            <tr><td><strong>Sistema</strong></td><td>Órgãos que trabalham juntos para uma função.</td><td>Sistema cardiovascular (coração e vasos sanguíneos).</td></tr>
+            <tr><td><strong>Organismo</strong></td><td>Ser vivo completo.</td><td>Ser humano.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Exemplo completo:</strong> células musculares formam tecido muscular; esse tecido integra o coração; o coração trabalha junto aos vasos sanguíneos no sistema cardiovascular, que faz o sangue circular pelo organismo.</p>
+      <div class="box-interativo" style="background:#e8f5f2;border-color:#00897b;">
+          <h4 style="color:#00695c;">✍️ Questão de fixação 2</h4>
+          <p><strong>Na sequência célula → tecido → órgão → sistema, onde se encaixa o coração?</strong></p>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix2" value="A"> A) Tecido</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix2" value="B"> B) Órgão</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix2" value="C"> C) Sistema</label>
+          <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien4_fix2')">Conferir resposta</button>
+          <div id="fb-cien4_fix2" class="feedback" role="status" aria-live="polite"></div>
+        </div>
+
+      <h3 style="color:#00897b;">TEMA 3 — O sistema nervoso humano <small>(páginas 11 e 12)</small></h3>
+      <p>O <strong>sistema nervoso</strong> recebe informações do corpo e do ambiente, interpreta estímulos e coordena respostas. Ele também participa do pensamento, da memória, dos sentimentos e do aprendizado.</p>
+      <p>O livro apresenta o sistema nervoso formado por <strong>encéfalo, medula espinal, nervos e gânglios nervosos</strong>.</p>
+      <h4>Encéfalo: três partes importantes</h4>
+      <div class="tabela-rolagem">
+        <table class="tabela-estudo">
+          <thead><tr><th>Parte</th><th>Principal função estudada</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cérebro</strong></td><td>Receber e processar informações, elaborar respostas, coordenar movimentos voluntários; participa da memória, consciência, aprendizagem e linguagem.</td></tr>
+            <tr><td><strong>Cerebelo</strong></td><td>Ajudar na coordenação dos movimentos, no equilíbrio e na postura.</td></tr>
+            <tr><td><strong>Tronco encefálico</strong></td><td>Participar do controle de funções vitais automáticas, como respiração e batimentos cardíacos.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>O <strong>crânio</strong> e as <strong>meninges</strong> protegem o encéfalo. A <strong>medula espinal</strong> fica no interior da coluna vertebral. Ela comunica encéfalo e corpo e participa de respostas rápidas, como os reflexos. As <strong>vértebras</strong> a protegem. Os <strong>nervos</strong> conduzem informações entre o sistema nervoso e as diferentes partes do corpo.</p>
+      <h4>As células nervosas</h4>
+      <p>O sistema nervoso tem <strong>neurônios</strong> e <strong>gliócitos (células gliais)</strong>. Os gliócitos sustentam, protegem e nutrem os neurônios. Os neurônios recebem e transmitem sinais chamados <strong>impulsos nervosos</strong>.</p>
+      <div class="comparacao">
+        <strong>Partes do neurônio:</strong><br>
+        <strong>Dendritos:</strong> recebem estímulos.<br>
+        <strong>Corpo celular:</strong> possui o núcleo e grande parte do citoplasma.<br>
+        <strong>Axônio:</strong> conduz o impulso nervoso para outros neurônios ou células.<br><br>
+        <strong>Caminho para memorizar:</strong> dendritos → corpo celular → axônio.
+      </div>
+      <div class="box-interativo" style="background:#e8f5f2;border-color:#00897b;">
+          <h4 style="color:#00695c;">✍️ Questão de fixação 3</h4>
+          <p><strong>Qual estrutura ajuda no equilíbrio e na postura do corpo?</strong></p>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix3" value="A"> A) Cérebro</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix3" value="B"> B) Cerebelo</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix3" value="C"> C) Tronco encefálico</label>
+          <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien4_fix3')">Conferir resposta</button>
+          <div id="fb-cien4_fix3" class="feedback" role="status" aria-live="polite"></div>
+        </div>
+      <div class="box-interativo" style="background:#e8f5f2;border-color:#00897b;">
+          <h4 style="color:#00695c;">✍️ Questão de fixação 4</h4>
+          <p><strong>Qual parte do neurônio conduz o impulso nervoso para outras células?</strong></p>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix4" value="A"> A) Axônio</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix4" value="B"> B) Dendritos</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix4" value="C"> C) Núcleo</label>
+          <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien4_fix4')">Conferir resposta</button>
+          <div id="fb-cien4_fix4" class="feedback" role="status" aria-live="polite"></div>
+        </div>
+
+      <h3 style="color:#00897b;">TEMA 4 — Coordenação nervosa <small>(páginas 14 e 15)</small></h3>
+      <h4>O que é sinapse?</h4>
+      <p>A <strong>sinapse</strong> é a região de comunicação entre neurônios ou entre neurônios e células de músculos e glândulas. Quando o impulso chega à ponta do axônio, podem ser liberadas substâncias chamadas <strong>neurotransmissores</strong>, que atuam na célula seguinte e ajudam a transmitir o sinal.</p>
+      <h4>Ações voluntárias e involuntárias</h4>
+      <div class="tabela-rolagem">
+        <table class="tabela-estudo">
+          <thead><tr><th>Tipo</th><th>Como acontece?</th><th>Exemplo</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Voluntária</strong></td><td>Você decide conscientemente realizar a ação.</td><td>Levantar o braço, beber água, ligar o computador.</td></tr>
+            <tr><td><strong>Involuntária</strong></td><td>Acontece sem decisão consciente.</td><td>Espirrar e várias etapas automáticas da digestão.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4>Reflexos condicionados x respostas reflexas medulares</h4>
+      <p><strong>Reflexos condicionados:</strong> com o treino, determinadas ações aprendidas ficam tão praticadas que passam a ser feitas quase automaticamente. O livro cita aprender a caminhar, andar de bicicleta ou tocar um instrumento. No começo, é preciso pensar bastante; depois, a prática facilita a execução.</p>
+      <p><strong>Respostas reflexas medulares:</strong> são respostas rápidas e involuntárias a estímulos, com participação da <strong>medula espinal</strong>. Exemplo: ao encostar a mão em algo muito quente, você a retira rapidamente antes mesmo de perceber totalmente o que aconteceu.</p>
+      <div class="comparacao">
+        <strong>Não confunda:</strong> retirar rapidamente a mão de algo quente é um <strong>reflexo medular</strong>. Aprender a andar de bicicleta e conseguir pedalar com menos esforço consciente é um exemplo de <strong>ação aprendida e automatizada com treino</strong>.
+      </div>
+      <div class="box-interativo" style="background:#e8f5f2;border-color:#00897b;">
+          <h4 style="color:#00695c;">✍️ Questão de fixação 5</h4>
+          <p><strong>Ao encostar a mão em um objeto muito quente e retirá-la imediatamente, qual estrutura participa dessa resposta rápida?</strong></p>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix5" value="A"> A) Sistema cardiovascular</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix5" value="B"> B) Medula espinal</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix5" value="C"> C) Tecido muscular sem participação nervosa</label>
+          <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien4_fix5')">Conferir resposta</button>
+          <div id="fb-cien4_fix5" class="feedback" role="status" aria-live="polite"></div>
+        </div>
+      <div class="box-interativo" style="background:#e8f5f2;border-color:#00897b;">
+          <h4 style="color:#00695c;">✍️ Questão de fixação 6</h4>
+          <p><strong>Na sinapse, que substâncias ajudam a transmitir o sinal entre células?</strong></p>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix6" value="A"> A) Neurotransmissores</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix6" value="B"> B) Hemácias</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix6" value="C"> C) Material hereditário</label>
+          <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien4_fix6')">Conferir resposta</button>
+          <div id="fb-cien4_fix6" class="feedback" role="status" aria-live="polite"></div>
+        </div>
+
+      <h3 style="color:#00897b;">TEMA 5 — As drogas <small>(páginas 17 e 18)</small></h3>
+      <p>Segundo a definição apresentada no livro, <strong>droga</strong> é uma substância que não é produzida pelo organismo e pode alterar seu funcionamento. O termo inclui <strong>medicamentos</strong> usados para tratar doenças, mas também outras substâncias consumidas por iniciativa própria.</p>
+      <p>Algumas drogas são <strong>lícitas</strong> (permitidas pela legislação em determinadas condições) e outras <strong>ilícitas</strong> (proibidas). Ser lícita não significa ser inofensiva. Os medicamentos também podem causar danos quando usados incorretamente; por isso, devem ser utilizados conforme a orientação dos profissionais de saúde.</p>
+      <h4>Classificação conforme o efeito no sistema nervoso</h4>
+      <div class="tabela-rolagem">
+        <table class="tabela-estudo">
+          <thead><tr><th>Grupo</th><th>O que provoca?</th><th>Exemplos citados no livro</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Depressoras</strong></td><td>Diminuem a atividade do cérebro.</td><td>Álcool, ansiolíticos, barbitúricos, opiáceos.</td></tr>
+            <tr><td><strong>Estimulantes</strong></td><td>Aumentam a atividade cerebral.</td><td>Cafeína, nicotina, anfetaminas, cocaína.</td></tr>
+            <tr><td><strong>Perturbadoras</strong></td><td>Alteram a percepção da realidade, podendo causar alucinações.</td><td>LSD, maconha e alguns fungos e cactos.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4>Dependência química e consequências</h4>
+      <p>O uso de drogas pode levar à <strong>dependência química</strong>, condição em que a pessoa sente grande necessidade de consumir determinada substância e pode perder o controle sobre o uso. O livro menciona dependência física e psicológica.</p>
+      <p>Entre as consequências estão <strong>alterações no funcionamento do corpo</strong> (como taquicardia e aumento da pressão arterial), <strong>prejuízos psicológicos</strong> e <strong>alterações da percepção</strong>. Algumas drogas podem afetar o sistema nervoso e também órgãos como coração, rins e pulmões.</p>
+      <p><strong>Importante:</strong> a dependência é uma doença. A recuperação pode contar com atendimento de saúde, apoio psicológico, amigos e familiares, sem julgamentos.</p>
+      <div class="box-interativo" style="background:#e8f5f2;border-color:#00897b;">
+          <h4 style="color:#00695c;">✍️ Questão de fixação 7</h4>
+          <p><strong>Como o livro classifica substâncias como a cafeína e a nicotina, conforme seus efeitos no sistema nervoso?</strong></p>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix7" value="A"> A) Depressoras</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix7" value="B"> B) Estimulantes</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix7" value="C"> C) Perturbadoras</label>
+          <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien4_fix7')">Conferir resposta</button>
+          <div id="fb-cien4_fix7" class="feedback" role="status" aria-live="polite"></div>
+        </div>
+      <div class="box-interativo" style="background:#e8f5f2;border-color:#00897b;">
+          <h4 style="color:#00695c;">✍️ Questão de fixação 8</h4>
+          <p><strong>Qual afirmação sobre dependência química está de acordo com o material?</strong></p>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix8" value="A"> A) É uma doença que pode precisar de tratamento e apoio.</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix8" value="B"> B) Acontece apenas com drogas ilícitas.</label>
+          <label class="opcao-inline"><input type="radio" name="cien4_fix8" value="C"> C) Desaparece obrigatoriamente sem cuidados ou apoio.</label>
+          <button class="btn-verificar" style="background:#00897b;" onclick="verificarFixacaoNova('cien4_fix8')">Conferir resposta</button>
+          <div id="fb-cien4_fix8" class="feedback" role="status" aria-live="polite"></div>
+        </div>
+
+      <div class="destaque-estudo" style="background:#e0f2f1;border-color:#00897b;">
+        ✅ <strong>Revisão antes da prova:</strong> explique em voz alta o que são células; diga a sequência dos níveis de organização; identifique cérebro, cerebelo e tronco encefálico; mostre o caminho do impulso no neurônio; diferencie ação voluntária, reflexo medular e ação aprendida; e classifique drogas depressoras, estimulantes e perturbadoras.
+      </div>
+      <button class="btn-enviar" type="button" onclick="abrirQuizDoMaterial('ciencias_4bim')" style="background:#00897b;width:100%;font-size:1.05em;">🧠 Fazer o quiz de Ciências — 4º Bimestre</button>
+    </article>
   </div>
 
   <!-- ================= MENU DE QUIZZES ================= -->
@@ -974,6 +1176,11 @@
 
     <button class="btn-quiz-menu btn-ciencias" onclick="abrirQuiz('ciencias_materiais')">
       <span>🔬 Quiz de Ciências: Materiais e Estados Físicos</span> <span>➜</span>
+    </button>
+
+
+    <button class="btn-quiz-menu btn-ciencias" onclick="abrirQuiz('ciencias_4bim')" style="background:#00695c;">
+      <span>🔬 Quiz de Ciências — 4º Bimestre (Módulo 7, 20 questões)</span> <span>➜</span>
     </button>
 
     <button class="btn-quiz-menu btn-ingles" onclick="abrirQuiz('ingles_units_5_6')">
@@ -1208,6 +1415,12 @@ function verificarMatFix4() {
   }
 }
 
+function abrirQuizDoMaterial(chave) {
+  esconderTodasAreas();
+  abrirQuiz(chave);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // QUESTÕES DE FIXAÇÃO DOS NOVOS MATERIAIS
 const fixacoesNovas = {
   cien_fix1: { nome: "cien_fix1", correta: "C", feedback: "fb-cien-fix-1", explicacao: "1 kg equivale a 1.000 g. Portanto, 3 kg equivalem a 3.000 g." },
@@ -1216,6 +1429,15 @@ const fixacoesNovas = {
   cien_fix4: { nome: "cien_fix4", correta: "A", feedback: "fb-cien-fix-4", explicacao: "Maleabilidade é a característica que permite que um material seja moldado." },
   cien_fix5: { nome: "cien_fix5", correta: "C", feedback: "fb-cien-fix-5", explicacao: "Viscosidade é a resistência ao escoamento. Quanto mais lentamente o líquido escorre, mais viscoso ele é." },
   cien_fix6: { nome: "cien_fix6", correta: "B", feedback: "fb-cien-fix-6", explicacao: "No estado gasoso, forma e volume são variáveis; o gás ocupa o espaço disponível no recipiente." },
+
+  cien4_fix1: { nome: "cien4_fix1", correta: "A", feedback: "fb-cien4_fix1", explicacao: "A membrana plasmática envolve a célula e controla a entrada e a saída de materiais." },
+  cien4_fix2: { nome: "cien4_fix2", correta: "B", feedback: "fb-cien4_fix2", explicacao: "O coração é um órgão formado por diferentes tecidos e integra o sistema cardiovascular." },
+  cien4_fix3: { nome: "cien4_fix3", correta: "B", feedback: "fb-cien4_fix3", explicacao: "O cerebelo coordena os movimentos e ajuda a manter equilíbrio e postura." },
+  cien4_fix4: { nome: "cien4_fix4", correta: "A", feedback: "fb-cien4_fix4", explicacao: "O axônio conduz o impulso nervoso do corpo celular em direção a outras células." },
+  cien4_fix5: { nome: "cien4_fix5", correta: "B", feedback: "fb-cien4_fix5", explicacao: "A medula espinal participa de respostas reflexas rápidas, como retirar a mão de algo quente." },
+  cien4_fix6: { nome: "cien4_fix6", correta: "A", feedback: "fb-cien4_fix6", explicacao: "Na comunicação sináptica, neurotransmissores são liberados e atuam na célula seguinte." },
+  cien4_fix7: { nome: "cien4_fix7", correta: "B", feedback: "fb-cien4_fix7", explicacao: "Cafeína e nicotina são citadas no livro como substâncias estimulantes." },
+  cien4_fix8: { nome: "cien4_fix8", correta: "A", feedback: "fb-cien4_fix8", explicacao: "A dependência química é uma doença que pode exigir atendimento, apoio psicológico e suporte social." },
 
   ing_fix1: { nome: "ing_fix1", correta: "A", feedback: "fb-ing-fix-1", explicacao: "Get up significa levantar. A frase descreve levantar às 6:45 antes do café da manhã." },
   ing_fix2: { nome: "ing_fix2", correta: "B", feedback: "fb-ing-fix-2", explicacao: "Take out the trash significa tirar o lixo." },
@@ -1249,6 +1471,271 @@ function verificarFixacaoNova(chave) {
 
 // BANCO DE DADOS DOS QUIZZES
 const bancoQuizzes = {
+  ciencias_4bim: {
+      "titulo": "Ciências — 4º Bimestre | Módulo 7: Vida, célula e sistema nervoso humano",
+      "questoes": [
+          {
+              "tipo": "opcoes",
+              "topico": "Células",
+              "pergunta": "Qual frase expressa corretamente a teoria celular apresentada no livro?",
+              "opcoes": {
+                  "A": "Somente animais são formados por células.",
+                  "B": "A célula existe apenas em organismos grandes.",
+                  "C": "Todos os seres vivos são constituídos por uma ou mais células.",
+                  "D": "As células são sempre visíveis a olho nu."
+              },
+              "respostaCorreta": "C",
+              "explicacao": "Todos os seres vivos possuem uma ou mais células, sua unidade básica estrutural e funcional."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Unicelulares e pluricelulares",
+              "pergunta": "Um ser vivo unicelular é aquele que...",
+              "opcoes": {
+                  "A": "não possui células.",
+                  "B": "é formado por uma única célula.",
+                  "C": "é formado apenas por tecidos.",
+                  "D": "tem várias células com funções diferentes."
+              },
+              "respostaCorreta": "B",
+              "explicacao": "Seres unicelulares têm uma única célula, como a euglena citada no livro."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Descoberta da célula",
+              "pergunta": "O que Robert Hooke observou ao usar um microscópio no século XVII?",
+              "opcoes": {
+                  "A": "Fragmentos da medula espinal.",
+                  "B": "Moléculas de neurotransmissores.",
+                  "C": "Batimentos do coração humano.",
+                  "D": "Pequenos espaços em finas fatias de cortiça."
+              },
+              "respostaCorreta": "D",
+              "explicacao": "Hooke observou a cortiça e chamou os compartimentos vistos de células."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Estrutura celular",
+              "pergunta": "Qual é a principal função da membrana plasmática?",
+              "opcoes": {
+                  "A": "Controlar a entrada e a saída de materiais.",
+                  "B": "Produzir os movimentos voluntários do corpo.",
+                  "C": "Conduzir impulsos nervosos pelos axônios.",
+                  "D": "Organizar os órgãos do sistema cardiovascular."
+              },
+              "respostaCorreta": "A",
+              "explicacao": "A membrana plasmática envolve a célula e controla a troca de materiais com o meio."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Organização da vida",
+              "pergunta": "Qual sequência está na ordem do menor nível para o maior?",
+              "opcoes": {
+                  "A": "Órgão → tecido → célula → sistema.",
+                  "B": "Tecido → órgão → célula → organismo.",
+                  "C": "Célula → tecido → órgão → sistema → organismo.",
+                  "D": "Sistema → organismo → órgão → tecido."
+              },
+              "respostaCorreta": "C",
+              "explicacao": "Células formam tecidos; tecidos formam órgãos; órgãos integram sistemas; sistemas fazem parte do organismo."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Células especializadas",
+              "pergunta": "Por que as células dos músculos e do cérebro podem ser diferentes?",
+              "opcoes": {
+                  "A": "Porque todos os tecidos possuem células idênticas.",
+                  "B": "Porque cumprem funções diferentes no organismo.",
+                  "C": "Porque o cérebro não é formado por células.",
+                  "D": "Porque só células dos músculos têm material hereditário."
+              },
+              "respostaCorreta": "B",
+              "explicacao": "A especialização das células está relacionada à função que cada tipo desempenha."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Tecidos",
+              "pergunta": "O que é um tecido, segundo a organização dos seres pluricelulares?",
+              "opcoes": {
+                  "A": "Um conjunto de órgãos com tarefas integradas.",
+                  "B": "Um órgão que possui apenas um tipo de célula.",
+                  "C": "Um organismo formado por uma célula.",
+                  "D": "Um grupo de células semelhantes com funções relacionadas."
+              },
+              "respostaCorreta": "D",
+              "explicacao": "Tecidos são grupos de células com características e funções semelhantes."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Órgãos e sistemas",
+              "pergunta": "O coração e os vasos sanguíneos fazem parte de qual sistema?",
+              "opcoes": {
+                  "A": "Sistema cardiovascular.",
+                  "B": "Sistema nervoso.",
+                  "C": "Sistema digestório.",
+                  "D": "Sistema respiratório."
+              },
+              "respostaCorreta": "A",
+              "explicacao": "O coração e os vasos sanguíneos atuam juntos para fazer o sangue circular pelo corpo."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Sistema nervoso",
+              "pergunta": "Quais estruturas formam o encéfalo, conforme o livro?",
+              "opcoes": {
+                  "A": "Coração, vasos e sangue.",
+                  "B": "Cérebro, cerebelo e tronco encefálico.",
+                  "C": "Nervos, músculos e pele.",
+                  "D": "Medula espinal, vértebras e meninges."
+              },
+              "respostaCorreta": "B",
+              "explicacao": "O encéfalo é formado por cérebro, cerebelo e tronco encefálico."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Encéfalo",
+              "pergunta": "Qual parte do encéfalo ajuda a coordenar os movimentos e manter o equilíbrio?",
+              "opcoes": {
+                  "A": "Cérebro.",
+                  "B": "Medula espinal.",
+                  "C": "Cerebelo.",
+                  "D": "Nervo periférico."
+              },
+              "respostaCorreta": "C",
+              "explicacao": "O cerebelo ajuda na coordenação dos músculos, no equilíbrio e na postura do corpo."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Funções automáticas",
+              "pergunta": "Qual parte participa do controle de respiração e batimentos cardíacos?",
+              "opcoes": {
+                  "A": "Tronco encefálico.",
+                  "B": "Dendritos.",
+                  "C": "Tecido muscular da pele.",
+                  "D": "Menínges."
+              },
+              "respostaCorreta": "A",
+              "explicacao": "O tronco encefálico participa da coordenação de funções vitais automáticas, como respiração e batimentos cardíacos."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Neurônio",
+              "pergunta": "Qual parte do neurônio conduz o impulso nervoso para outras células?",
+              "opcoes": {
+                  "A": "Membrana plasmática.",
+                  "B": "Cerebelo.",
+                  "C": "Dendritos.",
+                  "D": "Axônio."
+              },
+              "respostaCorreta": "D",
+              "explicacao": "O impulso segue dos dendritos ao corpo celular e é conduzido pelo axônio em direção a outras células."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Sinapse",
+              "pergunta": "Como se chama a região em que um neurônio se comunica com outra célula?",
+              "opcoes": {
+                  "A": "Tecido.",
+                  "B": "Sinapse.",
+                  "C": "Medula espinal.",
+                  "D": "Núcleo."
+              },
+              "respostaCorreta": "B",
+              "explicacao": "Na sinapse, substâncias como neurotransmissores participam da transmissão de informações."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Neurotransmissores",
+              "pergunta": "Na sinapse, qual é o papel dos neurotransmissores?",
+              "opcoes": {
+                  "A": "Formar os ossos das vértebras.",
+                  "B": "Transportar oxigênio pelo sangue.",
+                  "C": "Transmitir sinais para a célula seguinte.",
+                  "D": "Produzir o material hereditário."
+              },
+              "respostaCorreta": "C",
+              "explicacao": "Os neurotransmissores são liberados na região sináptica e atuam na célula seguinte."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Ações voluntárias",
+              "pergunta": "Qual ação é voluntária, no sentido apresentado no livro?",
+              "opcoes": {
+                  "A": "Escolher levantar o braço para responder à chamada.",
+                  "B": "Retirar a mão imediatamente ao tocar algo muito quente.",
+                  "C": "Espirrar sem decidir fazer isso.",
+                  "D": "Ter batimentos cardíacos automáticos."
+              },
+              "respostaCorreta": "A",
+              "explicacao": "Uma ação voluntária é realizada por decisão consciente, como levantar o braço."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Reflexos medulares",
+              "pergunta": "Ao tocar um objeto muito quente, você retira a mão rapidamente. Qual estrutura participa da resposta reflexa?",
+              "opcoes": {
+                  "A": "Cérebro exclusivamente, antes de qualquer reação.",
+                  "B": "Sistema digestório.",
+                  "C": "Coração e vasos sanguíneos.",
+                  "D": "Medula espinal."
+              },
+              "respostaCorreta": "D",
+              "explicacao": "A resposta reflexa medular é rápida e involuntária, com participação da medula espinal."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Drogas e medicamentos",
+              "pergunta": "De acordo com a explicação do livro, por que os medicamentos também podem ser chamados de drogas?",
+              "opcoes": {
+                  "A": "Porque são sempre ilegais.",
+                  "B": "Porque podem provocar alterações no funcionamento do organismo.",
+                  "C": "Porque só atuam no coração.",
+                  "D": "Porque sempre causam dependência."
+              },
+              "respostaCorreta": "B",
+              "explicacao": "O termo droga inclui substâncias que podem alterar o funcionamento do organismo, inclusive medicamentos."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Drogas depressoras",
+              "pergunta": "Qual substância é citada no livro como exemplo de droga depressora?",
+              "opcoes": {
+                  "A": "Cafeína.",
+                  "B": "Nicotina.",
+                  "C": "Álcool.",
+                  "D": "LSD."
+              },
+              "respostaCorreta": "C",
+              "explicacao": "O álcool é citado como substância depressora, pois diminui a atividade do cérebro."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Classificação das drogas",
+              "pergunta": "Qual combinação está de acordo com a classificação apresentada no livro?",
+              "opcoes": {
+                  "A": "Depressora: cafeína; estimulante: álcool; perturbadora: nicotina.",
+                  "B": "Depressora: LSD; estimulante: álcool; perturbadora: cafeína.",
+                  "C": "Depressora: nicotina; estimulante: LSD; perturbadora: álcool.",
+                  "D": "Depressora: álcool; estimulante: cafeína; perturbadora: LSD."
+              },
+              "respostaCorreta": "D",
+              "explicacao": "O livro classifica o álcool como depressor, a cafeína como estimulante e o LSD como perturbador."
+          },
+          {
+              "tipo": "opcoes",
+              "topico": "Dependência química",
+              "pergunta": "Qual afirmação descreve melhor a dependência química?",
+              "opcoes": {
+                  "A": "É uma doença que pode provocar necessidade compulsiva de consumir a substância e requer cuidados e apoio.",
+                  "B": "Acontece apenas com substâncias ilegais e nunca com as legais.",
+                  "C": "É sempre resolvida sem acompanhamento ou apoio.",
+                  "D": "Não altera o comportamento e o funcionamento cerebral."
+              },
+              "respostaCorreta": "A",
+              "explicacao": "A dependência é uma doença que pode provocar perda de controle sobre o consumo; o tratamento pode incluir suporte de saúde, família e amigos."
+          }
+      ]
+  },
   ciencias_materiais: {
     titulo: "Quiz de Ciências - Materiais: massa, volume e estados físicos",
     questoes: [
