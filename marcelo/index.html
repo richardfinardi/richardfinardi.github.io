@@ -411,7 +411,10 @@
       h1 { font-size: 1.7rem; }
     }
 
-  </style>
+  
+    /* Materiais e quizzes arquivados; novos cartões continuam visíveis. */
+    button[data-arquivado="true"] { display: none !important; }
+</style>
 </head>
 <body>
 
@@ -458,7 +461,7 @@
     </div>
 
     <div class="grid-resumos">
-      <button class="card-resumo-menu" style="border-color: #e65100;" onclick="abrirResumo('filosofia_3bim')">
+      <button data-arquivado="true" hidden class="card-resumo-menu" style="border-color: #e65100;" onclick="abrirResumo('filosofia_3bim')">
         <h3 style="color: #e65100;">🤔 Filosofia — Cap. 05 e 06 (Prova Bimestral)</h3>
         <p>Sofistas, Retórica, Relativismo vs. Valores Universais, Autoconhecimento e Maiêutica de Sócrates.</p>
       </button>
@@ -468,43 +471,43 @@
         <p><strong>Prova Bimestral — Capítulos 7 e 8.</strong> Platão, Teoria das Formas, Mito da Caverna, Aristóteles, graus de conhecimento e causas da realidade.</p>
       </button>
 
-      <button class="card-resumo-menu" style="border-color: #0288d1;" onclick="abrirResumo('portugues_3bim')">
+      <button data-arquivado="true" hidden class="card-resumo-menu" style="border-color: #0288d1;" onclick="abrirResumo('portugues_3bim')">
         <h3 style="color: #0288d1;">📖 Língua Portuguesa — Módulos 5 e 6</h3>
         <p>Acentuação de Paroxítonas, Frase/Oração/Período, Ordem Direta/Inversa, Sujeito, Predicado e Sintagmas.</p>
       </button>
 
-      <button class="card-resumo-menu" style="border-color: #6a1b9a;" onclick="abrirResumo('matematica_3bim')">
+      <button data-arquivado="true" hidden class="card-resumo-menu" style="border-color: #6a1b9a;" onclick="abrirResumo('matematica_3bim')">
         <h3 style="color: #6a1b9a;">🧮 Matemática — Operações com Frações</h3>
         <p>Curso Completo: Adição, Subtração, M.M.C., Multiplicação, Cancelamento, Divisão e Expressões Numéricas.</p>
       </button>
 
-      <button class="card-resumo-menu" style="border-color: #d32f2f;" onclick="abrirResumo('espanhol_3bim')">
+      <button data-arquivado="true" hidden class="card-resumo-menu" style="border-color: #d32f2f;" onclick="abrirResumo('espanhol_3bim')">
         <h3 style="color: #d32f2f;">🇪🇸 Espanhol — Unidad 6: Mi cuerpo habla</h3>
         <p>Partes del cuerpo, el rostro, lenguaje corporal, descripción física (Ser/Tener/Llevar) y Presente de Indicativo.</p>
       </button>
 
-      <button class="card-resumo-menu" style="border-color: #2e7d32;" onclick="abrirResumo('geografia_3bim')">
+      <button data-arquivado="true" hidden class="card-resumo-menu" style="border-color: #2e7d32;" onclick="abrirResumo('geografia_3bim')">
         <h3 style="color: #2e7d32;">🌎 Geografia — Recursos Naturais e Agropecuária</h3>
         <p>Fontes de energia, setores da economia, extrativismo e sistemas agropecuários.</p>
       </button>
 
-      <button class="card-resumo-menu" style="border-color: #795548;" onclick="abrirResumo('grecia_roma')">
+      <button data-arquivado="true" hidden class="card-resumo-menu" style="border-color: #795548;" onclick="abrirResumo('grecia_roma')">
         <h3 style="color: #795548;">🏛️ História — Grécia Antiga e Roma</h3>
         <p>Pólis, Esparta, Atenas, mitos, Guerra de Troia, crise da República Romana e Triunviratos.</p>
       </button>
 
-      <button class="card-resumo-menu" style="border-color: #00897b;" onclick="abrirResumo('ciencias_materiais')">
+      <button data-arquivado="true" hidden class="card-resumo-menu" style="border-color: #00897b;" onclick="abrirResumo('ciencias_materiais')">
         <h3 style="color: #00897b;">🔬 Ciências — Materiais: massa, volume e estados físicos</h3>
         <p>Aula guiada com explicações, exemplos e questões de fixação sobre massa, volume, sólidos, líquidos e gases.</p>
       </button>
 
 
-      <button class="card-resumo-menu" style="border-color: #00897b; background:#f1fbf9;" onclick="abrirResumo('ciencias_4bim')">
+      <button data-arquivado="true" hidden class="card-resumo-menu" style="border-color: #00897b; background:#f1fbf9;" onclick="abrirResumo('ciencias_4bim')">
         <h3 style="color: #00695c;">🔬 CIÊNCIAS - (4º BIMESTRE)</h3>
         <p><strong>Módulo 7: Vida, célula e sistema nervoso humano.</strong> Cinco aulas com exemplos e exercícios de fixação: células, níveis de organização, sistema nervoso, coordenação nervosa e drogas.</p>
       </button>
 
-      <button class="card-resumo-menu" style="border-color: #3949ab;" onclick="abrirResumo('ingles_units_5_6')">
+      <button data-arquivado="true" hidden class="card-resumo-menu" style="border-color: #3949ab;" onclick="abrirResumo('ingles_units_5_6')">
         <h3 style="color: #3949ab;">🇬🇧 Inglês — Units 5 e 6</h3>
         <p>Aula guiada com vocabulário, gramática e exercícios sobre rotina, tarefas, hábitos, frequência, comida e Simple Present.</p>
       </button>
@@ -1224,7 +1227,7 @@
     <h1>Portal de Estudo e Desafios 🚀</h1>
     <p class="subtitulo">Escolha uma matéria abaixo para começar o teste:</p>
 
-    <button class="btn-quiz-menu btn-filosofia" onclick="abrirQuiz('filosofia_3bim')">
+    <button data-arquivado="true" hidden class="btn-quiz-menu btn-filosofia" onclick="abrirQuiz('filosofia_3bim')">
       <span>🤔 Quiz de Filosofia: Sofistas & Sócrates (3º Bim)</span> <span>➜</span>
     </button>
 
@@ -1232,36 +1235,36 @@
       <span>🤔 Quiz de Filosofia — 4º Bimestre (Prova Bimestral, 20 questões)</span> <span>➜</span>
     </button>
 
-    <button class="btn-quiz-menu btn-portugues" onclick="abrirQuiz('portugues_3bim')">
+    <button data-arquivado="true" hidden class="btn-quiz-menu btn-portugues" onclick="abrirQuiz('portugues_3bim')">
       <span>📖 Quiz de Português: Paroxítonas & Sintaxe (3º Bim)</span> <span>➜</span>
     </button>
 
-    <button class="btn-quiz-menu btn-matematica" onclick="abrirQuiz('matematica_3bim')">
+    <button data-arquivado="true" hidden class="btn-quiz-menu btn-matematica" onclick="abrirQuiz('matematica_3bim')">
       <span>🧮 Quiz de Matemática: Frações (15 Questões)</span> <span>➜</span>
     </button>
 
-    <button class="btn-quiz-menu btn-espanhol" onclick="abrirQuiz('espanhol_3bim')">
+    <button data-arquivado="true" hidden class="btn-quiz-menu btn-espanhol" onclick="abrirQuiz('espanhol_3bim')">
       <span>🇪🇸 Quiz de Espanhol: Unidad 6 (3º Bim)</span> <span>➜</span>
     </button>
 
-    <button class="btn-quiz-menu btn-geografia" onclick="abrirQuiz('geografia_3bim')">
+    <button data-arquivado="true" hidden class="btn-quiz-menu btn-geografia" onclick="abrirQuiz('geografia_3bim')">
       <span>🌎 Quiz de Geografia: Recursos & Agropecuária (3º Bim)</span> <span>➜</span>
     </button>
 
-    <button class="btn-quiz-menu btn-historia" onclick="abrirQuiz('historia_grecia_roma')">
+    <button data-arquivado="true" hidden class="btn-quiz-menu btn-historia" onclick="abrirQuiz('historia_grecia_roma')">
       <span>🏛️ Quiz de História: Grécia Antiga e Roma (3º Bim)</span> <span>➜</span>
     </button>
 
-    <button class="btn-quiz-menu btn-ciencias" onclick="abrirQuiz('ciencias_materiais')">
+    <button data-arquivado="true" hidden class="btn-quiz-menu btn-ciencias" onclick="abrirQuiz('ciencias_materiais')">
       <span>🔬 Quiz de Ciências: Materiais e Estados Físicos</span> <span>➜</span>
     </button>
 
 
-    <button class="btn-quiz-menu btn-ciencias" onclick="abrirQuiz('ciencias_4bim')" style="background:#00695c;">
+    <button data-arquivado="true" hidden class="btn-quiz-menu btn-ciencias" onclick="abrirQuiz('ciencias_4bim')" style="background:#00695c;">
       <span>🔬 Quiz de Ciências — 4º Bimestre (Módulo 7, 20 questões)</span> <span>➜</span>
     </button>
 
-    <button class="btn-quiz-menu btn-ingles" onclick="abrirQuiz('ingles_units_5_6')">
+    <button data-arquivado="true" hidden class="btn-quiz-menu btn-ingles" onclick="abrirQuiz('ingles_units_5_6')">
       <span>🇬🇧 Quiz de Inglês: Units 5 e 6</span> <span>➜</span>
     </button>
   </div>
